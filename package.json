@@ -52,7 +52,8 @@
     "prepack": "pnpm build",
     "test:package": "node scripts/test-package.mjs",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "size": "pnpm build && node scripts/measure-bundle.mjs"
   },
   "peerDependencies": {
     "@types/react": ">=19 <20",

@@ -5,3 +5,5 @@ example-dist/
 .package-test/
 .vitest-attachments/
 **/__screenshots__/
+
+.bundle-size/

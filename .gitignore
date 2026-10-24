@@ -11,3 +11,5 @@ example-dist/
 **/__screenshots__/
 
 .package-test/
+
+.bundle-size/

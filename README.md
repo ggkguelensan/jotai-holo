@@ -125,6 +125,7 @@ An async action returns its original promise to the caller. There is no automati
 - [Complete interface and lifecycle contract](docs/api.md)
 - [jotai-effect and Bunshi recipes](docs/integrations.md)
 - [Compatibility and rendering evidence](docs/compatibility.md)
+- [Production bundle measurements](docs/bundle-size.md)
 - [Runnable examples](examples) and [contributing](CONTRIBUTING.md)
 
 For vanilla models without a React import, use `jotai-holo/vanilla`, which exports `stateAtom` and `actionAtom`.
