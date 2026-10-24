@@ -91,10 +91,14 @@ The `$state` / `$$model` prefixes and `createXxx` factories are optional naming 
 
 `stateAtom` has two forms. Function arguments always mean a derived read; use native `atom` for function-valued primitives, writable derived state, or `options.signal`. No alternate state runtime is introduced.
 
+`holo.state` accepts any readable Jotai atom; `holo.actions` accepts any compatible writable Jotai atom. Atoms from native `atom(...)`, utilities and extensions need no conversion. `stateAtom` and `actionAtom` are optional helpers. Read-only atoms cannot be action targets.
+
 A writable atom can appear in **both** sections under different prop names:
 
 ```tsx
-const $count = stateAtom(0);
+import { atom } from 'jotai';
+
+const $count = atom(0);
 const Counter = holo({
   core: ({ count, onChange }: { count: number; onChange: (value: number) => void }) => (
     <button onClick={() => onChange(count + 1)}>{count}</button>

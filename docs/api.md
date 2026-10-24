@@ -44,13 +44,24 @@ Async writes keep targeting their original store after `await`, store replacemen
 `core` is the configuration key from the holoenzyme metaphor. Its value is an ordinary UI view, named for example `CounterView`: `core: CounterView`.
 
 ```tsx
+import { atom } from 'jotai';
+
+const $value = atom(0);
+const change = atom(null, (_get, set, next: number) => {
+  set($value, next);
+});
+
 const Connected = holo({
-  core: Core,
+  core: ValueView,
   state: { value: $value },
   actions: { onChange: change },
   props: { title: 'Fixed title' },
 });
 ```
+
+`state` accepts any readable Jotai `Atom`, including primitive, derived and async atoms created with `atom(...)` or Jotai utilities/extensions. `actions` accepts any `WritableAtom`, including primitive state, writable derived and write-only atoms, provided its arguments and result match the view callback. Read-only atoms cannot be action targets.
+
+`stateAtom` and `actionAtom` are optional creation helpers; neither section requires atoms created by them. The section determines whether holo reads an atom or supplies a setter for it.
 
 | Section                | Core receives                                      | Subscription     |
 | ---------------------- | -------------------------------------------------- | ---------------- |
@@ -73,7 +84,7 @@ A bound state update can render the adapter without rendering the core. A parent
 
 ## cage
 
-Prefer dispatching model actions from `cage`. Keep state transitions and business rules in `actionAtom`; lifecycle handlers translate React inputs into action arguments. Direct writes to writable state atoms remain supported.
+Prefer dispatching model actions from `cage`. Keep state transitions and business rules in `actionAtom`; lifecycle handlers translate React inputs into action arguments. Direct writes to any compatible writable Jotai atom remain supported, including atoms created with `atom(...)`.
 
 ```tsx
 // Model: state transitions belong here.
