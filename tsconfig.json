@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "types": ["node", "vitest/globals"],
+    "paths": {
+      "jotai-holo": ["./src/index.ts"],
+      "jotai-holo/vanilla": ["./src/vanilla.ts"]
+    }
+  },
+  "include": ["src", "tests", "examples", "*.config.ts"]
+}

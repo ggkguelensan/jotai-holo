@@ -6,3 +6,10 @@ playwright-report/
 *.tsbuildinfo
 .env*
 !.env.example
+example-dist/
+.vitest-attachments/
+**/__screenshots__/
+
+.package-test/
+
+.bundle-size/
