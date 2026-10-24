@@ -21,7 +21,6 @@ export default defineConfig({
       'react-dom/client',
       'jotai',
       'jotai/utils',
-      'jotai-eager',
       'jotai-effect',
       'bunshi/react',
       'jotai-scope',

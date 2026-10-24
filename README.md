@@ -110,7 +110,7 @@ const Counter = holo({
 
 Only bound state subscribes to the nearest Jotai store. An action-only binding does not subscribe to its target. Callbacks retain identity until the store changes. The adapter and core are memoized with React's shallow comparison: bind at leaf components for the smallest update area.
 
-Promise-valued state resolves before reaching the core. Put connected async components under `<Suspense>` and an error boundary. State bindings use [`jotai-eager`](https://github.com/jotaijs/jotai-eager) to read dependencies together and reuse fulfilled values; changing a synchronous binding does not manufacture a new pending promise.
+Promise-valued state resolves before reaching the core. Put connected async components under `<Suspense>` and an error boundary. State bindings use native Jotai `unwrap` and `Promise.all` to start reads together and reuse fulfilled values; changing a synchronous binding does not manufacture a new pending promise. The package has no runtime dependencies beyond its peers. See the [aggregation design](docs/aggregation.md) for snapshot identity and tested edge cases.
 
 An async action returns its original promise to the caller. There is no automatic cancellation, serialization or latest-wins policy. See [async and lifecycle contracts](docs/api.md#async-actions).
 

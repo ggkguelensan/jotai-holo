@@ -79,6 +79,14 @@ try {
     ],
     { cwd: root, stdio: 'inherit' },
   );
+  const packageManifest = JSON.parse(
+    await readFile(`${fixture}/node_modules/jotai-holo/package.json`, 'utf8'),
+  );
+  assert.deepEqual(
+    packageManifest.dependencies ?? {},
+    {},
+    'Core runtime must use only declared peers.',
+  );
   const packed = `${fixture}/node_modules/jotai-holo/dist`;
   for (const file of ['holo.js', 'holo-cage.js']) {
     assert.match(await readFile(`${packed}/${file}`, 'utf8'), /^['"]use client['"]/);

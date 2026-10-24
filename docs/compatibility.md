@@ -45,7 +45,6 @@ Test paths above are relative to [`tests/`](../tests). Type-negative fixtures ar
 | TanStack Query                 | Runtime query cache and suspense query                                                   | Explicit QueryClient, deterministic local queryFn; no production network service |
 | XState                         | Runtime actor snapshots and events                                                       | `utilities.compat.test.ts`                                                       |
 | History                        | Runtime history read, undo and redo                                                      | `utilities.compat.test.ts`                                                       |
-| Eager                          | Actual async state aggregation dependency                                                | Fulfilled/pending/rejected transitions in `async.browser.test.tsx`               |
 | tRPC, URQL                     | Ordinary readable/writable atom protocol                                                 | Backend-specific clients, SSR cache and networking **not tested**                |
 | Location                       | Ordinary atom protocol                                                                   | URL/hash, navigation and router integration **not tested**                       |
 | Cache                          | Ordinary atom protocol                                                                   | Extension-specific expiration/eviction **not tested**                            |
@@ -84,6 +83,10 @@ These are controlled-update observations, not a promise about every render React
 - Native hook consumers inside a memoized core still receive context/store updates.
 
 See [`rendering.browser.test.tsx`](../tests/rendering.browser.test.tsx), [`async.browser.test.tsx`](../tests/async.browser.test.tsx) and [`holo.browser.test.tsx`](../tests/holo.browser.test.tsx). Splitting a large core into independently bound leaves is still the primary way to reduce its update area.
+
+## Native development warning
+
+With the pinned React 19.3.1/Jotai 3.0.1, an async→sync transition after initial suspension can emit `This library called use() to suspend ... but did not call use() when it finished`. The same warning is reproduced without holo in `native-async.browser.test.tsx`. Output and update counts remain correct. The suite asserts that exact warning in the isolated native control and in the corresponding aggregate transition; it does not suppress arbitrary console errors. This remains an upstream development-mode limitation, not a promise of warning-free operation for every async→sync sequence.
 
 ## Package verification
 

@@ -65,7 +65,7 @@ State bindings resolve promises; the core prop must describe the resolved value.
 
 ### Subscription and memoization
 
-One internal derived atom combines the state bindings; Jotai tracks dependencies. Reads are parallel through `eagerAtom` and retain fulfilled results across synchronous updates. No-state configurations create no store subscriptions. Actions are memoized per store. The binding wrapper and core use default `React.memo` comparison, so unchanged selected values skip the core even if the aggregate object is recomputed.
+One internal derived atom combines the state bindings; Jotai tracks dependencies. Reads start together; native `unwrap` retains fulfilled results and `Promise.all` propagates any rejection. The aggregate preserves its result identity for each raw input snapshot across Suspense retries. See [aggregation](aggregation.md) for the internal contract. No-state configurations create no store subscriptions. Actions are memoized per store. The binding wrapper and core use default `React.memo` comparison, so unchanged selected values skip the core even if the aggregate object is recomputed.
 
 A bound state update can render the adapter without rendering the core. A parent passing a fresh object/function prop can render both; stabilize that input if necessary. Context consumed by the core, its own hooks, React StrictMode and React scheduling still affect renders. No fixed invocation count is promised for every React mode. The tests assert meaningful committed output and core calls under controlled updates.
 

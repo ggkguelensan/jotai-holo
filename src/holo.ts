@@ -1,7 +1,7 @@
 'use client';
 
 import { useAtomValue, useStore, type Atom, type WritableAtom } from 'jotai';
-import { eagerAtom } from 'jotai-eager';
+import { createStateBindingAtom } from './state-binding-atom.js';
 import {
   createElement,
   memo,
@@ -86,11 +86,7 @@ export function holo({
       throw new Error(`holo: prop "${key}" is configured in more than one section.`);
     boundKeys.add(key);
   }
-  const targets = states.map(([, target]) => target);
-  const valuesAtom = eagerAtom((get) => {
-    const values = get.all(targets);
-    return Object.fromEntries<unknown>(states.map(([key], index) => [key, values[index]]));
-  });
+  const valuesAtom = createStateBindingAtom(states);
   const Core = typeof core === 'string' ? core : memo(core);
   const name = typeof core === 'string' ? core : (core.displayName ?? core.name ?? 'Core');
 

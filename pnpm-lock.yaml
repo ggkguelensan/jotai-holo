@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      jotai-eager:
-        specifier: ^0.2.6
-        version: 0.2.6(jotai@3.0.1(@types/react@19.3.0)(react@19.3.1))
     devDependencies:
       '@tanstack/react-query':
         specifier: 5.104.5
@@ -358,11 +354,6 @@ packages:
 
   immer@11.2.9:
     resolution: {integrity: sha512-IQ4UEtXjZjyefyWjtLEDXUSrF6T2hwjKPi6BIJl3bY/2XXW24d6cNGdXJSBOA/+KNnuiXkZY6DR0C3efolhitA==}
-
-  jotai-eager@0.2.6:
-    resolution: {integrity: sha512-L9WFThirEy51fSIibt/036DgmBRHRnpI9/HQlFAtVM9F/25/iYYkXOzkKQXKggzfl4syUoHc/feTuVRwyLMYlg==}
-    peerDependencies:
-      jotai: '>=2.0.0'
 
   jotai-effect@2.4.2:
     resolution: {integrity: sha512-YACEgYedHkSH0p3QkcBN3p41Ebhw8EOs+4hmyeApZ7eUINrQjs9ZITSap30WtC7kU4Jbz9RIpQ3v58qLv9/WGA==}
@@ -954,10 +945,6 @@ snapshots:
     optional: true
 
   immer@11.2.9: {}
-
-  jotai-eager@0.2.6(jotai@3.0.1(@types/react@19.3.0)(react@19.3.1)):
-    dependencies:
-      jotai: 3.0.1(@types/react@19.3.0)(react@19.3.1)
 
   jotai-effect@2.4.2(jotai@3.0.1(@types/react@19.3.0)(react@19.3.1)):
     dependencies:

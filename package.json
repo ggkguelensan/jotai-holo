@@ -64,9 +64,6 @@
       "optional": true
     }
   },
-  "dependencies": {
-    "jotai-eager": "^0.2.6"
-  },
   "devDependencies": {
     "@tanstack/react-query": "5.104.5",
     "@types/node": "^22.0.0",
