@@ -116,7 +116,7 @@ An async action returns its original promise to the caller. There is no automati
 
 ## Lifecycle and integrations
 
-`cage` supplies synchronous `onMount`, `onChange` and `onUnmount` handlers with `(get, set, { props })`. Handlers run in passive effects; `onChange` runs initially and on shallow input-prop changes. Use atom effects for reactive dependencies and resource cleanup, and explicit actions for async work.
+`cage` supplies synchronous `onMount`, `onChange` and `onUnmount` handlers with `(get, set, { props })`. Handlers run in passive effects; `onChange` runs initially and on shallow input-prop changes. Prefer dispatching `actionAtom` from these handlers, keeping state transitions and business rules in the model. Direct writes to writable state atoms are supported. Use atom effects for reactive dependencies and resource cleanup, and explicit actions for async work.
 
 - [Complete interface and lifecycle contract](docs/api.md)
 - [jotai-effect and Bunshi recipes](docs/integrations.md)

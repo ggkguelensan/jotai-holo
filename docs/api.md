@@ -73,21 +73,38 @@ A bound state update can render the adapter without rendering the core. A parent
 
 ## cage
 
+Prefer dispatching model actions from `cage`. Keep state transitions and business rules in `actionAtom`; lifecycle handlers translate React inputs into action arguments. Direct writes to writable state atoms remain supported.
+
 ```tsx
+// Model: state transitions belong here.
+const countChanged = actionAtom((_get, set, count: number) => {
+  set($count, count);
+});
+const counterOpened = actionAtom((_get, set, init: number) => {
+  set($count, init * 2);
+});
+const queryChanged = actionAtom((_get, set, query: string) => {
+  set($query, query);
+});
+const counterClosed = actionAtom((_get, set) => {
+  set($count, 0);
+});
+
+// React binding: pass inputs to the model's actions.
 const Counter = holo({
   core: CounterView, // count, onChange, init and reactive props
   state: { count: $count },
-  actions: { onChange: $count },
+  actions: { onChange: countChanged },
   props: { init: 5 },
   cage: {
     onMount(_get, set, ctx) {
-      set($count, ctx.props.init * 2);
+      set(counterOpened, ctx.props.init);
     },
     onChange(_get, set, ctx) {
-      set($query, ctx.props.reactive);
+      set(queryChanged, ctx.props.reactive);
     },
     onUnmount(_get, set) {
-      set($count, 0);
+      set(counterClosed);
     },
   },
 });
