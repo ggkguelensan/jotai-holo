@@ -18,6 +18,20 @@ The ordinary baseline totals **226,797 minified / 70,500 gzip / 60,957 Brotli by
 
 Compression uses gzip level 9 and Brotli quality 11. These are differences between compressed **whole app bundles**, not the compressed size of the library considered independently. Shared compression dictionaries and minifier choices affect the difference, especially for tiny helpers. Treat these as a reproducible fixture result, not an exact byte guarantee for every application.
 
+## Cost of cage
+
+A measurement-only build transform removes the cage import, lifecycle implementation wiring and the cage option from `holo`. Project sources and the actual shipped interface stay unchanged. Both variants render the same counter without configuring any cage handlers.
+
+| Variant | Minified bytes | gzip bytes | Brotli bytes |
+| --- | ---: | ---: | ---: |
+| Current holo + helpers app | 230,096 | 71,685 | 61,995 |
+| Same app with cage implementation removed | 228,798 | 71,297 | 61,583 |
+| **Difference attributable to cage** | **1,298** | **388** | **412** |
+
+In this fixture, cage accounts for about **33% of the 1,185-byte gzip app increment**. Without it, the library's app increment would be **2,001 minified / 797 gzip / 626 Brotli bytes**. This is a hypothetical implementation variant used only for measurement; the current holo entry includes cage even when no handlers are configured.
+
+These are differences between compressed complete bundles, so the Brotli delta can be larger than the gzip delta despite a smaller total Brotli bundle. The measurement script checks that the emitted module graph actually loses `holo-cage.js` in this variant.
+
 ## Standalone library with peers external
 
 For a separate measurement, all three public exports are preserved and React plus every `jotai/*` import are external:

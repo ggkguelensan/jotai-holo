@@ -72,12 +72,34 @@ function inspect(result) {
       .map((id) => id.slice(root.length + 1)),
   };
 }
+// Measurement-only transform: remove cage and its wiring without changing project sources.
+function withoutCage() {
+  return {
+    name: 'measure-without-cage',
+    enforce: 'pre',
+    transform(code, id) {
+      if (id !== `${root}/dist/holo.js`) return null;
+      const branch = code.indexOf('    if (!cage ||');
+      assert.ok(
+        branch > 0 && code.includes('return WithCage;'),
+        'Update the measurement transform for the new holo implementation.',
+      );
+      const head = code
+        .slice(0, branch)
+        .replace(/^import .*from ['"]\.\/holo-cage\.js['"];\n/m, '')
+        .replace(/\bcage,\s*(?=})/, '');
+      assert.ok(!head.includes('holo-cage.js'));
+      return { code: `${head}    return Bound;\n}\n`, map: null };
+    },
+  };
+}
 const cases = [
   ['native', {}],
   ['helpers-root', { helpers: 'index' }],
   ['helpers-vanilla', { helpers: 'vanilla' }],
   ['holo', { holo: true }],
   ['holo-and-helpers', { holo: true, helpers: 'index' }],
+  ['holo-without-cage', { holo: true, helpers: 'index', omitCage: true }],
   ['native-with-unwrap', { preexistingUnwrap: true }],
   ['holo-with-unwrap', { holo: true, helpers: 'index', preexistingUnwrap: true }],
 ];
@@ -98,6 +120,7 @@ try {
       root: fixture,
       logLevel: 'silent',
       mode: 'production',
+      plugins: options.omitCage ? [withoutCage()] : [],
       build: {
         target: 'es2022',
         write: false,
@@ -132,6 +155,8 @@ try {
       'Unused React adapter must be tree-shaken.',
     );
   }
+  assert.ok(!results['holo-without-cage'].modules.some((id) => id.endsWith('/holo-cage.js')));
+  assert.ok(results['holo-and-helpers'].modules.some((id) => id.endsWith('/holo-cage.js')));
   console.log(
     JSON.stringify(
       {
@@ -143,6 +168,12 @@ try {
         },
         units: 'bytes; JS only; gzip level 9; Brotli quality 11',
         results,
+        cageIncrement: Object.fromEntries(
+          ['minified', 'gzip', 'brotli'].map((metric) => [
+            metric,
+            results['holo-and-helpers'][metric] - results['holo-without-cage'][metric],
+          ]),
+        ),
         increments: Object.fromEntries(
           ['helpers-root', 'helpers-vanilla', 'holo', 'holo-and-helpers', 'holo-with-unwrap'].map(
             (name) => {
