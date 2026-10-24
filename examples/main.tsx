@@ -17,7 +17,7 @@ createRoot(root).render(
     <Provider>
       <main>
         <h1>jotai-holo</h1>
-        <p>Plain React cores. Declarative Jotai bindings.</p>
+        <p>Plain React views. Declarative Jotai bindings.</p>
         <BasicCounter />
         <EffectCounter />
         <BunshiCounters />

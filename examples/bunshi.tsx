@@ -1,6 +1,6 @@
 import { molecule, createScope, ScopeProvider } from 'bunshi/react';
 import { holo } from 'jotai-holo';
-import { CounterCore } from './basic.js';
+import { CounterView } from './basic.js';
 import { createCounter } from './counter-model.js';
 import { holoMolecule } from './holo-molecule.js';
 
@@ -11,7 +11,7 @@ export const CounterMolecule = molecule((_mol, scope) => {
 });
 export const ScopedCounter = holoMolecule(CounterMolecule, (model) =>
   holo({
-    core: CounterCore,
+    core: CounterView,
     state: { count: model.$count, double: model.$double },
     actions: { onIncrement: model.increment, onDecrement: model.decrement },
     props: { title: `Bunshi scope: ${model.id}` },

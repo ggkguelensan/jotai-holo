@@ -2,7 +2,7 @@ import { holo } from 'jotai-holo';
 import { createCounter } from './counter-model.js';
 
 const $$counter = createCounter();
-export function CounterCore({
+export function CounterView({
   title,
   count,
   double,
@@ -30,7 +30,7 @@ export function CounterCore({
 }
 
 export const BasicCounter = holo({
-  core: CounterCore,
+  core: CounterView,
   state: { count: $$counter.$count, double: $$counter.$double },
   actions: { onIncrement: $$counter.increment, onDecrement: $$counter.decrement },
   props: { title: 'State + actions' },

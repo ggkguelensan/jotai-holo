@@ -41,6 +41,8 @@ Async writes keep targeting their original store after `await`, store replacemen
 
 ## holo
 
+`core` is the configuration key from the holoenzyme metaphor. Its value is an ordinary UI view, named for example `CounterView`: `core: CounterView`.
+
 ```tsx
 const Connected = holo({
   core: Core,
@@ -73,7 +75,7 @@ A bound state update can render the adapter without rendering the core. A parent
 
 ```tsx
 const Counter = holo({
-  core: CounterCore, // count, onChange, init and reactive props
+  core: CounterView, // count, onChange, init and reactive props
   state: { count: $count },
   actions: { onChange: $count },
   props: { init: 5 },

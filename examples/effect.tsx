@@ -15,7 +15,7 @@ export function createObservedCounter() {
 
 const $$counter = createObservedCounter();
 export const EffectCounter = holo({
-  core: function EffectCore({
+  core: function EffectView({
     count,
     message,
     onIncrement,

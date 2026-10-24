@@ -15,7 +15,7 @@ const $observed = withAtomEffect($count, (get, set) => {
   };
 });
 
-const Counter = holo({ core: CounterCore, state: { count: $observed } });
+const Counter = holo({ core: CounterView, state: { count: $observed } });
 ```
 
 Multiple consumers in one store share that mounted effect. The last subscription removal disposes it. An `actions` binding alone never mounts its target. Prefer a pure derived atom when you only need to calculate a value; effects are for synchronization with another resource.
@@ -51,7 +51,7 @@ const CounterMolecule = molecule((_mol, scope) => {
 
 const Counter = holoMolecule(CounterMolecule, (model) =>
   holo({
-    core: CounterCore,
+    core: CounterView,
     state: { count: model.$count },
     actions: { onIncrement: model.increment },
     props: { title: model.id },

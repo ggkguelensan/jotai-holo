@@ -14,21 +14,21 @@ test('leaf subscriptions update only their core; actions and parent have zero re
   const calls = { parent: 0, count: 0, label: 0, button: 0 };
   const increment = actionAtom((_get, set) => set($count, (n) => n + 1));
   const Count = holo({
-    core: function CountCore({ count }: { count: number }) {
+    core: function CountView({ count }: { count: number }) {
       calls.count++;
       return <span data-count>{count}</span>;
     },
     state: { count: $count },
   });
   const Label = holo({
-    core: function LabelCore({ label }: { label: string }) {
+    core: function LabelView({ label }: { label: string }) {
       calls.label++;
       return <span>{label}</span>;
     },
     state: { label: $label },
   });
   const Button = holo({
-    core: function ButtonCore({ onClick }: { onClick: () => void }) {
+    core: function ButtonView({ onClick }: { onClick: () => void }) {
       calls.button++;
       return <button onClick={onClick}>increment</button>;
     },
@@ -331,16 +331,16 @@ test('native onMount can publish a queued write to bound state', async () => {
 });
 
 test('class and lazy cores retain React component behavior', async () => {
-  class ClassCore extends Component<{ value: number }> {
+  class ClassView extends Component<{ value: number }> {
     render() {
       return <span>{this.props.value}</span>;
     }
   }
-  const ClassBinding = holo({ core: ClassCore, state: { value: atom(2) } });
-  const LazyCore = lazy(async () => ({
+  const ClassBinding = holo({ core: ClassView, state: { value: atom(2) } });
+  const LazyView = lazy(async () => ({
     default: ({ value }: { value: number }) => <b>{value}</b>,
   }));
-  const LazyBinding = holo({ core: LazyCore, state: { value: atom(Promise.resolve(3)) } });
+  const LazyBinding = holo({ core: LazyView, state: { value: atom(Promise.resolve(3)) } });
   const h = createHarness();
   await h.render(
     suspense(

@@ -1,6 +1,6 @@
 # jotai-holo
 
-Plain React cores. Declarative Jotai bindings.
+Plain React views. Declarative Jotai bindings.
 
 ```text
             ○                   ○
@@ -22,7 +22,7 @@ Plain React cores. Declarative Jotai bindings.
               ○               ○
 ```
 
-`holo` supplies a React **core** with values, callbacks and static props. The core stays an ordinary component that can be rendered directly in tests and stories. State and actions stay native Jotai atoms that work outside React.
+`holo` supplies a React **view** with values, callbacks and static props. The configuration key `core` describes its role in the holoenzyme metaphor; the UI component keeps its usual `*View` name: `core: CounterView`. The view stays an ordinary component that can be rendered directly in tests and stories. State and actions stay native Jotai atoms that work outside React.
 
 The name recalls a **holoenzyme**: the assembled, active whole. The playful molecular mark puts `Re`, for React, at its center. Inspired by [Reflect's motivation](https://reflect.effector.dev/learn/motivation), adapted to Jotai's atom model.
 
@@ -36,7 +36,7 @@ pnpm check
 pnpm examples
 ```
 
-## A model and its core
+## A model and its view
 
 ```tsx
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
@@ -50,7 +50,7 @@ function createCounter(initial = 0) {
   return { $count, $double, increment };
 }
 
-function CounterCore({
+function CounterView({
   title,
   count,
   onIncrement,
@@ -68,7 +68,7 @@ function CounterCore({
 
 const $$counter = createCounter();
 const Counter = holo({
-  core: CounterCore,
+  core: CounterView,
   state: { count: $$counter.$count },
   actions: { onIncrement: $$counter.increment },
   props: { title: 'Counter' },
