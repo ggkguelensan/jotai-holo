@@ -22,11 +22,11 @@ Compression uses gzip level 9 and Brotli quality 11. These are differences betwe
 
 A measurement-only build transform removes the cage import, lifecycle implementation wiring and the cage option from `holo`. Project sources and the actual shipped interface stay unchanged. Both variants render the same counter without configuring any cage handlers.
 
-| Variant | Minified bytes | gzip bytes | Brotli bytes |
-| --- | ---: | ---: | ---: |
-| Current holo + helpers app | 230,096 | 71,685 | 61,995 |
-| Same app with cage implementation removed | 228,798 | 71,297 | 61,583 |
-| **Difference attributable to cage** | **1,298** | **388** | **412** |
+| Variant                                   | Minified bytes | gzip bytes | Brotli bytes |
+| ----------------------------------------- | -------------: | ---------: | -----------: |
+| Current holo + helpers app                |        230,096 |     71,685 |       61,995 |
+| Same app with cage implementation removed |        228,798 |     71,297 |       61,583 |
+| **Difference attributable to cage**       |      **1,298** |    **388** |      **412** |
 
 In this fixture, cage accounts for about **33% of the 1,185-byte gzip app increment**. Without it, the library's app increment would be **2,001 minified / 797 gzip / 626 Brotli bytes**. This is a hypothetical implementation variant used only for measurement; the current holo entry includes cage even when no handlers are configured.
 
