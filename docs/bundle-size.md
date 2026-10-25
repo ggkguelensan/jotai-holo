@@ -77,3 +77,7 @@ pnpm size
 ```
 
 [The measurement script](../scripts/measure-bundle.mjs) creates temporary fixtures, checks module graphs and prints JSON results, then removes the fixtures. BUNDLE_SOURCE_COMMIT optionally labels a revision. HTML, source maps and package tarball size are excluded.
+
+## React 18 compatibility increment
+
+Compared with `9599e77` using the same pinned React 19 application fixtures and Vite configuration, the React 18 compatibility layer adds **408 minified bytes / 148 gzip bytes** to the ordinary holo fixture and **409 minified bytes / 117 gzip bytes** to the Bunshi fixture. These are changes to complete application bundles, not isolated module sizes. Publisher/model-only helper fixtures remain byte-for-byte unchanged. Compression deltas depend on the surrounding application and are not additive.

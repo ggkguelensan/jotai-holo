@@ -1,7 +1,8 @@
 'use client';
 
 import { useAtomValueRaw, type Atom } from 'jotai';
-import { use, useMemo } from 'react';
+import { useMemo } from 'react';
+import { usePromise } from './react-compat.js';
 
 type Entries = readonly (readonly [string, Atom<unknown>])[];
 type Values = readonly unknown[];
@@ -83,6 +84,6 @@ export function createUseBindingState(keys: readonly string[]) {
   return function useBindingState(entries: Entries) {
     const values = useValues(entries);
     const result = read(entries, values);
-    return isPromise(result) ? use(result) : result;
+    return isPromise(result) ? usePromise(result) : result;
   };
 }

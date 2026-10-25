@@ -1,5 +1,7 @@
 'use client';
 
+import { memoWithRef } from './react-compat.js';
+
 import { useAtomValue, useStore, type Atom, type WritableAtom } from 'jotai';
 import { bindSources, isBinding, type Binding } from './binding.js';
 import { createStateBindingAtom } from './state-binding-atom.js';
@@ -166,7 +168,7 @@ function connect(
     const values = useBindingState!(reads);
     return useCoreElement(inputs, values, resolved.slice(states.length));
   }
-  const Bound = memo(
+  const Bound = memoWithRef(
     adapted
       ? states.length
         ? HoloAdaptedState
@@ -181,7 +183,7 @@ function connect(
 
   const cageAtom = createCageAtom({ ...cage });
   const outputs = new Set([...Object.keys(state), ...Object.keys(actions)]);
-  const WithCage = memo(function HoloWithCage(renderProps: Record<string, unknown>) {
+  const WithCage = memoWithRef(function HoloWithCage(renderProps: Record<string, unknown>) {
     const ownProps = adapted ? (renderProps as AdaptedProps).ownProps : renderProps;
     const inputs = Object.fromEntries<unknown>(
       Object.entries({ ...ownProps, ...staticProps }).filter(([key]) => !outputs.has(key)),

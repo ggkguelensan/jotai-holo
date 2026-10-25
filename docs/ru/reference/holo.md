@@ -37,3 +37,5 @@ Generic View сначала специализируйте до конкретн
 - [Reflect motivation](https://reflect.effector.dev/learn/motivation) — прямая мотивация внешнего связывания View.
 - [Jotai atom](https://jotai.org/docs/core/atom) — исходные контракты primitive, read-only и write-only атомов.
 - [Jotai performance](https://jotai.org/docs/guides/performance) — зачем нужны стабильные проекции и небольшие границы подписок.
+
+В React 18 используйте intrinsic element, class или forwardRef View для `ref`. Обычный пропс `ref` в function View требует React 19. Обёртки holo передают ref в обеих поддерживаемых версиях.

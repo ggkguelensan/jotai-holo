@@ -1,5 +1,7 @@
 'use client';
 
+import { memoWithRef } from './react-compat.js';
+
 import { useAtomValue, type Atom } from 'jotai';
 import {
   createElement,
@@ -40,7 +42,7 @@ export function holoMatch({
 }) {
   const views = new Map(Object.entries(cases).map(([key, view]) => [key, memoView(view)]));
   const Fallback = fallback ? memoView(fallback) : undefined;
-  return memo(function HoloMatch(props: Record<string, unknown>) {
+  return memoWithRef(function HoloMatch(props: Record<string, unknown>) {
     const value = useAtomValue(source);
     const view = views.get(String(value));
     if (!view && !Fallback) throw new Error(`holoMatch: no case for "${String(value)}".`);

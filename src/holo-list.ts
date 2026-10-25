@@ -1,9 +1,10 @@
 'use client';
 
+import { memoWithRef } from './react-compat.js';
+
 import { useAtomValue, type Atom } from 'jotai';
 import {
   createElement,
-  memo,
   type ComponentPropsWithRef,
   type ComponentType,
   type ElementType,
@@ -47,7 +48,7 @@ export function holoList(config: {
 }) {
   const { source, getKey, mapItem, empty } = config;
   const Row: ComponentType<Record<string, unknown>> = Reflect.apply(holo, undefined, [config]);
-  return memo(function HoloList(props: Record<string, unknown>) {
+  return memoWithRef(function HoloList(props: Record<string, unknown>) {
     const items = useAtomValue(source);
     if (!items.length) return empty ? createElement(empty, props) : null;
     const keys = new Set<string>();

@@ -1,5 +1,7 @@
 'use client';
 
+import { memoWithRef } from './react-compat.js';
+
 import { createElement, memo, useMemo, type ComponentType } from 'react';
 
 const binding = Symbol('holo.binding');
@@ -60,7 +62,7 @@ export function bindSources<Target>(
     });
   }, Leaf);
   const empty: readonly unknown[] = [];
-  return memo(function HoloSources(ownProps: Record<string, unknown>) {
+  return memoWithRef(function HoloSources(ownProps: Record<string, unknown>) {
     return createElement(Resolver, { values: empty, ownProps });
   });
 }

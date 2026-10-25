@@ -28,7 +28,7 @@ The name recalls a **holoenzyme**: the assembled, active whole. The playful mole
 
 ## Status
 
-Initial implementation; **not yet published to npm**. Supported peers: **Jotai 3.0.1+ within v3, React 19, TypeScript 5.9+**. The tested dependency versions are pinned in the lockfile. ESM only. See the [compatibility matrix](docs/compatibility.md) for exercised scenarios and untested environments.
+Initial implementation; **not yet published to npm**. Supported peers: **Jotai 3.0.1+ within v3, React 18 or 19, TypeScript 5.9+**. The tested dependency versions are pinned in the lockfile. ESM only. See the [compatibility matrix](docs/compatibility.md) for exercised scenarios and untested environments.
 
 ```sh
 pnpm install

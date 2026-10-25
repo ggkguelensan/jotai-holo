@@ -2,7 +2,7 @@
 
 This inventory follows the [Jotai v3 documentation](https://jotai.org/docs). It distinguishes executable checks from ordinary atom-protocol compatibility. It does **not** claim every extension backend, framework, browser or compiler has been certified.
 
-Supported peers are declared in [package.json](../package.json); exact versions used by the suite are in [pnpm-lock.yaml](../pnpm-lock.yaml). Jotai 2 and React 18 are outside the initial support range. TypeScript requires `strict` and supports the `NoInfer` intrinsic; source and packed declarations are checked with TypeScript 5.9. Chromium runs real React DOM. CI runs the same suite on Node 22 and 24.
+Supported peers are declared in [package.json](../package.json); exact versions used by the suite are in [pnpm-lock.yaml](../pnpm-lock.yaml). Jotai 2 is outside the support range. React 18 and 19 are supported (`>=18 <20`), including matching React type definitions. TypeScript requires `strict` and supports the `NoInfer` intrinsic; source and packed declarations are checked with TypeScript 5.9. Chromium runs real React DOM. CI runs the same suite on Node 22 and 24.
 
 ## Core and utilities
 
@@ -91,3 +91,11 @@ With the pinned React 19.3.1/Jotai 3.0.1, an async→sync transition after initi
 ## Package verification
 
 `pnpm test:package` builds a real tarball, extracts it into an isolated consumer directory, imports both public ESM entry points, typechecks a consumer against the **packed declarations**, verifies preserved client directives and checks that the vanilla import graph has no React imports. Tests/examples/dependencies are excluded from the tarball. jotai-effect remains a development dependency. Bunshi is an optional peer for the separate adapter entry. Packed root runtime/declaration graphs are checked to contain no Bunshi imports.
+
+## React version matrix
+
+`pnpm test:react` installs the packed library into isolated consumers using **React/React DOM 18.0.0, 18.3.1 and 19.3.1**. Each consumer checks its own React-major typings, streaming SSR for ordinary and adapted async bindings, and Chromium development/production scenarios: state/actions/events, ref forwarding through cage/match and Bunshi bindings, pending→resolved→sync→async transitions, rejection boundaries, scope replacement, keyed lists and disposal. CI runs each React version separately. The full source, extension and browser suites continue to run with the pinned React 19 environment.
+
+On React 18, refs must terminate at an intrinsic element, class, or `forwardRef` View, following React's normal rules. A plain function View receiving ref as an ordinary prop is a React 19 feature. Holo forwards refs through its React 18 boundaries; it does not polyfill React 19's component API.
+
+The private compatibility layer uses native `React.use` on React 19 and cached Promise settlement with Suspense retries on React 18. It keeps pending results weakly keyed and preserves the existing Jotai/raw-hook aggregation paths. No separate runtime dependency is added. Node, Jotai and TypeScript requirements are unchanged.
