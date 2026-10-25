@@ -68,7 +68,7 @@ stop();
 | `map`     | Synchronous transformation returning an argument tuple               | `[stateValue]` with state; otherwise original trigger arguments |
 | `yield`   | Writable atom, or `(get) => writableAtom` resolver                   | Output can feed another bond                                    |
 
-At least **state or trigger** is required. Every other field can be omitted independently. `map` and predicate arguments are `(stateValue, ...triggerArgs)` with state, or `(...triggerArgs)` without it. A state-only connection calls predicates and maps with just the sampled state. `guard: false` skips map, target resolution, target writes and output updates.
+At least **state or trigger** is required. Every other field can be omitted independently. `map` and predicate arguments are `(stateValue, ...triggerArgs)` with state, or `(...triggerArgs)` without it. A state-only connection calls predicates and maps with just the sampled state. A false guard skips map, target resolution, target writes and output updates. An atom guard is checked before reading sampled state, so a rejected event does not start an otherwise unused state read. A predicate needs state as input and is checked after sampling. With an implicit state clock, observing that clock still requires state reads.
 
 Store-specific target resolution supports dependency inversion:
 
@@ -140,4 +140,37 @@ const Page = holoMatch({
 
 The source resolves a string/number selector. Closed unions require every case, or a fallback; open strings/numbers require a fallback. Unknown extra cases are rejected by TypeScript. At runtime, a missing case without a fallback throws. Async selectors use native Suspense/ErrorBoundary behavior.
 
-Only the selected branch is mounted and subscribed. Remaining props must satisfy every branch's required props. A different case key resets branch-local state even if the same component is reused in several cases. Different unknown values retain the same fallback instance. The matcher itself is memoized; updates inside active connected branches do not rerender unrelated branches.
+Only the selected branch is mounted and subscribed. Remaining props must satisfy every branch's required props. A different case key resets branch-local state even if the same component is reused in several cases. Different unknown values retain the same fallback instance. The matcher and component Views use default React memoization. Changing between unmatched values keeps the same fallback and does not invoke its View again when props are shallowly equal. Props, internal state and consumed contexts can still update it. Updates inside active connected branches do not rerender unrelated branches.
+
+## Evaluation and rendering
+
+Passing `stateAtom(fetchUser())` starts the request before the helper runs. Use a derived callback such as `stateAtom(() => fetchUser())` when the request should wait for a read. An already-created Promise is already running.
+
+Declaration allocates atom/component descriptors; it does not read sources, run projectors, create molecule models or mount Views. The [vanilla laziness tests](../tests/laziness.test.ts) compare derived helpers with a native atom control; [Chromium tests](../tests/laziness.browser.test.tsx) separately count selector calls, View invocations and resource mounts around controlled updates.
+
+| Utility                     | What starts work                                       | When values remain equal                                                                         | Disposal                                                                           |
+| --------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| `stateAtom` derived / `ion` | First read; subscribed dependency changes              | Output notifications use `Object.is`                                                             | No subscription: recomputation waits for another read                              |
+| `prism`                     | Each individual selected atom's first read             | Subscribed selectors may execute; unchanged outputs do not notify                                | An unsubscribed sibling stops recomputing even while other siblings stay mounted   |
+| `actionAtom`                | Explicit write                                         | Every call still emits; readable null does not notify                                            | No implicit model subscription                                                     |
+| `bond`                      | Explicit `connect`; events or the implicit state clock | Events are not deduplicated; project the output with `ion`/`prism` to filter rendered values     | Last disposer disconnects; reading/rendering the output does not reconnect it      |
+| `holo`                      | Mounted state bindings                                 | Shallowly equal View props skip View calls                                                       | State dependencies unsubscribe; action bindings never read or subscribe to targets |
+| `holoList`                  | Mounted list source; state only for existing rows      | A new array still remaps items; unchanged row props skip row/View calls                          | Empty/deleted rows release their state subscriptions                               |
+| `holoMatch`                 | Mounted selector and active branch                     | Equal case selection does not notify; equal fallback props skip View calls across unknown values | Inactive branches have no atom subscriptions                                       |
+| `holoMolecule`              | Adapter rendered in an active branch                   | Stable model identity reuses atom selectors; unchanged selected state skips View calls           | Bunshi owns model lifecycle; hidden branches release their consumers               |
+
+### prism: recomputing a selector is not a View rerender
+
+```ts
+const { $name, $profile, $copy } = prism($user, {
+  $name: (user) => user.name,
+  $profile: (user) => user.profile,
+  $copy: (user) => ({ name: user.name }),
+});
+```
+
+If only `$name` is consumed, the other two selectors never execute. If all are mounted and only user.age changes, their selectors execute because the input object changed. The unchanged name and retained profile reference do not notify their consumers. `$copy` creates a new object and therefore notifies and rerenders a bound View even if its fields are equal. Preserve immutable branch references or select primitives when avoiding that work matters. Prism does not track individual property access or perform deep equality.
+
+Several consumers of the same projection in one store share Jotai's cached computation. Different stores have independent caches. Reading without subscribing computes a value but does not mount dependency resources. After the last subscriber leaves, dependency writes do not execute the projection until its next read.
+
+Async selectors also wait for their first read. A new promise is a new raw value and can suspend even if it eventually resolves to the same primitive. The tests verify that holo skips the unchanged resolved View props and that its passive cage lifecycle remains mounted during ordinary Suspense hiding. Laziness does not cancel async work already started by a read. Use native Jotai abort signals or model-owned cancellation where required.

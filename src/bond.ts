@@ -97,16 +97,13 @@ export function bond(config: {
       const evaluate = (args: readonly unknown[], publish = true) => {
         if (!current.owners.size) return;
         try {
+          // An atom guard can reject before sampling an otherwise unused source.
+          // Predicate guards need the sampled data as their input.
+          if (guard && typeof guard !== 'function' && !passesGuard(store.get(guard))) return;
           const data = state ? readSource(store.get, state) : undefined;
           const inputs = state ? [data, ...args] : args;
-          const allowed = !guard
-            ? true
-            : typeof guard === 'function'
-              ? Reflect.apply(guard, undefined, inputs)
-              : store.get(guard);
-          if (typeof allowed !== 'boolean')
-            throw new TypeError('bond: guard must return a synchronous boolean.');
-          if (!allowed) return;
+          if (typeof guard === 'function' && !passesGuard(Reflect.apply(guard, undefined, inputs)))
+            return;
           const next = map
             ? (Reflect.apply(map, undefined, inputs) as unknown)
             : state
@@ -219,4 +216,10 @@ function isPromise(value: unknown): value is PromiseLike<unknown> {
     'then' in value &&
     typeof value.then === 'function'
   );
+}
+
+function passesGuard(value: unknown): boolean {
+  if (typeof value !== 'boolean')
+    throw new TypeError('bond: guard must return a synchronous boolean.');
+  return value;
 }

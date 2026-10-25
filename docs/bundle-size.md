@@ -32,7 +32,7 @@ Both fixtures construct the same model in a molecule. The control calls native u
 
 A measurement-only transform removes cage wiring from the ordinary holo + helpers fixture. Cage contributes **1,319 / 404 / 454 bytes** (minified / gzip / Brotli). It remains included even without configured handlers. The script checks that the transformed module graph loses `holo-cage.js`.
 
-Preserving all eight runtime root exports with React/Jotai external produces **8,155 / 3,230 / 2,972 bytes**. This includes the model operators and view adapters and excludes peer implementations; do not add it to app deltas. Bunshi's optional entry is measured separately above.
+Preserving all eight runtime root exports with React/Jotai external produces **8,298 / 3,264 / 2,998 bytes**. This includes the model operators and view adapters and excludes peer implementations; do not add it to app deltas. Bunshi's optional entry is measured separately above.
 
 ## Tree shaking
 

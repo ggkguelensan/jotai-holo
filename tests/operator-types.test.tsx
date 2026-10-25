@@ -36,6 +36,20 @@ function invalidContracts() {
   holoMatch({ source: $status, cases: { ready: View, loading: View, extra: View } });
   const Match = holoMatch({ source: $status, cases: { ready: View, loading: View } });
   const valid = <Match title="title" />;
+  const Mixed = holoMatch({ source: $status, cases: { ready: View, loading: () => null } });
+  const mixed = <Mixed title="title" />;
+  // @ts-expect-error A zero-argument branch cannot erase required inputs of another branch.
+  const missingMixed = <Mixed />;
+  const Fallback = holoMatch({
+    source: atom('unknown'),
+    cases: { ready: () => null },
+    fallback: View,
+  });
+  const fallback = <Fallback title="title" />;
+  // @ts-expect-error Required fallback inputs remain public even with zero-argument cases.
+  const missingFallback = <Fallback />;
+  void [mixed, missingMixed, fallback, missingFallback];
+
   // @ts-expect-error Required branch input remains public.
   const invalid = <Match />;
   const List = holoList({
