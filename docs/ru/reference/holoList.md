@@ -2,6 +2,12 @@
 
 Отображает строки со стабильными ключами из атома массива. Импорт из `jotai-holo`.
 
+<Demo kind="list">
+
+<<< @/../examples/docs-demos.tsx#list
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#list
 
 ## Контракт

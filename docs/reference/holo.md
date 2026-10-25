@@ -2,6 +2,12 @@
 
 Bind an ordinary View to atom values, writable callbacks and fixed props. Import from `jotai-holo`.
 
+<Demo kind="counter">
+
+<<< @/../examples/docs-demos.tsx#counter
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#holo
 
 ## Contract

@@ -2,6 +2,12 @@
 
 Select native atoms from a scoped Bunshi model without declaring holo during render. Import **only** from `jotai-holo/bunshi`.
 
+<Demo kind="bunshi">
+
+<<< @/../examples/docs-bunshi.tsx#bunshi
+
+</Demo>
+
 <<< @/../examples/bunshi.tsx
 
 ## Contract

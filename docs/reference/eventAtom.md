@@ -2,6 +2,12 @@
 
 A typed, one-payload notification without retained event state. Import from the root or vanilla entry.
 
+<Demo kind="event">
+
+<<< @/../examples/docs-demos.tsx#event
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#event
 
 ## Contract

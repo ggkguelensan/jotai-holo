@@ -1,18 +1,15 @@
 import { defineConfig, type DefaultTheme } from 'vitepress';
+import { fileURLToPath } from 'node:url';
 
-const reference = [
-  'stateAtom',
-  'actionAtom',
-  'eventAtom',
-  'subscribeEvent',
-  'ion',
-  'prism',
-  'bond',
-  'holo',
-  'cage',
-  'holoList',
-  'holoMatch',
-  'holoMolecule',
+const groups = [
+  { en: 'State', ru: 'Состояние', names: ['stateAtom', 'ion', 'prism'] },
+  {
+    en: 'Commands & events',
+    ru: 'Команды и события',
+    names: ['actionAtom', 'eventAtom', 'subscribeEvent', 'bond'],
+  },
+  { en: 'React bindings', ru: 'Привязки React', names: ['holo', 'cage', 'holoList', 'holoMatch'] },
+  { en: 'Integrations', ru: 'Интеграции', names: ['holoMolecule'] },
 ];
 function sidebar(ru: boolean): DefaultTheme.SidebarItem[] {
   const root = ru ? '/ru' : '';
@@ -26,7 +23,10 @@ function sidebar(ru: boolean): DefaultTheme.SidebarItem[] {
         { text: ru ? 'Рендеринг и async' : 'Rendering and async', link: `${root}/guide/rendering` },
       ],
     },
-    { text: 'API', items: reference.map((text) => ({ text, link: `${root}/reference/${text}` })) },
+    ...groups.map((group) => ({
+      text: ru ? group.ru : group.en,
+      items: group.names.map((text) => ({ text, link: `${root}/reference/${text}` })),
+    })),
     {
       text: ru ? 'Рецепты' : 'Recipes',
       items: [
@@ -60,6 +60,21 @@ function sidebar(ru: boolean): DefaultTheme.SidebarItem[] {
 }
 export default defineConfig({
   title: 'jotai-holo',
+  vite: {
+    resolve: {
+      alias: [
+        {
+          find: 'jotai-holo/bunshi',
+          replacement: fileURLToPath(new URL('../../src/bunshi.ts', import.meta.url)),
+        },
+        {
+          find: 'jotai-holo',
+          replacement: fileURLToPath(new URL('../../src/index.ts', import.meta.url)),
+        },
+      ],
+      dedupe: ['react', 'react-dom', 'jotai'],
+    },
+  },
   description: 'Plain React views. Native Jotai models. Declarative connections.',
   base: process.env.DOCS_BASE || '/',
   cleanUrls: true,

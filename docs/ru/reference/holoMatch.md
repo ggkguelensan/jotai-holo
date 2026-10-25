@@ -2,6 +2,12 @@
 
 Выбирает View по строковому или числовому атому. Импорт из `jotai-holo`.
 
+<Demo kind="match">
+
+<<< @/../examples/docs-demos.tsx#match
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#match
 
 ## Контракт

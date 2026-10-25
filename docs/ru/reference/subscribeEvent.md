@@ -2,6 +2,12 @@
 
 Подписка на событие вне React. Импорт из корня или vanilla entry. Возвращает функцию освобождения подписки.
 
+<Demo kind="event">
+
+<<< @/../examples/docs-demos.tsx#event
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#subscription
 
 ## Контракт

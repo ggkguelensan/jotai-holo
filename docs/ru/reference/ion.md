@@ -2,6 +2,12 @@
 
 Объединяет фиксированную структуру читаемых атомов в один derived atom. Импорт из корня или vanilla entry.
 
+<Demo kind="ion">
+
+<<< @/../examples/docs-demos.tsx#ion
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#ion
 
 ## Контракт

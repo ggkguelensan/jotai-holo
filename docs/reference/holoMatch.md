@@ -2,6 +2,12 @@
 
 Choose a View from a string or number atom. Import from `jotai-holo`.
 
+<Demo kind="match">
+
+<<< @/../examples/docs-demos.tsx#match
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#match
 
 ## Contract

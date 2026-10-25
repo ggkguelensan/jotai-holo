@@ -2,6 +2,12 @@
 
 Combine a fixed shape of readable atoms into one derived atom. Import from the root or vanilla entry.
 
+<Demo kind="ion">
+
+<<< @/../examples/docs-demos.tsx#ion
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#ion
 
 ## Contract

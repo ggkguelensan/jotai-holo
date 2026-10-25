@@ -2,6 +2,12 @@
 
 Связывает обычный View со значениями атомов, writable-колбэками и фиксированными пропсами. Импорт из `jotai-holo`.
 
+<Demo kind="counter">
+
+<<< @/../examples/docs-demos.tsx#counter
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#holo
 
 ## Контракт

@@ -2,6 +2,12 @@
 
 Create a command as a native write-only atom with inferred arguments and result. Import from the root or vanilla entry.
 
+<Demo kind="counter">
+
+<<< @/../examples/docs-demos.tsx#counter
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#action
 
 ## Contract

@@ -2,6 +2,12 @@
 
 Типизированное уведомление с одним payload без хранения состояния события. Импорт из корня или vanilla entry.
 
+<Demo kind="event">
+
+<<< @/../examples/docs-demos.tsx#event
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#event
 
 ## Контракт

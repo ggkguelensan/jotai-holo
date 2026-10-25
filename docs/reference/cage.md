@@ -2,6 +2,12 @@
 
 The optional lifecycle section of holo, not a separate exported function. Use it to send committed input props into model actions.
 
+<Demo kind="cage">
+
+<<< @/../examples/docs-demos.tsx#cage
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#cage
 
 ## Contract

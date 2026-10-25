@@ -2,6 +2,12 @@
 
 Split one source into named, independent read-only projections. Import from the root or vanilla entry.
 
+<Demo kind="prism">
+
+<<< @/../examples/docs-demos.tsx#prism
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#prism
 
 ## Contract

@@ -2,6 +2,12 @@
 
 Выбирает нативные атомы из scoped-модели Bunshi без объявления holo во время render. Импорт **только** из `jotai-holo/bunshi`.
 
+<Demo kind="bunshi">
+
+<<< @/../examples/docs-bunshi.tsx#bunshi
+
+</Demo>
+
 <<< @/../examples/bunshi.tsx
 
 ## Контракт

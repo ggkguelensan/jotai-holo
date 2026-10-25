@@ -2,6 +2,12 @@
 
 Создаёт writable state из значения или read-only derived state из getter. Импорт: `jotai-holo` или `jotai-holo/vanilla`.
 
+<Demo kind="counter">
+
+<<< @/../examples/docs-demos.tsx#counter
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#state
 
 ## Контракт

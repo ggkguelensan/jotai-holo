@@ -23,6 +23,16 @@ features:
     details: Store-owned event connections, committed lifecycle inputs and optional Bunshi scopes.
 ---
 
+## Try the model
+
+Change the quantity or apply a discount. `ion` derives the total; `holo` supplies values and callbacks to an ordinary View.
+
+<Demo kind="ion">
+
+<<< @/../examples/docs-demos.tsx#ion
+
+</Demo>
+
 ## Start with a task
 
 - [Bind a View](/reference/holo) without forwarding hooks.

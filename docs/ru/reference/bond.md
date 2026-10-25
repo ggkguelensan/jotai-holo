@@ -2,6 +2,12 @@
 
 Направляет срабатывание в writable atom с необязательным чтением state, фильтрацией и преобразованием аргументов. Импорт из корня или vanilla entry.
 
+<Demo kind="bond">
+
+<<< @/../examples/docs-demos.tsx#bond
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#bond
 
 ## Контракт

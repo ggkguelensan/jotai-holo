@@ -2,6 +2,12 @@
 
 Необязательный lifecycle-раздел holo, а не отдельная экспортируемая функция. Передаёт committed входные пропсы в действия модели.
 
+<Demo kind="cage">
+
+<<< @/../examples/docs-demos.tsx#cage
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#cage
 
 ## Контракт

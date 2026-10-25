@@ -2,6 +2,12 @@
 
 Разделяет источник на именованные независимые read-only проекции. Импорт из корня или vanilla entry.
 
+<Demo kind="prism">
+
+<<< @/../examples/docs-demos.tsx#prism
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#prism
 
 ## Контракт

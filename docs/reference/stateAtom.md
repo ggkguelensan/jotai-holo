@@ -2,6 +2,12 @@
 
 Create writable state from a value, or read-only derived state from a getter. Import from `jotai-holo` or `jotai-holo/vanilla`.
 
+<Demo kind="counter">
+
+<<< @/../examples/docs-demos.tsx#counter
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#state
 
 ## Contract

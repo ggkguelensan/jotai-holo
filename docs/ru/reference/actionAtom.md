@@ -2,6 +2,12 @@
 
 Создаёт команду как нативный write-only atom с выводом аргументов и результата. Импорт из корня или vanilla entry.
 
+<Demo kind="counter">
+
+<<< @/../examples/docs-demos.tsx#counter
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#action
 
 ## Контракт

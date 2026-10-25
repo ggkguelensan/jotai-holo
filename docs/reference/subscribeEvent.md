@@ -2,6 +2,12 @@
 
 Observe an event outside React. Import from the root or vanilla entry. The returned function disposes the subscription.
 
+<Demo kind="event">
+
+<<< @/../examples/docs-demos.tsx#event
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#subscription
 
 ## Contract

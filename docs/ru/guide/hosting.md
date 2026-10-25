@@ -33,3 +33,5 @@ DOCS_BASE=/jotai-holo/ pnpm docs:build
 Базовая ветка для ссылок Edit/source — `docs/reference-site`; после merge замените её в конфигурации сайта и ссылках на `main`.
 
 Материалы: [VitePress deployment](https://vitepress.dev/guide/deploy), [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-github-actions-to-create-a-github-pages-site).
+
+Живые примеры используют React и настоящий jotai-holo. Vue-оболочка подключает их только на клиенте и размонтирует при смене страницы. Каждый пример изолирован своим store. `pnpm test:docs` проверяет взаимодействия, отписку, Bunshi scope и навигацию. Эти зависимости сайта не входят в runtime пакета библиотеки.

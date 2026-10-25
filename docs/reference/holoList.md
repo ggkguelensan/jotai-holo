@@ -2,6 +2,12 @@
 
 Render keyed rows from an atom containing an array. Import from `jotai-holo`.
 
+<Demo kind="list">
+
+<<< @/../examples/docs-demos.tsx#list
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#list
 
 ## Contract

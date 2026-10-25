@@ -2,6 +2,12 @@
 
 Route an occurrence into a writable atom, optionally sampling state, filtering and mapping arguments. Import from the root or vanilla entry.
 
+<Demo kind="bond">
+
+<<< @/../examples/docs-demos.tsx#bond
+
+</Demo>
+
 <<< @/../examples/documentation.tsx#bond
 
 ## Contract

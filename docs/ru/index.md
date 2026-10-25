@@ -23,6 +23,16 @@ features:
     details: Связи событий в конкретном store, committed lifecycle-входы и опциональные scope Bunshi.
 ---
 
+## Попробуйте модель
+
+Измените количество или включите скидку. `ion` пересчитывает сумму, `holo` передаёт значения и колбэки в обычный View.
+
+<Demo kind="ion">
+
+<<< @/../examples/docs-demos.tsx#ion
+
+</Demo>
+
 ## Начните с задачи
 
 - [Связать View](/ru/reference/holo) без forwarding-хука.
