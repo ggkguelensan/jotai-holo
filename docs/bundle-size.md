@@ -18,6 +18,30 @@ Baseline app: **226,797 / 70,500 / 60,957 bytes** (minified / gzip / Brotli). Wi
 
 Ordinary holo with native atoms adds **1,811 gzip bytes** and has no Bunshi dependency. The generic binding protocol supports optional adapters without importing them. Helper-only fixtures add **289 gzip bytes**; actionAtom includes the event channel/dispatch support required by bond. The root's unused model and view operators do not enter these counter bundles. Before event observation, the adapter + helper fixture added 1,849 gzip bytes; the current fixture adds 2,097.
 
+## Individual state, action and event helpers
+
+The helper fixture uses native React/Jotai hooks with an explicit store, primitive and derived state, an increment action and a notification write. Its baseline uses native atom factories throughout. Each variant replaces only the named factories. These figures exclude holo and bond, and count React/Jotai in both app bundles.
+
+| Factories used                    | Additional minified bytes | Additional gzip bytes |
+| --------------------------------- | ------------------------: | --------------------: |
+| stateAtom                         |                        99 |                    44 |
+| actionAtom                        |                       605 |                   261 |
+| eventAtom                         |                     1,099 |                   435 |
+| stateAtom + actionAtom            |                       704 |                   289 |
+| All three                         |                     1,194 |                   463 |
+| All three + external subscription |                     1,294 |                   511 |
+
+The event factory already includes its subscribe method, even when only writing to it. The subscription row also includes application code that registers a listener and a pagehide disposer; it is not an isolated subscription-runtime measurement. EventAtom and actionAtom share dispatch infrastructure, so individual deltas must not be added together. Unused helpers and all React adapters are removed, as asserted by the script.
+
+For comparison, preserving just the named factory exports with React/Jotai external gives these independent library bundles. Their gzip figures compress the small library chunk alone rather than subtracting two complete app bundles:
+
+| Exports preserved | Minified bytes | gzip bytes |
+| ----------------- | -------------: | ---------: |
+| stateAtom         |            152 |        131 |
+| actionAtom        |            659 |        416 |
+| eventAtom         |          1,149 |        635 |
+| All three         |          1,272 |        674 |
+
 ## Application already using Bunshi
 
 Both fixtures construct the same model in a molecule. The control calls native useMolecule/useAtomValue/useSetAtom; the adapter uses holoMolecule(Model) and atom selectors in holo. Neither fixture uses stateAtom/actionAtom.

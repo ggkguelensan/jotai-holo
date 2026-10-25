@@ -73,6 +73,38 @@ createRoot(document.getElementById('root')).render(h(Provider, null, h(Counter))
 `
   );
 }
+// Equivalent counter fixtures keep state, action and notification writes present
+// in every variant; only the selected helper factories change.
+function helperApp({ state = false, action = false, event = false, subscribe = false } = {}) {
+  return (
+    shared +
+    `
+import { createStore } from 'jotai/vanilla';
+import { stateAtom, actionAtom, eventAtom } from '../dist/vanilla.js';
+const store = createStore();
+const $count = ${state ? 'stateAtom' : 'atom'}(0);
+const $double = ${state ? 'stateAtom' : 'atom'}(get => get($count) * 2);
+const occurred = ${event ? 'eventAtom()' : 'atom(null, () => {})'};
+const increment = ${action ? 'actionAtom(' : 'atom(null, '}(_get, set) => {
+  set($count, n => n + 1);
+  set(occurred);
+});
+${
+  subscribe
+    ? `const stop = occurred.subscribe(store, () => console.log('incremented'));
+window.addEventListener('pagehide', stop, { once: true });`
+    : ''
+}
+function Counter() {
+  const count = useAtomValue($count);
+  const double = useAtomValue($double);
+  const onIncrement = useSetAtom(increment);
+  return h(CounterView, { count, double, onIncrement, title: 'Counter' });
+}
+createRoot(document.getElementById('root')).render(h(Provider, { store }, h(Counter)));
+`
+  );
+}
 function sizes(code) {
   return {
     minified: Buffer.byteLength(code),
@@ -141,6 +173,8 @@ const cases = [
   ['holo-with-unwrap', { holo: true, helpers: 'index', preexistingUnwrap: true }],
 ];
 const results = {};
+const helperBreakdown = {};
+const isolatedHelpers = {};
 try {
   await rm(fixture, { recursive: true, force: true });
   await mkdir(fixture, { recursive: true });
@@ -167,6 +201,73 @@ try {
       },
     });
     results[name] = inspect(result, !!options.molecule);
+  }
+  const helperCases = [
+    ['native', {}],
+    ['stateAtom', { state: true }],
+    ['actionAtom', { action: true }],
+    ['eventAtom', { event: true }],
+    ['stateAtom+actionAtom', { state: true, action: true }],
+    ['all-three', { state: true, action: true, event: true }],
+    ['all-three+subscribe', { state: true, action: true, event: true, subscribe: true }],
+  ];
+  for (const [name, options] of helperCases) {
+    await writeFile(`${fixture}/main.js`, helperApp(options));
+    const result = await build({
+      configFile: false,
+      root: fixture,
+      logLevel: 'silent',
+      mode: 'production',
+      build: {
+        target: 'es2022',
+        write: false,
+        sourcemap: false,
+        minify: 'oxc',
+        modulePreload: false,
+      },
+    });
+    const measured = inspect(result);
+    const baseline = helperBreakdown.native ?? measured;
+    helperBreakdown[name] = {
+      ...measured,
+      delta: Object.fromEntries(
+        ['minified', 'gzip', 'brotli'].map((metric) => [
+          metric,
+          measured[metric] - baseline[metric],
+        ]),
+      ),
+    };
+    assert.ok(!measured.modules.some((id) => /\/(?:holo|binding|bond|ion|prism)/.test(id)));
+    if (!options.event) assert.ok(!measured.modules.includes('dist/event-atom.js'));
+    if (!options.action && !options.event)
+      assert.ok(!measured.modules.includes('dist/action-source.js'));
+  }
+  for (const [name, exports] of [
+    ['stateAtom', ['stateAtom']],
+    ['actionAtom', ['actionAtom']],
+    ['eventAtom', ['eventAtom']],
+    ['all-three', ['stateAtom', 'actionAtom', 'eventAtom']],
+  ]) {
+    const entry = `${fixture}/isolated.js`;
+    await writeFile(entry, `export { ${exports.join(', ')} } from '../dist/vanilla.js';`);
+    const result = await build({
+      configFile: false,
+      root,
+      logLevel: 'silent',
+      mode: 'production',
+      build: {
+        target: 'es2022',
+        write: false,
+        sourcemap: false,
+        minify: 'oxc',
+        rolldownOptions: {
+          input: entry,
+          preserveEntrySignatures: 'strict',
+          external: (id) => /^(?:react|jotai)(?:\/|$)/.test(id),
+        },
+      },
+    });
+    isolatedHelpers[name] = inspect(result);
   }
   const isolated = await build({
     configFile: false,
@@ -213,6 +314,8 @@ try {
         },
         units: 'bytes; JS only; gzip level 9; Brotli quality 11',
         results,
+        helperBreakdown,
+        isolatedHelpers,
         moleculeIncrement: Object.fromEntries(
           ['minified', 'gzip', 'brotli'].map((metric) => [
             metric,
