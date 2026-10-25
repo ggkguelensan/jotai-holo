@@ -32,13 +32,13 @@ function _invalidAndValidConfigurations() {
   // @ts-expect-error A dynamic discriminant cannot be bound independently of its branch data.
   holo({ core: UnionView, state: { kind: atom<'a' | 'b'>('a') } });
   // @ts-expect-error Bind a discriminant by narrowing the core's props first.
-  holo({ core: UnionView, props: { kind: 'a' } });
+  holo({ core: UnionView, bindProps: { kind: 'a' } });
   function PromiseView(_props: { value: Promise<number> }) {
     return null;
   }
   // @ts-expect-error State bindings resolve promises; promise props belong in props.
   holo({ core: PromiseView, state: { value: atom(Promise.resolve(1)) } });
-  holo({ core: PromiseView, props: { value: Promise.resolve(1) } });
+  holo({ core: PromiseView, bindProps: { value: Promise.resolve(1) } });
   function CallbackView(_props: { onChange: (value: string) => void }) {
     return null;
   }
@@ -54,7 +54,7 @@ function _invalidAndValidConfigurations() {
     },
     state: { value: asyncRead },
   });
-  const Input = holo({ core: 'input', props: { type: 'text' } });
+  const Input = holo({ core: 'input', bindProps: { type: 'text' } });
   const validRef = <Input ref={createRef<HTMLInputElement>()} />;
   // @ts-expect-error Intrinsic refs preserve the original element type.
   const invalidRef = <Input ref={createRef<HTMLButtonElement>()} />;

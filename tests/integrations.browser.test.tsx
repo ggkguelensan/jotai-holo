@@ -1,4 +1,4 @@
-import { act, type ReactNode } from 'react';
+import { useMemo, act, type ReactNode } from 'react';
 import { atom, createStore, Provider } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
 import { atomEffect, observe, withAtomEffect } from 'jotai-effect';
@@ -9,11 +9,11 @@ import {
   InjectorProvider,
   molecule,
   onMount,
+  useMolecule,
   ScopeProvider,
 } from 'bunshi/react';
 import { expect, test } from 'vitest';
 import { holo, stateAtom, actionAtom } from '../src/index.js';
-import { holoMolecule } from '../examples/holo-molecule.js';
 import { createHarness } from './browser-harness.js';
 
 function Value({ count, increment }: { count: number; increment: () => void }) {
@@ -132,7 +132,7 @@ test('jotai-scope isolates a bound primitive and its derived state', async () =>
   expect([...buttons].map((b) => b.textContent)).toEqual(['0', '2']);
 });
 
-test('Bunshi adapter shares same-scope models, isolates scopes and preserves binding identity', async () => {
+test('Bunshi composition shares same-scope models, isolates scopes and preserves binding identity', async () => {
   const scope = createScope('default');
   const mounts: string[] = [];
   const stops: string[] = [];
@@ -151,14 +151,18 @@ test('Bunshi adapter shares same-scope models, isolates scopes and preserves bin
     });
     return { $count, increment };
   });
-  const C = holoMolecule(Counter, (model) => {
-    bindings++;
-    return holo({
-      core: Value,
-      state: { count: model.$count },
-      actions: { increment: model.increment },
-    });
-  });
+  function C() {
+    const model = useMolecule(Counter);
+    const Connected = useMemo(() => {
+      bindings++;
+      return holo({
+        core: Value,
+        state: { count: model.$count },
+        actions: { increment: model.increment },
+      });
+    }, [model]);
+    return <Connected />;
+  }
   const injector = createInjector();
   const injectorValue = () => injector;
   const store = createStore();
@@ -180,7 +184,7 @@ test('Bunshi adapter shares same-scope models, isolates scopes and preserves bin
   }
   const h = createHarness();
   await h.render(<Tree id="b" title="first" />);
-  expect(bindings).toBe(2);
+  expect(bindings).toBe(3);
   expect(mounts).toEqual(['a', 'b']);
   await act(async () => {
     h.container.querySelector('button')?.click();
@@ -191,10 +195,10 @@ test('Bunshi adapter shares same-scope models, isolates scopes and preserves bin
     '0',
   ]);
   await h.render(<Tree id="b" title="second" />);
-  expect(bindings).toBe(2);
+  expect(bindings).toBe(3);
   expect(stops).toEqual([]);
   await h.render(<Tree id="c" title="third" />);
-  expect(bindings).toBe(3);
+  expect(bindings).toBe(4);
   expect(stops).toEqual(['b']);
   await h.unmount();
   expect(stops.sort()).toEqual(['a', 'b', 'c']);
@@ -212,9 +216,19 @@ test('Bunshi model identity does not replace Jotai Provider isolation', async ()
       }),
     };
   });
-  const C = holoMolecule(Counter, (m) =>
-    holo({ core: Value, state: { count: m.$count }, actions: { increment: m.increment } }),
-  );
+  function C() {
+    const model = useMolecule(Counter);
+    const Connected = useMemo(
+      () =>
+        holo({
+          core: Value,
+          state: { count: model.$count },
+          actions: { increment: model.increment },
+        }),
+      [model],
+    );
+    return <Connected />;
+  }
   const h = createHarness();
   await h.render(
     <InjectorProvider value={value}>

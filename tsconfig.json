@@ -15,7 +15,8 @@
     "types": ["node", "vitest/globals"],
     "paths": {
       "jotai-holo": ["./src/index.ts"],
-      "jotai-holo/vanilla": ["./src/vanilla.ts"]
+      "jotai-holo/vanilla": ["./src/vanilla.ts"],
+      "jotai-holo/bunshi": ["./src/bunshi.ts"]
     }
   },
   "include": ["src", "tests", "examples", "*.config.ts"]

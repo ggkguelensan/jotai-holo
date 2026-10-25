@@ -53,7 +53,7 @@ describe('holo', () => {
       core: View,
       state: { count, doubled },
       actions: { onIncrement: increment },
-      props: { icon: Icon, data: reader },
+      bindProps: { icon: Icon, data: reader },
     });
     expectTypeOf<ComponentProps<typeof Counter>>().toEqualTypeOf<{ title: string }>();
 
@@ -81,7 +81,7 @@ describe('holo', () => {
       return <span>{title}</span>;
     }
     const Plain = holo({ core: View });
-    const Static = holo({ core: memo(View), props: { title: 'static' } });
+    const Static = holo({ core: memo(View), bindProps: { title: 'static' } });
 
     expectTypeOf<ComponentProps<typeof Plain>>().toEqualTypeOf<{ title?: string }>();
     expect(renderToStaticMarkup(<Plain />)).toBe('<span>default</span>');
@@ -132,7 +132,7 @@ describe('holo', () => {
         return <span>{count}</span>;
       },
       state: { count: atom(1) },
-      props: { count: 2 },
+      bindProps: { count: 2 },
     };
     // @ts-expect-error A prop cannot appear in both state and props.
     expect(() => holo(config)).toThrow(/count.*more than one section/);
@@ -148,7 +148,7 @@ describe('holo', () => {
     const Connected = holo({
       core: Core,
       state: { count: $count },
-      props: { init: 5 },
+      bindProps: { init: 5 },
       cage: {
         onMount(_get, set, ctx) {
           expectTypeOf(ctx.props.init).toEqualTypeOf<number>();
@@ -206,12 +206,12 @@ function _checkInvalidBindings() {
   // @ts-expect-error Non-callable view props cannot be actions.
   holo({ core: View, actions: { count } });
   // @ts-expect-error Static props must match the view prop type.
-  holo({ core: View, props: { title: 1 } });
+  holo({ core: View, bindProps: { title: 1 } });
   holo({
     core: View,
     actions: { onIncrement: increment },
     // @ts-expect-error An action prop cannot also be static.
-    props: { onIncrement: () => undefined },
+    bindProps: { onIncrement: () => undefined },
   });
   // @ts-expect-error A required own prop is still required.
   const missing = <Connected />;

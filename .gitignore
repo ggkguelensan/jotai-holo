@@ -13,3 +13,5 @@ example-dist/
 .package-test/
 
 .bundle-size/
+
+.molecule-memory/

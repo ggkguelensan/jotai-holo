@@ -33,5 +33,5 @@ export const BasicCounter = holo({
   core: CounterView,
   state: { count: $$counter.$count, double: $$counter.$double },
   actions: { onIncrement: $$counter.increment, onDecrement: $$counter.decrement },
-  props: { title: 'State + actions' },
+  bindProps: { title: 'State + actions' },
 });

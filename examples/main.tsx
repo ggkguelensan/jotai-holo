@@ -6,6 +6,7 @@ import { EffectCounter } from './effect.js';
 import { BunshiCounters } from './bunshi.js';
 import { BunshiEffectCounter } from './bunshi-effect.js';
 import { AsyncExample } from './async.js';
+import { OperatorsExample } from './operators.js';
 import './style.css';
 
 // For SSR, create both the injector and Jotai store per request.
@@ -19,6 +20,7 @@ createRoot(root).render(
         <h1>jotai-holo</h1>
         <p>Plain React views. Declarative Jotai bindings.</p>
         <BasicCounter />
+        <OperatorsExample />
         <EffectCounter />
         <BunshiCounters />
         <BunshiEffectCounter />

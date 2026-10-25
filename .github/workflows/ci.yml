@@ -22,3 +22,4 @@ jobs:
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm check
       - run: pnpm test:package
+      - run: pnpm test:memory

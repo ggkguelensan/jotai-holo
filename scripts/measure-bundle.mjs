@@ -15,7 +15,39 @@ function CounterView({ count, double, onIncrement, title }) {
   return h('button', { onClick: onIncrement }, title + ': ' + count + '/' + double);
 }
 `;
-function app({ helpers, holo, preexistingUnwrap = false }) {
+function app({ helpers, holo, preexistingUnwrap = false, molecule = false }) {
+  if (molecule)
+    return (
+      shared +
+      `
+import { molecule, useMolecule } from 'bunshi/react';
+import { holo } from '../../dist/index.js';
+import { holoMolecule } from '../../dist/bunshi.js';
+const Model = molecule(() => {
+  const $count = atom(0);
+  const $double = atom(get => get($count) * 2);
+  const increment = atom(null, (_get, set) => { set($count, n => n + 1); });
+  return { $count, $double, increment };
+});
+${
+  holo
+    ? `const counter = holoMolecule(Model);
+const Counter = holo({ core: CounterView,
+  state: { count: counter(m => m.$count), double: counter(m => m.$double) },
+  actions: { onIncrement: counter(m => m.increment) }, bindProps: { title: 'Counter' },
+});`
+    : `function Counter() {
+  const model = useMolecule(Model);
+  const count = useAtomValue(model.$count);
+  const double = useAtomValue(model.$double);
+  const onIncrement = useSetAtom(model.increment);
+  return h(CounterView, { count, double, onIncrement, title: 'Counter' });
+}`
+}
+createRoot(document.getElementById('root')).render(h(Provider, null, h(Counter)));
+`
+    );
+
   return (
     shared +
     (helpers ? `import { stateAtom, actionAtom } from '../../dist/${helpers}.js';\n` : '') +
@@ -28,7 +60,7 @@ const $double = ${preexistingUnwrap ? 'unwrap($doubleBase)' : '$doubleBase'};
 const increment = ${helpers ? 'actionAtom(' : 'atom(null, '}(_get, set) => { set($count, n => n + 1); });
 ${
   holo
-    ? `const Counter = holo({ core: CounterView, state: { count: $count, double: $double }, actions: { onIncrement: increment }, props: { title: 'Counter' } });`
+    ? `const Counter = holo({ core: CounterView, state: { count: $count, double: $double }, actions: { onIncrement: increment }, bindProps: { title: 'Counter' } });`
     : `
 function Counter() {
   const count = useAtomValue($count);
@@ -49,7 +81,7 @@ function sizes(code) {
       .byteLength,
   };
 }
-function inspect(result) {
+function inspect(result, allowBunshi = false) {
   const chunks = (Array.isArray(result) ? result : [result]).flatMap((output) =>
     output.output.filter((item) => item.type === 'chunk'),
   );
@@ -61,11 +93,14 @@ function inspect(result) {
     .map(([id]) => id);
   assert.ok(
     !modules.some((id) =>
-      /node_modules\/(?:.*\/)?(?:bunshi|jotai-effect|rxjs|jotai-eager)(?:@|\/)/.test(id),
+      /node_modules\/(?:.*\/)?(?:jotai-effect|rxjs|jotai-eager)(?:@|\/)/.test(id),
     ),
     'Optional integrations must not enter the bundle.',
   );
+  const bunshiIncluded = modules.some((id) => /node_modules\/(?:.*\/)?bunshi(?:@|\/)/.test(id));
+  if (!allowBunshi) assert.equal(bunshiIncluded, false, 'Bunshi must stay outside core bundles.');
   return {
+    bunshiIncluded,
     ...sizes(chunk.code),
     modules: modules
       .filter((id) => id.startsWith(`${root}/dist/`))
@@ -95,6 +130,8 @@ function withoutCage() {
 }
 const cases = [
   ['native', {}],
+  ['native-molecule', { molecule: true }],
+  ['holo-molecule', { molecule: true, holo: true }],
   ['helpers-root', { helpers: 'index' }],
   ['helpers-vanilla', { helpers: 'vanilla' }],
   ['holo', { holo: true }],
@@ -129,7 +166,7 @@ try {
         modulePreload: false,
       },
     });
-    results[name] = inspect(result);
+    results[name] = inspect(result, !!options.molecule);
   }
   const isolated = await build({
     configFile: false,
@@ -155,6 +192,12 @@ try {
       'Unused React adapter must be tree-shaken.',
     );
   }
+  for (const key of ['helpers-root', 'helpers-vanilla', 'holo', 'holo-and-helpers']) {
+    assert.ok(
+      !results[key].modules.some((id) => /\/(?:bond|ion|prism|holo-list|holo-match)\.js$/.test(id)),
+      'Unused operators must be tree-shaken.',
+    );
+  }
   assert.ok(!results['holo-without-cage'].modules.some((id) => id.endsWith('/holo-cage.js')));
   assert.ok(results['holo-and-helpers'].modules.some((id) => id.endsWith('/holo-cage.js')));
   console.log(
@@ -168,6 +211,12 @@ try {
         },
         units: 'bytes; JS only; gzip level 9; Brotli quality 11',
         results,
+        moleculeIncrement: Object.fromEntries(
+          ['minified', 'gzip', 'brotli'].map((metric) => [
+            metric,
+            results['holo-molecule'][metric] - results['native-molecule'][metric],
+          ]),
+        ),
         cageIncrement: Object.fromEntries(
           ['minified', 'gzip', 'brotli'].map((metric) => [
             metric,
