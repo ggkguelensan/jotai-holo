@@ -1,7 +1,7 @@
 import { act } from 'react';
 import { createStore, Provider } from 'jotai';
 import { expect, test, vi } from 'vitest';
-import { actionAtom, bond, eventAtom, holo, stateAtom } from '../src/index.js';
+import { actionAtom, bond, eventAtom, subscribeEvent, holo, stateAtom } from '../src/index.js';
 import { createHarness } from './browser-harness.js';
 
 test('holo dispatches events without rerendering; bond updates state only when its value changes', async () => {
@@ -17,8 +17,8 @@ test('holo dispatches events without rerendering; bond updates state only when i
   const openings = vi.fn();
   const stops = [
     apply.connect(store),
-    renamed.subscribe(store, events),
-    opened.subscribe(store, openings),
+    subscribeEvent(store, renamed, events),
+    subscribeEvent(store, opened, openings),
   ];
   let renders = 0;
   const User = holo({

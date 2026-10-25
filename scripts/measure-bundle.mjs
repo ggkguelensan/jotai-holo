@@ -80,7 +80,7 @@ function helperApp({ state = false, action = false, event = false, subscribe = f
     shared +
     `
 import { createStore } from 'jotai/vanilla';
-import { stateAtom, actionAtom, eventAtom } from '../dist/vanilla.js';
+import { stateAtom, actionAtom, eventAtom, subscribeEvent } from '../dist/vanilla.js';
 const store = createStore();
 const $count = ${state ? 'stateAtom' : 'atom'}(0);
 const $double = ${state ? 'stateAtom' : 'atom'}(get => get($count) * 2);
@@ -91,7 +91,7 @@ const increment = ${action ? 'actionAtom(' : 'atom(null, '}(_get, set) => {
 });
 ${
   subscribe
-    ? `const stop = occurred.subscribe(store, () => console.log('incremented'));
+    ? `const stop = subscribeEvent(store, occurred, () => console.log('incremented'));
 window.addEventListener('pagehide', stop, { once: true });`
     : ''
 }
@@ -239,6 +239,12 @@ try {
     };
     assert.ok(!measured.modules.some((id) => /\/(?:holo|binding|bond|ion|prism)/.test(id)));
     if (!options.event) assert.ok(!measured.modules.includes('dist/event-atom.js'));
+    assert.equal(
+      measured.modules.includes('dist/event-dispatch.js'),
+      !!options.subscribe,
+      'Publishing helpers must exclude the delivery runtime.',
+    );
+    assert.equal(measured.modules.includes('dist/subscribe-event.js'), !!options.subscribe);
     if (!options.action && !options.event)
       assert.ok(!measured.modules.includes('dist/action-source.js'));
   }

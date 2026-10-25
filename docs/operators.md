@@ -39,7 +39,7 @@ const { $name, $age, $isAdult } = prism($user, {
 
 Each property is an independent read-only derived atom. An age-only change does not notify a `$name` subscriber if its selected value is unchanged. Projectors receive raw values, including promises, and may return undefined, promises or throw, just like native derived reads. There is no deep equality or writable lens.
 
-Events have one payload and no handler: `eventAtom<User>()`. They can be written through store.set, subscribed through event.subscribe, or bound to UI actions. See [event subscriptions and ownership](api.md#eventatom).
+Events have one payload and no handler: `eventAtom<User>()`. They can be written through store.set, subscribed through subscribeEvent, or bound to UI actions. See [event subscriptions and ownership](api.md#eventatom).
 
 ## bond
 

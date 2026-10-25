@@ -3,12 +3,12 @@ import {
   actionSource,
   createActionChannel,
   emitAction,
-  enqueueAction,
   isActionSource,
   type ActionSource,
 } from './action-source.js';
 import { readSource, type AtomSource, type SourceValue } from './atom-source.js';
 import { ion } from './ion.js';
+import { enqueueAction, subscribeAction } from './event-dispatch.js';
 
 type Store = ReturnType<typeof createStore>;
 type Trigger = Atom<unknown>;
@@ -128,7 +128,6 @@ export function bond(config: {
       };
       try {
         if (isActionSource(clock)) {
-          const listeners = store.get(clock[actionSource]);
           const listener = (args: readonly unknown[]) =>
             enqueueAction(
               store.get,
@@ -137,10 +136,8 @@ export function bond(config: {
               },
               (error) => report(current.owners, error),
             );
-          listeners.add(listener);
-          current.stop = () => {
-            listeners.delete(listener);
-          };
+          const unsubscribe = subscribeAction(store.get, clock[actionSource], listener);
+          current.stop = unsubscribe;
           const disconnect =
             'connect' in clock && typeof clock.connect === 'function'
               ? (clock.connect(store, {
@@ -148,7 +145,7 @@ export function bond(config: {
                 }) as () => void)
               : () => {};
           current.stop = () => {
-            listeners.delete(listener);
+            unsubscribe();
             disconnect();
           };
         } else {

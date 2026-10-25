@@ -18,8 +18,9 @@ There is no read/write overload and no async-specific state runtime. For `option
 const userSaved = eventAtom<{ id: string; name: string }>();
 const opened = eventAtom(); // EventAtom<void>
 
-const stop = userSaved.subscribe(
+const stop = subscribeEvent(
   store,
+  userSaved,
   (user) => {
     console.log(user.id);
   },
@@ -32,7 +33,7 @@ stop(); // idempotent; also skips queued delivery to this listener
 
 An event has exactly one typed payload, or no payload with the default void type. It accepts no write handler. Payloads are passed by reference, including functions and promises, without cloning or awaiting. Every write emits, even with identical data. Writes return void. For payloadless UI callbacks use `<button onClick={() => onOpen()}>`; passing a callback directly to a DOM handler forwards React's event argument at runtime.
 
-Events retain no last payload and do not replay earlier calls to new listeners. Their native readable value is always null: `store.sub(event, ...)` and `useAtomValue(event)` observe no call notifications. Use `event.subscribe(store, listener)` for external listeners, `bond.trigger` for model connections and `holo.actions` for UI callbacks. An event is also a compatible `bond.yield` target. Both root and vanilla entry points export the utility and its `EventAtom`/`EventOptions` types.
+Events retain no last payload and do not replay earlier calls to new listeners. Their native readable value is always null: `store.sub(event, ...)` and `useAtomValue(event)` observe no call notifications. Use `subscribeEvent(store, event, listener)` for external listeners, `bond.trigger` for model connections and `holo.actions` for UI callbacks. An event is also a compatible `bond.yield` target. Both root and vanilla entry points export `eventAtom`, `subscribeEvent` and their `EventAtom`/`EventOptions` types. The event has no subscribe method: it is a thin wrapper over actionAtom, returning a native writable atom with a minimal publication port. Listener management, FIFO delivery and listener error handling are imported only by subscribeEvent and bond. Removing the last listener detaches the publisher in that store.
 
 A subscription is store-specific and starts immediately, without a bond connection. Keep its disposer at the owner's teardown. Delivery uses the same synchronous FIFO queue as bond; nested events are queued behind current deliveries. Unsubscribe prevents future and still-queued invocations, but does not cancel an async listener that already started. Listener return values are ignored. Synchronous errors and async rejections route to that subscription's optional `onError`, or console.error when no handler is active; they do not interrupt other listeners or change the event write result. A rejection arriving after disposal is logged instead of invoking the disposed owner's handler.
 

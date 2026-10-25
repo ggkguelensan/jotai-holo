@@ -90,7 +90,7 @@ The `$state` / `$$model` prefixes and `createXxx` factories are optional naming 
 | `eventAtom<Payload>()`                            | Typed notification without a handler or retained state            |
 | `holo({ core, state, actions, bindProps, cage })` | Declarative React adapter; only `core` is required                |
 
-`eventAtom<Payload>()` declares a typed notification without a handler or retained state. Dispatch with `store.set(event, payload)`, use it in `bond.trigger`/`holo.actions`, or attach an external listener with `event.subscribe(store, listener)`. Subscriptions return a disposer; see [event contracts](docs/api.md#eventatom).
+`eventAtom<Payload>()` declares a typed notification without a handler or retained state. Dispatch with `store.set(event, payload)`, use it in `bond.trigger`/`holo.actions`, or attach an external listener with `subscribeEvent(store, event, listener)`. Subscriptions return a disposer; see [event contracts](docs/api.md#eventatom).
 
 Model operators are available from the root and `jotai-holo/vanilla`: `ion(source, project?)` combines readable atoms, `prism(source, selectors)` splits projections, and `bond({ state, trigger, guard, map, yield })` connects store-owned actions. React also has `holoList` for keyed rows and `holoMatch` for conditional branches. See [operator contracts and examples](docs/operators.md).
 

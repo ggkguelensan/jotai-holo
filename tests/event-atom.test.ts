@@ -1,6 +1,6 @@
 import { atom, createStore } from 'jotai/vanilla';
 import { expect, expectTypeOf, test, vi } from 'vitest';
-import { actionAtom, bond, eventAtom, type EventAtom } from '../src/vanilla.js';
+import { actionAtom, bond, eventAtom, subscribeEvent, type EventAtom } from '../src/vanilla.js';
 
 test('eventAtom delivers every write without storing, cloning or replaying its payload', () => {
   const userCreated = eventAtom<{ id: string }>();
@@ -11,13 +11,13 @@ test('eventAtom delivers every write without storing, cloning or replaying its p
   const notified = vi.fn();
   const stopValue = s.sub(userCreated, notified);
   s.set(userCreated, user);
-  const stopFirst = userCreated.subscribe(s, first);
+  const stopFirst = subscribeEvent(s, userCreated, first);
   expect(first).not.toHaveBeenCalled();
   expect(s.set(userCreated, user)).toBeUndefined();
   s.set(userCreated, user);
   expect(first.mock.calls).toEqual([[user], [user]]);
   expect(first.mock.calls[0]![0]).toBe(user);
-  const stopSecond = userCreated.subscribe(s, second);
+  const stopSecond = subscribeEvent(s, userCreated, second);
   expect(second).not.toHaveBeenCalled();
   expect(s.get(userCreated)).toBeNull();
   expect(notified).not.toHaveBeenCalled();
@@ -36,7 +36,7 @@ test('event subscriptions belong to one store and payloadless events need no arg
   const b = createStore();
   const first = vi.fn();
   const second = vi.fn();
-  const stops = [opened.subscribe(a, first), opened.subscribe(b, second)];
+  const stops = [subscribeEvent(a, opened, first), subscribeEvent(b, opened, second)];
   a.set(opened);
   expect(first.mock.calls).toEqual([[undefined]]);
   expect(second).not.toHaveBeenCalled();
@@ -52,7 +52,7 @@ test('eventAtom triggers bond with an inferred payload and works as a writable y
   const link = bond({ trigger: requested, map: (user) => [user.id], yield: delivered });
   const s = createStore();
   const received = vi.fn();
-  const stopListen = delivered.subscribe(s, received);
+  const stopListen = subscribeEvent(s, delivered, received);
   s.set(requested, { id: 'cold' });
   expect(received).not.toHaveBeenCalled();
   const stop = link.connect(s);
@@ -68,7 +68,7 @@ test('event subscriptions and bond share FIFO delivery even with reentrant write
   const event = eventAtom<number>();
   const s = createStore();
   const log: string[] = [];
-  const first = event.subscribe(s, (n) => {
+  const first = subscribeEvent(s, event, (n) => {
     log.push(`first:${n}`);
     if (n < 2) s.set(event, n + 1);
   });
@@ -79,7 +79,7 @@ test('event subscriptions and bond share FIFO delivery even with reentrant write
     }),
   });
   const stopBond = link.connect(s);
-  const last = event.subscribe(s, (n) => {
+  const last = subscribeEvent(s, event, (n) => {
     log.push(`last:${n}`);
   });
   s.set(event, 0);
@@ -106,12 +106,12 @@ test('unsubscribe skips an already queued listener and listeners added during de
   const late = vi.fn();
   let stopSecond = () => {};
   let stopLate = () => {};
-  const stopFirst = event.subscribe(s, () => {
+  const stopFirst = subscribeEvent(s, event, () => {
     stopSecond();
     stopLate();
-    stopLate = event.subscribe(s, late);
+    stopLate = subscribeEvent(s, event, late);
   });
-  stopSecond = event.subscribe(s, seen);
+  stopSecond = subscribeEvent(s, event, seen);
   s.set(event, 1);
   expect(seen).not.toHaveBeenCalled();
   expect(late).not.toHaveBeenCalled();
@@ -129,21 +129,23 @@ test('sync and async listener errors are reported without interrupting other lis
   const async = new Error('async');
   const received = vi.fn();
   const stops = [
-    event.subscribe(
+    subscribeEvent(
       s,
+      event,
       () => {
         throw sync;
       },
       { onError: (e) => errors.push(e) },
     ),
-    event.subscribe(
+    subscribeEvent(
       s,
+      event,
       async () => {
         throw async;
       },
       { onError: (e) => errors.push(e) },
     ),
-    event.subscribe(s, received),
+    subscribeEvent(s, event, received),
   ];
   expect(s.set(event, 1)).toBeUndefined();
   await Promise.resolve();
@@ -158,7 +160,7 @@ test('promise payloads are delivered as data without being awaited', async () =>
   const s = createStore();
   const promise = Promise.resolve(1);
   const listener = vi.fn();
-  const stop = event.subscribe(s, listener);
+  const stop = subscribeEvent(s, event, listener);
   s.set(event, promise);
   expect(listener.mock.calls[0]![0]).toBe(promise);
   stop();
@@ -170,7 +172,7 @@ test('subscribing to an event does not execute or mount unrelated state', () => 
   const $state = atom(read);
   const event = eventAtom<string>();
   const s = createStore();
-  const stop = event.subscribe(s, () => {});
+  const stop = subscribeEvent(s, event, () => {});
   s.set(event, 'value');
   expect(read).not.toHaveBeenCalled();
   stop();
@@ -188,8 +190,10 @@ function invalidEventCalls() {
   s.set(requested, { id: '1' }, true);
   // @ts-expect-error Event creation takes no write handler.
   eventAtom(() => {});
+  // @ts-expect-error Subscription belongs to the separate utility.
+  requested.subscribe(s, () => {});
   // @ts-expect-error Listener payload is inferred from the event.
-  requested.subscribe(s, (value: number) => {});
+  subscribeEvent(s, requested, (value: number) => {});
 }
 void invalidEventCalls;
 
@@ -197,13 +201,13 @@ test('event listener feedback cycles are bounded and the dispatch queue recovers
   const event = eventAtom();
   const s = createStore();
   const onError = vi.fn();
-  const stop = event.subscribe(s, () => s.set(event), { onError });
+  const stop = subscribeEvent(s, event, () => s.set(event), { onError });
   s.set(event);
   expect(onError).toHaveBeenCalledTimes(1);
   expect(String(onError.mock.calls[0]![0])).toContain('cycle');
   stop();
   const received = vi.fn();
-  const again = event.subscribe(s, received);
+  const again = subscribeEvent(s, event, received);
   s.set(event);
   expect(received).toHaveBeenCalledTimes(1);
   again();
@@ -220,7 +224,7 @@ test('unsubscribing releases the listener error handler while pending async fail
   });
   const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
   try {
-    const stop = event.subscribe(s, () => pending, { onError });
+    const stop = subscribeEvent(s, event, () => pending, { onError });
     s.set(event);
     stop();
     reject(error);
@@ -231,4 +235,33 @@ test('unsubscribing releases the listener error handler while pending async fail
   } finally {
     consoleError.mockRestore();
   }
+});
+
+test('eventAtom remains a native writable atom without subscription methods', () => {
+  const event = eventAtom<number>();
+  const s = createStore();
+  expect(typeof event.read).toBe('function');
+  expect(typeof event.write).toBe('function');
+  expect('subscribe' in event).toBe(false);
+  expect(s.set(event, 1)).toBeUndefined();
+  expect(s.get(event)).toBeNull();
+});
+
+test('the last unsubscribe detaches delivery and an old disposer cannot disconnect a new owner', () => {
+  const event = eventAtom<number>();
+  const s = createStore();
+  const first = vi.fn();
+  const second = vi.fn();
+  const stopFirst = subscribeEvent(s, event, first);
+  s.set(event, 1);
+  stopFirst();
+  s.set(event, 2);
+  const stopSecond = subscribeEvent(s, event, second);
+  stopFirst();
+  s.set(event, 3);
+  expect(first.mock.calls).toEqual([[1]]);
+  expect(second.mock.calls).toEqual([[3]]);
+  stopSecond();
+  s.set(event, 4);
+  expect(second).toHaveBeenCalledTimes(1);
 });

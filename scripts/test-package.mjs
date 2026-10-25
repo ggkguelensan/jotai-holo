@@ -33,8 +33,8 @@ try {
     import * as bunshi from 'jotai-holo/bunshi';
     assert.deepEqual(Object.keys(bunshi), ['holoMolecule']);
     import { createStore } from 'jotai/vanilla';
-    assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'bond', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'prism', 'stateAtom']);
-    assert.deepEqual(Object.keys(vanilla).sort(), ['actionAtom', 'bond', 'eventAtom', 'ion', 'prism', 'stateAtom']);
+    assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'bond', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'prism', 'stateAtom', 'subscribeEvent']);
+    assert.deepEqual(Object.keys(vanilla).sort(), ['actionAtom', 'bond', 'eventAtom', 'ion', 'prism', 'stateAtom', 'subscribeEvent']);
     const value = vanilla.stateAtom(1);
     const increment = vanilla.actionAtom((_get, set) => set(value, n => n + 1));
     const store = createStore(); store.set(increment); assert.equal(store.get(value), 2);
@@ -42,7 +42,7 @@ try {
     assert.equal(store.get(vanilla.prism(value, { doubled: n => n * 2 }).doubled), 4);
     const requested = vanilla.eventAtom();
     let delivered = 0;
-    const unsubscribe = requested.subscribe(store, () => { delivered++; });
+    const unsubscribe = vanilla.subscribeEvent(store, requested, () => { delivered++; });
     const link = vanilla.bond({ trigger: requested, yield: increment });
     const stop = link.connect(store); store.set(requested); stop(); assert.equal(store.get(value), 3); unsubscribe(); assert.equal(delivered, 1);
   `,
@@ -52,10 +52,10 @@ try {
   await writeFile(
     `${fixture}/consumer.tsx`,
     `
-    import { holo, stateAtom, actionAtom, eventAtom, bond } from 'jotai-holo';
+    import { holo, stateAtom, actionAtom, eventAtom, bond, subscribeEvent } from 'jotai-holo';
     import { stateAtom as vanillaStateAtom } from 'jotai-holo/vanilla';
     const renamed = eventAtom<string>();
-    const stop = renamed.subscribe((await import('jotai/vanilla')).createStore(), value => { const name: string = value; void name; });
+    const stop = subscribeEvent((await import('jotai/vanilla')).createStore(), renamed, value => { const name: string = value; void name; });
     const forwarding = bond({ trigger: renamed, map: name => [name.length] });
     stop(); void forwarding;
     const count = stateAtom(0);

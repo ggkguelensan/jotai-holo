@@ -10,4 +10,6 @@ export { bond } from './bond.js';
 export type { Bond, BondOptions } from './bond.js';
 export type { ActionAtom } from './action-atom.js';
 export { eventAtom } from './event-atom.js';
-export type { EventAtom, EventOptions } from './event-atom.js';
+export type { EventAtom } from './event-atom.js';
+export { subscribeEvent } from './subscribe-event.js';
+export type { EventOptions } from './subscribe-event.js';
