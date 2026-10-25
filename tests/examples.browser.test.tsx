@@ -7,6 +7,7 @@ import {
   type MoleculeOrInterface,
 } from 'bunshi/react';
 import { expect, test } from 'vitest';
+import { OperatorsExample } from '../examples/operators.js';
 import { BasicCounter } from '../examples/basic.js';
 import { EffectCounter } from '../examples/effect.js';
 import { BunshiCounters } from '../examples/bunshi.js';
@@ -77,4 +78,21 @@ test('combined Bunshi/store/observe example disposes the effect with its molecul
   model.store.set(model.increment);
   expect(model.store.get(model.$count)).toBe(2);
   expect(model.store.get(model.$message)).toBe('default: observed 1');
+});
+
+test('operator example connects events and updates projected list and branch state', async () => {
+  const h = createHarness();
+  await h.render(
+    <Provider>
+      <OperatorsExample />
+    </Provider>,
+  );
+  expect(h.container.textContent).toContain('No users yet.');
+  await act(async () => h.container.querySelector('button')!.click());
+  await act(async () => h.container.querySelector('button')!.click());
+  expect(h.container.textContent).toContain('Users: 2');
+  expect([...h.container.querySelectorAll('li')].map((node) => node.textContent)).toEqual([
+    'User 1',
+    'User 2',
+  ]);
 });

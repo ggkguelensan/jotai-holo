@@ -38,7 +38,11 @@
       "types": "./dist/vanilla.d.ts",
       "import": "./dist/vanilla.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./bunshi": {
+      "types": "./dist/bunshi.d.ts",
+      "import": "./dist/bunshi.js"
+    }
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
@@ -53,15 +57,20 @@
     "test:package": "node scripts/test-package.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "size": "pnpm build && node scripts/measure-bundle.mjs"
+    "size": "pnpm build && node scripts/measure-bundle.mjs",
+    "test:memory": "pnpm build && node scripts/test-molecule-memory.mjs"
   },
   "peerDependencies": {
     "@types/react": ">=19 <20",
     "jotai": ">=3.0.1 <4",
-    "react": ">=19 <20"
+    "react": ">=19 <20",
+    "bunshi": ">=2.2.0 <3"
   },
   "peerDependenciesMeta": {
     "@types/react": {
+      "optional": true
+    },
+    "bunshi": {
       "optional": true
     }
   },

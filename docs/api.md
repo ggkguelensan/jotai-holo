@@ -55,7 +55,7 @@ const Connected = holo({
   core: ValueView,
   state: { value: $value },
   actions: { onChange: change },
-  props: { title: 'Fixed title' },
+  bindProps: { title: 'Fixed title' },
 });
 ```
 
@@ -67,14 +67,14 @@ const Connected = holo({
 | ---------------------- | -------------------------------------------------- | ---------------- |
 | `state`                | Resolved atom value (`Awaited` value for promises) | Yes              |
 | `actions`              | `(...args) => store.set(target, ...args)`          | No               |
-| `props`                | The supplied ordinary value                        | No               |
+| `bindProps`            | The supplied ordinary value                        | No               |
 | Remaining public props | Value supplied by the caller                       | React props only |
 
 Keys must exist on the core's props. Atom values, callback arguments and results must be assignable to the declared prop type. Each prop can belong to only one section. Duplicate configured keys throw during declaration as well as failing typecheck. Bound values take precedence even if untyped callers try to override them.
 
 Binding configuration is captured at declaration; do not mutate it or call `holo()` in render. Core can be a function, memo/forwardRef/lazy component, class or intrinsic element. React 19 refs follow the core's props. Generic components should be specialized first. Discriminated union public props are preserved; binding a discriminator with different branch-specific types is rejected. Narrow the core's props before fixing a union branch.
 
-State bindings resolve promises; the core prop must describe the resolved value. Use `props` to pass a promise object itself. A native Jotai utility or extension atom needs no conversion.
+State bindings resolve promises; the core prop must describe the resolved value. Use `bindProps` to pass a promise object itself. A native Jotai utility or extension atom needs no conversion.
 
 ### Subscription and memoization
 
@@ -106,7 +106,7 @@ const Counter = holo({
   core: CounterView, // count, onChange, init and reactive props
   state: { count: $count },
   actions: { onChange: countChanged },
-  props: { init: 5 },
+  bindProps: { init: 5 },
   cage: {
     onMount(_get, set, ctx) {
       set(counterOpened, ctx.props.init);
@@ -144,3 +144,22 @@ State changes alone do not invoke `onChange`. Abandoned renders do not publish t
 Use `Provider` to isolate state; create a store per SSR request. Hydrate above the connected child with Jotai's `useHydrateAtoms`. SSR emits the core markup, awaits async reads with a streaming renderer and performs no lifecycle writes. Async actions and effects must be attached to the same explicit store used by the Provider.
 
 This package has no framework-specific server integration. `holo` and its lifecycle module preserve `'use client'` in the built ESM. The `jotai-holo/vanilla` entry has no React dependency in its import graph. Client components, SSR-rendered client components and request-owned vanilla models are distinct concerns; a React Server Component cannot execute a connected client component's hooks on its own.
+
+## Optional molecule bindings
+
+```tsx
+import { holoMolecule } from 'jotai-holo/bunshi';
+
+const counter = holoMolecule(CounterMolecule);
+const Counter = holo({
+  core: CounterView,
+  state: { count: counter((model) => model.$count) },
+  actions: { onIncrement: counter((model) => model.increment) },
+});
+```
+
+Declare this outside React. Adapter selectors return native atoms; the adapter wraps them as descriptors for holo. Direct atoms remain supported in the same sections. Static props and cage keep their normal contracts. See [ownership, scopes and identity](integrations.md#bunshi).
+
+## Model and view operators
+
+See [ion, prism, bond, holoList and holoMatch](operators.md) for signatures, defaults, ownership, scheduling and async contracts. `bindProps` replaces the former holo configuration key `props`; `ctx.props` remains unchanged.

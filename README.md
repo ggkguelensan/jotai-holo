@@ -71,23 +71,27 @@ const Counter = holo({
   core: CounterView,
   state: { count: $$counter.$count },
   actions: { onIncrement: $$counter.increment },
-  props: { title: 'Counter' },
+  bindProps: { title: 'Counter' },
 });
 
 // All three core props are supplied by holo.
 <Counter />;
 ```
 
-The `$state` / `$$model` prefixes and `createXxx` factories are optional naming conventions. Declare `holo` outside render, or use the [Bunshi adapter recipe](docs/integrations.md#bunshi) to bind a model whose identity comes from a scope.
+The `$state` / `$$model` prefixes and `createXxx` factories are optional naming conventions. Declare `holo` outside render, or use the [optional Bunshi adapter](docs/integrations.md#bunshi) to bind a model whose identity comes from a scope, without declaring holo inside React. Bunshi is an optional peer of the separate `jotai-holo/bunshi` entry; it does not enter ordinary holo bundles.
 
-## Three exports
+## Public API
 
-| Export                                        | Purpose                                                           |
-| --------------------------------------------- | ----------------------------------------------------------------- |
-| `stateAtom(value)`                            | Writable primitive state, including promise values                |
-| `stateAtom(get => value)`                     | Read-only derived state; the callback receives only `get`         |
-| `actionAtom((get, set, ...args) => result)`   | Write-only native atom; preserves arguments and sync/async result |
-| `holo({ core, state, actions, props, cage })` | Declarative React adapter; only `core` is required                |
+| Export                                            | Purpose                                                           |
+| ------------------------------------------------- | ----------------------------------------------------------------- |
+| `stateAtom(value)`                                | Writable primitive state, including promise values                |
+| `stateAtom(get => value)`                         | Read-only derived state; the callback receives only `get`         |
+| `actionAtom((get, set, ...args) => result)`       | Write-only native atom; preserves arguments and sync/async result |
+| `holo({ core, state, actions, bindProps, cage })` | Declarative React adapter; only `core` is required                |
+
+Model operators are available from the root and `jotai-holo/vanilla`: `ion(source, project?)` combines readable atoms, `prism(source, selectors)` splits projections, and `bond({ state, trigger, guard, map, yield })` connects store-owned actions. React also has `holoList` for keyed rows and `holoMatch` for conditional branches. See [operator contracts and examples](docs/operators.md).
+
+Configuration uses `bindProps` for fixed UI values; lifecycle inputs remain `ctx.props`.
 
 `stateAtom` has two forms. Function arguments always mean a derived read; use native `atom` for function-valued primitives, writable derived state, or `options.signal`. No alternate state runtime is introduced.
 
@@ -108,7 +112,7 @@ const Counter = holo({
 });
 ```
 
-`state` reads and resolves values; `actions` supplies store-bound setters. `props` accepts ordinary values, functions and components unchanged. Duplicate keys across sections are rejected. Remaining core props form the public props of the connected component.
+`state` reads and resolves values; `actions` supplies store-bound setters. `bindProps` accepts ordinary values, functions and components unchanged. Duplicate keys across sections are rejected. Remaining core props form the public props of the connected component.
 
 ## Rendering and async state
 

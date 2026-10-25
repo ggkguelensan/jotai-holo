@@ -251,7 +251,7 @@ test('synchronous child mount writes are visible without a subsequent update', a
 test('intrinsic elements, forwarded refs and React 19 ref props reach the original core', async () => {
   const $label = atom('button');
   const ref = createRef<HTMLButtonElement>();
-  const C = holo({ core: 'button', state: { children: $label }, props: { type: 'button' } });
+  const C = holo({ core: 'button', state: { children: $label }, bindProps: { type: 'button' } });
   const h = createHarness();
   await h.render(<C ref={ref} />);
   expect(ref.current).toBe(h.container.querySelector('button'));
@@ -262,7 +262,7 @@ test('intrinsic elements, forwarded refs and React 19 ref props reach the origin
     return <input ref={inputRef} aria-label={label} />;
   });
   const inputRef = createRef<HTMLInputElement>();
-  const F = holo({ core: memo(Forwarded), props: { label: 'field' } });
+  const F = holo({ core: memo(Forwarded), bindProps: { label: 'field' } });
   await h.render(<F ref={inputRef} />);
   expect(inputRef.current?.getAttribute('aria-label')).toBe('field');
 });
@@ -292,8 +292,12 @@ test('static and action-only holo instances create no atom subscriptions', async
     },
   };
   const save = actionAtom(() => undefined);
-  const Static = holo({ core: 'span', props: { children: 'static' } });
-  const Action = holo({ core: 'button', actions: { onClick: save }, props: { children: 'save' } });
+  const Static = holo({ core: 'span', bindProps: { children: 'static' } });
+  const Action = holo({
+    core: 'button',
+    actions: { onClick: save },
+    bindProps: { children: 'save' },
+  });
   const h = createHarness();
   await h.render(
     <Provider store={store}>

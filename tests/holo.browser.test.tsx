@@ -61,7 +61,7 @@ describe('holo cage', () => {
       core: Core,
       state: { count: $count },
       actions: { onChange: $count },
-      props: { init: 5 },
+      bindProps: { init: 5 },
       cage: {
         onMount(get, set, ctx) {
           events.push(`mount:${get($count)}:${ctx.props.init}`);
