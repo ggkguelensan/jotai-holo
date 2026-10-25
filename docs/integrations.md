@@ -1,6 +1,6 @@
 # Model integration recipes
 
-The root exports stay `stateAtom`, `actionAtom`, `holo`. Bunshi is an optional peer used only by the `jotai-holo/bunshi` adapter entry. The core imports no Bunshi. jotai-effect remains an optional integration.
+The root exports include model operators and React adapters; see the [public API](../README.md#public-api). Bunshi is an optional peer used only by the `jotai-holo/bunshi` adapter entry. The core imports no Bunshi. jotai-effect remains an optional integration.
 
 ## jotai-effect
 

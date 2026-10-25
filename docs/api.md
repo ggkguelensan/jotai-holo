@@ -12,6 +12,40 @@ Primitive state accepts direct and functional writes via `store.set`, `useSetAto
 
 There is no read/write overload and no async-specific state runtime. For `options.signal`, writable derived atoms or function-valued primitives, use `atom` from Jotai and bind the resulting native atom directly. Jotai v3 removed the read option `setSelf`; use `onMount` or `jotai-effect` for that pattern. A function-valued derived result is supported: `stateAtom(() => someFunction)`.
 
+## eventAtom
+
+```ts
+const userSaved = eventAtom<{ id: string; name: string }>();
+const opened = eventAtom(); // EventAtom<void>
+
+const stop = userSaved.subscribe(
+  store,
+  (user) => {
+    console.log(user.id);
+  },
+  { onError: reportError },
+);
+store.set(userSaved, { id: '1', name: 'Ada' });
+store.set(opened);
+stop(); // idempotent; also skips queued delivery to this listener
+```
+
+An event has exactly one typed payload, or no payload with the default void type. It accepts no write handler. Payloads are passed by reference, including functions and promises, without cloning or awaiting. Every write emits, even with identical data. Writes return void. For payloadless UI callbacks use `<button onClick={() => onOpen()}>`; passing a callback directly to a DOM handler forwards React's event argument at runtime.
+
+Events retain no last payload and do not replay earlier calls to new listeners. Their native readable value is always null: `store.sub(event, ...)` and `useAtomValue(event)` observe no call notifications. Use `event.subscribe(store, listener)` for external listeners, `bond.trigger` for model connections and `holo.actions` for UI callbacks. An event is also a compatible `bond.yield` target. Both root and vanilla entry points export the utility and its `EventAtom`/`EventOptions` types.
+
+A subscription is store-specific and starts immediately, without a bond connection. Keep its disposer at the owner's teardown. Delivery uses the same synchronous FIFO queue as bond; nested events are queued behind current deliveries. Unsubscribe prevents future and still-queued invocations, but does not cancel an async listener that already started. Listener return values are ignored. Synchronous errors and async rejections route to that subscription's optional `onError`, or console.error when no handler is active; they do not interrupt other listeners or change the event write result. A rejection arriving after disposal is logged instead of invoking the disposed owner's handler.
+
+For domain facts after async work, emit at the corresponding point in the action:
+
+```ts
+const saveUser = actionAtom(async (_get, set, input: UserInput) => {
+  const user = await api.saveUser(input);
+  set(userSaved, user);
+  return user;
+});
+```
+
 ## actionAtom
 
 ```ts
@@ -22,7 +56,7 @@ const rename = actionAtom((_get, set, name: string) => {
 const length = store.set(rename, 'Ada'); // number
 ```
 
-The result is a native `WritableAtom<null, Args, Result>`. The write receives Jotai's `get` and `set`; rest parameters and return types are inferred. No-payload actions accept no arguments. The action's readable value is always `null`; use it in `actions`, rather than `state`.
+The result is a native `WritableAtom<null, Args, Result>`. The write receives Jotai's `get` and `set`; rest parameters and return types are inferred. No-payload actions accept no arguments. For notifications without a handler, prefer `eventAtom<Payload>()`; the existing no-handler `actionAtom<Args>()` form remains supported. The action's readable value is always `null`; use it in `actions`, rather than `state`.
 
 ### Async actions
 

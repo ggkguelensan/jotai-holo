@@ -87,7 +87,10 @@ The `$state` / `$$model` prefixes and `createXxx` factories are optional naming 
 | `stateAtom(value)`                                | Writable primitive state, including promise values                |
 | `stateAtom(get => value)`                         | Read-only derived state; the callback receives only `get`         |
 | `actionAtom((get, set, ...args) => result)`       | Write-only native atom; preserves arguments and sync/async result |
+| `eventAtom<Payload>()`                            | Typed notification without a handler or retained state            |
 | `holo({ core, state, actions, bindProps, cage })` | Declarative React adapter; only `core` is required                |
+
+`eventAtom<Payload>()` declares a typed notification without a handler or retained state. Dispatch with `store.set(event, payload)`, use it in `bond.trigger`/`holo.actions`, or attach an external listener with `event.subscribe(store, listener)`. Subscriptions return a disposer; see [event contracts](docs/api.md#eventatom).
 
 Model operators are available from the root and `jotai-holo/vanilla`: `ion(source, project?)` combines readable atoms, `prism(source, selectors)` splits projections, and `bond({ state, trigger, guard, map, yield })` connects store-owned actions. React also has `holoList` for keyed rows and `holoMatch` for conditional branches. See [operator contracts and examples](docs/operators.md).
 
@@ -132,6 +135,6 @@ An async action returns its original promise to the caller. There is no automati
 - [Production bundle measurements](docs/bundle-size.md)
 - [Runnable examples](examples) and [contributing](CONTRIBUTING.md)
 
-For vanilla models without a React import, use `jotai-holo/vanilla`, which exports `stateAtom` and `actionAtom`.
+For vanilla models without a React import, use `jotai-holo/vanilla`, which exports the state, action, event and model operators without a React dependency.
 
 [MIT](LICENSE), matching [Jotai's license](https://github.com/pmndrs/jotai/blob/main/LICENSE).

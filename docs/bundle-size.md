@@ -32,13 +32,13 @@ Both fixtures construct the same model in a molecule. The control calls native u
 
 A measurement-only transform removes cage wiring from the ordinary holo + helpers fixture. Cage contributes **1,319 / 404 / 454 bytes** (minified / gzip / Brotli). It remains included even without configured handlers. The script checks that the transformed module graph loses `holo-cage.js`.
 
-Preserving all eight runtime root exports with React/Jotai external produces **8,298 / 3,264 / 2,998 bytes**. This includes the model operators and view adapters and excludes peer implementations; do not add it to app deltas. Bunshi's optional entry is measured separately above.
+Preserving all nine runtime root exports with React/Jotai external produces **8,738 / 3,393 / 3,107 bytes**. This includes the model operators and view adapters and excludes peer implementations; do not add it to app deltas. Bunshi's optional entry is measured separately above.
 
 ## Tree shaking
 
 - Helper-only root and vanilla imports have identical output; no binding, holo or aggregation modules remain.
 - Ordinary holo includes the generic binding protocol and async handling, but no Bunshi code.
-- Unused bond, ion, prism, holoList and holoMatch modules are removed from ordinary counter fixtures.
+- Unused eventAtom, bond, ion, prism, holoList and holoMatch modules are removed from ordinary counter fixtures.
 - Only the molecule-adapter fixture includes Bunshi.
 - jotai-effect, RxJS and jotai-eager remain absent.
 

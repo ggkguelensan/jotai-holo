@@ -194,7 +194,9 @@ try {
   }
   for (const key of ['helpers-root', 'helpers-vanilla', 'holo', 'holo-and-helpers']) {
     assert.ok(
-      !results[key].modules.some((id) => /\/(?:bond|ion|prism|holo-list|holo-match)\.js$/.test(id)),
+      !results[key].modules.some((id) =>
+        /\/(?:bond|event-atom|ion|prism|holo-list|holo-match)\.js$/.test(id),
+      ),
       'Unused operators must be tree-shaken.',
     );
   }

@@ -1,11 +1,21 @@
 import { useEffect } from 'react';
 import { useStore } from 'jotai';
-import { actionAtom, bond, holo, holoList, holoMatch, ion, prism, stateAtom } from 'jotai-holo';
+import {
+  actionAtom,
+  bond,
+  eventAtom,
+  holo,
+  holoList,
+  holoMatch,
+  ion,
+  prism,
+  stateAtom,
+} from 'jotai-holo';
 
 type User = { id: number; name: string };
 const $users = stateAtom<readonly User[]>([]);
 const $nextId = stateAtom(1);
-const addRequested = actionAtom();
+const addRequested = eventAtom();
 const userAdded = actionAtom((_get, set, user: User) => {
   set($users, (users) => [...users, user]);
   set($nextId, user.id + 1);
@@ -42,7 +52,7 @@ const Controls = holo({
   core: ({ count, onAdd }: { count: number; onAdd: () => void }) => (
     <>
       <output>Users: {count}</output>
-      <button onClick={onAdd}>Add user</button>
+      <button onClick={() => onAdd()}>Add user</button>
     </>
   ),
   state: { count: $count },
