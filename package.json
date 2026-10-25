@@ -63,13 +63,14 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "docs:check": "node scripts/check-docs.mjs",
-    "test:docs": "node scripts/test-docs.mjs"
+    "test:docs": "node scripts/test-docs.mjs",
+    "test:react": "node scripts/test-react-compat.mjs"
   },
   "peerDependencies": {
-    "@types/react": ">=19 <20",
+    "@types/react": ">=18 <20",
     "bunshi": ">=2.2.0 <3",
     "jotai": ">=3.0.1 <4",
-    "react": ">=19 <20"
+    "react": ">=18 <20"
   },
   "peerDependenciesMeta": {
     "@types/react": {

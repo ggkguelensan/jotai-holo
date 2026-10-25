@@ -20,3 +20,5 @@ Before a release, run `pnpm check`, `pnpm test:package`, `pnpm test:memory` and 
 Run `pnpm docs:dev` for the English/Russian site. Update both locales together; include checked example sources through VitePress snippet regions rather than copying them. Run `pnpm docs:check` and `pnpm docs:build`; TypeScript and unit tests also validate the profile recipe. Static output and manual GitHub Pages setup are described in [hosting the docs](docs/guide/hosting.md).
 
 Live documentation demos use real React/Jotai bindings from `examples/docs-demos.tsx` and the optional Bunshi demo. The Vue shell mounts them only on the client and unmounts on route changes. Keep each demo store isolated; `pnpm test:docs` verifies real controls, subscription disposal, scope sharing, locale navigation and mobile layout.
+
+Run `pnpm test:react` after changing bindings or compatibility code. It tests the packed library with isolated React 18.0.0, 18.3.1 and 19.3.1 consumers in development/production, with SSR and per-major React typings. Use `REACT_VERSION=<version>` to select one. Keep React 19-specific APIs out of shared runtime imports.

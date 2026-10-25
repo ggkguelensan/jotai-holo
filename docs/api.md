@@ -107,7 +107,7 @@ const Connected = holo({
 
 Keys must exist on the core's props. Atom values, callback arguments and results must be assignable to the declared prop type. Each prop can belong to only one section. Duplicate configured keys throw during declaration as well as failing typecheck. Bound values take precedence even if untyped callers try to override them.
 
-Binding configuration is captured at declaration; do not mutate it or call `holo()` in render. Core can be a function, memo/forwardRef/lazy component, class or intrinsic element. React 19 refs follow the core's props. Generic components should be specialized first. Discriminated union public props are preserved; binding a discriminator with different branch-specific types is rejected. Narrow the core's props before fixing a union branch.
+Binding configuration is captured at declaration; do not mutate it or call `holo()` in render. Core can be a function, memo/forwardRef/lazy component, class or intrinsic element. Refs reach intrinsic elements, classes and forwardRef cores on React 18/19. Ref as an ordinary function-View prop requires React 19. Generic components should be specialized first. Discriminated union public props are preserved; binding a discriminator with different branch-specific types is rejected. Narrow the core's props before fixing a union branch.
 
 State bindings resolve promises; the core prop must describe the resolved value. Use `bindProps` to pass a promise object itself. A native Jotai utility or extension atom needs no conversion.
 

@@ -18,3 +18,5 @@ example-dist/
 
 docs/.vitepress/cache/
 docs/.vitepress/dist/
+
+.react-compat/

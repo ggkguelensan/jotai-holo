@@ -37,3 +37,5 @@ The goal is declarative wiring without thin forwarding hooks. Explicit sections 
 - [Reflect motivation](https://reflect.effector.dev/learn/motivation) — the direct inspiration for external View bindings.
 - [Jotai atom](https://jotai.org/docs/core/atom) — the underlying primitive/read-only/write-only contracts.
 - [Jotai performance](https://jotai.org/docs/guides/performance) — why stable selections and small subscription boundaries matter.
+
+On React 18, ref targets must be intrinsic elements, classes or forwardRef Views. Ref as an ordinary function-View prop requires React 19. Holo forwards refs through its wrappers on both supported versions.

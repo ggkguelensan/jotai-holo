@@ -6,7 +6,7 @@ jotai-holo connects native Jotai models to ordinary React components. Start with
 
 This branch is an unreleased implementation, not an npm release announcement. The examples describe the checked-out source. Until a release is published, use the repository locally; do not assume `pnpm add jotai-holo` installs this API.
 
-Use Node 22.12+, React 19, Jotai 3.0.1+ within v3, and TypeScript 5.9+ with `strict`. See the [tested compatibility matrix](/compatibility).
+Use Node 22.12+, React 18 or 19, Jotai 3.0.1+ within v3, and TypeScript 5.9+ with `strict`. See the [tested compatibility matrix](/compatibility).
 
 ```sh
 git clone https://github.com/ggkguelensan/jotai-holo.git
