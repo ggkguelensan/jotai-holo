@@ -14,3 +14,7 @@ pnpm check
 Keep public exports aligned with [the API documentation](docs/api.md) and [operator contracts](docs/operators.md). Use native Jotai atoms for advanced reads/writes. Keep optional integrations behind separate entry points; Bunshi must remain absent from the core runtime and declaration graphs. Never create `holo()` within a React render.
 
 Before a release, run `pnpm check`, `pnpm test:package`, `pnpm test:memory` and inspect `pnpm pack`. Run `pnpm size` when changing runtime imports or bundle-sensitive code. The package is ESM only and preserves React client directives. Publishing is a separate maintainer action; CI does not publish to npm.
+
+## Documentation
+
+Run `pnpm docs:dev` for the English/Russian site. Update both locales together; include checked example sources through VitePress snippet regions rather than copying them. Run `pnpm docs:check` and `pnpm docs:build`; TypeScript and unit tests also validate the profile recipe. Static output and manual GitHub Pages setup are described in [hosting the docs](docs/guide/hosting.md).

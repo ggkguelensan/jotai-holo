@@ -7,3 +7,6 @@ example-dist/
 **/__screenshots__/
 
 .bundle-size/
+
+docs/.vitepress/cache/
+docs/.vitepress/dist/

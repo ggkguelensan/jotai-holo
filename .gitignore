@@ -15,3 +15,6 @@ example-dist/
 .bundle-size/
 
 .molecule-memory/
+
+docs/.vitepress/cache/
+docs/.vitepress/dist/

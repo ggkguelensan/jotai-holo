@@ -138,3 +138,7 @@ An async action returns its original promise to the caller. There is no automati
 For vanilla models without a React import, use `jotai-holo/vanilla`, which exports the state, action, event and model operators without a React dependency.
 
 [MIT](LICENSE), matching [Jotai's license](https://github.com/pmndrs/jotai/blob/main/LICENSE).
+
+## Documentation website
+
+English and Russian guides, utility references, API motivation and realistic recipes live in [docs/](docs/index.md). Run `pnpm docs:dev` to read locally or `pnpm docs:build` for a static site. See [hosting instructions](docs/guide/hosting.md).

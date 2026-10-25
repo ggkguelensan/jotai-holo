@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <rect width="240" height="240" rx="48" fill="#171d18"/>
+  <g stroke="#bddc95" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m57 68 36-18h54l36 18 18 52-18 52-36 18H93l-36-18-18-52z"/>
+    <path d="m93 50 9 37-20 15-25-34m90-18-9 37 20 15 25-34m0 104-25-34-20 15 9 37m-54 0 9-37-20-15-25 34"/>
+    <path d="m102 87 10 15m26-15-10 15m10 51-10-15m-26 15 10-15" stroke-dasharray="1 7"/>
+    <path d="M39 120H24m177 0h15M93 190l-9 24m63-24 9 24M93 50 84 26m63 24 9-24"/>
+  </g>
+  <g fill="#e0e9d8"><circle cx="57" cy="68" r="4"/><circle cx="93" cy="50" r="4"/><circle cx="147" cy="50" r="4"/><circle cx="183" cy="68" r="4"/><circle cx="201" cy="120" r="4"/><circle cx="183" cy="172" r="4"/><circle cx="147" cy="190" r="4"/><circle cx="93" cy="190" r="4"/><circle cx="57" cy="172" r="4"/><circle cx="39" cy="120" r="4"/><circle cx="102" cy="87" r="4"/><circle cx="138" cy="87" r="4"/><circle cx="158" cy="138" r="4"/><circle cx="82" cy="138" r="4"/></g>
+  <text x="120" y="128" fill="#e0e9d8" text-anchor="middle" font-family="ui-monospace,monospace" font-size="24">Re</text>
+</svg>

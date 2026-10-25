@@ -12,7 +12,7 @@ try {
   const listing = execFileSync('tar', ['-tzf', `${fixture}/library.tgz`], { encoding: 'utf8' });
   assert.match(listing, /package\/LICENSE/);
   assert.match(listing, /package\/dist\/index.d.ts/);
-  assert.doesNotMatch(listing, /package\/(tests|examples|node_modules)\//);
+  assert.doesNotMatch(listing, /package\/(tests|examples|docs|node_modules)\//);
   execFileSync('tar', [
     '-xzf',
     `${fixture}/library.tgz`,

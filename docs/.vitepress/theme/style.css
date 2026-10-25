@@ -1,0 +1,35 @@
+:root {
+  --vp-c-brand-1: #50643a;
+  --vp-c-brand-2: #607749;
+  --vp-c-brand-3: #50643a;
+  --vp-c-brand-soft: rgba(96, 119, 73, 0.12);
+  --vp-home-hero-name-color: var(--vp-c-text-1);
+  --vp-font-family-base: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+.dark {
+  --vp-c-brand-1: #bddc95;
+  --vp-c-brand-2: #a5c27f;
+  --vp-c-brand-3: #536a38;
+  --vp-c-brand-soft: rgba(189, 220, 149, 0.12);
+}
+.VPHero .image-src {
+  max-width: 240px;
+  max-height: 240px;
+}
+.vp-doc h1 {
+  letter-spacing: -0.035em;
+}
+.vp-doc td {
+  vertical-align: top;
+}
+.VPButton:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}

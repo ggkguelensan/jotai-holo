@@ -58,13 +58,18 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "size": "pnpm build && node scripts/measure-bundle.mjs",
-    "test:memory": "pnpm build && node scripts/test-molecule-memory.mjs"
+    "test:memory": "pnpm build && node scripts/test-molecule-memory.mjs",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "docs:check": "node scripts/check-docs.mjs",
+    "test:docs": "node scripts/test-docs.mjs"
   },
   "peerDependencies": {
     "@types/react": ">=19 <20",
+    "bunshi": ">=2.2.0 <3",
     "jotai": ">=3.0.1 <4",
-    "react": ">=19 <20",
-    "bunshi": ">=2.2.0 <3"
+    "react": ">=19 <20"
   },
   "peerDependenciesMeta": {
     "@types/react": {
@@ -99,6 +104,7 @@
     "rxjs": "7.8.2",
     "typescript": "~5.9.3",
     "vite": "8.0.13",
+    "vitepress": "1.6.4",
     "vitest": "4.1.6",
     "xstate": "5.33.3"
   }
