@@ -20,6 +20,9 @@ importers:
       '@lingui/format-po':
         specifier: 6.10.1
         version: 6.10.1
+      '@lingui/react':
+        specifier: 6.10.1
+        version: 6.10.1(@babel/core@7.29.7)(react@19.3.1)
       '@tanstack/query-core':
         specifier: 5.104.5
         version: 5.104.5
@@ -657,6 +660,16 @@ packages:
     engines: {node: '>=22.19.0'}
     peerDependencies:
       '@lingui/conf': ^6.0.1
+
+  '@lingui/react@6.10.1':
+    resolution: {integrity: sha512-r0e4T7WpkeKeVxT+qt56u7i8z1ykRIotpsCXaA6Vm2K0iVkE0SebcWpBaEFpBX8FyHEzXSA5nshSH6dm50pL1Q==}
+    engines: {node: '>=22.19.0'}
+    peerDependencies:
+      babel-plugin-macros: 2 || 3
+      react: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      babel-plugin-macros:
+        optional: true
 
   '@messageformat/date-skeleton@1.1.0':
     resolution: {integrity: sha512-rmGAfB1tIPER+gh3p/RgA+PVeRE/gxuQ2w4snFWPF5xtb5mbWR7Cbw7wCOftcUypbD6HVoxrVdyyghPm3WzP5A==}
@@ -1939,6 +1952,11 @@ packages:
     peerDependencies:
       browserslist: '>= 4.21.0'
 
+  use-sync-external-store@1.7.0:
+    resolution: {integrity: sha512-6L+EeigHMQhdaIPNIFUKwfWJSwWFQ8gJbJ2DLOs5sDIegTwR9fRxvnM3uciHKjIZhFz+KAv2emhWMRvDmMcY8A==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   vfile-message@4.0.3:
     resolution: {integrity: sha512-QTHzsGd1EhbZs4AsQ20JX1rC3cOlt/IWJruk893DfLRr57lcnOeMaWG4K0JrRta4mIJZKth2Au3mM3u03/JWKw==}
 
@@ -2605,6 +2623,15 @@ snapshots:
       '@lingui/native-tools-linux-x64-musl': 0.1.6
       '@lingui/native-tools-win32-arm64-msvc': 0.1.6
       '@lingui/native-tools-win32-x64-msvc': 0.1.6
+
+  '@lingui/react@6.10.1(@babel/core@7.29.7)(react@19.3.1)':
+    dependencies:
+      '@lingui/babel-plugin-lingui-macro': 6.10.1(@babel/core@7.29.7)
+      '@lingui/core': 6.10.1(@babel/core@7.29.7)
+      react: 19.3.1
+      use-sync-external-store: 1.7.0(react@19.3.1)
+    transitivePeerDependencies:
+      - '@babel/core'
 
   '@messageformat/date-skeleton@1.1.0': {}
 
@@ -3746,6 +3773,10 @@ snapshots:
       browserslist: 4.29.4
       escalade: 3.2.0
       picocolors: 1.1.1
+
+  use-sync-external-store@1.7.0(react@19.3.1):
+    dependencies:
+      react: 19.3.1
 
   vfile-message@4.0.3:
     dependencies:

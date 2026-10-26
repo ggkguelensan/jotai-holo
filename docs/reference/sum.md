@@ -4,7 +4,7 @@ Add numeric values without writing a projector. Import from `jotai-holo` or `jot
 
 <Demo kind="operators">
 
-<<< @/../examples/docs-infrastructure.tsx#operators
+<<< @/../examples/docs/operators.tsx#operators
 
 </Demo>
 

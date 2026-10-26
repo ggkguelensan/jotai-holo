@@ -4,7 +4,7 @@ Subscribe to one native RHF field value as a read-only Jotai atom.
 
 <Demo kind="form">
 
-<<< @/../examples/docs-infrastructure.tsx#form
+<<< @/../examples/docs/form.tsx#form
 
 </Demo>
 

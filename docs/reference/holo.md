@@ -4,7 +4,7 @@ Bind an ordinary View to atom values, writable callbacks and fixed props. Import
 
 <Demo kind="counter">
 
-<<< @/../examples/docs-demos.tsx#counter
+<<< @/../examples/docs/counter.tsx#counter
 
 </Demo>
 

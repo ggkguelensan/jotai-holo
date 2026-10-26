@@ -4,7 +4,7 @@ The optional lifecycle section of holo, not a separate exported function. Use it
 
 <Demo kind="cage">
 
-<<< @/../examples/docs-demos.tsx#cage
+<<< @/../examples/docs/cage.tsx#cage
 
 </Demo>
 

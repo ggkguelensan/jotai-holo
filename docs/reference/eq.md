@@ -4,7 +4,7 @@ Compare a selected atom with a constant or another atom. Import from `jotai-holo
 
 <Demo kind="operators">
 
-<<< @/../examples/docs-infrastructure.tsx#operators
+<<< @/../examples/docs/operators.tsx#operators
 
 </Demo>
 

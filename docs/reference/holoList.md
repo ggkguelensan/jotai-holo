@@ -4,7 +4,7 @@ Render keyed rows from an atom containing an array. Import from `jotai-holo`.
 
 <Demo kind="list">
 
-<<< @/../examples/docs-demos.tsx#list
+<<< @/../examples/docs/list.tsx#list
 
 </Demo>
 

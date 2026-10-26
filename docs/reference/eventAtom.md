@@ -4,7 +4,7 @@ A typed, one-payload notification without retained event state. Import from the 
 
 <Demo kind="event">
 
-<<< @/../examples/docs-demos.tsx#event
+<<< @/../examples/docs/event.tsx#event
 
 </Demo>
 

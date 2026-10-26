@@ -4,7 +4,7 @@ Select native atoms from a scoped Bunshi model without declaring holo during ren
 
 <Demo kind="bunshi">
 
-<<< @/../examples/docs-bunshi.tsx#bunshi
+<<< @/../examples/docs/bunshi.tsx#bunshi
 
 </Demo>
 

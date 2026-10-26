@@ -4,7 +4,7 @@ Inject the application's QueryClient into a Jotai store.
 
 <Demo kind="query">
 
-<<< @/../examples/docs-infrastructure.tsx#query
+<<< @/../examples/docs/query.tsx#query
 
 </Demo>
 

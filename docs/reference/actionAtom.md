@@ -4,7 +4,7 @@ Create a command as a native write-only atom with inferred arguments and result.
 
 <Demo kind="counter">
 
-<<< @/../examples/docs-demos.tsx#counter
+<<< @/../examples/docs/counter.tsx#counter
 
 </Demo>
 

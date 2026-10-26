@@ -4,7 +4,7 @@ Route an occurrence into a writable atom, optionally sampling state, filtering a
 
 <Demo kind="bond">
 
-<<< @/../examples/docs-demos.tsx#bond
+<<< @/../examples/docs/bond.tsx#bond
 
 </Demo>
 

@@ -1,25 +1,48 @@
-import { lazy, Suspense } from 'react';
+import type { I18n } from '@lingui/core';
+import { I18nProvider } from '@lingui/react';
+import { createStore, Provider } from 'jotai';
+import { lazy, Suspense, type ComponentType } from 'react';
 import { createRoot } from 'react-dom/client';
-import type { DocsTranslator } from '../../../examples/docs-i18n.js';
-import { createDocumentationDemo } from '../../../examples/docs-demos';
-export function mountDemo(host: HTMLElement, kind: string, t: DocsTranslator) {
-  const Demo =
-    kind === 'bunshi'
-      ? lazy(async () => ({
-          default: (await import('../../../examples/docs-bunshi')).createBunshiDemo(t),
-        }))
-      : ['operators', 'model', 'query', 'form'].includes(kind)
-        ? lazy(async () => ({
-            default: (
-              await import('../../../examples/docs-infrastructure')
-            ).createInfrastructureDemo(kind, t),
-          }))
-        : createDocumentationDemo(kind, t);
+
+type DemoModule = {
+  default: ComponentType;
+  setup?: (store: ReturnType<typeof createStore>) => void;
+};
+
+const demos: Record<string, () => Promise<DemoModule>> = {
+  counter: () => import('../../../examples/docs/counter'),
+  ion: () => import('../../../examples/docs/ion'),
+  prism: () => import('../../../examples/docs/prism'),
+  event: () => import('../../../examples/docs/event'),
+  bond: () => import('../../../examples/docs/bond'),
+  cage: () => import('../../../examples/docs/cage'),
+  list: () => import('../../../examples/docs/list'),
+  match: () => import('../../../examples/docs/match'),
+  bunshi: () => import('../../../examples/docs/bunshi'),
+  operators: () => import('../../../examples/docs/operators'),
+  model: () => import('../../../examples/docs/model'),
+  query: () => import('../../../examples/docs/query'),
+  form: () => import('../../../examples/docs/form'),
+};
+
+export function mountDemo(host: HTMLElement, kind: string, i18n: I18n) {
+  const load = demos[kind];
+  if (!load) throw new Error(`Unknown documentation demo: ${kind}`);
+  const store = createStore();
+  const Demo = lazy(async () => {
+    const example = await load();
+    example.setup?.(store);
+    return example;
+  });
   const root = createRoot(host);
   root.render(
-    <Suspense fallback={<span>…</span>}>
-      <Demo />
-    </Suspense>,
+    <I18nProvider i18n={i18n}>
+      <Provider store={store}>
+        <Suspense fallback={<span>…</span>}>
+          <Demo />
+        </Suspense>
+      </Provider>
+    </I18nProvider>,
   );
   return root;
 }

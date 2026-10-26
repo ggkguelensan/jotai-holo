@@ -4,7 +4,7 @@ Create writable state from a value, or read-only derived state from a getter. Im
 
 <Demo kind="counter">
 
-<<< @/../examples/docs-demos.tsx#counter
+<<< @/../examples/docs/counter.tsx#counter
 
 </Demo>
 

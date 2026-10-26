@@ -4,7 +4,7 @@ Observe an event outside React. Import from the root or vanilla entry. The retur
 
 <Demo kind="event">
 
-<<< @/../examples/docs-demos.tsx#event
+<<< @/../examples/docs/event.tsx#event
 
 </Demo>
 

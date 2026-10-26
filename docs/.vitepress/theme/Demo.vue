@@ -18,12 +18,12 @@ onMounted(() => {
       root = undefined;
       failure.value = '';
       try {
-        const [{ mountDemo }, { loadTranslator }] = await Promise.all([
+        const [{ mountDemo }, { loadI18n }] = await Promise.all([
           import('./mount-demo'),
           import('../i18n/runtime'),
         ]);
-        const t = await loadTranslator(lang.value);
-        if (current === generation && host.value) root = mountDemo(host.value, props.kind, t);
+        const i18n = await loadI18n(lang.value);
+        if (current === generation && host.value) root = mountDemo(host.value, props.kind, i18n);
       } catch (error) {
         if (current === generation) failure.value = String(error);
       }
@@ -51,7 +51,7 @@ onBeforeUnmount(() => {
       <slot />
       <a
         class="example-file"
-        :href="`https://github.com/ggkguelensan/jotai-holo/blob/docs/lingui-i18n/examples/${kind === 'bunshi' ? 'docs-bunshi' : ['operators', 'model', 'query', 'form'].includes(kind) ? 'docs-infrastructure' : 'docs-demos'}.tsx`"
+        :href="`https://github.com/ggkguelensan/jotai-holo/blob/docs/lingui-i18n/examples/docs/${kind}.tsx`"
         >{{ theme.docsUi.fullSource }} ↗</a
       >
     </details>

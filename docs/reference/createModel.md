@@ -4,7 +4,7 @@ Share a default or keyed model within a Jotai store, without another scope provi
 
 <Demo kind="model">
 
-<<< @/../examples/docs-infrastructure.tsx#model
+<<< @/../examples/docs/model.tsx#model
 
 </Demo>
 

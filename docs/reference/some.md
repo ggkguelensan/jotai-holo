@@ -4,7 +4,7 @@ Test values from several atoms or items from one array atom. Import from `jotai-
 
 <Demo kind="operators">
 
-<<< @/../examples/docs-infrastructure.tsx#operators
+<<< @/../examples/docs/operators.tsx#operators
 
 </Demo>
 

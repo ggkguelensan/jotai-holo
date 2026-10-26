@@ -4,7 +4,7 @@ Create isolated native RHF controls as keyed Jotai models.
 
 <Demo kind="form">
 
-<<< @/../examples/docs-infrastructure.tsx#form
+<<< @/../examples/docs/form.tsx#form
 
 </Demo>
 

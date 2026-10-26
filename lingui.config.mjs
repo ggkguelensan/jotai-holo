@@ -21,12 +21,7 @@ export default defineConfig({
     {
       name: 'ui',
       path: '<rootDir>/docs/.vitepress/i18n/locales/{locale}/ui',
-      include: [
-        '<rootDir>/docs/.vitepress/config.mts',
-        '<rootDir>/examples/docs-demos.tsx',
-        '<rootDir>/examples/docs-bunshi.tsx',
-        '<rootDir>/examples/docs-infrastructure.tsx',
-      ],
+      include: ['<rootDir>/docs/.vitepress/config.mts', '<rootDir>/examples/docs'],
     },
   ],
   extractors: [extractor],

@@ -4,7 +4,7 @@ Use existing Query options factories and subscribe to independent result atoms.
 
 <Demo kind="query">
 
-<<< @/../examples/docs-infrastructure.tsx#query
+<<< @/../examples/docs/query.tsx#query
 
 </Demo>
 

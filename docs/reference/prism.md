@@ -4,7 +4,7 @@ Split one source into named, independent read-only projections. Import from the 
 
 <Demo kind="prism">
 
-<<< @/../examples/docs-demos.tsx#prism
+<<< @/../examples/docs/prism.tsx#prism
 
 </Demo>
 

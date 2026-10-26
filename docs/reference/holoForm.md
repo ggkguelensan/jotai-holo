@@ -4,7 +4,7 @@ Connect a form model to an ordinary RHF View, declared outside React render.
 
 <Demo kind="form">
 
-<<< @/../examples/docs-infrastructure.tsx#form
+<<< @/../examples/docs/form.tsx#form
 
 </Demo>
 

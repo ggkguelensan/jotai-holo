@@ -4,7 +4,7 @@ Choose a View from a string or number atom. Import from `jotai-holo`.
 
 <Demo kind="match">
 
-<<< @/../examples/docs-demos.tsx#match
+<<< @/../examples/docs/match.tsx#match
 
 </Demo>
 

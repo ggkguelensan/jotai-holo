@@ -29,7 +29,7 @@ Change the quantity or apply a discount. `ion` derives the total; `holo` supplie
 
 <Demo kind="ion">
 
-<<< @/../examples/docs-demos.tsx#ion
+<<< @/../examples/docs/ion.tsx#ion
 
 </Demo>
 

@@ -4,7 +4,7 @@ Require at least one boolean atom to be true. Import from `jotai-holo` or `jotai
 
 <Demo kind="operators">
 
-<<< @/../examples/docs-infrastructure.tsx#operators
+<<< @/../examples/docs/operators.tsx#operators
 
 </Demo>
 

@@ -4,7 +4,7 @@ Combine a fixed shape of readable atoms into one derived atom. Import from the r
 
 <Demo kind="ion">
 
-<<< @/../examples/docs-demos.tsx#ion
+<<< @/../examples/docs/ion.tsx#ion
 
 </Demo>
 

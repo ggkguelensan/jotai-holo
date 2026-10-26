@@ -81,12 +81,12 @@ assert.match(translated, /t\("not extracted"\)/);
 const extracted = [];
 extractor.extract(
   'example.tsx',
-  'const value = t("One {name}", {name}); const dynamic = t(variable);',
+  'const value = t("One {name}", {name}); const dynamic = t(variable); const title = <Trans id="Fixed title" />; const incoming = <Trans id={variable} />;',
   (message) => extracted.push(message),
 );
 assert.deepEqual(
   extracted.map(({ id }) => id),
-  ['One {name}'],
+  ['One {name}', 'Fixed title'],
 );
 // Native UI ICU interpolation and plural forms remain supported by the formatter.
 const uiCatalog = catalogFormatter.parse(
