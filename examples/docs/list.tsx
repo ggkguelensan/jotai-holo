@@ -9,7 +9,9 @@ const $tasks = stateAtom<readonly Task[]>([
   { id: 2, text: 'ship' },
 ]);
 
-const reverse = actionAtom((_get, set) => set($tasks, (items) => [...items].reverse()));
+const reverse = actionAtom((_get, set) =>
+  set($tasks, (items) => [...items].reverse()),
+);
 const reset = actionAtom((_get, set) => set($tasks, []));
 
 function TaskView({ task }: { task: Task }) {
@@ -20,7 +22,11 @@ function TaskView({ task }: { task: Task }) {
   return (
     <li>
       <label className="demo-checkbox">
-        <input type="checkbox" checked={done} onChange={(e) => setDone(e.target.checked)} />
+        <input
+          type="checkbox"
+          checked={done}
+          onChange={(e) => setDone(e.target.checked)}
+        />
         <span style={{ textDecoration: done ? 'line-through' : 'none' }}>
           {task.text === 'review' ? t`Review proposal` : t`Ship documentation`}
         </span>
@@ -44,7 +50,13 @@ const Tasks = holoList({
   empty: TasksEmptyView,
 });
 
-function ControlsView({ onReverse, onClear }: { onReverse: () => void; onClear: () => void }) {
+function ControlsView({
+  onReverse,
+  onClear,
+}: {
+  onReverse: () => void;
+  onClear: () => void;
+}) {
   const { t } = useLingui();
 
   return (

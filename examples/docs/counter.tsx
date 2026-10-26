@@ -8,7 +8,9 @@ const $count = stateAtom(0);
 
 const $double = stateAtom((get) => get($count) * 2);
 
-const increment = actionAtom((_get, set, amount: number) => set($count, (count) => count + amount));
+const increment = actionAtom((_get, set, amount: number) =>
+  set($count, (count) => count + amount),
+);
 
 function CounterView({
   count,
@@ -33,10 +35,18 @@ function CounterView({
         {t`Derived × 2`}: <strong>{doubled}</strong>
       </p>
       <div className="demo-controls">
-        <button type="button" onClick={() => onIncrement(-1)} aria-label={t`Decrement`}>
+        <button
+          type="button"
+          onClick={() => onIncrement(-1)}
+          aria-label={t`Decrement`}
+        >
           −
         </button>
-        <button type="button" onClick={() => onIncrement(1)} aria-label={t`Increment`}>
+        <button
+          type="button"
+          onClick={() => onIncrement(1)}
+          aria-label={t`Increment`}
+        >
           +
         </button>
       </div>

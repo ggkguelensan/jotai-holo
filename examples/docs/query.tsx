@@ -8,7 +8,8 @@ import { queryOptions } from '@tanstack/react-query';
 
 // #region query
 const $productId = stateAtom('desk');
-// Resource factory: consumers keep the options intact and never reconstruct its query key.
+// Resource factory: consumers keep the options intact
+// and never reconstruct its query key.
 const productDetailQO = ({ productId }: { productId: string }) =>
   queryOptions({
     queryKey: ['products', 'detail', { productId }] as const,
@@ -52,6 +53,7 @@ function CardView({
   error: Error | null;
 }) {
   const { t } = useLingui();
+  const name = data?.name === 'Oak desk' ? t`Oak desk` : t`Desk lamp`;
 
   return (
     <section>
@@ -61,7 +63,7 @@ function CardView({
           ? t`Loading…`
           : error
             ? error.message
-            : `${data?.name === 'Oak desk' ? t`Oak desk` : t`Desk lamp`} · $${data?.price}`}
+            : `${name} · $${data?.price}`}
       </p>
     </section>
   );
@@ -69,7 +71,11 @@ function CardView({
 
 const Card = holo({
   core: CardView,
-  state: { data: product.$product, pending: product.$pending, error: product.$error },
+  state: {
+    data: product.$product,
+    pending: product.$pending,
+    error: product.$error,
+  },
 });
 
 function SwitchView({ onChange }: { onChange: (value: string) => void }) {
@@ -104,6 +110,8 @@ export default CatalogDemo;
 export function setup(store: ReturnType<typeof createStore>) {
   store.set(
     queryClientAtom,
-    new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: 0 } } }),
+    new QueryClient({
+      defaultOptions: { queries: { retry: false, gcTime: 0 } },
+    }),
   );
 }

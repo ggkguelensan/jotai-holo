@@ -1,7 +1,13 @@
 import { useLingui } from '@lingui/react/macro';
 import { useStore } from 'jotai';
 import { useEffect, useState } from 'react';
-import { actionAtom, eventAtom, holo, stateAtom, subscribeEvent } from 'jotai-holo';
+import {
+  actionAtom,
+  eventAtom,
+  holo,
+  stateAtom,
+  subscribeEvent,
+} from 'jotai-holo';
 
 // #region event
 const messageReceived = eventAtom<{ text: string }>();
@@ -29,14 +35,19 @@ function View({
   const store = useStore();
   useEffect(() => {
     if (!listening) return;
-    return subscribeEvent(store, messageReceived, ({ text }) => store.set(record, text));
+    return subscribeEvent(store, messageReceived, ({ text }) =>
+      store.set(record, text),
+    );
   }, [store, listening]);
   return (
     <div className="demo-form">
       <span className="demo-eyebrow">{t`Simulated incoming message`}</span>
       <p>{t`The same payload is delivered on every occurrence.`}</p>
       <div className="demo-controls">
-        <button type="button" onClick={() => onReceive({ text: t`Hello, Jotai!` })}>
+        <button
+          type="button"
+          onClick={() => onReceive({ text: t`Hello, Jotai!` })}
+        >
           {t`Receive message`}
         </button>
         <button type="button" onClick={() => setListening((value) => !value)}>

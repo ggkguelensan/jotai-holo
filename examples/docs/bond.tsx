@@ -40,16 +40,24 @@ function CheckoutView({
     <div className="demo-form">
       <span className="demo-eyebrow">{t`A fact → a separate reaction`}</span>
       <label className="demo-checkbox">
-        <input type="checkbox" checked={enabled} onChange={(e) => onEnabled(e.target.checked)} />
+        <input
+          type="checkbox"
+          checked={enabled}
+          onChange={(e) => onEnabled(e.target.checked)}
+        />
         {t`Generate receipt`}
       </label>
       <button type="button" onClick={() => onSubmit()}>
         {t`Submit demo order`}
       </button>
       <output aria-live="polite">
-        {message === null ? t`No receipts yet` : `${t`Receipt for order`} #${message}`}
+        {message === null
+          ? t`No receipts yet`
+          : `${t`Receipt for order`} #${message}`}
       </output>
-      <p className="demo-note">{t`Local simulation: no payment or network request.`}</p>
+      <p className="demo-note">
+        {t`Local simulation: no payment or network request.`}
+      </p>
     </div>
   );
 }

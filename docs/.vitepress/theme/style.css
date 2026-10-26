@@ -13,7 +13,7 @@
   --vp-home-hero-name-color: var(--vp-c-text-1);
   --vp-font-family-base: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --vp-sidebar-width: 254px;
-  --vp-layout-max-width: 1512px;
+  --vp-layout-max-width: 1600px;
 }
 .dark {
   --vp-c-bg: #0c0c0c;
@@ -361,4 +361,33 @@
 }
 .holo-example [role='alert'] {
   color: var(--vp-c-danger-1);
+}
+
+/* Leave room for 80 monospace columns plus the code block's padding. */
+.Layout .VPDoc.has-aside .content-container {
+  max-width: 832px;
+}
+.Layout .VPDoc.has-aside .content {
+  min-width: 0;
+}
+@media (min-width: 1280px) and (max-width: 1439px) {
+  .Layout .VPDoc.has-aside .aside {
+    display: none;
+  }
+}
+@media (min-width: 1440px) {
+  .Layout .VPDoc.has-aside .aside {
+    max-width: 208px;
+    padding-left: 24px;
+  }
+}
+/* Preserve source indentation, wrapping only when the viewport needs it. */
+.vp-doc [class*='language-'] pre,
+.vp-doc [class*='language-'] code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.vp-doc [class*='language-'] code {
+  width: 100%;
+  min-width: 0;
 }

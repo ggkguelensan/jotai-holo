@@ -33,7 +33,13 @@ const Content = holoMatch({
   cases: { loading: LoadingView, ready: ReadyView, error: ErrorView },
 });
 
-function StatusView({ status, onStatus }: { status: Status; onStatus: (value: Status) => void }) {
+function StatusView({
+  status,
+  onStatus,
+}: {
+  status: Status;
+  onStatus: (value: Status) => void;
+}) {
   const { t } = useLingui();
   const labels = { loading: t`Loading`, ready: t`Ready`, error: t`Error` };
 

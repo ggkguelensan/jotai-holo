@@ -62,7 +62,11 @@ function LifecycleDemo() {
         <input value={term} onChange={(e) => setTerm(e.target.value)} />
       </label>
       <label className="demo-checkbox">
-        <input type="checkbox" checked={visible} onChange={(e) => setVisible(e.target.checked)} />
+        <input
+          type="checkbox"
+          checked={visible}
+          onChange={(e) => setVisible(e.target.checked)}
+        />
         {t`Mount Search`}
       </label>
       {visible && <Search term={term} />}

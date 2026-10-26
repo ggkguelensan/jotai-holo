@@ -36,11 +36,17 @@ function CartView({
           min="1"
           max="10"
           value={quantity}
-          onChange={(e) => onQuantity(Math.max(1, Math.min(10, Number(e.target.value) || 1)))}
+          onChange={(e) =>
+            onQuantity(Math.max(1, Math.min(10, Number(e.target.value) || 1)))
+          }
         />
       </label>
       <label className="demo-checkbox">
-        <input type="checkbox" checked={discount} onChange={(e) => onDiscount(e.target.checked)} />
+        <input
+          type="checkbox"
+          checked={discount}
+          onChange={(e) => onDiscount(e.target.checked)}
+        />
         {t`Member discount · 20%`}
       </label>
       <div className="demo-total">

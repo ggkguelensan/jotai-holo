@@ -41,6 +41,29 @@ try {
       errors.push(`${response.status()} ${response.url()}`);
   });
   const origin = `http://127.0.0.1:4179${base}`;
+  async function checkCodeLayout() {
+    await page.locator('.example-source').evaluateAll((blocks) => {
+      for (const block of blocks) block.open = true;
+    });
+    const failures = await page.locator('.vp-doc pre').evaluateAll((blocks) => {
+      return blocks.flatMap((block, index) => {
+        if (block.scrollWidth > block.clientWidth + 1)
+          return [`Code block ${index} overflows horizontally`];
+        const code = block.querySelector('code');
+        if (!code || innerWidth < 1280) return [];
+        const style = getComputedStyle(code);
+        const canvas = document.createElement('canvas').getContext('2d');
+        canvas.font = `${style.fontSize} ${style.fontFamily}`;
+        const available =
+          code.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+        return available + 1 < canvas.measureText('0'.repeat(80)).width
+          ? [`Code block ${index} has less than 80 columns of space`]
+          : [];
+      });
+    });
+    assert.deepEqual(failures, [], page.url());
+  }
+
   // Visit every public reference page in every locale, not just the home shell.
   const references = (await readdir('docs/reference')).filter((name) => name.endsWith('.md'));
   for (const { code, prefix } of locales) {
@@ -57,6 +80,7 @@ try {
       assert.ok(await page.locator('.vp-doc a[href^="https://"]').count());
       await page.locator('.example-preview :is(button, input)').first().waitFor();
       assert.equal(await page.locator('.example-preview').count(), 1);
+      await checkCodeLayout();
     }
     console.log(`${code}: ${references.length} reference routes passed.`);
   }
@@ -196,12 +220,15 @@ try {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`${origin}ru/guide/getting-started`);
   assert.ok(await page.getByRole('button', { name: 'Меню', exact: true }).isVisible());
+  await checkCodeLayout();
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   await page.goto(`${origin}ru/reference/ion`);
   await page.getByRole('spinbutton').waitFor();
+  await checkCodeLayout();
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   await page.goto(`${origin}ru/reference/holoForm`);
   await page.locator('.example-preview input').first().waitFor();
+  await checkCodeLayout();
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   assert.deepEqual(errors, []);
   console.log(

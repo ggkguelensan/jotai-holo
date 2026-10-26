@@ -4,14 +4,25 @@ import { actionAtom, holo, prism, stateAtom } from 'jotai-holo';
 // #region prism
 const $user = stateAtom({ name: 'Ada Lovelace', role: 'Editor' });
 
-const { $name, $role } = prism($user, { $name: (user) => user.name, $role: (user) => user.role });
+const { $name, $role } = prism($user, {
+  $name: (user) => user.name,
+  $role: (user) => user.role,
+});
 
-const rename = actionAtom((_get, set, name: string) => set($user, (user) => ({ ...user, name })));
+const rename = actionAtom((_get, set, name: string) =>
+  set($user, (user) => ({ ...user, name })),
+);
 const changeRole = actionAtom((_get, set, role: string) =>
   set($user, (user) => ({ ...user, role })),
 );
 
-function NameView({ name, onName }: { name: string; onName: (name: string) => void }) {
+function NameView({
+  name,
+  onName,
+}: {
+  name: string;
+  onName: (name: string) => void;
+}) {
   const { t } = useLingui();
 
   return (
@@ -28,7 +39,13 @@ const Name = holo({
   actions: { onName: rename },
 });
 
-function RoleView({ role, onRole }: { role: string; onRole: (role: string) => void }) {
+function RoleView({
+  role,
+  onRole,
+}: {
+  role: string;
+  onRole: (role: string) => void;
+}) {
   const { t } = useLingui();
 
   return (
@@ -54,10 +71,14 @@ function ProfileProjections() {
 
   return (
     <div className="demo-form">
-      <span className="demo-eyebrow">{t`One source → two independent atoms`}</span>
+      <span className="demo-eyebrow">
+        {t`One source → two independent atoms`}
+      </span>
       <Name />
       <Role />
-      <p className="demo-note">{t`Changing the role keeps the selected name unchanged.`}</p>
+      <p className="demo-note">
+        {t`Changing the role keeps the selected name unchanged.`}
+      </p>
     </div>
   );
 }

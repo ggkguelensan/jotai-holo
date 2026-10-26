@@ -16,7 +16,8 @@ const ContactEditor = holoForm({
   model: (props: { contactId: string }) => Contact({ key: [props.contactId] }),
   core: ContactView,
 });
-// ContactView uses ordinary useFormContext, Controller, register, and useFieldArray.
+// ContactView uses ordinary useFormContext, Controller, register,
+// and useFieldArray.
 <ContactEditor contactId="ada" />;
 ```
 

@@ -48,7 +48,9 @@ export const { $name, $email } = prism($draft, {
 // #endregion prism
 
 export type Profile = { id: string; name: string; email: string };
-export type ProfileApi = { save: (draft: { name: string; email: string }) => Promise<Profile> };
+export type ProfileApi = {
+  save: (draft: { name: string; email: string }) => Promise<Profile>;
+};
 
 // #region workflow
 export function createProfile(api: ProfileApi) {
@@ -59,9 +61,11 @@ export function createProfile(api: ProfileApi) {
 
   const profileSaved = eventAtom<Profile>();
 
-  const edit = actionAtom((_get, set, draft: { name: string; email: string }) => {
-    set($draft, draft);
-  });
+  const edit = actionAtom(
+    (_get, set, draft: { name: string; email: string }) => {
+      set($draft, draft);
+    },
+  );
   const save = actionAtom(async (get, set) => {
     if (get($saving)) return;
     const draft = get($draft);
@@ -74,7 +78,8 @@ export function createProfile(api: ProfileApi) {
     try {
       const profile = await api.save(draft);
       set($profile, profile);
-      set(profileSaved, profile); // A fact, published only after persistence succeeds.
+      // A fact, published only after persistence succeeds.
+      set(profileSaved, profile);
     } catch (error) {
       set($error, error instanceof Error ? error.message : 'Save failed');
     } finally {
@@ -89,7 +94,10 @@ export function createProfile(api: ProfileApi) {
 
 export const profileSaved = eventAtom<Profile>();
 // Publish AFTER your API has saved the profile:
-export function publishSaved(store: ReturnType<typeof createStore>, profile: Profile) {
+export function publishSaved(
+  store: ReturnType<typeof createStore>,
+  profile: Profile,
+) {
   store.set(profileSaved, profile);
 }
 // #endregion event
@@ -100,7 +108,12 @@ export function connectAudit(
   writeAudit: (profileId: string) => Promise<void>,
   onError: (error: unknown) => void,
 ) {
-  return subscribeEvent(store, profileSaved, (profile) => writeAudit(profile.id), { onError });
+  return subscribeEvent(
+    store,
+    profileSaved,
+    (profile) => writeAudit(profile.id),
+    { onError },
+  );
 }
 // Owner calls the returned function when this application/session ends.
 // #endregion subscription
@@ -111,14 +124,18 @@ export function createNotifications(model: ReturnType<typeof createProfile>) {
   const $locale = stateAtom<'en' | 'ru'>('en');
   const $message = stateAtom('');
 
-  const show = actionAtom((_get, set, message: string) => set($message, message));
+  const show = actionAtom((_get, set, message: string) =>
+    set($message, message),
+  );
 
   const notifying = bond({
     state: { locale: $locale },
     trigger: model.profileSaved,
     guard: $enabled,
     map: ({ locale }, profile) => [
-      locale === 'ru' ? `Сохранён профиль ${profile.name}` : `Saved ${profile.name}`,
+      locale === 'ru'
+        ? `Сохранён профиль ${profile.name}`
+        : `Saved ${profile.name}`,
     ],
     yield: show,
   });
@@ -158,7 +175,9 @@ export const NameField = holo({
 
 const $query = atom('');
 
-const inputChanged = actionAtom((_get, set, query: string) => set($query, query));
+const inputChanged = actionAtom((_get, set, query: string) =>
+  set($query, query),
+);
 
 function SearchView({ query, term }: { query: string; term: string }) {
   return <output aria-label={`Results for ${term}`}>{query}</output>;
@@ -225,7 +244,10 @@ export const UsersPage = holoMatch({
 // #endregion match
 
 // #region runtime
-export function createProfileRuntime(api: ProfileApi, onError: (error: unknown) => void) {
+export function createProfileRuntime(
+  api: ProfileApi,
+  onError: (error: unknown) => void,
+) {
   const store = createStore();
   const model = createProfile(api);
   const notifications = createNotifications(model);

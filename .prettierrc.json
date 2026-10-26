@@ -1,5 +1,13 @@
 {
   "singleQuote": true,
   "printWidth": 100,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "overrides": [
+    {
+      "files": ["examples/**/*.{ts,tsx}", "docs/**/*.md"],
+      "options": {
+        "printWidth": 80
+      }
+    }
+  ]
 }

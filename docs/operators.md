@@ -90,7 +90,10 @@ The resolver runs only for accepted triggers and is not subscribed to independen
 
 ```ts
 const forwarded = bond({ trigger: saveRequested });
-const doubled = bond({ trigger: amountRequested, map: (amount) => [amount * 2] });
+const doubled = bond({
+  trigger: amountRequested,
+  map: (amount) => [amount * 2],
+});
 const sink = bond({ trigger: doubled, yield: increment });
 const stop = sink.connect(store); // Also connects doubled; disposal releases it.
 

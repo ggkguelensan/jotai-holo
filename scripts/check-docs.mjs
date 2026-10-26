@@ -50,8 +50,21 @@ for (const file of pages) {
     }
     assert.match(text, /\]\(https:\/\//, file);
   }
+  if (file.includes('/reference/') || file.includes('/guide/') || file.includes('/recipes/')) {
+    for (const block of text.matchAll(/^```[^\n]*\n([\s\S]*?)^```/gm)) {
+      for (const line of block[1].split('\n')) {
+        assert.ok([...line].length <= 80, `Code fence exceeds 80 columns in ${file}: ${line}`);
+      }
+    }
+  }
   for (const match of text.matchAll(/^<<< @\/([^\s#]+)(?:#([\w-]+))?/gm)) {
     const source = await readFile(path.resolve(root, match[1]), 'utf8');
+    for (const [index, line] of source.split('\n').entries()) {
+      assert.ok(
+        [...line].length <= 80,
+        `Code example exceeds 80 columns: ${match[1]}:${index + 1}`,
+      );
+    }
     if (match[2]) {
       assert.ok(
         source.includes(`// #region ${match[2]}`),

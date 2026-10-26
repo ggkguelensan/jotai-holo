@@ -3,7 +3,12 @@ import { atom } from 'jotai/vanilla';
 import { useId } from 'react';
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
 import { createFormModel, formAtom, holoForm } from 'jotai-holo/rhf';
-import { Controller, useFormContext, useFormState, type Control } from 'react-hook-form';
+import {
+  Controller,
+  useFormContext,
+  useFormState,
+  type Control,
+} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
@@ -16,7 +21,10 @@ type Values = z.infer<typeof schema>;
 
 const Contact = createFormModel({
   initial: { email: '', channel: 'email' as const },
-  options: (initial) => ({ defaultValues: initial, resolver: zodResolver(schema) }),
+  options: (initial) => ({
+    defaultValues: initial,
+    resolver: zodResolver(schema),
+  }),
   model: ({ form }) => {
     const $saved = stateAtom('');
     return {

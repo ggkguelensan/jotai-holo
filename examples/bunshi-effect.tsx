@@ -21,7 +21,13 @@ export const CounterRuntime = molecule((_mol, scope) => {
 });
 const runtime = holoMolecule(CounterRuntime);
 const Connected = holo({
-  core: ({ message, onIncrement }: { message: string; onIncrement: () => void }) => (
+  core: ({
+    message,
+    onIncrement,
+  }: {
+    message: string;
+    onIncrement: () => void;
+  }) => (
     <section>
       <h2>Bunshi + observe</h2>
       <p>{message}</p>

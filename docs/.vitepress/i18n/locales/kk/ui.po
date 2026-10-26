@@ -501,20 +501,20 @@ msgid "Changing the role keeps the selected name unchanged."
 msgstr "Рөл өзгергенде таңдалған ат өзгермейді."
 
 #: examples/docs/query.tsx
-msgid "Product catalog"
-msgstr "Тауарлар каталогы"
-
-#: examples/docs/query.tsx
-msgid "Loading…"
-msgstr "Жүктелуде…"
-
-#: examples/docs/query.tsx
 msgid "Oak desk"
 msgstr "Емен үстел"
 
 #: examples/docs/query.tsx
 msgid "Desk lamp"
 msgstr "Үстел шамы"
+
+#: examples/docs/query.tsx
+msgid "Product catalog"
+msgstr "Тауарлар каталогы"
+
+#: examples/docs/query.tsx
+msgid "Loading…"
+msgstr "Жүктелуде…"
 
 #: examples/docs/query.tsx
 msgid "Desk"

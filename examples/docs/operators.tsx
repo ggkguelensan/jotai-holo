@@ -38,7 +38,11 @@ function OrderReviewView({
       <p>{t`Goods $80 + delivery $15`}</p>
       <output className="demo-number">${total}</output>
       <label>
-        <input type="checkbox" checked={accepted} onChange={(e) => onAccept(e.target.checked)} />{' '}
+        <input
+          type="checkbox"
+          checked={accepted}
+          onChange={(e) => onAccept(e.target.checked)}
+        />{' '}
         {t`I accept the delivery terms`}
       </label>
       <small>{surcharge ? t`Surcharge applies` : t`No surcharge`}</small>
@@ -49,7 +53,12 @@ function OrderReviewView({
 
 const OrderReview = holo({
   core: OrderReviewView,
-  state: { total: $total, accepted: $accepted, canOrder: $canOrder, surcharge: $hasSurcharge },
+  state: {
+    total: $total,
+    accepted: $accepted,
+    canOrder: $canOrder,
+    surcharge: $hasSurcharge,
+  },
   actions: { onAccept: $accepted },
 });
 // #endregion operators
