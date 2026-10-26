@@ -52,6 +52,7 @@ function sidebar(ru: boolean): DefaultTheme.SidebarItem[] {
         { text: 'Bundle measurements', link: '/bundle-size' },
         { text: 'Aggregation', link: '/aggregation' },
         { text: 'Bunshi memory validation', link: '/bunshi-validation' },
+        { text: 'Laziness and isolation audit', link: '/laziness-isolation' },
         { text: 'Detailed contracts', link: '/api' },
         { text: 'Operator contracts', link: '/operators' },
       ],
