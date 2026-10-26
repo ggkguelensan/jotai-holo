@@ -49,11 +49,19 @@ for (const file of pages) {
   }
 }
 
-for (const entry of ['src/index.ts', 'src/bunshi.ts']) {
+for (const entry of [
+  'src/index.ts',
+  'src/bunshi.ts',
+  'src/model.ts',
+  'src/query.ts',
+  'src/rhf.ts',
+]) {
   const source = await readFile(entry, 'utf8');
   const names = entry.endsWith('bunshi.ts')
     ? ['holoMolecule']
-    : [...source.matchAll(/export \{ (\w+) \}/g)].map((match) => match[1]);
+    : entry.endsWith('index.ts')
+      ? [...source.matchAll(/export \{ (\w+) \}/g)].map((match) => match[1])
+      : [...source.matchAll(/export (?:function|const) (\w+)/g)].map((match) => match[1]);
   for (const name of names) await access(path.join(root, 'reference', `${name}.md`));
 }
 

@@ -39,3 +39,17 @@ The goal is declarative wiring without thin forwarding hooks. Explicit sections 
 - [Jotai performance](https://jotai.org/docs/guides/performance) — why stable selections and small subscription boundaries matter.
 
 On React 18, ref targets must be intrinsic elements, classes or forwardRef Views. Ref as an ordinary function-View prop requires React 19. Holo forwards refs through its wrappers on both supported versions.
+
+## Keyed models
+
+The optional `model` selects an instance in the current store. State/actions/cage factories receive it. The registry in `jotai-holo/model` is imported by the application only; ordinary atom bindings need no registry. See [createModel](/reference/createModel).
+
+```tsx
+const Counter = holo({
+  model: (props: { counterId: string }) =>
+    CounterModel({ key: ['counter', { id: props.counterId }] }),
+  core: CounterView,
+  state: ($$counter) => ({ count: $$counter.$count }),
+  actions: ($$counter) => ({ onIncrement: $$counter.increment }),
+});
+```

@@ -321,3 +321,44 @@
   font-size: 12px;
   border-top: 1px solid var(--vp-c-divider);
 }
+
+.demo-instances {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 16px;
+  width: 100%;
+  font-size: 13px;
+}
+.demo-contact-card {
+  display: grid;
+  align-content: start;
+  gap: 20px;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background: var(--vp-c-bg);
+}
+.demo-contact-card header {
+  display: grid;
+  gap: 3px;
+}
+.demo-contact-card .demo-form {
+  width: 100%;
+  min-width: 0;
+  gap: 12px;
+}
+.demo-save-panel {
+  border-top: 1px solid var(--vp-c-divider);
+  padding-top: 16px;
+}
+.demo-save-panel small,
+.demo-save-panel output {
+  overflow-wrap: anywhere;
+}
+.holo-example [aria-invalid='true'] {
+  border-color: var(--vp-c-danger-1);
+}
+.holo-example [role='alert'] {
+  color: var(--vp-c-danger-1);
+}

@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { createRef, Component, StrictMode, Suspense, type ReactNode } from 'react';
+import { createRef, Component, StrictMode, Suspense, useState, type ReactNode } from 'react';
 import { Provider, atom } from 'jotai';
 import { createStore } from 'jotai/vanilla';
 import { molecule, ScopeProvider, createScope } from 'bunshi/react';
@@ -17,7 +17,77 @@ import {
 } from 'jotai-holo';
 import { holoMolecule } from 'jotai-holo/bunshi';
 
+import { createModel } from 'jotai-holo/model';
+import { queryAtoms } from 'jotai-holo/query';
+import { createFormModel, holoForm } from 'jotai-holo/rhf';
+import { QueryClient, queryOptions } from '@tanstack/react-query';
+import { useFormContext } from 'react-hook-form';
+
 const store = createStore();
+let ownActive = 0;
+let ownCreates = 0;
+let resolveOwn: (value: string) => void = () => {};
+const OwnModel = createModel({
+  gcTime: 0,
+  create: () => {
+    ownCreates++;
+    const $value = atom(0);
+    const $text = atom<string | Promise<string>>('ready');
+    return { $value, $text, increment: atom(null, (_get, set) => set($value, (n) => n + 1)) };
+  },
+  connect: () => {
+    ownActive++;
+    return () => {
+      ownActive--;
+    };
+  },
+});
+const OwnCounter = holo({
+  model: OwnModel,
+  core: ({ value, text, onClick }: { value: number; text: string; onClick: () => void }) => (
+    <button id="native-model" onClick={onClick}>
+      model:{value}/{text}
+    </button>
+  ),
+  state: (m) => ({ value: m.$value, text: m.$text }),
+  actions: (m) => ({ onClick: m.increment }),
+});
+const FormModel = createFormModel({
+  initial: { name: 'Ada' },
+  options: (initial) => ({
+    defaultValues: initial,
+    resolver: async (values: { name: string }) => ({
+      values: { name: values.name.toUpperCase() },
+      errors: {},
+    }),
+  }),
+});
+function FormView() {
+  const form = useFormContext<{ name: string }>();
+  const [saved, save] = useState('');
+  return (
+    <form id="form-model" onSubmit={form.handleSubmit((values) => save(values.name))}>
+      <input {...form.register('name')} />
+      <button>Save</button>
+      <output>{saved}</output>
+    </form>
+  );
+}
+const OwnForm = holoForm({ model: FormModel, core: FormView });
+const queryClient = new QueryClient();
+const detailQO = () =>
+  queryOptions({ queryKey: ['compat'], queryFn: async () => 'Ready', staleTime: Infinity });
+queryClient.setQueryData(detailQO().queryKey, 'Ready');
+const query = queryAtoms({
+  query: detailQO,
+  client: queryClient,
+  prism: { $data: (result) => result.data },
+});
+const QueryView = holo({
+  core: ({ data }: { data: string | undefined }) => <output>query:{data}</output>,
+  state: { data: query.$data },
+});
+
 const $count = stateAtom(0);
 const $double = ion($count, (count) => count * 2);
 const { $parity } = prism($count, { $parity: (count) => count % 2 });
@@ -123,6 +193,11 @@ function render(id = 'a') {
     <StrictMode>
       <Provider store={store}>
         <Counter />
+        <Suspense fallback={<b id="model-loading">model loading</b>}>
+          <OwnCounter />
+        </Suspense>
+        <OwnForm />
+        <QueryView />
         <Match ref={inputRef} />
         <ul>
           <List />
@@ -142,6 +217,15 @@ function render(id = 'a') {
 }
 Reflect.set(window, 'compat', {
   resolve: () => settle('ready'),
+  suspendModel: () =>
+    store.set(
+      store.get(OwnModel()).$text,
+      new Promise<string>((resolve) => {
+        resolveOwn = resolve;
+      }),
+    ),
+  resolveModel: () => resolveOwn('resolved'),
+  updateQuery: () => queryClient.setQueryData(detailQO().queryKey, 'Updated'),
   emit: (count: number) => store.set(changed, count),
   replace: (value: string | Promise<string>) => store.set($async, value),
   reject: () => store.set($async, Promise.reject(new Error('expected rejection'))),
@@ -149,6 +233,12 @@ Reflect.set(window, 'compat', {
   scope: (id: string) => render(id),
   snapshot: () => ({
     count: store.get($count),
+    ownActive,
+    ownCreates,
+    queryObservers: queryClient
+      .getQueryCache()
+      .findAll()
+      .reduce((n, q) => n + q.getObserversCount(), 0),
     deliveries,
     lifecycle,
     models,
@@ -159,6 +249,7 @@ Reflect.set(window, 'compat', {
     root.unmount();
     stopBond();
     stopEvent();
+    queryClient.clear();
   },
 });
 render();

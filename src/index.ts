@@ -1,9 +1,15 @@
 export { stateAtom } from './state-atom.js';
 export { actionAtom } from './action-atom.js';
 export { holo } from './holo.js';
+export type { HoloConfig, HoloModelConfig } from './holo.js';
 export type { HoloCage, CageContext } from './holo-cage.js';
 export { ion } from './ion.js';
 export { prism } from './prism.js';
+export { eq } from './eq.js';
+export { and } from './and.js';
+export { or } from './or.js';
+export { some } from './some.js';
+export { sum } from './sum.js';
 export { holoList } from './holo-list.js';
 export { holoMatch } from './holo-match.js';
 export { bond } from './bond.js';

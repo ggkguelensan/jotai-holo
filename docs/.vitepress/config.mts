@@ -2,14 +2,30 @@ import { defineConfig, type DefaultTheme } from 'vitepress';
 import { fileURLToPath } from 'node:url';
 
 const groups = [
-  { en: 'State', ru: 'Состояние', names: ['stateAtom', 'ion', 'prism'] },
+  {
+    en: 'State',
+    ru: 'Состояние',
+    names: ['stateAtom', 'ion', 'prism', 'eq', 'and', 'or', 'some', 'sum'],
+  },
   {
     en: 'Commands & events',
     ru: 'Команды и события',
     names: ['actionAtom', 'eventAtom', 'subscribeEvent', 'bond'],
   },
   { en: 'React bindings', ru: 'Привязки React', names: ['holo', 'cage', 'holoList', 'holoMatch'] },
-  { en: 'Integrations', ru: 'Интеграции', names: ['holoMolecule'] },
+  {
+    en: 'Integrations',
+    ru: 'Интеграции',
+    names: [
+      'createModel',
+      'queryAtoms',
+      'queryClientAtom',
+      'createFormModel',
+      'holoForm',
+      'formAtom',
+      'holoMolecule',
+    ],
+  },
 ];
 function sidebar(ru: boolean): DefaultTheme.SidebarItem[] {
   const root = ru ? '/ru' : '';
@@ -64,6 +80,18 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: [
+        {
+          find: 'jotai-holo/model',
+          replacement: fileURLToPath(new URL('../../src/model.ts', import.meta.url)),
+        },
+        {
+          find: 'jotai-holo/query',
+          replacement: fileURLToPath(new URL('../../src/query.ts', import.meta.url)),
+        },
+        {
+          find: 'jotai-holo/rhf',
+          replacement: fileURLToPath(new URL('../../src/rhf.ts', import.meta.url)),
+        },
         {
           find: 'jotai-holo/bunshi',
           replacement: fileURLToPath(new URL('../../src/bunshi.ts', import.meta.url)),

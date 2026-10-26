@@ -31,6 +31,9 @@ try {
           'react-dom': version,
           jotai: '3.0.1',
           bunshi: '2.2.0',
+          'react-hook-form': '7.91.0',
+          '@tanstack/react-query': '5.104.5',
+          '@tanstack/query-core': '5.104.5',
           '@types/react': version.startsWith('18.') ? '18.3.31' : '19.3.0',
           '@types/react-dom': version.startsWith('18.') ? '18.3.7' : '19.3.0',
         },
@@ -123,6 +126,20 @@ assert.match(html, /adapted-ready/);
       try {
         await page.goto(`http://127.0.0.1:${port}`);
         await page.locator('#loading').waitFor();
+        await page.locator('#native-model').click();
+        await page.getByText('model:1/ready', { exact: true }).waitFor();
+        await page.evaluate(() => window.compat.suspendModel());
+        await page.locator('#model-loading').waitFor();
+        await page.waitForTimeout(20);
+        assert.equal((await page.evaluate(() => window.compat.snapshot())).ownCreates, 1);
+        await page.evaluate(() => window.compat.resolveModel());
+        await page.getByText('model:1/resolved', { exact: true }).waitFor();
+        await page.locator('#form-model input').fill('Grace');
+        await page.locator('#form-model button').click();
+        await page.getByText('GRACE', { exact: true }).waitFor();
+        await page.getByText('query:Ready', { exact: true }).waitFor();
+        await page.evaluate(() => window.compat.updateQuery());
+        await page.getByText('query:Updated', { exact: true }).waitFor();
         await page.locator('#counter').click();
         await page.getByText('counter:1/2/1', { exact: true }).waitFor();
         await page.evaluate(() => window.compat.resolve());
@@ -151,13 +168,15 @@ assert.match(html, /adapted-ready/);
         await page.evaluate(() => window.compat.unmount());
         state = await page.evaluate(() => window.compat.snapshot());
         assert.equal(state.lifecycle.at(-1), 'unmount');
+        assert.equal(state.ownActive, 0);
+        assert.equal(state.queryObservers, 0);
         assert.ok(
           !errors.some((error) => !error.includes('expected rejection')),
           JSON.stringify(errors),
         );
         assert.deepEqual(consoleErrors, []);
         console.log(
-          `React ${version} ${mode}: packed types, SSR, state/actions/events, refs, Suspense/rejection, Bunshi scopes, list/match and cleanup passed.`,
+          `React ${version} ${mode}: packed types, SSR, state/actions/events, refs, Suspense/rejection, Bunshi scopes, native models, Query projections, RHF resolver, list/match and cleanup passed.`,
         );
       } finally {
         await page.close();

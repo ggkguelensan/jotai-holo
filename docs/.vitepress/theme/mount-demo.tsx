@@ -7,7 +7,13 @@ export function mountDemo(host: HTMLElement, kind: string, ru: boolean) {
       ? lazy(async () => ({
           default: (await import('../../../examples/docs-bunshi')).createBunshiDemo(ru),
         }))
-      : createDocumentationDemo(kind, ru);
+      : ['operators', 'model', 'query', 'form'].includes(kind)
+        ? lazy(async () => ({
+            default: (
+              await import('../../../examples/docs-infrastructure')
+            ).createInfrastructureDemo(kind, ru),
+          }))
+        : createDocumentationDemo(kind, ru);
   const root = createRoot(host);
   root.render(
     <Suspense fallback={<span>…</span>}>

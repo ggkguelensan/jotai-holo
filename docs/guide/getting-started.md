@@ -35,3 +35,7 @@ Use Jotai's `<Provider store={store}>` to isolate a widget or application. Witho
 No Provider specific to holo is required. Basic bindings need no `connect`. Only [bond](/reference/bond) and [external event subscriptions](/reference/subscribeEvent) require explicit ownership and disposal.
 
 Continue with [why this API](/guide/motivation), the [profile workflow](/recipes/profile), or [holo reference](/reference/holo).
+
+## Shared models and external resources
+
+Use [createModel](/reference/createModel) for models shared between widgets. A definition/key/store identifies one instance; omitting the key selects default. Import the registry from `jotai-holo/model`, Query from `jotai-holo/query`, and forms from `jotai-holo/rhf`. These optional entries stay outside ordinary atom bindings.

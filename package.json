@@ -39,6 +39,18 @@
       "import": "./dist/vanilla.js"
     },
     "./package.json": "./package.json",
+    "./model": {
+      "types": "./dist/model.d.ts",
+      "import": "./dist/model.js"
+    },
+    "./query": {
+      "types": "./dist/query.d.ts",
+      "import": "./dist/query.js"
+    },
+    "./rhf": {
+      "types": "./dist/rhf.d.ts",
+      "import": "./dist/rhf.js"
+    },
     "./bunshi": {
       "types": "./dist/bunshi.d.ts",
       "import": "./dist/bunshi.js"
@@ -64,15 +76,24 @@
     "docs:preview": "vitepress preview docs",
     "docs:check": "node scripts/check-docs.mjs",
     "test:docs": "node scripts/test-docs.mjs",
-    "test:react": "node scripts/test-react-compat.mjs"
+    "test:react": "node scripts/test-react-compat.mjs",
+    "test:model-memory": "pnpm build && node --expose-gc scripts/test-model-memory.mjs"
   },
   "peerDependencies": {
+    "@tanstack/query-core": ">=5.104.5 <6",
     "@types/react": ">=18 <20",
     "bunshi": ">=2.2.0 <3",
     "jotai": ">=3.0.1 <4",
-    "react": ">=18 <20"
+    "react": ">=18 <20",
+    "react-hook-form": ">=7.91.0 <8"
   },
   "peerDependenciesMeta": {
+    "@tanstack/query-core": {
+      "optional": true
+    },
+    "react-hook-form": {
+      "optional": true
+    },
     "@types/react": {
       "optional": true
     },
@@ -81,6 +102,8 @@
     }
   },
   "devDependencies": {
+    "@hookform/resolvers": "6.0.0",
+    "@tanstack/query-core": "5.104.5",
     "@tanstack/react-query": "5.104.5",
     "@types/node": "^22.0.0",
     "@types/react": "^19.2.0",
@@ -109,6 +132,7 @@
     "vitepress": "1.6.4",
     "vitest": "4.1.6",
     "vue": "3.5.44",
-    "xstate": "5.33.3"
+    "xstate": "5.33.3",
+    "zod": "4.6.7"
   }
 }

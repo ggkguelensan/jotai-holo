@@ -175,6 +175,7 @@ const cases = [
 const results = {};
 const helperBreakdown = {};
 const isolatedHelpers = {};
+const optionalEntries = {};
 try {
   await rm(fixture, { recursive: true, force: true });
   await mkdir(fixture, { recursive: true });
@@ -275,6 +276,40 @@ try {
     });
     isolatedHelpers[name] = inspect(result);
   }
+  for (const [name, entry, names] of [
+    ['scalar-operators', 'vanilla', ['eq', 'and', 'or', 'some', 'sum']],
+    ['model', 'model', ['createModel']],
+    ['query', 'query', ['queryAtoms', 'queryClientAtom']],
+    ['rhf', 'rhf', ['createFormModel', 'holoForm', 'formAtom']],
+    ['rhf-field', 'rhf', ['formAtom']],
+    ['rhf-model', 'rhf', ['createFormModel']],
+    ['rhf-binding', 'rhf', ['holoForm']],
+  ]) {
+    const input = `${fixture}/optional.js`;
+    await writeFile(input, `export { ${names.join(', ')} } from '../dist/${entry}.js';`);
+    const result = await build({
+      configFile: false,
+      root,
+      logLevel: 'silent',
+      mode: 'production',
+      build: {
+        target: 'es2022',
+        write: false,
+        minify: 'oxc',
+        rolldownOptions: {
+          input,
+          preserveEntrySignatures: 'strict',
+          external: (id) =>
+            /^(?:react|jotai|react-hook-form|@tanstack\/query-core)(?:\/|$)/.test(id),
+        },
+      },
+    });
+    optionalEntries[name] = inspect(result);
+  }
+  assert.ok(
+    !results.holo.modules.some((id) => /\/(?:model|query|rhf)\.js$/.test(id)),
+    'Optional infrastructure must stay out of ordinary holo.',
+  );
   const isolated = await build({
     configFile: false,
     root,
@@ -322,6 +357,7 @@ try {
         results,
         helperBreakdown,
         isolatedHelpers,
+        optionalEntries,
         moleculeIncrement: Object.fromEntries(
           ['minified', 'gzip', 'brotli'].map((metric) => [
             metric,

@@ -85,6 +85,25 @@ try {
         .map((button) => button.textContent)
         .join(',') === '+ 1,+ 1,+ 0',
   );
+  await page.goto(`${origin}reference/createModel`);
+  await page.getByRole('button', { name: 'Add a seat', exact: true }).first().click();
+  await page.locator('.example-preview output').first().getByText('6', { exact: true }).waitFor();
+  assert.equal(await page.locator('.example-preview output').last().innerText(), '5');
+  await page.goto(`${origin}reference/queryAtoms`);
+  await page.getByText('Oak desk · $240', { exact: true }).waitFor();
+  await page.getByRole('button', { name: 'Lamp', exact: true }).click();
+  await page.getByText('Desk lamp · $45', { exact: true }).waitFor();
+  await page.goto(`${origin}reference/holoForm`);
+  await page.getByRole('button', { name: 'Save contact', exact: true }).first().click();
+  await page.getByText('Enter a valid email', { exact: true }).waitFor();
+  await page.locator('.example-preview input').first().fill('ada@example.com');
+  await page.getByRole('button', { name: 'Save contact', exact: true }).first().click();
+  await page.getByText('Saved: ada@example.com', { exact: true }).waitFor();
+  await page.locator('.example-preview input').first().fill('ada@work.example');
+  await page.locator('.example-preview input').first().press('Enter');
+  await page.getByText('Saved: ada@work.example', { exact: true }).waitFor();
+  assert.equal(await page.locator('.example-preview input').last().inputValue(), '');
+  await page.screenshot({ path: '.vitest-attachments/docs-form-infrastructure.png' });
   // Client navigation resets the demo store instead of retaining an abandoned root.
   await page.goto(`${origin}reference/stateAtom`);
   await page.getByRole('button', { name: 'Increment', exact: true }).click();
@@ -119,6 +138,9 @@ try {
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   await page.goto(`${origin}ru/reference/ion`);
   await page.getByRole('spinbutton').waitFor();
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+  await page.goto(`${origin}ru/reference/holoForm`);
+  await page.locator('.example-preview input').first().waitFor();
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   assert.deepEqual(errors, []);
   console.log(

@@ -24,6 +24,7 @@ import { atom, createStore, Provider, useAtomValue, useSetAtom } from 'jotai';
 import { molecule, useMolecule, createScope, ScopeProvider, createInjector, InjectorProvider, onMount } from 'bunshi/react';
 import { holo } from '../dist/index.js';
 import { holoMolecule } from '../dist/bunshi.js';
+import { createModel } from '../dist/model.js';
 const scope = createScope('default');
 const injector = createInjector();
 const injectorValue = () => injector;
@@ -57,18 +58,33 @@ function Native({ pending }) {
   const increment = useSetAtom(model.increment);
   return h(View, { count, increment });
 }
+const OwnModel = createModel({
+  gcTime: 0,
+  create: () => {
+    const $count = atom(0);
+    const $pending = atom(new Promise(() => {}));
+    $count.onMount = () => { subscriptions++; return () => { subscriptions--; }; };
+    const increment = atom(null, (_get, set) => set($count, n => n + 1));
+    const model = { $count, $pending, increment };
+    refs.models.push(new WeakRef(model)); refs.atoms.push(new WeakRef($count), new WeakRef($pending));
+    return model;
+  },
+  connect: () => { active++; return () => { active--; }; },
+});
+const Own = holo({ model: props => OwnModel({key: [props.instanceKey]}), core: View, state: m => ({count: m.$count}), actions: m => ({increment: m.increment}) });
+const OwnPending = holo({ model: props => OwnModel({key: [props.instanceKey]}), core: View, state: m => ({count: m.$pending}), actions: m => ({increment: m.increment}) });
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
 window.samples = {};
 window.run = async (mode, cycles) => {
   refs = { models: [], atoms: [], callbacks: [] };
   const root = createRoot(document.getElementById('root'));
   const pending = mode.endsWith('-suspended');
-  const Page = mode.startsWith('adapted') ? (pending ? AdaptedPending : Adapted) : Native;
+  const Page = mode.startsWith('own') ? (pending ? OwnPending : Own) : mode.startsWith('adapted') ? (pending ? AdaptedPending : Adapted) : Native;
   for (let i = 0; i < cycles; i++) {
     flushSync(() => root.render(
       h(InjectorProvider, { value: injectorValue },
         h(Provider, { store }, h(ScopeProvider, { scope, value: mode + ':' + i },
-          h(Suspense, { fallback: 'pending' }, h(Page, { pending })))))
+          h(Suspense, { fallback: 'pending' }, h(Page, { pending, instanceKey: mode + ':' + i })))))
     ));
     await tick();
     flushSync(() => root.render(null));
@@ -104,7 +120,14 @@ window.ready = true;
   await page.waitForFunction(() => window.ready === true);
   const cdp = await page.context().newCDPSession(page);
   const report = {};
-  for (const mode of ['native', 'adapted', 'native-suspended', 'adapted-suspended']) {
+  for (const mode of [
+    'native',
+    'adapted',
+    'native-suspended',
+    'adapted-suspended',
+    'own',
+    'own-suspended',
+  ]) {
     const lifecycle = await page.evaluate(({ mode, cycles }) => window.run(mode, cycles), {
       mode,
       cycles: 200,

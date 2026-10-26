@@ -90,7 +90,7 @@ With the pinned React 19.3.1/Jotai 3.0.1, an async→sync transition after initi
 
 ## Package verification
 
-`pnpm test:package` builds a real tarball, extracts it into an isolated consumer directory, imports both public ESM entry points, typechecks a consumer against the **packed declarations**, verifies preserved client directives and checks that the vanilla import graph has no React imports. Tests/examples/dependencies are excluded from the tarball. jotai-effect remains a development dependency. Bunshi is an optional peer for the separate adapter entry. Packed root runtime/declaration graphs are checked to contain no Bunshi imports.
+`pnpm test:package` builds a real tarball, extracts it into an isolated consumer directory, imports public root, vanilla and optional ESM entry points, typechecks a consumer against the **packed declarations**, verifies preserved client directives and checks that the vanilla import graph has no React imports. Tests/examples/dependencies are excluded from the tarball. jotai-effect remains a development dependency. Bunshi is an optional peer for the separate adapter entry. Packed root runtime/declaration graphs are checked to contain no Bunshi imports.
 
 ## React version matrix
 
@@ -99,3 +99,13 @@ With the pinned React 19.3.1/Jotai 3.0.1, an async→sync transition after initi
 On React 18, refs must terminate at an intrinsic element, class, or `forwardRef` View, following React's normal rules. A plain function View receiving ref as an ordinary prop is a React 19 feature. Holo forwards refs through its React 18 boundaries; it does not polyfill React 19's component API.
 
 The private compatibility layer uses native `React.use` on React 19 and cached Promise settlement with Suspense retries on React 18. It keeps pending results weakly keyed and preserves the existing Jotai/raw-hook aggregation paths. No separate runtime dependency is added. Node, Jotai and TypeScript requirements are unchanged.
+
+## Keyed models, Query and forms
+
+Optional entries remain separate from ordinary root imports. The registry uses native WeakRef/FinalizationRegistry (ES2021+ runtime required). Key identity, store isolation, lease cleanup, finite/Infinity retention, explicit removal and StrictMode are checked by the model suites. A committed model survives temporary Suspense hiding even with gcTime zero; React teardown releases after synchronous child lifecycle reactions. Production Chromium forced-GC cases additionally cover mounted and abandoned Suspense models; `pnpm test:model-memory` checks 300 instances per case, including form controls and discarded stores.
+
+Query tests use native QueryObserver and application-owned QueryClient: options factories, shared cache with useQuery, hydration, key/client replacement, enabled/skipToken, consumed AbortSignal cancellation, stale completions, remount after query-cache eviction and data-only render counts. Infinite queries, suspense queries and mutations have no dedicated wrapper.
+
+The RHF bridge uses native createFormControl/useForm/useFormState/FormProvider. Tests cover isolated keyed controls, outside panels, field subscriptions, async transforming resolvers, defaultValues and dirty/touched persistence, focus/validation/reset, async defaults, field arrays and StrictMode. The live business example exercises zodResolver. Other native resolvers use the same unmodified Resolver protocol; their complete validator-specific features are not individually certified.
+
+The packed React matrix additionally exercises keyed model ownership, Query projections and an RHF resolver on React 18.0.0, 18.3.1 and 19.3.1 in development and production. Form values are selectable atoms; form-state flags use native RHF hooks. Options are creation-time configuration, not reactive holo props.

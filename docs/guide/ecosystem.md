@@ -24,3 +24,5 @@ The official [atomWithListeners recipe](https://jotai.org/docs/recipes/atom-with
 ## Related reading
 
 [Jotai atom](https://jotai.org/docs/core/atom), [selectAtom](https://jotai.org/docs/utilities/select), [splitAtom](https://jotai.org/docs/utilities/split), [async utilities](https://jotai.org/docs/utilities/async), [query integration](https://jotai.org/docs/extensions/query). These tools remain usable directly; holo does not require replacing them with wrappers.
+
+For keyed models without another scope provider, use [createModel](/reference/createModel). For Query factories with independent projections, use [queryAtoms](/reference/queryAtoms). For a form shared by an editor and an external toolbar, use [holoForm](/reference/holoForm). Native useQuery and useForm remain preferable where a separate model binding is unnecessary.

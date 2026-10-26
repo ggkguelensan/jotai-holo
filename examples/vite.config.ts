@@ -5,6 +5,18 @@ export default defineConfig({
   resolve: {
     alias: [
       {
+        find: 'jotai-holo/model',
+        replacement: fileURLToPath(new URL('../src/model.ts', import.meta.url)),
+      },
+      {
+        find: 'jotai-holo/query',
+        replacement: fileURLToPath(new URL('../src/query.ts', import.meta.url)),
+      },
+      {
+        find: 'jotai-holo/rhf',
+        replacement: fileURLToPath(new URL('../src/rhf.ts', import.meta.url)),
+      },
+      {
         find: 'jotai-holo/bunshi',
         replacement: fileURLToPath(new URL('../src/bunshi.ts', import.meta.url)),
       },

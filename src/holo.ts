@@ -15,6 +15,13 @@ import {
   type NamedExoticComponent,
 } from 'react';
 import { createCageAtom, useHoloCage, type HoloCage } from './holo-cage.js';
+import {
+  bindModel,
+  type ModelInputs,
+  type ModelRuntimeConfig,
+  type ModelSource,
+  type ModelValue,
+} from './model-binding.js';
 
 type ValueAt<Props, Key extends PropertyKey> = Props extends unknown
   ? Key extends keyof Props
@@ -72,7 +79,48 @@ export type HoloConfig<
   cage?: HoloCage<Inputs<ComponentPropsWithRef<NoInfer<Core>>, StateKeys, ActionKeys>>;
 };
 
+export type HoloModelConfig<
+  Core extends ElementType,
+  Source extends ModelSource,
+  StateKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<Core>>> = never,
+  ActionKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<Core>>> = never,
+  StaticKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<Core>>> = never,
+> = Omit<HoloConfig<Core, StateKeys, ActionKeys, StaticKeys>, 'state' | 'actions' | 'cage'> & {
+  model: Source;
+  state?:
+    | HoloConfig<Core, StateKeys, ActionKeys, StaticKeys>['state']
+    | ((
+        model: ModelValue<Source>,
+      ) => NonNullable<HoloConfig<Core, StateKeys, ActionKeys, StaticKeys>['state']>);
+  actions?:
+    | HoloConfig<Core, StateKeys, ActionKeys, StaticKeys>['actions']
+    | ((
+        model: ModelValue<Source>,
+      ) => NonNullable<HoloConfig<Core, StateKeys, ActionKeys, StaticKeys>['actions']>);
+  cage?:
+    | HoloCage<
+        Inputs<ComponentPropsWithRef<NoInfer<Core>>, StateKeys, ActionKeys> & ModelInputs<Source>
+      >
+    | ((
+        model: ModelValue<Source>,
+      ) => HoloCage<
+        Inputs<ComponentPropsWithRef<NoInfer<Core>>, StateKeys, ActionKeys> & ModelInputs<Source>
+      >);
+};
+
 /** Declare once per model lifetime. Cores receive ordinary React props. */
+export function holo<
+  Core extends ElementType,
+  Source extends ModelSource,
+  StateKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<Core>>> = never,
+  ActionKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<Core>>> = never,
+  StaticKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<Core>>> = never,
+>(
+  config: HoloModelConfig<Core, Source, StateKeys, ActionKeys, StaticKeys>,
+): NamedExoticComponent<
+  OwnProps<ComponentPropsWithRef<NoInfer<Core>>, StateKeys | ActionKeys | StaticKeys> &
+    ModelInputs<Source>
+>;
 export function holo<
   Core extends ElementType,
   StateKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<Core>>> = never,
@@ -83,7 +131,9 @@ export function holo<
 ): NamedExoticComponent<
   OwnProps<ComponentPropsWithRef<NoInfer<Core>>, StateKeys | ActionKeys | StaticKeys>
 >;
-export function holo(config: RuntimeConfig) {
+export function holo(config: RuntimeConfig | ModelRuntimeConfig): unknown {
+  if ('model' in config)
+    return bindModel(config, (resolved) => Reflect.apply(holo, undefined, [resolved]));
   const states = Object.entries(config.state ?? {});
   const actions = Object.entries(config.actions ?? {});
   const entries = [...states, ...actions];

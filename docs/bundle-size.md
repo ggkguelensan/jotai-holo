@@ -1,83 +1,75 @@
 # Production bundle measurements
 
-Measured on the thin publishing atoms and consumer-owned event delivery implementation using Vite 8.0.13, React/React DOM 19.3.1, Jotai 3.0.1 and Bunshi 2.2.0. Builds use the compiled dist entry points, production mode, Oxc minification and target ES2022.
+Measured from the store-owned infrastructure implementation on 2026-10-26 with the versions pinned in package.json/pnpm-lock.yaml. Vite 8.0.13, React/React DOM 19.3.1, Jotai 3.0.1; production Oxc minification, ES2022 target. Gzip level 9, Brotli quality 11. These are JavaScript measurements, excluding maps, HTML and tarball size.
 
 ## Additional JavaScript in React + Jotai
 
-Native and holo fixtures render the same counter. React, React DOM and Jotai are included in both whole-app bundles.
+Equivalent native and connected counter applications include React, React DOM and Jotai in both bundles. These figures subtract the complete compressed baseline application from each variant.
 
-| Variant                                 | Additional minified bytes | Additional gzip bytes | Additional Brotli bytes |
-| --------------------------------------- | ------------------------: | --------------------: | ----------------------: |
-| Only helpers, root import               |                       313 |                   115 |                      -9 |
-| Only helpers, vanilla import            |                       313 |                   115 |                      -9 |
-| holo with native atoms                  |                     5,097 |                 1,811 |                   1,533 |
-| holo + helpers                          |                     5,410 |                 1,932 |                   1,733 |
-| holo + helpers, with preexisting unwrap |                     4,672 |                 1,640 |                   1,451 |
+| Variant                               | Minified bytes | gzip bytes | Brotli bytes |
+| ------------------------------------- | -------------: | ---------: | -----------: |
+| Helpers, root import                  |            313 |        115 |           -9 |
+| Helpers, vanilla import               |            313 |        115 |           -9 |
+| holo with native atoms                |          6,524 |      2,300 |        1,920 |
+| holo with helpers                     |          6,837 |      2,411 |        2,124 |
+| holo with helpers, preexisting unwrap |          6,099 |      2,122 |        1,867 |
 
-Baseline app: **226,797 / 70,500 / 60,957 bytes** (minified / gzip / Brotli). With holo and helpers: **232,207 / 72,432 / 62,690 bytes**.
+Baseline application: **226,797 | 70,500 | 60,957 bytes** (minified / gzip / Brotli). Plain holo adds **2,300 gzip bytes**; registry, Query, RHF and Bunshi implementations are absent. Root imports do not force unused operators into the application.
 
-Ordinary holo with native atoms adds **1,811 gzip bytes** and has no Bunshi dependency. ActionAtom includes only a minimal per-store publication port. Queues, listeners and listener error handling belong to bond/subscribeEvent and are absent from publisher-only imports. Root and vanilla helper imports have identical output.
+## Publishing helpers
 
-## Individual state, action and event helpers
+The fixture uses native hooks, an explicit store, primitive/derived state, an increment action and a notification write. Only the named factory changes. The subscription variant also includes application listener setup and pagehide disposal.
 
-The helper fixture uses native React/Jotai hooks with an explicit store, primitive and derived state, an increment action and a notification write. Its baseline uses native atom factories throughout. Each variant replaces only the named factories. These figures exclude holo and bond, and count React/Jotai in both app bundles.
+| Variant              | Minified bytes | gzip bytes | Brotli bytes |
+| -------------------- | -------------: | ---------: | -----------: |
+| stateAtom            |             99 |         44 |          126 |
+| actionAtom           |            214 |         85 |           72 |
+| eventAtom            |            234 |         87 |          145 |
+| stateAtom+actionAtom |            313 |        123 |           90 |
+| all-three            |            329 |        117 |          149 |
+| all-three+subscribe  |          1,445 |        573 |          562 |
 
-| Factories used                    | Additional minified bytes | Additional gzip bytes |
-| --------------------------------- | ------------------------: | --------------------: |
-| stateAtom                         |                        99 |                    44 |
-| actionAtom                        |                       214 |                    85 |
-| eventAtom                         |                       234 |                    87 |
-| stateAtom + actionAtom            |                       313 |                   123 |
-| All three                         |                       329 |                   117 |
-| All three + external subscription |                     1,445 |                   573 |
+EventAtom stays a thin actionAtom wrapper; the listener/queue runtime is imported by consumers through bond or subscribeEvent. The script asserts that publisher-only imports exclude that runtime.
 
-EventAtom is a thin wrapper over actionAtom. It has no subscribe method. Subscription ownership and FIFO delivery are separate code imported through subscribeEvent or bond. The script asserts that publisher-only variants contain neither event-dispatch.js nor subscribe-event.js. The subscription row also includes application code that registers a listener and a pagehide disposer; it is not an isolated subscription-runtime measurement. Shared code and compressed bundle dictionaries mean individual deltas must not be added together.
+## Optional entry points with peers external
 
-For comparison, preserving just the named factory exports with React/Jotai external gives these independent library bundles. Their gzip figures compress the small library chunk alone rather than subtracting two complete app bundles:
+These figures compress isolated library exports, with React, Jotai, query-core and RHF external. They **do not** include those dependencies and are **not** incremental whole-application deltas. A subset can remove unused code even inside one optional entry.
 
-| Exports preserved | Minified bytes | gzip bytes |
-| ----------------- | -------------: | ---------: |
-| stateAtom         |            152 |        131 |
-| actionAtom        |            272 |        203 |
-| eventAtom         |            295 |        210 |
-| All three         |            418 |        258 |
+| Variant                                       | Minified bytes | gzip bytes | Brotli bytes |
+| --------------------------------------------- | -------------: | ---------: | -----------: |
+| All five scalar operators                     |            653 |        334 |          293 |
+| createModel                                   |          3,465 |      1,485 |        1,339 |
+| queryAtoms + queryClientAtom                  |          1,403 |        723 |          656 |
+| formAtom only                                 |            884 |        483 |          424 |
+| createFormModel only (includes registry)      |          4,189 |      1,756 |        1,576 |
+| holoForm only (includes ordinary holo)        |          6,565 |      2,687 |        2,449 |
+| All form utilities (includes holo + registry) |         11,338 |      4,385 |        3,963 |
 
-## Application already using Bunshi
+The all-form row already contains holo and the model registry. Do not add those rows together. FormAtom-only imports contain neither holo nor the registry. The Query entry reuses prism/readSource and talks directly to QueryObserver; it contains no atomWithQuery adapter. Zod and resolvers are application/example dependencies and never enter the library runtime.
 
-Both fixtures construct the same model in a molecule. The control calls native useMolecule/useAtomValue/useSetAtom; the adapter uses holoMolecule(Model) and atom selectors in holo. Neither fixture uses stateAtom/actionAtom.
+## Bunshi, cage and complete root
 
-| Variant                         | Minified bytes | gzip bytes | Brotli bytes |
-| ------------------------------- | -------------: | ---------: | -----------: |
-| Native Bunshi + Jotai           |        235,960 |     73,655 |       63,763 |
-| holo + molecule binding adapter |        241,197 |     75,434 |       65,264 |
-| Additional cost                 |          5,237 |      1,779 |        1,501 |
+| Variant                                | Minified bytes | gzip bytes | Brotli bytes |
+| -------------------------------------- | -------------: | ---------: | -----------: |
+| Native Bunshi application              |        235,960 |     73,655 |       63,763 |
+| Bunshi with holo adapter               |        242,624 |     75,916 |       65,795 |
+| Bunshi adapter application increment   |          6,664 |      2,261 |        2,032 |
+| Cage application increment             |          1,311 |        389 |          355 |
+| All root exports, React/Jotai external |         10,854 |      4,142 |        3,806 |
 
-## Cage and standalone library
+A measurement-only transform removes cage wiring for the cage comparison. Ordinary holo still includes its lifecycle capability even if no handlers are configured. The complete-root row preserves every runtime root export, unlike a typical tree-shaken application.
 
-A measurement-only transform removes cage wiring from the ordinary holo + helpers fixture. Cage contributes **1,319 / 411 / 424 bytes** (minified / gzip / Brotli). It remains included even without configured handlers. The script checks that the transformed module graph loses holo-cage.js.
+## Tree shaking and reproducibility
 
-Preserving all ten runtime root exports with React/Jotai external produces **8,875 / 3,463 / 3,193 bytes**. This includes model operators, subscribeEvent and view adapters, and excludes peer implementations; do not add it to app deltas. Bunshi's optional entry is measured separately above.
-
-## Tree shaking
-
-- Helper-only root and vanilla imports have identical output; no binding, holo or aggregation modules remain.
-- Publisher-only stateAtom/actionAtom/eventAtom imports exclude subscription and queue runtime.
-- Ordinary holo includes the generic binding protocol and async handling, but no Bunshi code.
-- Unused eventAtom, bond, ion, prism, holoList and holoMatch modules are removed from ordinary counter fixtures.
-- Only the molecule-adapter fixture includes Bunshi.
-- jotai-effect, RxJS and jotai-eager remain absent.
-
-Compression uses gzip level 9 and Brotli quality 11. App deltas compare compressed complete bundles, so shared dictionaries, minification and chunk splitting affect the result. Even a negative compressed delta can occur while minified code grows. These figures are reproducible fixtures, not a byte guarantee for every app.
-
-## Reproduce
+- Helper-only root and vanilla imports produce identical output, without React bindings.
+- Unused scalar operators, bond, events, prism, ion and branch/list adapters are removed from ordinary counter fixtures.
+- Ordinary holo imports the small model-binding protocol, but not registry construction, timers, Query, RHF or Bunshi.
+- Optional Query and RHF code is reachable only through its separate entry point.
+- Publisher-only imports exclude subscription queues and listener error handling.
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm size
 ```
 
-[The measurement script](../scripts/measure-bundle.mjs) creates temporary fixtures, checks module graphs and prints JSON results, then removes the fixtures. BUNDLE_SOURCE_COMMIT optionally labels a revision. HTML, source maps and package tarball size are excluded.
-
-## React 18 compatibility increment
-
-Compared with `9599e77` using the same pinned React 19 application fixtures and Vite configuration, the React 18 compatibility layer adds **408 minified bytes / 148 gzip bytes** to the ordinary holo fixture and **409 minified bytes / 117 gzip bytes** to the Bunshi fixture. These are changes to complete application bundles, not isolated module sizes. Publisher/model-only helper fixtures remain byte-for-byte unchanged. Compression deltas depend on the surrounding application and are not additive.
+[The measurement script](../scripts/measure-bundle.mjs) builds compiled dist fixtures, checks their module graphs and prints JSON. BUNDLE_SOURCE_COMMIT optionally labels the revision. Compression dictionaries, minification and chunk splitting affect application deltas; figures are not additive or a byte guarantee for every application.

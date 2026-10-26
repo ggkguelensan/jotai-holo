@@ -24,3 +24,5 @@
 ## Материалы
 
 [Jotai atom](https://jotai.org/docs/core/atom), [selectAtom](https://jotai.org/docs/utilities/select), [splitAtom](https://jotai.org/docs/utilities/split), [async-утилиты](https://jotai.org/docs/utilities/async), [query-интеграция](https://jotai.org/docs/extensions/query). Эти инструменты используются напрямую; holo не требует заменять их обёртками.
+
+Для ключевых моделей без дополнительного scope-провайдера используйте [createModel](/ru/reference/createModel). Для Query-фабрик и независимых проекций есть [queryAtoms](/ru/reference/queryAtoms); для формы, которую разделяют редактор и внешняя панель — [holoForm](/ru/reference/holoForm). Нативные useQuery и useForm остаются предпочтительными там, где отдельная привязка модели не нужна.

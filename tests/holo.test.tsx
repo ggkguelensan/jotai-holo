@@ -207,10 +207,10 @@ function _checkInvalidBindings() {
   holo({ core: View, actions: { count } });
   // @ts-expect-error Static props must match the view prop type.
   holo({ core: View, bindProps: { title: 1 } });
+  // @ts-expect-error An action prop cannot also be static.
   holo({
     core: View,
     actions: { onIncrement: increment },
-    // @ts-expect-error An action prop cannot also be static.
     bindProps: { onIncrement: () => undefined },
   });
   // @ts-expect-error A required own prop is still required.

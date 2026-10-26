@@ -35,3 +35,7 @@ pnpm examples
 Специальный Provider holo не нужен. Обычные привязки не требуют `connect`. Явное подключение и освобождение нужны только [bond](/ru/reference/bond) и [внешним подпискам на события](/ru/reference/subscribeEvent).
 
 Далее: [мотивация API](/ru/guide/motivation), [сохранение профиля](/ru/recipes/profile), [справочник holo](/ru/reference/holo).
+
+## Общие модели и внешние ресурсы
+
+Для общей модели между виджетами есть [createModel](/ru/reference/createModel). Одна definition/key/store даёт один экземпляр; без ключа выбирается default. Реестр импортируется из `jotai-holo/model`, Query — из `jotai-holo/query`, формы — из `jotai-holo/rhf`. Это опциональные entry, которые не входят в обычную привязку атомов.

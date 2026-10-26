@@ -50,7 +50,7 @@ onBeforeUnmount(() => {
       <slot />
       <a
         class="example-file"
-        :href="`https://github.com/ggkguelensan/jotai-holo/blob/docs/reference-site/examples/${kind === 'bunshi' ? 'docs-bunshi' : 'docs-demos'}.tsx`"
+        :href="`https://github.com/ggkguelensan/jotai-holo/blob/docs/reference-site/examples/${kind === 'bunshi' ? 'docs-bunshi' : ['operators', 'model', 'query', 'form'].includes(kind) ? 'docs-infrastructure' : 'docs-demos'}.tsx`"
         >{{ lang === 'ru' ? 'Полный исходник с импортами' : 'Complete source with imports' }} ↗</a
       >
     </details>

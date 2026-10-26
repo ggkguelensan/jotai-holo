@@ -31,13 +31,24 @@ try {
     import * as library from 'jotai-holo';
     import * as vanilla from 'jotai-holo/vanilla';
     import * as bunshi from 'jotai-holo/bunshi';
+    import { createModel } from 'jotai-holo/model';
+    import { queryAtoms, queryClientAtom } from 'jotai-holo/query';
+    import { createFormModel, formAtom, holoForm } from 'jotai-holo/rhf';
+    assert.equal(typeof queryAtoms, 'function');
+    assert.equal(typeof holoForm, 'function');
+    const definition = createModel({create: () => ({value: 1})});
+    const forms = createFormModel({initial: {name: ''}, options: initial => ({defaultValues: initial})});
     assert.deepEqual(Object.keys(bunshi), ['holoMolecule']);
     import { createStore } from 'jotai/vanilla';
-    assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'bond', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'prism', 'stateAtom', 'subscribeEvent']);
-    assert.deepEqual(Object.keys(vanilla).sort(), ['actionAtom', 'bond', 'eventAtom', 'ion', 'prism', 'stateAtom', 'subscribeEvent']);
+    assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'or', 'prism', 'some', 'stateAtom', 'subscribeEvent', 'sum']);
+    assert.deepEqual(Object.keys(vanilla).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'ion', 'or', 'prism', 'some', 'stateAtom', 'subscribeEvent', 'sum']);
     const value = vanilla.stateAtom(1);
     const increment = vanilla.actionAtom((_get, set) => set(value, n => n + 1));
-    const store = createStore(); store.set(increment); assert.equal(store.get(value), 2);
+    const store = createStore();
+    assert.equal(store.get(definition()).value, 1);
+    assert.equal(store.get(formAtom(store.get(forms()).form, 'name')), '');
+    assert.equal(store.get(queryClientAtom), null);
+    store.set(increment); assert.equal(store.get(value), 2);
     assert.equal(store.get(vanilla.ion(value, n => n * 2)), 4);
     assert.equal(store.get(vanilla.prism(value, { doubled: n => n * 2 }).doubled), 4);
     const requested = vanilla.eventAtom();
@@ -114,13 +125,18 @@ try {
   );
   assert.equal(packageManifest.exports['./bunshi'].import, './dist/bunshi.js');
   assert.equal(packageManifest.peerDependenciesMeta.bunshi.optional, true);
+  assert.equal(packageManifest.peerDependenciesMeta['@tanstack/query-core'].optional, true);
+  assert.equal(packageManifest.peerDependenciesMeta['react-hook-form'].optional, true);
   const packed = `${fixture}/node_modules/jotai-holo/dist`;
   const visited = new Set();
   async function checkCoreGraph(file) {
     if (visited.has(file)) return;
     visited.add(file);
     const code = await readFile(file, 'utf8');
-    assert.doesNotMatch(code, /bunshi|holo-molecule/);
+    assert.doesNotMatch(
+      code,
+      /bunshi|holo-molecule|react-hook-form|@tanstack\/query-core|from\s+['"]\.\/(?:model|query|rhf)\.js['"]/,
+    );
     for (const [, specifier] of code.matchAll(/from\s+['"]([^'"]+)['"]/g)) {
       if (!specifier.startsWith('.')) continue;
       const relative = file.endsWith('.d.ts') ? specifier.replace(/\.js$/, '.d.ts') : specifier;
@@ -133,6 +149,8 @@ try {
   assert.match(listing, /package\/dist\/bunshi\.d\.ts/);
   for (const file of [
     'holo.js',
+    'model-binding.js',
+    'rhf.js',
     'holo-cage.js',
     'binding.js',
     'binding-state.js',

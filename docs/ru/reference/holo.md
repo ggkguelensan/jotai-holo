@@ -39,3 +39,17 @@ Generic View сначала специализируйте до конкретн
 - [Jotai performance](https://jotai.org/docs/guides/performance) — зачем нужны стабильные проекции и небольшие границы подписок.
 
 В React 18 используйте intrinsic element, class или forwardRef View для `ref`. Обычный пропс `ref` в function View требует React 19. Обёртки holo передают ref в обеих поддерживаемых версиях.
+
+## Модели по ключу
+
+Необязательное поле `model` выбирает экземпляр в текущем store. Фабрики state/actions/cage получают модель. Реестр из `jotai-holo/model` подключается только приложением; обычные атомы по-прежнему работают без него. См. [createModel](/ru/reference/createModel).
+
+```tsx
+const Counter = holo({
+  model: (props: { counterId: string }) =>
+    CounterModel({ key: ['counter', { id: props.counterId }] }),
+  core: CounterView,
+  state: ($$counter) => ({ count: $$counter.$count }),
+  actions: ($$counter) => ({ onIncrement: $$counter.increment }),
+});
+```

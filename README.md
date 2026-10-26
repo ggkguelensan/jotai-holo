@@ -92,6 +92,8 @@ The `$state` / `$$model` prefixes and `createXxx` factories are optional naming 
 
 `eventAtom<Payload>()` declares a typed notification without a handler or retained state. Dispatch with `store.set(event, payload)`, use it in `bond.trigger`/`holo.actions`, or attach an external listener with `subscribeEvent(store, event, listener)`. Subscriptions return a disposer; see [event contracts](docs/api.md#eventatom).
 
+Numeric/boolean operators `eq`, `and`, `or`, `some`, and `sum` accept native atoms (arrays or records for multiple inputs) and return lazy read-only atoms.
+
 Model operators are available from the root and `jotai-holo/vanilla`: `ion(source, project?)` combines readable atoms, `prism(source, selectors)` splits projections, and `bond({ state, trigger, guard, map, yield })` connects store-owned actions. React also has `holoList` for keyed rows and `holoMatch` for conditional branches. See [operator contracts and examples](docs/operators.md).
 
 Configuration uses `bindProps` for fixed UI values; lifecycle inputs remain `ctx.props`.
@@ -116,6 +118,16 @@ const Counter = holo({
 ```
 
 `state` reads and resolves values; `actions` supplies store-bound setters. `bindProps` accepts ordinary values, functions and components unchanged. Duplicate keys across sections are rejected. Remaining core props form the public props of the connected component.
+
+## Optional infrastructure
+
+| Entry              | Exports                                   | Ownership                                                                                |
+| ------------------ | ----------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `jotai-holo/model` | `createModel`                             | Default/keyed instances per Jotai store; committed leases; Infinity retention by default |
+| `jotai-holo/query` | `queryAtoms`, `queryClientAtom`           | Native QueryObserver, application QueryClient, independent prism selectors               |
+| `jotai-holo/rhf`   | `createFormModel`, `holoForm`, `formAtom` | One native RHF control per model; ordinary RHF markup and resolvers                      |
+
+Declare `holo({ model: props => CounterModel({ key: [props.id] }), core: CounterView, state: m => ({ count: m.$count }) })` outside React. Omitting a key selects the store's default model. The registry implementation and optional Query/RHF peers stay outside ordinary holo bundles. [Model contracts](docs/reference/createModel.md) describe creation, resource cleanup, cache eviction and explicit removal; [Query](docs/reference/queryAtoms.md) and [forms](docs/reference/holoForm.md) include executable business examples in English and Russian.
 
 ## Rendering and async state
 

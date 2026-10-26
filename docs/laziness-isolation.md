@@ -41,7 +41,7 @@ cloning of application data.
 - Two stores do not deep-clone an atom's initial object. Use immutable updates;
   mutating an initial object shared by reference is outside isolation guarantees.
 - Two React components bound to the same atoms in the same store share state.
-  Per-instance state requires separate model atoms or an appropriate Bunshi scope.
+  Per-instance state requires separate model atoms, explicit createModel keys, or an appropriate Bunshi scope.
 - Creating a new model or atom on every render is not made stable by Holo.
 - Disposing an event or bond listener does not dispose the application's store or
   reset its state.
@@ -82,19 +82,14 @@ pnpm test:memory
 
 Build first: some documentation fixtures import the package's compiled entry.
 
-## Planned integrations
+## Model, Query and form integrations
 
-`queryAtoms`, `formMolecule`, `holoForm`, `formAtom`, and `follow` are not implemented
-in this checkout. Their runtime laziness or isolation cannot be claimed as tested.
+- `eq`, `and`, `or`, `some`, `sum`: native derived atoms. Boolean branches and some short-circuit; sum reads all inputs. No extra subscriptions at declaration.
+- `createModel`: per-store identity and structural keys. Pure reads are weakly retained; acquire/committed holo owns resources. Infinity retains committed models intentionally, while zero/finite gcTime removes released instances. `tests/model.test.ts`, `tests/model.browser.test.tsx` cover key/store replacement, ownership, Suspense and StrictMode.
+- `queryAtoms`: observer construction may occur on read; fetch/subscription starts only after mount. Independent prism outputs share one observer per store/client and release it after the last subscriber. `tests/query.test.ts`, `tests/query.browser.test.tsx` cover options factories, client/key replacement, data equality and native useQuery cache sharing.
+- `createFormModel` / `holoForm`: create native RHF controls per model instance, retain the resolver and values across bridge remount, and require one active form root per control. `tests/form-model.browser.test.tsx` covers independent forms, external panels, async transforming resolvers, field arrays and StrictMode.
+- `formAtom`: filtered native subscribe on mount, coalesced publication outside RHF callbacks, selected immutable snapshots with structural sharing, last-owner disposal. Native useFormState remains responsible for flags/errors.
 
-Before introducing them, require these checks:
+Run `pnpm test:model-memory` for a forced-GC experiment with 300 instances per case: provisional reads, released finite models, intentionally retained Infinity models, explicit removal, abandoned stores and detached RHF controls. This checks bounded scenarios, not every application's resources.
 
-| Planned API                 | Required activation and isolation checks                                                                                                                                                                                                                                                                                      |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `queryAtoms`                | No observer subscription/fetch at declaration; one shared observer per model/store/client context for all its projections; independently lazy prism selectors; immutable snapshot reads; last-consumer cleanup; remount; client/key replacement; hydration; no second QueryClient; no stale queued updates crossing contexts. |
-| `formMolecule` / `holoForm` | A unique instance scope creates its own model and RHF control; ordinary rerenders preserve identity; initial values do not secretly reset the form; discarded renders do not leave external subscriptions; cleanup and StrictMode preserve neighboring forms.                                                                 |
-| `formAtom`                  | Read only the selected fields/state; attach subscriptions only while owned; reconcile the initial snapshot with subscription timing; isolate controls and stores; dispose the last listener; avoid synchronous re-entry into RHF from its subscription callback.                                                              |
-| `follow`                    | Track only the currently selected inner atom per store; release the old dependency; preserve promise identity; define missing-source behavior; do not create or dispose application models implicitly.                                                                                                                        |
-
-Every future adapter must reuse the independent-selector prism contract rather
-than replace it with eager calculation of a record of projections.
+`follow` remains unimplemented. New adapters must retain the independent-selector prism contract rather than eagerly computing a record of projections.
