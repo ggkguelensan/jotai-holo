@@ -20,3 +20,9 @@ docs/.vitepress/cache/
 docs/.vitepress/dist/
 
 .react-compat/
+
+# Generated from canonical English Markdown and Lingui catalogs.
+docs/ru/
+docs/de/
+docs/kk/
+docs/.vitepress/i18n/locales/*/*.mjs

@@ -1,21 +1,14 @@
 import { defineConfig, type DefaultTheme } from 'vitepress';
 import { fileURLToPath } from 'node:url';
+import { locales } from './i18n/locales.mjs';
+import { loadCatalog } from './i18n/catalog.mjs';
 
-const groups = [
+const groups = (t: (message: string) => string) => [
+  { title: t('State'), names: ['stateAtom', 'ion', 'prism', 'eq', 'and', 'or', 'some', 'sum'] },
+  { title: t('Commands & events'), names: ['actionAtom', 'eventAtom', 'subscribeEvent', 'bond'] },
+  { title: t('React bindings'), names: ['holo', 'cage', 'holoList', 'holoMatch'] },
   {
-    en: 'State',
-    ru: 'Состояние',
-    names: ['stateAtom', 'ion', 'prism', 'eq', 'and', 'or', 'some', 'sum'],
-  },
-  {
-    en: 'Commands & events',
-    ru: 'Команды и события',
-    names: ['actionAtom', 'eventAtom', 'subscribeEvent', 'bond'],
-  },
-  { en: 'React bindings', ru: 'Привязки React', names: ['holo', 'cage', 'holoList', 'holoMatch'] },
-  {
-    en: 'Integrations',
-    ru: 'Интеграции',
+    title: t('Integrations'),
     names: [
       'createModel',
       'queryAtoms',
@@ -27,54 +20,116 @@ const groups = [
     ],
   },
 ];
-function sidebar(ru: boolean): DefaultTheme.SidebarItem[] {
-  const root = ru ? '/ru' : '';
-  return [
+
+async function localeConfig(code: string, label: string, prefix: string) {
+  const catalog = await loadCatalog(code, 'ui');
+  const t = (message: string) => catalog._(message);
+  const link = (path: string) => `${prefix}${path}`;
+  const sidebar: DefaultTheme.SidebarItem[] = [
     {
-      text: ru ? 'Руководство' : 'Guide',
+      text: t('Guide'),
       items: [
-        { text: ru ? 'Начало работы' : 'Getting started', link: `${root}/guide/getting-started` },
-        { text: ru ? 'Зачем jotai-holo' : 'Why jotai-holo', link: `${root}/guide/motivation` },
-        { text: ru ? 'Выбор инструмента' : 'Choosing a tool', link: `${root}/guide/ecosystem` },
-        { text: ru ? 'Рендеринг и async' : 'Rendering and async', link: `${root}/guide/rendering` },
+        { text: t('Getting started'), link: link('/guide/getting-started') },
+        { text: t('Why jotai-holo'), link: link('/guide/motivation') },
+        { text: t('Choosing a tool'), link: link('/guide/ecosystem') },
+        { text: t('Rendering and async'), link: link('/guide/rendering') },
       ],
     },
-    ...groups.map((group) => ({
-      text: ru ? group.ru : group.en,
-      items: group.names.map((text) => ({ text, link: `${root}/reference/${text}` })),
+    ...groups(t).map(({ title, names }) => ({
+      text: title,
+      items: names.map((text) => ({ text, link: link(`/reference/${text}`) })),
     })),
     {
-      text: ru ? 'Рецепты' : 'Recipes',
+      text: t('Recipes'),
       items: [
-        {
-          text: ru ? 'Профиль: команда → факт → реакция' : 'Profile: command → fact → reaction',
-          link: `${root}/recipes/profile`,
-        },
-        {
-          text: ru ? 'Эффекты и Bunshi' : 'Effects and Bunshi',
-          link: `${root}/recipes/integrations`,
-        },
-        {
-          text: ru ? 'Публикация документации' : 'Hosting the docs',
-          link: `${root}/guide/hosting`,
-        },
+        { text: t('Profile: command → fact → reaction'), link: link('/recipes/profile') },
+        { text: t('Effects and Bunshi'), link: link('/recipes/integrations') },
+        { text: t('Hosting the docs'), link: link('/guide/hosting') },
       ],
     },
     {
-      text: ru ? 'Технические отчёты (EN)' : 'Engineering notes',
+      text: t('Engineering notes (English)'),
       collapsed: true,
       items: [
-        { text: 'Compatibility', link: '/compatibility' },
-        { text: 'Bundle measurements', link: '/bundle-size' },
-        { text: 'Aggregation', link: '/aggregation' },
-        { text: 'Bunshi memory validation', link: '/bunshi-validation' },
-        { text: 'Laziness and isolation audit', link: '/laziness-isolation' },
-        { text: 'Detailed contracts', link: '/api' },
-        { text: 'Operator contracts', link: '/operators' },
+        { text: t('Compatibility'), link: '/compatibility' },
+        { text: t('Bundle measurements'), link: '/bundle-size' },
+        { text: t('Aggregation'), link: '/aggregation' },
+        { text: t('Bunshi memory validation'), link: '/bunshi-validation' },
+        { text: t('Laziness and isolation audit'), link: '/laziness-isolation' },
+        { text: t('Detailed contracts'), link: '/api' },
+        { text: t('Operator contracts'), link: '/operators' },
       ],
     },
   ];
+  return {
+    label,
+    lang: code,
+    description: t('Plain React views. Native Jotai models. Declarative connections.'),
+    themeConfig: {
+      nav: [
+        { text: t('Guide'), link: link('/guide/getting-started') },
+        { text: 'API', link: link('/reference/holo') },
+      ],
+      sidebar,
+      outline: { label: t('On this page') },
+      docFooter: { prev: t('Previous page'), next: t('Next page') },
+      returnToTopLabel: t('Return to top'),
+      sidebarMenuLabel: t('Menu'),
+      darkModeSwitchLabel: t('Appearance'),
+      lightModeSwitchTitle: t('Switch to light theme'),
+      darkModeSwitchTitle: t('Switch to dark theme'),
+      langMenuLabel: t('Change language'),
+      lastUpdated: { text: t('Last updated') },
+      editLink: {
+        pattern:
+          code === 'en'
+            ? 'https://github.com/ggkguelensan/jotai-holo/edit/docs/lingui-i18n/docs/:path'
+            : `https://github.com/ggkguelensan/jotai-holo/edit/docs/lingui-i18n/docs/.vitepress/i18n/locales/${code}/docs.po`,
+        text: t('Edit this page'),
+      },
+      notFound: {
+        title: t('Page not found'),
+        quote: t('This page may have moved. Find the guide or an API reference in the navigation.'),
+        linkLabel: t('Go to home'),
+        linkText: t('Go to home'),
+      },
+      docsUi: {
+        liveExample: t('Live example'),
+        viewCode: t('View example code'),
+        fullSource: t('Complete source with imports'),
+        engineeringNotice: t('This engineering report is maintained in English.'),
+        englishReport: t('Read the English report'),
+      },
+    },
+    search: {
+      translations: {
+        button: { buttonText: t('Search'), buttonAriaLabel: t('Search') },
+        modal: {
+          noResultsText: t('No results for'),
+          resetButtonTitle: t('Clear search'),
+          displayDetails: t('Display detailed list'),
+          backButtonTitle: t('Close search'),
+          footer: {
+            selectText: t('to select'),
+            navigateText: t('to navigate'),
+            closeText: t('to close'),
+          },
+        },
+      },
+    },
+  };
 }
+const resolved = await Promise.all(
+  locales.map(
+    async ({ code, label, prefix }) =>
+      [code === 'en' ? 'root' : code, await localeConfig(code, label, prefix)] as const,
+  ),
+);
+const localeOptions = Object.fromEntries(
+  resolved.map(([key, { search, ...config }]) => [key, config]),
+);
+const searchLocales = Object.fromEntries(resolved.map(([key, config]) => [key, config.search]));
+
 export default defineConfig({
   title: 'jotai-holo',
   vite: {
@@ -114,60 +169,11 @@ export default defineConfig({
       { rel: 'icon', type: 'image/svg+xml', href: `${process.env.DOCS_BASE || '/'}mark.svg` },
     ],
   ],
-  locales: {
-    root: {
-      label: 'English',
-      lang: 'en',
-      themeConfig: {
-        nav: [
-          { text: 'Guide', link: '/guide/getting-started' },
-          { text: 'API', link: '/reference/holo' },
-        ],
-        sidebar: sidebar(false),
-      },
-    },
-    ru: {
-      label: 'Русский',
-      lang: 'ru',
-      description: 'Обычные React-компоненты. Нативные модели Jotai. Декларативные связи.',
-      themeConfig: {
-        nav: [
-          { text: 'Руководство', link: '/ru/guide/getting-started' },
-          { text: 'API', link: '/ru/reference/holo' },
-        ],
-        sidebar: sidebar(true),
-        outline: { label: 'На этой странице' },
-        docFooter: { prev: 'Предыдущая', next: 'Следующая' },
-        returnToTopLabel: 'Наверх',
-        sidebarMenuLabel: 'Меню',
-        darkModeSwitchLabel: 'Оформление',
-        lastUpdated: { text: 'Обновлено' },
-      },
-    },
-  },
+  locales: localeOptions,
   themeConfig: {
     logo: '/mark.svg',
     socialLinks: [{ icon: 'github', link: 'https://github.com/ggkguelensan/jotai-holo' }],
-    search: {
-      provider: 'local',
-      options: {
-        locales: {
-          ru: {
-            translations: {
-              button: { buttonText: 'Поиск', buttonAriaLabel: 'Поиск' },
-              modal: {
-                noResultsText: 'Ничего не найдено',
-                resetButtonTitle: 'Очистить',
-                footer: { selectText: 'выбрать', navigateText: 'перейти', closeText: 'закрыть' },
-              },
-            },
-          },
-        },
-      },
-    },
-    editLink: {
-      pattern: 'https://github.com/ggkguelensan/jotai-holo/edit/docs/reference-site/docs/:path',
-    },
+    search: { provider: 'local', options: { locales: searchLocales } },
     outline: [2, 3],
   },
   markdown: {
@@ -181,7 +187,7 @@ export default defineConfig({
           const path = href.slice(3);
           token.attrSet(
             'href',
-            `https://github.com/ggkguelensan/jotai-holo/blob/docs/reference-site/${path}`,
+            `https://github.com/ggkguelensan/jotai-holo/blob/docs/lingui-i18n/${path}`,
           );
         } else if (href?.startsWith('../README.md')) {
           token.attrSet('href', 'https://github.com/ggkguelensan/jotai-holo#public-api');

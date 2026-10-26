@@ -2,6 +2,8 @@
 
 ## Local development
 
+Documentation tooling requires Node 22.19+ for Lingui. This does not change the published library's runtime requirements.
+
 ```sh
 pnpm install --frozen-lockfile
 pnpm docs:dev
@@ -26,11 +28,13 @@ In Settings → Pages, select GitHub Actions. Once the documentation is on the d
 
 ## Maintenance
 
-Add reference pages in both `docs/reference` and `docs/ru/reference`. Code is included through snippet regions from `examples/documentation.tsx` and other checked examples. API pages explain purpose, contract, design motivation and external reading. Engineering reports remain in English and are labeled that way in navigation.
+Add English reference pages in `docs/reference`. Maintain translations in the Lingui PO catalogs under `docs/.vitepress/i18n/locales/{locale}`. Localized Markdown and compiled catalogs are generated; do not edit them. Code snippets come from checked example sources. API pages explain purpose, contract, motivation and reading. Engineering reports remain in English and are labeled accordingly.
+
+After editing English text, run `pnpm i18n:extract`, translate the `msgstr` entries in each PO catalog, then run `pnpm docs:check`. Development and production commands prepare catalogs and pages automatically on startup; rerun `pnpm docs:prepare` after editing translations during a running dev session. Strict compilation rejects missing translations. Keep Markdown links, inline code and list structure intact; shared code blocks are excluded from translation.
 
 `docs:check` validates translation parity, required API sections, internal link paths and snippet regions. `docs:build` additionally validates VitePress links and builds the search index. TypeScript and tests exercise the executable example source. External website availability depends on the network and is not part of local builds.
 
-Edit/source links currently target `docs/reference-site`; after merging, update the site config and links to `main`.
+English edit links point to Markdown sources; translated edit links point to their Lingui PO catalog. Source links use the documentation branch until it is merged.
 
 Reading: [VitePress deployment](https://vitepress.dev/guide/deploy), [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-github-actions-to-create-a-github-pages-site).
 

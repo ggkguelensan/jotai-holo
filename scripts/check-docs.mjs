@@ -1,6 +1,8 @@
 import { readFile, readdir, access } from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
+import { locales } from '../docs/.vitepress/i18n/locales.mjs';
+import { sourcePages } from './localize-docs.mjs';
 const root = path.resolve('docs');
 async function files(dir) {
   const result = [];
@@ -13,20 +15,34 @@ async function files(dir) {
   return result;
 }
 const pages = await files(root);
-const localized = pages.filter((file) =>
-  /^(guide|reference|recipes)\//.test(path.relative(root, file)),
-);
-for (const file of localized) await access(path.join(root, 'ru', path.relative(root, file)));
-for (const file of pages.filter((file) => file.startsWith(path.join(root, 'ru') + path.sep))) {
-  await access(path.join(root, path.relative(path.join(root, 'ru'), file)));
+const localized = await sourcePages();
+for (const { prefix } of locales.filter((locale) => locale.code !== 'en')) {
+  for (const file of localized) await access(path.join(root, prefix, file));
+  for (const file of pages.filter((file) => file.startsWith(root + prefix + path.sep))) {
+    await access(path.join(root, path.relative(root + prefix, file)));
+    assert.match(await readFile(file, 'utf8'), /<!-- Generated from .*Lingui/);
+  }
 }
 let snippets = 0;
 for (const file of pages) {
   const text = await readFile(file, 'utf8');
   if (file.includes('/reference/')) {
-    assert.match(text, /^## (Contract|Контракт)$/m, file);
-    assert.match(text, /^## (Why this API|Почему такой API)$/m, file);
-    assert.match(text, /^## (Analogies and reading|Аналогии и материалы)$/m, file);
+    const translated = locales.some(
+      (locale) => locale.prefix && file.startsWith(root + locale.prefix + path.sep),
+    );
+    for (const [heading, anchor] of [
+      ['Contract', 'contract'],
+      ['Why this API', 'why-this-api'],
+      ['Analogies and reading', 'analogies-and-reading'],
+    ]) {
+      assert.match(
+        text,
+        translated
+          ? new RegExp(`^## .+ \\{#${anchor}\\}$`, 'm')
+          : new RegExp(`^## ${heading}$`, 'm'),
+        file,
+      );
+    }
     assert.match(text, /\]\(https:\/\//, file);
   }
   for (const match of text.matchAll(/^<<< @\/([^\s#]+)(?:#([\w-]+))?/gm)) {
@@ -45,7 +61,13 @@ for (const file of pages) {
   }
   for (const match of text.matchAll(/\]\((\/[^)#]+)(?:#[^)]*)?\)/g)) {
     const target = path.join(root, match[1]);
-    await access(target.endsWith('.md') ? target : `${target}.md`);
+    await access(
+      target.endsWith('.md')
+        ? target
+        : match[1].endsWith('/')
+          ? path.join(target, 'index.md')
+          : `${target}.md`,
+    );
   }
 }
 
@@ -66,5 +88,5 @@ for (const entry of [
 }
 
 console.log(
-  `Documentation: ${pages.length} pages, ${localized.length + 1} translated page pairs, ${snippets} source snippets checked.`,
+  `Documentation: ${pages.length} pages, ${localized.length} public pages in ${locales.length} languages, ${snippets} source snippets checked.`,
 );

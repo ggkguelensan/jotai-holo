@@ -71,13 +71,17 @@
     "format:check": "prettier --check .",
     "size": "pnpm build && node scripts/measure-bundle.mjs",
     "test:memory": "pnpm build && node scripts/test-molecule-memory.mjs",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
+    "docs:dev": "pnpm docs:prepare && vitepress dev docs",
+    "docs:build": "pnpm docs:prepare && vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "docs:check": "node scripts/check-docs.mjs",
+    "docs:check": "pnpm docs:prepare && pnpm i18n:test && node scripts/check-docs.mjs",
     "test:docs": "node scripts/test-docs.mjs",
     "test:react": "node scripts/test-react-compat.mjs",
-    "test:model-memory": "pnpm build && node --expose-gc scripts/test-model-memory.mjs"
+    "test:model-memory": "pnpm build && node --expose-gc scripts/test-model-memory.mjs",
+    "i18n:extract": "lingui extract --clean",
+    "i18n:compile": "lingui compile --strict",
+    "docs:prepare": "pnpm i18n:extract && pnpm i18n:compile && node scripts/localize-docs.mjs",
+    "i18n:test": "node scripts/test-docs-i18n.mjs"
   },
   "peerDependencies": {
     "@tanstack/query-core": ">=5.104.5 <6",
@@ -103,6 +107,9 @@
   },
   "devDependencies": {
     "@hookform/resolvers": "6.0.0",
+    "@lingui/cli": "6.10.1",
+    "@lingui/core": "6.10.1",
+    "@lingui/format-po": "6.10.1",
     "@tanstack/query-core": "5.104.5",
     "@tanstack/react-query": "5.104.5",
     "@types/node": "^22.0.0",
@@ -133,6 +140,7 @@
     "vitest": "4.1.6",
     "vue": "3.5.44",
     "xstate": "5.33.3",
+    "yaml": "2.8.3",
     "zod": "4.6.7"
   }
 }

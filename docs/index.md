@@ -41,5 +41,5 @@ Change the quantity or apply a discount. `ion` derives the total; `holo` supplie
 - [Understand lazy projections and rendering](/guide/rendering).
 
 ::: info Development documentation
-This site documents the current implementation, not a published npm release. Read the [availability and requirements](/guide/getting-started#availability-and-requirements) first. English and Russian cover the same guide and reference pages; engineering reports are in English.
+This site documents the current implementation, not a published npm release. Read the [availability and requirements](/guide/getting-started#availability-and-requirements) first. Guides, API references and live examples are available in English, Russian, German and Kazakh. Engineering reports are maintained in English.
 :::

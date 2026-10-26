@@ -1,3 +1,4 @@
+import type { DocsTranslator } from './docs-i18n.js';
 import { molecule, createScope, ScopeProvider } from 'bunshi/react';
 import { Provider } from 'jotai';
 import { createStore } from 'jotai/vanilla';
@@ -5,7 +6,7 @@ import { actionAtom, holo, stateAtom } from 'jotai-holo';
 import { holoMolecule } from 'jotai-holo/bunshi';
 
 // #region bunshi
-export function createBunshiDemo(ru: boolean) {
+export function createBunshiDemo(t: DocsTranslator) {
   const CounterScope = createScope('default');
   const CounterMolecule = molecule((_mol, scope) => {
     scope(CounterScope);
@@ -28,16 +29,14 @@ export function createBunshiDemo(ru: boolean) {
     return (
       <Provider store={store}>
         <div className="demo-form">
-          <span className="demo-eyebrow">
-            {ru ? 'Два View в общем scope' : 'Two Views in a shared scope'}
-          </span>
+          <span className="demo-eyebrow">{t('Two Views in a shared scope')}</span>
           <ScopeProvider scope={CounterScope} value="shared">
             <div className="demo-controls">
               <Counter />
               <Counter />
             </div>
           </ScopeProvider>
-          <span className="demo-eyebrow">{ru ? 'Отдельный scope' : 'Independent scope'}</span>
+          <span className="demo-eyebrow">{t('Independent scope')}</span>
           <ScopeProvider scope={CounterScope} value="separate">
             <div className="demo-controls">
               <Counter />

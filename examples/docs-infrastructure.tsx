@@ -1,3 +1,4 @@
+import type { DocsTranslator } from './docs-i18n.js';
 import { createStore, Provider } from 'jotai';
 import { atom } from 'jotai/vanilla';
 import { useId, type ComponentType } from 'react';
@@ -10,10 +11,8 @@ import { Controller, useFormContext, useFormState, type Control } from 'react-ho
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-const text = (ru: boolean, en: string, translated: string) => (ru ? translated : en);
-
 // #region operators
-export function createOperatorsDemo(ru: boolean) {
+export function createOperatorsDemo(t: DocsTranslator) {
   const $goods = stateAtom(80);
   const $delivery = stateAtom(15);
   const $deliveryMethod = stateAtom('courier');
@@ -38,21 +37,15 @@ export function createOperatorsDemo(ru: boolean) {
       onAccept: (value: boolean) => void;
     }) => (
       <div className="demo-form">
-        <span className="demo-eyebrow">
-          {text(ru, 'Order review · courier delivery', 'Проверка заказа · доставка курьером')}
-        </span>
-        <p>{text(ru, 'Goods $80 + delivery $15', 'Товары $80 + доставка $15')}</p>
+        <span className="demo-eyebrow">{t('Order review · courier delivery')}</span>
+        <p>{t('Goods $80 + delivery $15')}</p>
         <output className="demo-number">${total}</output>
         <label>
           <input type="checkbox" checked={accepted} onChange={(e) => onAccept(e.target.checked)} />{' '}
-          {text(ru, 'I accept the delivery terms', 'Я принимаю условия доставки')}
+          {t('I accept the delivery terms')}
         </label>
-        <small>
-          {surcharge
-            ? text(ru, 'Surcharge applies', 'Есть доплата')
-            : text(ru, 'No surcharge', 'Без доплаты')}
-        </small>
-        <button disabled={!canOrder}>{text(ru, 'Place order', 'Оформить заказ')}</button>
+        <small>{surcharge ? t('Surcharge applies') : t('No surcharge')}</small>
+        <button disabled={!canOrder}>{t('Place order')}</button>
       </div>
     ),
     state: { total: $total, accepted: $accepted, canOrder: $canOrder, surcharge: $hasSurcharge },
@@ -62,7 +55,7 @@ export function createOperatorsDemo(ru: boolean) {
 // #endregion operators
 
 // #region model
-export function createModelDemo(ru: boolean) {
+export function createModelDemo(t: DocsTranslator) {
   const Proposal = createModel({
     create: () => {
       const $seats = stateAtom(5);
@@ -80,9 +73,7 @@ export function createModelDemo(ru: boolean) {
   const Toolbar = holo({
     model: (props: { proposalId: string }) =>
       Proposal({ key: ['proposal', { id: props.proposalId }] }),
-    core: ({ onAdd }: { onAdd: () => void }) => (
-      <button onClick={onAdd}>{text(ru, 'Add a seat', 'Добавить место')}</button>
-    ),
+    core: ({ onAdd }: { onAdd: () => void }) => <button onClick={onAdd}>{t('Add a seat')}</button>,
     actions: (m) => ({ onAdd: m.addSeat }),
   });
   return function ProposalDemo() {
@@ -91,7 +82,7 @@ export function createModelDemo(ru: boolean) {
         {['Atlas', 'Beacon'].map((id) => (
           <section key={id}>
             <span className="demo-eyebrow">
-              {text(ru, 'Proposal', 'Предложение')} {id}
+              {t('Proposal')} {id}
             </span>
             <Seats proposalId={id} />
             <Toolbar proposalId={id} />
@@ -104,7 +95,7 @@ export function createModelDemo(ru: boolean) {
 // #endregion model
 
 // #region query
-export function createQueryDemo(ru: boolean) {
+export function createQueryDemo(t: DocsTranslator) {
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: 0 } } });
   const $productId = stateAtom('desk');
   // Resource factory: consumers keep the options intact and never reconstruct its query key.
@@ -124,10 +115,7 @@ export function createQueryDemo(ru: boolean) {
           );
         });
         return {
-          name:
-            productId === 'desk'
-              ? text(ru, 'Oak desk', 'Дубовый стол')
-              : text(ru, 'Desk lamp', 'Настольная лампа'),
+          name: productId === 'desk' ? t('Oak desk') : t('Desk lamp'),
           price: productId === 'desk' ? 240 : 45,
         };
       },
@@ -154,13 +142,9 @@ export function createQueryDemo(ru: boolean) {
       error: Error | null;
     }) => (
       <section>
-        <span className="demo-eyebrow">{text(ru, 'Product catalog', 'Каталог товаров')}</span>
+        <span className="demo-eyebrow">{t('Product catalog')}</span>
         <p role="status">
-          {pending
-            ? text(ru, 'Loading…', 'Загрузка…')
-            : error
-              ? error.message
-              : `${data?.name} · $${data?.price}`}
+          {pending ? t('Loading…') : error ? error.message : `${data?.name} · $${data?.price}`}
         </p>
       </section>
     ),
@@ -169,8 +153,8 @@ export function createQueryDemo(ru: boolean) {
   const Switch = holo({
     core: ({ onChange }: { onChange: (value: string) => void }) => (
       <div className="demo-controls">
-        <button onClick={() => onChange('desk')}>{text(ru, 'Desk', 'Стол')}</button>
-        <button onClick={() => onChange('lamp')}>{text(ru, 'Lamp', 'Лампа')}</button>
+        <button onClick={() => onChange('desk')}>{t('Desk')}</button>
+        <button onClick={() => onChange('lamp')}>{t('Lamp')}</button>
       </div>
     ),
     actions: { onChange: $productId },
@@ -187,9 +171,9 @@ export function createQueryDemo(ru: boolean) {
 // #endregion query
 
 // #region form
-export function createFormDemo(ru: boolean) {
+export function createFormDemo(t: DocsTranslator) {
   const schema = z.object({
-    email: z.email(text(ru, 'Enter a valid email', 'Введите корректный email')),
+    email: z.email(t('Enter a valid email')),
     channel: z.enum(['email', 'phone']),
   });
   type Values = z.infer<typeof schema>;
@@ -224,7 +208,7 @@ export function createFormDemo(ru: boolean) {
         }}
       >
         <label>
-          Email
+          {t('Email')}
           <input
             type="email"
             autoComplete="email"
@@ -244,10 +228,10 @@ export function createFormDemo(ru: boolean) {
           control={control}
           render={({ field }) => (
             <label>
-              {text(ru, 'Contact channel', 'Канал связи')}
+              {t('Contact channel')}
               <select {...field}>
-                <option value="email">Email</option>
-                <option value="phone">{text(ru, 'Phone', 'Телефон')}</option>
+                <option value="email">{t('Email')}</option>
+                <option value="phone">{t('Phone')}</option>
               </select>
             </label>
           )}
@@ -274,16 +258,14 @@ export function createFormDemo(ru: boolean) {
     const { isSubmitting } = useFormState({ control });
     return (
       <aside className="demo-form demo-save-panel">
-        <span className="demo-eyebrow">
-          {text(ru, 'External save panel', 'Внешняя панель сохранения')}
-        </span>
-        <small>{email || text(ru, 'No email yet', 'Email пока не указан')}</small>
+        <span className="demo-eyebrow">{t('External save panel')}</span>
+        <small>{email || t('No email yet')}</small>
         <button disabled={isSubmitting} onClick={() => void onSave()}>
-          {text(ru, 'Save contact', 'Сохранить контакт')}
+          {t('Save contact')}
         </button>
         {saved && (
           <output>
-            {text(ru, 'Saved:', 'Сохранено:')} {saved}
+            {t('Saved:')} {saved}
           </output>
         )}
       </aside>
@@ -302,9 +284,7 @@ export function createFormDemo(ru: boolean) {
           <section key={id} className="demo-contact-card">
             <header>
               <strong>{id}</strong>
-              <span className="demo-eyebrow">
-                {text(ru, 'Contact preferences', 'Настройки контакта')}
-              </span>
+              <span className="demo-eyebrow">{t('Contact preferences')}</span>
             </header>
             <Editor contactId={id} />
             <SavePanel contactId={id} />
@@ -316,14 +296,14 @@ export function createFormDemo(ru: boolean) {
 }
 // #endregion form
 
-export function createInfrastructureDemo(kind: string, ru: boolean): ComponentType {
+export function createInfrastructureDemo(kind: string, t: DocsTranslator): ComponentType {
   const factories = {
     operators: createOperatorsDemo,
     model: createModelDemo,
     query: createQueryDemo,
     form: createFormDemo,
   };
-  const Demo = factories[kind as keyof typeof factories](ru);
+  const Demo = factories[kind as keyof typeof factories](t);
   const store = createStore();
   return function IsolatedDemo() {
     return (

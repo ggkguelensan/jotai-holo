@@ -1,6 +1,6 @@
 # Development
 
-Use a supported Node version (22.12+; CI runs Node 22 and 24), Corepack and the package manager pinned in package.json.
+Use Node 22.19+ for the development toolchain including Lingui (CI runs Node 22 and 24; the published library requires 22.12+), Corepack and the package manager pinned in package.json.
 
 ```sh
 corepack enable
@@ -17,7 +17,7 @@ Before a release, run `pnpm check`, `pnpm test:package`, `pnpm test:memory`, `pn
 
 ## Documentation
 
-Run `pnpm docs:dev` for the English/Russian site. Update both locales together; include checked example sources through VitePress snippet regions rather than copying them. Run `pnpm docs:check` and `pnpm docs:build`; TypeScript and unit tests also validate the profile recipe. Static output and manual GitHub Pages setup are described in [hosting the docs](docs/guide/hosting.md).
+Run `pnpm docs:dev` for the English, Russian, German and Kazakh site. English Markdown is canonical. Run `pnpm i18n:extract` after text changes and translate `msgstr` entries in `docs/.vitepress/i18n/locales/{locale}/{docs,ui}.po`. Localized Markdown and compiled catalogs are generated and ignored by Git. Keep shared code in checked VitePress snippet regions. `docs:dev`, `docs:check` and `docs:build` prepare translations automatically at startup; run `pnpm docs:prepare` again after editing catalogs in a running dev session. Strict compilation rejects missing translations. Run `pnpm docs:check` and `pnpm docs:build`; TypeScript and unit tests also validate the profile recipe. Static output and manual GitHub Pages setup are described in [hosting the docs](docs/guide/hosting.md).
 
 Live documentation demos use real React/Jotai bindings from `examples/docs-demos.tsx`, `examples/docs-infrastructure.tsx` and the optional Bunshi demo. The Vue shell mounts them only on the client and unmounts on route changes. Keep each demo store isolated; `pnpm test:docs` verifies real controls, subscription disposal, scope sharing, locale navigation and mobile layout.
 

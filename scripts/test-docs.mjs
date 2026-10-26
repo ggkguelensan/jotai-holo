@@ -3,6 +3,8 @@ import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { readdir } from 'node:fs/promises';
 import { chromium } from 'playwright';
+import { locales } from '../docs/.vitepress/i18n/locales.mjs';
+import { loadCatalog } from '../docs/.vitepress/i18n/catalog.mjs';
 
 // Test the generated production site, including its configured subpath.
 const base = process.env.DOCS_BASE || '/';
@@ -38,18 +40,34 @@ try {
       errors.push(`${response.status()} ${response.url()}`);
   });
   const origin = `http://127.0.0.1:4179${base}`;
-  // Visit every public reference page in both locales, not just the home shell.
+  // Visit every public reference page in every locale, not just the home shell.
   const references = (await readdir('docs/reference')).filter((name) => name.endsWith('.md'));
-  for (const locale of ['', 'ru/']) {
+  for (const { code, prefix } of locales) {
+    await page.goto(`${origin}${prefix.slice(1)}${prefix ? '/' : ''}`);
+    assert.equal(await page.locator('html').getAttribute('lang'), code);
+    await page.locator('.example-preview input[type="number"]').waitFor();
+    assert.ok(await page.locator(`.VPHero a[href$="${prefix}/guide/getting-started"]`).count());
     for (const file of references) {
-      await page.goto(`${origin}${locale}reference/${file.slice(0, -3)}`);
+      await page.goto(
+        `${origin}${prefix.slice(1)}${prefix ? '/' : ''}reference/${file.slice(0, -3)}`,
+      );
       assert.match(await page.locator('h1').innerText(), new RegExp(file.slice(0, -3)));
-      assert.equal(await page.locator('html').getAttribute('lang'), locale ? 'ru' : 'en');
+      assert.equal(await page.locator('html').getAttribute('lang'), code);
       assert.ok(await page.locator('.vp-doc a[href^="https://"]').count());
       await page.locator('.example-preview :is(button, input)').first().waitFor();
       assert.equal(await page.locator('.example-preview').count(), 1);
     }
+    console.log(`${code}: ${references.length} reference routes passed.`);
   }
+  await page.goto(`${origin}kk/compatibility`);
+  const reportUi = await loadCatalog('kk', 'ui');
+  await page
+    .getByText(reportUi._('This engineering report is maintained in English.'), { exact: true })
+    .waitFor();
+  await page
+    .getByRole('link', { name: reportUi._('Read the English report'), exact: true })
+    .click();
+  await page.waitForURL(`${origin}compatibility`);
   // Exercise the actual library-backed controls, not just the Vue page shell.
   await page.goto(`${origin}reference/ion`);
   await page.getByRole('spinbutton', { name: 'Quantity' }).fill('4');
@@ -124,6 +142,55 @@ try {
     () => document.querySelectorAll('.VPLocalSearchBox .result').length > 0,
   );
   await page.keyboard.press('Escape');
+  // Each language translates the chrome, search and real React form validation.
+  for (const { code, label, prefix } of locales) {
+    const ui = await loadCatalog(code, 'ui');
+    const t = (message) => ui._(message);
+    await page.locator('.VPNavBarTranslations button').click();
+    if (code !== (await page.locator('html').getAttribute('lang'))) {
+      await page.getByRole('link', { name: label, exact: true }).click();
+      await page.waitForURL(`${origin}${prefix.slice(1)}${prefix ? '/' : ''}reference/prism`);
+    } else await page.keyboard.press('Escape');
+    const contract = (await loadCatalog(code, 'docs'))._('Contract');
+    await page.waitForFunction(
+      ({ code, contract }) =>
+        document.documentElement.lang === code &&
+        document.querySelector('#contract')?.textContent?.includes(contract),
+      { code, contract },
+    );
+    await page.getByRole('button', { name: t('Search'), exact: true }).click();
+    await page.locator('#localsearch-input').fill('profileSaved');
+    await page.waitForFunction(
+      () => document.querySelectorAll('.VPLocalSearchBox .result').length > 0,
+    );
+    const hits = await page.locator('.VPLocalSearchBox .result').first().getAttribute('href');
+    assert.ok(
+      hits?.includes(`${prefix}/recipes/profile`),
+      `${code}: locale-specific search result: ${hits}`,
+    );
+    await page.keyboard.press('Escape');
+    await page.goto(`${origin}${prefix.slice(1)}${prefix ? '/' : ''}reference/holoForm`);
+    await page
+      .getByRole('button', { name: t('Save contact'), exact: true })
+      .first()
+      .click();
+    await page.getByText(t('Enter a valid email'), { exact: true }).waitFor();
+    await page.locator('.example-preview input').first().fill('locale@example.com');
+    await page
+      .getByRole('button', { name: t('Save contact'), exact: true })
+      .first()
+      .click();
+    await page.getByText(`${t('Saved:')} locale@example.com`, { exact: true }).waitFor();
+    await page.setViewportSize({ width: 390, height: 844 });
+    assert.ok(
+      await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+      `${code}: mobile overflow`,
+    );
+    await page.screenshot({ path: `.vitest-attachments/docs-${code}-form.png` });
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    // Return to the same article before the next language-menu transition.
+    await page.goto(`${origin}${prefix.slice(1)}${prefix ? '/' : ''}reference/prism`);
+  }
   // Capture the finished reference layout as a review artifact.
   await page.emulateMedia({ colorScheme: 'dark' });
   await page.goto(`${origin}ru/reference/ion`);
@@ -144,7 +211,7 @@ try {
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   assert.deepEqual(errors, []);
   console.log(
-    `Docs browser smoke: ${references.length * 2} reference routes, live controls, teardown, locale switch, search and mobile layout passed (base ${base}).`,
+    `Docs browser smoke: ${references.length * locales.length} reference routes, live controls, teardown, four-language switching/search/validation and mobile layout passed (base ${base}).`,
   );
 } finally {
   await browser?.close();

@@ -1,0 +1,608 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-26 19:50+0500\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "State"
+msgstr "Zustand"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Commands & events"
+msgstr "Befehle und Ereignisse"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "React bindings"
+msgstr "React-Bindungen"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Integrations"
+msgstr "Integrationen"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Guide"
+msgstr "Anleitung"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Getting started"
+msgstr "Erste Schritte"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Why jotai-holo"
+msgstr "Warum jotai-holo?"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Choosing a tool"
+msgstr "Werkzeug wählen"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Rendering and async"
+msgstr "Rendering und Async"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Recipes"
+msgstr "Rezepte"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Profile: command → fact → reaction"
+msgstr "Profil: Befehl → Ereignis → Reaktion"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Effects and Bunshi"
+msgstr "Effekte und Bunshi"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Hosting the docs"
+msgstr "Dokumentation bereitstellen"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Engineering notes (English)"
+msgstr "Technische Berichte (Englisch)"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Compatibility"
+msgstr "Kompatibilität"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Bundle measurements"
+msgstr "Bundle-Größe"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Aggregation"
+msgstr "Aggregation"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Bunshi memory validation"
+msgstr "Bunshi: Speicherprüfung"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Laziness and isolation audit"
+msgstr "Prüfung von Bedarfsausführung und Isolation"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Detailed contracts"
+msgstr "Ausführliche Verträge"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Operator contracts"
+msgstr "Operatorverträge"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Plain React views. Native Jotai models. Declarative connections."
+msgstr "Gewöhnliche React-Views. Native Jotai-Modelle. Deklarative Verbindungen."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "On this page"
+msgstr "Auf dieser Seite"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Previous page"
+msgstr "Vorherige Seite"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Next page"
+msgstr "Nächste Seite"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Return to top"
+msgstr "Nach oben"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Menu"
+msgstr "Menü"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Appearance"
+msgstr "Darstellung"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Switch to light theme"
+msgstr "Helles Design verwenden"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Switch to dark theme"
+msgstr "Dunkles Design verwenden"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Change language"
+msgstr "Sprache ändern"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Last updated"
+msgstr "Zuletzt aktualisiert"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Edit this page"
+msgstr "Diese Seite bearbeiten"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Page not found"
+msgstr "Seite nicht gefunden"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "This page may have moved. Find the guide or an API reference in the navigation."
+msgstr "Diese Seite wurde möglicherweise verschoben. Die Anleitung und die API-Referenz findest du in der Navigation."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Go to home"
+msgstr "Zur Startseite"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Live example"
+msgstr "Interaktives Beispiel"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "View example code"
+msgstr "Beispielcode ansehen"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Complete source with imports"
+msgstr "Vollständiger Quellcode mit Imports"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "This engineering report is maintained in English."
+msgstr "Dieser technische Bericht wird auf Englisch gepflegt."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Read the English report"
+msgstr "Englischen Bericht lesen"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Search"
+msgstr "Suchen"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "No results for"
+msgstr "Keine Ergebnisse für"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Clear search"
+msgstr "Suche zurücksetzen"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Display detailed list"
+msgstr "Detaillierte Liste anzeigen"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Close search"
+msgstr "Suche schließen"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "to select"
+msgstr "auswählen"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "to navigate"
+msgstr "navigieren"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "to close"
+msgstr "schließen"
+
+#. js-lingui-explicit-id
+#: examples/docs-bunshi.tsx
+msgid "Two Views in a shared scope"
+msgstr "Zwei Views im selben Scope"
+
+#. js-lingui-explicit-id
+#: examples/docs-bunshi.tsx
+msgid "Independent scope"
+msgstr "Eigener Scope"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Derived × 2"
+msgstr "Abgeleitet × 2"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Decrement"
+msgstr "Verringern"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Increment"
+msgstr "Erhöhen"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "One model, ordinary props"
+msgstr "Ein Modell, gewöhnliche Props"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Workshop tickets · $25 each"
+msgstr "Workshop-Tickets · je $25"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Quantity"
+msgstr "Anzahl"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Member discount · 20%"
+msgstr "Mitgliederrabatt · 20 %"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Total"
+msgstr "Gesamt"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Name projection"
+msgstr "Namensprojektion"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Role projection"
+msgstr "Rollenprojektion"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Editor"
+msgstr "Bearbeiter"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Viewer"
+msgstr "Leser"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Admin"
+msgstr "Administrator"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "One source → two independent atoms"
+msgstr "Eine Quelle → zwei unabhängige Atome"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Changing the role keeps the selected name unchanged."
+msgstr "Eine Rollenänderung lässt den ausgewählten Namen unverändert."
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Simulated incoming message"
+msgstr "Simulierter Nachrichteneingang"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "The same payload is delivered on every occurrence."
+msgstr "Dieselbe Payload wird bei jedem Ereignis zugestellt."
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Hello, Jotai!"
+msgstr "Hallo, Jotai!"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Receive message"
+msgstr "Nachricht empfangen"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Unsubscribe"
+msgstr "Abbestellen"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Subscribe"
+msgstr "Abonnieren"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Deliveries"
+msgstr "Zustellungen"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Receipt for order"
+msgstr "Beleg für Bestellung"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "A fact → a separate reaction"
+msgstr "Ein Ereignis → eine unabhängige Reaktion"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Generate receipt"
+msgstr "Beleg erstellen"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Submit demo order"
+msgstr "Demo-Bestellung absenden"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "No receipts yet"
+msgstr "Noch keine Belege"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Local simulation: no payment or network request."
+msgstr "Lokale Simulation: keine Zahlung oder Netzwerkanfrage."
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Mounted search View receives"
+msgstr "Die eingebundene Such-View erhält"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "mounted"
+msgstr "eingebunden"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "unmounted"
+msgstr "entfernt"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Input prop: term"
+msgstr "Eingabe-Prop: term"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Mount Search"
+msgstr "Suche einbinden"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Review proposal"
+msgstr "Angebot prüfen"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Ship documentation"
+msgstr "Dokumentation veröffentlichen"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "All clear."
+msgstr "Alles erledigt."
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Reverse rows"
+msgstr "Reihenfolge umkehren"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Clear"
+msgstr "Leeren"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Stable keys preserve row state"
+msgstr "Stabile Schlüssel erhalten den Zeilenzustand"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Check a task, then reverse the rows."
+msgstr "Markiere eine Aufgabe und kehre dann die Reihenfolge um."
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Loading"
+msgstr "Wird geladen"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Ready"
+msgstr "Bereit"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Error"
+msgstr "Fehler"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Loading your workspace…"
+msgstr "Arbeitsbereich wird geladen…"
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Your workspace is ready."
+msgstr "Dein Arbeitsbereich ist bereit."
+
+#. js-lingui-explicit-id
+#: examples/docs-demos.tsx
+msgid "Could not load. Try again."
+msgstr "Laden fehlgeschlagen. Bitte erneut versuchen."
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Order review · courier delivery"
+msgstr "Bestellübersicht · Kurierlieferung"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Goods $80 + delivery $15"
+msgstr "Waren $80 + Lieferung $15"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "I accept the delivery terms"
+msgstr "Ich akzeptiere die Lieferbedingungen"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Surcharge applies"
+msgstr "Aufpreis erforderlich"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "No surcharge"
+msgstr "Kein Aufpreis"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Place order"
+msgstr "Bestellen"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Add a seat"
+msgstr "Platz hinzufügen"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Proposal"
+msgstr "Angebot"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Oak desk"
+msgstr "Schreibtisch aus Eiche"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Desk lamp"
+msgstr "Schreibtischlampe"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Product catalog"
+msgstr "Produktkatalog"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Loading…"
+msgstr "Wird geladen…"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Desk"
+msgstr "Schreibtisch"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Lamp"
+msgstr "Lampe"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Enter a valid email"
+msgstr "Gib eine gültige E-Mail-Adresse ein"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Email"
+msgstr "E-Mail"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Contact channel"
+msgstr "Kontaktkanal"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Phone"
+msgstr "Telefon"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "External save panel"
+msgstr "Externe Speicherleiste"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "No email yet"
+msgstr "Noch keine E-Mail-Adresse"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Save contact"
+msgstr "Kontakt speichern"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Saved:"
+msgstr "Gespeichert:"
+
+#. js-lingui-explicit-id
+#: examples/docs-infrastructure.tsx
+msgid "Contact preferences"
+msgstr "Kontakteinstellungen"

@@ -3,7 +3,7 @@ import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 import { useData } from 'vitepress';
 
 const props = defineProps<{ kind: string }>();
-const { lang } = useData();
+const { lang, theme } = useData();
 const host = ref<HTMLElement>();
 const failure = ref('');
 let generation = 0;
@@ -18,9 +18,12 @@ onMounted(() => {
       root = undefined;
       failure.value = '';
       try {
-        const { mountDemo } = await import('./mount-demo');
-        if (current === generation && host.value)
-          root = mountDemo(host.value, props.kind, lang.value === 'ru');
+        const [{ mountDemo }, { loadTranslator }] = await Promise.all([
+          import('./mount-demo'),
+          import('../i18n/runtime'),
+        ]);
+        const t = await loadTranslator(lang.value);
+        if (current === generation && host.value) root = mountDemo(host.value, props.kind, t);
       } catch (error) {
         if (current === generation) failure.value = String(error);
       }
@@ -38,20 +41,18 @@ onBeforeUnmount(() => {
 <template>
   <div class="holo-example">
     <div class="example-toolbar">
-      <span><span class="example-dot" />{{ lang === 'ru' ? 'Живой пример' : 'Live example' }}</span
+      <span><span class="example-dot" />{{ theme.docsUi.liveExample }}</span
       ><code>{{ kind }}</code>
     </div>
     <div ref="host" class="example-preview" :data-demo="kind" />
     <p v-if="failure" role="alert">{{ failure }}</p>
     <details class="example-source">
-      <summary>
-        {{ lang === 'ru' ? 'Код примера' : 'View example code' }} <span aria-hidden="true">↗</span>
-      </summary>
+      <summary>{{ theme.docsUi.viewCode }} <span aria-hidden="true">↗</span></summary>
       <slot />
       <a
         class="example-file"
-        :href="`https://github.com/ggkguelensan/jotai-holo/blob/docs/reference-site/examples/${kind === 'bunshi' ? 'docs-bunshi' : ['operators', 'model', 'query', 'form'].includes(kind) ? 'docs-infrastructure' : 'docs-demos'}.tsx`"
-        >{{ lang === 'ru' ? 'Полный исходник с импортами' : 'Complete source with imports' }} ↗</a
+        :href="`https://github.com/ggkguelensan/jotai-holo/blob/docs/lingui-i18n/examples/${kind === 'bunshi' ? 'docs-bunshi' : ['operators', 'model', 'query', 'form'].includes(kind) ? 'docs-infrastructure' : 'docs-demos'}.tsx`"
+        >{{ theme.docsUi.fullSource }} ↗</a
       >
     </details>
   </div>
