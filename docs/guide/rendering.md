@@ -2,7 +2,7 @@
 
 ## What is lazy?
 
-Declaring an atom or a binding does not execute a selector, construct a Bunshi model, or mount a View. Reads and subscriptions activate work through Jotai. An explicit `bond.connect(store)` activates its clock; event listeners activate when subscribed.
+An atom declaration does not run its calculation. Reading the atom starts the calculation; subscribing keeps its dependencies active. Likewise, `holo` subscribes when mounted, `bond` connects through `connect(store)`, and event listeners activate through `subscribeEvent`.
 
 | Operation                                    | Expected work                                       |
 | -------------------------------------------- | --------------------------------------------------- |
@@ -14,7 +14,7 @@ Declaring an atom or a binding does not execute a selector, construct a Bunshi m
 | Parent passes a new object prop              | React shallow comparison can cause a View render    |
 | Reorder holoList with stable keys            | Surviving rows keep local state; mapping still runs |
 
-Do not promise a fixed number of component invocations. React may render speculatively or replay work in development. Measure commits, subscriptions, selector calls and View calls separately. A large View still rerenders as a whole when one of its bound props changes; bind smaller leaves when necessary.
+React can render a component more than once, especially in development. Measure committed updates, selector calls and subscriptions separately. If a large View rerenders for one small field, bind that field in a smaller View.
 
 ## Promise state
 
@@ -30,6 +30,6 @@ Actions return the original result and Promise. They do not cancel, serialize, r
 
 ## Evidence and reading
 
-The [compatibility matrix](/compatibility), [aggregation design](/aggregation), and [Bunshi validation](/bunshi-validation) describe tested cases and limits. The [bundle report](/bundle-size) distinguishes application deltas from isolated exports; gzip sizes are not additive.
+The [compatibility matrix](/compatibility) lists tested cases. The [aggregation notes](/aggregation) explain async reads, and the [bundle report](/bundle-size) shows measured application size changes.
 
 Read [Jotai performance](https://jotai.org/docs/guides/performance), [Jotai async utilities](https://jotai.org/docs/utilities/async), and [React useEffect](https://react.dev/reference/react/useEffect) for the native behavior these bindings build on.

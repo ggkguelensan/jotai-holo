@@ -26,6 +26,11 @@ for (const { prefix } of locales.filter((locale) => locale.code !== 'en')) {
 let snippets = 0;
 for (const file of pages) {
   const text = await readFile(file, 'utf8');
+  assert.doesNotMatch(
+    text,
+    /\b(?:bunshi|holoMolecule|ScopeProvider|useMolecule)\b/i,
+    `Retired integration in ${file}`,
+  );
   if (file.includes('/reference/')) {
     const translated = locales.some(
       (locale) => locale.prefix && file.startsWith(root + locale.prefix + path.sep),
@@ -71,19 +76,11 @@ for (const file of pages) {
   }
 }
 
-for (const entry of [
-  'src/index.ts',
-  'src/bunshi.ts',
-  'src/model.ts',
-  'src/query.ts',
-  'src/rhf.ts',
-]) {
+for (const entry of ['src/index.ts', 'src/model.ts', 'src/query.ts', 'src/rhf.ts']) {
   const source = await readFile(entry, 'utf8');
-  const names = entry.endsWith('bunshi.ts')
-    ? ['holoMolecule']
-    : entry.endsWith('index.ts')
-      ? [...source.matchAll(/export \{ (\w+) \}/g)].map((match) => match[1])
-      : [...source.matchAll(/export (?:function|const) (\w+)/g)].map((match) => match[1]);
+  const names = entry.endsWith('index.ts')
+    ? [...source.matchAll(/export \{ (\w+) \}/g)].map((match) => match[1])
+    : [...source.matchAll(/export (?:function|const) (\w+)/g)].map((match) => match[1]);
   for (const name of names) await access(path.join(root, 'reference', `${name}.md`));
 }
 

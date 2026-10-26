@@ -1,4 +1,4 @@
-import { readFile, readdir, mkdir, writeFile } from 'node:fs/promises';
+import { readFile, readdir, mkdir, writeFile, unlink } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { createMarkdownRenderer } from 'vitepress';
 import { parse, stringify } from 'yaml';
@@ -31,6 +31,29 @@ export async function generateLocalizedDocs() {
   );
   const routes = new Set(pages.map((file) => '/' + file.replace(/(?:index)?\.md$/, '')));
   for (const { code, prefix } of locales.filter((locale) => locale.code !== 'en')) {
+    // Retired source pages must also leave translated routes and search indexes.
+    const expected = new Set([...pages, ...reports]);
+    async function removeRetired(dir, relative = '') {
+      let entries;
+      try {
+        entries = await readdir(dir, { withFileTypes: true });
+      } catch (error) {
+        if (error.code === 'ENOENT') return;
+        throw error;
+      }
+      for (const entry of entries) {
+        const file = relative + entry.name;
+        const path = `${dir}/${entry.name}`;
+        if (entry.isDirectory()) await removeRetired(path, file + '/');
+        else if (file.endsWith('.md') && !expected.has(file)) {
+          const text = await readFile(path, 'utf8');
+          if (!text.includes('<!-- Generated from'))
+            throw new Error(`Refusing to remove a handwritten translation: ${path}`);
+          await unlink(path);
+        }
+      }
+    }
+    await removeRetired(`docs${prefix}`);
     const catalog = await loadCatalog(code, 'docs');
     const t = (message) => catalog._(message);
     const anchors = new Map();

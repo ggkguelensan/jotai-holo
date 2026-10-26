@@ -22,7 +22,7 @@ Plain React views. Declarative Jotai bindings.
               ○               ○
 ```
 
-`holo` supplies a React **view** with values, callbacks and static props. The configuration key `core` describes its role in the holoenzyme metaphor; the UI component keeps its usual `*View` name: `core: CounterView`. The view stays an ordinary component that can be rendered directly in tests and stories. State and actions stay native Jotai atoms that work outside React.
+Connect a React component to Jotai without a hook that forwards every value and callback. Declare the connection with `holo`; pass the UI component as `core: CounterView`. The View receives ordinary props, so tests and stories can render it directly.
 
 The name recalls a **holoenzyme**: the assembled, active whole. The playful molecular mark puts `Re`, for React, at its center. Inspired by [Reflect's motivation](https://reflect.effector.dev/learn/motivation), adapted to Jotai's atom model.
 
@@ -43,7 +43,9 @@ import { actionAtom, holo, stateAtom } from 'jotai-holo';
 
 function createCounter(initial = 0) {
   const $count = stateAtom(initial);
+
   const $double = stateAtom((get) => get($count) * 2);
+
   const increment = actionAtom((_get, set) => {
     set($count, (count) => count + 1);
   });
@@ -67,6 +69,7 @@ function CounterView({
 }
 
 const $$counter = createCounter();
+
 const Counter = holo({
   core: CounterView,
   state: { count: $$counter.$count },
@@ -78,7 +81,7 @@ const Counter = holo({
 <Counter />;
 ```
 
-The `$state` / `$$model` prefixes and `createXxx` factories are optional naming conventions. Declare `holo` outside render, or use the [optional Bunshi adapter](docs/integrations.md#bunshi) to bind a model whose identity comes from a scope, without declaring holo inside React. Bunshi is an optional peer of the separate `jotai-holo/bunshi` entry; it does not enter ordinary holo bundles.
+Use `$` for state atoms and `$$` for model instances if these conventions help your project. Declare `holo` outside React render. Share an instance across widgets with [createModel](docs/reference/createModel.md): the same key and store select the same model.
 
 ## Public API
 
@@ -142,7 +145,7 @@ An async action returns its original promise to the caller. There is no automati
 `cage` supplies synchronous `onMount`, `onChange` and `onUnmount` handlers with `(get, set, { props })`. Handlers run in passive effects; `onChange` runs initially and on shallow input-prop changes. Prefer dispatching `actionAtom` from these handlers, keeping state transitions and business rules in the model. Direct writes to writable state atoms are supported. Use atom effects for reactive dependencies and resource cleanup, and explicit actions for async work.
 
 - [Complete interface and lifecycle contract](docs/api.md)
-- [jotai-effect and Bunshi recipes](docs/integrations.md)
+- [Effects and model lifetime](docs/integrations.md)
 - [Compatibility and rendering evidence](docs/compatibility.md)
 - [Production bundle measurements](docs/bundle-size.md)
 - [Runnable examples](examples) and [contributing](CONTRIBUTING.md)

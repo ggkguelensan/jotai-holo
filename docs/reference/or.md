@@ -1,6 +1,6 @@
 # or
 
-Require at least one boolean atom to be true. Import from `jotai-holo` or `jotai-holo/vanilla`.
+Check whether any boolean atom is true. Use it when either of several delivery methods is enough to proceed.
 
 <Demo kind="operators">
 
@@ -24,7 +24,7 @@ Inputs are synchronous boolean atoms. Reading stops at the first true input. Emp
 
 ## Why this API
 
-A name makes a common condition or calculation visible at the declaration. Use `ion` for a complete snapshot with an arbitrary projector, or `atom(get => …)` for more complex dynamic dependencies. No extra subscription engine or operator graph is introduced.
+Use a named helper for a condition you want to recognize at a glance. Use `ion` for an arbitrary calculation over fixed inputs, or `atom(get => …)` for conditional dependencies.
 
 ## Analogies and reading
 

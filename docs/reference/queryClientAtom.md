@@ -1,6 +1,6 @@
 # queryClientAtom
 
-Inject the application's QueryClient into a Jotai store.
+Give Jotai bindings the same QueryClient as the rest of the application. This lets `queryAtoms` and native `useQuery` share one cache.
 
 <Demo kind="query">
 

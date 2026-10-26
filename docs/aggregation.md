@@ -47,4 +47,4 @@ Tests live in `state-binding-atom.test.ts`, `aggregate.browser.test.tsx` and the
 
 ## Optional adapter bindings
 
-This native aggregation path is retained for ordinary atom bindings. When descriptors are present, selected atoms use public Jotai raw hooks and React-level promise aggregation to avoid retaining scoped models through pending dependency links from global atoms. See [adapter validation and ownership](bunshi-validation.md).
+Ordinary atom bindings use this native aggregation path. Model-selected bindings resolve their atoms through the current store and use React-level promise aggregation.

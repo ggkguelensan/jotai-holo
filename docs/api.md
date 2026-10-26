@@ -180,21 +180,6 @@ Use `Provider` to isolate state; create a store per SSR request. Hydrate above t
 
 This package has no framework-specific server integration. `holo` and its lifecycle module preserve `'use client'` in the built ESM. The `jotai-holo/vanilla` entry has no React dependency in its import graph. Client components, SSR-rendered client components and request-owned vanilla models are distinct concerns; a React Server Component cannot execute a connected client component's hooks on its own.
 
-## Optional molecule bindings
-
-```tsx
-import { holoMolecule } from 'jotai-holo/bunshi';
-
-const counter = holoMolecule(CounterMolecule);
-const Counter = holo({
-  core: CounterView,
-  state: { count: counter((model) => model.$count) },
-  actions: { onIncrement: counter((model) => model.increment) },
-});
-```
-
-Declare this outside React. Adapter selectors return native atoms; the adapter wraps them as descriptors for holo. Direct atoms remain supported in the same sections. Static props and cage keep their normal contracts. See [ownership, scopes and identity](integrations.md#bunshi).
-
 ## Model and view operators
 
 See [ion, prism, bond, holoList and holoMatch](operators.md) for signatures, defaults, ownership, scheduling and async contracts. `bindProps` replaces the former holo configuration key `props`; `ctx.props` remains unchanged.

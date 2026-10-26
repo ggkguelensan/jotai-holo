@@ -3,7 +3,7 @@ layout: home
 hero:
   name: jotai-holo
   text: Native atoms. Plain Views.
-  tagline: Declare how your Jotai model meets React. Keep commands, facts and lifecycle explicit.
+  tagline: Connect Jotai models to React Views. Keep data changes in the model and rendering in the View.
   image:
     src: /mark.svg
     alt: Molecular mark with React at its center
@@ -20,7 +20,7 @@ features:
   - title: Atoms stay native
     details: Use existing Jotai atoms, effects and async reads. No model migration or replacement runtime.
   - title: Lifetimes stay explicit
-    details: Store-owned event connections, committed lifecycle inputs and optional Bunshi scopes.
+    details: Share models by key within a store. Start and stop subscriptions with the widgets that use them.
 ---
 
 ## Try the model

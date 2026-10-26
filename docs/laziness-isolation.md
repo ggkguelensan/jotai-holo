@@ -1,26 +1,24 @@
 # Laziness and isolation audit
 
-This audit covers the implemented exports in `src/index.ts`, `src/vanilla.ts`, and
-`src/bunshi.ts`. It checks when work starts, which store owns it, and when it stops.
+This audit covers the documented state, event, View, model, Query and form APIs. It checks when work starts, which store owns it, and when it stops.
 The API contracts below are different from automatic property tracking or deep
 cloning of application data.
 
 ## Implemented API
 
-| API              | Activation and laziness                                                                                                                                              | Isolation and disposal                                                                                                                                                 |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `stateAtom`      | A derived callback runs when read or needed by an active dependent. A plain read does not mount resources.                                                           | Values and derived caches belong to the store. Factories create separate model identities within one store.                                                            |
-| `ion`            | The projector is lazy. Reading the result reads **all declared inputs**, even if the projector uses only one property.                                               | Native Jotai store ownership and dependency disposal. Conditional inputs should be expressed in a derived atom instead.                                                |
-| `prism`          | Each selector is independently lazy. Unread siblings, including async or throwing selectors, do not execute.                                                         | Each output has a per-store cache. The last unsubscribe releases its active dependency; equal results do not notify.                                                   |
-| `actionAtom`     | Its handler runs only on a write. Reading or subscribing to its null value does not run the handler or mount sampled state.                                          | `get` and `set`, including after `await`, stay bound to the invocation store. Calls publish after the synchronous handler returns, not after async success.            |
-| `eventAtom`      | No replay or payload state. Every write is a separate event, including equal payloads.                                                                               | Delivery channels and queues belong to the store. Payloads are passed by reference.                                                                                    |
-| `subscribeEvent` | Installs a listener without running unrelated atom reads.                                                                                                            | An explicit disposer releases that listener; disposing one store does not affect another. It does not cancel work the listener already started.                        |
-| `bond`           | Declaration, reading, and observing the output do not connect the link. `connect(store)` activates it. A boolean atom guard can reject before sampled state is read. | Connections are reference-counted per store; the final disconnect releases clocks and upstream links. Dynamic recipients are resolved from that store at delivery.     |
-| `holo`           | Declaration reads no state. Mount reads every configured `state` binding. `actions` create write callbacks without reading the action atom.                          | Reads, writes, and callbacks use the nearest store. Shared atom definitions in the same store intentionally share state.                                               |
-| `cage`           | Callbacks run in committed passive effects; definition and abandoned render do not invoke them.                                                                      | Props are retained per React instance. Store replacement cleans up the old store and opens the new one. StrictMode can replay effects.                                 |
-| `holoList`       | Empty lists do not mount row state. A new list value runs key extraction and mapping for its items. This is not virtualization or incremental list reconciliation.   | Stable keys preserve mounted row identity. Separate stores have separate source values. Removing rows releases their subscriptions.                                    |
-| `holoMatch`      | Only the active branch is rendered and subscribed. Inactive Holo branches and molecules remain dormant.                                                              | Branch choice belongs to the nearest store; switching away releases that branch's mounted subscriptions.                                                               |
-| `holoMolecule`   | Creating an adapter or descriptor does not instantiate a molecule. Rendering a consumer resolves it through Bunshi.                                                  | Bunshi scopes/injectors govern model sharing; Jotai stores govern atom values. Actions-only bindings still acquire the model, but do not subscribe to its state atoms. |
+| API              | Activation and laziness                                                                                                                                              | Isolation and disposal                                                                                                                                             |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `stateAtom`      | A derived callback runs when read or needed by an active dependent. A plain read does not mount resources.                                                           | Values and derived caches belong to the store. Factories create separate model identities within one store.                                                        |
+| `ion`            | The projector is lazy. Reading the result reads **all declared inputs**, even if the projector uses only one property.                                               | Native Jotai store ownership and dependency disposal. Conditional inputs should be expressed in a derived atom instead.                                            |
+| `prism`          | Each selector is independently lazy. Unread siblings, including async or throwing selectors, do not execute.                                                         | Each output has a per-store cache. The last unsubscribe releases its active dependency; equal results do not notify.                                               |
+| `actionAtom`     | Its handler runs only on a write. Reading or subscribing to its null value does not run the handler or mount sampled state.                                          | `get` and `set`, including after `await`, stay bound to the invocation store. Calls publish after the synchronous handler returns, not after async success.        |
+| `eventAtom`      | No replay or payload state. Every write is a separate event, including equal payloads.                                                                               | Delivery channels and queues belong to the store. Payloads are passed by reference.                                                                                |
+| `subscribeEvent` | Installs a listener without running unrelated atom reads.                                                                                                            | An explicit disposer releases that listener; disposing one store does not affect another. It does not cancel work the listener already started.                    |
+| `bond`           | Declaration, reading, and observing the output do not connect the link. `connect(store)` activates it. A boolean atom guard can reject before sampled state is read. | Connections are reference-counted per store; the final disconnect releases clocks and upstream links. Dynamic recipients are resolved from that store at delivery. |
+| `holo`           | Declaration reads no state. Mount reads every configured `state` binding. `actions` create write callbacks without reading the action atom.                          | Reads, writes, and callbacks use the nearest store. Shared atom definitions in the same store intentionally share state.                                           |
+| `cage`           | Callbacks run in committed passive effects; definition and abandoned render do not invoke them.                                                                      | Props are retained per React instance. Store replacement cleans up the old store and opens the new one. StrictMode can replay effects.                             |
+| `holoList`       | Empty lists do not mount row state. A new list value runs key extraction and mapping for its items. This is not virtualization or incremental list reconciliation.   | Stable keys preserve mounted row identity. Separate stores have separate source values. Removing rows releases their subscriptions.                                |
+| `holoMatch`      | Only the active branch is rendered and subscribed. Inactive branches remain dormant.                                                                                 | Branch choice belongs to the nearest store; switching away releases that branch's mounted subscriptions.                                                           |
 
 ## Important boundaries
 
@@ -41,7 +39,7 @@ cloning of application data.
 - Two stores do not deep-clone an atom's initial object. Use immutable updates;
   mutating an initial object shared by reference is outside isolation guarantees.
 - Two React components bound to the same atoms in the same store share state.
-  Per-instance state requires separate model atoms, explicit createModel keys, or an appropriate Bunshi scope.
+  Per-instance state requires separate model atoms or explicit createModel keys.
 - Creating a new model or atom on every render is not made stable by Holo.
 - Disposing an event or bond listener does not dispose the application's store or
   reset its state.
@@ -60,14 +58,9 @@ The additional audit scenarios are in:
   and complete reading of ion inputs.
 - `tests/isolation.browser.test.tsx`: one Holo definition across two stores;
   independent callbacks/cages; keyed rows combined with branch switching; and a
-  child mount effect writing to a molecule binding before initial commit settles.
+  child mount effect writing to a selected model binding before initial commit settles.
 
-Other integration tests cover Bunshi scopes/injectors, store replacement, async
-aggregation, error boundaries, native Jotai utilities, and RHF interoperability.
-`scripts/test-molecule-memory.mjs` additionally checks mounted and suspended
-Bunshi consumers against native controls in production Chromium with forced GC.
-This is a bounded retention experiment, not a proof that arbitrary application
-models or external resources cannot leak.
+Other integration tests cover store replacement, async aggregation, error boundaries, native Jotai utilities and RHF interoperability. The model memory experiment below checks retention and cleanup for store-owned instances.
 
 Reproduce from this checkout:
 
@@ -77,7 +70,7 @@ pnpm typecheck
 pnpm test
 pnpm test:compat
 pnpm test:browser
-pnpm test:memory
+pnpm test:model-memory
 ```
 
 Build first: some documentation fixtures import the package's compiled entry.

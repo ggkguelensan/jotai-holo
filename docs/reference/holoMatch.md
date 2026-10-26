@@ -1,6 +1,6 @@
 # holoMatch
 
-Choose a View from a string or number atom. Import from `jotai-holo`.
+Choose a View from a status atom. For example, show loading, content or an error while keeping inactive branches unmounted.
 
 <Demo kind="match">
 

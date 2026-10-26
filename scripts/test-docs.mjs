@@ -95,14 +95,6 @@ try {
   await page.getByRole('checkbox').uncheck();
   await page.getByRole('button', { name: 'Submit demo order' }).click();
   assert.match(await page.locator('.example-preview output').innerText(), /#100/);
-  await page.goto(`${origin}reference/holoMolecule`);
-  await page.locator('.example-preview button').first().click();
-  await page.waitForFunction(
-    () =>
-      [...document.querySelectorAll('.example-preview button')]
-        .map((button) => button.textContent)
-        .join(',') === '+ 1,+ 1,+ 0',
-  );
   await page.goto(`${origin}reference/createModel`);
   await page.getByRole('button', { name: 'Add a seat', exact: true }).first().click();
   await page.locator('.example-preview output').first().getByText('6', { exact: true }).waitFor();

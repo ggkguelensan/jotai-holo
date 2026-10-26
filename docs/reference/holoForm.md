@@ -1,6 +1,6 @@
 # holoForm
 
-Connect a form model to an ordinary RHF View, declared outside React render.
+Connect a form model to an RHF View. Keep `register`, `Controller` and `useFormContext` in the View; let other widgets use the same model's atoms and actions.
 
 <Demo kind="form">
 
@@ -31,7 +31,7 @@ const ContactEditor = holoForm({
 
 ## Why this API
 
-It concentrates model resolution and the single RHF bridge in one declaration. The View stays recognizable RHF, while external widgets can bind atoms/actions from the same instance. No useMemo-created React component or Bunshi scope wrapper is needed.
+Use holoForm when an editor and other widgets need one RHF control. The editor keeps its RHF components; an external Save panel binds to the same model with ordinary holo.
 
 ## Analogies and reading
 

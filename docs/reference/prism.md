@@ -1,6 +1,6 @@
 # prism
 
-Split one source into named, independent read-only projections. Import from the root or vanilla entry.
+Select several fields from one atom. Each field becomes an independent read-only atom, so a role change can leave the name View unchanged.
 
 <Demo kind="prism">
 
@@ -22,7 +22,7 @@ Split one source into named, independent read-only projections. Import from the 
 
 ## Why this API
 
-Prism is a declaration convenience for several native derivations, not a global splitter that eagerly computes every field. Use selectAtom for custom slice equality, or optics when you need writable lenses rather than read-only projections.
+Use prism when several Views need different fields from the same source. Each output computes separately. Use selectAtom for custom equality, or optics for writable projections.
 
 ## Analogies and reading
 

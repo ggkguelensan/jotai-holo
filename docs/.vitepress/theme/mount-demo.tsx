@@ -18,7 +18,6 @@ const demos: Record<string, () => Promise<DemoModule>> = {
   cage: () => import('../../../examples/docs/cage'),
   list: () => import('../../../examples/docs/list'),
   match: () => import('../../../examples/docs/match'),
-  bunshi: () => import('../../../examples/docs/bunshi'),
   operators: () => import('../../../examples/docs/operators'),
   model: () => import('../../../examples/docs/model'),
   query: () => import('../../../examples/docs/query'),

@@ -16,7 +16,6 @@ const groups = (t: (message: string) => string) => [
       'createFormModel',
       'holoForm',
       'formAtom',
-      'holoMolecule',
     ],
   },
 ];
@@ -43,7 +42,7 @@ async function localeConfig(code: string, label: string, prefix: string) {
       text: t('Recipes'),
       items: [
         { text: t('Profile: command → fact → reaction'), link: link('/recipes/profile') },
-        { text: t('Effects and Bunshi'), link: link('/recipes/integrations') },
+        { text: t('Effects and model lifetime'), link: link('/recipes/integrations') },
         { text: t('Hosting the docs'), link: link('/guide/hosting') },
       ],
     },
@@ -54,7 +53,6 @@ async function localeConfig(code: string, label: string, prefix: string) {
         { text: t('Compatibility'), link: '/compatibility' },
         { text: t('Bundle measurements'), link: '/bundle-size' },
         { text: t('Aggregation'), link: '/aggregation' },
-        { text: t('Bunshi memory validation'), link: '/bunshi-validation' },
         { text: t('Laziness and isolation audit'), link: '/laziness-isolation' },
         { text: t('Detailed contracts'), link: '/api' },
         { text: t('Operator contracts'), link: '/operators' },
@@ -146,10 +144,6 @@ export default defineConfig({
         {
           find: 'jotai-holo/rhf',
           replacement: fileURLToPath(new URL('../../src/rhf.ts', import.meta.url)),
-        },
-        {
-          find: 'jotai-holo/bunshi',
-          replacement: fileURLToPath(new URL('../../src/bunshi.ts', import.meta.url)),
         },
         {
           find: 'jotai-holo',

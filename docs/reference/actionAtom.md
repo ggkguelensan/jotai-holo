@@ -1,6 +1,6 @@
 # actionAtom
 
-Create a command as a native write-only atom with inferred arguments and result. Import from the root or vanilla entry.
+Describe an operation that reads or updates atoms. For example, validate a draft and submit it to an API.
 
 <Demo kind="counter">
 

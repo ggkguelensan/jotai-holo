@@ -14,7 +14,7 @@ Equivalent native and connected counter applications include React, React DOM an
 | holo with helpers                     |          6,837 |      2,411 |        2,124 |
 | holo with helpers, preexisting unwrap |          6,099 |      2,122 |        1,867 |
 
-Baseline application: **226,797 | 70,500 | 60,957 bytes** (minified / gzip / Brotli). Plain holo adds **2,300 gzip bytes**; registry, Query, RHF and Bunshi implementations are absent. Root imports do not force unused operators into the application.
+Baseline application: **226,797 | 70,500 | 60,957 bytes** (minified / gzip / Brotli). Plain holo adds **2,300 gzip bytes**; registry, Query and RHF implementations are absent. Root imports do not force unused operators into the application.
 
 ## Publishing helpers
 
@@ -47,13 +47,10 @@ These figures compress isolated library exports, with React, Jotai, query-core a
 
 The all-form row already contains holo and the model registry. Do not add those rows together. FormAtom-only imports contain neither holo nor the registry. The Query entry reuses prism/readSource and talks directly to QueryObserver; it contains no atomWithQuery adapter. Zod and resolvers are application/example dependencies and never enter the library runtime.
 
-## Bunshi, cage and complete root
+## Cage and complete root
 
 | Variant                                | Minified bytes | gzip bytes | Brotli bytes |
 | -------------------------------------- | -------------: | ---------: | -----------: |
-| Native Bunshi application              |        235,960 |     73,655 |       63,763 |
-| Bunshi with holo adapter               |        242,624 |     75,916 |       65,795 |
-| Bunshi adapter application increment   |          6,664 |      2,261 |        2,032 |
 | Cage application increment             |          1,311 |        389 |          355 |
 | All root exports, React/Jotai external |         10,854 |      4,142 |        3,806 |
 
@@ -63,7 +60,7 @@ A measurement-only transform removes cage wiring for the cage comparison. Ordina
 
 - Helper-only root and vanilla imports produce identical output, without React bindings.
 - Unused scalar operators, bond, events, prism, ion and branch/list adapters are removed from ordinary counter fixtures.
-- Ordinary holo imports the small model-binding protocol, but not registry construction, timers, Query, RHF or Bunshi.
+- Ordinary holo imports the small model-binding protocol, but not registry construction, timers, Query or RHF.
 - Optional Query and RHF code is reachable only through its separate entry point.
 - Publisher-only imports exclude subscription queues and listener error handling.
 

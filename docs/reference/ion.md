@@ -1,6 +1,6 @@
 # ion
 
-Combine a fixed shape of readable atoms into one derived atom. Import from the root or vanilla entry.
+Calculate one value from several atoms. In the cart below, quantity and discount determine the total.
 
 <Demo kind="ion">
 
@@ -20,7 +20,7 @@ All declared inputs are read on each required recomputation, even when a project
 
 ## Why this API
 
-Native derived atoms already combine data. Ion names the fixed sources at the declaration boundary and makes many-input mapping concise. It adds neither automatic awaiting nor an independent scheduler. A fresh object result still changes identity.
+Use ion when you can list the inputs at declaration time. The result has Jotai's normal caching and equality rules. A projector that returns a new object changes the result's identity.
 
 ## Analogies and reading
 

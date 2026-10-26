@@ -1,6 +1,6 @@
 # bond
 
-Route an occurrence into a writable atom, optionally sampling state, filtering and mapping arguments. Import from the root or vanilla entry.
+Connect an event to a reaction. When an order is submitted, read the current settings, check a condition and send arguments to the receiving atom.
 
 <Demo kind="bond">
 

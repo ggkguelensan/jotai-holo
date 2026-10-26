@@ -64,8 +64,8 @@ msgstr "Профиль: команда → факт → реакция"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Effects and Bunshi"
-msgstr "Әсерлер және Bunshi"
+msgid "Effects and model lifetime"
+msgstr "Әсерлер және модельдің өмірлік циклі"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -91,11 +91,6 @@ msgstr "Бандл өлшемі"
 #: docs/.vitepress/config.mts
 msgid "Aggregation"
 msgstr "Агрегация"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Bunshi memory validation"
-msgstr "Bunshi жадысын тексеру"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -281,16 +276,6 @@ msgstr "Тапсырыс чегі"
 #: examples/docs/bond.tsx
 msgid "Local simulation: no payment or network request."
 msgstr "Жергілікті имитация: төлем де, желі сұрауы да жасалмайды."
-
-#. js-lingui-explicit-id
-#: examples/docs/bunshi.tsx
-msgid "Two Views in a shared scope"
-msgstr "Ортақ scope-тағы екі View"
-
-#. js-lingui-explicit-id
-#: examples/docs/bunshi.tsx
-msgid "Independent scope"
-msgstr "Жеке scope"
 
 #. js-lingui-explicit-id
 #: examples/docs/cage.tsx

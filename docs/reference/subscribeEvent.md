@@ -1,6 +1,6 @@
 # subscribeEvent
 
-Observe an event outside React. Import from the root or vanilla entry. The returned function disposes the subscription.
+Listen to an event in one store. For example, show a notification after `profileSaved`. Call the returned function when the listener is no longer needed.
 
 <Demo kind="event">
 

@@ -36,19 +36,16 @@ Test paths above are relative to [`tests/`](../tests). Type-negative fixtures ar
 
 ## Extensions and ecosystem
 
-| Extension                      | Verification                                                                             | Boundary                                                                                                                               |
-| ------------------------------ | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| jotai-effect                   | Browser: withAtomEffect, atomEffect, observe, last-consumer cleanup                      | `integrations.browser.test.tsx`; runnable effect example                                                                               |
-| Bunshi                         | Browser: shared scopes, separate scopes/stores, identity cache, replacement and teardown | `binding.browser.test.tsx`, `binding-types.test.tsx`, `binding.test.tsx`, `integrations.browser.test.tsx`, `examples.browser.test.tsx` |
-| Bunshi + observe + owned store | Browser: rendered control and cleanup of real example                                    | `examples.browser.test.tsx`                                                                                                            |
-| Immer and Optics               | Runtime reads and writes                                                                 | `utilities.compat.test.ts`                                                                                                             |
-| TanStack Query                 | Runtime query cache and suspense query                                                   | Explicit QueryClient, deterministic local queryFn; no production network service                                                       |
-| XState                         | Runtime actor snapshots and events                                                       | `utilities.compat.test.ts`                                                                                                             |
-| History                        | Runtime history read, undo and redo                                                      | `utilities.compat.test.ts`                                                                                                             |
-| tRPC, URQL                     | Ordinary readable/writable atom protocol                                                 | Backend-specific clients, SSR cache and networking **not tested**                                                                      |
-| Location                       | Ordinary atom protocol                                                                   | URL/hash, navigation and router integration **not tested**                                                                             |
-| Cache                          | Ordinary atom protocol                                                                   | Extension-specific expiration/eviction **not tested**                                                                                  |
-| Bunja                          | Separate ecosystem package                                                               | **Not tested**; Bunshi recipe must not be assumed interchangeable                                                                      |
+| Extension        | Verification                                                        | Boundary                                                                         |
+| ---------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| jotai-effect     | Browser: withAtomEffect, atomEffect, observe, last-consumer cleanup | `integrations.browser.test.tsx`; runnable effect example                         |
+| Immer and Optics | Runtime reads and writes                                            | `utilities.compat.test.ts`                                                       |
+| TanStack Query   | Runtime query cache and suspense query                              | Explicit QueryClient, deterministic local queryFn; no production network service |
+| XState           | Runtime actor snapshots and events                                  | `utilities.compat.test.ts`                                                       |
+| History          | Runtime history read, undo and redo                                 | `utilities.compat.test.ts`                                                       |
+| tRPC, URQL       | Ordinary readable/writable atom protocol                            | Backend-specific clients, SSR cache and networking **not tested**                |
+| Location         | Ordinary atom protocol                                              | URL/hash, navigation and router integration **not tested**                       |
+| Cache            | Ordinary atom protocol                                              | Extension-specific expiration/eviction **not tested**                            |
 
 No extension objects are reinterpreted as events. `state` always reads an atom and `actions` always writes an atom. Existing atom utilities can compose freely before binding. An extension's own store/provider/client requirements still apply.
 
@@ -90,11 +87,11 @@ With the pinned React 19.3.1/Jotai 3.0.1, an async→sync transition after initi
 
 ## Package verification
 
-`pnpm test:package` builds a real tarball, extracts it into an isolated consumer directory, imports public root, vanilla and optional ESM entry points, typechecks a consumer against the **packed declarations**, verifies preserved client directives and checks that the vanilla import graph has no React imports. Tests/examples/dependencies are excluded from the tarball. jotai-effect remains a development dependency. Bunshi is an optional peer for the separate adapter entry. Packed root runtime/declaration graphs are checked to contain no Bunshi imports.
+`pnpm test:package` builds a real tarball, extracts it into an isolated consumer directory, imports public root, vanilla and optional ESM entry points, typechecks a consumer against the **packed declarations**, verifies preserved client directives and checks that the vanilla import graph has no React imports. Tests/examples/dependencies are excluded from the tarball. jotai-effect remains a development dependency. Packed root runtime/declaration graphs are checked to exclude optional integrations.
 
 ## React version matrix
 
-`pnpm test:react` installs the packed library into isolated consumers using **React/React DOM 18.0.0, 18.3.1 and 19.3.1**. Each consumer checks its own React-major typings, streaming SSR for ordinary and adapted async bindings, and Chromium development/production scenarios: state/actions/events, ref forwarding through cage/match and Bunshi bindings, pending→resolved→sync→async transitions, rejection boundaries, scope replacement, keyed lists and disposal. CI runs each React version separately. The full source, extension and browser suites continue to run with the pinned React 19 environment.
+`pnpm test:react` installs the packed library into isolated consumers using **React/React DOM 18.0.0, 18.3.1 and 19.3.1**. Each consumer checks its own React-major typings, streaming SSR for ordinary and adapted async bindings, and Chromium development/production scenarios: state/actions/events, ref forwarding through cage/match bindings, pending→resolved→sync→async transitions, rejection boundaries, model replacement, keyed lists and disposal. CI runs each React version separately. The full source, extension and browser suites continue to run with the pinned React 19 environment.
 
 On React 18, refs must terminate at an intrinsic element, class, or `forwardRef` View, following React's normal rules. A plain function View receiving ref as an ordinary prop is a React 19 feature. Holo forwards refs through its React 18 boundaries; it does not polyfill React 19's component API.
 

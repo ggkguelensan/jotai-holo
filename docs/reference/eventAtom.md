@@ -1,6 +1,6 @@
 # eventAtom
 
-A typed, one-payload notification without retained event state. Import from the root or vanilla entry.
+Announce that something happened. Emit `profileSaved` after the API confirms a save, then let notifications or analytics react to that fact.
 
 <Demo kind="event">
 

@@ -64,8 +64,8 @@ msgstr "Profile: command → fact → reaction"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Effects and Bunshi"
-msgstr "Effects and Bunshi"
+msgid "Effects and model lifetime"
+msgstr "Effects and model lifetime"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -91,11 +91,6 @@ msgstr "Bundle measurements"
 #: docs/.vitepress/config.mts
 msgid "Aggregation"
 msgstr "Aggregation"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Bunshi memory validation"
-msgstr "Bunshi memory validation"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -281,16 +276,6 @@ msgstr "Receipt for order"
 #: examples/docs/bond.tsx
 msgid "Local simulation: no payment or network request."
 msgstr "Local simulation: no payment or network request."
-
-#. js-lingui-explicit-id
-#: examples/docs/bunshi.tsx
-msgid "Two Views in a shared scope"
-msgstr "Two Views in a shared scope"
-
-#. js-lingui-explicit-id
-#: examples/docs/bunshi.tsx
-msgid "Independent scope"
-msgstr "Independent scope"
 
 #. js-lingui-explicit-id
 #: examples/docs/cage.tsx

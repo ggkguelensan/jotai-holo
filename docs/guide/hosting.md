@@ -38,4 +38,4 @@ English edit links point to Markdown sources; translated edit links point to the
 
 Reading: [VitePress deployment](https://vitepress.dev/guide/deploy), [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-github-actions-to-create-a-github-pages-site).
 
-Live examples use React and the actual jotai-holo implementation. The Vue shell mounts them only on the client and unmounts on page changes. Each example has an isolated store. `pnpm test:docs` exercises interactions, disposal, Bunshi scopes and navigation. Site dependencies do not enter the library runtime.
+Live examples run the library in React, inside the Vue documentation shell. Each example has its own store and is unmounted on navigation. `pnpm test:docs` checks controls, cleanup, model isolation and language switching. Documentation dependencies do not enter the library runtime.

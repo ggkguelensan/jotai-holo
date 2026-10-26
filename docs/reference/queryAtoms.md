@@ -1,6 +1,6 @@
 # queryAtoms
 
-Use existing Query options factories and subscribe to independent result atoms.
+Bind Query results to a View through separate atoms. Reuse your query-options factory and select only the fields each View needs.
 
 <Demo kind="query">
 

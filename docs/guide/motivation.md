@@ -1,6 +1,6 @@
 # Why jotai-holo
 
-A model knows how data changes. A View knows how data appears. The connection should be visible in one declaration, without a custom hook whose only job is forwarding atom values and setters.
+A profile field needs a name and a change callback. The model updates the name; the View renders the input. `holo` declares which model values and actions become View props.
 
 ## From hooks to a binding
 
@@ -18,7 +18,7 @@ That is a good choice for a small component. When this pattern repeats across a 
 
 <<< @/../examples/documentation.tsx#holo
 
-The result is useful when you want reusable Views in Storybook, tests using plain props, and subscriptions close to the leaves that display data. It is less useful when a component already owns significant hook-based interaction logic and a separate View would add indirection.
+Keep the View separate when you want to reuse it in stories, test it with props or bind subscriptions to a small part of the screen. For a local component that already uses several hooks, `useAtomValue` and `useSetAtom` may be simpler.
 
 ## Why separate state, actions and bindProps?
 
@@ -28,14 +28,14 @@ A writable atom can supply both a value and a callback. A function might be a pr
 
 ## A small vocabulary, native semantics
 
-| Need                           | Tool                        | Boundary                                      |
-| ------------------------------ | --------------------------- | --------------------------------------------- |
-| Store values / derived reads   | stateAtom                   | Native atoms; use atom for advanced overloads |
-| Commands / facts               | actionAtom / eventAtom      | Explicit calls, no retained event payload     |
-| Combine / project              | ion / prism                 | Jotai dependencies and Object.is              |
-| React to a domain notification | bond                        | Explicit store-owned connection               |
-| Bind / repeat / choose Views   | holo / holoList / holoMatch | Ordinary React props and lifecycle            |
-| Scoped model identity          | holoMolecule                | Optional Bunshi entry, separate from core     |
+| Need                           | Tool                        | Boundary                                       |
+| ------------------------------ | --------------------------- | ---------------------------------------------- |
+| Store values / derived reads   | stateAtom                   | Native atoms; use atom for advanced overloads  |
+| Commands / facts               | actionAtom / eventAtom      | Explicit calls, no retained event payload      |
+| Combine / project              | ion / prism                 | Jotai dependencies and Object.is               |
+| React to a domain notification | bond                        | Explicit store-owned connection                |
+| Bind / repeat / choose Views   | holo / holoList / holoMatch | Ordinary React props and lifecycle             |
+| Share a model between widgets  | createModel                 | Instance selected by definition, key and store |
 
 The names use a playful molecular vocabulary. Holo recalls an assembled holoenzyme, and `Re` in the mark stands for React. This is an identity metaphor, not a chemistry model.
 

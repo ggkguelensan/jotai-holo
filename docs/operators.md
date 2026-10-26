@@ -125,7 +125,7 @@ const UsersList = holoList({
 });
 ```
 
-Declare the list once outside render. `source` is a native readable atom of a readonly array or a promise of one. A stable `getKey` is required. Duplicate React keys throw. `mapItem(item, index)` supplies row props and cannot overlap `state`, `actions` or `bindProps`. These sections follow ordinary holo contracts, including optional molecule bindings. `cage` is per row; its inputs include mapped row props and caller props. Each row owns its subscriptions and cleanup.
+Declare the list once outside render. `source` is a native readable atom of a readonly array or a promise of one. A stable `getKey` is required. Duplicate React keys throw. `mapItem(item, index)` supplies row props and cannot overlap `state`, `actions` or `bindProps`. These sections follow ordinary holo contracts. `cage` is per row; its inputs include mapped row props and caller props. Each row owns its subscriptions and cleanup.
 
 Remaining required row props are required on the list and forwarded to each row and the optional empty View. An empty array renders that View, or null. Async arrays use native Suspense and rejection boundaries. Reordering stable keys preserves row-local state; deleting a key disposes that row. Changing the key creates a new row. `mapItem` still runs for each item on a list update; unchanged shallow mapped props skip row/core renders. New object/function props, changed indices and shared state updates can cause additional row renders. Prefer immutable items and stable callbacks.
 
@@ -148,7 +148,7 @@ Only the selected branch is mounted and subscribed. Remaining props must satisfy
 
 Passing `stateAtom(fetchUser())` starts the request before the helper runs. Use a derived callback such as `stateAtom(() => fetchUser())` when the request should wait for a read. An already-created Promise is already running.
 
-Declaration allocates atom/component descriptors; it does not read sources, run projectors, create molecule models or mount Views. The [vanilla laziness tests](../tests/laziness.test.ts) compare derived helpers with a native atom control; [Chromium tests](../tests/laziness.browser.test.tsx) separately count selector calls, View invocations and resource mounts around controlled updates.
+Declaration allocates atom/component descriptors; it does not read sources, run projectors or mount Views. The [vanilla laziness tests](../tests/laziness.test.ts) compare derived helpers with a native atom control; [Chromium tests](../tests/laziness.browser.test.tsx) separately count selector calls, View invocations and resource mounts around controlled updates.
 
 | Utility                     | What starts work                                                          | When values remain equal                                                                         | Disposal                                                                           |
 | --------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
@@ -160,7 +160,6 @@ Declaration allocates atom/component descriptors; it does not read sources, run 
 | `holo`                      | Mounted state bindings                                                    | Shallowly equal View props skip View calls                                                       | State dependencies unsubscribe; action bindings never read or subscribe to targets |
 | `holoList`                  | Mounted list source; state only for existing rows                         | A new array still remaps items; unchanged row props skip row/View calls                          | Empty/deleted rows release their state subscriptions                               |
 | `holoMatch`                 | Mounted selector and active branch                                        | Equal case selection does not notify; equal fallback props skip View calls across unknown values | Inactive branches have no atom subscriptions                                       |
-| `holoMolecule`              | Adapter rendered in an active branch                                      | Stable model identity reuses atom selectors; unchanged selected state skips View calls           | Bunshi owns model lifecycle; hidden branches release their consumers               |
 
 ### prism: recomputing a selector is not a View rerender
 

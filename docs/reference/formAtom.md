@@ -1,6 +1,6 @@
 # formAtom
 
-Subscribe to one native RHF field value as a read-only Jotai atom.
+Read one RHF field through a Jotai atom. For example, display the email currently entered in a form inside an external Save panel.
 
 <Demo kind="form">
 

@@ -1,6 +1,6 @@
 # eq
 
-Compare a selected atom with a constant or another atom. Import from `jotai-holo` or `jotai-holo/vanilla`.
+Compare an atom with a value or another atom. Use `eq($deliveryMethod, 'courier')` to check whether an order uses courier delivery.
 
 <Demo kind="operators">
 
@@ -24,7 +24,7 @@ Object.is comparison: NaN equals NaN; −0 differs from 0. Objects compare by re
 
 ## Why this API
 
-A name makes a common condition or calculation visible at the declaration. Use `ion` for a complete snapshot with an arbitrary projector, or `atom(get => …)` for more complex dynamic dependencies. No extra subscription engine or operator graph is introduced.
+Use a named helper for a condition you want to recognize at a glance. Use `ion` for an arbitrary calculation over fixed inputs, or `atom(get => …)` for conditional dependencies.
 
 ## Analogies and reading
 

@@ -1,6 +1,6 @@
 # createFormModel
 
-Create isolated native RHF controls as keyed Jotai models.
+Create a separate RHF form for each model key. An editor and an external Save panel can share that form without sharing it with another contact.
 
 <Demo kind="form">
 

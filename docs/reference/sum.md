@@ -1,6 +1,6 @@
 # sum
 
-Add numeric values without writing a projector. Import from `jotai-holo` or `jotai-holo/vanilla`.
+Add numeric atom values. For example, calculate an order total from goods and delivery charges.
 
 <Demo kind="operators">
 
@@ -25,7 +25,7 @@ Reads every numeric input. Also accepts one numeric atom or an atom of readonly 
 
 ## Why this API
 
-A name makes a common condition or calculation visible at the declaration. Use `ion` for a complete snapshot with an arbitrary projector, or `atom(get => …)` for more complex dynamic dependencies. No extra subscription engine or operator graph is introduced.
+Use a named helper for a condition you want to recognize at a glance. Use `ion` for an arbitrary calculation over fixed inputs, or `atom(get => …)` for conditional dependencies.
 
 ## Analogies and reading
 

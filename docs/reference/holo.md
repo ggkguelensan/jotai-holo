@@ -1,6 +1,6 @@
 # holo
 
-Bind an ordinary View to atom values, writable callbacks and fixed props. Import from `jotai-holo`.
+Connect a React View to atom values and actions. The View receives ordinary props; the binding manages its Jotai subscriptions.
 
 <Demo kind="counter">
 
@@ -12,13 +12,13 @@ Bind an ordinary View to atom values, writable callbacks and fixed props. Import
 
 ## Contract
 
-| Field     | Meaning                                                      |
-| --------- | ------------------------------------------------------------ |
-| core      | React View component or intrinsic element                    |
-| state     | View prop → readable atom or optional adapter descriptor     |
-| actions   | Callback prop → writable atom or optional adapter descriptor |
-| bindProps | Fixed ordinary props, including functions/components         |
-| cage      | Optional committed lifecycle/input bridge                    |
+| Field     | Supplies                                        |
+| --------- | ----------------------------------------------- |
+| core      | React View component or element                 |
+| state     | View prop → readable atom                       |
+| actions   | Callback prop → writable atom                   |
+| bindProps | Fixed props, including functions and components |
+| cage      | Input props and lifecycle handlers              |
 
 Declare outside React render. Remaining View props are public; supplied keys are omitted from caller types. A prop cannot occur in several binding sections. Fixed values win over incoming runtime values.
 
@@ -27,16 +27,6 @@ Any compatible native atom works: `state: { count: countAtom }` and `actions: { 
 The binding and View use React.memo's shallow comparison. Action-only bindings do not subscribe to their targets; callbacks stay stable while store and target do. No subscription to every atom in a model is created. New objects in selected values or incoming props can still render View. Context and local hook updates retain normal React behavior.
 
 For generic Views, specialize the component first so its prop types are concrete. State/actions bindings must be valid across relevant union branches; the adapter does not narrow discriminated payloads for you. Use a Jotai Provider for store isolation; no holo Provider is needed.
-
-## Why this API
-
-The goal is declarative wiring without thin forwarding hooks. Explicit sections distinguish reading, writing and static data without runtime atom detection. useAtomValue/useSetAtom remain a good choice for local hook-heavy components; holo is valuable when the View should stay independent of the model.
-
-## Analogies and reading
-
-- [Reflect motivation](https://reflect.effector.dev/learn/motivation) — the direct inspiration for external View bindings.
-- [Jotai atom](https://jotai.org/docs/core/atom) — the underlying primitive/read-only/write-only contracts.
-- [Jotai performance](https://jotai.org/docs/guides/performance) — why stable selections and small subscription boundaries matter.
 
 On React 18, ref targets must be intrinsic elements, classes or forwardRef Views. Ref as an ordinary function-View prop requires React 19. Holo forwards refs through its wrappers on both supported versions.
 
@@ -53,3 +43,13 @@ const Counter = holo({
   actions: ($$counter) => ({ onIncrement: $$counter.increment }),
 });
 ```
+
+## Why this API
+
+Choose holo when a View should accept props without importing its model. The connection stays in one declaration, while the same View can be rendered directly in tests or stories. For local hook-based components, useAtomValue and useSetAtom remain useful.
+
+## Analogies and reading
+
+- [Reflect motivation](https://reflect.effector.dev/learn/motivation) — the direct inspiration for external View bindings.
+- [Jotai atom](https://jotai.org/docs/core/atom) — the underlying primitive/read-only/write-only contracts.
+- [Jotai performance](https://jotai.org/docs/guides/performance) — why stable selections and small subscription boundaries matter.

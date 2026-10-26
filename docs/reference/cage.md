@@ -1,6 +1,6 @@
 # cage
 
-The optional lifecycle section of holo, not a separate exported function. Use it to send committed input props into model actions.
+Send a component's input props to model actions after React commits the render. For example, update a search query when the `term` prop changes. Configure it inside `holo`.
 
 <Demo kind="cage">
 
@@ -18,7 +18,7 @@ For each committed instance/store, order is mount → initial change → later s
 
 Cage uses passive React effects. StrictMode may replay mount/change/unmount; handlers must tolerate it. SSR and abandoned renders do not publish lifecycle writes. Replacing the Jotai store closes the old cage and opens a new one. Ordinary Suspense hiding does not close it; initial Suspense delays its first commit.
 
-**Current limit:** input props are inferred from the View's props. A lifecycle-only input must still be declared on the View, as `term` is above. There is no independent cage input schema. A cage cannot initialize data that suspends its own first render, and cannot directly access a scoped Bunshi model through ctx.
+Input props come from the View's type. Even a prop used only by cage must be declared on the View, as `term` is above. Initialize data before rendering if the first render would suspend while waiting for it.
 
 ## Why this API
 

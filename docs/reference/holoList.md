@@ -1,6 +1,6 @@
 # holoList
 
-Render keyed rows from an atom containing an array. Import from `jotai-holo`.
+Render a View for each item in an array atom. Stable keys keep row state attached to the right item when the list is reordered.
 
 <Demo kind="list">
 
