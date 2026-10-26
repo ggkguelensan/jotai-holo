@@ -1,4 +1,4 @@
-import { useLingui } from '@lingui/react';
+import { useLingui } from '@lingui/react/macro';
 import { useStore } from 'jotai';
 import { useEffect } from 'react';
 import { actionAtom, bond, eventAtom, holo, stateAtom } from 'jotai-holo';
@@ -34,22 +34,22 @@ function CheckoutView({
   onEnabled: (value: boolean) => void;
   onSubmit: () => void;
 }) {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   return (
     <div className="demo-form">
-      <span className="demo-eyebrow">{t('A fact → a separate reaction')}</span>
+      <span className="demo-eyebrow">{t`A fact → a separate reaction`}</span>
       <label className="demo-checkbox">
         <input type="checkbox" checked={enabled} onChange={(e) => onEnabled(e.target.checked)} />
-        {t('Generate receipt')}
+        {t`Generate receipt`}
       </label>
       <button type="button" onClick={() => onSubmit()}>
-        {t('Submit demo order')}
+        {t`Submit demo order`}
       </button>
       <output aria-live="polite">
-        {message === null ? t('No receipts yet') : `${t('Receipt for order')} #${message}`}
+        {message === null ? t`No receipts yet` : `${t`Receipt for order`} #${message}`}
       </output>
-      <p className="demo-note">{t('Local simulation: no payment or network request.')}</p>
+      <p className="demo-note">{t`Local simulation: no payment or network request.`}</p>
     </div>
   );
 }

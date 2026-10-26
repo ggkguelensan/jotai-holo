@@ -1,4 +1,4 @@
-import { useLingui } from '@lingui/react';
+import { useLingui } from '@lingui/react/macro';
 import { createStore } from 'jotai';
 import { queryClientAtom } from 'jotai-holo/query';
 import { QueryClient } from '@tanstack/react-query';
@@ -51,17 +51,17 @@ function CardView({
   pending: boolean;
   error: Error | null;
 }) {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   return (
     <section>
-      <span className="demo-eyebrow">{t('Product catalog')}</span>
+      <span className="demo-eyebrow">{t`Product catalog`}</span>
       <p role="status">
         {pending
-          ? t('Loading…')
+          ? t`Loading…`
           : error
             ? error.message
-            : `${data?.name === 'Oak desk' ? t('Oak desk') : t('Desk lamp')} · $${data?.price}`}
+            : `${data?.name === 'Oak desk' ? t`Oak desk` : t`Desk lamp`} · $${data?.price}`}
       </p>
     </section>
   );
@@ -73,12 +73,12 @@ const Card = holo({
 });
 
 function SwitchView({ onChange }: { onChange: (value: string) => void }) {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   return (
     <div className="demo-controls">
-      <button onClick={() => onChange('desk')}>{t('Desk')}</button>
-      <button onClick={() => onChange('lamp')}>{t('Lamp')}</button>
+      <button onClick={() => onChange('desk')}>{t`Desk`}</button>
+      <button onClick={() => onChange('lamp')}>{t`Lamp`}</button>
     </div>
   );
 }

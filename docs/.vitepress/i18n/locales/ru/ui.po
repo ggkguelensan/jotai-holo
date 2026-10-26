@@ -247,72 +247,58 @@ msgstr "перейти"
 msgid "to close"
 msgstr "закрыть"
 
-#. js-lingui-explicit-id
 #: examples/docs/bond.tsx
 msgid "A fact → a separate reaction"
 msgstr "Факт → независимая реакция"
 
-#. js-lingui-explicit-id
 #: examples/docs/bond.tsx
 msgid "Generate receipt"
 msgstr "Создавать чек"
 
-#. js-lingui-explicit-id
 #: examples/docs/bond.tsx
 msgid "Submit demo order"
 msgstr "Оформить демо-заказ"
 
-#. js-lingui-explicit-id
 #: examples/docs/bond.tsx
 msgid "No receipts yet"
 msgstr "Чеков пока нет"
 
-#. js-lingui-explicit-id
 #: examples/docs/bond.tsx
 msgid "Receipt for order"
 msgstr "Чек для заказа"
 
-#. js-lingui-explicit-id
 #: examples/docs/bond.tsx
 msgid "Local simulation: no payment or network request."
 msgstr "Локальная имитация: без оплаты и сетевых запросов."
 
-#. js-lingui-explicit-id
 #: examples/docs/cage.tsx
 msgid "Mounted search View receives"
 msgstr "Смонтированный Search View получает"
 
-#. js-lingui-explicit-id
 #: examples/docs/cage.tsx
 msgid "mounted"
 msgstr "смонтирован"
 
-#. js-lingui-explicit-id
 #: examples/docs/cage.tsx
 msgid "unmounted"
 msgstr "размонтирован"
 
-#. js-lingui-explicit-id
 #: examples/docs/cage.tsx
 msgid "Input prop: term"
 msgstr "Входной пропс: term"
 
-#. js-lingui-explicit-id
 #: examples/docs/cage.tsx
 msgid "Mount Search"
 msgstr "Монтировать Search"
 
-#. js-lingui-explicit-id
 #: examples/docs/counter.tsx
 msgid "Derived × 2"
 msgstr "Производное × 2"
 
-#. js-lingui-explicit-id
 #: examples/docs/counter.tsx
 msgid "Decrement"
 msgstr "Уменьшить"
 
-#. js-lingui-explicit-id
 #: examples/docs/counter.tsx
 msgid "Increment"
 msgstr "Увеличить"
@@ -322,272 +308,218 @@ msgstr "Увеличить"
 msgid "One model, ordinary props"
 msgstr "Одна модель, обычные пропсы"
 
-#. js-lingui-explicit-id
 #: examples/docs/event.tsx
 msgid "Simulated incoming message"
 msgstr "Имитация входящего сообщения"
 
-#. js-lingui-explicit-id
 #: examples/docs/event.tsx
 msgid "The same payload is delivered on every occurrence."
 msgstr "Один и тот же payload доставляется при каждом срабатывании."
 
-#. js-lingui-explicit-id
 #: examples/docs/event.tsx
 msgid "Hello, Jotai!"
 msgstr "Привет, Jotai!"
 
-#. js-lingui-explicit-id
 #: examples/docs/event.tsx
 msgid "Receive message"
 msgstr "Получить сообщение"
 
-#. js-lingui-explicit-id
 #: examples/docs/event.tsx
 msgid "Unsubscribe"
 msgstr "Отписаться"
 
-#. js-lingui-explicit-id
 #: examples/docs/event.tsx
 msgid "Subscribe"
 msgstr "Подписаться"
 
-#. js-lingui-explicit-id
 #: examples/docs/event.tsx
 msgid "Deliveries"
 msgstr "Доставлено"
 
-#. js-lingui-explicit-id
 #: examples/docs/form.tsx
 msgid "Email"
 msgstr "Электронная почта"
 
-#. js-lingui-explicit-id
 #: examples/docs/form.tsx
 msgid "Enter a valid email"
 msgstr "Введите корректный email"
 
-#. js-lingui-explicit-id
 #: examples/docs/form.tsx
 msgid "Contact channel"
 msgstr "Канал связи"
 
-#. js-lingui-explicit-id
 #: examples/docs/form.tsx
 msgid "Phone"
 msgstr "Телефон"
 
-#. js-lingui-explicit-id
 #: examples/docs/form.tsx
 msgid "External save panel"
 msgstr "Внешняя панель сохранения"
 
-#. js-lingui-explicit-id
 #: examples/docs/form.tsx
 msgid "No email yet"
 msgstr "Email пока не указан"
 
-#. js-lingui-explicit-id
 #: examples/docs/form.tsx
 msgid "Save contact"
 msgstr "Сохранить контакт"
 
-#. js-lingui-explicit-id
 #: examples/docs/form.tsx
 msgid "Saved:"
 msgstr "Сохранено:"
 
-#. js-lingui-explicit-id
 #: examples/docs/form.tsx
 msgid "Contact preferences"
 msgstr "Настройки контакта"
 
-#. js-lingui-explicit-id
 #: examples/docs/ion.tsx
 msgid "Workshop tickets · $25 each"
 msgstr "Билеты на воркшоп · $25 каждый"
 
-#. js-lingui-explicit-id
 #: examples/docs/ion.tsx
 msgid "Quantity"
 msgstr "Количество"
 
-#. js-lingui-explicit-id
 #: examples/docs/ion.tsx
 msgid "Member discount · 20%"
 msgstr "Скидка участника · 20%"
 
-#. js-lingui-explicit-id
 #: examples/docs/ion.tsx
 msgid "Total"
 msgstr "Итого"
 
-#. js-lingui-explicit-id
 #: examples/docs/list.tsx
 msgid "Review proposal"
 msgstr "Проверить предложение"
 
-#. js-lingui-explicit-id
 #: examples/docs/list.tsx
 msgid "Ship documentation"
 msgstr "Опубликовать документацию"
 
-#. js-lingui-explicit-id
 #: examples/docs/list.tsx
 msgid "All clear."
 msgstr "Список пуст."
 
-#. js-lingui-explicit-id
 #: examples/docs/list.tsx
 msgid "Reverse rows"
 msgstr "Развернуть список"
 
-#. js-lingui-explicit-id
 #: examples/docs/list.tsx
 msgid "Clear"
 msgstr "Очистить"
 
-#. js-lingui-explicit-id
 #: examples/docs/list.tsx
 msgid "Stable keys preserve row state"
 msgstr "Стабильные ключи сохраняют состояние строки"
 
-#. js-lingui-explicit-id
 #: examples/docs/list.tsx
 msgid "Check a task, then reverse the rows."
 msgstr "Отметьте задачу, затем разверните список."
 
-#. js-lingui-explicit-id
 #: examples/docs/match.tsx
 msgid "Loading your workspace…"
 msgstr "Загрузка пространства…"
 
-#. js-lingui-explicit-id
 #: examples/docs/match.tsx
 msgid "Your workspace is ready."
 msgstr "Пространство готово."
 
-#. js-lingui-explicit-id
 #: examples/docs/match.tsx
 msgid "Could not load. Try again."
 msgstr "Не удалось загрузить. Попробуйте ещё раз."
 
-#. js-lingui-explicit-id
 #: examples/docs/match.tsx
 msgid "Loading"
 msgstr "Загрузка"
 
-#. js-lingui-explicit-id
 #: examples/docs/match.tsx
 msgid "Ready"
 msgstr "Готово"
 
-#. js-lingui-explicit-id
 #: examples/docs/match.tsx
 msgid "Error"
 msgstr "Ошибка"
 
-#. js-lingui-explicit-id
 #: examples/docs/model.tsx
 msgid "Add a seat"
 msgstr "Добавить место"
 
-#. js-lingui-explicit-id
 #: examples/docs/model.tsx
 msgid "Proposal"
 msgstr "Предложение"
 
-#. js-lingui-explicit-id
 #: examples/docs/operators.tsx
 msgid "Order review · courier delivery"
 msgstr "Проверка заказа · доставка курьером"
 
-#. js-lingui-explicit-id
 #: examples/docs/operators.tsx
 msgid "Goods $80 + delivery $15"
 msgstr "Товары $80 + доставка $15"
 
-#. js-lingui-explicit-id
 #: examples/docs/operators.tsx
 msgid "I accept the delivery terms"
 msgstr "Я принимаю условия доставки"
 
-#. js-lingui-explicit-id
 #: examples/docs/operators.tsx
 msgid "Surcharge applies"
 msgstr "Есть доплата"
 
-#. js-lingui-explicit-id
 #: examples/docs/operators.tsx
 msgid "No surcharge"
 msgstr "Без доплаты"
 
-#. js-lingui-explicit-id
 #: examples/docs/operators.tsx
 msgid "Place order"
 msgstr "Оформить заказ"
 
-#. js-lingui-explicit-id
 #: examples/docs/prism.tsx
 msgid "Name projection"
 msgstr "Проекция имени"
 
-#. js-lingui-explicit-id
 #: examples/docs/prism.tsx
 msgid "Role projection"
 msgstr "Проекция роли"
 
-#. js-lingui-explicit-id
 #: examples/docs/prism.tsx
 msgid "Editor"
 msgstr "Редактор"
 
-#. js-lingui-explicit-id
 #: examples/docs/prism.tsx
 msgid "Viewer"
 msgstr "Читатель"
 
-#. js-lingui-explicit-id
 #: examples/docs/prism.tsx
 msgid "Admin"
 msgstr "Администратор"
 
-#. js-lingui-explicit-id
 #: examples/docs/prism.tsx
 msgid "One source → two independent atoms"
 msgstr "Один источник → два независимых атома"
 
-#. js-lingui-explicit-id
 #: examples/docs/prism.tsx
 msgid "Changing the role keeps the selected name unchanged."
 msgstr "Смена роли не меняет выбранное значение имени."
 
-#. js-lingui-explicit-id
 #: examples/docs/query.tsx
 msgid "Product catalog"
 msgstr "Каталог товаров"
 
-#. js-lingui-explicit-id
 #: examples/docs/query.tsx
 msgid "Loading…"
 msgstr "Загрузка…"
 
-#. js-lingui-explicit-id
 #: examples/docs/query.tsx
 msgid "Oak desk"
 msgstr "Дубовый стол"
 
-#. js-lingui-explicit-id
 #: examples/docs/query.tsx
 msgid "Desk lamp"
 msgstr "Настольная лампа"
 
-#. js-lingui-explicit-id
 #: examples/docs/query.tsx
 msgid "Desk"
 msgstr "Стол"
 
-#. js-lingui-explicit-id
 #: examples/docs/query.tsx
 msgid "Lamp"
 msgstr "Лампа"

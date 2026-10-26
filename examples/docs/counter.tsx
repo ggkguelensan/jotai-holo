@@ -1,4 +1,5 @@
-import { Trans, useLingui } from '@lingui/react';
+import { Trans } from '@lingui/react';
+import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
 
@@ -20,7 +21,7 @@ function CounterView({
   onIncrement: (amount: number) => void;
   title: ReactNode;
 }) {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   return (
     <div className="demo-counter">
@@ -29,13 +30,13 @@ function CounterView({
         {count}
       </output>
       <p>
-        {t('Derived × 2')}: <strong>{doubled}</strong>
+        {t`Derived × 2`}: <strong>{doubled}</strong>
       </p>
       <div className="demo-controls">
-        <button type="button" onClick={() => onIncrement(-1)} aria-label={t('Decrement')}>
+        <button type="button" onClick={() => onIncrement(-1)} aria-label={t`Decrement`}>
           −
         </button>
-        <button type="button" onClick={() => onIncrement(1)} aria-label={t('Increment')}>
+        <button type="button" onClick={() => onIncrement(1)} aria-label={t`Increment`}>
           +
         </button>
       </div>

@@ -2,6 +2,7 @@ import { defineConfig, type DefaultTheme } from 'vitepress';
 import { fileURLToPath } from 'node:url';
 import { locales } from './i18n/locales.mjs';
 import { loadCatalog } from './i18n/catalog.mjs';
+import { linguiMacros } from './i18n/macros.mjs';
 
 const groups = (t: (message: string) => string) => [
   { title: t('State'), names: ['stateAtom', 'ion', 'prism', 'eq', 'and', 'or', 'some', 'sum'] },
@@ -131,6 +132,7 @@ const searchLocales = Object.fromEntries(resolved.map(([key, config]) => [key, c
 export default defineConfig({
   title: 'jotai-holo',
   vite: {
+    plugins: [linguiMacros()],
     resolve: {
       alias: [
         {

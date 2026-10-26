@@ -1,4 +1,4 @@
-import { useLingui } from '@lingui/react';
+import { useLingui } from '@lingui/react/macro';
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
 import { createModel } from 'jotai-holo/model';
 
@@ -25,9 +25,9 @@ const Seats = holo({
 });
 
 function ToolbarView({ onAdd }: { onAdd: () => void }) {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
-  return <button onClick={onAdd}>{t('Add a seat')}</button>;
+  return <button onClick={onAdd}>{t`Add a seat`}</button>;
 }
 
 const Toolbar = holo({
@@ -38,7 +38,7 @@ const Toolbar = holo({
 });
 
 function ProposalDemo() {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   return (
     <div className="demo-form">
@@ -46,7 +46,7 @@ function ProposalDemo() {
         return (
           <section key={id}>
             <span className="demo-eyebrow">
-              {t('Proposal')} {id}
+              {t`Proposal`} {id}
             </span>
             <Seats proposalId={id} />
             <Toolbar proposalId={id} />

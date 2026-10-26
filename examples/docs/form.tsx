@@ -1,4 +1,4 @@
-import { useLingui } from '@lingui/react';
+import { useLingui } from '@lingui/react/macro';
 import { atom } from 'jotai/vanilla';
 import { useId } from 'react';
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
@@ -33,7 +33,7 @@ const Contact = createFormModel({
 });
 
 function ContactView({ onSave }: { onSave: () => Promise<void> }) {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
   const errorId = useId();
   const { register, control } = useFormContext<Values>();
   const { errors } = useFormState({ control });
@@ -48,7 +48,7 @@ function ContactView({ onSave }: { onSave: () => Promise<void> }) {
       }}
     >
       <label>
-        {t('Email')}
+        {t`Email`}
         <input
           type="email"
           autoComplete="email"
@@ -60,7 +60,7 @@ function ContactView({ onSave }: { onSave: () => Promise<void> }) {
       </label>
       {errors.email && (
         <small id={errorId} role="alert">
-          {t('Enter a valid email')}
+          {t`Enter a valid email`}
         </small>
       )}
       <Controller
@@ -69,10 +69,10 @@ function ContactView({ onSave }: { onSave: () => Promise<void> }) {
         render={({ field }) => {
           return (
             <label>
-              {t('Contact channel')}
+              {t`Contact channel`}
               <select {...field}>
-                <option value="email">{t('Email')}</option>
-                <option value="phone">{t('Phone')}</option>
+                <option value="email">{t`Email`}</option>
+                <option value="phone">{t`Phone`}</option>
               </select>
             </label>
           );
@@ -99,20 +99,20 @@ function SaveView({
   control: Control<Values>;
   onSave: () => Promise<void>;
 }) {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   const { isSubmitting } = useFormState({ control });
 
   return (
     <aside className="demo-form demo-save-panel">
-      <span className="demo-eyebrow">{t('External save panel')}</span>
-      <small>{email || t('No email yet')}</small>
+      <span className="demo-eyebrow">{t`External save panel`}</span>
+      <small>{email || t`No email yet`}</small>
       <button disabled={isSubmitting} onClick={() => void onSave()}>
-        {t('Save contact')}
+        {t`Save contact`}
       </button>
       {saved && (
         <output>
-          {t('Saved:')} {saved}
+          {t`Saved:`} {saved}
         </output>
       )}
     </aside>
@@ -127,7 +127,7 @@ const SavePanel = holo({
 });
 
 function ContactsDemo() {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   return (
     <div className="demo-instances">
@@ -136,7 +136,7 @@ function ContactsDemo() {
           <section key={id} className="demo-contact-card">
             <header>
               <strong>{id}</strong>
-              <span className="demo-eyebrow">{t('Contact preferences')}</span>
+              <span className="demo-eyebrow">{t`Contact preferences`}</span>
             </header>
             <Editor contactId={id} />
             <SavePanel contactId={id} />

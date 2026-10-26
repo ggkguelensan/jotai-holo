@@ -1,4 +1,4 @@
-import { useLingui } from '@lingui/react';
+import { useLingui } from '@lingui/react/macro';
 import { holo, holoMatch, stateAtom } from 'jotai-holo';
 
 // #region match
@@ -7,23 +7,23 @@ type Status = 'loading' | 'ready' | 'error';
 const $status = stateAtom<Status>('ready');
 
 function LoadingView() {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
-  return <div className="demo-branch">◌ {t('Loading your workspace…')}</div>;
+  return <div className="demo-branch">◌ {t`Loading your workspace…`}</div>;
 }
 
 function ReadyView() {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
-  return <div className="demo-branch">✓ {t('Your workspace is ready.')}</div>;
+  return <div className="demo-branch">✓ {t`Your workspace is ready.`}</div>;
 }
 
 function ErrorView() {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   return (
     <div className="demo-branch" role="alert">
-      ! {t('Could not load. Try again.')}
+      ! {t`Could not load. Try again.`}
     </div>
   );
 }
@@ -34,8 +34,8 @@ const Content = holoMatch({
 });
 
 function StatusView({ status, onStatus }: { status: Status; onStatus: (value: Status) => void }) {
-  const { _: t } = useLingui();
-  const labels = { loading: t('Loading'), ready: t('Ready'), error: t('Error') };
+  const { t } = useLingui();
+  const labels = { loading: t`Loading`, ready: t`Ready`, error: t`Error` };
 
   return (
     <div className="demo-controls">

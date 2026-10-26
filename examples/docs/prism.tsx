@@ -1,4 +1,4 @@
-import { useLingui } from '@lingui/react';
+import { useLingui } from '@lingui/react/macro';
 import { actionAtom, holo, prism, stateAtom } from 'jotai-holo';
 
 // #region prism
@@ -12,11 +12,11 @@ const changeRole = actionAtom((_get, set, role: string) =>
 );
 
 function NameView({ name, onName }: { name: string; onName: (name: string) => void }) {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   return (
     <label>
-      {t('Name projection')}
+      {t`Name projection`}
       <input value={name} onChange={(e) => onName(e.target.value)} />
     </label>
   );
@@ -29,15 +29,15 @@ const Name = holo({
 });
 
 function RoleView({ role, onRole }: { role: string; onRole: (role: string) => void }) {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   return (
     <label>
-      {t('Role projection')}
+      {t`Role projection`}
       <select value={role} onChange={(e) => onRole(e.target.value)}>
-        <option value="Editor">{t('Editor')}</option>
-        <option value="Viewer">{t('Viewer')}</option>
-        <option value="Admin">{t('Admin')}</option>
+        <option value="Editor">{t`Editor`}</option>
+        <option value="Viewer">{t`Viewer`}</option>
+        <option value="Admin">{t`Admin`}</option>
       </select>
     </label>
   );
@@ -50,14 +50,14 @@ const Role = holo({
 });
 
 function ProfileProjections() {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   return (
     <div className="demo-form">
-      <span className="demo-eyebrow">{t('One source → two independent atoms')}</span>
+      <span className="demo-eyebrow">{t`One source → two independent atoms`}</span>
       <Name />
       <Role />
-      <p className="demo-note">{t('Changing the role keeps the selected name unchanged.')}</p>
+      <p className="demo-note">{t`Changing the role keeps the selected name unchanged.`}</p>
     </div>
   );
 }

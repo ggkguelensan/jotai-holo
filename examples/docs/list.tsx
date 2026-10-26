@@ -1,4 +1,4 @@
-import { useLingui } from '@lingui/react';
+import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { actionAtom, holo, holoList, stateAtom } from 'jotai-holo';
 
@@ -13,7 +13,7 @@ const reverse = actionAtom((_get, set) => set($tasks, (items) => [...items].reve
 const reset = actionAtom((_get, set) => set($tasks, []));
 
 function TaskView({ task }: { task: Task }) {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   const [done, setDone] = useState(false);
 
@@ -22,7 +22,7 @@ function TaskView({ task }: { task: Task }) {
       <label className="demo-checkbox">
         <input type="checkbox" checked={done} onChange={(e) => setDone(e.target.checked)} />
         <span style={{ textDecoration: done ? 'line-through' : 'none' }}>
-          {task.text === 'review' ? t('Review proposal') : t('Ship documentation')}
+          {task.text === 'review' ? t`Review proposal` : t`Ship documentation`}
         </span>
         <code>#{task.id}</code>
       </label>
@@ -31,9 +31,9 @@ function TaskView({ task }: { task: Task }) {
 }
 
 function TasksEmptyView() {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
-  return <li className="demo-note">{t('All clear.')}</li>;
+  return <li className="demo-note">{t`All clear.`}</li>;
 }
 
 const Tasks = holoList({
@@ -45,15 +45,15 @@ const Tasks = holoList({
 });
 
 function ControlsView({ onReverse, onClear }: { onReverse: () => void; onClear: () => void }) {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   return (
     <div className="demo-controls">
       <button type="button" onClick={() => onReverse()}>
-        {t('Reverse rows')}
+        {t`Reverse rows`}
       </button>
       <button type="button" onClick={() => onClear()}>
-        {t('Clear')}
+        {t`Clear`}
       </button>
     </div>
   );
@@ -65,16 +65,16 @@ const Controls = holo({
 });
 
 function ListDemo() {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   return (
     <div className="demo-form">
-      <span className="demo-eyebrow">{t('Stable keys preserve row state')}</span>
+      <span className="demo-eyebrow">{t`Stable keys preserve row state`}</span>
       <ul className="demo-task-list">
         <Tasks />
       </ul>
       <Controls />
-      <p className="demo-note">{t('Check a task, then reverse the rows.')}</p>
+      <p className="demo-note">{t`Check a task, then reverse the rows.`}</p>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useLingui } from '@lingui/react';
+import { useLingui } from '@lingui/react/macro';
 import { holo, ion, stateAtom } from 'jotai-holo';
 
 // #region ion
@@ -23,15 +23,15 @@ function CartView({
   onQuantity: (value: number) => void;
   onDiscount: (value: boolean) => void;
 }) {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   return (
     <div className="demo-form">
-      <span className="demo-eyebrow">{t('Workshop tickets · $25 each')}</span>
+      <span className="demo-eyebrow">{t`Workshop tickets · $25 each`}</span>
       <label>
-        {t('Quantity')}
+        {t`Quantity`}
         <input
-          aria-label={t('Quantity')}
+          aria-label={t`Quantity`}
           type="number"
           min="1"
           max="10"
@@ -41,10 +41,10 @@ function CartView({
       </label>
       <label className="demo-checkbox">
         <input type="checkbox" checked={discount} onChange={(e) => onDiscount(e.target.checked)} />
-        {t('Member discount · 20%')}
+        {t`Member discount · 20%`}
       </label>
       <div className="demo-total">
-        <span>{t('Total')}</span>
+        <span>{t`Total`}</span>
         <output aria-live="polite">${total.toFixed(2)}</output>
       </div>
     </div>

@@ -13,6 +13,8 @@ import {
   unliteralMessage,
 } from '../docs/.vitepress/i18n/markdown.mjs';
 import { extractor } from '../docs/.vitepress/i18n/extractor.mjs';
+import { transformMacros } from '../docs/.vitepress/i18n/macros.mjs';
+import { generateMessageId } from '@lingui/message-utils/generateMessageId';
 import { sourcePages } from './localize-docs.mjs';
 
 const po = formatter();
@@ -80,14 +82,28 @@ assert.match(translated, /# DE: Heading \{#heading\}/);
 assert.match(translated, /t\("not extracted"\)/);
 const extracted = [];
 extractor.extract(
-  'example.tsx',
-  'const value = t("One {name}", {name}); const dynamic = t(variable); const title = <Trans id="Fixed title" />; const incoming = <Trans id={variable} />;',
+  'example.mts',
+  'const value = t("One {name}", {name}); const dynamic = t(variable);',
   (message) => extracted.push(message),
 );
 assert.deepEqual(
   extracted.map(({ id }) => id),
-  ['One {name}', 'Fixed title'],
+  ['One {name}'],
 );
+// Macro compilation and catalog extraction must agree on the generated IDs.
+const example = await readFile('examples/docs/ion.tsx', 'utf8');
+const compiled = await transformMacros(example, process.cwd() + '/examples/docs/ion.tsx');
+assert.doesNotMatch(compiled.code, /@lingui\/react\/macro/);
+const quantityId = generateMessageId('Quantity');
+assert.ok(compiled.code.includes(quantityId));
+for (const { code } of locales) {
+  const entries = po.parse(await readFile(`docs/.vitepress/i18n/locales/${code}/ui.po`, 'utf8'));
+  assert.ok(entries[quantityId]);
+  assert.equal(
+    (await loadCatalog(code, 'ui'))._(quantityId),
+    entries[quantityId].translation || 'Quantity',
+  );
+}
 // Native UI ICU interpolation and plural forms remain supported by the formatter.
 const uiCatalog = catalogFormatter.parse(
   'msgid "items"\nmsgstr "{count, plural, one {# item} other {# items}}"\n',

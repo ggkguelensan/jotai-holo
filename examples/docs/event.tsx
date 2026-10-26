@@ -1,4 +1,4 @@
-import { useLingui } from '@lingui/react';
+import { useLingui } from '@lingui/react/macro';
 import { useStore } from 'jotai';
 import { useEffect, useState } from 'react';
 import { actionAtom, eventAtom, holo, stateAtom, subscribeEvent } from 'jotai-holo';
@@ -23,7 +23,7 @@ function View({
   deliveries: number;
   onReceive: (payload: { text: string }) => void;
 }) {
-  const { _: t } = useLingui();
+  const { t } = useLingui();
 
   const [listening, setListening] = useState(true);
   const store = useStore();
@@ -33,18 +33,18 @@ function View({
   }, [store, listening]);
   return (
     <div className="demo-form">
-      <span className="demo-eyebrow">{t('Simulated incoming message')}</span>
-      <p>{t('The same payload is delivered on every occurrence.')}</p>
+      <span className="demo-eyebrow">{t`Simulated incoming message`}</span>
+      <p>{t`The same payload is delivered on every occurrence.`}</p>
       <div className="demo-controls">
-        <button type="button" onClick={() => onReceive({ text: t('Hello, Jotai!') })}>
-          {t('Receive message')}
+        <button type="button" onClick={() => onReceive({ text: t`Hello, Jotai!` })}>
+          {t`Receive message`}
         </button>
         <button type="button" onClick={() => setListening((value) => !value)}>
-          {listening ? t('Unsubscribe') : t('Subscribe')}
+          {listening ? t`Unsubscribe` : t`Subscribe`}
         </button>
       </div>
       <output aria-live="polite">
-        {t('Deliveries')}: {deliveries} · {last || '—'}
+        {t`Deliveries`}: {deliveries} · {last || '—'}
       </output>
     </div>
   );

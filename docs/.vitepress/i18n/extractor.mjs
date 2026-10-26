@@ -2,7 +2,7 @@ import ts from 'typescript';
 import { markdownMessages, literalMessage } from './markdown.mjs';
 
 export const extractor = {
-  match: (filename) => /\.(?:md|tsx|mts)$/.test(filename),
+  match: (filename) => /\.(?:md|mts)$/.test(filename),
   extract(filename, code, onMessageExtracted) {
     if (filename.endsWith('.md')) {
       for (const { value, line } of markdownMessages(code))
@@ -26,19 +26,6 @@ export const extractor = {
         const { line } = source.getLineAndCharacterOfPosition(node.getStart(source));
         const message = node.arguments[0].text;
         onMessageExtracted({ id: message, message, origin: [filename, line + 1] });
-      }
-      if (
-        (ts.isJsxSelfClosingElement(node) || ts.isJsxOpeningElement(node)) &&
-        node.tagName.getText(source) === 'Trans'
-      ) {
-        const id = node.attributes.properties.find(
-          (attribute) => ts.isJsxAttribute(attribute) && attribute.name.getText(source) === 'id',
-        );
-        if (id && ts.isJsxAttribute(id) && id.initializer && ts.isStringLiteral(id.initializer)) {
-          const { line } = source.getLineAndCharacterOfPosition(node.getStart(source));
-          const message = id.initializer.text;
-          onMessageExtracted({ id: message, message, origin: [filename, line + 1] });
-        }
       }
       ts.forEachChild(node, visit);
     };

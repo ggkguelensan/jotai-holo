@@ -5,6 +5,7 @@ import { readdir } from 'node:fs/promises';
 import { chromium } from 'playwright';
 import { locales } from '../docs/.vitepress/i18n/locales.mjs';
 import { loadCatalog } from '../docs/.vitepress/i18n/catalog.mjs';
+import { generateMessageId } from '@lingui/message-utils/generateMessageId';
 
 // Test the generated production site, including its configured subpath.
 const base = process.env.DOCS_BASE || '/';
@@ -137,7 +138,8 @@ try {
   // Each language translates the chrome, search and real React form validation.
   for (const { code, label, prefix } of locales) {
     const ui = await loadCatalog(code, 'ui');
-    const t = (message) => ui._(message);
+    const t = (message) =>
+      ui._(Object.hasOwn(ui.messages, message) ? message : generateMessageId(message));
     await page.locator('.VPNavBarTranslations button').click();
     if (code !== (await page.locator('html').getAttribute('lang'))) {
       await page.getByRole('link', { name: label, exact: true }).click();
