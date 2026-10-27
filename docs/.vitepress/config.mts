@@ -4,6 +4,9 @@ import { locales } from './i18n/locales.mjs';
 import { loadCatalog } from './i18n/catalog.mjs';
 import { linguiMacros } from './i18n/macros.mjs';
 import { logicalCodeBlocks } from './code-blocks.mjs';
+import { sourceLinks } from './source-links.mjs';
+
+const sources = sourceLinks();
 
 const groups = (t: (message: string) => string) => [
   { title: t('State'), names: ['stateAtom', 'ion', 'prism', 'eq', 'and', 'or', 'some', 'sum'] },
@@ -85,8 +88,8 @@ async function localeConfig(code: string, label: string, prefix: string) {
       editLink: {
         pattern:
           code === 'en'
-            ? 'https://github.com/ggkguelensan/jotai-holo/edit/docs/lingui-i18n/docs/:path'
-            : `https://github.com/ggkguelensan/jotai-holo/edit/docs/lingui-i18n/docs/.vitepress/i18n/locales/${code}/docs.po`,
+            ? `${sources.edit}/docs/:path`
+            : `${sources.edit}/docs/.vitepress/i18n/locales/${code}/docs.po`,
         text: t('Edit this page'),
       },
       notFound: {
@@ -174,8 +177,9 @@ export default defineConfig({
   ],
   locales: localeOptions,
   themeConfig: {
+    sourceBase: sources.blob,
     logo: '/mark.svg',
-    socialLinks: [{ icon: 'github', link: 'https://github.com/ggkguelensan/jotai-holo' }],
+    socialLinks: [{ icon: 'github', link: sources.repository }],
     search: { provider: 'local', options: { locales: searchLocales } },
     outline: [2, 3],
   },
@@ -189,12 +193,9 @@ export default defineConfig({
         const href = token.attrGet('href');
         if (href?.startsWith('../') && !href.endsWith('.md') && !href.includes('.md#')) {
           const path = href.slice(3);
-          token.attrSet(
-            'href',
-            `https://github.com/ggkguelensan/jotai-holo/blob/docs/lingui-i18n/${path}`,
-          );
+          token.attrSet('href', `${sources.blob}/${path}`);
         } else if (href?.startsWith('../README.md')) {
-          token.attrSet('href', 'https://github.com/ggkguelensan/jotai-holo#public-api');
+          token.attrSet('href', `${sources.repository}#public-api`);
         }
         return render
           ? render(tokens, index, options, env, self)

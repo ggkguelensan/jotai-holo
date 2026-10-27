@@ -34,7 +34,7 @@ After editing English text, run `pnpm i18n:extract`, translate the `msgstr` entr
 
 `docs:check` validates translation parity, required API sections, internal link paths and snippet regions. `docs:build` additionally validates VitePress links and builds the search index. TypeScript and tests exercise the executable example source. External website availability depends on the network and is not part of local builds.
 
-English edit links point to Markdown sources; translated edit links point to their Lingui PO catalog. Source links use the documentation branch until it is merged.
+English edit links point to Markdown sources; translated edit links point to their Lingui PO catalog. Source links use the exact build commit; edit links use its branch. Publish that commit to GitHub before deploying. For uploads without `.git`, set `DOCS_SOURCE_COMMIT` and `DOCS_SOURCE_BRANCH` in the build environment.
 
 Reading: [VitePress deployment](https://vitepress.dev/guide/deploy), [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-github-actions-to-create-a-github-pages-site).
 

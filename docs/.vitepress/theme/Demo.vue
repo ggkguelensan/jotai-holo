@@ -51,9 +51,7 @@ onBeforeUnmount(() => {
     <div class="example-source">
       <p class="example-source-title">{{ theme.docsUi.viewCode }}</p>
       <slot />
-      <a
-        class="example-file"
-        :href="`https://github.com/ggkguelensan/jotai-holo/blob/docs/lingui-i18n/examples/docs/${kind}.tsx`"
+      <a class="example-file" :href="`${theme.sourceBase}/examples/docs/${kind}.tsx`"
         >{{ theme.docsUi.fullSource }} ↗</a
       >
     </div>

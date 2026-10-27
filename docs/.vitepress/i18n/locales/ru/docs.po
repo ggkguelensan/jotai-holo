@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-27 12:55+0500\n"
+"POT-Creation-Date: 2026-10-27 13:07+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -238,8 +238,8 @@ msgstr "`docs:check` проверяет паритет переводов, на�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/hosting.md
-msgid "English edit links point to Markdown sources; translated edit links point to their Lingui PO catalog. Source links use the documentation branch until it is merged."
-msgstr "Ссылки редактирования английских страниц ведут в Markdown, переводов — в каталог Lingui PO. До слияния ссылки на исходники используют ветку документации."
+msgid "English edit links point to Markdown sources; translated edit links point to their Lingui PO catalog. Source links use the exact build commit; edit links use its branch. Publish that commit to GitHub before deploying. For uploads without `.git`, set `DOCS_SOURCE_COMMIT` and `DOCS_SOURCE_BRANCH` in the build environment."
+msgstr "Английские ссылки редактирования ведут к Markdown-исходникам; ссылки переведённых страниц — к их Lingui PO-каталогу. Ссылки на код используют точный коммит сборки, а ссылки редактирования — его ветку. Перед публикацией сайта отправьте этот коммит в GitHub. Для загрузки без `.git` задайте `DOCS_SOURCE_COMMIT` и `DOCS_SOURCE_BRANCH` в окружении сборки."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

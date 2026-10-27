@@ -82,6 +82,14 @@ try {
       assert.ok(await page.locator('.vp-doc a[href^="https://"]').count());
       await page.locator('.example-preview :is(button, input)').first().waitFor();
       assert.equal(await page.locator('.example-preview').count(), 1);
+      const sourceUrl = new URL(await page.locator('.example-file').getAttribute('href'));
+      const demo = await page.locator('.example-preview').getAttribute('data-demo');
+      assert.equal(sourceUrl.hostname, 'github.com');
+      assert.match(
+        sourceUrl.pathname,
+        new RegExp(`/blob/[a-f0-9]{40,64}/examples/docs/${demo}\\.tsx$`),
+      );
+
       assert.ok((await page.locator('.example-source pre').count()) > 1);
       await checkCodeLayout();
       if (file === 'mutationAtoms.md') {
