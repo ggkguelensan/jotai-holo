@@ -55,10 +55,13 @@ export function createFormModel<
     form: FormControl<Input, Context, Output>;
     initial: Initial;
   }) => Model & { then?: never };
+  retainTime?: number;
+  /** @deprecated Use retainTime. */
   gcTime?: number;
 }): ModelDefinition<Model & { form: FormControl<Input, Context, Output> }, Initial> {
   return createModel({
     initial: config.initial,
+    ...(config.retainTime === undefined ? {} : { retainTime: config.retainTime }),
     ...(config.gcTime === undefined ? {} : { gcTime: config.gcTime }),
     create: (initial) => {
       const options = config.options(initial);

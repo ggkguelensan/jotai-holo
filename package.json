@@ -54,6 +54,10 @@
     "./bunshi": {
       "types": "./dist/bunshi.d.ts",
       "import": "./dist/bunshi.js"
+    },
+    "./persist": {
+      "types": "./dist/persist.d.ts",
+      "import": "./dist/persist.js"
     }
   },
   "scripts": {

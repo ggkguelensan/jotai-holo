@@ -22,7 +22,7 @@ import { createRoot } from 'react-dom/client';
 import { flushSync } from 'react-dom';
 import { atom, createStore, Provider, useAtomValue, useSetAtom } from 'jotai';
 import { molecule, useMolecule, createScope, ScopeProvider, createInjector, InjectorProvider, onMount } from 'bunshi/react';
-import { holo } from '../dist/index.js';
+import { holo, useImperativeHolo, eventAtom } from '../dist/index.js';
 import { holoMolecule } from '../dist/bunshi.js';
 import { createModel } from '../dist/model.js';
 const scope = createScope('default');
@@ -65,7 +65,7 @@ const OwnModel = createModel({
     const $pending = atom(new Promise(() => {}));
     $count.onMount = () => { subscriptions++; return () => { subscriptions--; }; };
     const increment = atom(null, (_get, set) => set($count, n => n + 1));
-    const model = { $count, $pending, increment };
+    const model = { $count, $pending, increment, changed: eventAtom() };
     refs.models.push(new WeakRef(model)); refs.atoms.push(new WeakRef($count), new WeakRef($pending));
     return model;
   },
@@ -73,17 +73,38 @@ const OwnModel = createModel({
 });
 const Own = holo({ model: props => OwnModel({key: [props.instanceKey]}), core: View, state: m => ({count: m.$count}), actions: m => ({increment: m.increment}) });
 const OwnPending = holo({ model: props => OwnModel({key: [props.instanceKey]}), core: View, state: m => ({count: m.$pending}), actions: m => ({increment: m.increment}) });
+const OwnDefault = createModel({
+  retainTime: Infinity,
+  create: () => {
+    const $count = atom(0);
+    const $pending = atom(new Promise(() => {}));
+    $count.onMount = () => { subscriptions++; return () => { subscriptions--; }; };
+    const increment = atom(null, (_get, set) => set($count, n => n + 1));
+    const model = { $count, $pending, increment, changed: eventAtom() };
+    refs.models.push(new WeakRef(model)); refs.atoms.push(new WeakRef($count), new WeakRef($pending));
+    return model;
+  },
+});
+function ImperativeView({ count, increment, imperative }) {
+  useImperativeHolo(imperative, { changed() { increment(); } });
+  useEffect(() => { refs.callbacks.push(new WeakRef(increment)); }, [increment]);
+  return h('button', { onClick: increment }, count);
+}
+const Modern = holo({ models: { counter: props => OwnModel({ key: [props.instanceKey] }) }, view: ImperativeView, read: ({ counter }) => ({ shared: $shared, count: counter.$count }), write: ({ counter }) => ({ increment: counter.increment }), imperative: ({ counter }) => ({ changed: counter.changed }) });
+const ModernPending = holo({ models: { counter: props => OwnModel({ key: [props.instanceKey] }) }, view: ImperativeView, read: ({ counter }) => ({ shared: $shared, count: counter.$pending }), write: ({ counter }) => ({ increment: counter.increment }), imperative: ({ counter }) => ({ changed: counter.changed }) });
+const ModernDefault = holo({ models: { counter: OwnDefault }, view: ImperativeView, read: ({ counter }) => ({ shared: $shared, count: counter.$count }), write: ({ counter }) => ({ increment: counter.increment }), imperative: ({ counter }) => ({ changed: counter.changed }) });
+const ModernDefaultPending = holo({ models: { counter: OwnDefault }, view: ImperativeView, read: ({ counter }) => ({ shared: $shared, count: counter.$pending }), write: ({ counter }) => ({ increment: counter.increment }), imperative: ({ counter }) => ({ changed: counter.changed }) });
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
 window.samples = {};
 window.run = async (mode, cycles) => {
   refs = { models: [], atoms: [], callbacks: [] };
   const root = createRoot(document.getElementById('root'));
   const pending = mode.endsWith('-suspended');
-  const Page = mode.startsWith('own') ? (pending ? OwnPending : Own) : mode.startsWith('adapted') ? (pending ? AdaptedPending : Adapted) : Native;
+  const Page = mode.startsWith('default-') ? (pending ? ModernDefaultPending : ModernDefault) : mode.startsWith('modern') ? (pending ? ModernPending : Modern) : mode.startsWith('own') ? (pending ? OwnPending : Own) : mode.startsWith('adapted') ? (pending ? AdaptedPending : Adapted) : Native;
   for (let i = 0; i < cycles; i++) {
     flushSync(() => root.render(
       h(InjectorProvider, { value: injectorValue },
-        h(Provider, { store }, h(ScopeProvider, { scope, value: mode + ':' + i },
+        h(Provider, { store: mode.startsWith('default-') ? createStore() : store }, h(ScopeProvider, { scope, value: mode + ':' + i },
           h(Suspense, { fallback: 'pending' }, h(Page, { pending, instanceKey: mode + ':' + i })))))
     ));
     await tick();
@@ -127,6 +148,10 @@ window.ready = true;
     'adapted-suspended',
     'own',
     'own-suspended',
+    'modern',
+    'modern-suspended',
+    'default-discarded-store',
+    'default-discarded-store-suspended',
   ]) {
     const lifecycle = await page.evaluate(({ mode, cycles }) => window.run(mode, cycles), {
       mode,

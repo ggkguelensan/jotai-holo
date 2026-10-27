@@ -32,6 +32,9 @@ try {
     import * as vanilla from 'jotai-holo/vanilla';
     import * as bunshi from 'jotai-holo/bunshi';
     import { createModel } from 'jotai-holo/model';
+    import { persist, localStorageAdapter } from 'jotai-holo/persist';
+    assert.equal(typeof persist, 'function');
+    assert.equal(typeof localStorageAdapter, 'function');
     import { mutationAtoms, queryAtoms, queryClientAtom } from 'jotai-holo/query';
     import { QueryClient } from '@tanstack/query-core';
     import { createFormModel, formAtom, holoForm } from 'jotai-holo/rhf';
@@ -42,7 +45,7 @@ try {
     const forms = createFormModel({initial: {name: ''}, options: initial => ({defaultValues: initial})});
     assert.deepEqual(Object.keys(bunshi), ['holoMolecule']);
     import { createStore } from 'jotai/vanilla';
-    assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'or', 'prism', 'some', 'stateAtom', 'subscribeEvent', 'sum']);
+    assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'or', 'prism', 'some', 'stateAtom', 'subscribeEvent', 'sum', 'useImperativeHolo']);
     assert.deepEqual(Object.keys(vanilla).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'ion', 'or', 'prism', 'some', 'stateAtom', 'subscribeEvent', 'sum']);
     const value = vanilla.stateAtom(1);
     const increment = vanilla.actionAtom((_get, set) => set(value, n => n + 1));

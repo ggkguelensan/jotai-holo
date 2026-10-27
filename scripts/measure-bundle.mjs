@@ -15,7 +15,7 @@ function CounterView({ count, double, onIncrement, title }) {
   return h('button', { onClick: onIncrement }, title + ': ' + count + '/' + double);
 }
 `;
-function app({ helpers, holo, preexistingUnwrap = false, molecule = false }) {
+function app({ helpers, holo, preexistingUnwrap = false, molecule = false, modern = false }) {
   if (molecule)
     return (
       shared +
@@ -60,7 +60,9 @@ const $double = ${preexistingUnwrap ? 'unwrap($doubleBase)' : '$doubleBase'};
 const increment = ${helpers ? 'actionAtom(' : 'atom(null, '}(_get, set) => { set($count, n => n + 1); });
 ${
   holo
-    ? `const Counter = holo({ core: CounterView, state: { count: $count, double: $double }, actions: { onIncrement: increment }, bindProps: { title: 'Counter' } });`
+    ? modern
+      ? `const Counter = holo({ view: CounterView, read: { count: $count, double: $double }, write: { onIncrement: increment }, props: { title: 'Counter' } });`
+      : `const Counter = holo({ core: CounterView, state: { count: $count, double: $double }, actions: { onIncrement: increment }, bindProps: { title: 'Counter' } });`
     : `
 function Counter() {
   const count = useAtomValue($count);
@@ -167,6 +169,7 @@ const cases = [
   ['helpers-root', { helpers: 'index' }],
   ['helpers-vanilla', { helpers: 'vanilla' }],
   ['holo', { holo: true }],
+  ['holo-view', { holo: true, modern: true }],
   ['holo-and-helpers', { holo: true, helpers: 'index' }],
   ['holo-without-cage', { holo: true, helpers: 'index', omitCage: true }],
   ['native-with-unwrap', { preexistingUnwrap: true }],
@@ -279,6 +282,8 @@ try {
   for (const [name, entry, names] of [
     ['scalar-operators', 'vanilla', ['eq', 'and', 'or', 'some', 'sum']],
     ['model', 'model', ['createModel']],
+    ['persist', 'persist', ['persist', 'localStorageAdapter']],
+    ['imperative', 'index', ['useImperativeHolo']],
     ['query', 'query', ['queryAtoms', 'queryClientAtom']],
     ['mutation', 'query', ['mutationAtoms', 'queryClientAtom']],
     ['query-and-mutation', 'query', ['queryAtoms', 'mutationAtoms', 'queryClientAtom']],
@@ -373,20 +378,25 @@ try {
           ]),
         ),
         increments: Object.fromEntries(
-          ['helpers-root', 'helpers-vanilla', 'holo', 'holo-and-helpers', 'holo-with-unwrap'].map(
-            (name) => {
-              const base = results[name === 'holo-with-unwrap' ? 'native-with-unwrap' : 'native'];
-              return [
-                name,
-                Object.fromEntries(
-                  ['minified', 'gzip', 'brotli'].map((metric) => [
-                    metric,
-                    results[name][metric] - base[metric],
-                  ]),
-                ),
-              ];
-            },
-          ),
+          [
+            'helpers-root',
+            'helpers-vanilla',
+            'holo',
+            'holo-view',
+            'holo-and-helpers',
+            'holo-with-unwrap',
+          ].map((name) => {
+            const base = results[name === 'holo-with-unwrap' ? 'native-with-unwrap' : 'native'];
+            return [
+              name,
+              Object.fromEntries(
+                ['minified', 'gzip', 'brotli'].map((metric) => [
+                  metric,
+                  results[name][metric] - base[metric],
+                ]),
+              ),
+            ];
+          }),
         ),
       },
       null,

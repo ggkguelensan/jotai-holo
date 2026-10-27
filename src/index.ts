@@ -19,3 +19,13 @@ export { eventAtom } from './event-atom.js';
 export type { EventAtom } from './event-atom.js';
 export { subscribeEvent } from './subscribe-event.js';
 export type { EventOptions } from './subscribe-event.js';
+
+export { useImperativeHolo } from './imperative.js';
+export type { HoloImperative } from './imperative.js';
+export type {
+  HoloViewConfig,
+  HoloLifecycle,
+  LifecycleContext,
+  ResolvedModels,
+} from './holo-view.js';
+export type { Resource } from './resource.js';

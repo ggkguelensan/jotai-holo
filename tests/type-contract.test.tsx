@@ -58,10 +58,10 @@ function _invalidAndValidConfigurations() {
   const validRef = <Input ref={createRef<HTMLInputElement>()} />;
   // @ts-expect-error Intrinsic refs preserve the original element type.
   const invalidRef = <Input ref={createRef<HTMLButtonElement>()} />;
+  // @ts-expect-error Async lifecycle callbacks are intentionally unsupported.
   holo({
     core: () => null,
     cage: {
-      // @ts-expect-error Async lifecycle callbacks are intentionally unsupported.
       async onMount() {},
     },
   });

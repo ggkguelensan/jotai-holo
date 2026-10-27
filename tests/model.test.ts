@@ -159,7 +159,7 @@ test('keys reject unsupported values, cycles and non-finite numbers', () => {
   const cycle: unknown[] = [];
   cycle.push(cycle);
   expect(() => model({ key: cycle as never })).toThrow('cycle');
-  expect(() => createModel({ create: () => ({}), gcTime: -1 })).toThrow('gcTime');
+  expect(() => createModel({ create: () => ({}), retainTime: -1 })).toThrow('retainTime');
 });
 
 function typeChecks() {

@@ -1,5 +1,11 @@
 'use client';
 
+import {
+  connectView,
+  type HoloViewConfig,
+  type HoloViewComponent,
+  type ViewRuntimeConfig,
+} from './holo-view.js';
 import { memoWithRef } from './react-compat.js';
 
 import { useAtomValue, useStore, type Atom, type WritableAtom } from 'jotai';
@@ -108,6 +114,16 @@ export type HoloModelConfig<
       >);
 };
 
+/** Connect native atoms and named model selections to an ordinary View. */
+export function holo<
+  View extends ElementType,
+  Sources extends Record<string, ModelSource> = {},
+  ReadKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<View>>> = never,
+  WriteKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<View>>> = never,
+  StaticKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<View>>> = never,
+>(
+  config: HoloViewConfig<View, Sources, ReadKeys, WriteKeys, StaticKeys>,
+): HoloViewComponent<View, Sources, ReadKeys, WriteKeys, StaticKeys>;
 /** Declare once per model lifetime. Cores receive ordinary React props. */
 export function holo<
   Core extends ElementType,
@@ -131,7 +147,8 @@ export function holo<
 ): NamedExoticComponent<
   OwnProps<ComponentPropsWithRef<NoInfer<Core>>, StateKeys | ActionKeys | StaticKeys>
 >;
-export function holo(config: RuntimeConfig | ModelRuntimeConfig): unknown {
+export function holo(config: RuntimeConfig | ModelRuntimeConfig | ViewRuntimeConfig): unknown {
+  if ('view' in config) return connectView(config);
   if ('model' in config)
     return bindModel(config, (resolved) => Reflect.apply(holo, undefined, [resolved]));
   const states = Object.entries(config.state ?? {});

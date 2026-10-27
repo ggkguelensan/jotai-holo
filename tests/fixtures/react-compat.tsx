@@ -5,6 +5,8 @@ import { createStore } from 'jotai/vanilla';
 import { molecule, ScopeProvider, createScope } from 'bunshi/react';
 import {
   holo,
+  useImperativeHolo,
+  type HoloImperative,
   actionAtom,
   eventAtom,
   subscribeEvent,
@@ -28,12 +30,17 @@ let ownActive = 0;
 let ownCreates = 0;
 let resolveOwn: (value: string) => void = () => {};
 const OwnModel = createModel({
-  gcTime: 0,
+  retainTime: 0,
   create: () => {
     ownCreates++;
     const $value = atom(0);
     const $text = atom<string | Promise<string>>('ready');
-    return { $value, $text, increment: atom(null, (_get, set) => set($value, (n) => n + 1)) };
+    const incremented = eventAtom<number>();
+    const increment = actionAtom((get, set) => {
+      set($value, (n) => n + 1);
+      set(incremented, get($value));
+    });
+    return { $value, $text, incremented, increment };
   },
   connect: () => {
     ownActive++;
@@ -42,15 +49,35 @@ const OwnModel = createModel({
     };
   },
 });
-const OwnCounter = holo({
-  model: OwnModel,
-  core: ({ value, text, onClick }: { value: number; text: string; onClick: () => void }) => (
+const imperativeCalls: number[] = [];
+function OwnCounterView({
+  value,
+  text,
+  onClick,
+  imperative,
+}: {
+  value: number;
+  text: string;
+  onClick: () => void;
+  imperative: HoloImperative<{ onIncremented(value: number): void }>;
+}) {
+  useImperativeHolo(imperative, {
+    onIncremented(value) {
+      imperativeCalls.push(value);
+    },
+  });
+  return (
     <button id="native-model" onClick={onClick}>
       model:{value}/{text}
     </button>
-  ),
-  state: (m) => ({ value: m.$value, text: m.$text }),
-  actions: (m) => ({ onClick: m.increment }),
+  );
+}
+const OwnCounter = holo({
+  models: { counter: OwnModel },
+  view: OwnCounterView,
+  read: ({ counter }) => ({ value: counter.$value, text: counter.$text }),
+  write: ({ counter }) => ({ onClick: counter.increment }),
+  imperative: ({ counter }) => ({ onIncremented: counter.incremented }),
 });
 const FormModel = createFormModel({
   initial: { name: 'Ada' },
@@ -135,9 +162,9 @@ const Counter = holo({
 });
 const inputRef = createRef<HTMLInputElement>();
 const Input = holo({
-  core: 'input',
-  bindProps: { defaultValue: 'ref works' },
-  cage: { onMount() {} },
+  view: 'input',
+  props: { defaultValue: 'ref works' },
+  lifecycle: { onMount() {} },
 });
 const Match = holoMatch({ source: atom<'input'>('input'), cases: { input: Input } });
 const $items = atom<readonly number[]>([1, 2]);
@@ -235,6 +262,7 @@ Reflect.set(window, 'compat', {
     count: store.get($count),
     ownActive,
     ownCreates,
+    imperativeCalls,
     queryObservers: queryClient
       .getQueryCache()
       .findAll()

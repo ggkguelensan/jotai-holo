@@ -1,4 +1,5 @@
 import { atom, type Getter } from 'jotai/vanilla';
+import { acquireResources, type Resource } from './resource.js';
 import {
   modelAcquire,
   modelDefinition,
@@ -52,13 +53,18 @@ const $registry = atom<Registry>(() => {
 export function createModel<Model extends object, Initial = undefined>(
   config: {
     create: (initial: Initial) => Model & { then?: never };
+    retainTime?: number;
+    /** @deprecated Use retainTime. */
     gcTime?: number;
+    resources?: (model: Model) => readonly Resource[];
     connect?: (model: Model, store: Store) => void | (() => void);
   } & ([Initial] extends [undefined] ? { initial?: Initial } : { initial: Initial }),
 ): ModelDefinition<Model, Initial> {
-  const gcTime = config.gcTime ?? Infinity;
+  if (config.retainTime !== undefined && config.gcTime !== undefined)
+    throw new TypeError('createModel: use retainTime, not both retainTime and gcTime.');
+  const gcTime = config.retainTime ?? config.gcTime ?? Infinity;
   if (!(gcTime >= 0) || (gcTime !== Infinity && !Number.isFinite(gcTime))) {
-    throw new TypeError('createModel: gcTime must be a non-negative number or Infinity.');
+    throw new TypeError('createModel: retainTime must be a non-negative number or Infinity.');
   }
   let defaultSelection: ModelAtom<Model> | undefined;
   const definition = Object.assign(
@@ -115,7 +121,9 @@ export function createModel<Model extends object, Initial = undefined>(
         entry.retained = model;
         if (entry.owners.size === 1) {
           try {
-            const cleanup = config.connect?.(model, store);
+            const resources: Resource[] = [...(config.resources?.(model) ?? [])];
+            if (config.connect) resources.unshift({ connect: () => config.connect!(model, store) });
+            const cleanup = acquireResources(store, resources);
             if (cleanup !== undefined && typeof cleanup !== 'function')
               throw new TypeError(
                 'createModel: connect must return a synchronous cleanup function or undefined.',

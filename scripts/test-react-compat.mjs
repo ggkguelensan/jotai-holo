@@ -128,6 +128,9 @@ assert.match(html, /adapted-ready/);
         await page.locator('#loading').waitFor();
         await page.locator('#native-model').click();
         await page.getByText('model:1/ready', { exact: true }).waitFor();
+        assert.deepEqual((await page.evaluate(() => window.compat.snapshot())).imperativeCalls, [
+          1,
+        ]);
         await page.evaluate(() => window.compat.suspendModel());
         await page.locator('#model-loading').waitFor();
         await page.waitForTimeout(20);
