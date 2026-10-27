@@ -6,15 +6,17 @@ import { createCounter } from './counter-model.js';
 export const Counter = createModel({ create: () => createCounter() });
 
 export const KeyedCounter = holo({
-  model: (props: { counterId: string }) =>
-    Counter({ key: ['counter', props.counterId] }),
-  core: CounterView,
-  state: (model) => ({ count: model.$count, double: model.$double }),
-  actions: (model) => ({
+  models: {
+    model: (props: { counterId: string }) =>
+      Counter({ key: ['counter', props.counterId] }),
+  },
+  view: CounterView,
+  read: ({ model: model }) => ({ count: model.$count, double: model.$double }),
+  write: ({ model: model }) => ({
     onIncrement: model.increment,
     onDecrement: model.decrement,
   }),
-  bindProps: { title: 'Shared by model key' },
+  props: { title: 'Shared by model key' },
 });
 
 export function ModelCounters() {

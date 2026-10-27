@@ -34,9 +34,9 @@ function NameView({
 }
 
 const Name = holo({
-  core: NameView,
-  state: { name: $name },
-  actions: { onName: rename },
+  view: NameView,
+  read: { name: $name },
+  write: { onName: rename },
 });
 
 function RoleView({
@@ -61,9 +61,9 @@ function RoleView({
 }
 
 const Role = holo({
-  core: RoleView,
-  state: { role: $role },
-  actions: { onRole: changeRole },
+  view: RoleView,
+  read: { role: $role },
+  write: { onRole: changeRole },
 });
 
 function ProfileProjections() {

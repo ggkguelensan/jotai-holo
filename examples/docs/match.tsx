@@ -60,9 +60,9 @@ function StatusView({
 }
 
 const Controls = holo({
-  core: StatusView,
-  state: { status: $status },
-  actions: { onStatus: $status },
+  view: StatusView,
+  read: { status: $status },
+  write: { onStatus: $status },
 });
 
 function MatchDemo() {

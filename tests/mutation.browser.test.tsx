@@ -40,22 +40,22 @@ test('holo commits only changed projections, shares native Query cache and relea
   let dataCommits = 0;
   let pendingCommits = 0;
   const Data = holo({
-    core: ({ data }: { data: { name: string } | undefined }) => {
+    view: ({ data }: { data: { name: string } | undefined }) => {
       useLayoutEffect(() => {
         dataCommits++;
       });
       return <output data-result>{data?.name ?? 'Empty'}</output>;
     },
-    state: { data: saving.$data },
+    read: { data: saving.$data },
   });
   const Pending = holo({
-    core: ({ pending }: { pending: boolean }) => {
+    view: ({ pending }: { pending: boolean }) => {
       useLayoutEffect(() => {
         pendingCommits++;
       });
       return <output data-pending>{String(pending)}</output>;
     },
-    state: { pending: saving.$pending },
+    read: { pending: saving.$pending },
   });
   function Native() {
     return <span data-native>{useQuery(detailQO).data?.name}</span>;
@@ -110,8 +110,8 @@ test('unmount during save does not cancel and remount reads its completed state'
     prism: { $data: (r) => r.data },
   });
   const Connected = holo({
-    core: ({ value }: { value: number | undefined }) => <output>{value ?? 'Empty'}</output>,
-    state: { value: saving.$data },
+    view: ({ value }: { value: number | undefined }) => <output>{value ?? 'Empty'}</output>,
+    read: { value: saving.$data },
   });
   const store = createStore();
   const h = createHarness();
@@ -149,8 +149,8 @@ test('an abandoned Suspense render creates no subscription or execution', async 
     prism: { $data: (r) => r.data },
   });
   const Connected = holo({
-    core: ({ value }: { value: number | undefined }) => <output>{value}</output>,
-    state: { value: saving.$data },
+    view: ({ value }: { value: number | undefined }) => <output>{value}</output>,
+    read: { value: saving.$data },
   });
   const gate = deferred<void>();
   function Blocked(): never {

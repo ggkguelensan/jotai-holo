@@ -26,7 +26,7 @@ export const CheckoutModel = createModel({
 
     return { $enabled, $receipt, submit, receipt };
   },
-  connect: (model, store) => model.receipt.connect(store),
+  resources: (model) => [model.receipt],
 });
 
 function CheckoutView({
@@ -69,10 +69,16 @@ function CheckoutView({
 }
 
 const Checkout = holo({
-  model: CheckoutModel,
-  core: CheckoutView,
-  state: (model) => ({ enabled: model.$enabled, message: model.$receipt }),
-  actions: (model) => ({ onEnabled: model.$enabled, onSubmit: model.submit }),
+  models: { model: CheckoutModel },
+  view: CheckoutView,
+  read: ({ model: model }) => ({
+    enabled: model.$enabled,
+    message: model.$receipt,
+  }),
+  write: ({ model: model }) => ({
+    onEnabled: model.$enabled,
+    onSubmit: model.submit,
+  }),
 });
 
 // #endregion bond

@@ -10,10 +10,14 @@ export const CounterRuntime = createModel({
     const $message = stateAtom('');
     return { ...counter, $message };
   },
-  connect: (model, store) =>
-    observe((get, set) => {
-      set(model.$message, `Observed count: ${get(model.$count)}`);
-    }, store),
+  resources: (model) => [
+    {
+      connect: (store) =>
+        observe((get, set) => {
+          set(model.$message, `Observed count: ${get(model.$count)}`);
+        }, store),
+    },
+  ],
 });
 
 function ObservedCounterView({
@@ -33,8 +37,8 @@ function ObservedCounterView({
 }
 
 export const ModelEffectCounter = holo({
-  model: CounterRuntime,
-  core: ObservedCounterView,
-  state: (model) => ({ message: model.$message }),
-  actions: (model) => ({ onIncrement: model.increment }),
+  models: { model: CounterRuntime },
+  view: ObservedCounterView,
+  read: ({ model: model }) => ({ message: model.$message }),
+  write: ({ model: model }) => ({ onIncrement: model.increment }),
 });

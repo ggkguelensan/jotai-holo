@@ -139,12 +139,12 @@ function TotalView({ value }: { value: CellValue }) {
 const $$sheet = createSpreadsheet();
 
 const FormulaBar = holo({
-  core: FormulaView,
-  state: {
+  view: FormulaView,
+  read: {
     address: $$sheet.$selected,
     expression: $$sheet.$formula,
   },
-  actions: { onChange: $$sheet.$formula },
+  write: { onChange: $$sheet.$formula },
 });
 
 // Create bindings once, outside React render. Each cell subscribes separately.
@@ -155,10 +155,10 @@ const Cells = Object.fromEntries(
     return [
       address,
       holo({
-        core: CellView,
-        bindProps: { address },
-        state: { input: cell.$input, value: cell.$value },
-        actions: { onChange: cell.$input },
+        view: CellView,
+        props: { address },
+        read: { input: cell.$input, value: cell.$value },
+        write: { onChange: cell.$input },
         // Selection belongs to the sheet; typing belongs to this cell.
         // onSelect is a plain UI callback, passed by the parent below.
       }),
@@ -167,18 +167,18 @@ const Cells = Object.fromEntries(
 );
 
 const Total = holo({
-  core: TotalView,
-  state: { value: $$sheet.cells.D5!.$value },
+  view: TotalView,
+  read: { value: $$sheet.cells.D5!.$value },
 });
 // #endregion spreadsheet
 
 // Bind native writable atoms without adding a hook wrapper.
 const Reset = holo({
-  core: function ResetView({ onReset }: { onReset: () => void }) {
+  view: function ResetView({ onReset }: { onReset: () => void }) {
     const { t } = useLingui();
     return <button onClick={onReset}>{t`Reset sheet`}</button>;
   },
-  actions: { onReset: $$sheet.reset },
+  write: { onReset: $$sheet.reset },
 });
 
 function SheetView({ onSelect }: { onSelect: (address: string) => void }) {
@@ -246,8 +246,8 @@ function SheetView({ onSelect }: { onSelect: (address: string) => void }) {
 }
 
 const Spreadsheet = holo({
-  core: SheetView,
-  actions: { onSelect: $$sheet.$selected },
+  view: SheetView,
+  write: { onSelect: $$sheet.$selected },
 });
 
 export default Spreadsheet;

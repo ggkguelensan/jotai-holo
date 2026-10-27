@@ -163,15 +163,15 @@ export function NameView({
 }
 
 export const NameField = holo({
-  core: NameView,
-  state: { name: $name },
-  actions: { onChange: changeName },
-  bindProps: { title: 'Display name' },
+  view: NameView,
+  read: { name: $name },
+  write: { onChange: changeName },
+  props: { title: 'Display name' },
 });
 // <NameField /> has no required public props.
 // #endregion holo
 
-// #region cage
+// #region lifecycle
 
 const $query = atom('');
 
@@ -184,16 +184,16 @@ function SearchView({ query, term }: { query: string; term: string }) {
 }
 
 export const Search = holo({
-  core: SearchView,
-  state: { query: $query },
-  cage: {
-    onChange(_get, set, ctx) {
-      set(inputChanged, ctx.props.term);
+  view: SearchView,
+  read: { query: $query },
+  lifecycle: {
+    onInputChange(_get, set, ctx) {
+      set(inputChanged, ctx.input.term);
     },
   },
 });
 // <Search term="jotai" />
-// #endregion cage
+// #endregion lifecycle
 
 // #region list
 
@@ -209,7 +209,7 @@ function EmptyUsers({ locale }: { locale: string }) {
 
 export const Users = holoList({
   source: $users,
-  core: UserView,
+  view: UserView,
   getKey: (user) => user.id,
   mapItem: (user) => ({ user }),
   empty: EmptyUsers,
@@ -303,9 +303,9 @@ function ProfileView({
 export function createProfileEditor(model: ReturnType<typeof createProfile>) {
   // Call this factory during application setup, outside React render.
   return holo({
-    core: ProfileView,
-    state: { draft: model.$draft, saving: model.$saving, error: model.$error },
-    actions: { onEdit: model.edit, onSave: model.save },
+    view: ProfileView,
+    read: { draft: model.$draft, saving: model.$saving, error: model.$error },
+    write: { onEdit: model.edit, onSave: model.save },
   });
 }
 // #endregion profile-view

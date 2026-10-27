@@ -2,7 +2,6 @@ import { createRoot } from 'react-dom/client';
 import { createRef, Component, StrictMode, Suspense, useState, type ReactNode } from 'react';
 import { Provider, atom } from 'jotai';
 import { createStore } from 'jotai/vanilla';
-import { molecule, ScopeProvider, createScope } from 'bunshi/react';
 import {
   holo,
   useImperativeHolo,
@@ -17,7 +16,6 @@ import {
   holoMatch,
   holoList,
 } from 'jotai-holo';
-import { holoMolecule } from 'jotai-holo/bunshi';
 
 import { createModel } from 'jotai-holo/model';
 import { queryAtoms } from 'jotai-holo/query';
@@ -42,12 +40,16 @@ const OwnModel = createModel({
     });
     return { $value, $text, incremented, increment };
   },
-  connect: () => {
-    ownActive++;
-    return () => {
-      ownActive--;
-    };
-  },
+  resources: (_model) => [
+    {
+      connect: (_store) => {
+        ownActive++;
+        return () => {
+          ownActive--;
+        };
+      },
+    },
+  ],
 });
 const imperativeCalls: number[] = [];
 function OwnCounterView({
@@ -100,7 +102,11 @@ function FormView() {
     </form>
   );
 }
-const OwnForm = holoForm({ model: FormModel, core: FormView });
+const OwnForm = holoForm({
+  form: ({ model }) => model.form,
+  models: { model: FormModel },
+  view: FormView,
+});
 const queryClient = new QueryClient();
 const detailQO = () =>
   queryOptions({ queryKey: ['compat'], queryFn: async () => 'Ready', staleTime: Infinity });
@@ -111,8 +117,8 @@ const query = queryAtoms({
   prism: { $data: (result) => result.data },
 });
 const QueryView = holo({
-  core: ({ data }: { data: string | undefined }) => <output>query:{data}</output>,
-  state: { data: query.$data },
+  view: ({ data }: { data: string | undefined }) => <output>query:{data}</output>,
+  read: { data: query.$data },
 });
 
 const $count = stateAtom(0);
@@ -128,7 +134,7 @@ const stopEvent = subscribeEvent(store, changed, () => {
 });
 const lifecycle: string[] = [];
 const Counter = holo({
-  core: ({
+  view: ({
     count,
     doubled,
     parity,
@@ -145,14 +151,14 @@ const Counter = holo({
       {title}:{count}/{doubled}/{parity}
     </button>
   ),
-  state: { count: $count, doubled: $double, parity: $parity },
-  actions: { onIncrement: increment },
-  bindProps: { title: 'counter' },
-  cage: {
+  read: { count: $count, doubled: $double, parity: $parity },
+  write: { onIncrement: increment },
+  props: { title: 'counter' },
+  lifecycle: {
     onMount() {
       lifecycle.push('mount');
     },
-    onChange() {
+    onInputChange() {
       lifecycle.push('change');
     },
     onUnmount() {
@@ -170,7 +176,7 @@ const Match = holoMatch({ source: atom<'input'>('input'), cases: { input: Input 
 const $items = atom<readonly number[]>([1, 2]);
 const List = holoList({
   source: $items,
-  core: ({ item }: { item: number }) => <li>{item}</li>,
+  view: ({ item }: { item: number }) => <li>{item}</li>,
   getKey: (item) => item,
   mapItem: (item) => ({ item }),
 });
@@ -179,31 +185,39 @@ const firstPromise = new Promise<string>((resolve) => {
   settle = resolve;
 });
 const $async = atom<string | Promise<string>>(firstPromise);
-const Scope = createScope('a');
 let models = 0;
-const Model = molecule((_mol, scope) => {
-  const id = scope(Scope);
-  models++;
-  return { $value: atom((get) => `${id}:${get($count)}`), $async };
+const Model = createModel({
+  initial: 'a',
+  create: (id) => {
+    models++;
+    return { $value: atom((get) => `${id}:${get($count)}`), $async };
+  },
 });
-const select = holoMolecule(Model);
 const adaptedRef = createRef<HTMLInputElement>();
 const AsyncView = holo({
-  core: ({ value, text }: { value: string; text: string }) => (
+  models: {
+    selected: (input: { 'data-instance': string }) =>
+      Model({ key: [input['data-instance']], initial: input['data-instance'] }),
+  },
+  view: ({ value, text }: { value: string; text: string }) => (
     <output id="adapted">
       {value}/{text}
     </output>
   ),
-  state: { value: select((model) => model.$value), text: select((model) => model.$async) },
+  read: ({ selected }) => ({ value: selected.$value, text: selected.$async }),
 });
 const AdaptedInput = holo({
-  core: 'input',
-  state: { value: select((model) => model.$value) },
-  bindProps: { readOnly: true },
+  models: {
+    selected: (input: { 'data-instance': string }) =>
+      Model({ key: [input['data-instance']], initial: input['data-instance'] }),
+  },
+  view: 'input',
+  read: ({ selected }) => ({ value: selected.$value }),
+  props: { readOnly: true },
 });
 const PlainAsync = holo({
-  core: ({ text }: { text: string }) => <output id="plain">{text}</output>,
-  state: { text: $async },
+  view: ({ text }: { text: string }) => <output id="plain">{text}</output>,
+  read: { text: $async },
 });
 class Boundary extends Component<{ children: ReactNode }, { error: boolean }> {
   state = { error: false };
@@ -232,10 +246,8 @@ function render(id = 'a') {
         <Boundary>
           <Suspense fallback={<p id="loading">waiting</p>}>
             <PlainAsync />
-            <ScopeProvider scope={Scope} value={id}>
-              <AsyncView />
-              <AdaptedInput ref={adaptedRef} />
-            </ScopeProvider>
+            <AsyncView data-instance={id} />
+            <AdaptedInput data-instance={id} ref={adaptedRef} />
           </Suspense>
         </Boundary>
       </Provider>

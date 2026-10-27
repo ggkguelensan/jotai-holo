@@ -22,7 +22,7 @@ test('holo dispatches events without rerendering; bond updates state only when i
   ];
   let renders = 0;
   const User = holo({
-    core: ({
+    view: ({
       name,
       onRename,
       onOpen,
@@ -40,8 +40,8 @@ test('holo dispatches events without rerendering; bond updates state only when i
         </>
       );
     },
-    state: { name: $name },
-    actions: { onRename: renamed, onOpen: opened },
+    read: { name: $name },
+    write: { onRename: renamed, onOpen: opened },
   });
   const h = createHarness();
   await h.render(

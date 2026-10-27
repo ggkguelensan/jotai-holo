@@ -25,7 +25,7 @@ Promises are passed to projectors unchanged. No implicit awaiting, cancellation 
 const $name = ion($asyncUser, async (user) => (await user).name);
 ```
 
-Use native `atom((get, options) => ...)` for abort signals or other read options. Reading the resulting atom in `holo.state` uses ordinary Suspense and ErrorBoundary behavior.
+Use native `atom((get, options) => ...)` for abort signals or other read options. Reading the resulting atom in `holo.read` uses ordinary Suspense and ErrorBoundary behavior.
 
 ## prism
 
@@ -104,7 +104,7 @@ store.get(selected); // [currentCount], or undefined if the initial guard reject
 
 A bond is a **read-only atom of the last emitted argument tuple**, initially `undefined`, with `connect`. Source-only outputs without `yield` seed their initial tuple on connection, without sending a trigger. Connecting a target-bearing bond does not invoke its target immediately. A rejected guard retains the last accepted output. Disconnect retains that output until a later accepted emission; use `ion`/`prism` for live derived state.
 
-Repeated `eventAtom` writes and `actionAtom` calls publish repeatedly even with identical payloads. The observable call fires after the handler's synchronous work succeeds. A throwing handler does not emit. An async handler emits when it returns its promise, before completion; its eventual rejection remains the caller's responsibility. Native write-only atoms whose readable value stays null cannot act as call events. They remain fully supported as `yield` and `holo.actions` targets. Native readable triggers use value-change notifications, including normal Jotai batching; they cannot observe identical writes as separate events.
+Repeated `eventAtom` writes and `actionAtom` calls publish repeatedly even with identical payloads. The observable call fires after the handler's synchronous work succeeds. A throwing handler does not emit. An async handler emits when it returns its promise, before completion; its eventual rejection remains the caller's responsibility. Native write-only atoms whose readable value stays null cannot act as call events. They remain fully supported as `yield` and `holo.write` targets. Native readable triggers use value-change notifications, including normal Jotai batching; they cannot observe identical writes as separate events.
 
 ### Scheduling, ownership and async work
 
@@ -119,16 +119,16 @@ State promises are sampled as promises. Neither the guard nor map is awaited. Ta
 ```tsx
 const UsersList = holoList({
   source: $users,
-  core: UserView, // user, title, onSelect
+  view: UserView, // user, title, onSelect
   getKey: (user) => user.id,
   mapItem: (user) => ({ user }),
-  actions: { onSelect: userSelected },
-  bindProps: { title: 'User' },
+  write: { onSelect: userSelected },
+  props: { title: 'User' },
   empty: EmptyUsersView,
 });
 ```
 
-Declare the list once outside render. `source` is a native readable atom of a readonly array or a promise of one. A stable `getKey` is required. Duplicate React keys throw. `mapItem(item, index)` supplies row props and cannot overlap `state`, `actions` or `bindProps`. These sections follow ordinary holo contracts. `cage` is per row; its inputs include mapped row props and caller props. Each row owns its subscriptions and cleanup.
+Declare the list once outside render. `source` is a native readable atom of a readonly array or a promise of one. A stable `getKey` is required. Duplicate React keys throw. `mapItem(item, index)` supplies row props and cannot overlap `read`, `write` or `props`. These sections follow ordinary holo contracts. `lifecycle` is per row; its inputs include mapped row props and caller props. Each row owns its subscriptions and cleanup.
 
 Remaining required row props are required on the list and forwarded to each row and the optional empty View. An empty array renders that View, or null. Async arrays use native Suspense and rejection boundaries. Reordering stable keys preserves row-local state; deleting a key disposes that row. Changing the key creates a new row. `mapItem` still runs for each item on a list update; unchanged shallow mapped props skip row/core renders. New object/function props, changed indices and shared state updates can cause additional row renders. Prefer immutable items and stable callbacks.
 
@@ -178,4 +178,4 @@ If only `$name` is consumed, the other two selectors never execute. If all are m
 
 Several consumers of the same projection in one store share Jotai's cached computation. Different stores have independent caches. Reading without subscribing computes a value but does not mount dependency resources. After the last subscriber leaves, dependency writes do not execute the projection until its next read.
 
-Async selectors also wait for their first read. A new promise is a new raw value and can suspend even if it eventually resolves to the same primitive. The tests verify that holo skips the unchanged resolved View props and that its passive cage lifecycle remains mounted during ordinary Suspense hiding. Laziness does not cancel async work already started by a read. Use native Jotai abort signals or model-owned cancellation where required.
+Async selectors also wait for their first read. A new promise is a new raw value and can suspend even if it eventually resolves to the same primitive. The tests verify that holo skips the unchanged resolved View props and that its passive lifecycle lifecycle remains mounted during ordinary Suspense hiding. Laziness does not cancel async work already started by a read. Use native Jotai abort signals or model-owned cancellation where required.

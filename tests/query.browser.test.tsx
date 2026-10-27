@@ -21,11 +21,11 @@ test('factory queries share native useQuery cache and data-only holo skips refet
   });
   let renders = 0;
   const User = holo({
-    core: ({ user }: { user: { name: string } | undefined }) => {
+    view: ({ user }: { user: { name: string } | undefined }) => {
       renders++;
       return <output>{user?.name}</output>;
     },
-    state: { user: query.$user },
+    read: { user: query.$user },
   });
   function Native() {
     return <span>{useQuery(detailQO({ id: 'one' })).data?.name}</span>;

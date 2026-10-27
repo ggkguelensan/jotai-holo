@@ -18,10 +18,12 @@ function SeatsView({ count }: { count: number }) {
 }
 
 const Seats = holo({
-  model: (props: { proposalId: string }) =>
-    Proposal({ key: ['proposal', { id: props.proposalId }] }),
-  core: SeatsView,
-  state: (m) => ({ count: m.$seats }),
+  models: {
+    model: (props: { proposalId: string }) =>
+      Proposal({ key: ['proposal', { id: props.proposalId }] }),
+  },
+  view: SeatsView,
+  read: ({ model: m }) => ({ count: m.$seats }),
 });
 
 function ToolbarView({ onAdd }: { onAdd: () => void }) {
@@ -31,10 +33,12 @@ function ToolbarView({ onAdd }: { onAdd: () => void }) {
 }
 
 const Toolbar = holo({
-  model: (props: { proposalId: string }) =>
-    Proposal({ key: ['proposal', { id: props.proposalId }] }),
-  core: ToolbarView,
-  actions: (m) => ({ onAdd: m.addSeat }),
+  models: {
+    model: (props: { proposalId: string }) =>
+      Proposal({ key: ['proposal', { id: props.proposalId }] }),
+  },
+  view: ToolbarView,
+  write: ({ model: m }) => ({ onAdd: m.addSeat }),
 });
 
 function ProposalDemo() {

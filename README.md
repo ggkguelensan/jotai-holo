@@ -77,7 +77,7 @@ const Counter = holo({
   props: { title: 'Counter' },
 });
 
-// All three core props are supplied by holo.
+// All three View props are supplied by holo.
 <Counter />;
 ```
 
@@ -93,17 +93,17 @@ Use `$` for state atoms and `$$` for model instances if these conventions help y
 | `eventAtom<Payload>()`                      | Typed notification without a handler or retained state            |
 | `holo({ view, read, write, props })`        | Declarative React adapter; only `view` is required                |
 
-`eventAtom<Payload>()` declares a typed notification without a handler or retained state. Dispatch with `store.set(event, payload)`, use it in `bond.trigger`/`holo.actions`, or attach an external listener with `subscribeEvent(store, event, listener)`. Subscriptions return a disposer; see [event contracts](docs/api.md#eventatom).
+`eventAtom<Payload>()` declares a typed notification without a handler or retained state. Dispatch with `store.set(event, payload)`, use it in `bond.trigger`/`holo.write`, or attach an external listener with `subscribeEvent(store, event, listener)`. Subscriptions return a disposer; see [event contracts](docs/api.md#eventatom).
 
 Numeric/boolean operators `eq`, `and`, `or`, `some`, and `sum` accept native atoms (arrays or records for multiple inputs) and return lazy read-only atoms.
 
 Model operators are available from the root and `jotai-holo/vanilla`: `ion(source, project?)` combines readable atoms, `prism(source, selectors)` splits projections, and `bond({ state, trigger, guard, map, yield })` connects store-owned actions. React also has `holoList` for keyed rows and `holoMatch` for conditional branches. See [operator contracts and examples](docs/operators.md).
 
-The new configuration uses `props` for fixed UI values and `lifecycle` with `ctx.input`. Named `models`, `resources`, `retainTime`, optional persistence and `useImperativeHolo` are described in the [runtime guide](docs/runtime.md). The legacy configuration remains supported during migration.
+The new configuration uses `props` for fixed UI values and `lifecycle` with `ctx.input`. Named `models`, `resources`, `retainTime`, optional persistence and `useImperativeHolo` are described in the [runtime guide](docs/runtime.md). There is one binding runtime and no syntax aliases.
 
 `stateAtom` is a direct alias of native `atom`, preserving writable derivations and async read options. No alternate state runtime is introduced.
 
-`holo.state` accepts any readable Jotai atom; `holo.actions` accepts any compatible writable Jotai atom. Atoms from native `atom(...)`, utilities and extensions need no conversion. `stateAtom` and `actionAtom` are optional helpers. Read-only atoms cannot be action targets.
+`holo.read` accepts any readable Jotai atom; `holo.write` accepts any compatible writable Jotai atom. Atoms from native `atom(...)`, utilities and extensions need no conversion. `stateAtom` and `actionAtom` are optional helpers. Read-only atoms cannot be action targets.
 
 A writable atom can appear in **both** sections under different prop names:
 
@@ -112,15 +112,15 @@ import { atom } from 'jotai';
 
 const $count = atom(0);
 const Counter = holo({
-  core: ({ count, onChange }: { count: number; onChange: (value: number) => void }) => (
+  view: ({ count, onChange }: { count: number; onChange: (value: number) => void }) => (
     <button onClick={() => onChange(count + 1)}>{count}</button>
   ),
-  state: { count: $count },
-  actions: { onChange: $count },
+  read: { count: $count },
+  write: { onChange: $count },
 });
 ```
 
-`state` reads and resolves values; `actions` supplies store-bound setters. `bindProps` accepts ordinary values, functions and components unchanged. Duplicate keys across sections are rejected. Remaining core props form the public props of the connected component.
+`read` reads and resolves values; `write` supplies store-bound setters. `props` accepts ordinary values, functions and components unchanged. Duplicate keys across sections are rejected. Remaining View props form the public props of the connected component.
 
 ## Optional infrastructure
 
@@ -130,19 +130,19 @@ const Counter = holo({
 | `jotai-holo/query` | `queryAtoms`, `mutationAtoms`, `queryClientAtom` | Native Query/MutationObserver, shared QueryClient, independent prism selectors           |
 | `jotai-holo/rhf`   | `createFormModel`, `holoForm`, `formAtom`        | One native RHF control per model; ordinary RHF markup and resolvers                      |
 
-Declare `holo({ model: props => CounterModel({ key: [props.id] }), core: CounterView, state: m => ({ count: m.$count }) })` outside React. Omitting a key selects the store's default model. The registry implementation and optional Query/RHF peers stay outside ordinary holo bundles. [Model contracts](docs/reference/createModel.md) describe creation, resource cleanup, cache eviction and explicit removal; [Query](docs/reference/queryAtoms.md) and [forms](docs/reference/holoForm.md) include executable business examples in English, Russian, German and Kazakh.
+Declare `holo` outside React. Use named `models` for default or keyed instances; read/write factories receive those names. The registry and optional Query/RHF peers stay outside ordinary holo bundles. See [model contracts](docs/reference/createModel.md), [Query](docs/reference/queryAtoms.md) and [forms](docs/reference/holoForm.md).
 
 ## Rendering and async state
 
 Only bound state subscribes to the nearest Jotai store. An action-only binding does not subscribe to its target. Callbacks retain identity until the store changes. The adapter and core are memoized with React's shallow comparison: bind at leaf components for the smallest update area.
 
-Promise-valued state resolves before reaching the core. Put connected async components under `<Suspense>` and an error boundary. State bindings use native Jotai `unwrap` and `Promise.all` to start reads together and reuse fulfilled values; changing a synchronous binding does not manufacture a new pending promise. The package has no runtime dependencies beyond its peers. See the [aggregation design](docs/aggregation.md) for snapshot identity and tested edge cases.
+Promise-valued reads resolve before reaching View. Put async bindings under Suspense and an error boundary. A fixed chain of native raw atom hooks preserves Jotai continuation, while store-owned weak caches keep stable snapshots. Fulfilled async values stay synchronous beside ordinary updates. See [aggregation](docs/aggregation.md).
 
 An async action returns its original promise to the caller. There is no automatic cancellation, serialization or latest-wins policy. See [async and lifecycle contracts](docs/api.md#async-actions).
 
 ## Lifecycle and integrations
 
-`cage` supplies synchronous `onMount`, `onChange` and `onUnmount` handlers with `(get, set, { props })`. Handlers run in passive effects; `onChange` runs initially and on shallow input-prop changes. Prefer dispatching `actionAtom` from these handlers, keeping state transitions and business rules in the model. Direct writes to writable state atoms are supported. Use atom effects for reactive dependencies and resource cleanup, and explicit actions for async work.
+`lifecycle` supplies synchronous onMount, onInputChange and onUnmount reactions through get, set, ctx.input and ctx.models. Input changes are selected explicitly; StrictMode replay represents one logical owner. Declare subscriptions in resources, and let actions own asynchronous policies. See [lifecycle](docs/reference/lifecycle.md).
 
 - [Complete interface and lifecycle contract](docs/api.md)
 - [Effects and model lifetime](docs/integrations.md)
@@ -164,4 +164,4 @@ Use [mutationAtoms](docs/reference/mutationAtoms.md) from `jotai-holo/query`
 to execute native TanStack mutations through a writable atom and expose
 independent status/data/error projections. It shares the application's
 `queryClientAtom`, works without React subscribers, and connects directly
-to `holo.actions` and `bond.yield`.
+to `holo.write` and `bond.yield`.

@@ -29,7 +29,7 @@ const UserDirectory = createModel({
     });
     return { $users, addRequested, adding };
   },
-  connect: (model, store) => model.adding.connect(store),
+  resources: (model) => [model.adding],
 });
 
 const $users = stateAtom((get) => get(get(UserDirectory()).$users));
@@ -41,7 +41,7 @@ const { $count, $empty } = prism($users, {
 const $status = ion($empty, (empty) => (empty ? 'idle' : 'ready'));
 const Users = holoList({
   source: $users,
-  core: ({ user }: { user: User }) => <li>{user.name}</li>,
+  view: ({ user }: { user: User }) => <li>{user.name}</li>,
   getKey: (user) => user.id,
   mapItem: (user) => ({ user }),
 });
@@ -57,15 +57,15 @@ const Content = holoMatch({
   },
 });
 const Controls = holo({
-  model: UserDirectory,
-  core: ({ count, onAdd }: { count: number; onAdd: () => void }) => (
+  models: { model: UserDirectory },
+  view: ({ count, onAdd }: { count: number; onAdd: () => void }) => (
     <>
       <output>Users: {count}</output>
       <button onClick={() => onAdd()}>Add user</button>
     </>
   ),
-  state: { count: $count },
-  actions: (model) => ({ onAdd: model.addRequested }),
+  read: { count: $count },
+  write: ({ model: model }) => ({ onAdd: model.addRequested }),
 });
 
 export function OperatorsExample() {

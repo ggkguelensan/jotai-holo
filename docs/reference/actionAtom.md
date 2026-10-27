@@ -13,7 +13,7 @@ Describe an operation that reads or updates atoms. For example, validate a draft
 ## Contract
 
 - `actionAtom((get, set, ...args) => result)` returns a writable atom whose readable value is `null`.
-- Invoke with `store.set(command, ...args)`, `useSetAtom(command)` or `holo.actions`.
+- Invoke with `store.set(command, ...args)`, `useSetAtom(command)` or `holo.write`.
 - Returns the original result, including the original Promise. No automatic cancellation, serialization, retry or success/failure atoms.
 - A successful synchronous return publishes the original arguments to connected `bond` consumers. A synchronous throw publishes nothing. Returning a Promise publishes immediately, **before settlement**.
 - Native `store.sub(command)` watches the readable value, not calls. Call observation is an extra protocol used by bond.

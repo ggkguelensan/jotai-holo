@@ -9,17 +9,17 @@ Supported peers are declared in [package.json](../package.json); exact versions 
 | Jotai capability                                                        | Verification                                                                           | Evidence                                                                           |
 | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | Primitive, derived, nullable, function-result state                     | Executed                                                                               | `state-atom.test.ts`, `utilities.compat.test.ts`                                   |
-| Read-only derived state, get-only callback                              | Runtime and compile-negative checks                                                    | `state-atom.test.ts`                                                               |
+| Derived read receives native options, never a Setter                    | Runtime and compile-negative checks                                                    | `state-atom.test.ts`                                                               |
 | Dynamic dependencies                                                    | Executed                                                                               | `utilities.compat.test.ts`                                                         |
-| Writable derived atom in state and actions                              | Executed and typechecked                                                               | `utilities.compat.test.ts`                                                         |
+| Writable derived atom in read and write                                 | Executed and typechecked                                                               | `utilities.compat.test.ts`                                                         |
 | Actions: zero/multiple args, results, nested writes, errors, promises   | Executed                                                                               | `action-atom.test.ts`, `holo.test.tsx`, `async.browser.test.tsx`                   |
 | Explicit stores, Provider replacement and isolation                     | Executed                                                                               | `holo.browser.test.tsx`, `async.browser.test.tsx`, `integrations.browser.test.tsx` |
 | Atom subscription and onMount                                           | Executed; action bindings do not mount targets                                         | `rendering.browser.test.tsx`                                                       |
 | `options.signal`                                                        | Native async atom cancellation executed                                                | `async.browser.test.tsx`                                                           |
-| `options.setSelf`                                                       | Native asynchronous self-write executed                                                | `rendering.browser.test.tsx`; not exposed by stateAtom                             |
-| `useAtom`, `useAtomValue`, `useSetAtom`, raw variants                   | Native atoms remain usable with native hooks; core hook/context interaction executed   | `rendering.browser.test.tsx`; holo itself uses native `useAtomValue`               |
+| `options.setSelf`                                                       | Native asynchronous self-write executed                                                | `rendering.browser.test.tsx`; also available through stateAtom                     |
+| `useAtom`, `useAtomValue`, `useSetAtom`, raw variants                   | Native atoms remain usable with native hooks; core hook/context interaction executed   | `rendering.browser.test.tsx`; holo uses native raw atom hooks                      |
 | Parallel async state, errors, stale resolutions/rejections, sync↔async | Executed in Chromium                                                                   | `async.browser.test.tsx`                                                           |
-| Fulfilled async + synchronous update                                    | Executed; no fallback or cage reopen                                                   | `async.browser.test.tsx`                                                           |
+| Fulfilled async + synchronous update                                    | Executed; no fallback or lifecycle reopen                                              | `async.browser.test.tsx`                                                           |
 | Reset/default/refresh/lazy                                              | Executed                                                                               | `utilities.compat.test.ts`                                                         |
 | Storage: sync/async, writes, JSON and RESET                             | Executed with in-memory storage adapters                                               | `utilities.compat.test.ts`; actual cross-tab browser storage events not exercised  |
 | SSR markup, async streaming SSR, no lifecycle writes                    | Executed                                                                               | `holo.test.tsx`, `utilities.compat.test.ts`                                        |
@@ -47,18 +47,18 @@ Test paths above are relative to [`tests/`](../tests). Type-negative fixtures ar
 | Location         | Ordinary atom protocol                                              | URL/hash, navigation and router integration **not tested**                       |
 | Cache            | Ordinary atom protocol                                              | Extension-specific expiration/eviction **not tested**                            |
 
-No extension objects are reinterpreted as events. `state` always reads an atom and `actions` always writes an atom. Existing atom utilities can compose freely before binding. An extension's own store/provider/client requirements still apply.
+No extension objects are reinterpreted as events. `read` always reads an atom and `write` always writes an atom. Existing atom utilities can compose freely before binding. An extension's own store/provider/client requirements still apply.
 
 ## Frameworks, tools and recipes
 
 | Documentation area                                                       | Status                                                                                                                                      |
 | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | Next.js, Waku, Remix                                                     | Generic SSR and preserved client directives tested; framework applications/RSC builds **not run**                                           |
-| React Native                                                             | Ordinary React cores are intended to compose; native renderer **not run**                                                                   |
+| React Native                                                             | Ordinary React Views are intended to compose; native renderer **not run**                                                                   |
 | SWC/Babel/Rolldown, Fast Refresh, Devtools                               | Compiler/devtools integrations **not run**; no compiler transformation is required by holo                                                  |
 | TypeScript                                                               | Positive/negative fixtures include payload variance, async results, missing/overlapping props, refs, Promise props and discriminated unions |
-| Performance, testing, composing atoms, large objects                     | Executed native store updates, selection/item identity and per-core render assertions                                                       |
-| Initializing on render                                                   | Hydration above connected child tested; cage cannot initialize a read that suspends its own first commit                                    |
+| Performance, testing, composing atoms, large objects                     | Executed native store updates, selection/item identity and per-View render assertions                                                       |
+| Initializing on render                                                   | Hydration above connected child tested; lifecycle cannot initialize a read that suspends its own first commit                               |
 | Persistence                                                              | Sync/async adapter behavior tested; real browser tabs/backend behavior left to storage extension                                            |
 | Toggle/compare/refresh/default recipes                                   | Native atom composition; refresh/default and selector equality exercised, individual copied recipes **not all re-executed**                 |
 | Listeners/broadcast/debounce recipes                                     | Native readable/writable atom protocol; recipe timing/cross-tab delivery **not tested**                                                     |
@@ -69,17 +69,17 @@ No extension objects are reinterpreted as events. `state` always reads an atom a
 
 These are controlled-update observations, not a promise about every render React may schedule:
 
-- An unrelated atom write causes no core calls.
-- Same-value writes and unchanged derived selections cause no core calls.
+- An unrelated atom write causes no View calls.
+- Same-value writes and unchanged derived selections cause no View calls.
 - A leaf update renders only its subscribed core; parent and action-only siblings stay unchanged.
 - Static/action-only configurations create zero atom subscriptions.
 - An action with multiple writes gives the core one coherent resulting snapshot.
 - Callback identity follows store identity; a changed Provider selects the new store.
-- Parent updates with unchanged public props skip the memoized connected core.
+- Parent updates with unchanged public props skip the memoized connected View.
 - A resolved async binding beside a changing sync binding does not re-suspend.
-- Native hook consumers inside a memoized core still receive context/store updates.
+- Native hook consumers inside a memoized View still receive context/store updates.
 
-See [`rendering.browser.test.tsx`](../tests/rendering.browser.test.tsx), [`async.browser.test.tsx`](../tests/async.browser.test.tsx) and [`holo.browser.test.tsx`](../tests/holo.browser.test.tsx). Splitting a large core into independently bound leaves is still the primary way to reduce its update area.
+See [`rendering.browser.test.tsx`](../tests/rendering.browser.test.tsx), [`async.browser.test.tsx`](../tests/async.browser.test.tsx) and [`holo.browser.test.tsx`](../tests/holo.browser.test.tsx). Splitting a large View into independently bound leaves is still the primary way to reduce its update area.
 
 ## Native development warning
 
@@ -91,7 +91,7 @@ With the pinned React 19.3.1/Jotai 3.0.1, an async→sync transition after initi
 
 ## React version matrix
 
-`pnpm test:react` installs the packed library into isolated consumers using **React/React DOM 18.0.0, 18.3.1 and 19.3.1**. Each consumer checks its own React-major typings, streaming SSR for ordinary and adapted async bindings, and Chromium development/production scenarios: state/actions/events, ref forwarding through cage/match bindings, pending→resolved→sync→async transitions, rejection boundaries, model replacement, keyed lists and disposal. CI runs each React version separately. The full source, extension and browser suites continue to run with the pinned React 19 environment.
+`pnpm test:react` installs the packed library into isolated consumers using **React/React DOM 18.0.0, 18.3.1 and 19.3.1**. Each consumer checks its own React-major typings, streaming SSR for ordinary and named-model async bindings, and Chromium development/production scenarios: state/actions/events, ref forwarding through lifecycle/match bindings, pending→resolved→sync→async transitions, rejection boundaries, model replacement, keyed lists and disposal. CI runs each React version separately. The full source, extension and browser suites continue to run with the pinned React 19 environment.
 
 On React 18, refs must terminate at an intrinsic element, class, or `forwardRef` View, following React's normal rules. A plain function View receiving ref as an ordinary prop is a React 19 feature. Holo forwards refs through its React 18 boundaries; it does not polyfill React 19's component API.
 
@@ -99,7 +99,7 @@ The private compatibility layer uses native `React.use` on React 19 and cached P
 
 ## Keyed models, Query and forms
 
-Optional entries remain separate from ordinary root imports. The registry uses native WeakRef/FinalizationRegistry (ES2021+ runtime required). Key identity, store isolation, lease cleanup, finite/Infinity retention, explicit removal and StrictMode are checked by the model suites. A committed model survives temporary Suspense hiding even with gcTime zero; React teardown releases after synchronous child lifecycle reactions. Production Chromium forced-GC cases additionally cover mounted and abandoned Suspense models; `pnpm test:model-memory` checks 300 instances per case, including form controls and discarded stores.
+Optional entries remain separate from ordinary root imports. The registry uses native WeakRef/FinalizationRegistry (ES2021+ runtime required). Key identity, store isolation, lease cleanup, finite/Infinity retention, explicit removal and StrictMode are checked by the model suites. A committed model survives temporary Suspense hiding even with retainTime zero; React teardown releases after synchronous child lifecycle reactions. Production Chromium forced-GC cases additionally cover mounted and abandoned Suspense models; `pnpm test:model-memory` checks 300 instances per case, including form controls and discarded stores.
 
 Query tests use native QueryObserver and application-owned QueryClient: options factories, shared cache with useQuery, hydration, key/client replacement, enabled/skipToken, consumed AbortSignal cancellation, stale completions, remount after query-cache eviction and data-only render counts. Infinite and suspense queries have no dedicated wrapper. mutationAtoms uses native MutationObserver: vanilla execution without subscribers, independent Promise results, latest-started state, reset during execution, store/client replacement, retries, scope serialization, online resumption, async callbacks and optimistic rollback are exercised. Browser tests check committed renders, native query-cache sharing, Strict Mode, unmount/remount and abandoned Suspense renders. `pnpm test:mutation-memory` checks 600 calls for listener, history, adapter and store retention.
 

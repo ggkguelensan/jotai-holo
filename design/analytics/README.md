@@ -1,7 +1,7 @@
 # Analytics models and lazy adapters
 
 Status: design proposal. `createAnalyticsModel`, `analyticsConnection` and the
-`connections` fields below are not implemented or exported. The TypeScript
+analytics connection factories below are not implemented or exported. The TypeScript
 files in this directory are a candidate adapter contract and an event-only
 Amplitude example, not a released integration. No real analytics are enabled by
 this proposal.
@@ -87,15 +87,15 @@ const cartAnalytics = analyticsConnection({
 });
 
 const Cart = holo({
-  model: $$cart,
-  core: CartView,
-  state: (model) => ({ count: model.$count }),
-  actions: (model) => ({ onAdd: model.addItem }),
-  connections: (model) => [cartAnalytics(model)],
+  models: { cart: $$cart },
+  view: CartView,
+  read: ({ cart }) => ({ count: cart.$count }),
+  write: ({ cart }) => ({ onAdd: cart.addItem }),
+  resources: ({ cart }) => [cartAnalytics(cart)],
 });
 ```
 
-The generic `connections` protocol also belongs in `createModel` for its own
+The generic `resources` protocol also belongs in `createModel` for its own
 business resources. Model factories must stay pure; neither declaration nor
 render acquires a connection. The generic owner connects in commit time, counts
 owners, rolls back failed acquisition and releases in reverse order. Analytics
@@ -195,7 +195,7 @@ fact or a physical pointer click; name messages according to what was observed.
 Local React useState is not observable from outside a View. Expose an explicit
 callback/fact or move observable state into atoms. Committed input props can be
 projected through the lifecycle integration, using the same input-props
-contract as cage. There is no React-tree inspection or automatic prop capture.
+contract as lifecycle. There is no React-tree inspection or automatic prop capture.
 
 ## Three lifetimes
 

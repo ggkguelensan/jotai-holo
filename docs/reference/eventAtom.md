@@ -16,7 +16,7 @@ Announce that something happened. Emit `profileSaved` after the API confirms a s
 - `store.set(event, payload)` publishes within that store. Repeated equal payloads are delivered every time.
 - The readable value stays `null`. No last payload, replay, persistence or cross-store broadcast.
 - A function or Promise payload is passed as data unchanged. The event does not call or await it.
-- Connect with `bond.trigger`, bind with `holo.actions`, or listen with `subscribeEvent`. Native store.sub cannot observe these calls.
+- Connect with `bond.trigger`, bind with `holo.write`, or listen with `subscribeEvent`. Native store.sub cannot observe these calls.
 - In a DOM handler, call a void event explicitly: `onClick={() => onOpen()}` avoids passing a React event as payload.
 
 Name facts after what happened, such as `profileSaved`. Name requests as requests, such as `saveRequested`; a request event is not proof of success.

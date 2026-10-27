@@ -1,9 +1,8 @@
 import { atom, createStore, Provider, useAtomValue } from 'jotai';
 import { act, createRef, forwardRef, useEffect } from 'react';
-import { createInjector, InjectorProvider, molecule, onMount } from 'bunshi/react';
+import { createModel } from '../src/model.js';
 import { expect, test, vi } from 'vitest';
 import { actionAtom, bond, holo, holoList, holoMatch, ion, prism } from '../src/index.js';
-import { holoMolecule } from '../src/bunshi.js';
 import { createHarness, deferred, suspense } from './browser-harness.js';
 
 test('prism isolates Views and subscriptions and leaves unused selectors dormant', async () => {
@@ -24,18 +23,18 @@ test('prism isolates Views and subscriptions and leaves unused selectors dormant
   const { $name, $age } = prism($user, { $name: selectName, $age: selectAge, $unused: unused });
   const calls = { name: 0, age: 0, native: 0, parent: 0 };
   const Name = holo({
-    core: ({ name }: { name: string }) => {
+    view: ({ name }: { name: string }) => {
       calls.name++;
       return <span>{name}</span>;
     },
-    state: { name: $name },
+    read: { name: $name },
   });
   const Age = holo({
-    core: ({ age }: { age: number }) => {
+    view: ({ age }: { age: number }) => {
       calls.age++;
       return <span>{age}</span>;
     },
-    state: { age: $age },
+    read: { age: $age },
   });
   function NativeName() {
     const name = useAtomValue($name);
@@ -94,11 +93,11 @@ test('prism and ion composition filters unchanged downstream values without diam
   const $label = ion({ name: $name, adult: $adult }, compute);
   const visible: string[] = [];
   const Summary = holo({
-    core: ({ label }: { label: string }) => {
+    view: ({ label }: { label: string }) => {
       visible.push(label);
       return <span>{label}</span>;
     },
-    state: { label: $label },
+    read: { label: $label },
   });
   const h = createHarness();
   await h.render(
@@ -127,18 +126,18 @@ test('prism object results follow reference equality rather than deep equality i
   let stable = 0;
   let copy = 0;
   const Stable = holo({
-    core: ({ value }: { value: typeof profile }) => {
+    view: ({ value }: { value: typeof profile }) => {
       stable++;
       return <span>{value.name}</span>;
     },
-    state: { value: $profile },
+    read: { value: $profile },
   });
   const Copy = holo({
-    core: ({ value }: { value: typeof profile }) => {
+    view: ({ value }: { value: typeof profile }) => {
       copy++;
       return <span>{value.name}</span>;
     },
-    state: { value: $copy },
+    read: { value: $copy },
   });
   const h = createHarness();
   await h.render(
@@ -170,12 +169,12 @@ test('prism async projection is lazy, and a new promise may suspend even with an
   let mounted = 0;
   let closed = 0;
   const Name = holo({
-    core: ({ name }: { name: string }) => {
+    view: ({ name }: { name: string }) => {
       core++;
       return <span data-name>{name}</span>;
     },
-    state: { name: $name },
-    cage: {
+    read: { name: $name },
+    lifecycle: {
       onMount() {
         mounted++;
       },
@@ -217,7 +216,7 @@ test('holo actions never read or subscribe to their target and static input chan
   const $value = atom(select);
   let renders = 0;
   const Button = holo({
-    core: ({ value, title, onClick }: { value: number; title: string; onClick: () => void }) => {
+    view: ({ value, title, onClick }: { value: number; title: string; onClick: () => void }) => {
       renders++;
       return (
         <button onClick={onClick}>
@@ -225,8 +224,8 @@ test('holo actions never read or subscribe to their target and static input chan
         </button>
       );
     },
-    state: { value: $value },
-    actions: { onClick: target },
+    read: { value: $value },
+    write: { onClick: target },
   });
   const h = createHarness();
   const tree = (title: string) => (
@@ -269,8 +268,8 @@ test('holoList leaves empty-row state dormant and separates list mapping from ro
     source: $items,
     getKey: (item) => item.id,
     mapItem,
-    state: { value: $shared },
-    core: ({ item, value }: { item: { id: number }; value: number }) => {
+    read: { value: $shared },
+    view: ({ item, value }: { item: { id: number }; value: number }) => {
       rows++;
       return (
         <span>
@@ -315,15 +314,15 @@ test('holoMatch does not evaluate inactive branches or rerender when the selecte
   const $b = atom(readB);
   let renders = 0;
   const A = holo({
-    core: ({ value }: { value: string }) => {
+    view: ({ value }: { value: string }) => {
       renders++;
       return <span>{value}</span>;
     },
-    state: { value: $a },
+    read: { value: $a },
   });
   const B = holo({
-    core: ({ value }: { value: string }) => <span>{value}</span>,
-    state: { value: $b },
+    view: ({ value }: { value: string }) => <span>{value}</span>,
+    read: { value: $b },
   });
   const Match = holoMatch({ source: $case, cases: { a: A, b: B } });
   expect(readA).not.toHaveBeenCalled();
@@ -398,18 +397,18 @@ test('reading a bond output in holo does not activate its connection and stable 
   let renders = 0;
   let rawRenders = 0;
   const Value = holo({
-    core: ({ value }: { value: number }) => {
+    view: ({ value }: { value: number }) => {
       renders++;
       return <span>{value}</span>;
     },
-    state: { value: $parity },
+    read: { value: $parity },
   });
   const Raw = holo({
-    core: ({ args }: { args: [number] | undefined }) => {
+    view: ({ args }: { args: [number] | undefined }) => {
       rawRenders++;
       return <span>{args?.[0]}</span>;
     },
-    state: { args: link },
+    read: { args: link },
   });
   const h = createHarness();
   await h.render(
@@ -439,36 +438,39 @@ test('reading a bond output in holo does not activate its connection and stable 
   expect(map).toHaveBeenCalledTimes(3);
 });
 
-test('holoMolecule stays dormant in an inactive case and shared model changes do not rerender unchanged prism selections', async () => {
+test('a named model stays dormant in an inactive case and shared model changes do not rerender unchanged prism selections', async () => {
   const $user = atom({ name: 'Ada', age: 20 });
   const store = createStore();
-  const injector = createInjector();
   let created = 0;
   let active = 0;
   const unused = vi.fn(() => 0);
-  const Model = molecule(() => {
-    created++;
-    onMount(() => {
-      active++;
-      return () => {
-        active--;
-      };
-    });
-    return prism($user, { $name: (user) => user.name, $unused: unused });
+  const Model = createModel({
+    create: () => {
+      created++;
+      return prism($user, { $name: (user) => user.name, $unused: unused });
+    },
+    resources: () => [
+      {
+        connect() {
+          active++;
+          return () => {
+            active--;
+          };
+        },
+      },
+    ],
   });
-  const model = holoMolecule(Model);
   let selections = 0;
   let renders = 0;
   const Name = holo({
-    core: ({ name }: { name: string }) => {
+    view: ({ name }: { name: string }) => {
       renders++;
       return <span>{name}</span>;
     },
-    state: {
-      name: model((m) => {
-        selections++;
-        return m.$name;
-      }),
+    models: { user: Model },
+    read: ({ user }) => {
+      selections++;
+      return { name: user.$name };
     },
   });
   const $visible = atom<'hidden' | 'shown'>('hidden');
@@ -477,11 +479,9 @@ test('holoMolecule stays dormant in an inactive case and shared model changes do
   expect(selections).toBe(0);
   const h = createHarness();
   await h.render(
-    <InjectorProvider value={() => injector}>
-      <Provider store={store}>
-        <Match />
-      </Provider>
-    </InjectorProvider>,
+    <Provider store={store}>
+      <Match />
+    </Provider>,
   );
   expect(created).toBe(0);
   await act(async () => store.set($visible, 'shown'));
@@ -533,11 +533,11 @@ test('an action updating several ion sources yields one consistent prism render'
   });
   const visible: string[] = [];
   const Name = holo({
-    core: ({ full, initial }: { full: string; initial: string }) => {
+    view: ({ full, initial }: { full: string; initial: string }) => {
       visible.push(`${full}:${initial}`);
       return <span>{full}</span>;
     },
-    state: { full: $full, initial: $initial },
+    read: { full: $full, initial: $initial },
   });
   const h = createHarness();
   await h.render(

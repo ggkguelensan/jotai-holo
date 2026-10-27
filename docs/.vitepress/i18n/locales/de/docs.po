@@ -22,26 +22,26 @@ msgstr "Wähle das Werkzeug nach der Aufgabe. Vorhandene Jotai-Atome funktionier
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/ecosystem.md
-msgid "| Task                                    | Start with                          | What holo adds                                                          |\n"
-"| --------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------- |\n"
-"| Local component state                   | useAtom / useAtomValue / useSetAtom | A declaration when repeated wiring deserves a separate binding          |\n"
-"| Conditional derived reads               | atom(get => …)                      | stateAtom narrows the interface; ion names a fixed input shape          |\n"
-"| One selected value with custom equality | selectAtom                          | prism declares several independent projections, without custom equality |\n"
-"| Per-item writable atoms                 | splitAtom                           | holoList renders keyed Views; it does not replace item atoms            |\n"
-"| Reactive external resource              | jotai-effect                        | cage bridges committed input props; it does not own arbitrary resources |\n"
-"| One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality        |\n"
-"| Async server cache                      | jotai-tanstack-query                | holo accepts its atoms; it adds no cache/retry engine                   |\n"
-"| Share one model across widgets          | createModel                         | Select a default or keyed instance in the current store                 |"
-msgstr "| Aufgabe | Einstieg | Was holo ergänzt |\n"
+msgid "| Task                                    | Start with                          | What holo adds                                                               |\n"
+"| --------------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------- |\n"
+"| Local component state                   | useAtom / useAtomValue / useSetAtom | A declaration when repeated wiring deserves a separate binding               |\n"
+"| Conditional derived reads               | atom(get => …)                      | stateAtom preserves native overloads; ion names a fixed input shape          |\n"
+"| One selected value with custom equality | selectAtom                          | prism declares several independent projections, without custom equality      |\n"
+"| Per-item writable atoms                 | splitAtom                           | holoList renders keyed Views; it does not replace item atoms                 |\n"
+"| Reactive external resource              | jotai-effect                        | lifecycle bridges committed input props; it does not own arbitrary resources |\n"
+"| One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality             |\n"
+"| Async server cache                      | jotai-tanstack-query                | holo accepts its atoms; it adds no cache/retry engine                        |\n"
+"| Share one model across widgets          | createModel                         | Select a default or keyed instance in the current store                      |"
+msgstr "| Aufgabe | Ausgangspunkt | Ergänzung durch holo |\n"
 "| --- | --- | --- |\n"
-"| Lokaler Komponentenzustand | useAtom / useAtomValue / useSetAtom | Eine Deklaration bei wiederkehrender Verdrahtung |\n"
-"| Bedingte Ableitungen | atom(get => …) | stateAtom begrenzt die Schnittstelle; ion benennt feste Eingaben |\n"
-"| Einzelwert mit eigener Gleichheit | selectAtom | prism deklariert unabhängige Projektionen ohne eigene Gleichheit |\n"
-"| Beschreibbare Atome pro Element | splitAtom | holoList rendert Views mit Schlüsseln, ersetzt keine Elementatome |\n"
-"| Reaktive externe Ressource | jotai-effect | cage übergibt bestätigte Eingabe-Props und verwaltet keine beliebigen Ressourcen |\n"
-"| Aufruf / Domänenereignis | actionAtom / eventAtom | Jeder Aufruf kann bond auslösen, unabhängig von Wertgleichheit |\n"
-"| Asynchroner Server-Cache | jotai-tanstack-query | holo akzeptiert dessen Atome, ergänzt keine Cache-/Retry-Engine |\n"
-"| Ein Modell für mehrere Widgets | createModel | Standardinstanz oder Schlüssel im aktuellen Store |"
+"| Lokaler Komponentenzustand | useAtom / useAtomValue / useSetAtom | Deklaration für wiederkehrende Bindungen |\n"
+"| Bedingte abgeleitete Werte | atom(get => …) | stateAtom erhält native Überladungen; ion benennt eine feste Eingabestruktur |\n"
+"| Eine Projektion mit eigenem Vergleich | selectAtom | prism deklariert unabhängige Projektionen ohne eigenen Vergleich |\n"
+"| Beschreibbare Atome je Listenelement | splitAtom | holoList rendert Views nach Schlüssel und ersetzt keine Elementatome |\n"
+"| Reaktive externe Ressource | jotai-effect | lifecycle verbindet bestätigte Eingabe-Props; beliebige Ressourcen besitzen eine eigene Verwaltung |\n"
+"| Ein Aufruf oder Domänenfakt | actionAtom / eventAtom | Jeder Aufruf kann bond auslösen, unabhängig von Wertgleichheit |\n"
+"| Serverdaten-Cache | jotai-tanstack-query | holo akzeptiert dessen Atome ohne eigene Cache- oder Wiederholungslogik |\n"
+"| Ein Modell für mehrere Widgets | createModel | Standardinstanz oder schlüsselbasierte Instanz im aktuellen Store wählen |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -124,8 +124,8 @@ msgstr "Eine View einmal verbinden"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Render `<NameField />`. Its View receives a name, a title and a callback. `state` supplies values, `actions` supplies callbacks, and `bindProps` supplies fixed props. Declare `holo` outside React render; any unbound View props remain inputs to the connected component."
-msgstr "Rendere `<NameField />`. Seine View erhält Name, Titel und Callback. `state` liefert Werte, `actions` Callbacks, `bindProps` feste Props. Deklariere `holo` außerhalb des React-Renderns; übrige View-Props bleiben Eingaben der verbundenen Komponente."
+msgid "Render `<NameField />`. Its View receives a name, a title and a callback. `read` supplies values, `write` supplies callbacks, and `props` supplies fixed props. Declare `holo` outside React render; any unbound View props remain inputs to the connected component."
+msgstr "Rendere `<NameField />`. Seine View erhält Name, Titel und Callback. `read` liefert Werte, `write` Callbacks, `props` feste Props. Deklariere `holo` außerhalb des React-Renderns; übrige View-Props bleiben Eingaben der verbundenen Komponente."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -292,20 +292,20 @@ msgstr "Trenne die View für Stories, Tests mit Props oder Abonnements kleiner B
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "Why separate state, actions and bindProps?"
-msgstr "Warum state, actions und bindProps trennen?"
+msgid "Why separate read, write and props?"
+msgstr "Warum read, write und props trennen?"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "A writable atom can supply both a value and a callback. A function might be a prop, a React component, or an action. Separate sections make the operation explicit without guessing from runtime object shapes. The same native atom can appear in `state` and `actions` under different prop names."
+msgid "A writable atom can supply both a value and a callback. A function might be a prop, a React component, or an action. Separate sections make the operation explicit without guessing from runtime object shapes. The same native atom can appear in `read` and `write` under different prop names."
 msgstr "Ein beschreibbares Atom kann sowohl einen Wert als auch einen Callback liefern. Eine Funktion kann ein Prop, eine React-Komponente oder eine Aktion sein. Getrennte Bereiche machen die Absicht ausdrücklich sichtbar und vermeiden eine erratene Bedeutung anhand von Namenspräfixen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "`core` names the component's role in the assembled binding; `NameView` names its UI role. `bindProps` means fixed View props. `ctx.props` means the inputs available to lifecycle handlers."
-msgstr "`core` bezeichnet die Rolle der Komponente in der zusammengesetzten Bindung; `NameView` ihre UI-Rolle. `bindProps` steht für feste View-Props. `ctx.props` in cage enthält dagegen die Eingaben der verbundenen Komponenteninstanz."
+msgid "`view` names the React component. `props` means fixed View props. `ctx.input` means the inputs available to lifecycle handlers."
+msgstr "`view` bezeichnet die React-Komponente. `props` enthält feste View-Props. `ctx.input` enthält die Eingaben für Lifecycle-Handler."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -316,22 +316,22 @@ msgstr "Wenige Begriffe, native Semantik"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "| Need                           | Tool                        | Boundary                                       |\n"
-"| ------------------------------ | --------------------------- | ---------------------------------------------- |\n"
-"| Store values / derived reads   | stateAtom                   | Native atoms; use atom for advanced overloads  |\n"
-"| Commands / facts               | actionAtom / eventAtom      | Explicit calls, no retained event payload      |\n"
-"| Combine / project              | ion / prism                 | Jotai dependencies and Object.is               |\n"
-"| React to a domain notification | bond                        | Explicit store-owned connection                |\n"
-"| Bind / repeat / choose Views   | holo / holoList / holoMatch | Ordinary React props and lifecycle             |\n"
-"| Share a model between widgets  | createModel                 | Instance selected by definition, key and store |"
-msgstr "| Bedarf | Werkzeug | Grenze |\n"
+msgid "| Need                           | Tool                        | Boundary                                              |\n"
+"| ------------------------------ | --------------------------- | ----------------------------------------------------- |\n"
+"| Store values / derived reads   | stateAtom                   | Native atom overloads, including writable derivations |\n"
+"| Commands / facts               | actionAtom / eventAtom      | Explicit calls, no retained event payload             |\n"
+"| Combine / project              | ion / prism                 | Jotai dependencies and Object.is                      |\n"
+"| React to a domain notification | bond                        | Explicit store-owned connection                       |\n"
+"| Bind / repeat / choose Views   | holo / holoList / holoMatch | Ordinary React props and lifecycle                    |\n"
+"| Share a model between widgets  | createModel                 | Instance selected by definition, key and store        |"
+msgstr "| Bedarf | Werkzeug | Zuständigkeit |\n"
 "| --- | --- | --- |\n"
-"| Werte / Ableitungen | stateAtom | Native Atome; atom für erweiterte Überladungen |\n"
-"| Befehle / Ereignisse | actionAtom / eventAtom | Explizite Aufrufe ohne gespeicherte Ereignis-Payload |\n"
-"| Kombinieren / projizieren | ion / prism | Jotai-Abhängigkeiten und Object.is |\n"
-"| Auf Domänenereignis reagieren | bond | Explizite Verbindung pro Store |\n"
-"| Views verbinden / wiederholen / wählen | holo / holoList / holoMatch | Gewöhnliche React-Props und Lifecycle |\n"
-"| Ein Modell zwischen Widgets teilen | createModel | Instanz nach Definition, Schlüssel und Store |"
+"| Werte speichern oder ableiten | stateAtom | Native Atom-Überladungen einschließlich beschreibbarer Ableitungen |\n"
+"| Befehle und Fakten | actionAtom / eventAtom | Explizite Aufrufe ohne gespeicherte Ereignisdaten |\n"
+"| Kombinieren und projizieren | ion / prism | Jotai-Abhängigkeiten und Object.is |\n"
+"| Auf Domänenereignisse reagieren | bond | Explizite Verbindung im jeweiligen Store |\n"
+"| Views verbinden, wiederholen, auswählen | holo / holoList / holoMatch | Gewöhnliche React-Props und Lifecycle |\n"
+"| Modell zwischen Widgets teilen | createModel | Instanz nach Definition, Schlüssel und Store |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -424,8 +424,8 @@ msgstr "Für abbrechbare Lesevorgänge nutze natives `atom(async (get, { signal 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/rendering.md
-msgid "Initial Suspense delays commit: **cage.onMount cannot initialize the state blocking the first render**. Initialize before rendering or start the load through the model. Later ordinary Suspense hiding does not dispose the passive cage; real unmount does."
-msgstr "Initialer Suspense verzögert den Commit: **cage.onMount kann keinen Zustand initialisieren, der das erste Rendering blockiert**. Initialisiere vor dem Rendern oder starte das Laden über das Modell. Späteres gewöhnliches Suspense-Ausblenden gibt den passiven cage nicht frei; tatsächliches Unmounten schon."
+msgid "Initial Suspense delays commit: **lifecycle.onMount cannot initialize the state blocking the first render**. Initialize before rendering or start the load through the model. Later ordinary Suspense hiding does not dispose the passive lifecycle; real unmount does."
+msgstr "Initialer Suspense verzögert den Commit: **lifecycle.onMount kann keinen Zustand initialisieren, der das erste Rendering blockiert**. Initialisiere vor dem Rendern oder starte das Laden über das Modell. Späteres gewöhnliches Suspense-Ausblenden gibt den passiven lifecycle nicht frei; tatsächliches Unmounten schon."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -586,8 +586,8 @@ msgstr "Ressourcen mit Abonnement-Lebensdauer"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/integrations.md
-msgid "Use `withAtomEffect` when a resource is needed while a View subscribes to an atom. Bind the returned atom in `state`. Consumers in the same store share the effect; the last unsubscribe runs its cleanup. An action-only binding does not activate it."
-msgstr "Nutze `withAtomEffect`, wenn eine Ressource gebraucht wird, solange eine View ein Atom abonniert. Binde das zurückgegebene Atom in `state`. Verbraucher eines Stores teilen den Effekt; die letzte Abmeldung räumt auf. Eine reine Aktionsbindung aktiviert ihn nicht."
+msgid "Use `withAtomEffect` when a resource is needed while a View subscribes to an atom. Bind the returned atom in `read`. Consumers in the same store share the effect; the last unsubscribe runs its cleanup. An action-only binding does not activate it."
+msgstr "Nutze `withAtomEffect`, wenn eine Ressource gebraucht wird, solange eine View ein Atom abonniert. Binde das zurückgegebene Atom in `read`. Verbraucher eines Stores teilen den Effekt; die letzte Abmeldung räumt auf. Eine reine Aktionsbindung aktiviert ihn nicht."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -598,8 +598,8 @@ msgstr "Ressourcen eines gemeinsamen Modells"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/integrations.md
-msgid "An editor and its toolbar may need one model even when one widget is hidden. Put the connection in [createModel.connect](/reference/createModel#contract). The first committed owner starts it; the last owner releases it. Select the same key and store in both widgets. Keeping an instance with `retainTime: Infinity` does not keep released subscriptions active."
-msgstr "Editor und Werkzeugleiste können ein Modell brauchen, auch wenn ein Widget verborgen ist. Verbinde Ressourcen in [createModel.connect](/reference/createModel#contract). Der erste bestätigte Besitzer startet, der letzte gibt frei. Beide Widgets wählen denselben Schlüssel und Store. `retainTime: Infinity` behält die Instanz, aber keine freigegebenen Abonnements."
+msgid "An editor and its toolbar may need one model even when one widget is hidden. Put the connection in [createModel.resources](/reference/createModel#contract). The first committed owner starts it; the last owner releases it. Select the same key and store in both widgets. Keeping an instance with `retainTime: Infinity` does not keep released subscriptions active."
+msgstr "Editor und Werkzeugleiste können ein Modell brauchen, auch wenn ein Widget verborgen ist. Verbinde Ressourcen in [createModel.resources](/reference/createModel#contract). Der erste bestätigte Besitzer startet, der letzte gibt frei. Beide Widgets wählen denselben Schlüssel und Store. `retainTime: Infinity` behält die Instanz, aber keine freigegebenen Abonnements."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -622,14 +622,14 @@ msgstr "Den Besitzer wählen"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/integrations.md
-msgid "Use `cage` for input props and component lifecycle, `jotai-effect` for reactive synchronization, and model `connect` for resources shared by widgets. For a calculated value, use a derived atom. Async actions need their own cancellation and error policy."
-msgstr "Nutze `cage` für Eingabe-Props und Komponenten-Lifecycle, `jotai-effect` für reaktive Synchronisierung und Modell-`connect` für gemeinsame Ressourcen. Berechnete Werte brauchen nur ein abgeleitetes Atom. Async-Aktionen benötigen eine eigene Abbruch- und Fehlerstrategie."
+msgid "Use `lifecycle` for input props and component lifecycle, `jotai-effect` for reactive synchronization, and model `resources` for resources shared by widgets. For a calculated value, use a derived atom. Async actions need their own cancellation and error policy."
+msgstr "Nutze `lifecycle` für Eingabe-Props und Komponenten-Lifecycle, `jotai-effect` für reaktive Synchronisierung und Modell-`connect` für gemeinsame Ressourcen. Berechnete Werte brauchen nur ein abgeleitetes Atom. Async-Aktionen benötigen eine eigene Abbruch- und Fehlerstrategie."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/integrations.md
-msgid "Read [Jotai effect](https://jotai.org/docs/extensions/effect), [createModel](/reference/createModel) and [cage](/reference/cage) for their contracts and examples."
-msgstr "Verträge und Beispiele: [Jotai Effect](https://jotai.org/docs/extensions/effect), [createModel](/reference/createModel), [cage](/reference/cage)."
+msgid "Read [Jotai effect](https://jotai.org/docs/extensions/effect), [createModel](/reference/createModel) and [lifecycle](/reference/lifecycle) for their contracts and examples."
+msgstr "Verträge und Beispiele: [Jotai Effect](https://jotai.org/docs/extensions/effect), [createModel](/reference/createModel), [lifecycle](/reference/lifecycle)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -863,7 +863,6 @@ msgstr "Beschreibe eine Operation, die Atome liest oder ändert, etwa einen Entw
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
 #: docs/reference/bond.md
-#: docs/reference/cage.md
 #: docs/reference/createFormModel.md
 #: docs/reference/createModel.md
 #: docs/reference/eq.md
@@ -874,6 +873,7 @@ msgstr "Beschreibe eine Operation, die Atome liest oder ändert, etwa einen Entw
 #: docs/reference/holoList.md
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
+#: docs/reference/lifecycle.md
 #: docs/reference/mutationAtoms.md
 #: docs/reference/or.md
 #: docs/reference/prism.md
@@ -891,7 +891,7 @@ msgstr "Verhalten"
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 msgid "- `actionAtom((get, set, ...args) => result)` returns a writable atom whose readable value is `null`.\n"
-"- Invoke with `store.set(command, ...args)`, `useSetAtom(command)` or `holo.actions`.\n"
+"- Invoke with `store.set(command, ...args)`, `useSetAtom(command)` or `holo.write`.\n"
 "- Returns the original result, including the original Promise. No automatic cancellation, serialization, retry or success/failure atoms.\n"
 "- A successful synchronous return publishes the original arguments to connected `bond` consumers. A synchronous throw publishes nothing. Returning a Promise publishes immediately, **before settlement**.\n"
 "- Native `store.sub(command)` watches the readable value, not calls. Call observation is an extra protocol used by bond.\n"
@@ -927,7 +927,6 @@ msgstr "- `actionAtom((get, set, ...args) => result)` liefert ein beschreibbares
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
 #: docs/reference/bond.md
-#: docs/reference/cage.md
 #: docs/reference/createFormModel.md
 #: docs/reference/createModel.md
 #: docs/reference/eq.md
@@ -938,6 +937,7 @@ msgstr "- `actionAtom((get, set, ...args) => result)` liefert ein beschreibbares
 #: docs/reference/holoList.md
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
+#: docs/reference/lifecycle.md
 #: docs/reference/mutationAtoms.md
 #: docs/reference/or.md
 #: docs/reference/prism.md
@@ -985,7 +985,6 @@ msgstr "Natives `atom(null, write)` verarbeitet bereits Befehle. Der Helfer erg�
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
 #: docs/reference/bond.md
-#: docs/reference/cage.md
 #: docs/reference/createFormModel.md
 #: docs/reference/createModel.md
 #: docs/reference/eq.md
@@ -996,6 +995,7 @@ msgstr "Natives `atom(null, write)` verarbeitet bereits Befehle. Der Helfer erg�
 #: docs/reference/holoList.md
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
+#: docs/reference/lifecycle.md
 #: docs/reference/mutationAtoms.md
 #: docs/reference/or.md
 #: docs/reference/prism.md
@@ -1223,58 +1223,6 @@ msgstr "- [Effector sample](https://effector.dev/en/api/effector/sample/) — da
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/cage.md
-msgid "cage"
-msgstr "cage"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/cage.md
-msgid "Send a component's input props to model actions after React commits the render. For example, update a search query when the `term` prop changes. Configure it inside `holo`."
-msgstr "Übergebe Eingabe-Props nach dem React-Commit an Modellaktionen, etwa einen Suchbegriff bei Änderungen von `term`. Cage wird in `holo` konfiguriert."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/cage.md
-msgid "`onMount(get, set, ctx)`, `onChange(get, set, ctx)`, `onUnmount(get, set, ctx)` are synchronous and return nothing. Async handlers and cleanup returns are not supported. Dispatch actions from handlers; let the model own async policies."
-msgstr "`onMount(get, set, ctx)`, `onChange(get, set, ctx)` und `onUnmount(get, set, ctx)` sind synchron und liefern nichts zurück. Async-Handler und Cleanup-Rückgaben werden nicht unterstützt. Starte Aktionen aus den Handlern; Async-Strategien gehören ins Modell."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/cage.md
-msgid "For each committed instance/store, order is mount → initial change → later shallow input changes → unmount. State changes alone do not trigger onChange. `ctx.props` merges public inputs and bindProps, excludes state/actions outputs, and uses the latest committed inputs on unmount."
-msgstr "Pro bestätigter Instanz/Store gilt: Mount → erste Änderung → spätere flache Eingabeänderungen → Unmount. Reine Zustandsänderungen lösen onChange nicht aus. `ctx.props` vereint öffentliche Eingaben und bindProps, enthält keine state/actions-Ausgaben und verwendet beim Unmount die letzten bestätigten Eingaben."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/cage.md
-msgid "Cage uses passive React effects. StrictMode may replay mount/change/unmount; handlers must tolerate it. SSR and abandoned renders do not publish lifecycle writes. Replacing the Jotai store closes the old cage and opens a new one. Ordinary Suspense hiding does not close it; initial Suspense delays its first commit."
-msgstr "Cage nutzt passive React-Effekte. StrictMode kann Mount/Change/Unmount wiederholen; Handler müssen das vertragen. SSR und verworfene Renderdurchläufe schreiben keine Lifecycle-Werte. Storewechsel schließt den alten cage und öffnet einen neuen. Gewöhnliches Suspense-Ausblenden schließt ihn nicht; initialer Suspense verzögert den ersten Commit."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/cage.md
-msgid "Input props come from the View's type. Even a prop used only by cage must be declared on the View, as `term` is above. Initialize data before rendering if the first render would suspend while waiting for it."
-msgstr "Eingabe-Props stammen aus dem View-Typ. Auch reine cage-Props müssen dort stehen, wie oben `term`. Initialisiere Daten vor dem Rendern, wenn ihr Fehlen das erste Rendern suspendieren würde."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/cage.md
-msgid "Gate-like props-to-model wiring fits beside a View binding, avoiding an extra forwarding hook. This is not an Effector Gate: no shared open/close/status object exists. Use jotai-effect for subscription-owned resources or store-wide reactive effects instead of returning cleanup from cage."
-msgstr "Gate-artige Props-zu-Modell-Verbindungen passen neben die View-Bindung und vermeiden einen zusätzlichen Weiterleitungs-Hook. Das ist kein Effector Gate: kein gemeinsames open/close/status-Objekt. Für Ressourcen mit Abonnement-Lebensdauer oder storeweite Effekte nutze jotai-effect statt Cleanup aus cage zurückzugeben."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/cage.md
-msgid "- [Effector useGate](https://effector.dev/en/api/effector-react/usegate/) — the props-to-model analogy; not an identical lifecycle object.\n"
-"- [React useEffect](https://react.dev/reference/react/useEffect) — commit, cleanup and StrictMode constraints.\n"
-"- [Jotai effect](https://jotai.org/docs/extensions/effect) — the resource ownership alternative."
-msgstr "- [Effector useGate](https://effector.dev/en/api/effector-react/usegate/) — Props-zu-Modell-Vorbild, kein identisches Lifecycle-Objekt.\n"
-"- [React useEffect](https://react.dev/reference/react/useEffect) — Commit-, Cleanup- und StrictMode-Bedingungen.\n"
-"- [Jotai effect](https://jotai.org/docs/extensions/effect) — Alternative für Ressourcenverwaltung."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
 #: docs/reference/createFormModel.md
 msgid "createFormModel"
 msgstr "createFormModel"
@@ -1362,11 +1310,11 @@ msgstr "Instanz erstellen und wählen"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createModel.md
-msgid "- `create(initial)` is pure and synchronous. Declare atom definitions, actions, and bonds here; connect resources only in `connect(model, store)`. It returns an object.\n"
+msgid "- `create(initial)` is pure and synchronous. Declare atom definitions, actions, and bonds here; declare connections in `resources(model)`. It returns an object.\n"
 "- The returned definition creates read-only model atoms. The same definition, structural key, and store resolve one instance. Different definitions or stores isolate instances. Without a key, the default instance is selected. An empty key is distinct from default.\n"
 "- Keys are JSON-like arrays: finite numbers, strings, booleans, null, arrays, and plain objects. Object property order does not matter; array order does. Undefined, functions, symbols, dates, cycles, and non-finite numbers are rejected. Keys are identifiers, not arbitrary objects.\n"
 "- `initial` is creation-only. A later caller with the same key does not reset a shared model. Define an explicit action for updates."
-msgstr "- `create(initial)` ist rein, synchron und liefert ein Objekt. Deklariere hier Atome, Aktionen und Bonds; verbinde Ressourcen nur in `connect(model, store)`.\n"
+msgstr "- `create(initial)` ist rein und synchron und liefert ein Objekt. Definiere hier Atome, Aktionen und Bonds; Verbindungen gehören in `resources(model)`.\n"
 "- Die Definition erzeugt Read-only-Modellatome. Gleiche Definition, struktureller Schlüssel und Store wählen eine Instanz; andere Definitionen/Stores isolieren. Ohne Schlüssel wird die Standardinstanz gewählt. Ein leerer Schlüssel unterscheidet sich davon.\n"
 "- Schlüssel sind JSON-artige Arrays: endliche Zahlen, Strings, Booleans, null, Arrays und gewöhnliche Objekte. Objektfeldreihenfolge ist egal, Arrayreihenfolge nicht. Undefined, Funktionen, Symbole, Datumsobjekte, Zyklen und nichtendliche Zahlen werden abgelehnt. Schlüssel sind Identifikatoren, keine beliebigen Objekte.\n"
 "- `initial` gilt nur bei Erstellung. Ein späterer Aufrufer mit gleichem Schlüssel setzt das Modell nicht zurück. Nutze eine explizite Aktualisierungsaktion."
@@ -1381,11 +1329,11 @@ msgstr "Ressourcen verbinden und freigeben"
 #. js-lingui-explicit-id
 #: docs/reference/createModel.md
 msgid "- Pure reads use weak caching and do not acquire resources. Abandoned render does not acquire ownership. A provisional instance may be recreated after collection.\n"
-"- `acquire` creates a lease. First owner invokes `connect`; last release invokes its synchronous cleanup. Exceptions propagate; ownership is rolled back if connect throws. Cleanup does not cancel async application work automatically.\n"
-"- `holo({ model, … })` acquires after commit and releases on cleanup; keyed selectors use `model: props => Proposal({key: […]})`. State/actions/cage factories receive the resolved model. Changing model identity remounts the connected View."
-msgstr "- Reine Lesevorgänge verwenden einen schwachen Cache und erwerben keine Ressourcen. Verworfene Renderdurchläufe erwerben keine Eigentümerschaft. Eine vorläufige Instanz kann nach Speicherbereinigung neu erzeugt werden.\n"
-"- `acquire` erzeugt eine Lease. Der erste Besitzer ruft `connect` auf, die letzte Freigabe dessen synchrones Cleanup. Ausnahmen propagieren; bei connect-Fehler wird Eigentümerschaft zurückgerollt. Cleanup bricht asynchrone Anwendungsarbeit nicht automatisch ab.\n"
-"- `holo({ model, … })` erwirbt nach Commit und gibt beim Cleanup frei; Auswahl über `model: props => Proposal({key: […]})`. State/actions/cage-Factorys erhalten das Modell. Modellwechsel remountet die verbundene View."
+"- `acquire` creates a lease. First owner acquires resources; last release invokes their synchronous cleanup. Exceptions propagate; ownership is rolled back if resource acquisition throws. Cleanup does not cancel async application work automatically.\n"
+"- `holo({ models: { proposal: Proposal }, … })` acquires after commit and releases on cleanup. Each named selector can choose a structural key from input props. read/write/resources factories receive the resolved named models. Changing model identity remounts the connected View."
+msgstr "- Reines Lesen nutzt einen schwachen Cache und aktiviert keine Ressourcen. Verworfene Renderdurchläufe erwerben keinen Besitz. Eine vorläufige Instanz kann nach der Garbage Collection neu erstellt werden.\n"
+"- `acquire` erstellt eine Lease. Der erste Besitzer aktiviert Ressourcen; die letzte Freigabe führt deren synchrone Bereinigung aus. Fehler werden weitergegeben; schlägt die Aktivierung fehl, wird der Besitz zurückgerollt. Bereinigung bricht asynchrone Anwendungsarbeit nicht automatisch ab.\n"
+"- `holo({ models: { proposal: Proposal }, … })` erwirbt Modelle nach dem Commit und gibt sie beim Aufräumen frei. Jeder benannte Selektor kann einen strukturellen Schlüssel aus Eingabe-Props wählen. read/write/resources-Fabriken erhalten die aufgelösten benannten Modelle. Ein Wechsel der Modellidentität mountet die gebundene View neu."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1404,8 +1352,8 @@ msgstr "- `retainTime: Infinity` behält erworbene Instanzen für die Store-Lebe
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createModel.md
-msgid "In React, temporary Suspense hiding retains the lease. After actual unmount or model replacement, release is scheduled in a microtask after child passive cleanup so a synchronous cage.onUnmount fact can reach its connected bond. Explicit lease.release() outside React remains synchronous."
-msgstr "In React behält vorübergehendes Suspense-Ausblenden die Lease. Nach echtem Unmount oder Modellwechsel wird die Freigabe als Microtask nach passivem Child-Cleanup geplant, damit ein synchroner cage.onUnmount-Fakt seinen verbundenen bond erreicht. Explizites lease.release() außerhalb React bleibt synchron."
+msgid "In React, temporary Suspense hiding retains the lease. Actual unmount releases in a microtask after passive cleanup. Replacing the selected model or store closes the old lifecycle and resources before activating the new owner. onUnmount runs before its resources disconnect, so synchronous facts can reach connected bonds. Explicit lease.release() outside React remains synchronous."
+msgstr "In React behält vorübergehendes Suspense-Verbergen die Lease. Tatsächliches Unmount gibt sie in einer Microtask nach passiver Bereinigung frei. Der Wechsel des gewählten Modells oder Stores schließt den bisherigen Lifecycle und seine Ressourcen vor Aktivierung des neuen Besitzers. onUnmount läuft vor der Trennung seiner Ressourcen, sodass synchrone Fakten verbundene Bonds erreichen. Explizites lease.release() außerhalb von React bleibt synchron."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1458,13 +1406,13 @@ msgid "- `eventAtom<Payload>()` accepts one payload; `eventAtom()` accepts no pa
 "- `store.set(event, payload)` publishes within that store. Repeated equal payloads are delivered every time.\n"
 "- The readable value stays `null`. No last payload, replay, persistence or cross-store broadcast.\n"
 "- A function or Promise payload is passed as data unchanged. The event does not call or await it.\n"
-"- Connect with `bond.trigger`, bind with `holo.actions`, or listen with `subscribeEvent`. Native store.sub cannot observe these calls.\n"
+"- Connect with `bond.trigger`, bind with `holo.write`, or listen with `subscribeEvent`. Native store.sub cannot observe these calls.\n"
 "- In a DOM handler, call a void event explicitly: `onClick={() => onOpen()}` avoids passing a React event as payload."
 msgstr "- `eventAtom<Payload>()` nimmt eine Payload an; `eventAtom()` keine.\n"
 "- `store.set(event, payload)` veröffentlicht im gewählten Store. Gleiche Payloads werden jedes Mal zugestellt.\n"
 "- Der Lesewert bleibt `null`. Keine letzte Payload, kein Replay, keine Persistenz oder storeübergreifende Übertragung.\n"
 "- Funktionen oder Promises bleiben unveränderte Daten. Das Ereignis ruft sie nicht auf und wartet nicht darauf.\n"
-"- Verbinde über `bond.trigger`, binde über `holo.actions` oder höre mit `subscribeEvent`. Natives store.sub beobachtet diese Aufrufe nicht.\n"
+"- Verbinde über `bond.trigger`, binde über `holo.write` oder höre mit `subscribeEvent`. Natives store.sub beobachtet diese Aufrufe nicht.\n"
 "- Rufe im DOM-Handler ein Void-Ereignis ausdrücklich auf: `onClick={() => onOpen()}` verhindert eine React-Event-Payload."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -1554,90 +1502,78 @@ msgstr "holo"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Connect a React View to atom values and actions. The View receives ordinary props; the binding manages its Jotai subscriptions."
-msgstr "Verbinde eine React-View mit Atomwerten und Aktionen. Die View erhält gewöhnliche Props; die Bindung verwaltet Jotai-Abonnements."
+msgid "Connect a React View to atom values and commands. The View receives ordinary props; holo owns subscriptions and selected model leases."
+msgstr "Verbinde eine React-View mit Atomwerten und Befehlen. Die View erhält gewöhnliche Props; holo verwaltet Abonnements und Leases der gewählten Modelle."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "The new configuration uses `view/read/write/props`, named `models`, `lifecycle`, `resources` and `imperative`. See the [runtime guide](/runtime) and [useImperativeHolo](/reference/useImperativeHolo). The following sections describe the supported legacy configuration."
-msgstr "Die neue Konfiguration verwendet `view/read/write/props`, benannte `models`, `lifecycle`, `resources` und `imperative`. Siehe [Runtime-Leitfaden](/runtime) und [useImperativeHolo](/reference/useImperativeHolo). Die folgenden Abschnitte beschreiben die weiterhin unterstützte bisherige Konfiguration."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holo.md
-msgid "| Field     | Supplies                                        |\n"
-"| --------- | ----------------------------------------------- |\n"
-"| core      | React View component or element                 |\n"
-"| state     | View prop → readable atom                       |\n"
-"| actions   | Callback prop → writable atom                   |\n"
-"| bindProps | Fixed props, including functions and components |\n"
-"| cage      | Input props and lifecycle handlers              |"
-msgstr "| Feld | Liefert |\n"
+msgid "| Field      | Role                                    |\n"
+"| ---------- | --------------------------------------- |\n"
+"| view       | React View or element; required         |\n"
+"| models     | Named default or keyed model selections |\n"
+"| read       | Readable atoms mapped to value props    |\n"
+"| write      | Writable atoms mapped to callback props |\n"
+"| props      | Fixed View props                        |\n"
+"| lifecycle  | Committed input and lifecycle reactions |\n"
+"| resources  | Owned connections                       |\n"
+"| imperative | Event sources mapped to View methods    |"
+msgstr "| Feld | Rolle |\n"
 "| --- | --- |\n"
-"| core | React-View oder Element |\n"
-"| state | View-Prop → lesbares Atom |\n"
-"| actions | Callback-Prop → beschreibbares Atom |\n"
-"| bindProps | Feste Props, auch Funktionen und Komponenten |\n"
-"| cage | Eingabe-Props und Lifecycle-Handler |"
+"| view | React-View oder Element; erforderlich |\n"
+"| models | Benannte Standardinstanzen oder schlüsselbasierte Auswahl |\n"
+"| read | Lesbare Atome als Wert-Props |\n"
+"| write | Beschreibbare Atome als Callback-Props |\n"
+"| props | Feste View-Props |\n"
+"| lifecycle | Reaktionen auf Commit und Eingaben |\n"
+"| resources | Verbindungen mit verwaltetem Besitz |\n"
+"| imperative | Ereignisquellen als View-Methoden |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Declare outside React render. Remaining View props are public; supplied keys are omitted from caller types. A prop cannot occur in several binding sections. Fixed values win over incoming runtime values."
-msgstr "Deklariere außerhalb des React-Renderns. Übrige View-Props bleiben öffentlich; gelieferte Schlüssel entfallen aus Aufrufertypen. Ein Prop darf nicht in mehreren Bindungsabschnitten vorkommen. Feste Werte haben zur Laufzeit Vorrang vor eingehenden."
+msgid "Declare outside React render. Supplied keys disappear from public props. Binding collisions are rejected. Fixed props win over caller values. Any native atom works; the same writable atom can appear in read and write. Async reads resolve before reaching View. Write callbacks preserve arguments and return values."
+msgstr "Deklariere holo außerhalb des React-Renderns. Gebundene Schlüssel entfallen aus den öffentlichen Props. Überschneidungen werden abgewiesen. Feste Props haben Vorrang vor Aufruferwerten. Jedes native Atom ist zulässig; dasselbe beschreibbare Atom kann in read und write stehen. Asynchrone Werte werden vor der Übergabe an die View aufgelöst. Schreib-Callbacks erhalten Argumente und Rückgabewerte."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Any compatible native atom works: `state: { count: countAtom }` and `actions: { onChange: countAtom }` can use the **same writable atom**. A read-only atom is not an action target. Promise-valued state resolves before reaching View; the View prop type is the resolved type. Action callbacks preserve arguments and return values."
-msgstr "Jedes kompatible native Atom funktioniert: `state: { count: countAtom }` und `actions: { onChange: countAtom }` dürfen **dasselbe beschreibbare Atom** nutzen. Ein Read-only-Atom ist kein Aktionsziel. Promise-Zustand wird vor der View aufgelöst; deren Prop-Typ ist der aufgelöste Typ. Aktionscallbacks bewahren Argumente und Rückgabewerte."
+msgid "Only read bindings subscribe to state. Unchanged values and shallow-equal input props skip View rendering; write callbacks stay stable while store and targets do. Context and local hook updates retain ordinary React behavior. Use small connected Views for independent rendering. Specialize generic Views first; bindings must be valid across union branches."
+msgstr "Nur read abonniert Zustand. Unveränderte Werte und oberflächlich gleiche Eingabe-Props überspringen das View-Rendering; write-Callbacks bleiben bei gleichem Store und Ziel stabil. Kontext und lokale Hooks behalten ihr gewöhnliches React-Verhalten. Nutze kleine gebundene Views für unabhängiges Rendering. Spezialisiere generische Views zuerst; Bindungen müssen für alle Union-Zweige gültig sein."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "The binding and View use React.memo's shallow comparison. Action-only bindings do not subscribe to their targets; callbacks stay stable while store and target do. No subscription to every atom in a model is created. New objects in selected values or incoming props can still render View. Context and local hook updates retain normal React behavior."
-msgstr "Bindung und View verwenden den flachen Vergleich von React.memo. Reine Aktionsbindungen abonnieren ihre Ziele nicht; Callbacks bleiben bei gleichem Store/Ziel stabil. Es wird nicht jedes Modellatom abonniert. Neue Objekte in ausgewählten Werten oder Eingabe-Props können weiterhin rendern. Kontext- und lokale Hook-Updates bleiben normales React-Verhalten."
+msgid "Named models"
+msgstr "Benannte Modelle"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "For generic Views, specialize the component first so its prop types are concrete. State/actions bindings must be valid across relevant union branches; the adapter does not narrow discriminated payloads for you. Use a Jotai Provider for store isolation; no holo Provider is needed."
-msgstr "Spezialisiere generische Views zuerst auf konkrete Prop-Typen. State/actions müssen für relevante Union-Zweige gelten; der Adapter engt diskriminierte Payloads nicht ein. Für Store-Isolation reicht ein Jotai-Provider; ein holo-Provider ist unnötig."
+msgid "A definition selects the default instance in the current store. A keyed selection shares the instance only with the same definition, structural key and store. Annotate selector input types; they become required public props. Changing model identity remounts the resolved View. Ordinary input changes do not. No extra Provider is required beyond Jotai store isolation."
+msgstr "Eine Definition wählt die Standardinstanz im aktuellen Store. Eine schlüsselbasierte Auswahl teilt die Instanz nur bei gleicher Definition, strukturellem Schlüssel und gleichem Store. Typisiere Selektoreingaben; sie werden zu erforderlichen öffentlichen Props. Ein Wechsel der Modellidentität mountet die aufgelöste View neu, gewöhnliche Eingabeänderungen nicht. Außer der Jotai-Store-Isolation ist kein zusätzlicher Provider erforderlich."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "On React 18, ref targets must be intrinsic elements, classes or forwardRef Views. Ref as an ordinary function-View prop requires React 19. Holo forwards refs through its wrappers on both supported versions."
-msgstr "Unter React 18 müssen ref-Ziele intrinsische Elemente, Klassen oder forwardRef-Views sein. Ref als gewöhnliches Funktions-View-Prop braucht React 19. Holo leitet refs unter beiden unterstützten Versionen durch seine Wrapper weiter."
+msgid "Resources activate after commit. Lifecycle handlers receive ctx.input and ctx.models; imperative methods use useImperativeHolo. See [lifecycle](/reference/lifecycle), [useImperativeHolo](/reference/useImperativeHolo) and the [runtime guide](/runtime). On React 18, ordinary forwarded refs still need an intrinsic, class or forwardRef View; the imperative prop is a normal typed ref prop on both React versions."
+msgstr "Ressourcen werden nach dem Commit aktiviert. Lifecycle-Handler erhalten ctx.input und ctx.models; imperative Methoden verwenden useImperativeHolo. Siehe [lifecycle](/reference/lifecycle), [useImperativeHolo](/reference/useImperativeHolo) und den [Runtime-Leitfaden](/runtime). Unter React 18 benötigen gewöhnliche weitergereichte Refs eine intrinsische, Klassen- oder forwardRef-View; imperative ist in beiden React-Versionen ein gewöhnliches typisiertes Ref-Prop."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Keyed models"
-msgstr "Modelle mit Schlüsseln"
+msgid "read and write describe atom capabilities without classifying atoms as commands or state. Models choose instances; resources own connections. The same View remains directly usable in tests and stories."
+msgstr "read und write beschreiben Atomfähigkeiten ohne Einteilung in Befehle oder Zustand. Models wählen Instanzen; resources verwalten Verbindungen. Dieselbe View bleibt direkt in Tests und Stories nutzbar."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "The optional `model` selects an instance in the current store. State/actions/cage factories receive it. The registry in `jotai-holo/model` is imported by the application only; ordinary atom bindings need no registry. See [createModel](/reference/createModel)."
-msgstr "Optionales `model` wählt eine Instanz im aktuellen Store; state/actions/cage-Factorys erhalten sie. Die Registry aus `jotai-holo/model` importiert nur die Anwendung; gewöhnliche Atombindungen benötigen sie nicht. Siehe [createModel](/reference/createModel)."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holo.md
-msgid "Choose holo when a View should accept props without importing its model. The connection stays in one declaration, while the same View can be rendered directly in tests or stories. For local hook-based components, useAtomValue and useSetAtom remain useful."
-msgstr "Wähle holo, wenn die View Props ohne Modellimport erhalten soll. Eine Deklaration beschreibt die Verbindung; Tests und Stories rendern dieselbe View direkt. Für lokale Hook-Komponenten eignen sich weiterhin useAtomValue und useSetAtom."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holo.md
-msgid "- [Reflect motivation](https://reflect.effector.dev/learn/motivation) — the direct inspiration for external View bindings.\n"
-"- [Jotai atom](https://jotai.org/docs/core/atom) — the underlying primitive/read-only/write-only contracts.\n"
-"- [Jotai performance](https://jotai.org/docs/guides/performance) — why stable selections and small subscription boundaries matter."
-msgstr "- [Reflect motivation](https://reflect.effector.dev/learn/motivation) — direkte Inspiration für externe View-Bindungen.\n"
-"- [Jotai atom](https://jotai.org/docs/core/atom) — zugrunde liegende Primitive-/Read-only-/Write-only-Verträge.\n"
-"- [Jotai performance](https://jotai.org/docs/guides/performance) — Bedeutung stabiler Auswahlen und kleiner Abonnementgrenzen."
+msgid "- [Reflect motivation](https://reflect.effector.dev/learn/motivation) — external bindings between a model and a View.\n"
+"- [Jotai atom](https://jotai.org/docs/core/atom) — native read and write contracts.\n"
+"- [Jotai performance](https://jotai.org/docs/guides/performance) — small subscription boundaries."
+msgstr "- [Reflect-Motivation](https://reflect.effector.dev/learn/motivation) — externe Bindungen zwischen Modell und View.\n"
+"- [Jotai atom](https://jotai.org/docs/core/atom) — native Lese- und Schreibverträge.\n"
+"- [Jotai-Performance](https://jotai.org/docs/guides/performance) — kleine Abonnementgrenzen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1654,13 +1590,13 @@ msgstr "Verbinde ein Formularmodell mit einer RHF-View. `register`, `Controller`
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holoForm.md
-msgid "- Accepts the model-aware holo configuration: core, model, state, actions, bindProps, and cage. Bound props disappear from public props; selector inputs remain required.\n"
+msgid "- Accepts the named-model holo configuration plus an explicit form selector: `form: models => models.editor.form`. Bound props disappear from public props; selector inputs remain required.\n"
 "- The model must come from createFormModel. Native useForm and useFormState bridge its existing formControl to FormProvider so nested markup and useFormContext remain ordinary RHF.\n"
 "- Exactly one active holoForm root per control. A second root with the same model key throws; choose a different key for another independent form. External toolbars/panels use **ordinary holo** with that key, not another holoForm.\n"
 "- Existing control options, including resolver, are preserved. Synchronous defaultValues are not reapplied by the bridge on remount. Values remain RHF-owned; shouldUnregister still controls field removal.\n"
 "- register refs, Controller events, validation, focus, field-array identity, reset, and async submission retain native semantics. Existing UI libraries using Controller/useFormContext need no form-state rewrite. The adapter does not replace their accessibility or DOM contracts.\n"
 "- Model leases connect after commit, release on cleanup, and tolerate StrictMode replay. Changing the model key remounts the form View. A binding does not add an HTML form element or submission button."
-msgstr "- Akzeptiert modellfähige holo-Konfiguration: core, model, state, actions, bindProps und cage. Gebundene Props entfallen öffentlich; Selektoreingaben bleiben erforderlich.\n"
+msgstr "- Akzeptiert die holo-Konfiguration mit benannten Modellen und explizitem Formularselektor: `form: models => models.editor.form`. Gebundene Props entfallen aus öffentlichen Props; Selektoreingaben bleiben erforderlich.\n"
 "- Das Modell stammt aus createFormModel. Native useForm/useFormState verbinden dessen bestehendes formControl mit FormProvider; verschachteltes Markup und useFormContext bleiben gewöhnliches RHF.\n"
 "- Genau ein aktiver holoForm-Root pro Control. Ein zweiter Root mit gleichem Modellschlüssel wirft einen Fehler; wähle einen anderen Schlüssel für ein unabhängiges Formular. Externe Panels nutzen **gewöhnliches holo** mit demselben Schlüssel, kein zweites holoForm.\n"
 "- Bestehende Control-Optionen samt resolver bleiben erhalten. Synchrone defaultValues werden beim Remount nicht erneut angewendet. Werte bleiben RHF-eigen; shouldUnregister steuert weiterhin Feldentfernung.\n"
@@ -1698,8 +1634,8 @@ msgstr "Rendere eine View pro Element eines Arrayatoms. Stabile Schlüssel erhal
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holoList.md
-msgid "Requires source, core, getKey and mapItem. Supports the ordinary holo sections state/actions/bindProps/cage plus optional empty View. Source may contain a Promise; use Suspense/error boundaries."
-msgstr "Erfordert source, core, getKey und mapItem. Unterstützt state/actions/bindProps/cage sowie eine optionale empty-View. Source darf ein Promise enthalten; nutze Suspense/Error Boundaries."
+msgid "Requires source, view, getKey and mapItem. Supports the ordinary holo sections read/write/props/lifecycle plus optional empty View. Source may contain a Promise; use Suspense/error boundaries."
+msgstr "source, view, getKey und mapItem sind erforderlich. Unterstützt die gewöhnlichen holo-Abschnitte read/write/props/lifecycle sowie eine optionale empty-View. Source darf ein Promise enthalten; nutze Suspense und Fehlergrenzen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1710,8 +1646,8 @@ msgstr "mapItem liefert gewöhnliche Zeilen-Props, keine Atombindungen, und darf
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holoList.md
-msgid "Stable unique keys preserve row identity on reorder. Duplicate stringified keys throw. A new source array runs mapping for all rows; rows whose props remain shallow-equal can skip View rendering. Each row has its own cage and subscriptions; removing it disposes them. Shared state bindings can update every row."
-msgstr "Stabile eindeutige Schlüssel erhalten die Zeilenidentität beim Umordnen. Doppelte stringifizierte Schlüssel werfen Fehler. Ein neues Source-Array mappt alle Zeilen; flach gleiche Zeilen-Props können View-Rendering überspringen. Jede Zeile hat eigenen cage und Abonnements; Entfernen gibt sie frei. Gemeinsame State-Bindungen können jede Zeile aktualisieren."
+msgid "Stable unique keys preserve row identity on reorder. Duplicate stringified keys throw. A new source array runs mapping for all rows; rows whose props remain shallow-equal can skip View rendering. Each row has its own lifecycle and subscriptions; removing it disposes them. Shared state bindings can update every row."
+msgstr "Stabile eindeutige Schlüssel erhalten die Zeilenidentität beim Umordnen. Doppelte stringifizierte Schlüssel werfen Fehler. Ein neues Source-Array mappt alle Zeilen; flach gleiche Zeilen-Props können View-Rendering überspringen. Jede Zeile hat eigenen lifecycle und Abonnements; Entfernen gibt sie frei. Gemeinsame State-Bindungen können jede Zeile aktualisieren."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1828,6 +1764,58 @@ msgid "- [Effector combine](https://effector.dev/en/api/effector/combine/) — t
 "- [Jotai atom](https://jotai.org/docs/core/atom) — the underlying primitive/read-only/write-only contracts."
 msgstr "- [Effector combine](https://effector.dev/en/api/effector/combine/) — Vorbild für Form plus Projektion; Ausführungsreihenfolge bleibt Jotai-eigen.\n"
 "- [Jotai atom](https://jotai.org/docs/core/atom) — zugrunde liegende Primitive-/Read-only-/Write-only-Verträge."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/lifecycle.md
+msgid "lifecycle"
+msgstr "lifecycle"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/lifecycle.md
+msgid "React to committed input props without a forwarding effect in each View. For example, send a changed search term to a model action."
+msgstr "Reagiere nach dem Commit auf Eingabe-Props, ohne in jeder View einen weiterleitenden Effekt zu schreiben. Leite etwa einen geänderten Suchbegriff an eine Modellaktion weiter."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/lifecycle.md
+msgid "Handlers are synchronous inline functions or writable atoms. They receive get, set and a context with readonly input and resolved models. Async handler results and returned cleanup functions are unsupported; resources own cleanup."
+msgstr "Handler sind synchrone Funktionen oder beschreibbare Atome. Sie erhalten get, set und einen Kontext mit schreibgeschütztem input und aufgelösten models. Asynchrone Ergebnisse und zurückgegebene Bereinigungsfunktionen werden nicht unterstützt; resources verwalten die Bereinigung."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/lifecycle.md
+msgid "Resources connect before onMount and the initial onInputChange. An optional input selector compares chosen fields shallowly; without one all input props are compared. ctx.input contains the latest committed caller and fixed props, excluding generated read/write props. State changes alone do not trigger input reactions."
+msgstr "Ressourcen verbinden sich vor onMount und dem ersten onInputChange. Ein optionaler input-Selektor vergleicht ausgewählte Felder oberflächlich; ohne ihn werden alle Eingabe-Props verglichen. ctx.input enthält die zuletzt bestätigten Aufrufer- und festen Props, ohne erzeugte read/write-Props. Zustandsänderungen allein lösen keine Eingabereaktion aus."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/lifecycle.md
+msgid "StrictMode replay is one logical owner. Temporary Suspense hiding preserves ownership; initial Suspense and abandoned render do not activate it. On replacement, the previous lifecycle closes before the next resources and mount activate. Actual unmount invokes onUnmount before resource release in a microtask. Do not rely on a View imperative handle during teardown."
+msgstr "StrictMode-Wiederholungen bilden einen logischen Besitzer. Vorübergehendes Suspense-Verbergen erhält den Besitz; anfängliches Suspense und verworfene Renderdurchläufe aktivieren ihn nicht. Bei einem Austausch endet der vorherige Lifecycle vor neuen Ressourcen und Mount. Beim tatsächlichen Unmount läuft onUnmount vor der Ressourcenfreigabe in einer Microtask. Verlasse dich beim Abbau nicht auf das imperative View-Handle."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/lifecycle.md
+msgid "Initialize state before rendering if its pending read blocks the first commit. Lifecycle cannot initialize the value that prevents its own mount."
+msgstr "Initialisiere Zustand vor dem Rendern, falls sein ausstehender Lesezugriff den ersten Commit blockiert. Der Lifecycle kann keinen Wert initialisieren, der seinen eigenen Mount verhindert."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/lifecycle.md
+msgid "Use lifecycle for input-to-model reactions, resources for owned subscriptions and atom effects for reactive dependencies. These roles have different triggers and lifetimes. Errors are reported through holo.onError; asynchronous actions need their own handled promise and cancellation policy."
+msgstr "Nutze lifecycle für Eingabe-zu-Modell-Reaktionen, resources für verwaltete Abonnements und Atom-Effekte für reaktive Abhängigkeiten. Auslöser und Lebensdauer unterscheiden sich. Fehler gehen an holo.onError; asynchrone Aktionen benötigen eigene Promise-Behandlung und Abbruchregeln."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/lifecycle.md
+msgid "- [Effector useGate](https://effector.dev/en/api/effector-react/usegate/) — the input-to-model analogy.\n"
+"- [React effects](https://react.dev/reference/react/useEffect) — commit and cleanup constraints.\n"
+"- [Jotai effect](https://jotai.org/docs/extensions/effect) — reactive synchronization."
+msgstr "- [Effector useGate](https://effector.dev/en/api/effector-react/usegate/) — Analogie für Eingaben an ein Modell.\n"
+"- [React-Effekte](https://react.dev/reference/react/useEffect) — Commit- und Bereinigungsbedingungen.\n"
+"- [Jotai effect](https://jotai.org/docs/extensions/effect) — reaktive Synchronisierung."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1954,8 +1942,8 @@ msgstr "Verwende natives useMutation, wenn eine Komponente die Operation besitzt
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/mutationAtoms.md
-msgid "atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.actions and bond.yield. Observing all mutations, including those launched by useMutation, is a separate cache-level task."
-msgstr "atomWithMutation integriert Jotai bereits mit TanStack. Unser Interface liefert eine schreibbare Aktion und benannte Projektionen direkt, ohne mutate erst aus einem Ergebnisatom lesen zu müssen. Dadurch lässt es sich auch in holo.actions und bond.yield verwenden. Alle Mutationen einschließlich der über useMutation gestarteten zu beobachten, ist eine separate Aufgabe auf Cache-Ebene."
+msgid "atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.write and bond.yield. Observing all mutations, including those launched by useMutation, is a separate cache-level task."
+msgstr "atomWithMutation integriert Jotai bereits mit TanStack. Unser Interface liefert eine schreibbare Aktion und benannte Projektionen direkt, ohne mutate erst aus einem Ergebnisatom lesen zu müssen. Dadurch lässt es sich auch in holo.write und bond.yield verwenden. Alle Mutationen einschließlich der über useMutation gestarteten zu beobachten, ist eine separate Aufgabe auf Cache-Ebene."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2224,12 +2212,12 @@ msgid "- Store-specific, active immediately, no replay. Each subscription has in
 "- Callbacks are dispatched synchronously through a shared FIFO queue. Nested notifications are queued; delivery is not a durable job system.\n"
 "- Sync throws and returned Promise rejections go to that listener's onError; without one they are logged. Other consumers continue.\n"
 "- Listener return values are otherwise ignored. Stopping does not cancel already started async work. A rejection after disposal is logged instead of calling the disposed owner's error handler.\n"
-"- In holo, subscribe in `createModel.connect`. Holo acquires the model after commit and releases it after the last owner leaves. Use `observe` inside connect for reactive subscription conditions. Outside React, application/session setup owns the returned disposer. Never subscribe during render."
+"- In holo, subscribe in `createModel.resources`. Holo acquires the model after commit and releases it after the last owner leaves. Use `observe` inside a resource connection for reactive subscription conditions. Outside React, application/session setup owns the returned disposer. Never subscribe during render."
 msgstr "- Store-spezifisch, sofort aktiv, kein Replay. Jedes Abonnement hat unabhängige Zuständigkeit; `stop()` ist idempotent.\n"
 "- Callbacks laufen synchron über eine gemeinsame FIFO-Warteschlange. Verschachtelte Benachrichtigungen werden eingereiht; kein dauerhaftes Jobsystem.\n"
 "- Synchrone Throws und zurückgegebene Promise-Rejections gehen an onError dieses Listeners, sonst ins Log. Andere Verbraucher laufen weiter.\n"
 "- Andere Listener-Rückgaben werden ignoriert. Stop bricht gestartete Async-Arbeit nicht ab. Rejection nach Freigabe wird protokolliert statt den freigegebenen onError aufzurufen.\n"
-"- In holo gehört das Abonnement in `createModel.connect`. Holo übernimmt das Modell nach dem Commit und gibt es nach dem letzten Besitzer frei. Reaktive Bedingungen für Abonnements lassen sich mit `observe` innerhalb von connect verwalten. Außerhalb von React gehört die zurückgegebene Aufräumfunktion zum Anwendungs- oder Sitzungsstart. Niemals während des Renderns abonnieren."
+"- Abonniere in holo über `createModel.resources`. Holo erwirbt das Modell nach dem Commit und gibt es nach dem letzten Besitzer frei. Nutze `observe` innerhalb einer Ressourcenverbindung für reaktive Abonnementbedingungen. Außerhalb von React verwaltet der Anwendungs- oder Sitzungsstart den zurückgegebenen Disposer. Abonniere niemals während des Renderns."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

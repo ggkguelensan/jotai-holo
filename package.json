@@ -51,17 +51,13 @@
       "types": "./dist/rhf.d.ts",
       "import": "./dist/rhf.js"
     },
-    "./bunshi": {
-      "types": "./dist/bunshi.d.ts",
-      "import": "./dist/bunshi.js"
-    },
     "./persist": {
       "types": "./dist/persist.d.ts",
       "import": "./dist/persist.js"
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "node scripts/build.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --config vitest.config.ts",
     "test:browser": "vitest run --config vitest.browser.config.ts",
@@ -74,7 +70,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "size": "pnpm build && node scripts/measure-bundle.mjs",
-    "test:memory": "pnpm build && node scripts/test-molecule-memory.mjs",
+    "test:memory": "pnpm build && node scripts/test-holo-memory.mjs",
     "docs:dev": "pnpm docs:prepare && vitepress dev docs",
     "docs:build": "pnpm docs:prepare && vitepress build docs",
     "docs:preview": "vitepress preview docs",
@@ -91,7 +87,6 @@
   "peerDependencies": {
     "@tanstack/query-core": ">=5.104.5 <6",
     "@types/react": ">=18 <20",
-    "bunshi": ">=2.2.0 <3",
     "jotai": ">=3.0.1 <4",
     "react": ">=18 <20",
     "react-hook-form": ">=7.91.0 <8"
@@ -104,9 +99,6 @@
       "optional": true
     },
     "@types/react": {
-      "optional": true
-    },
-    "bunshi": {
       "optional": true
     }
   },

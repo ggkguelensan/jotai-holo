@@ -15,14 +15,20 @@ import {
 } from 'react';
 import { memoWithRef } from './react-compat.js';
 import { createUseBindingState } from './binding-state.js';
-import { modelAcquire, modelDefinition, sameModel, type ModelAtom } from './model-protocol.js';
-import type { ModelInputs, ModelSource, ModelValue } from './model-binding.js';
+import {
+  modelAcquire,
+  modelDefinition,
+  modelIdentity,
+  sameModel,
+  type ModelAtom,
+} from './model-protocol.js';
+import type { ModelInputs, ModelSource, ModelValue } from './holo-types.js';
 import { acquireResources, type Resource } from './resource.js';
 import type { ActionSource } from './action-source.js';
 import { isActionSource, actionSource } from './action-source.js';
 import { subscribeAction, enqueueAction } from './event-dispatch.js';
 import type { HoloImperative } from './imperative.js';
-import type { BindingKeys, OwnProps } from './holo.js';
+import type { BindingKeys, OwnProps } from './holo-types.js';
 
 type PropsOf<View extends ElementType> = ComponentPropsWithRef<View>;
 type Models = Record<string, ModelSource>;
@@ -38,6 +44,7 @@ type SourceInputs<Sources extends Models> = keyof Sources extends never
   ? {}
   : UnionToIntersection<ModelInputs<Sources[keyof Sources]>>;
 type Bindings<Value, Sources extends Models> = Value | ((models: ResolvedModels<Sources>) => Value);
+type ResolvedProp<Value> = Value extends PromiseLike<unknown> ? never : Value;
 type Callable<Value> =
   NonNullable<Value> extends (...args: infer Args) => infer Result
     ? WritableAtom<unknown, Args, Result>
@@ -57,7 +64,7 @@ export type LifecycleContext<Input, Model> = {
   readonly models: Readonly<Model>;
 };
 type LifecycleHandler<Input, Model> =
-  | ((get: Getter, set: Setter, context: LifecycleContext<Input, Model>) => void)
+  | ((get: Getter, set: Setter, context: LifecycleContext<Input, Model>) => undefined)
   | WritableAtom<unknown, [LifecycleContext<Input, Model>], unknown>
   | WritableAtom<unknown, [], unknown>;
 export type HoloLifecycle<Input, Model = {}> = {
@@ -67,7 +74,7 @@ export type HoloLifecycle<Input, Model = {}> = {
   onUnmount?: LifecycleHandler<Input, Model>;
 };
 
-export type HoloViewConfig<
+export type HoloConfig<
   View extends ElementType,
   Sources extends Models = {},
   ReadKeys extends BindingKeys<PropsOf<NoInfer<View>>> = never,
@@ -80,7 +87,10 @@ export type HoloViewConfig<
     {
       [Key in ReadKeys]: Key extends 'imperative'
         ? never
-        : Atom<NoInfer<PropsOf<View>[Key]> | PromiseLike<NoInfer<PropsOf<View>[Key]>>>;
+        : Atom<
+            | NoInfer<ResolvedProp<PropsOf<View>[Key]>>
+            | PromiseLike<NoInfer<ResolvedProp<PropsOf<View>[Key]>>>
+          >;
     },
     Sources
   >;
@@ -139,7 +149,16 @@ const sameInput = (a: Readonly<RecordValue>, b: Readonly<RecordValue>) =>
   Object.keys(a).length === Object.keys(b).length &&
   Object.keys(a).every((key) => Object.hasOwn(b, key) && Object.is(a[key], b[key]));
 
-export function connectView(config: ViewRuntimeConfig) {
+export function connectView(
+  config: ViewRuntimeConfig,
+  wrap?: (models: RecordValue, view: ElementType) => ElementType,
+) {
+  for (const field of ['core', 'state', 'actions', 'bindProps', 'cage', 'model'])
+    if (field in config)
+      throw new TypeError(
+        `holo: unsupported field "${field}". Use view/read/write/props/models/lifecycle.`,
+      );
+  if (!config.view) throw new TypeError('holo: view is required.');
   const sources = Object.entries(config.models ?? {});
   const View = typeof config.view === 'string' ? config.view : memo(config.view);
   const report = (error: unknown) => {
@@ -154,8 +173,12 @@ export function connectView(config: ViewRuntimeConfig) {
   const hasImperative = config.imperative !== undefined;
   const staticProps = { ...config.props };
   const useModels = createUseBindingState(sources.map(([key]) => key));
-  const cache = new WeakMap<object, ComponentType<RecordValue>>();
+  type Owner = { current?: { lease: object; close(): void } | undefined };
+  type BoundInput = { ownProps: RecordValue; owner: Owner };
+  type Cache = { next?: WeakMap<object, Cache>; view?: ComponentType<BoundInput> };
+  const cache: Cache = {};
   function bind(models: RecordValue, selections: readonly Atom<object>[]) {
+    const RenderedView = wrap?.(models, View) ?? View;
     const resolved = (() => {
       const read = resolveFactory(config.read, models, {});
       const write = resolveFactory(config.write, models, {});
@@ -180,9 +203,16 @@ export function connectView(config: ViewRuntimeConfig) {
       };
     })();
     const useValues = createUseBindingState(resolved.reads.map(([key]) => key));
-    return memoWithRef(function HoloResolved(ownProps: RecordValue) {
+    const outputs = new Set([
+      ...resolved.reads.map(([key]) => key),
+      ...Object.keys(resolved.write),
+      'imperative',
+    ]);
+    return memoWithRef(function HoloResolved({ ownProps, owner }: BoundInput) {
       const store = useStore();
-      const input = { ...ownProps, ...staticProps };
+      const input = Object.fromEntries(
+        Object.entries({ ...ownProps, ...staticProps }).filter(([key]) => !outputs.has(key)),
+      );
       const values = useValues(resolved.reads);
       const callbacks = useMemo(
         () =>
@@ -221,6 +251,7 @@ export function connectView(config: ViewRuntimeConfig) {
       // Child useImperativeHandle publishes before this parent layout effect.
       // Install event delivery before model resource activation can publish events.
       useCommitEffect(() => {
+        if (owner.current && owner.current.lease !== lease) owner.current.close();
         const stops = Object.entries(resolved.imperative).map(([key, source]) =>
           subscribeAction(store.get, source[actionSource], (args) =>
             enqueueAction(
@@ -251,6 +282,7 @@ export function connectView(config: ViewRuntimeConfig) {
               .map((selection) => ({ connect: () => selection[modelAcquire](store) }));
             lease.release = acquireResources(store, [...modelResources, ...resolved.resources]);
           }
+          owner.current = { lease, close };
         } catch (error) {
           for (const stop of stops.reverse()) stop();
           throw error;
@@ -262,11 +294,33 @@ export function connectView(config: ViewRuntimeConfig) {
       const lifetime = useMemo(
         () => ({
           active: false,
+          closed: false,
           revision: 0,
           previous: undefined as Readonly<RecordValue> | undefined,
         }),
         [lease],
       );
+      const close = () => {
+        if (lifetime.closed) return;
+        lifetime.closed = true;
+        lifetime.revision++;
+        if (lifetime.active) {
+          lifetime.active = false;
+          try {
+            callLifecycle('onUnmount');
+          } catch (error) {
+            report(error);
+          }
+        }
+        const release = lease.release;
+        lease.release = undefined;
+        try {
+          release?.();
+        } catch (error) {
+          report(error);
+        }
+        if (owner.current?.lease === lease) owner.current = undefined;
+      };
       useEffect(() => {
         lifetime.revision++;
         if (!lifetime.active) {
@@ -282,19 +336,7 @@ export function connectView(config: ViewRuntimeConfig) {
           // StrictMode cleanup/setup is one logical owner; real cleanup closes it.
           queueMicrotask(() => {
             if (lifetime.revision !== revision) return;
-            lifetime.active = false;
-            try {
-              callLifecycle('onUnmount');
-            } catch (error) {
-              report(error);
-            }
-            const release = lease.release;
-            lease.release = undefined;
-            try {
-              release?.();
-            } catch (error) {
-              report(error);
-            }
+            close();
           });
         };
       }, [lifetime]);
@@ -308,7 +350,7 @@ export function connectView(config: ViewRuntimeConfig) {
           report(error);
         }
       });
-      return createElement(View, {
+      return createElement(RenderedView, {
         ...ownProps,
         ...staticProps,
         ...values,
@@ -318,6 +360,8 @@ export function connectView(config: ViewRuntimeConfig) {
     });
   }
   const Connected = memoWithRef(function HoloView(ownProps: RecordValue) {
+    const store = useStore();
+    const owner = useRef<Owner['current']>(undefined);
     const input = { ...ownProps, ...staticProps };
     const candidates = sources.map(([, source]) =>
       typeof source === 'function'
@@ -333,12 +377,25 @@ export function connectView(config: ViewRuntimeConfig) {
     // Identity cache only; no effects or handlers are published from render.
     previous.current = selections;
     const models = useModels(sources.map(([key], index) => [key, selections[index]!]));
-    let Resolved = cache.get(models);
-    if (!Resolved) {
-      Resolved = bind(models, selections);
-      cache.set(models, Resolved);
+    let node = cache;
+    const identities = selections.map((selection) =>
+      modelIdentity in selection
+        ? (selection as ModelAtom<object>)[modelIdentity].entry(store.get)
+        : selection,
+    );
+    // Both weak keys matter: model values keep Suspense retries stable; registry
+    // entries distinguish keys/generations even if factories return one object.
+    for (const model of [...Object.values(models), ...identities]) {
+      const next = (node.next ??= new WeakMap());
+      let child = next.get(model as object);
+      if (!child) {
+        child = {};
+        next.set(model as object, child);
+      }
+      node = child;
     }
-    return createElement(Resolved, ownProps);
+    const Resolved = (node.view ??= bind(models, selections));
+    return createElement(Resolved, { ownProps, owner });
   });
   const name =
     typeof config.view === 'string'

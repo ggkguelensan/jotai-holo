@@ -21,8 +21,8 @@ test.each([0, 1, 2])(
     const [a, b, c] = tasks;
     if (!a || !b || !c) throw new Error('missing task');
     const C = holo({
-      core: (_props: { a: number; b: number; c: number }) => <span>ready</span>,
-      state: { a: atom(a.promise), b: atom(b.promise), c: atom(c.promise) },
+      view: (_props: { a: number; b: number; c: number }) => <span>ready</span>,
+      read: { a: atom(a.promise), b: atom(b.promise), c: atom(c.promise) },
     });
     const error = new Error('failed');
     const h = createHarness();
@@ -39,8 +39,8 @@ test.each([null, undefined, false, 0, 'failure'])(
   'preserves a synchronous thrown value: %s',
   async (reason) => {
     const C = holo({
-      core: (_props: { value: number }) => null,
-      state: {
+      view: (_props: { value: number }) => null,
+      read: {
         value: atom<number>(() => {
           throw reason;
         }),
@@ -57,8 +57,8 @@ test.each([null, undefined, false, 0, 'failure'])(
   async (reason) => {
     const task = deferred<number>();
     const C = holo({
-      core: (_props: { value: number }) => null,
-      state: { value: atom(task.promise) },
+      view: (_props: { value: number }) => null,
+      read: { value: atom(task.promise) },
     });
     const h = createHarness();
     await h.render(<ErrorBoundary>{suspense(<C />)}</ErrorBoundary>);
@@ -81,7 +81,7 @@ test.each(
   if (!a || !b || !c) throw new Error('missing task');
   const snapshots: number[][] = [];
   const C = holo({
-    core: ({ a, b, c }: { a: number; b: number; c: number }) => {
+    view: ({ a, b, c }: { a: number; b: number; c: number }) => {
       snapshots.push([a, b, c]);
       return (
         <span>
@@ -89,7 +89,7 @@ test.each(
         </span>
       );
     },
-    state: { a: atom(a.promise), b: atom(b.promise), c: atom(c.promise) },
+    read: { a: atom(a.promise), b: atom(b.promise), c: atom(c.promise) },
   });
   const h = createHarness();
   await h.render(suspense(<C />));
@@ -108,7 +108,7 @@ test('undefined is resolved state rather than a pending marker', async () => {
   const count = atom(0);
   let renders = 0;
   const C = holo({
-    core: ({ value, count }: { value: undefined; count: number }) => {
+    view: ({ value, count }: { value: undefined; count: number }) => {
       renders++;
       return (
         <span>
@@ -116,7 +116,7 @@ test('undefined is resolved state rather than a pending marker', async () => {
         </span>
       );
     },
-    state: { value: atom(task.promise), count },
+    read: { value: atom(task.promise), count },
   });
   const h = createHarness();
   await h.render(<Provider store={store}>{suspense(<C />)}</Provider>);
@@ -141,8 +141,8 @@ test('replacement before first commit escapes a never-settling promise', async (
   const source = atom(task.promise);
   const store = createStore();
   const C = holo({
-    core: ({ value }: { value: number }) => <span>{value}</span>,
-    state: { value: source },
+    view: ({ value }: { value: number }) => <span>{value}</span>,
+    read: { value: source },
   });
   const h = createHarness();
   await h.render(<Provider store={store}>{suspense(<C />)}</Provider>);
@@ -158,8 +158,8 @@ test('the same binding atom still works for a native hook consumer', async () =>
     return <span>{useAtomValue(source)}</span>;
   }
   const C = holo({
-    core: ({ value }: { value: number }) => <span>{value}</span>,
-    state: { value: source },
+    view: ({ value }: { value: number }) => <span>{value}</span>,
+    read: { value: source },
   });
   const h = createHarness();
   await h.render(
@@ -179,12 +179,12 @@ test('non-native PromiseLike values resolve and remain ready on later sync updat
   const store = createStore();
   const count = atom(0);
   const C = holo({
-    core: ({ value, count }: { value: number; count: number }) => (
+    view: ({ value, count }: { value: number; count: number }) => (
       <span>
         {value}:{count}
       </span>
     ),
-    state: { value: atom(thenable), count },
+    read: { value: atom(thenable), count },
   });
   const h = createHarness();
   await h.render(<Provider store={store}>{suspense(<C />)}</Provider>);

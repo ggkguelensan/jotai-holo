@@ -2,16 +2,16 @@
 
 Start with the task, then choose the tool. Existing Jotai atoms work in holo; you can keep them and add only the helpers you need.
 
-| Task                                    | Start with                          | What holo adds                                                          |
-| --------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------- |
-| Local component state                   | useAtom / useAtomValue / useSetAtom | A declaration when repeated wiring deserves a separate binding          |
-| Conditional derived reads               | atom(get => …)                      | stateAtom narrows the interface; ion names a fixed input shape          |
-| One selected value with custom equality | selectAtom                          | prism declares several independent projections, without custom equality |
-| Per-item writable atoms                 | splitAtom                           | holoList renders keyed Views; it does not replace item atoms            |
-| Reactive external resource              | jotai-effect                        | cage bridges committed input props; it does not own arbitrary resources |
-| One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality        |
-| Async server cache                      | jotai-tanstack-query                | holo accepts its atoms; it adds no cache/retry engine                   |
-| Share one model across widgets          | createModel                         | Select a default or keyed instance in the current store                 |
+| Task                                    | Start with                          | What holo adds                                                               |
+| --------------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------- |
+| Local component state                   | useAtom / useAtomValue / useSetAtom | A declaration when repeated wiring deserves a separate binding               |
+| Conditional derived reads               | atom(get => …)                      | stateAtom preserves native overloads; ion names a fixed input shape          |
+| One selected value with custom equality | selectAtom                          | prism declares several independent projections, without custom equality      |
+| Per-item writable atoms                 | splitAtom                           | holoList renders keyed Views; it does not replace item atoms                 |
+| Reactive external resource              | jotai-effect                        | lifecycle bridges committed input props; it does not own arbitrary resources |
+| One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality             |
+| Async server cache                      | jotai-tanstack-query                | holo accepts its atoms; it adds no cache/retry engine                        |
+| Share one model across widgets          | createModel                         | Select a default or keyed instance in the current store                      |
 
 ## Why not atomWithListeners?
 

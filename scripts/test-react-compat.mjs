@@ -30,7 +30,6 @@ try {
           react: version,
           'react-dom': version,
           jotai: '3.0.1',
-          bunshi: '2.2.0',
           'react-hook-form': '7.91.0',
           '@tanstack/react-query': '5.104.5',
           '@tanstack/query-core': '5.104.5',
@@ -78,18 +77,17 @@ import React from 'react';
 import { renderToPipeableStream } from 'react-dom/server';
 import { PassThrough } from 'node:stream';
 import { holo, stateAtom } from 'jotai-holo';
-import { holoMolecule } from 'jotai-holo/bunshi';
-import { molecule } from 'bunshi/react';
-const C = holo({ core: ({ value }) => React.createElement('b', null, value), state: { value: stateAtom(Promise.resolve('server-ready')) } });
-const select = holoMolecule(molecule(() => ({ value: stateAtom(Promise.resolve('adapted-ready')) })));
-const Adapted = holo({ core: ({ value }) => React.createElement('i', null, value), state: { value: select(model => model.value) } });
+import { createModel } from 'jotai-holo/model';
+const C = holo({ view: ({ value }) => React.createElement('b', null, value), read: { value: stateAtom(Promise.resolve('server-ready')) } });
+const Model = createModel({create: () => ({value: stateAtom(Promise.resolve('model-ready'))})});
+const Selected = holo({ models: {selected: Model}, view: ({ value }) => React.createElement('i', null, value), read: ({selected}) => ({value: selected.value}) });
 let html = '';
 await new Promise((resolve, reject) => {
  const out = new PassThrough(); out.on('data', chunk => { html += chunk; }); out.on('end', resolve);
- const stream = renderToPipeableStream(React.createElement(React.Suspense, { fallback: 'waiting' }, React.createElement('div', null, React.createElement(C), React.createElement(Adapted))), { onAllReady() { stream.pipe(out); }, onError: reject });
+ const stream = renderToPipeableStream(React.createElement(React.Suspense, { fallback: 'waiting' }, React.createElement('div', null, React.createElement(C), React.createElement(Selected))), { onAllReady() { stream.pipe(out); }, onError: reject });
 });
 assert.match(html, /server-ready/);
-assert.match(html, /adapted-ready/);
+assert.match(html, /model-ready/);
 `;
     await writeFile(path.join(fixture, 'ssr.mjs'), ssr);
     execFileSync(process.execPath, [path.join(fixture, 'ssr.mjs')], {
@@ -179,8 +177,18 @@ assert.match(html, /adapted-ready/);
         );
         assert.deepEqual(consoleErrors, []);
         console.log(
-          `React ${version} ${mode}: packed types, SSR, state/actions/events, refs, Suspense/rejection, Bunshi scopes, native models, Query projections, RHF resolver, list/match and cleanup passed.`,
+          `React ${version} ${mode}: packed types, SSR, state/actions/events, refs, Suspense/rejection, keyed models, native models, Query projections, RHF resolver, list/match and cleanup passed.`,
         );
+      } catch (error) {
+        console.error({
+          version,
+          mode,
+          body: await page.locator('body').innerText(),
+          errors,
+          consoleErrors,
+          snapshot: await page.evaluate(() => window.compat?.snapshot()),
+        });
+        throw error;
       } finally {
         await page.close();
         await (server.close

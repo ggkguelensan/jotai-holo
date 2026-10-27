@@ -5,12 +5,19 @@ import { stateAtom } from '../src/vanilla.js';
 
 test('reading a dependent model during connect does not acquire its resources', () => {
   const connectChild = vi.fn();
-  const Child = createModel({ create: () => ({ $value: stateAtom(0) }), connect: connectChild });
+  const Child = createModel({
+    create: () => ({ $value: stateAtom(0) }),
+    resources: (model) => [{ connect: (store) => connectChild() }],
+  });
   const Parent = createModel({
     create: () => ({ $child: Child() }),
-    connect: (model, store) => {
-      store.get(model.$child);
-    },
+    resources: (model) => [
+      {
+        connect: (store) => {
+          store.get(model.$child);
+        },
+      },
+    ],
   });
   const store = createStore();
   const parent = Parent.acquire(store);
@@ -22,14 +29,21 @@ test('reading a dependent model during connect does not acquire its resources', 
 test('explicit dependency leases share one connection and release after the final parent', () => {
   const cleanup = vi.fn();
   const connectChild = vi.fn(() => cleanup);
-  const Child = createModel({ create: () => ({ $value: stateAtom(0) }), connect: connectChild });
+  const Child = createModel({
+    create: () => ({ $value: stateAtom(0) }),
+    resources: (model) => [{ connect: (store) => connectChild() }],
+  });
   const Parent = createModel({
     initial: { childId: 'default' },
     create: (initial) => ({ childId: initial.childId }),
-    connect: (model, store) => {
-      const child = Child.acquire(store, { key: ['child', model.childId] });
-      return child.release;
-    },
+    resources: (model) => [
+      {
+        connect: (store) => {
+          const child = Child.acquire(store, { key: ['child', model.childId] });
+          return child.release;
+        },
+      },
+    ],
   });
   const store = createStore();
   const first = Parent.acquire(store, { key: ['editor'], initial: { childId: 'shared' } });
@@ -43,14 +57,21 @@ test('explicit dependency leases share one connection and release after the fina
 
 test('failed parent setup cannot roll back a dependency lease it was not told about', () => {
   const cleanup = vi.fn();
-  const Child = createModel({ create: () => ({}), connect: () => cleanup });
+  const Child = createModel({
+    create: () => ({}),
+    resources: (_model) => [{ connect: (_store) => cleanup }],
+  });
   let releaseChild: (() => void) | undefined;
   const Parent = createModel({
     create: () => ({}),
-    connect: (_model, store) => {
-      releaseChild = Child.acquire(store).release;
-      throw new Error('parent setup failed');
-    },
+    resources: (_model) => [
+      {
+        connect: (store) => {
+          releaseChild = Child.acquire(store).release;
+          throw new Error('parent setup failed');
+        },
+      },
+    ],
   });
   const store = createStore();
   try {

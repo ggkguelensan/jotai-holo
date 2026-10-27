@@ -173,7 +173,7 @@ try {
   await page.getByRole('button', { name: 'Unsubscribe', exact: true }).click();
   await page.getByRole('button', { name: 'Receive message' }).click();
   assert.match(await page.locator('.example-preview output').innerText(), /Deliveries: 2/);
-  await page.goto(`${origin}reference/cage`);
+  await page.goto(`${origin}reference/lifecycle`);
   await page.getByRole('textbox').fill('react');
   await page.getByText('mounted · $query: react', { exact: true }).waitFor();
   await page.getByRole('checkbox').uncheck();

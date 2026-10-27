@@ -19,7 +19,6 @@
       "jotai-holo/model": ["./src/model.ts"],
       "jotai-holo/query": ["./src/query.ts"],
       "jotai-holo/rhf": ["./src/rhf.ts"],
-      "jotai-holo/bunshi": ["./src/bunshi.ts"],
       "jotai-holo/persist": ["./src/persist.ts"]
     }
   },

@@ -35,13 +35,17 @@ export const Messages = createModel({
       toggleListening,
     };
   },
-  connect: (model, store) =>
-    observe((get) => {
-      if (!get(model.$listening)) return;
-      return subscribeEvent(store, model.messageReceived, ({ text }) =>
-        store.set(model.record, text),
-      );
-    }, store),
+  resources: (model) => [
+    {
+      connect: (store) =>
+        observe((get) => {
+          if (!get(model.$listening)) return;
+          return subscribeEvent(store, model.messageReceived, ({ text }) =>
+            store.set(model.record, text),
+          );
+        }, store),
+    },
+  ],
 });
 
 function View({
@@ -82,14 +86,14 @@ function View({
 }
 
 const IncomingMessages = holo({
-  model: Messages,
-  core: View,
-  state: (model) => ({
+  models: { model: Messages },
+  view: View,
+  read: ({ model: model }) => ({
     last: model.$last,
     deliveries: model.$deliveries,
     listening: model.$listening,
   }),
-  actions: (model) => ({
+  write: ({ model: model }) => ({
     onReceive: model.messageReceived,
     onToggleListening: model.toggleListening,
   }),

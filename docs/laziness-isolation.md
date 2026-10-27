@@ -15,8 +15,8 @@ cloning of application data.
 | `eventAtom`      | No replay or payload state. Every write is a separate event, including equal payloads.                                                                               | Delivery channels and queues belong to the store. Payloads are passed by reference.                                                                                |
 | `subscribeEvent` | Installs a listener without running unrelated atom reads.                                                                                                            | An explicit disposer releases that listener; disposing one store does not affect another. It does not cancel work the listener already started.                    |
 | `bond`           | Declaration, reading, and observing the output do not connect the link. `connect(store)` activates it. A boolean atom guard can reject before sampled state is read. | Connections are reference-counted per store; the final disconnect releases clocks and upstream links. Dynamic recipients are resolved from that store at delivery. |
-| `holo`           | Declaration reads no state. Mount reads every configured `state` binding. `actions` create write callbacks without reading the action atom.                          | Reads, writes, and callbacks use the nearest store. Shared atom definitions in the same store intentionally share state.                                           |
-| `cage`           | Callbacks run in committed passive effects; definition and abandoned render do not invoke them.                                                                      | Props are retained per React instance. Store replacement cleans up the old store and opens the new one. StrictMode can replay effects.                             |
+| `holo`           | Declaration reads no state. Mount reads every configured `read` binding. `write` creates write callbacks without reading the action atom.                            | Reads, writes, and callbacks use the nearest store. Shared atom definitions in the same store intentionally share state.                                           |
+| `lifecycle`      | Callbacks run in committed passive effects; definition and abandoned render do not invoke them.                                                                      | Props are retained per React instance. Store replacement cleans up the old store and opens the new one. StrictMode can replay effects.                             |
 | `holoList`       | Empty lists do not mount row state. A new list value runs key extraction and mapping for its items. This is not virtualization or incremental list reconciliation.   | Stable keys preserve mounted row identity. Separate stores have separate source values. Removing rows releases their subscriptions.                                |
 | `holoMatch`      | Only the active branch is rendered and subscribed. Inactive branches remain dormant.                                                                                 | Branch choice belongs to the nearest store; switching away releases that branch's mounted subscriptions.                                                           |
 
@@ -57,7 +57,7 @@ The additional audit scenarios are in:
   reference-counted bond chains; per-store recipients; native clock limitations;
   and complete reading of ion inputs.
 - `tests/isolation.browser.test.tsx`: one Holo definition across two stores;
-  independent callbacks/cages; keyed rows combined with branch switching; and a
+  independent callbacks/lifecycles; keyed rows combined with branch switching; and a
   child mount effect writing to a selected model binding before initial commit settles.
 
 Other integration tests cover store replacement, async aggregation, error boundaries, native Jotai utilities and RHF interoperability. The model memory experiment below checks retention and cleanup for store-owned instances.

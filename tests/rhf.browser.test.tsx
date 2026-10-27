@@ -16,12 +16,12 @@ import { createHarness, deferred } from './browser-harness.js';
 
 const $placeholder = atom('Your name');
 const Input = holo({
-  core: forwardRef<HTMLInputElement, ComponentPropsWithoutRef<'input'>>(
+  view: forwardRef<HTMLInputElement, ComponentPropsWithoutRef<'input'>>(
     function InputView(props, ref) {
       return <input {...props} ref={ref} />;
     },
   ),
-  state: { placeholder: $placeholder },
+  read: { placeholder: $placeholder },
 });
 async function type(input: HTMLInputElement, value: string) {
   await act(async () => {
@@ -63,7 +63,7 @@ test('native register preserves refs, required validation, focus, dirty/touched,
       </output>
     );
   }
-  const StatusView = holo({ core: Status });
+  const StatusView = holo({ view: Status });
   function App() {
     form = useForm<Data>({ defaultValues: { name: '' }, mode: 'onBlur' });
     return (
@@ -107,7 +107,7 @@ test('Controller passes native controlled value/events/ref and skips View for un
   let form!: UseFormReturn<Data>;
   let renders = 0;
   const Name = holo({
-    core: forwardRef<
+    view: forwardRef<
       HTMLInputElement,
       ComponentPropsWithoutRef<'input'> & { error: string | undefined }
     >(function NameView({ error, ...props }, ref) {
@@ -119,7 +119,7 @@ test('Controller passes native controlled value/events/ref and skips View for un
         </label>
       );
     }),
-    state: { placeholder: $placeholder },
+    read: { placeholder: $placeholder },
   });
   function App() {
     form = useForm<Data>({ defaultValues: { name: '', other: '' } });
@@ -152,7 +152,7 @@ test('Controller passes native controlled value/events/ref and skips View for un
 
 test('native RHF components can themselves be specialized and wrapped with holo', async () => {
   type Data = { name: string };
-  const BoundController = holo({ core: Controller<Data, 'name'>, bindProps: { name: 'name' } });
+  const BoundController = holo({ view: Controller<Data, 'name'>, props: { name: 'name' } });
   function App() {
     const { control } = useForm<Data>({ defaultValues: { name: 'Ada' } });
     return <BoundController control={control} render={({ field }) => <Input {...field} />} />;

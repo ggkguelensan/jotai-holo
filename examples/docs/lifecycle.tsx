@@ -2,7 +2,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
 
-// #region cage
+// #region lifecycle
 const $query = stateAtom('');
 const $mounted = stateAtom(false);
 
@@ -19,13 +19,13 @@ function SearchView({ term }: { term: string }) {
 }
 
 const Search = holo({
-  core: SearchView,
-  cage: {
+  view: SearchView,
+  lifecycle: {
     onMount(_get, set) {
       set($mounted, true);
     },
-    onChange(_get, set, ctx) {
-      set(changed, ctx.props.term);
+    onInputChange(_get, set, ctx) {
+      set(changed, ctx.input.term);
     },
     onUnmount(_get, set) {
       set($mounted, false);
@@ -45,8 +45,8 @@ function StatusView({ query, mounted }: { query: string; mounted: boolean }) {
 }
 
 const Status = holo({
-  core: StatusView,
-  state: { query: $query, mounted: $mounted },
+  view: StatusView,
+  read: { query: $query, mounted: $mounted },
 });
 
 function LifecycleDemo() {
@@ -74,6 +74,6 @@ function LifecycleDemo() {
     </div>
   );
 }
-// #endregion cage
+// #endregion lifecycle
 
 export default LifecycleDemo;

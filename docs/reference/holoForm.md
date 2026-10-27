@@ -13,8 +13,12 @@ Connect a form model to an RHF View. Keep `register`, `Controller` and `useFormC
 ```tsx
 import { holoForm } from 'jotai-holo/rhf';
 const ContactEditor = holoForm({
-  model: (props: { contactId: string }) => Contact({ key: [props.contactId] }),
-  core: ContactView,
+  models: {
+    model: (props: { contactId: string }) =>
+      Contact({ key: [props.contactId] }),
+  },
+  form: ({ model }) => model.form,
+  view: ContactView,
 });
 // ContactView uses ordinary useFormContext, Controller, register,
 // and useFieldArray.
@@ -23,7 +27,7 @@ const ContactEditor = holoForm({
 
 ## Contract
 
-- Accepts the model-aware holo configuration: core, model, state, actions, bindProps, and cage. Bound props disappear from public props; selector inputs remain required.
+- Accepts the named-model holo configuration plus an explicit form selector: `form: models => models.editor.form`. Bound props disappear from public props; selector inputs remain required.
 - The model must come from createFormModel. Native useForm and useFormState bridge its existing formControl to FormProvider so nested markup and useFormContext remain ordinary RHF.
 - Exactly one active holoForm root per control. A second root with the same model key throws; choose a different key for another independent form. External toolbars/panels use **ordinary holo** with that key, not another holoForm.
 - Existing control options, including resolver, are preserved. Synchronous defaultValues are not reapplied by the bridge on remount. Values remain RHF-owned; shouldUnregister still controls field removal.

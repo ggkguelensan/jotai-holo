@@ -44,7 +44,7 @@ function TasksEmptyView() {
 
 const Tasks = holoList({
   source: $tasks,
-  core: TaskView,
+  view: TaskView,
   getKey: (task) => task.id,
   mapItem: (task) => ({ task }),
   empty: TasksEmptyView,
@@ -72,8 +72,8 @@ function ControlsView({
 }
 
 const Controls = holo({
-  core: ControlsView,
-  actions: { onReverse: reverse, onClear: reset },
+  view: ControlsView,
+  write: { onReverse: reverse, onClear: reset },
 });
 
 function ListDemo() {

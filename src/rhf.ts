@@ -6,7 +6,6 @@ import {
   useEffect,
   useRef,
   type ComponentPropsWithRef,
-  type ComponentType,
   type ElementType,
   type NamedExoticComponent,
 } from 'react';
@@ -22,13 +21,15 @@ import {
   type UseFormProps,
 } from 'react-hook-form';
 import { createModel, type ModelDefinition } from './model.js';
+import type { ModelSource } from './holo-types.js';
+import type { BindingKeys } from './holo-types.js';
 import {
-  bindModel,
-  type ModelInputs,
-  type ModelRuntimeConfig,
-  type ModelSource,
-} from './model-binding.js';
-import { holo, type BindingKeys, type HoloModelConfig, type OwnProps } from './holo.js';
+  connectView,
+  type HoloConfig,
+  type HoloViewComponent,
+  type ResolvedModels,
+  type ViewRuntimeConfig,
+} from './holo-view.js';
 
 export type FormControl<Input extends FieldValues, Context = unknown, Output = Input> = ReturnType<
   typeof createFormControl<Input, Context, Output>
@@ -56,13 +57,11 @@ export function createFormModel<
     initial: Initial;
   }) => Model & { then?: never };
   retainTime?: number;
-  /** @deprecated Use retainTime. */
-  gcTime?: number;
 }): ModelDefinition<Model & { form: FormControl<Input, Context, Output> }, Initial> {
+  if ('gcTime' in config) throw new TypeError('createFormModel: use retainTime.');
   return createModel({
     initial: config.initial,
     ...(config.retainTime === undefined ? {} : { retainTime: config.retainTime }),
-    ...(config.gcTime === undefined ? {} : { gcTime: config.gcTime }),
     create: (initial) => {
       const options = config.options(initial);
       const defaultValues = options.defaultValues;
@@ -95,41 +94,36 @@ export function createFormModel<
   });
 }
 
-/** One native useForm/FormProvider bridge per active form instance. Other consumers use ordinary holo. */
+/** One native useForm/FormProvider root; select its control from named models. */
 export function holoForm<
-  Core extends ElementType,
-  Source extends ModelSource,
-  StateKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<Core>>> = never,
-  ActionKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<Core>>> = never,
-  StaticKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<Core>>> = never,
+  View extends ElementType,
+  Sources extends Record<string, ModelSource>,
+  ReadKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<View>>> = never,
+  WriteKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<View>>> = never,
+  StaticKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<View>>> = never,
 >(
-  config: HoloModelConfig<Core, Source, StateKeys, ActionKeys, StaticKeys>,
-): NamedExoticComponent<
-  OwnProps<ComponentPropsWithRef<NoInfer<Core>>, StateKeys | ActionKeys | StaticKeys> &
-    ModelInputs<Source>
-> {
-  return bindModel(config as ModelRuntimeConfig, (resolved, model) => {
-    if (!('form' in model))
-      throw new Error('holoForm: model must expose its native RHF form control.');
-    const form = model.form as OwnedControl;
+  config: HoloConfig<View, Sources, ReadKeys, WriteKeys, StaticKeys> & {
+    models: Sources;
+    form: (models: ResolvedModels<Sources>) => { readonly formControl: object };
+  },
+): HoloViewComponent<View, Sources, ReadKeys, WriteKeys, StaticKeys> {
+  return connectView(config as unknown as ViewRuntimeConfig, (models, View) => {
+    const form = config.form(models as ResolvedModels<Sources>) as OwnedControl;
     const owner = form[bridgeOwner];
-    if (!owner) throw new Error('holoForm: use a createFormModel definition.');
-    const Connected = Reflect.apply(holo, undefined, [resolved]) as ComponentType<
-      Record<string, unknown>
-    >;
+    if (!owner)
+      throw new Error(
+        'holoForm: select a createFormModel control with form: models => models.editor.form.',
+      );
     return function FormRoot(props: Record<string, unknown>) {
-      // RHF resets an externally supplied control when synchronous defaultValues are passed again.
-      // The control already owns those defaults; keep all other native options, including resolver.
+      // The control owns synchronous defaults. Reapplying them resets retained edits.
       const { defaultValues, ...options } = owner.options;
       const loadDefaults = useRef(!owner.defaultsLoaded).current;
       const methods = useForm({
         ...options,
-        // Explicit undefined clears RHF's merged async-loader option on a retained remount.
         defaultValues:
           loadDefaults && typeof defaultValues === 'function' ? defaultValues : undefined,
         formControl: form.formControl,
       } as UseFormProps);
-      // useFormState reads the existing control snapshot, including retained defaults and flags.
       const formState = useFormState({ control: methods.control });
       const identity = useRef({});
       useEffect(() => {
@@ -145,13 +139,10 @@ export function holoForm<
       return createElement(FormProvider, {
         ...methods,
         formState,
-        children: createElement(Connected, props),
+        children: createElement(View, props),
       });
     };
-  }) as NamedExoticComponent<
-    OwnProps<ComponentPropsWithRef<NoInfer<Core>>, StateKeys | ActionKeys | StaticKeys> &
-      ModelInputs<Source>
-  >;
+  }) as HoloViewComponent<View, Sources, ReadKeys, WriteKeys, StaticKeys>;
 }
 
 /** Read-only selected field values. RHF flags remain available through native useFormState. */

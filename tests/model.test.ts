@@ -29,7 +29,7 @@ test('definition and selection are lazy; default models and values belong to a s
 
 test('structural keys are stable, namespaces are independent, and reads do not connect resources', () => {
   const connect = vi.fn();
-  const first = createModel({ create: () => createCounter(), connect });
+  const first = createModel({ create: () => createCounter(), resources: () => [{ connect }] });
   const second = createModel({ create: () => createCounter() });
   const store = createStore();
   const a = store.get(first({ key: [{ a: 1, b: 2 }] }));
@@ -53,7 +53,7 @@ test('initial is creation-only and does not reset a shared keyed model', () => {
 
 test('Infinity retains acquired state while releasing connections after the final owner', () => {
   const connect = vi.fn(() => vi.fn());
-  const model = createModel({ create: () => createCounter(), connect });
+  const model = createModel({ create: () => createCounter(), resources: () => [{ connect }] });
   const store = createStore();
   const a = model.acquire(store, { key: ['shared'] });
   const b = model.acquire(store, { key: ['shared'] });
@@ -85,7 +85,7 @@ test('removal refuses active models and invalidates an existing selection after 
 
 test('finite retention cancels eviction on reacquisition and never evicts another store', () => {
   vi.useFakeTimers();
-  const model = createModel({ create: () => createCounter(), gcTime: 100 });
+  const model = createModel({ create: () => createCounter(), retainTime: 100 });
   const a = createStore();
   const b = createStore();
   const first = model.acquire(a, { key: ['one'] });
@@ -105,9 +105,9 @@ test('finite retention cancels eviction on reacquisition and never evicts anothe
   vi.runAllTimers();
 });
 
-test('gcTime zero releases a keyed instance after the current task', () => {
+test('retainTime zero releases a keyed instance after the current task', () => {
   vi.useFakeTimers();
-  const model = createModel({ create: () => createCounter(), gcTime: 0 });
+  const model = createModel({ create: () => createCounter(), retainTime: 0 });
   const store = createStore();
   const selected = model({ key: ['one'] });
   const first = model.acquire(store, { key: ['one'] });
@@ -125,7 +125,7 @@ test('model connections share one bond and dispose it without cancelling unrelat
       const $value = stateAtom(0);
       return { $value, link: bond({ trigger: requested, yield: $value }) };
     },
-    connect: (model, store) => model.link.connect(store),
+    resources: (model) => [{ connect: (store) => model.link.connect(store) }],
   });
   const store = createStore();
   const first = model.acquire(store);
@@ -144,7 +144,7 @@ test('a failed connection does not poison ownership and can be retried', () => {
     if (connect.mock.calls.length === 1) throw new Error('failed');
     return () => {};
   });
-  const model = createModel({ create: () => createCounter(), connect });
+  const model = createModel({ create: () => createCounter(), resources: () => [{ connect }] });
   const store = createStore();
   expect(() => model.acquire(store)).toThrow('failed');
   const lease = model.acquire(store);
@@ -166,6 +166,6 @@ function typeChecks() {
   // @ts-expect-error Model factories are synchronous; async work belongs in actions/resources.
   createModel({ create: async () => ({ value: 1 }) });
   // @ts-expect-error Connect returns a synchronous disposer, not an async lifecycle promise.
-  createModel({ create: () => ({}), connect: async () => {} });
+  createModel({ create: () => ({}), resources: () => [{ connect: async () => {} }] });
 }
 void typeChecks;

@@ -1,8 +1,7 @@
 export { stateAtom } from './state-atom.js';
 export { actionAtom } from './action-atom.js';
 export { holo } from './holo.js';
-export type { HoloConfig, HoloModelConfig } from './holo.js';
-export type { HoloCage, CageContext } from './holo-cage.js';
+export type { HoloConfig } from './holo.js';
 export { ion } from './ion.js';
 export { prism } from './prism.js';
 export { eq } from './eq.js';
@@ -22,10 +21,5 @@ export type { EventOptions } from './subscribe-event.js';
 
 export { useImperativeHolo } from './imperative.js';
 export type { HoloImperative } from './imperative.js';
-export type {
-  HoloViewConfig,
-  HoloLifecycle,
-  LifecycleContext,
-  ResolvedModels,
-} from './holo-view.js';
+export type { HoloLifecycle, LifecycleContext, ResolvedModels } from './holo-view.js';
 export type { Resource } from './resource.js';

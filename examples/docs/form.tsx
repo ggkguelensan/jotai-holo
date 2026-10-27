@@ -91,9 +91,13 @@ function ContactView({ onSave }: { onSave: () => Promise<void> }) {
 }
 
 const Editor = holoForm({
-  model: (props: { contactId: string }) => Contact({ key: [props.contactId] }),
-  core: ContactView,
-  actions: (m) => ({ onSave: m.save }),
+  form: ({ model }) => model.form,
+  models: {
+    model: (props: { contactId: string }) =>
+      Contact({ key: [props.contactId] }),
+  },
+  view: ContactView,
+  write: ({ model: m }) => ({ onSave: m.save }),
 });
 
 function SaveView({
@@ -128,10 +132,17 @@ function SaveView({
 }
 
 const SavePanel = holo({
-  model: (props: { contactId: string }) => Contact({ key: [props.contactId] }),
-  core: SaveView,
-  state: (m) => ({ email: m.$email, saved: m.$saved, control: m.$control }),
-  actions: (m) => ({ onSave: m.save }),
+  models: {
+    model: (props: { contactId: string }) =>
+      Contact({ key: [props.contactId] }),
+  },
+  view: SaveView,
+  read: ({ model: m }) => ({
+    email: m.$email,
+    saved: m.$saved,
+    control: m.$control,
+  }),
+  write: ({ model: m }) => ({ onSave: m.save }),
 });
 
 function ContactsDemo() {

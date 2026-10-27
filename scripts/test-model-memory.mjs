@@ -15,20 +15,24 @@ async function collect() {
 const store = createStore();
 let refs = [];
 let active = 0;
-const definition = (gcTime) =>
+const definition = (retainTime) =>
   createModel({
-    gcTime,
+    retainTime,
     create: () => {
       const model = { $value: atom(0) };
       refs.push(new WeakRef(model));
       return model;
     },
-    connect: () => {
-      active++;
-      return () => {
-        active--;
-      };
-    },
+    resources: () => [
+      {
+        connect: () => {
+          active++;
+          return () => {
+            active--;
+          };
+        },
+      },
+    ],
   });
 const counts = () => refs.filter((ref) => ref.deref()).length;
 const report = {};
@@ -66,7 +70,7 @@ report.discardedStore = counts();
 refs = [];
 const forms = createFormModel({
   initial: { name: '' },
-  gcTime: 0,
+  retainTime: 0,
   options: (initial) => ({ defaultValues: initial }),
   model: ({ form }) => {
     refs.push(new WeakRef(form));

@@ -113,9 +113,9 @@ function ProposalView({
 }
 
 const Proposal = holo({
-  core: ProposalView,
+  view: ProposalView,
 
-  state: {
+  read: {
     discount: $discount,
     comment: $comment,
     proposal: saving.$proposal,
@@ -123,7 +123,7 @@ const Proposal = holo({
     error: saving.$error,
   },
 
-  actions: {
+  write: {
     onDiscount: $discount,
     onComment: $comment,
     onSave: save,

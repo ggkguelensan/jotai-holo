@@ -30,7 +30,6 @@ try {
     import assert from 'node:assert/strict';
     import * as library from 'jotai-holo';
     import * as vanilla from 'jotai-holo/vanilla';
-    import * as bunshi from 'jotai-holo/bunshi';
     import { createModel } from 'jotai-holo/model';
     import { persist, localStorageAdapter } from 'jotai-holo/persist';
     assert.equal(typeof persist, 'function');
@@ -43,7 +42,6 @@ try {
     assert.equal(typeof holoForm, 'function');
     const definition = createModel({create: () => ({value: 1})});
     const forms = createFormModel({initial: {name: ''}, options: initial => ({defaultValues: initial})});
-    assert.deepEqual(Object.keys(bunshi), ['holoMolecule']);
     import { createStore } from 'jotai/vanilla';
     assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'or', 'prism', 'some', 'stateAtom', 'subscribeEvent', 'sum', 'useImperativeHolo']);
     assert.deepEqual(Object.keys(vanilla).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'ion', 'or', 'prism', 'some', 'stateAtom', 'subscribeEvent', 'sum']);
@@ -93,21 +91,21 @@ try {
     const count = stateAtom(0);
     const increment = actionAtom((_get, set, amount: number) => set(count, n => n + amount));
     const Counter = holo({
-      core: (_props: { count: number; onIncrement: (amount: number) => void; title: string }) => null,
-      state: { count }, actions: { onIncrement: increment },
+      view: (_props: { count: number; onIncrement: (amount: number) => void; title: string }) => null,
+      read: { count }, write: { onIncrement: increment },
     });
     const valid = <Counter title="counter" />;
-    const { holoMolecule } = await import('jotai-holo/bunshi');
-    const { molecule } = await import('bunshi/react');
-    const model = holoMolecule(molecule(() => ({ count, increment })));
-    const Scoped = holo({
-      core: (_props: { count: number; onIncrement: (amount: number) => void; title: string }) => null,
-      state: { count: model(m => m.count) },
-      actions: { onIncrement: model(m => m.increment) },
+    const { createModel } = await import('jotai-holo/model');
+    const definition = createModel({create: () => ({count, increment})});
+    const Selected = holo({
+      models: { counter: definition },
+      view: (_props: {count: number; onIncrement: (amount: number) => void; title: string}) => null,
+      read: ({ counter }) => ({ count: counter.count }),
+      write: ({ counter }) => ({ onIncrement: counter.increment }),
     });
-    const scoped = <Scoped title="counter" />;
+    const selected = <Selected title="counter" />;
     // @ts-expect-error Selected state must match the View prop.
-    holo({ core: (_props: { title: string }) => null, state: { title: model(m => m.count) } });
+    holo({models: {counter: definition}, view: (_props: {title: string}) => null, read: ({counter}) => ({title: counter.count})});
 
     // @ts-expect-error A bound prop is not a caller prop.
     const invalid = <Counter title="counter" count={2} />;
@@ -144,8 +142,8 @@ try {
     {},
     'Core runtime must use only declared peers.',
   );
-  assert.equal(packageManifest.exports['./bunshi'].import, './dist/bunshi.js');
-  assert.equal(packageManifest.peerDependenciesMeta.bunshi.optional, true);
+  assert.equal(packageManifest.exports['./bunshi'], undefined);
+  assert.equal(packageManifest.peerDependencies.bunshi, undefined);
   assert.equal(packageManifest.peerDependenciesMeta['@tanstack/query-core'].optional, true);
   assert.equal(packageManifest.peerDependenciesMeta['react-hook-form'].optional, true);
   const packed = `${fixture}/node_modules/jotai-holo/dist`;
@@ -167,15 +165,16 @@ try {
   for (const entry of ['index.js', 'index.d.ts', 'vanilla.js', 'vanilla.d.ts']) {
     await checkCoreGraph(`${packed}/${entry}`);
   }
-  assert.match(listing, /package\/dist\/bunshi\.d\.ts/);
+  assert.doesNotMatch(
+    listing,
+    /package\/dist\/(?:bunshi|binding|holo-cage|model-binding|state-binding-atom)\./,
+  );
   for (const file of [
     'holo.js',
-    'model-binding.js',
+    'holo-view.js',
+    'imperative.js',
     'rhf.js',
-    'holo-cage.js',
-    'binding.js',
     'binding-state.js',
-    'bunshi.js',
     'holo-list.js',
     'holo-match.js',
   ]) {

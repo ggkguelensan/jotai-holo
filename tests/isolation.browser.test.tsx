@@ -1,12 +1,11 @@
 import { atom, createStore, Provider } from 'jotai';
 import { act, useEffect, useState } from 'react';
-import { createInjector, InjectorProvider, molecule } from 'bunshi/react';
+import { createModel } from '../src/model.js';
 import { expect, test, vi } from 'vitest';
 import { actionAtom, holo, holoList, holoMatch, prism } from '../src/index.js';
-import { holoMolecule } from '../src/bunshi.js';
 import { createHarness } from './browser-harness.js';
 
-test('one holo definition isolates state, action callbacks, cages and subscription ownership across stores', async () => {
+test('one holo definition isolates state, action callbacks, lifecycles and subscription ownership across stores', async () => {
   const $count = atom(0);
   let active = 0;
   $count.onMount = () => {
@@ -18,7 +17,7 @@ test('one holo definition isolates state, action callbacks, cages and subscripti
   const increment = actionAtom((_get, set) => set($count, (n) => n + 1));
   const changes: string[] = [];
   const Counter = holo({
-    core: ({
+    view: ({
       count,
       name,
       onIncrement,
@@ -31,14 +30,14 @@ test('one holo definition isolates state, action callbacks, cages and subscripti
         {count}
       </button>
     ),
-    state: { count: $count },
-    actions: { onIncrement: increment },
-    cage: {
+    read: { count: $count },
+    write: { onIncrement: increment },
+    lifecycle: {
       onMount(get, _set, ctx) {
-        changes.push(`mount:${ctx.props.name}:${get($count)}`);
+        changes.push(`mount:${ctx.input.name}:${get($count)}`);
       },
       onUnmount(get, _set, ctx) {
-        changes.push(`unmount:${ctx.props.name}:${get($count)}`);
+        changes.push(`unmount:${ctx.input.name}:${get($count)}`);
       },
     },
   });
@@ -84,8 +83,8 @@ test('holoList and holoMatch keep row identity and branch subscriptions separate
     source: $items,
     getKey: (item) => item.id,
     mapItem: (item) => ({ id: item.id }),
-    state: { value: $value },
-    core: ({ id, value }: { id: string; value: number }) => {
+    read: { value: $value },
+    view: ({ id, value }: { id: string; value: number }) => {
       const [local, setLocal] = useState(0);
       return (
         <button data-id={id} onClick={() => setLocal((n) => n + 1)}>
@@ -137,34 +136,31 @@ test('holoList and holoMatch keep row identity and branch subscriptions separate
   );
 });
 
-test('an adapted binding observes a synchronous write by its child mount effect', async () => {
+test('a named model binding observes a synchronous write by its child mount effect', async () => {
   const $count = atom(0);
   const increment = actionAtom((_get, set) => set($count, (n) => n + 1));
-  const Model = molecule(() => ({ $count, increment }));
-  const model = holoMolecule(Model);
+  const Model = createModel({ create: () => ({ $count, increment }) });
   function Child({ increment }: { increment: () => void }) {
     useEffect(increment, [increment]);
     return null;
   }
   const Counter = holo({
-    core: ({ count, increment }: { count: number; increment: () => void }) => (
+    view: ({ count, increment }: { count: number; increment: () => void }) => (
       <>
         <span data-count>{count}</span>
         <Child increment={increment} />
       </>
     ),
-    state: { count: model((m) => m.$count) },
-    actions: { increment: model((m) => m.increment) },
+    models: { counter: Model },
+    read: ({ counter }) => ({ count: counter.$count }),
+    write: ({ counter }) => ({ increment: counter.increment }),
   });
-  const injector = createInjector();
   const store = createStore();
   const h = createHarness();
   await h.render(
-    <InjectorProvider value={() => injector}>
-      <Provider store={store}>
-        <Counter />
-      </Provider>
-    </InjectorProvider>,
+    <Provider store={store}>
+      <Counter />
+    </Provider>,
   );
   expect(store.get($count)).toBe(1);
   expect(h.container.querySelector('[data-count]')?.textContent).toBe('1');

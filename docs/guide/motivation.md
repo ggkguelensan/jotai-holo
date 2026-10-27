@@ -20,22 +20,22 @@ That is a good choice for a small component. When this pattern repeats across a 
 
 Keep the View separate when you want to reuse it in stories, test it with props or bind subscriptions to a small part of the screen. For a local component that already uses several hooks, `useAtomValue` and `useSetAtom` may be simpler.
 
-## Why separate state, actions and bindProps?
+## Why separate read, write and props?
 
-A writable atom can supply both a value and a callback. A function might be a prop, a React component, or an action. Separate sections make the operation explicit without guessing from runtime object shapes. The same native atom can appear in `state` and `actions` under different prop names.
+A writable atom can supply both a value and a callback. A function might be a prop, a React component, or an action. Separate sections make the operation explicit without guessing from runtime object shapes. The same native atom can appear in `read` and `write` under different prop names.
 
-`core` names the component's role in the assembled binding; `NameView` names its UI role. `bindProps` means fixed View props. `ctx.props` means the inputs available to lifecycle handlers.
+`view` names the React component. `props` means fixed View props. `ctx.input` means the inputs available to lifecycle handlers.
 
 ## A small vocabulary, native semantics
 
-| Need                           | Tool                        | Boundary                                       |
-| ------------------------------ | --------------------------- | ---------------------------------------------- |
-| Store values / derived reads   | stateAtom                   | Native atoms; use atom for advanced overloads  |
-| Commands / facts               | actionAtom / eventAtom      | Explicit calls, no retained event payload      |
-| Combine / project              | ion / prism                 | Jotai dependencies and Object.is               |
-| React to a domain notification | bond                        | Explicit store-owned connection                |
-| Bind / repeat / choose Views   | holo / holoList / holoMatch | Ordinary React props and lifecycle             |
-| Share a model between widgets  | createModel                 | Instance selected by definition, key and store |
+| Need                           | Tool                        | Boundary                                              |
+| ------------------------------ | --------------------------- | ----------------------------------------------------- |
+| Store values / derived reads   | stateAtom                   | Native atom overloads, including writable derivations |
+| Commands / facts               | actionAtom / eventAtom      | Explicit calls, no retained event payload             |
+| Combine / project              | ion / prism                 | Jotai dependencies and Object.is                      |
+| React to a domain notification | bond                        | Explicit store-owned connection                       |
+| Bind / repeat / choose Views   | holo / holoList / holoMatch | Ordinary React props and lifecycle                    |
+| Share a model between widgets  | createModel                 | Instance selected by definition, key and store        |
 
 The names use a playful molecular vocabulary. Holo recalls an assembled holoenzyme, and `Re` in the mark stands for React. This is an identity metaphor, not a chemistry model.
 

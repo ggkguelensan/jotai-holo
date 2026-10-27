@@ -276,26 +276,6 @@ msgstr "Тапсырыс чегі"
 msgid "Local simulation: no payment or network request."
 msgstr "Жергілікті имитация: төлем де, желі сұрауы да жасалмайды."
 
-#: examples/docs/cage.tsx
-msgid "Mounted search View receives"
-msgstr "Қосылған іздеу View-і мынаны алады"
-
-#: examples/docs/cage.tsx
-msgid "mounted"
-msgstr "қосылған"
-
-#: examples/docs/cage.tsx
-msgid "unmounted"
-msgstr "ажыратылған"
-
-#: examples/docs/cage.tsx
-msgid "Input prop: term"
-msgstr "Кіріс prop: term"
-
-#: examples/docs/cage.tsx
-msgid "Mount Search"
-msgstr "Іздеуді қосу"
-
 #: examples/docs/counter.tsx
 msgid "Derived × 2"
 msgstr "Туынды мән × 2"
@@ -416,6 +396,26 @@ msgstr "Воркшоп билеттері · әрқайсысы $25"
 #: examples/docs/ion.tsx
 msgid "Member discount · 20%"
 msgstr "Қатысушы жеңілдігі · 20%"
+
+#: examples/docs/lifecycle.tsx
+msgid "Mounted search View receives"
+msgstr "Қосылған іздеу View-і мынаны алады"
+
+#: examples/docs/lifecycle.tsx
+msgid "mounted"
+msgstr "қосылған"
+
+#: examples/docs/lifecycle.tsx
+msgid "unmounted"
+msgstr "ажыратылған"
+
+#: examples/docs/lifecycle.tsx
+msgid "Input prop: term"
+msgstr "Кіріс prop: term"
+
+#: examples/docs/lifecycle.tsx
+msgid "Mount Search"
+msgstr "Іздеуді қосу"
 
 #: examples/docs/list.tsx
 msgid "Review proposal"

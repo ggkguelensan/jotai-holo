@@ -54,18 +54,14 @@ export function createModel<Model extends object, Initial = undefined>(
   config: {
     create: (initial: Initial) => Model & { then?: never };
     retainTime?: number;
-    /** @deprecated Use retainTime. */
-    gcTime?: number;
     resources?: (model: Model) => readonly Resource[];
-    connect?: (model: Model, store: Store) => void | (() => void);
   } & ([Initial] extends [undefined] ? { initial?: Initial } : { initial: Initial }),
 ): ModelDefinition<Model, Initial> {
-  if (config.retainTime !== undefined && config.gcTime !== undefined)
-    throw new TypeError('createModel: use retainTime, not both retainTime and gcTime.');
-  const gcTime = config.retainTime ?? config.gcTime ?? Infinity;
-  if (!(gcTime >= 0) || (gcTime !== Infinity && !Number.isFinite(gcTime))) {
+  if ('gcTime' in config || 'connect' in config)
+    throw new TypeError('createModel: use retainTime and resources.');
+  const retainTime = config.retainTime ?? Infinity;
+  if (!(retainTime >= 0) || (retainTime !== Infinity && !Number.isFinite(retainTime)))
     throw new TypeError('createModel: retainTime must be a non-negative number or Infinity.');
-  }
   let defaultSelection: ModelAtom<Model> | undefined;
   const definition = Object.assign(
     (options: ModelOptions<Initial> = {}) => {
@@ -122,20 +118,15 @@ export function createModel<Model extends object, Initial = undefined>(
         if (entry.owners.size === 1) {
           try {
             const resources: Resource[] = [...(config.resources?.(model) ?? [])];
-            if (config.connect) resources.unshift({ connect: () => config.connect!(model, store) });
             const cleanup = acquireResources(store, resources);
-            if (cleanup !== undefined && typeof cleanup !== 'function')
-              throw new TypeError(
-                'createModel: connect must return a synchronous cleanup function or undefined.',
-              );
             if (cleanup) entry.cleanup = cleanup;
           } catch (error) {
             entry.owners.delete(owner);
             if (!entry.owners.size) {
               if (previouslyRetained) {
                 entry.retained = previouslyRetained;
-                if (gcTime !== Infinity)
-                  scheduleEviction(registry, definition, key, entry, store, gcTime);
+                if (retainTime !== Infinity)
+                  scheduleEviction(registry, definition, key, entry, store, retainTime);
               } else delete entry.retained;
             }
             throw error;
@@ -152,14 +143,14 @@ export function createModel<Model extends object, Initial = undefined>(
           try {
             cleanup?.();
           } finally {
-            if (!entry.owners.size && gcTime !== Infinity) {
-              scheduleEviction(registry, definition, key, entry, store, gcTime);
+            if (!entry.owners.size && retainTime !== Infinity) {
+              scheduleEviction(registry, definition, key, entry, store, retainTime);
             }
           }
         };
       };
       const result = Object.assign(selected, {
-        [modelIdentity]: { definition, key },
+        [modelIdentity]: { definition, key, entry: (get: Getter) => resolve(get).entry },
         [modelAcquire]: acquire,
       });
       if (key === 'default' && !Object.hasOwn(options, 'initial')) defaultSelection = result;
@@ -191,13 +182,13 @@ function scheduleEviction(
   key: string,
   entry: Entry,
   store: Store,
-  gcTime: number,
+  retainTime: number,
 ) {
   const registryRef = new WeakRef(registry);
   const definitionRef = new WeakRef(definition);
   const entryRef = new WeakRef(entry);
   const storeRef = new WeakRef(store);
-  const deadline = Date.now() + gcTime;
+  const deadline = Date.now() + retainTime;
   const expire = () => {
     const current = entryRef.deref();
     const registry = registryRef.deref();
@@ -208,7 +199,7 @@ function scheduleEviction(
     if (remaining > 0) current.timer = setTimeout(expire, Math.min(remaining, 2_147_483_647));
     else evict(registry, definition, key, current, store);
   };
-  entry.timer = setTimeout(expire, Math.min(gcTime, 2_147_483_647));
+  entry.timer = setTimeout(expire, Math.min(retainTime, 2_147_483_647));
 }
 
 function evict(registry: Registry, definition: object, key: string, entry: Entry, store: Store) {

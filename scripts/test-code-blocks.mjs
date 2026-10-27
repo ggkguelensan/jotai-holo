@@ -19,7 +19,7 @@ function View({ count }: Props) {
   return <div>{count}{label}</div>;
 }
 
-const Counter = holo({ core: View, state: { count: $count } });
+const Counter = holo({ view: View, read: { count: $count } });
 export default Counter;
 `;
 const blocks = splitCode(source);

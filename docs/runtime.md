@@ -1,6 +1,6 @@
 # Named models, resources and imperative Views
 
-This guide describes the implemented `view` configuration. The previous `core/state/actions/bindProps/cage/model` form remains supported during migration. Do not mix the two forms in one declaration.
+The only React configuration uses view, named models, read, write, props, lifecycle, resources and imperative. No compatibility aliases or parallel binding runtime remain.
 
 ```text
 models: instance selections
@@ -61,9 +61,9 @@ const $$draft = createModel({
 });
 ```
 
-A resource has `connect(store)` returning synchronous cleanup or undefined. The same resource object shares one connection per store. Last release disconnects it. Acquisition rolls back in reverse order; cleanup attempts every resource even if one fails. Keep declarations pure. The old model connect callback remains available.
+A resource has `connect(store)` returning synchronous cleanup or undefined. The same resource object shares one connection per store. Last release disconnects it. Acquisition rolls back in reverse order; cleanup attempts every resource even if one fails. Keep declarations pure. Model resources use the same ownership contract as View resources.
 
-`retainTime` replaces gcTime; the old spelling is accepted but cannot be combined with retainTime. Units are milliseconds. Infinity is the default, zero schedules eviction for the next task, finite values start after the last release. Retention preserves the instance, not active subscriptions. Call remove for unbounded key spaces. createFormModel accepts retainTime too.
+`retainTime` is the model retention setting; no alias is accepted. Units are milliseconds. Infinity is the default, zero schedules eviction for the next task, finite values start after the last release. Retention preserves the instance, not active subscriptions. Call remove for unbounded key spaces. createFormModel accepts retainTime too.
 
 ## Persistence
 

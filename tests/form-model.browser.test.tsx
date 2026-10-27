@@ -18,16 +18,17 @@ test('keyed forms isolate values while ordinary holo panels share selected field
     return <input {...form.register('name')} />;
   }
   const Form = holoForm({
-    model: (props: { id: string }) => Profile({ key: [props.id] }),
-    core: View,
+    form: ({ model }) => model.form,
+    models: { model: (props: { id: string }) => Profile({ key: [props.id] }) },
+    view: View,
   });
   const Panel = holo({
-    model: (props: { id: string }) => Profile({ key: [props.id] }),
-    core: ({ name }: { name: string }) => {
+    models: { model: (props: { id: string }) => Profile({ key: [props.id] }) },
+    view: ({ name }: { name: string }) => {
       renders++;
       return <output>{name}</output>;
     },
-    state: (m) => ({ name: m.$name }),
+    read: ({ model: m }) => ({ name: m.$name }),
   });
   const store = createStore();
   const h = createHarness();
@@ -119,7 +120,11 @@ test('native async resolvers preserve transformed outputs and submitting state t
       </form>
     );
   }
-  const Form = holoForm({ model: Profile, core: View });
+  const Form = holoForm({
+    form: ({ model }) => model.form,
+    models: { model: Profile },
+    view: View,
+  });
   const h = createHarness();
   await h.render(<Form />);
   await act(async () =>
@@ -155,7 +160,11 @@ test('native field arrays retain row identity and reset under StrictMode form ow
       </>
     );
   }
-  const Form = holoForm({ model: Profile, core: View });
+  const Form = holoForm({
+    form: ({ model }) => model.form,
+    models: { model: Profile },
+    view: View,
+  });
   const h = createHarness();
   await h.render(
     <StrictMode>
@@ -196,7 +205,11 @@ test('validation, focus, dirty/touched state and defaults survive the native for
       </form>
     );
   }
-  const Form = holoForm({ model: Profile, core: View });
+  const Form = holoForm({
+    form: ({ model }) => model.form,
+    models: { model: Profile },
+    view: View,
+  });
   const h = createHarness();
   const tree = (visible: boolean) => <Provider store={store}>{visible && <Form />}</Provider>;
   await h.render(tree(true));
@@ -243,7 +256,11 @@ test('async defaults load only after mount, preserve native loading state and ne
       </>
     );
   }
-  const Form = holoForm({ model: Profile, core: View });
+  const Form = holoForm({
+    form: ({ model }) => model.form,
+    models: { model: Profile },
+    view: View,
+  });
   const h = createHarness();
   const tree = (visible: boolean) => <Provider store={store}>{visible && <Form />}</Provider>;
   await h.render(tree(true));
@@ -267,9 +284,10 @@ test('an abandoned suspended form never starts async defaults or acquires anothe
     model: () => ({ $pending: atom(new Promise<string>(() => {})) }),
   });
   const Pending = holoForm({
-    model: () => Profile({ key: ['abandoned'] }),
-    core: ({ value }: { value: string }) => <output>{value}</output>,
-    state: (m) => ({ value: m.$pending }),
+    form: ({ model }) => model.form,
+    models: { model: () => Profile({ key: ['abandoned'] }) },
+    view: ({ value }: { value: string }) => <output>{value}</output>,
+    read: ({ model: m }) => ({ value: m.$pending }),
   });
   const h = createHarness();
   await h.render(suspense(<Pending />));
@@ -284,8 +302,9 @@ test('two roots for one control are rejected and the control can be mounted agai
     options: (initial) => ({ defaultValues: initial }),
   });
   const Form = holoForm({
-    model: Profile,
-    core: () => <input {...useFormContext<{ name: string }>().register('name')} />,
+    form: ({ model }) => model.form,
+    models: { model: Profile },
+    view: () => <input {...useFormContext<{ name: string }>().register('name')} />,
   });
   const store = createStore();
   const first = createHarness();
@@ -324,8 +343,17 @@ test('form root ownership survives temporary Suspense hiding and allows sequenti
       </>
     );
   }
-  const Form = holoForm({ model: Profile, core: View, state: (m) => ({ text: m.$text }) });
-  const Other = holoForm({ model: Profile, core: View });
+  const Form = holoForm({
+    form: ({ model }) => model.form,
+    models: { model: Profile },
+    view: View,
+    read: ({ model: m }) => ({ text: m.$text }),
+  });
+  const Other = holoForm({
+    form: ({ model }) => model.form,
+    models: { model: Profile },
+    view: View,
+  });
   const store = createStore();
   const first = createHarness();
   await first.render(<Provider store={store}>{suspense(<Form />)}</Provider>);
@@ -352,4 +380,41 @@ test('form root ownership survives temporary Suspense hiding and allows sequenti
     </Provider>,
   );
   expect(first.container.querySelector('input')!.value).toBe('Draft');
+});
+
+test('holoForm explicitly selects its control among multiple named models', async () => {
+  const First = createFormModel({
+    initial: { name: 'first' },
+    options: (initial) => ({ defaultValues: initial }),
+  });
+  const Second = createFormModel({
+    initial: { name: 'second' },
+    options: (initial) => ({ defaultValues: initial }),
+  });
+  const Connected = holoForm({
+    models: { first: First, editor: Second },
+    form: ({ editor }) => editor.form,
+    view: ({ firstName }: { firstName: string }) => {
+      const form = useFormContext<{ name: string }>();
+      return (
+        <>
+          <output>{firstName}</output>
+          <input {...form.register('name')} />
+        </>
+      );
+    },
+    read: ({ first }) => ({ firstName: formAtom(first.form, 'name') }),
+  });
+  const store = createStore();
+  const h = createHarness();
+  await h.render(
+    <Provider store={store}>
+      <Connected />
+    </Provider>,
+  );
+  expect(h.container.querySelector('input')!.value).toBe('second');
+  expect(h.container.querySelector('output')!.textContent).toBe('first');
+  await act(async () => store.get(Second()).form.setValue('name', 'edited'));
+  expect(h.container.querySelector('input')!.value).toBe('edited');
+  expect(store.get(First()).form.getValues('name')).toBe('first');
 });

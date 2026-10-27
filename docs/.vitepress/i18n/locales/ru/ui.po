@@ -276,26 +276,6 @@ msgstr "Чек для заказа"
 msgid "Local simulation: no payment or network request."
 msgstr "Локальная имитация: без оплаты и сетевых запросов."
 
-#: examples/docs/cage.tsx
-msgid "Mounted search View receives"
-msgstr "Смонтированный Search View получает"
-
-#: examples/docs/cage.tsx
-msgid "mounted"
-msgstr "смонтирован"
-
-#: examples/docs/cage.tsx
-msgid "unmounted"
-msgstr "размонтирован"
-
-#: examples/docs/cage.tsx
-msgid "Input prop: term"
-msgstr "Входной пропс: term"
-
-#: examples/docs/cage.tsx
-msgid "Mount Search"
-msgstr "Монтировать Search"
-
 #: examples/docs/counter.tsx
 msgid "Derived × 2"
 msgstr "Производное × 2"
@@ -416,6 +396,26 @@ msgstr "Билеты на воркшоп · $25 каждый"
 #: examples/docs/ion.tsx
 msgid "Member discount · 20%"
 msgstr "Скидка участника · 20%"
+
+#: examples/docs/lifecycle.tsx
+msgid "Mounted search View receives"
+msgstr "Смонтированный Search View получает"
+
+#: examples/docs/lifecycle.tsx
+msgid "mounted"
+msgstr "смонтирован"
+
+#: examples/docs/lifecycle.tsx
+msgid "unmounted"
+msgstr "размонтирован"
+
+#: examples/docs/lifecycle.tsx
+msgid "Input prop: term"
+msgstr "Входной пропс: term"
+
+#: examples/docs/lifecycle.tsx
+msgid "Mount Search"
+msgstr "Монтировать Search"
 
 #: examples/docs/list.tsx
 msgid "Review proposal"

@@ -276,26 +276,6 @@ msgstr "Receipt for order"
 msgid "Local simulation: no payment or network request."
 msgstr "Local simulation: no payment or network request."
 
-#: examples/docs/cage.tsx
-msgid "Mounted search View receives"
-msgstr "Mounted search View receives"
-
-#: examples/docs/cage.tsx
-msgid "mounted"
-msgstr "mounted"
-
-#: examples/docs/cage.tsx
-msgid "unmounted"
-msgstr "unmounted"
-
-#: examples/docs/cage.tsx
-msgid "Input prop: term"
-msgstr "Input prop: term"
-
-#: examples/docs/cage.tsx
-msgid "Mount Search"
-msgstr "Mount Search"
-
 #: examples/docs/counter.tsx
 msgid "Derived × 2"
 msgstr "Derived × 2"
@@ -416,6 +396,26 @@ msgstr "Workshop tickets · $25 each"
 #: examples/docs/ion.tsx
 msgid "Member discount · 20%"
 msgstr "Member discount · 20%"
+
+#: examples/docs/lifecycle.tsx
+msgid "Mounted search View receives"
+msgstr "Mounted search View receives"
+
+#: examples/docs/lifecycle.tsx
+msgid "mounted"
+msgstr "mounted"
+
+#: examples/docs/lifecycle.tsx
+msgid "unmounted"
+msgstr "unmounted"
+
+#: examples/docs/lifecycle.tsx
+msgid "Input prop: term"
+msgstr "Input prop: term"
+
+#: examples/docs/lifecycle.tsx
+msgid "Mount Search"
+msgstr "Mount Search"
 
 #: examples/docs/list.tsx
 msgid "Review proposal"

@@ -59,7 +59,7 @@ export function createSpreadsheet(initial = initialBudget) {
 
   const $selected = stateAtom('D5');
 
-  // A native writable derived atom remains usable in holo.actions.
+  // A native writable derived atom remains usable in holo.write.
   const $formula = atom(
     (get) => get(inputs[get($selected)]!),
     (get, set, value: string) => set(inputs[get($selected)]!, value),

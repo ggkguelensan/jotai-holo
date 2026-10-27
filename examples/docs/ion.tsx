@@ -58,9 +58,9 @@ function CartView({
 }
 
 const Cart = holo({
-  core: CartView,
-  state: { quantity: $quantity, discount: $discount, total: $total },
-  actions: { onQuantity: $quantity, onDiscount: $discount },
+  view: CartView,
+  read: { quantity: $quantity, discount: $discount, total: $total },
+  write: { onQuantity: $quantity, onDiscount: $discount },
 });
 // #endregion ion
 

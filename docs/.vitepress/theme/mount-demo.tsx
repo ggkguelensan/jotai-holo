@@ -16,7 +16,7 @@ const demos: Record<string, () => Promise<DemoModule>> = {
   prism: () => import('../../../examples/docs/prism'),
   event: () => import('../../../examples/docs/event'),
   bond: () => import('../../../examples/docs/bond'),
-  cage: () => import('../../../examples/docs/cage'),
+  lifecycle: () => import('../../../examples/docs/lifecycle'),
   list: () => import('../../../examples/docs/list'),
   match: () => import('../../../examples/docs/match'),
   operators: () => import('../../../examples/docs/operators'),

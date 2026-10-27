@@ -44,6 +44,11 @@ for (const file of pages) {
     /\b(?:bunshi|holoMolecule|ScopeProvider|useMolecule)\b/i,
     `Retired integration in ${file}`,
   );
+  assert.doesNotMatch(
+    text,
+    /\b(?:core|bindProps|cage)\s*:|ctx\.props|\/reference\/cage\b/,
+    `Retired holo syntax in ${file}`,
+  );
   if (file.includes('/reference/')) {
     const translated = locales.some(
       (locale) => locale.prefix && file.startsWith(root + locale.prefix + path.sep),

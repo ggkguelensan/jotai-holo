@@ -17,7 +17,7 @@ test('list preserves keyed local state on reorder and renders only changed rows'
     source: $items,
     getKey: (item) => item.id,
     mapItem: (item) => ({ item }),
-    core: function Row({ item, title }: { item: Item; title: string }) {
+    view: function Row({ item, title }: { item: Item; title: string }) {
       const [n, setN] = useState(0);
       renders[item.id] = (renders[item.id] ?? 0) + 1;
       return (
@@ -26,13 +26,13 @@ test('list preserves keyed local state on reorder and renders only changed rows'
         </button>
       );
     },
-    bindProps: { title: 'User' },
-    cage: {
+    props: { title: 'User' },
+    lifecycle: {
       onMount(_get, _set, ctx) {
-        mounts.push(ctx.props.item.id);
+        mounts.push(ctx.input.item.id);
       },
       onUnmount(_get, _set, ctx) {
-        unmounts.push(ctx.props.item.id);
+        unmounts.push(ctx.input.item.id);
       },
     },
     empty: () => <span>empty</span>,
@@ -66,7 +66,7 @@ test('list supports native async sources and reports duplicate keys', async () =
   const $items = atom(pending.promise);
   const List = holoList({
     source: $items,
-    core: ({ value }: { value: number }) => <span>{value}</span>,
+    view: ({ value }: { value: number }) => <span>{value}</span>,
     getKey: (value) => value,
     mapItem: (value) => ({ value }),
   });
@@ -103,12 +103,12 @@ test('match subscribes only the active branch and resets local state across case
     };
   };
   const A = holo({
-    core: ({ count }: { count: number }) => <span>a:{count}</span>,
-    state: { count: $a },
+    view: ({ count }: { count: number }) => <span>a:{count}</span>,
+    read: { count: $a },
   });
   const B = holo({
-    core: ({ count }: { count: number }) => <span>b:{count}</span>,
-    state: { count: $b },
+    view: ({ count }: { count: number }) => <span>b:{count}</span>,
+    read: { count: $b },
   });
   const Page = holoMatch({ source: $status, cases: { a: A, b: B } });
   const h = createHarness();

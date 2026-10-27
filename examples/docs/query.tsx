@@ -80,13 +80,13 @@ function ErrorView({ error }: { error: Error | null }) {
 }
 
 const Card = holo({
-  core: CardView,
-  state: { data: product.$product },
+  view: CardView,
+  read: { data: product.$product },
 });
 
 const ProductError = holo({
-  core: ErrorView,
-  state: { error: product.$error },
+  view: ErrorView,
+  read: { error: product.$error },
 });
 
 const ProductContent = holoMatch({
@@ -122,8 +122,8 @@ function SwitchView({ onChange }: { onChange: (value: string) => void }) {
 }
 
 const Switch = holo({
-  core: SwitchView,
-  actions: { onChange: $productId },
+  view: SwitchView,
+  write: { onChange: $productId },
 });
 
 function CatalogDemo() {

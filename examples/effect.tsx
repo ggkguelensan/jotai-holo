@@ -15,7 +15,7 @@ export function createObservedCounter() {
 
 const $$counter = createObservedCounter();
 export const EffectCounter = holo({
-  core: function EffectView({
+  view: function EffectView({
     count,
     message,
     onIncrement,
@@ -33,6 +33,6 @@ export const EffectCounter = holo({
       </section>
     );
   },
-  state: { count: $$counter.$observedCount, message: $$counter.$message },
-  actions: { onIncrement: $$counter.increment },
+  read: { count: $$counter.$observedCount, message: $$counter.$message },
+  write: { onIncrement: $$counter.increment },
 });

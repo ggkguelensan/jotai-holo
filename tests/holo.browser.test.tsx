@@ -39,7 +39,7 @@ function createHarness() {
   return { container, render, transition, unmount };
 }
 
-describe('holo cage', () => {
+describe('holo lifecycle', () => {
   test('mounts before initial change, tracks input changes, and unmounts with the latest inputs', async () => {
     const $count = stateAtom(0);
     const $global = stateAtom('');
@@ -58,22 +58,22 @@ describe('holo cage', () => {
       return <button onClick={() => onChange(count + 1)}>{count}</button>;
     }
     const Counter = holo({
-      core: Core,
-      state: { count: $count },
-      actions: { onChange: $count },
-      bindProps: { init: 5 },
-      cage: {
+      view: Core,
+      read: { count: $count },
+      write: { onChange: $count },
+      props: { init: 5 },
+      lifecycle: {
         onMount(get, set, ctx) {
-          events.push(`mount:${get($count)}:${ctx.props.init}`);
-          set($count, ctx.props.init * 2);
+          events.push(`mount:${get($count)}:${ctx.input.init}`);
+          set($count, ctx.input.init * 2);
         },
-        onChange(get, set, ctx) {
-          events.push(`change:${get($count)}:${ctx.props.reactive}`);
-          inputs.push(ctx.props);
-          set($global, ctx.props.reactive);
+        onInputChange(get, set, ctx) {
+          events.push(`change:${get($count)}:${ctx.input.reactive}`);
+          inputs.push(ctx.input);
+          set($global, ctx.input.reactive);
         },
         onUnmount(_get, set, ctx) {
-          events.push(`unmount:${ctx.props.reactive}`);
+          events.push(`unmount:${ctx.input.reactive}`);
           set($count, 0);
         },
       },
@@ -117,10 +117,10 @@ describe('holo cage', () => {
       return null;
     }
     const Connected = holo({
-      core: Core,
-      cage: {
-        onChange: (_get, _set, ctx) => {
-          events.push(String(ctx.props.value));
+      view: Core,
+      lifecycle: {
+        onInputChange: (_get, _set, ctx) => {
+          events.push(String(ctx.input.value));
         },
       },
     });
@@ -147,17 +147,17 @@ describe('holo cage', () => {
       return null;
     }
     const Connected = holo({
-      core: Core,
-      cage: {
+      view: Core,
+      lifecycle: {
         onMount(get, set, ctx) {
-          events.push(`mount:${get($name)}:${ctx.props.reactive}`);
-          set($value, ctx.props.reactive);
+          events.push(`mount:${get($name)}:${ctx.input.reactive}`);
+          set($value, ctx.input.reactive);
         },
-        onChange(get, _set, ctx) {
-          events.push(`change:${get($name)}:${ctx.props.reactive}`);
+        onInputChange(get, _set, ctx) {
+          events.push(`change:${get($name)}:${ctx.input.reactive}`);
         },
         onUnmount(get, set, ctx) {
-          events.push(`unmount:${get($name)}:${ctx.props.reactive}`);
+          events.push(`unmount:${get($name)}:${ctx.input.reactive}`);
           set($value, 'closed');
         },
       },
@@ -187,7 +187,7 @@ describe('holo cage', () => {
     expect(second.get($value)).toBe('closed');
   });
 
-  test('replays mount/change after StrictMode cleanup without entering an update loop', async () => {
+  test('deduplicates StrictMode replay without entering an update loop', async () => {
     const $count = stateAtom(0);
     const store = createStore();
     const events: string[] = [];
@@ -195,14 +195,14 @@ describe('holo cage', () => {
       return null;
     }
     const Connected = holo({
-      core: Core,
-      state: { count: $count },
-      cage: {
+      view: Core,
+      read: { count: $count },
+      lifecycle: {
         onMount(_get, set) {
           events.push('mount');
           set($count, 10);
         },
-        onChange() {
+        onInputChange() {
           events.push('change');
         },
         onUnmount(_get, set) {
@@ -219,7 +219,7 @@ describe('holo cage', () => {
         </Provider>
       </StrictMode>,
     );
-    expect(events).toEqual(['mount', 'change', 'unmount', 'mount', 'change']);
+    expect(events).toEqual(['mount', 'change']);
     expect(store.get($count)).toBe(10);
     await harness.unmount();
     expect(events.at(-1)).toBe('unmount');
@@ -232,13 +232,13 @@ describe('holo cage', () => {
       return null;
     }
     const Connected = holo({
-      core: Core,
-      cage: {
+      view: Core,
+      lifecycle: {
         onMount: (_get, _set, ctx) => {
-          events.push(`mount:${ctx.props.id}`);
+          events.push(`mount:${ctx.input.id}`);
         },
         onUnmount: (_get, _set, ctx) => {
-          events.push(`unmount:${ctx.props.id}`);
+          events.push(`unmount:${ctx.input.id}`);
         },
       },
     });
@@ -263,13 +263,13 @@ describe('holo cage', () => {
       return <span>{value}</span>;
     }
     const Connected = holo({
-      core: Core,
-      cage: {
-        onChange: (_get, _set, ctx) => {
-          events.push(`change:${ctx.props.value}`);
+      view: Core,
+      lifecycle: {
+        onInputChange: (_get, _set, ctx) => {
+          events.push(`change:${ctx.input.value}`);
         },
         onUnmount: (_get, _set, ctx) => {
-          events.push(`unmount:${ctx.props.value}`);
+          events.push(`unmount:${ctx.input.value}`);
         },
       },
     });

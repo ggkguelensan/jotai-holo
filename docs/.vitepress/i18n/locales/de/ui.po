@@ -276,26 +276,6 @@ msgstr "Beleg für Bestellung"
 msgid "Local simulation: no payment or network request."
 msgstr "Lokale Simulation: keine Zahlung oder Netzwerkanfrage."
 
-#: examples/docs/cage.tsx
-msgid "Mounted search View receives"
-msgstr "Die eingebundene Such-View erhält"
-
-#: examples/docs/cage.tsx
-msgid "mounted"
-msgstr "eingebunden"
-
-#: examples/docs/cage.tsx
-msgid "unmounted"
-msgstr "entfernt"
-
-#: examples/docs/cage.tsx
-msgid "Input prop: term"
-msgstr "Eingabe-Prop: term"
-
-#: examples/docs/cage.tsx
-msgid "Mount Search"
-msgstr "Suche einbinden"
-
 #: examples/docs/counter.tsx
 msgid "Derived × 2"
 msgstr "Abgeleitet × 2"
@@ -416,6 +396,26 @@ msgstr "Workshop-Tickets · je $25"
 #: examples/docs/ion.tsx
 msgid "Member discount · 20%"
 msgstr "Mitgliederrabatt · 20 %"
+
+#: examples/docs/lifecycle.tsx
+msgid "Mounted search View receives"
+msgstr "Die eingebundene Such-View erhält"
+
+#: examples/docs/lifecycle.tsx
+msgid "mounted"
+msgstr "eingebunden"
+
+#: examples/docs/lifecycle.tsx
+msgid "unmounted"
+msgstr "entfernt"
+
+#: examples/docs/lifecycle.tsx
+msgid "Input prop: term"
+msgstr "Eingabe-Prop: term"
+
+#: examples/docs/lifecycle.tsx
+msgid "Mount Search"
+msgstr "Suche einbinden"
 
 #: examples/docs/list.tsx
 msgid "Review proposal"

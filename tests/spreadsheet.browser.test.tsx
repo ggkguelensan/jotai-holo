@@ -21,15 +21,15 @@ test('only edited/dependent holo cells commit; the sheet shell stays untouched',
   const bindings = sheet.addresses.map((address) => {
     const cell = sheet.cells[address]!;
     return holo({
-      core: function TrackedCell(props: ComponentProps<typeof CellView>) {
+      view: function TrackedCell(props: ComponentProps<typeof CellView>) {
         useLayoutEffect(() => {
           commits[address] = (commits[address] ?? 0) + 1;
         });
         return <CellView {...props} />;
       },
-      bindProps: { address, onSelect: () => {} },
-      state: { input: cell.$input, value: cell.$value },
-      actions: { onChange: cell.$input },
+      props: { address, onSelect: () => {} },
+      read: { input: cell.$input, value: cell.$value },
+      write: { onChange: cell.$input },
     });
   });
   let shellCommits = 0;

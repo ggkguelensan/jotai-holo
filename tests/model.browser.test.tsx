@@ -19,24 +19,28 @@ test('default consumers share a model and resources; keyed consumers isolate in 
   let active = 0;
   const model = createModel({
     create,
-    connect: () => {
-      active++;
-      return () => {
-        active--;
-      };
-    },
+    resources: (_model) => [
+      {
+        connect: (_store) => {
+          active++;
+          return () => {
+            active--;
+          };
+        },
+      },
+    ],
   });
   const Counter = holo({
-    model,
-    core: CounterView,
-    state: (m) => ({ count: m.$count }),
-    actions: (m) => ({ onIncrement: m.increment }),
+    models: { model },
+    view: CounterView,
+    read: ({ model: m }) => ({ count: m.$count }),
+    write: ({ model: m }) => ({ onIncrement: m.increment }),
   });
   const Keyed = holo({
-    model: (props: { id: string }) => model({ key: [{ id: props.id }] }),
-    core: CounterView,
-    state: (m) => ({ count: m.$count }),
-    actions: (m) => ({ onIncrement: m.increment }),
+    models: { model: (props: { id: string }) => model({ key: [{ id: props.id }] }) },
+    view: CounterView,
+    read: ({ model: m }) => ({ count: m.$count }),
+    write: ({ model: m }) => ({ onIncrement: m.increment }),
   });
   expect(create).not.toHaveBeenCalled();
   const h = createHarness();
@@ -71,18 +75,18 @@ test('key changes, return navigation and store replacement preserve the correct 
   const connected: string[] = [];
   const model = createModel({ create });
   const Counter = holo({
-    model: (props: { id: string }) => model({ key: [props.id] }),
-    core: CounterView,
-    state: (m) => ({ count: m.$count }),
-    actions: (m) => ({ onIncrement: m.increment }),
-    cage: (m) => ({
-      onMount(get) {
-        connected.push(`mount:${get(m.$count)}`);
+    models: { model: (props: { id: string }) => model({ key: [props.id] }) },
+    view: CounterView,
+    read: ({ model: m }) => ({ count: m.$count }),
+    write: ({ model: m }) => ({ onIncrement: m.increment }),
+    lifecycle: {
+      onMount(get, _set, ctx) {
+        connected.push(`mount:${get(ctx.models.model.$count)}`);
       },
-      onUnmount(get) {
-        connected.push(`unmount:${get(m.$count)}`);
+      onUnmount(get, _set, ctx) {
+        connected.push(`unmount:${get(ctx.models.model.$count)}`);
       },
-    }),
+    },
   });
   const a = createStore();
   const b = createStore();
@@ -122,18 +126,22 @@ test('StrictMode replays resource ownership without losing Infinity-retained sta
   let active = 0;
   const model = createModel({
     create,
-    connect: () => {
-      active++;
-      return () => {
-        active--;
-      };
-    },
+    resources: (_model) => [
+      {
+        connect: (_store) => {
+          active++;
+          return () => {
+            active--;
+          };
+        },
+      },
+    ],
   });
   const Counter = holo({
-    model,
-    core: CounterView,
-    state: (m) => ({ count: m.$count }),
-    actions: (m) => ({ onIncrement: m.increment }),
+    models: { model },
+    view: CounterView,
+    read: ({ model: m }) => ({ count: m.$count }),
+    write: ({ model: m }) => ({ onIncrement: m.increment }),
   });
   const h = createHarness();
   await h.render(
@@ -152,11 +160,11 @@ test('StrictMode replays resource ownership without losing Infinity-retained sta
 test('a model rendered only behind initial Suspense never connects resources', async () => {
   const create = vi.fn(() => ({ $pending: atom(new Promise<string>(() => {})) }));
   const connect = vi.fn();
-  const model = createModel({ create, connect });
+  const model = createModel({ create, resources: () => [{ connect }] });
   const Pending = holo({
-    model: () => model({ key: ['abandoned'] }),
-    core: ({ value }: { value: string }) => <span>{value}</span>,
-    state: (m) => ({ value: m.$pending }),
+    models: { model: () => model({ key: ['abandoned'] }) },
+    view: ({ value }: { value: string }) => <span>{value}</span>,
+    read: ({ model: m }) => ({ value: m.$pending }),
   });
   const h = createHarness();
   await h.render(suspense(<Pending />));
@@ -166,7 +174,7 @@ test('a model rendered only behind initial Suspense never connects resources', a
   expect(connect).not.toHaveBeenCalled();
 });
 
-test('model resource connections exist before child cage passive effects emit events', async () => {
+test('model resource connections exist before child lifecycle passive effects emit events', async () => {
   const { bond, eventAtom } = await import('../src/vanilla.js');
   const requested = eventAtom<number>();
   const model = createModel({
@@ -174,13 +182,13 @@ test('model resource connections exist before child cage passive effects emit ev
       const $count = atom(0);
       return { $count, link: bond({ trigger: requested, yield: $count }) };
     },
-    connect: (m, store) => m.link.connect(store),
+    resources: (m) => [{ connect: (store) => m.link.connect(store) }],
   });
   const Counter = holo({
-    model,
-    core: ({ count }: { count: number }) => <span>{count}</span>,
-    state: (m) => ({ count: m.$count }),
-    cage: {
+    models: { model },
+    view: ({ count }: { count: number }) => <span>{count}</span>,
+    read: ({ model: m }) => ({ count: m.$count }),
+    lifecycle: {
       onMount(_get, set) {
         set(requested, 5);
       },
@@ -208,9 +216,9 @@ test('actions-only model bindings do not evaluate or subscribe to model state', 
   const write = vi.fn();
   const model = createModel({ create: () => ({ $unused: atom(read), change: actionAtom(write) }) });
   const Button = holo({
-    model,
-    core: ({ onClick }: { onClick: () => void }) => <button onClick={onClick}>change</button>,
-    actions: (m) => ({ onClick: m.change }),
+    models: { model },
+    view: ({ onClick }: { onClick: () => void }) => <button onClick={onClick}>change</button>,
+    write: ({ model: m }) => ({ onClick: m.change }),
   });
   const h = createHarness();
   await h.render(<Button />);
@@ -222,10 +230,10 @@ test('actions-only model bindings do not evaluate or subscribe to model state', 
 function typeChecks() {
   const model = createModel({ create: createCounter });
   const Counter = holo({
-    model: (props: { id: string }) => model({ key: [props.id] }),
-    core: CounterView,
-    state: (m) => ({ count: m.$count }),
-    actions: (m) => ({ onIncrement: m.increment }),
+    models: { model: (props: { id: string }) => model({ key: [props.id] }) },
+    view: CounterView,
+    read: ({ model: m }) => ({ count: m.$count }),
+    write: ({ model: m }) => ({ onIncrement: m.increment }),
   });
   const valid = <Counter id="one" />;
   // @ts-expect-error Selector props are public required inputs.
@@ -237,15 +245,15 @@ function typeChecks() {
 }
 void typeChecks;
 
-test('gcTime zero remains stable through StrictMode effect replay and evicts after unmount', async () => {
+test('retainTime zero remains stable through StrictMode effect replay and evicts after unmount', async () => {
   const create = vi.fn(createCounter);
-  const model = createModel({ create, gcTime: 0 });
+  const model = createModel({ create, retainTime: 0 });
   const store = createStore();
   const Counter = holo({
-    model,
-    core: CounterView,
-    state: (m) => ({ count: m.$count }),
-    actions: (m) => ({ onIncrement: m.increment }),
+    models: { model },
+    view: CounterView,
+    read: ({ model: m }) => ({ count: m.$count }),
+    write: ({ model: m }) => ({ onIncrement: m.increment }),
   });
   const h = createHarness();
   await h.render(
@@ -266,10 +274,10 @@ test('a native asynchronous model atom resolves before its typed bindings are se
   const model = createCounter();
   const $model = atom(Promise.resolve(model));
   const Counter = holo({
-    model: $model,
-    core: CounterView,
-    state: (m) => ({ count: m.$count }),
-    actions: (m) => ({ onIncrement: m.increment }),
+    models: { model: $model },
+    view: CounterView,
+    read: ({ model: m }) => ({ count: m.$count }),
+    write: ({ model: m }) => ({ onIncrement: m.increment }),
   });
   const h = createHarness();
   await h.render(suspense(<Counter />));
@@ -286,23 +294,27 @@ test('temporary Suspense hiding preserves the model lease and finite-retention s
   }));
   let active = 0;
   const Model = createModel({
-    gcTime: 0,
+    retainTime: 0,
     create,
-    connect: () => {
-      active++;
-      return () => {
-        active--;
-      };
-    },
+    resources: (_model) => [
+      {
+        connect: (_store) => {
+          active++;
+          return () => {
+            active--;
+          };
+        },
+      },
+    ],
   });
   const Counter = holo({
-    model: Model,
-    core: ({ count, text }: { count: number; text: string }) => (
+    models: { model: Model },
+    view: ({ count, text }: { count: number; text: string }) => (
       <output>
         {count}:{text}
       </output>
     ),
-    state: (m) => ({ count: m.$count, text: m.$text }),
+    read: ({ model: m }) => ({ count: m.$count, text: m.$text }),
   });
   const store = createStore();
   const h = createHarness();

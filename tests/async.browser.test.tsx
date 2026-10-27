@@ -6,7 +6,7 @@ import { holo } from '../src/holo.js';
 import { actionAtom } from '../src/action-atom.js';
 import { createHarness, deferred, ErrorBoundary, suspense } from './browser-harness.js';
 
-test('pending bindings start together, wait for all values and open cage only after commit', async () => {
+test('pending bindings start together, wait for all values and open lifecycle only after commit', async () => {
   const first = deferred<string>();
   const second = deferred<number>();
   const starts: string[] = [];
@@ -20,13 +20,13 @@ test('pending bindings start together, wait for all values and open cage only af
     return second.promise;
   });
   const C = holo({
-    core: ({ first, second }: { first: string; second: number }) => (
+    view: ({ first, second }: { first: string; second: number }) => (
       <span>
         {first}:{second}
       </span>
     ),
-    state: { first: $first, second: $second },
-    cage: {
+    read: { first: $first, second: $second },
+    lifecycle: {
       onMount() {
         events.push('mount');
       },
@@ -43,14 +43,14 @@ test('pending bindings start together, wait for all values and open cage only af
   expect(events).toEqual(['mount']);
 });
 
-test('settled async state plus a sync update neither suspends nor reopens cage', async () => {
+test('settled async state plus a sync update neither suspends nor reopens lifecycle', async () => {
   const $count = atom(0);
   const $name = atom(Promise.resolve('ready'));
   const store = createStore();
   const events: string[] = [];
   let renders = 0;
   const C = holo({
-    core: ({ count, name }: { count: number; name: string }) => {
+    view: ({ count, name }: { count: number; name: string }) => {
       renders++;
       return (
         <span>
@@ -58,8 +58,8 @@ test('settled async state plus a sync update neither suspends nor reopens cage',
         </span>
       );
     },
-    state: { count: $count, name: $name },
-    cage: {
+    read: { count: $count, name: $name },
+    lifecycle: {
       onMount() {
         events.push('mount');
       },
@@ -86,9 +86,9 @@ test('real pending replacement hides the core but keeps the model lifecycle open
   const store = createStore();
   const events: string[] = [];
   const C = holo({
-    core: ({ value }: { value: string }) => <span>{value}</span>,
-    state: { value: $value },
-    cage: {
+    view: ({ value }: { value: string }) => <span>{value}</span>,
+    read: { value: $value },
+    lifecycle: {
       onMount() {
         events.push('mount');
       },
@@ -115,8 +115,8 @@ test('rejection reaches ErrorBoundary even if a second binding never settles', a
   const next = deferred<string>();
   const error = new Error('read failed');
   const C = holo({
-    core: ({ value }: { value: string; other: number }) => <span>{value}</span>,
-    state: { value: atom(next.promise), other: atom(new Promise<number>(() => undefined)) },
+    view: ({ value }: { value: string; other: number }) => <span>{value}</span>,
+    read: { value: atom(next.promise), other: atom(new Promise<number>(() => undefined)) },
   });
   const h = createHarness();
   await h.render(<ErrorBoundary>{suspense(<C />)}</ErrorBoundary>);
@@ -133,8 +133,8 @@ test.each(['resolve', 'reject'] as const)(
     const $value = atom(first.promise);
     const store = createStore();
     const C = holo({
-      core: ({ value }: { value: string }) => <span>{value}</span>,
-      state: { value: $value },
+      view: ({ value }: { value: string }) => <span>{value}</span>,
+      read: { value: $value },
     });
     const h = createHarness();
     await h.render(
@@ -157,8 +157,8 @@ test('sync/async/sync transitions preserve the latest committed value', async ()
   const $value = atom<number | Promise<number>>(0);
   const store = createStore();
   const C = holo({
-    core: ({ value }: { value: number }) => <span>{value}</span>,
-    state: { value: $value },
+    view: ({ value }: { value: number }) => <span>{value}</span>,
+    read: { value: $value },
   });
   const h = createHarness();
   await h.render(<Provider store={store}>{suspense(<C />)}</Provider>);
@@ -184,8 +184,8 @@ test('derived async reads retain native Jotai AbortSignal and dependency switchi
     return key === 'first' ? first.promise : second.promise;
   });
   const C = holo({
-    core: ({ value }: { value: string }) => <span>{value}</span>,
-    state: { value: $value },
+    view: ({ value }: { value: string }) => <span>{value}</span>,
+    read: { value: $value },
   });
   const h = createHarness();
   await h.render(<Provider store={store}>{suspense(<C />)}</Provider>);
@@ -204,8 +204,8 @@ test('pending state stays isolated when the nearest Provider store changes', asy
   const b = createStore();
   b.set($value, second.promise);
   const C = holo({
-    core: ({ value }: { value: string }) => <span>{value}</span>,
-    state: { value: $value },
+    view: ({ value }: { value: string }) => <span>{value}</span>,
+    read: { value: $value },
   });
   const h = createHarness();
   await h.render(<Provider store={a}>{suspense(<C />)}</Provider>);
@@ -228,11 +228,11 @@ test('pending actions preserve promise identity and their originating store afte
     return value;
   });
   const C = holo({
-    core: ({ onSave }: { onSave: () => Promise<number> }) => {
+    view: ({ onSave }: { onSave: () => Promise<number> }) => {
       callback = onSave;
       return null;
     },
-    actions: { onSave: save },
+    write: { onSave: save },
   });
   const h = createHarness();
   await h.render(
@@ -261,11 +261,11 @@ test('async action rejection reaches its caller without becoming a render error'
     throw error;
   });
   const C = holo({
-    core: ({ onSave }: { onSave: () => Promise<never> }) => {
+    view: ({ onSave }: { onSave: () => Promise<never> }) => {
       callback = onSave;
       return <span>ready</span>;
     },
-    actions: { onSave: fail },
+    write: { onSave: fail },
   });
   const h = createHarness();
   await h.render(
@@ -279,20 +279,20 @@ test('async action rejection reaches its caller without becoming a render error'
   expect(h.caught).toEqual([]);
 });
 
-test('abandoned transitional props never enter cage snapshots', async () => {
+test('abandoned transitional props never enter lifecycle snapshots', async () => {
   const pending = new Promise<void>(() => undefined);
   const events: string[] = [];
   const C = holo({
-    core: ({ value }: { value: string }) => {
+    view: ({ value }: { value: string }) => {
       if (value === 'abandoned') throw pending;
       return <span>{value}</span>;
     },
-    cage: {
-      onChange(_get, _set, ctx) {
-        events.push(ctx.props.value);
+    lifecycle: {
+      onInputChange(_get, _set, ctx) {
+        events.push(ctx.input.value);
       },
       onUnmount(_get, _set, ctx) {
-        events.push(`close:${ctx.props.value}`);
+        events.push(`close:${ctx.input.value}`);
       },
     },
   });

@@ -61,7 +61,7 @@ React-only throwOnError is unsupported. Enabled values, including inherited clie
 
 Use native useMutation when a component owns the operation. Use mutationAtoms when a Jotai model must execute it or several Views need separate state projections. The adapter reuses actionAtom and prism; it adds execution ownership and store isolation without another cache or retry engine.
 
-atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.actions and bond.yield. Observing all mutations, including those launched by useMutation, is a separate cache-level task.
+atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.write and bond.yield. Observing all mutations, including those launched by useMutation, is a separate cache-level task.
 
 ## Analogies and reading
 

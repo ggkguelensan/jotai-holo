@@ -390,3 +390,50 @@ test('key replacement delivers old unmount input before disconnect and new input
   await h.unmount();
   expect(events).toContain(`unmount:${next}:new`);
 });
+
+test('different keys own different leases even when a factory returns the same model object', async () => {
+  const events: string[] = [];
+  const shared = { $value: atom(0) };
+  const Model = createModel({
+    create: () => shared,
+    resources: () => [
+      {
+        connect() {
+          events.push('connect');
+          return () => {
+            events.push('disconnect');
+          };
+        },
+      },
+    ],
+  });
+  const Connected = holo({
+    models: { selected: (input: { id: string }) => Model({ key: [input.id] }) },
+    view: () => null,
+    lifecycle: {
+      onMount(_get, _set, ctx) {
+        events.push(`mount:${ctx.input.id}`);
+      },
+      onUnmount(_get, _set, ctx) {
+        events.push(`unmount:${ctx.input.id}`);
+      },
+    },
+  });
+  const h = createHarness();
+  const store = createStore();
+  await h.render(
+    <Provider store={store}>
+      <Connected id="a" />
+    </Provider>,
+  );
+  await h.render(
+    <Provider store={store}>
+      <Connected id="b" />
+    </Provider>,
+  );
+  expect(events).toEqual(['connect', 'mount:a', 'unmount:a', 'disconnect', 'connect', 'mount:b']);
+  expect(Model.remove(store, { key: ['a'] })).toBe(true);
+  expect(Model.remove(store, { key: ['b'] })).toBe(false);
+  await h.unmount();
+  expect(events.slice(-2)).toEqual(['unmount:b', 'disconnect']);
+});

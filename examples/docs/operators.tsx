@@ -52,14 +52,14 @@ function OrderReviewView({
 }
 
 const OrderReview = holo({
-  core: OrderReviewView,
-  state: {
+  view: OrderReviewView,
+  read: {
     total: $total,
     accepted: $accepted,
     canOrder: $canOrder,
     surcharge: $hasSurcharge,
   },
-  actions: { onAccept: $accepted },
+  write: { onAccept: $accepted },
 });
 // #endregion operators
 
