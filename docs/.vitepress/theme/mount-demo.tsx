@@ -11,6 +11,7 @@ type DemoModule = {
 
 const demos: Record<string, () => Promise<DemoModule>> = {
   counter: () => import('../../../examples/docs/counter'),
+  imperative: () => import('../../../examples/docs/imperative'),
   ion: () => import('../../../examples/docs/ion'),
   prism: () => import('../../../examples/docs/prism'),
   event: () => import('../../../examples/docs/event'),

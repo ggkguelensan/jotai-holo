@@ -598,8 +598,8 @@ msgstr "Shared model resources"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/integrations.md
-msgid "An editor and its toolbar may need one model even when one widget is hidden. Put the connection in [createModel.connect](/reference/createModel#contract). The first committed owner starts it; the last owner releases it. Select the same key and store in both widgets. Keeping an instance with `gcTime: Infinity` does not keep released subscriptions active."
-msgstr "An editor and its toolbar may need one model even when one widget is hidden. Put the connection in [createModel.connect](/reference/createModel#contract). The first committed owner starts it; the last owner releases it. Select the same key and store in both widgets. Keeping an instance with `gcTime: Infinity` does not keep released subscriptions active."
+msgid "An editor and its toolbar may need one model even when one widget is hidden. Put the connection in [createModel.connect](/reference/createModel#contract). The first committed owner starts it; the last owner releases it. Select the same key and store in both widgets. Keeping an instance with `retainTime: Infinity` does not keep released subscriptions active."
+msgstr "An editor and its toolbar may need one model even when one widget is hidden. Put the connection in [createModel.connect](/reference/createModel#contract). The first committed owner starts it; the last owner releases it. Select the same key and store in both widgets. Keeping an instance with `retainTime: Infinity` does not keep released subscriptions active."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -858,6 +858,7 @@ msgstr "Describe an operation that reads or updates atoms. For example, validate
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
@@ -882,6 +883,7 @@ msgstr "Describe an operation that reads or updates atoms. For example, validate
 #: docs/reference/stateAtom.md
 #: docs/reference/subscribeEvent.md
 #: docs/reference/sum.md
+#: docs/reference/useImperativeHolo.md
 msgid "Contract"
 msgstr "Contract"
 
@@ -924,6 +926,7 @@ msgstr "- `actionAtom((get, set, ...args) => result)` returns a writable atom wh
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
@@ -948,6 +951,7 @@ msgstr "- `actionAtom((get, set, ...args) => result)` returns a writable atom wh
 #: docs/reference/stateAtom.md
 #: docs/reference/subscribeEvent.md
 #: docs/reference/sum.md
+#: docs/reference/useImperativeHolo.md
 msgid "Why this API"
 msgstr "Why this API"
 
@@ -980,6 +984,7 @@ msgstr "Native `atom(null, write)` already handles commands. This helper adds a 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
@@ -1004,6 +1009,7 @@ msgstr "Native `atom(null, write)` already handles commands. This helper adds a 
 #: docs/reference/stateAtom.md
 #: docs/reference/subscribeEvent.md
 #: docs/reference/sum.md
+#: docs/reference/useImperativeHolo.md
 msgid "Analogies and reading"
 msgstr "Analogies and reading"
 
@@ -1302,8 +1308,8 @@ msgstr "Import from `jotai-holo/rhf`. Requires React Hook Form 7.91+ within v7. 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createFormModel.md
-msgid "`createFormModel({ initial, options, model?, gcTime? }) → ModelDefinition`"
-msgstr "`createFormModel({ initial, options, model?, gcTime? }) → ModelDefinition`"
+msgid "`createFormModel({ initial, options, model?, retainTime? }) → ModelDefinition`"
+msgstr "`createFormModel({ initial, options, model?, retainTime? }) → ModelDefinition`"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1311,14 +1317,14 @@ msgstr "`createFormModel({ initial, options, model?, gcTime? }) → ModelDefinit
 msgid "- `options(initial)` returns native UseFormProps. It creates one createFormControl per model instance. `initial` is creation-only, never a reactive reset.\n"
 "- `model({ form, initial })` optionally returns your atoms and actions. The returned instance includes those fields and `form`. The name form is reserved.\n"
 "- Input, resolver context, and transformed output types are retained. Native zodResolver, yupResolver, valibotResolver, and other Resolver implementations pass through unchanged; no schema translation is performed. The executable demo uses Zod; the tests also exercise an asynchronous transforming resolver.\n"
-"- Control identity follows createModel: same definition/key/store shares a control; different keys/stores isolate forms. Default gcTime is Infinity. This retains drafts after unmount; remove them explicitly when no longer needed.\n"
+"- Control identity follows createModel: same definition/key/store shares a control; different keys/stores isolate forms. Default retainTime is Infinity. This retains drafts after unmount; remove them explicitly when no longer needed.\n"
 "- The model exposes native register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control, and other createFormControl methods. It does not fabricate useForm's formState object. Use native useFormState for flags and errors.\n"
 "- Options are fixed at creation. Change values with reset/setValue and explicit model actions. This wrapper does not add reactive values/resolver prop rebinding to holo. Async defaultValues start when a holoForm root mounts, with native RHF loading state. The initial load is shared per model and is not reapplied after successful completion on later remounts. Use reset for an explicit reload.\n"
 "- The factory creates no subscriptions and runs no React hooks. Custom resources still need explicit ownership. Native RHF state can be shared intentionally across stores only if the application passes the same raw control itself; createFormModel does not do that."
 msgstr "- `options(initial)` returns native UseFormProps. It creates one createFormControl per model instance. `initial` is creation-only, never a reactive reset.\n"
 "- `model({ form, initial })` optionally returns your atoms and actions. The returned instance includes those fields and `form`. The name form is reserved.\n"
 "- Input, resolver context, and transformed output types are retained. Native zodResolver, yupResolver, valibotResolver, and other Resolver implementations pass through unchanged; no schema translation is performed. The executable demo uses Zod; the tests also exercise an asynchronous transforming resolver.\n"
-"- Control identity follows createModel: same definition/key/store shares a control; different keys/stores isolate forms. Default gcTime is Infinity. This retains drafts after unmount; remove them explicitly when no longer needed.\n"
+"- Control identity follows createModel: same definition/key/store shares a control; different keys/stores isolate forms. Default retainTime is Infinity. This retains drafts after unmount; remove them explicitly when no longer needed.\n"
 "- The model exposes native register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control, and other createFormControl methods. It does not fabricate useForm's formState object. Use native useFormState for flags and errors.\n"
 "- Options are fixed at creation. Change values with reset/setValue and explicit model actions. This wrapper does not add reactive values/resolver prop rebinding to holo. Async defaultValues start when a holoForm root mounts, with native RHF loading state. The initial load is shared per model and is not reapplied after successful completion on later remounts. Use reset for an explicit reload.\n"
 "- The factory creates no subscriptions and runs no React hooks. Custom resources still need explicit ownership. Native RHF state can be shared intentionally across stores only if the application passes the same raw control itself; createFormModel does not do that."
@@ -1394,9 +1400,9 @@ msgstr "Keep or remove a model"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createModel.md
-msgid "- `gcTime: Infinity` retains acquired instances for the store lifetime. It does **not** retain active subscriptions after release. Finite gcTime starts after the last release and is cancelled on reacquire. Zero schedules removal for the next task, so StrictMode replay can reacquire safely.\n"
+msgid "- `retainTime: Infinity` retains acquired instances for the store lifetime. It does **not** retain active subscriptions after release. Finite retainTime starts after the last release and is cancelled on reacquire. Zero schedules removal for the next task, so StrictMode replay can reacquire safely.\n"
 "- `remove` returns false for an active or absent instance, true after removal. Existing selection handles resolve a new generation on their next read. Infinity requires deliberate removal for unbounded key spaces."
-msgstr "- `gcTime: Infinity` retains acquired instances for the store lifetime. It does **not** retain active subscriptions after release. Finite gcTime starts after the last release and is cancelled on reacquire. Zero schedules removal for the next task, so StrictMode replay can reacquire safely.\n"
+msgstr "- `retainTime: Infinity` retains acquired instances for the store lifetime. It does **not** retain active subscriptions after release. Finite retainTime starts after the last release and is cancelled on reacquire. Zero schedules removal for the next task, so StrictMode replay can reacquire safely.\n"
 "- `remove` returns false for an active or absent instance, true after removal. Existing selection handles resolve a new generation on their next read. Infinity requires deliberate removal for unbounded key spaces."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -1554,6 +1560,12 @@ msgstr "holo"
 #: docs/reference/holo.md
 msgid "Connect a React View to atom values and actions. The View receives ordinary props; the binding manages its Jotai subscriptions."
 msgstr "Connect a React View to atom values and actions. The View receives ordinary props; the binding manages its Jotai subscriptions."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
+msgid "The new configuration uses `view/read/write/props`, named `models`, `lifecycle`, `resources` and `imperative`. See the [runtime guide](/runtime) and [useImperativeHolo](/reference/useImperativeHolo). The following sections describe the supported legacy configuration."
+msgstr "The new configuration uses `view/read/write/props`, named `models`, `lifecycle`, `resources` and `imperative`. See the [runtime guide](/runtime) and [useImperativeHolo](/reference/useImperativeHolo). The following sections describe the supported legacy configuration."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2162,26 +2174,26 @@ msgstr "stateAtom"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/stateAtom.md
-msgid "Store an editable value or derive a read-only value from other atoms. A draft name is state; its character count is derived state."
-msgstr "Store an editable value or derive a read-only value from other atoms. A draft name is state; its character count is derived state."
+msgid "Store an editable value or derive a value from other atoms. A draft name is state; its character count is derived state."
+msgstr "Store an editable value or derive a value from other atoms. A draft name is state; its character count is derived state."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/stateAtom.md
 msgid "- `stateAtom(value)` returns a native primitive atom, writable through `set` or a bound callback.\n"
-"- `stateAtom(get => value)` returns a native read-only atom. The callback receives **only get**; no setter or options.\n"
-"- Function arguments always mean derived reads. Use native `atom` for a function-valued primitive, writable derived state, or `{ signal }` options.\n"
+"- `stateAtom(read)` returns a read-only atom; `stateAtom(read, write)` supports writable derivations. Native async read options are preserved.\n"
+"- This is a direct alias of native atom, with no additional state runtime.\n"
 "- Promise values remain Promises outside React bindings. Reads are lazy; Jotai owns dependencies and store isolation."
 msgstr "- `stateAtom(value)` returns a native primitive atom, writable through `set` or a bound callback.\n"
-"- `stateAtom(get => value)` returns a native read-only atom. The callback receives **only get**; no setter or options.\n"
-"- Function arguments always mean derived reads. Use native `atom` for a function-valued primitive, writable derived state, or `{ signal }` options.\n"
+"- `stateAtom(read)` returns a read-only atom; `stateAtom(read, write)` supports writable derivations. Native async read options are preserved.\n"
+"- This is a direct alias of native atom, with no additional state runtime.\n"
 "- Promise values remain Promises outside React bindings. Reads are lazy; Jotai owns dependencies and store isolation."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/stateAtom.md
-msgid "Choose stateAtom to distinguish stored values from read-only calculations. Use Jotai's `atom` when you need a writable derivation or read options such as AbortSignal."
-msgstr "Choose stateAtom to distinguish stored values from read-only calculations. Use Jotai's `atom` when you need a writable derivation or read options such as AbortSignal."
+msgid "Choose stateAtom to express state intent, including derived read/write state. Native atom remains equally supported."
+msgstr "Choose stateAtom to express state intent, including derived read/write state. Native atom remains equally supported."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2254,3 +2266,53 @@ msgstr "Add numeric atom values. For example, calculate an order total from good
 #: docs/reference/sum.md
 msgid "Reads every numeric input. Also accepts one numeric atom or an atom of readonly number[]. Empty input returns 0. Uses ordinary JavaScript addition, with its floating-point precision; represent money in minor units. Strings and promises are rejected by TypeScript."
 msgstr "Reads every numeric input. Also accepts one numeric atom or an atom of readonly number[]. Empty input returns 0. Uses ordinary JavaScript addition, with its floating-point precision; represent money in minor units. Strings and promises are rejected by TypeScript."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "useImperativeHolo"
+msgstr "useImperativeHolo"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "Keep router, DOM and editor methods inside View. Connect model events to those methods through `holo.imperative`, without storing React functions in atoms."
+msgstr "Keep router, DOM and editor methods inside View. Connect model events to those methods through `holo.imperative`, without storing React functions in atoms."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "`useImperativeHolo(imperative, handlers)` exposes a stable method table. Handlers update after commit, without a dependency array. Abandoned renders do not publish handlers. Method names must remain stable. The `imperative` prop is an ordinary typed React ref, supported on React 18 and 19."
+msgstr "`useImperativeHolo(imperative, handlers)` exposes a stable method table. Handlers update after commit, without a dependency array. Abandoned renders do not publish handlers. Method names must remain stable. The `imperative` prop is an ordinary typed React ref, supported on React 18 and 19."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "`holo.imperative` maps handle methods to eventAtom or actionAtom sources. It does not observe arbitrary writable atoms. Delivery is per View instance, uses the current store and stops when the handle is unavailable. Events are not replayed after mount or Suspense reveal. Two Views observing one source both receive its events; choose one navigation owner deliberately."
+msgstr "`holo.imperative` maps handle methods to eventAtom or actionAtom sources. It does not observe arbitrary writable atoms. Delivery is per View instance, uses the current store and stops when the handle is unavailable. Events are not replayed after mount or Suspense reveal. Two Views observing one source both receive its events; choose one navigation owner deliberately."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "Subscriptions are installed before holo acquires model/resources and runs its own mount lifecycle. Child layout effects are outside that startup ordering. Do not depend on a View handle during unmount. Synchronous throws and rejected handler promises go to `holo.onError`, or console.error when omitted. Publishers do not await View methods."
+msgstr "Subscriptions are installed before holo acquires model/resources and runs its own mount lifecycle. Child layout effects are outside that startup ordering. Do not depend on a View handle during unmount. Synchronous throws and rejected handler promises go to `holo.onError`, or console.error when omitted. Publishers do not await View methods."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "The demo simulates a successful order boundary. In an application, publish orderCreated after the server accepts the order; the View method can call its router instead of selecting a local confirmation screen."
+msgstr "The demo simulates a successful order boundary. In an application, publish orderCreated after the server accepts the order; the View method can call its router instead of selecting a local confirmation screen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "Use imperative methods for behavior that cannot be expressed as state props. Keep ordinary modal visibility in read bindings. The model publishes facts; the View implements platform behavior. See the [runtime migration guide](/runtime) for named models, lifecycle and resources."
+msgstr "Use imperative methods for behavior that cannot be expressed as state props. Keep ordinary modal visibility in read bindings. The model publishes facts; the View implements platform behavior. See the [runtime migration guide](/runtime) for named models, lifecycle and resources."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "- [React useImperativeHandle](https://react.dev/reference/react/useImperativeHandle) — the underlying committed handle mechanism.\n"
+"- [React purity](https://react.dev/reference/rules/components-and-hooks-must-be-pure) — why render cannot register callbacks or subscriptions."
+msgstr "- [React useImperativeHandle](https://react.dev/reference/react/useImperativeHandle) — the underlying committed handle mechanism.\n"
+"- [React purity](https://react.dev/reference/rules/components-and-hooks-must-be-pure) — why render cannot register callbacks or subscriptions."

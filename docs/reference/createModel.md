@@ -16,7 +16,7 @@ import { createModel } from 'jotai-holo/model';
 const Proposal = createModel({
   initial: { seats: 5 },
   create: (initial) => createProposal(initial),
-  gcTime: Infinity, // default
+  retainTime: Infinity, // default
   connect: ($$proposal, store) => $$proposal.saving.connect(store),
 });
 
@@ -45,7 +45,7 @@ Proposal.remove(store, { key: ['proposal', { id: 'atlas' }] });
 
 ### Keep or remove a model
 
-- `gcTime: Infinity` retains acquired instances for the store lifetime. It does **not** retain active subscriptions after release. Finite gcTime starts after the last release and is cancelled on reacquire. Zero schedules removal for the next task, so StrictMode replay can reacquire safely.
+- `retainTime: Infinity` retains acquired instances for the store lifetime. It does **not** retain active subscriptions after release. Finite retainTime starts after the last release and is cancelled on reacquire. Zero schedules removal for the next task, so StrictMode replay can reacquire safely.
 - `remove` returns false for an active or absent instance, true after removal. Existing selection handles resolve a new generation on their next read. Infinity requires deliberate removal for unbounded key spaces.
 
 In React, temporary Suspense hiding retains the lease. After actual unmount or model replacement, release is scheduled in a microtask after child passive cleanup so a synchronous cage.onUnmount fact can reach its connected bond. Explicit lease.release() outside React remains synchronous.

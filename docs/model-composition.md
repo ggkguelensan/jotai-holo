@@ -13,7 +13,7 @@ when one model needs another model's resources, not just its atom definitions.
 | Request or session isolation             | A separate Jotai store                                | `tests/model.test.ts`, `tests/model.browser.test.tsx`          |
 | First-owner setup and last-owner cleanup | `connect`, `acquire`, `release`                       | `examples/model-effect.tsx`, `tests/examples.browser.test.tsx` |
 | Commit-time ownership                    | `holo({ model, … })`                                  | `tests/model.browser.test.tsx`                                 |
-| Retention and eviction                   | `gcTime`, `remove`                                    | `tests/model.test.ts`                                          |
+| Retention and eviction                   | `retainTime`, `remove`                                | `tests/model.test.ts`                                          |
 | Explicit dependency ownership            | Acquire a dependency in `connect`, return its release | `tests/model-composition.test.ts`                              |
 
 The example application uses one ordinary Jotai Provider. Two counter Views

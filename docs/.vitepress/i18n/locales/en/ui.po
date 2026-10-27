@@ -377,21 +377,45 @@ msgstr "Saved:"
 msgid "Contact preferences"
 msgstr "Contact preferences"
 
+#: examples/docs/imperative.tsx
+msgid "Order confirmation"
+msgstr "Order confirmation"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/ion.tsx
+msgid "Total"
+msgstr "Total"
+
+#: examples/docs/imperative.tsx
+msgid "Back to cart"
+msgstr "Back to cart"
+
+#: examples/docs/imperative.tsx
+msgid "Checkout"
+msgstr "Checkout"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/query.tsx
+msgid "Oak desk"
+msgstr "Oak desk"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/ion.tsx
+msgid "Quantity"
+msgstr "Quantity"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/operators.tsx
+msgid "Place order"
+msgstr "Place order"
+
 #: examples/docs/ion.tsx
 msgid "Workshop tickets · $25 each"
 msgstr "Workshop tickets · $25 each"
 
 #: examples/docs/ion.tsx
-msgid "Quantity"
-msgstr "Quantity"
-
-#: examples/docs/ion.tsx
 msgid "Member discount · 20%"
 msgstr "Member discount · 20%"
-
-#: examples/docs/ion.tsx
-msgid "Total"
-msgstr "Total"
 
 #: examples/docs/list.tsx
 msgid "Review proposal"
@@ -510,10 +534,6 @@ msgstr "Surcharge applies"
 msgid "No surcharge"
 msgstr "No surcharge"
 
-#: examples/docs/operators.tsx
-msgid "Place order"
-msgstr "Place order"
-
 #: examples/docs/prism.tsx
 msgid "Name projection"
 msgstr "Name projection"
@@ -541,10 +561,6 @@ msgstr "One source → two independent atoms"
 #: examples/docs/prism.tsx
 msgid "Changing the role keeps the selected name unchanged."
 msgstr "Changing the role keeps the selected name unchanged."
-
-#: examples/docs/query.tsx
-msgid "Oak desk"
-msgstr "Oak desk"
 
 #: examples/docs/query.tsx
 msgid "Desk lamp"

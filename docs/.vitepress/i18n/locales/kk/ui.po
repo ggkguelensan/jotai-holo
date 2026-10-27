@@ -377,21 +377,45 @@ msgstr "Сақталды:"
 msgid "Contact preferences"
 msgstr "Байланыс параметрлері"
 
+#: examples/docs/imperative.tsx
+msgid "Order confirmation"
+msgstr "Тапсырысты растау"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/ion.tsx
+msgid "Total"
+msgstr "Барлығы"
+
+#: examples/docs/imperative.tsx
+msgid "Back to cart"
+msgstr "Себетке оралу"
+
+#: examples/docs/imperative.tsx
+msgid "Checkout"
+msgstr "Тапсырысты рәсімдеу"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/query.tsx
+msgid "Oak desk"
+msgstr "Емен үстел"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/ion.tsx
+msgid "Quantity"
+msgstr "Саны"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/operators.tsx
+msgid "Place order"
+msgstr "Тапсырыс беру"
+
 #: examples/docs/ion.tsx
 msgid "Workshop tickets · $25 each"
 msgstr "Воркшоп билеттері · әрқайсысы $25"
 
 #: examples/docs/ion.tsx
-msgid "Quantity"
-msgstr "Саны"
-
-#: examples/docs/ion.tsx
 msgid "Member discount · 20%"
 msgstr "Қатысушы жеңілдігі · 20%"
-
-#: examples/docs/ion.tsx
-msgid "Total"
-msgstr "Барлығы"
 
 #: examples/docs/list.tsx
 msgid "Review proposal"
@@ -510,10 +534,6 @@ msgstr "Қосымша ақы бар"
 msgid "No surcharge"
 msgstr "Қосымша ақы жоқ"
 
-#: examples/docs/operators.tsx
-msgid "Place order"
-msgstr "Тапсырыс беру"
-
 #: examples/docs/prism.tsx
 msgid "Name projection"
 msgstr "Атының проекциясы"
@@ -541,10 +561,6 @@ msgstr "Бір дереккөз → екі тәуелсіз атом"
 #: examples/docs/prism.tsx
 msgid "Changing the role keeps the selected name unchanged."
 msgstr "Рөл өзгергенде таңдалған ат өзгермейді."
-
-#: examples/docs/query.tsx
-msgid "Oak desk"
-msgstr "Емен үстел"
 
 #: examples/docs/query.tsx
 msgid "Desk lamp"

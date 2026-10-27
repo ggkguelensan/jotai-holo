@@ -12,6 +12,8 @@ Connect a React View to atom values and actions. The View receives ordinary prop
 
 ## Contract
 
+The new configuration uses `view/read/write/props`, named `models`, `lifecycle`, `resources` and `imperative`. See the [runtime guide](/runtime) and [useImperativeHolo](/reference/useImperativeHolo). The following sections describe the supported legacy configuration.
+
 | Field     | Supplies                                        |
 | --------- | ----------------------------------------------- |
 | core      | React View component or element                 |

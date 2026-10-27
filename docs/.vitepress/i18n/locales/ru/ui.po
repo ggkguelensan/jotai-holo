@@ -377,21 +377,45 @@ msgstr "Сохранено:"
 msgid "Contact preferences"
 msgstr "Настройки контакта"
 
+#: examples/docs/imperative.tsx
+msgid "Order confirmation"
+msgstr "Подтверждение заказа"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/ion.tsx
+msgid "Total"
+msgstr "Итого"
+
+#: examples/docs/imperative.tsx
+msgid "Back to cart"
+msgstr "Вернуться в корзину"
+
+#: examples/docs/imperative.tsx
+msgid "Checkout"
+msgstr "Оформление заказа"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/query.tsx
+msgid "Oak desk"
+msgstr "Дубовый стол"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/ion.tsx
+msgid "Quantity"
+msgstr "Количество"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/operators.tsx
+msgid "Place order"
+msgstr "Оформить заказ"
+
 #: examples/docs/ion.tsx
 msgid "Workshop tickets · $25 each"
 msgstr "Билеты на воркшоп · $25 каждый"
 
 #: examples/docs/ion.tsx
-msgid "Quantity"
-msgstr "Количество"
-
-#: examples/docs/ion.tsx
 msgid "Member discount · 20%"
 msgstr "Скидка участника · 20%"
-
-#: examples/docs/ion.tsx
-msgid "Total"
-msgstr "Итого"
 
 #: examples/docs/list.tsx
 msgid "Review proposal"
@@ -510,10 +534,6 @@ msgstr "Есть доплата"
 msgid "No surcharge"
 msgstr "Без доплаты"
 
-#: examples/docs/operators.tsx
-msgid "Place order"
-msgstr "Оформить заказ"
-
 #: examples/docs/prism.tsx
 msgid "Name projection"
 msgstr "Проекция имени"
@@ -541,10 +561,6 @@ msgstr "Один источник → два независимых атома"
 #: examples/docs/prism.tsx
 msgid "Changing the role keeps the selected name unchanged."
 msgstr "Смена роли не меняет выбранное значение имени."
-
-#: examples/docs/query.tsx
-msgid "Oak desk"
-msgstr "Дубовый стол"
 
 #: examples/docs/query.tsx
 msgid "Desk lamp"

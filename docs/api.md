@@ -8,9 +8,7 @@ const $double = stateAtom((get) => get($count) * 2); // Atom<number>
 const $answer = stateAtom(async (get) => (await get($remote)) + 1);
 ```
 
-Primitive state accepts direct and functional writes via `store.set`, `useSetAtom`, `actionAtom` and `holo.actions`. Derived state has no write function and receives **one argument**, `get`, at runtime and in its type. Async reads retain Jotai dependency tracking.
-
-There is no read/write overload and no async-specific state runtime. For `options.signal`, writable derived atoms or function-valued primitives, use `atom` from Jotai and bind the resulting native atom directly. Jotai v3 removed the read option `setSelf`; use `onMount` or `jotai-effect` for that pattern. A function-valued derived result is supported: `stateAtom(() => someFunction)`.
+`stateAtom` is a direct alias of Jotai atom. It supports initial values, read-only derivations, writable derivations and native async read options, including AbortSignal. It adds no state runtime. See the [runtime guide](runtime.md) for the new View binding configuration.
 
 ## eventAtom
 

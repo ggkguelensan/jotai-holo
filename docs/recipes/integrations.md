@@ -10,7 +10,7 @@ Use `withAtomEffect` when a resource is needed while a View subscribes to an ato
 
 ## Shared model resources
 
-An editor and its toolbar may need one model even when one widget is hidden. Put the connection in [createModel.connect](/reference/createModel#contract). The first committed owner starts it; the last owner releases it. Select the same key and store in both widgets. Keeping an instance with `gcTime: Infinity` does not keep released subscriptions active.
+An editor and its toolbar may need one model even when one widget is hidden. Put the connection in [createModel.connect](/reference/createModel#contract). The first committed owner starts it; the last owner releases it. Select the same key and store in both widgets. Keeping an instance with `retainTime: Infinity` does not keep released subscriptions active.
 
 ## Application resources
 

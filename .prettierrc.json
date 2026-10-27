@@ -4,7 +4,7 @@
   "trailingComma": "all",
   "overrides": [
     {
-      "files": ["examples/**/*.{ts,tsx}", "docs/**/*.md"],
+      "files": ["examples/**/*.{ts,tsx}", "docs/**/*.md", "design/**/*.md"],
       "options": {
         "printWidth": 80
       }

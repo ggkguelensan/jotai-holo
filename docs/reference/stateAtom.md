@@ -1,6 +1,6 @@
 # stateAtom
 
-Store an editable value or derive a read-only value from other atoms. A draft name is state; its character count is derived state.
+Store an editable value or derive a value from other atoms. A draft name is state; its character count is derived state.
 
 <Demo kind="counter">
 
@@ -13,13 +13,13 @@ Store an editable value or derive a read-only value from other atoms. A draft na
 ## Contract
 
 - `stateAtom(value)` returns a native primitive atom, writable through `set` or a bound callback.
-- `stateAtom(get => value)` returns a native read-only atom. The callback receives **only get**; no setter or options.
-- Function arguments always mean derived reads. Use native `atom` for a function-valued primitive, writable derived state, or `{ signal }` options.
+- `stateAtom(read)` returns a read-only atom; `stateAtom(read, write)` supports writable derivations. Native async read options are preserved.
+- This is a direct alias of native atom, with no additional state runtime.
 - Promise values remain Promises outside React bindings. Reads are lazy; Jotai owns dependencies and store isolation.
 
 ## Why this API
 
-Choose stateAtom to distinguish stored values from read-only calculations. Use Jotai's `atom` when you need a writable derivation or read options such as AbortSignal.
+Choose stateAtom to express state intent, including derived read/write state. Native atom remains equally supported.
 
 ## Analogies and reading
 

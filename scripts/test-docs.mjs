@@ -92,6 +92,16 @@ try {
 
       assert.ok((await page.locator('.example-source pre').count()) > 1);
       await checkCodeLayout();
+      if (file === 'useImperativeHolo.md') {
+        const catalog = await loadCatalog(code, 'ui');
+        const label = (text) => catalog._(generateMessageId(text));
+        await page.getByRole('spinbutton').fill('2');
+        await page.getByRole('button', { name: label('Place order'), exact: true }).click();
+        await page.getByRole('heading', { name: '#1001', exact: true }).waitFor();
+        assert.ok((await page.locator('.example-preview').innerText()).includes('$250.00'));
+        await page.getByRole('button', { name: label('Back to cart'), exact: true }).click();
+        assert.equal(await page.getByRole('spinbutton').inputValue(), '2');
+      }
       if (file === 'mutationAtoms.md') {
         const catalog = await loadCatalog(code, 'ui');
         const label = (text) => catalog._(generateMessageId(text));

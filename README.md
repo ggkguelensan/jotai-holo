@@ -22,7 +22,7 @@ Plain React views. Declarative Jotai bindings.
               ○               ○
 ```
 
-Connect a React component to Jotai without a hook that forwards every value and callback. Declare the connection with `holo`; pass the UI component as `core: CounterView`. The View receives ordinary props, so tests and stories can render it directly.
+Connect a React component to Jotai without a hook that forwards every value and callback. Declare the connection with `holo`; pass the UI component as `view: CounterView`. The View receives ordinary props, so tests and stories can render it directly.
 
 The name recalls a **holoenzyme**: the assembled, active whole. The playful molecular mark puts `Re`, for React, at its center. Inspired by [Reflect's motivation](https://reflect.effector.dev/learn/motivation), adapted to Jotai's atom model.
 
@@ -71,10 +71,10 @@ function CounterView({
 const $$counter = createCounter();
 
 const Counter = holo({
-  core: CounterView,
-  state: { count: $$counter.$count },
-  actions: { onIncrement: $$counter.increment },
-  bindProps: { title: 'Counter' },
+  view: CounterView,
+  read: { count: $$counter.$count },
+  write: { onIncrement: $$counter.increment },
+  props: { title: 'Counter' },
 });
 
 // All three core props are supplied by holo.
@@ -85,13 +85,13 @@ Use `$` for state atoms and `$$` for model instances if these conventions help y
 
 ## Public API
 
-| Export                                            | Purpose                                                           |
-| ------------------------------------------------- | ----------------------------------------------------------------- |
-| `stateAtom(value)`                                | Writable primitive state, including promise values                |
-| `stateAtom(get => value)`                         | Read-only derived state; the callback receives only `get`         |
-| `actionAtom((get, set, ...args) => result)`       | Write-only native atom; preserves arguments and sync/async result |
-| `eventAtom<Payload>()`                            | Typed notification without a handler or retained state            |
-| `holo({ core, state, actions, bindProps, cage })` | Declarative React adapter; only `core` is required                |
+| Export                                      | Purpose                                                           |
+| ------------------------------------------- | ----------------------------------------------------------------- |
+| `stateAtom(value)`                          | Writable primitive state, including promise values                |
+| `stateAtom(get => value)`                   | Derived state with native read options                            |
+| `actionAtom((get, set, ...args) => result)` | Write-only native atom; preserves arguments and sync/async result |
+| `eventAtom<Payload>()`                      | Typed notification without a handler or retained state            |
+| `holo({ view, read, write, props })`        | Declarative React adapter; only `view` is required                |
 
 `eventAtom<Payload>()` declares a typed notification without a handler or retained state. Dispatch with `store.set(event, payload)`, use it in `bond.trigger`/`holo.actions`, or attach an external listener with `subscribeEvent(store, event, listener)`. Subscriptions return a disposer; see [event contracts](docs/api.md#eventatom).
 
@@ -99,9 +99,9 @@ Numeric/boolean operators `eq`, `and`, `or`, `some`, and `sum` accept native ato
 
 Model operators are available from the root and `jotai-holo/vanilla`: `ion(source, project?)` combines readable atoms, `prism(source, selectors)` splits projections, and `bond({ state, trigger, guard, map, yield })` connects store-owned actions. React also has `holoList` for keyed rows and `holoMatch` for conditional branches. See [operator contracts and examples](docs/operators.md).
 
-Configuration uses `bindProps` for fixed UI values; lifecycle inputs remain `ctx.props`.
+The new configuration uses `props` for fixed UI values and `lifecycle` with `ctx.input`. Named `models`, `resources`, `retainTime`, optional persistence and `useImperativeHolo` are described in the [runtime guide](docs/runtime.md). The legacy configuration remains supported during migration.
 
-`stateAtom` has two forms. Function arguments always mean a derived read; use native `atom` for function-valued primitives, writable derived state, or `options.signal`. No alternate state runtime is introduced.
+`stateAtom` is a direct alias of native `atom`, preserving writable derivations and async read options. No alternate state runtime is introduced.
 
 `holo.state` accepts any readable Jotai atom; `holo.actions` accepts any compatible writable Jotai atom. Atoms from native `atom(...)`, utilities and extensions need no conversion. `stateAtom` and `actionAtom` are optional helpers. Read-only atoms cannot be action targets.
 
