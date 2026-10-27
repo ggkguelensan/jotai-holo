@@ -98,6 +98,37 @@ try {
         assert.equal(await page.locator('.example-preview output').innerText(), '');
       }
     }
+    await page.goto(`${origin}${prefix.slice(1)}${prefix ? '/' : ''}recipes/spreadsheet`);
+    const sheetUi = await loadCatalog(code, 'ui');
+    const sheetLabel = (text) => sheetUi._(generateMessageId(text));
+    const input = (address) => page.getByRole('textbox', { name: address, exact: true });
+    await input('B1').fill('20');
+    await input('B1').press('Enter');
+    assert.equal(
+      await page.evaluate(() => document.activeElement?.getAttribute('aria-label')),
+      'B2',
+    );
+    assert.equal((await input('D1').inputValue()).replace(/\D/g, ''), '1600');
+    // Ignore grouping separators when comparing the displayed integer.
+    assert.equal((await input('D5').inputValue()).replace(/\D/g, ''), '4840');
+    await input('D1').click();
+    const formula = page.getByRole('textbox', {
+      name: sheetLabel('Formula for the selected cell'),
+      exact: true,
+    });
+    assert.equal(await formula.inputValue(), '=B1*C1');
+    await formula.fill('=B2*C2');
+    await input('B1').fill('30');
+    await input('B1').press('Enter');
+    assert.equal((await input('D1').inputValue()).replace(/\D/g, ''), '2280');
+    await input('D1').click();
+    await input('D1').fill('=D1');
+    await input('D1').press('Enter');
+    assert.equal(await input('D1').inputValue(), '#CYCLE!');
+    assert.equal(await input('D5').inputValue(), '#CYCLE!');
+    await page.getByRole('button', { name: sheetLabel('Reset sheet'), exact: true }).click();
+    assert.equal((await input('D5').inputValue()).replace(/\D/g, ''), '4136');
+    await checkCodeLayout();
     console.log(`${code}: ${references.length} reference routes passed.`);
   }
   await page.goto(`${origin}kk/compatibility`);
@@ -241,6 +272,9 @@ try {
   await page.goto(`${origin}ru/reference/ion`);
   await page.getByRole('spinbutton').waitFor();
   await checkCodeLayout();
+  assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+  await page.goto(`${origin}ru/recipes/spreadsheet`);
+  await page.getByRole('textbox', { name: 'B1', exact: true }).waitFor();
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   await page.goto(`${origin}ru/reference/holoForm`);
   await page.locator('.example-preview input').first().waitFor();

@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-27 09:43+0500\n"
+"POT-Creation-Date: 2026-10-27 11:10+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -726,6 +726,102 @@ msgstr "Материалы"
 #: docs/recipes/profile.md
 msgid "[React: separating events from effects](https://react.dev/learn/separating-events-from-effects) helps separate explicit operations from synchronization. [Effector sample](https://effector.dev/en/api/effector/sample/) is the declarative connection analogy. This illustrates API design; it is not a server transaction, audit system, or event-sourcing engine."
 msgstr "[React: события и эффекты](https://react.dev/learn/separating-events-from-effects) помогает разделить явную операцию и синхронизацию. [Effector sample](https://effector.dev/en/api/effector/sample/) — аналогия декларативной связи. Это иллюстрация дизайна API, не замена серверной транзакции, аудита или event sourcing."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "Spreadsheet formulas"
+msgstr "Таблица с формулами"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "Estimate a website project with a small spreadsheet: hours × rate, a 10% reserve, and a running total. Edit a number or replace a formula; dependent cells update immediately."
+msgstr "Рассчитайте стоимость сайта в небольшой таблице: часы × ставка, резерв 10% и общий итог. Измените число или формулу — зависимые ячейки пересчитаются сразу."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "Try it"
+msgstr "Попробуйте"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "Change B1 from 12 to 20: D1, the reserve, and the project total change. Select D1 to see `=B1*C1` in the formula bar. Change it to `=B2*C2`, then edit B1 again: D1 now follows row 2 instead. Enter `=D1` into D1 to see a cycle error, then restore the original formula."
+msgstr "Измените B1 с 12 на 20: изменятся D1, резерв и общий итог. Выберите D1, чтобы увидеть `=B1*C1` в строке формул. Замените её на `=B2*C2` и снова измените B1: теперь D1 зависит от строки 2. Введите `=D1` в D1, чтобы увидеть ошибку цикла, затем восстановите исходную формулу."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "Enter moves down, Shift+Enter moves up, and Tab follows the inputs. Left/right arrows cross cells at the text boundary. Escape leaves the editor; edits are applied immediately. Reset restores the sample budget. Empty cells in rows 6–8 are a scratch area."
+msgstr "Enter перемещает вниз, Shift+Enter — вверх, Tab — к следующему полю. Стрелки влево и вправо переходят между ячейками на границе текста. Escape завершает редактирование; изменения применяются сразу. Сброс восстанавливает пример бюджета. Пустые строки 6–8 можно использовать для своих расчётов."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "Model"
+msgstr "Модель"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "Each cell owns a writable input atom and a read-only result atom. Formula parsing is derived from that cell's input. Evaluation reads only referenced expression atoms through get, so dependencies change with the formula. The parser never executes JavaScript."
+msgstr "У каждой ячейки свой writable atom ввода и read-only atom результата. Разбор формулы зависит от ввода этой ячейки. Вычисление читает через get только атомы выражений, на которые ссылается формула, поэтому зависимости меняются вместе с ней. Парсер не выполняет JavaScript."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "Rendering and isolation"
+msgstr "Рендеринг и изоляция"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "Each CellView has its own holo binding. The table shell does not subscribe to sheet values. Selecting a cell updates the formula bar; editing a cell updates that input and dependent result Views. Unrelated cells do not commit again. The formula bar uses a native writable derived atom, demonstrating that holo accepts ordinary Jotai atoms too."
+msgstr "У каждого CellView своё подключение holo. Оболочка таблицы не подписана на значения листа. Выбор ячейки обновляет строку формул; редактирование обновляет ввод и зависимые View результатов. Несвязанные ячейки не получают новый commit. Строка формул использует нативный writable derived atom: holo принимает и обычные атомы Jotai."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "Each preview has its own Jotai store. Two separately created models are also independent in one store. There is no useEffect to copy inputs into totals, no whole-sheet React state, and no subscription created during module initialization."
+msgstr "У каждого превью свой Jotai store. Две отдельно созданные модели независимы и в одном store. Здесь нет useEffect для копирования ввода в итог, общего React state для всего листа и подписок при инициализации модуля."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "Formula subset"
+msgstr "Поддерживаемые формулы"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "Supported syntax: numeric literals, cell references A1–D8, parentheses, unary signs, +, -, \\*, /, and SUM with comma-separated arguments or rectangular ranges. SUM ignores text and empty cells; arithmetic treats an empty cell as zero and reports text as a value error. Function names and references are case-insensitive; use a decimal point in formulas."
+msgstr "Поддерживаются числа, ссылки A1–D8, скобки, унарные знаки, +, -, \\*, / и SUM с аргументами через запятую или прямоугольными диапазонами. SUM пропускает текст и пустые ячейки; арифметика считает пустую ячейку нулём, а текст — ошибкой значения. Регистр функций и ссылок не важен; дробные числа в формулах записываются через точку."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "Errors are displayed as values: #REF! for an unknown address, #CYCLE! for circular references, #DIV/0! for division by zero, #VALUE! for incompatible values, #NUM! for a non-finite result, and #FORMULA! for unsupported or incomplete syntax. Fixing an input clears the resulting errors through the same derived reads."
+msgstr "Ошибки отображаются как значения: #REF! — неизвестный адрес, #CYCLE! — циклическая ссылка, #DIV/0! — деление на ноль, #VALUE! — несовместимое значение, #NUM! — неконечный результат, #FORMULA! — неподдерживаемая или незавершённая запись. Исправление ввода устраняет зависимые ошибки через те же производные чтения."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "This is a teaching example, not an Excel-compatible engine. It uses JavaScript numbers and rounds only the display. It does not implement accounting rounding, persistence, CSV paste, range selection, or hundreds of spreadsheet functions. Each result evaluates its referenced expression tree with a local memo and cycle stack; parsed expressions are shared, calculated intermediate results are not shared across roots. This keeps cycles out of Jotai's dependency graph and is intended for small sheets."
+msgstr "Это учебный пример, а не Excel-совместимый движок. Он использует JavaScript numbers и округляет только отображение. Здесь нет бухгалтерского округления, хранения данных, вставки CSV, выделения диапазонов и сотен функций. Каждый результат вычисляет своё дерево выражений с локальным кешем и стеком циклов; разобранные выражения общие, но вычисленные промежуточные результаты между корнями не разделяются. Такой подход исключает циклы из графа Jotai и рассчитан на небольшие листы."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "Related tools"
+msgstr "Связанные инструменты"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/spreadsheet.md
+msgid "[holo](/reference/holo) connects each View, [stateAtom](/reference/stateAtom) separates inputs from derived results, and [actionAtom](/reference/actionAtom) restores the sample. [Jotai atoms-in-atom](https://jotai.org/docs/guides/atoms-in-atom) explains how atom references can describe dynamic structures. For a production formula engine, evaluate an established spreadsheet engine separately from the React bindings."
+msgstr "[holo](/reference/holo) подключает View, [stateAtom](/reference/stateAtom) отделяет ввод от производных результатов, [actionAtom](/reference/actionAtom) восстанавливает пример. [Jotai atoms-in-atom](https://jotai.org/docs/guides/atoms-in-atom) объясняет динамические структуры со ссылками на атомы. Для production оцените готовый движок формул отдельно от React-подключений."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

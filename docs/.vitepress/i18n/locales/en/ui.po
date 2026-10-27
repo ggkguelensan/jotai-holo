@@ -69,6 +69,11 @@ msgstr "Effects and model lifetime"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
+msgid "Spreadsheet formulas"
+msgstr "Spreadsheet formulas"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
 msgid "Hosting the docs"
 msgstr "Hosting the docs"
 
@@ -559,3 +564,59 @@ msgstr "Desk"
 #: examples/docs/query.tsx
 msgid "Lamp"
 msgstr "Lamp"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Check the formula and its references."
+msgstr "Check the formula and its references."
+
+#: examples/docs/spreadsheet.tsx
+msgid "Formula for the selected cell"
+msgstr "Formula for the selected cell"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Project estimate"
+msgstr "Project estimate"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Reset sheet"
+msgstr "Reset sheet"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Workstream"
+msgstr "Workstream"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Hours / ratio"
+msgstr "Hours / ratio"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Rate / base, €"
+msgstr "Rate / base, €"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Amount, €"
+msgstr "Amount, €"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Website launch · estimate"
+msgstr "Website launch · estimate"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Change the hours. The estimate follows."
+msgstr "Change the hours. The estimate follows."
+
+#: examples/docs/spreadsheet.tsx
+msgid "Project budget"
+msgstr "Project budget"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Row"
+msgstr "Row"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Rows 1–3: hours × rate. Row 4: 10% reserve. Row 5: total."
+msgstr "Rows 1–3: hours × rate. Row 4: 10% reserve. Row 5: total."
+
+#: examples/docs/spreadsheet.tsx
+msgid "Select a cell to edit. Enter moves down; Tab moves across."
+msgstr "Select a cell to edit. Enter moves down; Tab moves across."

@@ -45,6 +45,7 @@ async function localeConfig(code: string, label: string, prefix: string) {
       items: [
         { text: t('Profile: command → fact → reaction'), link: link('/recipes/profile') },
         { text: t('Effects and model lifetime'), link: link('/recipes/integrations') },
+        { text: t('Spreadsheet formulas'), link: link('/recipes/spreadsheet') },
         { text: t('Hosting the docs'), link: link('/guide/hosting') },
       ],
     },
@@ -136,6 +137,10 @@ export default defineConfig({
     plugins: [linguiMacros()],
     resolve: {
       alias: [
+        {
+          find: 'jotai-holo/vanilla',
+          replacement: fileURLToPath(new URL('../../src/vanilla.ts', import.meta.url)),
+        },
         {
           find: 'jotai-holo/model',
           replacement: fileURLToPath(new URL('../../src/model.ts', import.meta.url)),

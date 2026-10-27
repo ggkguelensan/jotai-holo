@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-27 09:43+0500\n"
+"POT-Creation-Date: 2026-10-27 11:10+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -66,6 +66,11 @@ msgstr "Profil: Befehl → Ereignis → Reaktion"
 #: docs/.vitepress/config.mts
 msgid "Effects and model lifetime"
 msgstr "Effekte und Modelllebensdauer"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Spreadsheet formulas"
+msgstr "Tabelle mit Formeln"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -559,3 +564,59 @@ msgstr "Schreibtisch"
 #: examples/docs/query.tsx
 msgid "Lamp"
 msgstr "Lampe"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Check the formula and its references."
+msgstr "Prüfe die Formel und ihre Referenzen."
+
+#: examples/docs/spreadsheet.tsx
+msgid "Formula for the selected cell"
+msgstr "Formel der ausgewählten Zelle"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Project estimate"
+msgstr "Projektkosten"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Reset sheet"
+msgstr "Tabelle zurücksetzen"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Workstream"
+msgstr "Bereich"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Hours / ratio"
+msgstr "Stunden / Anteil"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Rate / base, €"
+msgstr "Satz / Basis, €"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Amount, €"
+msgstr "Betrag, €"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Website launch · estimate"
+msgstr "Website-Launch · Angebot"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Change the hours. The estimate follows."
+msgstr "Ändere die Stunden. Das Angebot folgt."
+
+#: examples/docs/spreadsheet.tsx
+msgid "Project budget"
+msgstr "Projektbudget"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Row"
+msgstr "Zeile"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Rows 1–3: hours × rate. Row 4: 10% reserve. Row 5: total."
+msgstr "Zeilen 1–3: Stunden × Satz. Zeile 4: 10 % Reserve. Zeile 5: Summe."
+
+#: examples/docs/spreadsheet.tsx
+msgid "Select a cell to edit. Enter moves down; Tab moves across."
+msgstr "Zelle zum Bearbeiten wählen. Enter geht nach unten, Tab weiter."

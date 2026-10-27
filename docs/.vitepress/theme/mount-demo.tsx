@@ -22,6 +22,7 @@ const demos: Record<string, () => Promise<DemoModule>> = {
   model: () => import('../../../examples/docs/model'),
   query: () => import('../../../examples/docs/query'),
   mutation: () => import('../../../examples/docs/mutation'),
+  spreadsheet: () => import('../../../examples/docs/spreadsheet'),
   form: () => import('../../../examples/docs/form'),
 };
 
