@@ -13,6 +13,7 @@ const groups = (t: (message: string) => string) => [
     names: [
       'createModel',
       'queryAtoms',
+      'mutationAtoms',
       'queryClientAtom',
       'createFormModel',
       'holoForm',

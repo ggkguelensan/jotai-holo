@@ -86,3 +86,17 @@ Build first: some documentation fixtures import the package's compiled entry.
 Run `pnpm test:model-memory` for a forced-GC experiment with 300 instances per case: provisional reads, released finite models, intentionally retained Infinity models, explicit removal, abandoned stores and detached RHF controls. This checks bounded scenarios, not every application's resources.
 
 `follow` remains unimplemented. New adapters must retain the independent-selector prism contract rather than eagerly computing a record of projections.
+
+## Mutation execution
+
+`mutationAtoms` is lazy at declaration. Reading initializes an idle runtime but
+never builds a mutation or subscribes. Mounted projections and active executions
+share one native listener per store/client runtime. Execution retains it without
+UI subscribers, and the last owner releases it. Projections reuse `prism`.
+
+Parallel calls return their own Promises while state follows the latest start.
+Reset detaches observed state without cancelling writes. Tests cover these
+transitions, independent stores/clients, late subscriptions and unchanged
+projection commits in `tests/mutation.test.ts` and
+`tests/mutation.browser.test.tsx`. `pnpm test:mutation-memory` checks release with
+explicit GC rather than inferring collection from WeakMap usage.

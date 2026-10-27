@@ -40,6 +40,8 @@ These figures compress isolated library exports, with React, Jotai, query-core a
 | All five scalar operators                     |            653 |        334 |          293 |
 | createModel                                   |          3,465 |      1,485 |        1,339 |
 | queryAtoms + queryClientAtom                  |          1,403 |        723 |          656 |
+| mutationAtoms + queryClientAtom               |          1,892 |        946 |          846 |
+| Query + mutation utilities                    |          3,004 |      1,320 |        1,192 |
 | formAtom only                                 |            884 |        483 |          424 |
 | createFormModel only (includes registry)      |          4,189 |      1,756 |        1,576 |
 | holoForm only (includes ordinary holo)        |          6,565 |      2,687 |        2,449 |

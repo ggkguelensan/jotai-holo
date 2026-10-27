@@ -32,9 +32,11 @@ try {
     import * as vanilla from 'jotai-holo/vanilla';
     import * as bunshi from 'jotai-holo/bunshi';
     import { createModel } from 'jotai-holo/model';
-    import { queryAtoms, queryClientAtom } from 'jotai-holo/query';
+    import { mutationAtoms, queryAtoms, queryClientAtom } from 'jotai-holo/query';
+    import { QueryClient } from '@tanstack/query-core';
     import { createFormModel, formAtom, holoForm } from 'jotai-holo/rhf';
     assert.equal(typeof queryAtoms, 'function');
+    assert.equal(typeof mutationAtoms, 'function');
     assert.equal(typeof holoForm, 'function');
     const definition = createModel({create: () => ({value: 1})});
     const forms = createFormModel({initial: {name: ''}, options: initial => ({defaultValues: initial})});
@@ -48,6 +50,11 @@ try {
     assert.equal(store.get(definition()).value, 1);
     assert.equal(store.get(formAtom(store.get(forms()).form, 'name')), '');
     assert.equal(store.get(queryClientAtom), null);
+    const client = new QueryClient({defaultOptions: {mutations: {gcTime: 0}}});
+    const saving = mutationAtoms({client, mutation: () => ({mutationFn: async input => input + 1}), prism: {data: r => r.data}});
+    assert.equal(await store.set(saving.mutate, 4), 5);
+    assert.equal(store.get(saving.data), 5);
+    client.clear();
     store.set(increment); assert.equal(store.get(value), 2);
     assert.equal(store.get(vanilla.ion(value, n => n * 2)), 4);
     assert.equal(store.get(vanilla.prism(value, { doubled: n => n * 2 }).doubled), 4);
@@ -65,6 +72,17 @@ try {
     `
     import { holo, stateAtom, actionAtom, eventAtom, bond, subscribeEvent } from 'jotai-holo';
     import { stateAtom as vanillaStateAtom } from 'jotai-holo/vanilla';
+    import { mutationAtoms } from 'jotai-holo/query';
+    import { mutationOptions } from '@tanstack/react-query';
+    import type { Atom } from 'jotai/vanilla';
+    const saving = mutationAtoms({
+      mutation: () => mutationOptions({mutationFn: async (input: {id: string}) => input.id}),
+      prism: {data: r => r.data},
+    });
+    const projected: Atom<string | undefined> = saving.data;
+    // @ts-expect-error The factory variables remain required in published declarations.
+    (await import('jotai/vanilla')).createStore().set(saving.mutate);
+    void projected;
     const renamed = eventAtom<string>();
     const stop = subscribeEvent((await import('jotai/vanilla')).createStore(), renamed, value => { const name: string = value; void name; });
     const forwarding = bond({ trigger: renamed, map: name => [name.length] });

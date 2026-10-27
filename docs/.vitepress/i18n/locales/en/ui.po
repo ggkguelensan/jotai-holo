@@ -448,6 +448,42 @@ msgstr "Add a seat"
 msgid "Proposal"
 msgstr "Proposal"
 
+#: examples/docs/mutation.tsx
+msgid "Proposal P-1042"
+msgstr "Proposal P-1042"
+
+#: examples/docs/mutation.tsx
+msgid "Discount, %"
+msgstr "Discount, %"
+
+#: examples/docs/mutation.tsx
+msgid "Comment for the customer"
+msgstr "Comment for the customer"
+
+#: examples/docs/mutation.tsx
+msgid "Try a discount above 25% to see a server rejection."
+msgstr "Try a discount above 25% to see a server rejection."
+
+#: examples/docs/mutation.tsx
+msgid "Saving proposal…"
+msgstr "Saving proposal…"
+
+#: examples/docs/mutation.tsx
+msgid "Save proposal"
+msgstr "Save proposal"
+
+#: examples/docs/mutation.tsx
+msgid "Clear feedback"
+msgstr "Clear feedback"
+
+#: examples/docs/mutation.tsx
+msgid "Discounts above 25% need approval."
+msgstr "Discounts above 25% need approval."
+
+#: examples/docs/mutation.tsx
+msgid "Saved discount"
+msgstr "Saved discount"
+
 #: examples/docs/operators.tsx
 msgid "Order review · courier delivery"
 msgstr "Order review · courier delivery"

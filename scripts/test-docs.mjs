@@ -81,6 +81,22 @@ try {
       await page.locator('.example-preview :is(button, input)').first().waitFor();
       assert.equal(await page.locator('.example-preview').count(), 1);
       await checkCodeLayout();
+      if (file === 'mutationAtoms.md') {
+        const catalog = await loadCatalog(code, 'ui');
+        const label = (text) => catalog._(generateMessageId(text));
+        const save = page.getByRole('button', { name: label('Save proposal'), exact: true });
+        await page.getByRole('spinbutton').fill('30');
+        await save.click();
+        await page
+          .getByRole('alert')
+          .getByText(label('Discounts above 25% need approval.'))
+          .waitFor();
+        await page.getByRole('spinbutton').fill('15');
+        await save.click();
+        await page.getByText(`${label('Saved discount')}: 15%`, { exact: true }).waitFor();
+        await page.getByRole('button', { name: label('Clear feedback'), exact: true }).click();
+        assert.equal(await page.locator('.example-preview output').innerText(), '');
+      }
     }
     console.log(`${code}: ${references.length} reference routes passed.`);
   }

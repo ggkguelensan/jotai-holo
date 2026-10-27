@@ -21,6 +21,7 @@ const demos: Record<string, () => Promise<DemoModule>> = {
   operators: () => import('../../../examples/docs/operators'),
   model: () => import('../../../examples/docs/model'),
   query: () => import('../../../examples/docs/query'),
+  mutation: () => import('../../../examples/docs/mutation'),
   form: () => import('../../../examples/docs/form'),
 };
 

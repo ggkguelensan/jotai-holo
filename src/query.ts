@@ -11,9 +11,9 @@ import { atom, type Atom } from 'jotai/vanilla';
 import { readSource, type AtomSource, type SourceValue } from './atom-source.js';
 import { isAtom } from './operator-source.js';
 import { prism } from './prism.js';
+import { queryClientAtom } from './query-client-atom.js';
 
-/** Set this to the application's existing QueryClient in each store. No hidden client is created. */
-export const queryClientAtom = atom<QueryClient | null>(null);
+export { queryClientAtom } from './query-client-atom.js';
 
 export function queryAtoms<
   QueryData,
@@ -95,3 +95,5 @@ export function queryAtoms<
   });
   return prism($result, config.prism);
 }
+
+export { mutationAtoms, type MutationSnapshot } from './mutation-atoms.js';

@@ -124,11 +124,11 @@ const Counter = holo({
 
 ## Optional infrastructure
 
-| Entry              | Exports                                   | Ownership                                                                                |
-| ------------------ | ----------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `jotai-holo/model` | `createModel`                             | Default/keyed instances per Jotai store; committed leases; Infinity retention by default |
-| `jotai-holo/query` | `queryAtoms`, `queryClientAtom`           | Native QueryObserver, application QueryClient, independent prism selectors               |
-| `jotai-holo/rhf`   | `createFormModel`, `holoForm`, `formAtom` | One native RHF control per model; ordinary RHF markup and resolvers                      |
+| Entry              | Exports                                          | Ownership                                                                                |
+| ------------------ | ------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| `jotai-holo/model` | `createModel`                                    | Default/keyed instances per Jotai store; committed leases; Infinity retention by default |
+| `jotai-holo/query` | `queryAtoms`, `mutationAtoms`, `queryClientAtom` | Native Query/MutationObserver, shared QueryClient, independent prism selectors           |
+| `jotai-holo/rhf`   | `createFormModel`, `holoForm`, `formAtom`        | One native RHF control per model; ordinary RHF markup and resolvers                      |
 
 Declare `holo({ model: props => CounterModel({ key: [props.id] }), core: CounterView, state: m => ({ count: m.$count }) })` outside React. Omitting a key selects the store's default model. The registry implementation and optional Query/RHF peers stay outside ordinary holo bundles. [Model contracts](docs/reference/createModel.md) describe creation, resource cleanup, cache eviction and explicit removal; [Query](docs/reference/queryAtoms.md) and [forms](docs/reference/holoForm.md) include executable business examples in English, Russian, German and Kazakh.
 
@@ -157,3 +157,11 @@ For vanilla models without a React import, use `jotai-holo/vanilla`, which expor
 ## Documentation website
 
 English, Russian, German and Kazakh guides, utility references, API motivation and realistic recipes live in [docs/](docs/index.md). Run `pnpm docs:dev` to read locally or `pnpm docs:build` for a static site. See [hosting instructions](docs/guide/hosting.md).
+
+## Mutations from Jotai
+
+Use [mutationAtoms](docs/reference/mutationAtoms.md) from `jotai-holo/query`
+to execute native TanStack mutations through a writable atom and expose
+independent status/data/error projections. It shares the application's
+`queryClientAtom`, works without React subscribers, and connects directly
+to `holo.actions` and `bond.yield`.

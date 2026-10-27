@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-26 19:50+0500\n"
+"POT-Creation-Date: 2026-10-27 09:43+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -761,6 +761,7 @@ msgstr "Атомдарды оқитын не өзгертетін операци
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
@@ -776,6 +777,7 @@ msgstr "Атомдарды оқитын не өзгертетін операци
 #: docs/reference/holoList.md
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
+#: docs/reference/mutationAtoms.md
 #: docs/reference/or.md
 #: docs/reference/prism.md
 #: docs/reference/queryAtoms.md
@@ -829,6 +831,7 @@ msgstr "useSetAtom(command)` oder `holo.actions`.\n"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
@@ -844,6 +847,7 @@ msgstr "useSetAtom(command)` oder `holo.actions`.\n"
 #: docs/reference/holoList.md
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
+#: docs/reference/mutationAtoms.md
 #: docs/reference/or.md
 #: docs/reference/prism.md
 #: docs/reference/queryAtoms.md
@@ -883,6 +887,7 @@ msgstr "Нативті `atom(null, write)` командаларды орында
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
@@ -898,6 +903,7 @@ msgstr "Нативті `atom(null, write)` командаларды орында
 #: docs/reference/holoList.md
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
+#: docs/reference/mutationAtoms.md
 #: docs/reference/or.md
 #: docs/reference/prism.md
 #: docs/reference/queryAtoms.md
@@ -1187,8 +1193,10 @@ msgstr "Әр модель кілтіне жеке RHF формасын жаса�
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createFormModel.md
+#: docs/reference/mutationAtoms.md
 #: docs/reference/queryAtoms.md
 msgid "Installation"
 msgstr "Орнату"
@@ -1720,6 +1728,148 @@ msgid "- [Effector combine](https://effector.dev/en/api/effector/combine/) — t
 "- [Jotai atom](https://jotai.org/docs/core/atom) — the underlying primitive/read-only/write-only contracts."
 msgstr "- [Effector combine](https://effector.dev/en/api/effector/combine/) — құрылым және projector ұқсасы; орындалу реті Jotai-ге тиесілі.\n"
 "- [Jotai atom](https://jotai.org/docs/core/atom) — негізгі primitive/read-only/write-only келісімдері."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "mutationAtoms"
+msgstr "mutationAtoms"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "Save a proposal from a Jotai action and display pending, success, and error states through separate atoms. This local simulation rejects discounts above 25%; no network request is sent."
+msgstr "Ұсынысты Jotai әрекеті арқылы сақтап, орындалу күйін, нәтижені және қатені бөлек атомдар арқылы көрсетіңіз. Бұл жергілікті симуляция 25%-дан жоғары жеңілдіктерді қабылдамайды; желілік сұраулар жіберілмейді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "Optional entry: `jotai-holo/query`. Requires `@tanstack/query-core` v5. Share your application's QueryClient through [queryClientAtom](/reference/queryClientAtom), or provide a client explicitly."
+msgstr "Қосымша кіру нүктесі: `jotai-holo/query`. `@tanstack/query-core` v5 қажет. Қолданбаның QueryClient нысанын [queryClientAtom](/reference/queryClientAtom) арқылы беріңіз немесе клиентті тікелей көрсетіңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "`mutationAtoms({ mutation, prism?, client? }) → { mutate, reset, ...projections }`"
+msgstr "`mutationAtoms({ mutation, prism?, client? }) → { mutate, reset, ...projections }`"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "- `mutation` is a native mutation-options factory. It runs once per initialized store/client pair, not on every render or invocation. Variables carry changing business inputs; use actionAtom or bond to collect current atom values.\n"
+"- `mutate` is an actionAtom accepting the factory's variables and returning its native execution Promise. Void and optional variables can be omitted. Each invocation executes independently, including without React or mounted projections.\n"
+"- `reset` is an actionAtom without arguments. It returns observed state to idle without cancelling requests or changing their Promises. A reset call's previous execution cannot restore its old state.\n"
+"- `prism` is optional and contains independent selectors. Each result is a read-only atom. Unread selectors never execute; unchanged selected values do not notify consumers. New objects still count as changed values. The names mutate and reset are reserved.\n"
+"- Selectors receive native mutation state and status flags, without the mutate/reset methods. Status narrowing preserves data/error types. Reads never execute a mutation, suspend, or automatically throw its error."
+msgstr "- `mutation` — нативті mutation options фабрикасы. Ол әр рендерде не шақыруда емес, инициализацияланған store/client жұбы үшін бір рет орындалады. Өзгермелі бизнес деректер variables арқылы беріледі; атомдардың ағымдағы мәндерін actionAtom не bond арқылы жинаңыз.\n"
+"- `mutate` — фабриканың variables аргументтерін қабылдап, нативті орындалу Promise нысанын қайтаратын actionAtom. Void және міндетті емес variables аргументтерін бермеуге болады. Әр шақыру бөлек орындалады, соның ішінде React не проекцияларға жазылымдар болмаса да.\n"
+"- `reset` — аргументсіз actionAtom. Сұрауларды тоқтатпай және олардың Promise нысандарын өзгертпей, бақыланатын күйді idle мәніне қайтарады. Бұрынғы орындалу тазартылған күйді қалпына келтіре алмайды.\n"
+"- `prism` міндетті емес және тәуелсіз селекторлардан тұрады. Әр нәтиже — тек оқылатын атом. Оқылмаған селекторлар есептелмейді; өзгермеген мәндер тұтынушыларды хабардар етпейді. Жаңа нысандар өзгеріс болып саналады. mutate және reset атаулары резервтелген.\n"
+"- Селекторлар mutate/reset әдістерінсіз нативті мутация күйін және мәртебе белгілерін алады. Мәртебені тексеру data/error түрлерін нақтылайды. Оқу мутацияны іске қоспайды, Suspense тудырмайды және оның қатесін автоматты түрде лақтырмайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "Execution and errors"
+msgstr "Орындалу және қателер"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "Await the returned Promise to continue after this particular call. An error projection is a value for the UI; it does not handle a rejected Promise. After awaiting a call, unmounted reads see its completed state unless a newer call or reset superseded it."
+msgstr "Нақты шақыру аяқталған соң жалғастыру үшін қайтарылған Promise нысанын күтіңіз. Қате проекциясы — UI мәні; ол қабылданбаған Promise қатесін өңдемейді. await кейін жаңа шақыру не reset күйді алмастырмаса, жазылымсыз оқу да аяқталған күйді көреді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "In bond.trigger, mutate signals invocation with its input arguments, not successful completion. Publish a domain fact after await when completion matters. Per-call callback options are deliberately unsupported; use the Promise instead."
+msgstr "bond.trigger ішінде mutate сәтті аяқталуды емес, кіріс аргументтерімен шақырылғанын хабарлайды. Аяқталу маңызды болса, домен фактісін await кейін жариялаңыз. Жеке шақыруға арналған callback options қолдау таппайды; Promise пайдаланыңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "Parallel calls and reset"
+msgstr "Қатар шақырулар және reset"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "Projections describe the latest started call. Every call keeps its own Promise. If the second call completes before the first, pending becomes false and the second result remains visible after the first finishes. Pending is not an aggregate count of unfinished saves."
+msgstr "Проекциялар соңғы іске қосылған шақыруды сипаттайды. Әр шақырудың өз Promise нысаны бар. Екіншісі біріншісінен бұрын аяқталса, pending false болады және бірінші аяқталған соң да екінші нәтиже сақталады. Pending барлық аяқталмаған сақтауларды санамайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "Reset clears observed data, error, and variables. Already started requests and native options callbacks continue. New calls observe new executions; old completions cannot overwrite their state."
+msgstr "Reset бақыланатын data, error және variables мәндерін тазартады. Іске қосылған сұраулар мен нативті options callbacks орындала береді. Жаңа шақырулар жаңа орындалуларды бақылайды; ескі аяқталулар олардың күйін өзгертпейді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "Ownership and isolation"
+msgstr "Иелік ету және оқшаулау"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "Mounted projections share one observer subscription. Active calls retain it even without UI subscribers. The last owner releases it. Late subscribers read current state, including a save completed after unmount. Declaration itself creates no observer or subscription."
+msgstr "Монтаждалған проекциялар бір observer жазылымын бөліседі. Белсенді шақырулар оны UI жазылушылары болмаса да ұстайды. Соңғы иесі жазылымды босатады. Кейін қосылған жазылушылар unmount кейін аяқталған сақтауды қоса, ағымдағы күйді оқиды. Жариялаудың өзі observer не жазылым жасамайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "Runtime belongs to the store/client pair. The same adapter in one store shares state; separate stores or separate adapters have independent state even with a shared client. Client changes route new calls to the new client; old calls finish in their original client. Returning to an earlier client restores its runtime state."
+msgstr "Runtime store/client жұбына тиесілі. Бір store ішіндегі бір адаптер күйді бөліседі; бөлек stores не адаптерлер ортақ клиентпен де тәуелсіз болады. Клиент өзгергенде жаңа шақырулар жаңа клиентті пайдаланады; ескілері бастапқы клиентте аяқталады. Бұрынғы клиентке оралғанда оның runtime күйі қайта көрінеді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "TanStack owns the mutation cache and gcTime. The adapter retains its latest result while its runtime is reachable, without accumulating call history. Unmount does not cancel writes. The application owns QueryClient mounting and disposal, including online resumption."
+msgstr "TanStack мутация cache пен gcTime мәнін басқарады. Адаптер runtime қолжетімді болғанша соңғы нәтижені сақтайды, бірақ шақырулар тарихын жинамайды. Unmount жазу әрекеттерін тоқтатпайды. QueryClient қосылуын, босатылуын және желі қалпына келгенде жалғасуын қолданба басқарады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "Native options"
+msgstr "Нативті options"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "Client/key defaults, retry, networkMode, paused state, scope serialization, meta, optimistic updates, rollback, and native options callbacks retain query-core behavior. Async callbacks are awaited by TanStack; the adapter never invokes them again. Query-cache updates remain visible to native useQuery and queryAtoms using the same client."
+msgstr "Клиент/кілт defaults, retry, networkMode, paused күйі, scope арқылы кезектеу, meta, optimistic updates, rollback және нативті options callbacks query-core мінез-құлқын сақтайды. TanStack async callbacks аяқталуын күтеді; адаптер оларды қайта шақырмайды. Query cache өзгерістері сол клиентті пайдаланатын нативті useQuery мен queryAtoms үшін көрінеді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "React-only throwOnError is unsupported. Enabled values, including inherited client defaults, fail explicitly during runtime initialization. Native factory types may widen this option, so validation occurs at runtime. Catch execution errors or read an error projection. Per-call mutate callbacks, cancellation, and automatic query invalidation are not added."
+msgstr "React-ке арналған throwOnError қолдау таппайды. Қосылған мәндер, соның ішінде клиент defaults ішіндегілер, runtime инициализациясында анық қабылданбайды. Нативті фабрика түрлері бұл опцияның түрін кеңейтуі мүмкін, сондықтан тексеру runtime кезінде орындалады. Орындалу қатесін өңдеңіз немесе қате проекциясын оқыңыз. Жеке шақыру callbacks, тоқтату және автоматты query invalidation қосылмайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "Use native useMutation when a component owns the operation. Use mutationAtoms when a Jotai model must execute it or several Views need separate state projections. The adapter reuses actionAtom and prism; it adds execution ownership and store isolation without another cache or retry engine."
+msgstr "Операцияға компонент иелік етсе, нативті useMutation қолданыңыз. mutationAtoms операцияны Jotai моделі іске қосқанда немесе бірнеше View үшін бөлек күй проекциялары қажет болғанда пайдалы. Адаптер actionAtom мен prism құралдарын қайта пайдаланып, жаңа cache не retry механизмі жоқ орындалуға иелік ету мен store оқшаулауын қосады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.actions and bond.yield. Observing all mutations, including those launched by useMutation, is a separate cache-level task."
+msgstr "atomWithMutation Jotai мен TanStack жүйелерін біріктіреді. Біздің интерфейс mutate табу үшін нәтиже атомын оқуды талап етпей, жазылатын әрекетті және атаулы проекцияларды тікелей береді. Оны holo.actions пен bond.yield ішінде де қолдануға болады. useMutation арқылы іске қосылғандарды қоса, барлық мутацияларды бақылау — cache деңгейіндегі бөлек міндет."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/mutationAtoms.md
+msgid "- [TanStack mutation options](https://tanstack.com/query/latest/docs/framework/react/reference/mutationOptions) — reuse native option factories.\n"
+"- [TanStack mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) — execution, callbacks, optimistic updates, and consecutive calls.\n"
+"- [MutationObserver](https://tanstack.com/query/latest/docs/framework/react/reference/classes/MutationObserver) — the underlying executor and observed state.\n"
+"- [useMutationState](https://tanstack.com/query/latest/docs/framework/react/reference/useMutationState) — observing multiple mutation-cache entries.\n"
+"- [Jotai Query](https://jotai.org/docs/extensions/query) — atomWithMutation and atomWithMutationState alternatives."
+msgstr "- [TanStack mutation options](https://tanstack.com/query/latest/docs/framework/react/reference/mutationOptions) — нативті options фабрикаларын қайта пайдалану.\n"
+"- [TanStack mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) — орындалу, callbacks, optimistic updates және кезекті шақырулар.\n"
+"- [MutationObserver](https://tanstack.com/query/latest/docs/framework/react/reference/classes/MutationObserver) — негізгі орындаушы және бақыланатын күй.\n"
+"- [useMutationState](https://tanstack.com/query/latest/docs/framework/react/reference/useMutationState) — бірнеше мутация cache жазбасын бақылау.\n"
+"- [Jotai Query](https://jotai.org/docs/extensions/query) — atomWithMutation және atomWithMutationState баламалары."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

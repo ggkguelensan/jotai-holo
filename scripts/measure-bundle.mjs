@@ -280,6 +280,8 @@ try {
     ['scalar-operators', 'vanilla', ['eq', 'and', 'or', 'some', 'sum']],
     ['model', 'model', ['createModel']],
     ['query', 'query', ['queryAtoms', 'queryClientAtom']],
+    ['mutation', 'query', ['mutationAtoms', 'queryClientAtom']],
+    ['query-and-mutation', 'query', ['queryAtoms', 'mutationAtoms', 'queryClientAtom']],
     ['rhf', 'rhf', ['createFormModel', 'holoForm', 'formAtom']],
     ['rhf-field', 'rhf', ['formAtom']],
     ['rhf-model', 'rhf', ['createFormModel']],
