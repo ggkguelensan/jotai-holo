@@ -1,17 +1,11 @@
 import { act } from 'react';
-import { Provider } from 'jotai';
-import {
-  createInjector,
-  InjectorProvider,
-  useMolecule,
-  type MoleculeOrInterface,
-} from 'bunshi/react';
+import { createStore, Provider } from 'jotai';
 import { expect, test } from 'vitest';
 import { OperatorsExample } from '../examples/operators.js';
 import { BasicCounter } from '../examples/basic.js';
 import { EffectCounter } from '../examples/effect.js';
-import { BunshiCounters } from '../examples/bunshi.js';
-import { BunshiEffectCounter, CounterRuntime } from '../examples/bunshi-effect.js';
+import { ModelCounters } from '../examples/models.js';
+import { ModelEffectCounter, CounterRuntime } from '../examples/model-effect.js';
 import { createHarness } from './browser-harness.js';
 
 test('runnable basic and effect examples respond to their rendered controls', async () => {
@@ -31,15 +25,12 @@ test('runnable basic and effect examples respond to their rendered controls', as
   expect(h.container.textContent).toContain('Observed count: 1');
 });
 
-test('runnable Bunshi example updates both shared cores and leaves the other scope alone', async () => {
-  const injector = createInjector();
+test('keyed model example shares two Views and isolates the third', async () => {
   const h = createHarness();
   await h.render(
-    <InjectorProvider value={() => injector}>
-      <Provider>
-        <BunshiCounters />
-      </Provider>
-    </InjectorProvider>,
+    <Provider>
+      <ModelCounters />
+    </Provider>,
   );
   await act(async () => {
     h.container.querySelectorAll('button')[1]?.click();
@@ -51,33 +42,31 @@ test('runnable Bunshi example updates both shared cores and leaves the other sco
   ]);
 });
 
-test('combined Bunshi/store/observe example disposes the effect with its molecule', async () => {
-  const injector = createInjector();
-  let runtime:
-    | (typeof CounterRuntime extends MoleculeOrInterface<infer Model> ? Model : never)
-    | undefined;
-  // Capture the same model instance as the recipe's two consumers.
-  function Probe() {
-    runtime = useMolecule(CounterRuntime);
-    return null;
-  }
+test('shared model effect survives one owner and stops after the final owner', async () => {
+  const store = createStore();
   const h = createHarness();
-  await h.render(
-    <InjectorProvider value={() => injector}>
-      <Probe />
-      <BunshiEffectCounter />
-    </InjectorProvider>,
-  );
+  const render = (two: boolean) =>
+    h.render(
+      <Provider store={store}>
+        <ModelEffectCounter key="first" />
+        {two && <ModelEffectCounter key="second" />}
+      </Provider>,
+    );
+  await render(true);
+  const model = store.get(CounterRuntime());
   await act(async () => {
-    h.container.querySelector('button')?.click();
+    store.set(model.increment);
   });
-  expect(h.container.textContent).toContain('default: observed 1');
-  if (!runtime) throw new Error('Missing runtime');
-  const model = runtime;
+  expect(store.get(model.$message)).toBe('Observed count: 1');
+  await render(false);
+  await act(async () => {
+    store.set(model.increment);
+  });
+  expect(store.get(model.$message)).toBe('Observed count: 2');
   await h.unmount();
-  model.store.set(model.increment);
-  expect(model.store.get(model.$count)).toBe(2);
-  expect(model.store.get(model.$message)).toBe('default: observed 1');
+  store.set(model.increment);
+  expect(store.get(model.$count)).toBe(3);
+  expect(store.get(model.$message)).toBe('Observed count: 2');
 });
 
 test('operator example connects events and updates projected list and branch state', async () => {

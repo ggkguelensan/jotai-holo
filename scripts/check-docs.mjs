@@ -4,15 +4,23 @@ import assert from 'node:assert/strict';
 import { locales } from '../docs/.vitepress/i18n/locales.mjs';
 import { sourcePages } from './localize-docs.mjs';
 const root = path.resolve('docs');
-async function files(dir) {
+async function files(dir, extensions = ['.md']) {
   const result = [];
   for (const entry of await readdir(dir, { withFileTypes: true })) {
     if (entry.name.startsWith('.') || entry.name === 'public') continue;
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) result.push(...(await files(full)));
-    else if (entry.name.endsWith('.md')) result.push(full);
+    if (entry.isDirectory()) result.push(...(await files(full, extensions)));
+    else if (extensions.some((extension) => entry.name.endsWith(extension))) result.push(full);
   }
   return result;
+}
+// Public examples must exercise the native model API.
+for (const file of await files(path.resolve('examples'), ['.ts', '.tsx'])) {
+  assert.doesNotMatch(
+    await readFile(file, 'utf8'),
+    /\b(?:bunshi|holoMolecule|ScopeProvider|useMolecule|InjectorProvider)\b/i,
+    `Retired integration in ${file}`,
+  );
 }
 const pages = await files(root);
 const localized = await sourcePages();

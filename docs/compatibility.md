@@ -106,3 +106,10 @@ Query tests use native QueryObserver and application-owned QueryClient: options 
 The RHF bridge uses native createFormControl/useForm/useFormState/FormProvider. Tests cover isolated keyed controls, outside panels, field subscriptions, async transforming resolvers, defaultValues and dirty/touched persistence, focus/validation/reset, async defaults, field arrays and StrictMode. The live business example exercises zodResolver. Other native resolvers use the same unmodified Resolver protocol; their complete validator-specific features are not individually certified.
 
 The packed React matrix additionally exercises keyed model ownership, Query projections and an RHF resolver on React 18.0.0, 18.3.1 and 19.3.1 in development and production. Form values are selectable atoms; form-state flags use native RHF hooks. Options are creation-time configuration, not reactive holo props.
+
+## Model composition limits
+
+Keyed instances and resource leases are supported. Automatic dependency graphs,
+transitive ownership and implementation bindings are not implemented. See the
+[model composition audit](/model-composition) for the supported mechanisms,
+verified examples and remaining requirements.
