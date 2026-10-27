@@ -430,6 +430,7 @@ msgid "Your workspace is ready."
 msgstr "Your workspace is ready."
 
 #: examples/docs/match.tsx
+#: examples/docs/query.tsx
 msgid "Could not load. Try again."
 msgstr "Could not load. Try again."
 
@@ -550,12 +551,16 @@ msgid "Desk lamp"
 msgstr "Desk lamp"
 
 #: examples/docs/query.tsx
-msgid "Product catalog"
-msgstr "Product catalog"
-
-#: examples/docs/query.tsx
 msgid "Loading…"
 msgstr "Loading…"
+
+#: examples/docs/query.tsx
+msgid "Product not found."
+msgstr "Product not found."
+
+#: examples/docs/query.tsx
+msgid "Product catalog"
+msgstr "Product catalog"
 
 #: examples/docs/query.tsx
 msgid "Desk"

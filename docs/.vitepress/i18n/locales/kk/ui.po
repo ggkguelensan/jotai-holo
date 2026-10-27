@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-27 11:10+0500\n"
+"POT-Creation-Date: 2026-10-27 12:24+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -430,6 +430,7 @@ msgid "Your workspace is ready."
 msgstr "Жұмыс кеңістігі дайын."
 
 #: examples/docs/match.tsx
+#: examples/docs/query.tsx
 msgid "Could not load. Try again."
 msgstr "Жүктеу мүмкін болмады. Қайталап көріңіз."
 
@@ -550,12 +551,16 @@ msgid "Desk lamp"
 msgstr "Үстел шамы"
 
 #: examples/docs/query.tsx
-msgid "Product catalog"
-msgstr "Тауарлар каталогы"
-
-#: examples/docs/query.tsx
 msgid "Loading…"
 msgstr "Жүктелуде…"
+
+#: examples/docs/query.tsx
+msgid "Product not found."
+msgstr "Тауар табылмады."
+
+#: examples/docs/query.tsx
+msgid "Product catalog"
+msgstr "Тауарлар каталогы"
 
 #: examples/docs/query.tsx
 msgid "Desk"

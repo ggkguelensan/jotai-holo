@@ -2082,6 +2082,12 @@ msgstr "Explicit notifyOnChangeProps also limits native observer notifications. 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/queryAtoms.md
+msgid "The example derives `$screen` directly in `prism` and selects a View with `holoMatch`. Initial loading uses `isPending`; background fetching keeps the ready branch visible. A successful `null` result selects the empty branch. Data and error bindings subscribe only while their branch is mounted. The screen atom does not narrow the separate data atom's TypeScript type, so CardView still checks for missing data."
+msgstr "The example derives `$screen` directly in `prism` and selects a View with `holoMatch`. Initial loading uses `isPending`; background fetching keeps the ready branch visible. A successful `null` result selects the empty branch. Data and error bindings subscribe only while their branch is mounted. The screen atom does not narrow the separate data atom's TypeScript type, so CardView still checks for missing data."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/queryAtoms.md
 msgid "Native useQuery's property tracking works well in hook-based components. Holo needs named atoms to bind a plain View. Independent projections reuse prism and let data-only Views ignore fetching changes. This adapter talks directly to QueryObserver; it does not wrap atomWithQuery or replace Query's cache, network lifecycle, or mutation infrastructure."
 msgstr "Native useQuery's property tracking works well in hook-based components. Holo needs named atoms to bind a plain View. Independent projections reuse prism and let data-only Views ignore fetching changes. This adapter talks directly to QueryObserver; it does not wrap atomWithQuery or replace Query's cache, network lifecycle, or mutation infrastructure."
 

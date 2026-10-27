@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-27 11:10+0500\n"
+"POT-Creation-Date: 2026-10-27 12:25+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2082,6 +2082,12 @@ msgstr "- `state` ion сияқты нативті атом, tuple не record қ
 #: docs/reference/queryAtoms.md
 msgid "Explicit notifyOnChangeProps also limits native observer notifications. Avoid restrictive lists if your projections read other result fields."
 msgstr "Айқын notifyOnChangeProps нативті observer хабарландыруын да шектейді. Проекциялар басқа нәтиже өрістерін оқыса шектеулі тізімнен сақтаныңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/queryAtoms.md
+msgid "The example derives `$screen` directly in `prism` and selects a View with `holoMatch`. Initial loading uses `isPending`; background fetching keeps the ready branch visible. A successful `null` result selects the empty branch. Data and error bindings subscribe only while their branch is mounted. The screen atom does not narrow the separate data atom's TypeScript type, so CardView still checks for missing data."
+msgstr "Мысалда `$screen` тікелей `prism` ішінде есептеледі, ал `holoMatch` View таңдайды. Бастапқы жүктелу `isPending` арқылы анықталады; фондық сұрау кезінде дайын карточка көрініп тұрады. Сәтті `null` нәтижесі бос тармақты таңдайды. Деректер мен қате байланыстары тек өз тармағы көрсетіліп тұрғанда жазылады. Экран атомы бөлек деректер атомының TypeScript түрін тарылтпайды, сондықтан CardView деректердің бар-жоғын тексереді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

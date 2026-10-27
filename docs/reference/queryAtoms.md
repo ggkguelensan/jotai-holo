@@ -27,6 +27,8 @@ Optional entry: `jotai-holo/query`. Requires `@tanstack/query-core` v5. Use the 
 
 Explicit notifyOnChangeProps also limits native observer notifications. Avoid restrictive lists if your projections read other result fields.
 
+The example derives `$screen` directly in `prism` and selects a View with `holoMatch`. Initial loading uses `isPending`; background fetching keeps the ready branch visible. A successful `null` result selects the empty branch. Data and error bindings subscribe only while their branch is mounted. The screen atom does not narrow the separate data atom's TypeScript type, so CardView still checks for missing data.
+
 ## Why this API
 
 Native useQuery's property tracking works well in hook-based components. Holo needs named atoms to bind a plain View. Independent projections reuse prism and let data-only Views ignore fetching changes. This adapter talks directly to QueryObserver; it does not wrap atomWithQuery or replace Query's cache, network lifecycle, or mutation infrastructure.
