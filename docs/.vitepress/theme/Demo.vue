@@ -40,20 +40,22 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="holo-example">
-    <div class="example-toolbar">
-      <span><span class="example-dot" />{{ theme.docsUi.liveExample }}</span
-      ><code>{{ kind }}</code>
+    <div class="example-live">
+      <div class="example-toolbar">
+        <span><span class="example-dot" />{{ theme.docsUi.liveExample }}</span
+        ><code>{{ kind }}</code>
+      </div>
+      <div ref="host" class="example-preview" :data-demo="kind" />
+      <p v-if="failure" role="alert">{{ failure }}</p>
     </div>
-    <div ref="host" class="example-preview" :data-demo="kind" />
-    <p v-if="failure" role="alert">{{ failure }}</p>
-    <details class="example-source">
-      <summary>{{ theme.docsUi.viewCode }} <span aria-hidden="true">↗</span></summary>
+    <div class="example-source">
+      <p class="example-source-title">{{ theme.docsUi.viewCode }}</p>
       <slot />
       <a
         class="example-file"
         :href="`https://github.com/ggkguelensan/jotai-holo/blob/docs/lingui-i18n/examples/docs/${kind}.tsx`"
         >{{ theme.docsUi.fullSource }} ↗</a
       >
-    </details>
+    </div>
   </div>
 </template>

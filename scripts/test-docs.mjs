@@ -42,9 +42,11 @@ try {
   });
   const origin = `http://127.0.0.1:4179${base}`;
   async function checkCodeLayout() {
-    await page.locator('.example-source').evaluateAll((blocks) => {
-      for (const block of blocks) block.open = true;
-    });
+    assert.equal(await page.locator('details.example-source').count(), 0);
+    for (const block of await page.locator('.example-source pre').all()) {
+      assert.ok(await block.isVisible());
+      assert.ok(await block.evaluate((el) => el.scrollHeight <= el.clientHeight + 1));
+    }
     const failures = await page.locator('.vp-doc pre').evaluateAll((blocks) => {
       return blocks.flatMap((block, index) => {
         if (block.scrollWidth > block.clientWidth + 1)
@@ -80,6 +82,7 @@ try {
       assert.ok(await page.locator('.vp-doc a[href^="https://"]').count());
       await page.locator('.example-preview :is(button, input)').first().waitFor();
       assert.equal(await page.locator('.example-preview').count(), 1);
+      assert.ok((await page.locator('.example-source pre').count()) > 1);
       await checkCodeLayout();
       if (file === 'mutationAtoms.md') {
         const catalog = await loadCatalog(code, 'ui');

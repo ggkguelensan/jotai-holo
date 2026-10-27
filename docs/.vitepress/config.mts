@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { locales } from './i18n/locales.mjs';
 import { loadCatalog } from './i18n/catalog.mjs';
 import { linguiMacros } from './i18n/macros.mjs';
+import { logicalCodeBlocks } from './code-blocks.mjs';
 
 const groups = (t: (message: string) => string) => [
   { title: t('State'), names: ['stateAtom', 'ion', 'prism', 'eq', 'and', 'or', 'some', 'sum'] },
@@ -180,6 +181,7 @@ export default defineConfig({
   },
   markdown: {
     config(md) {
+      logicalCodeBlocks(md);
       // Keep repository file links useful both on GitHub and in the static site.
       const render = md.renderer.rules.link_open;
       md.renderer.rules.link_open = (tokens, index, options, env, self) => {
