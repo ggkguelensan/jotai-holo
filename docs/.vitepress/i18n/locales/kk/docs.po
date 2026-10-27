@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-27 12:25+0500\n"
+"POT-Creation-Date: 2026-10-27 12:55+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2220,12 +2220,12 @@ msgid "- Store-specific, active immediately, no replay. Each subscription has in
 "- Callbacks are dispatched synchronously through a shared FIFO queue. Nested notifications are queued; delivery is not a durable job system.\n"
 "- Sync throws and returned Promise rejections go to that listener's onError; without one they are logged. Other consumers continue.\n"
 "- Listener return values are otherwise ignored. Stopping does not cancel already started async work. A rejection after disposal is logged instead of calling the disposed owner's error handler.\n"
-"- Subscribe during application/session setup or a React effect, never during render. Always dispose with the owner's lifetime."
+"- In holo, subscribe in `createModel.connect`. Holo acquires the model after commit and releases it after the last owner leaves. Use `observe` inside connect for reactive subscription conditions. Outside React, application/session setup owns the returned disposer. Never subscribe during render."
 msgstr "- Store-ға тәуелді, дереу белсенді, replay жоқ. Әр жазылымның иелігі жеке; `stop()` идемпотентті.\n"
 "- Callback ортақ FIFO кезек арқылы синхронды орындалады. Ішкі хабарландырулар кезекке қойылады; бұл тұрақты job жүйесі емес.\n"
 "- Синхронды throw мен қайтарылған Promise rejection сол listener onError-ына, онсыз логқа барады. Басқа тұтынушылар жалғастырады.\n"
 "- Listener-дің басқа қайтарған мәндері еленбейді. Stop басталған async жұмысты тоқтатпайды. Dispose-тен кейінгі rejection босатылған иенің onError-ын шақырмай, логқа жазылады.\n"
-"- Қолданба/сессия орнатқанда не React effect ішінде жазылыңыз, render-де ешқашан емес. Иесінің өмірлік циклімен бірге босатыңыз."
+"- Holo ішінде жазылымды `createModel.connect` арқылы қосыңыз. Holo модельді commit-тен кейін иеленіп, соңғы иесі кеткенде босатады. Жазылымның реактивті шарты үшін connect ішінде `observe` қолданыңыз. React-тен тыс қайтарылған тазалау функциясын қолданбаны немесе сессияны іске қосатын код басқарады. Render кезінде жазылым жасамаңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

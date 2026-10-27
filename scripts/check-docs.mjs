@@ -18,6 +18,11 @@ async function files(dir, extensions = ['.md']) {
 for (const file of await files(path.resolve('examples'), ['.ts', '.tsx'])) {
   assert.doesNotMatch(
     await readFile(file, 'utf8'),
+    /\buse(?:Layout)?Effect\b/,
+    `React effects do not own public example resources: ${file}`,
+  );
+  assert.doesNotMatch(
+    await readFile(file, 'utf8'),
     /\b(?:bunshi|holoMolecule|ScopeProvider|useMolecule|InjectorProvider)\b/i,
     `Retired integration in ${file}`,
   );

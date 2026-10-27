@@ -1,26 +1,32 @@
 import { useLingui } from '@lingui/react/macro';
-import { useStore } from 'jotai';
-import { useEffect } from 'react';
+import { createModel } from 'jotai-holo/model';
 import { actionAtom, bond, eventAtom, holo, stateAtom } from 'jotai-holo';
 
 // #region bond
-const orderSubmitted = eventAtom<{ number: number }>();
+export const CheckoutModel = createModel({
+  create: () => {
+    const orderSubmitted = eventAtom<{ number: number }>();
 
-const $number = stateAtom(100);
-const $enabled = stateAtom(true);
-const $receipt = stateAtom<number | null>(null);
+    const $number = stateAtom(100);
+    const $enabled = stateAtom(true);
+    const $receipt = stateAtom<number | null>(null);
 
-const submit = actionAtom((get, set) => {
-  const number = get($number);
-  set($number, number + 1); // Local demo checkout completes here.
-  set(orderSubmitted, { number });
-});
+    const submit = actionAtom((get, set) => {
+      const number = get($number);
+      set($number, number + 1); // Local demo checkout completes here.
+      set(orderSubmitted, { number });
+    });
 
-const receipt = bond({
-  trigger: orderSubmitted,
-  guard: $enabled,
-  map: (order) => [order.number],
-  yield: $receipt,
+    const receipt = bond({
+      trigger: orderSubmitted,
+      guard: $enabled,
+      map: (order) => [order.number],
+      yield: $receipt,
+    });
+
+    return { $enabled, $receipt, submit, receipt };
+  },
+  connect: (model, store) => model.receipt.connect(store),
 });
 
 function CheckoutView({
@@ -63,17 +69,12 @@ function CheckoutView({
 }
 
 const Checkout = holo({
+  model: CheckoutModel,
   core: CheckoutView,
-  state: { enabled: $enabled, message: $receipt },
-  actions: { onEnabled: $enabled, onSubmit: submit },
+  state: (model) => ({ enabled: model.$enabled, message: model.$receipt }),
+  actions: (model) => ({ onEnabled: model.$enabled, onSubmit: model.submit }),
 });
 
-function OwnedCheckout() {
-  const store = useStore();
-  useEffect(() => receipt.connect(store), [store]);
-
-  return <Checkout />;
-}
 // #endregion bond
 
-export default OwnedCheckout;
+export default Checkout;

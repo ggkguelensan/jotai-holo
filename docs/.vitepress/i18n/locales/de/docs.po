@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-27 12:25+0500\n"
+"POT-Creation-Date: 2026-10-27 12:55+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2212,12 +2212,12 @@ msgid "- Store-specific, active immediately, no replay. Each subscription has in
 "- Callbacks are dispatched synchronously through a shared FIFO queue. Nested notifications are queued; delivery is not a durable job system.\n"
 "- Sync throws and returned Promise rejections go to that listener's onError; without one they are logged. Other consumers continue.\n"
 "- Listener return values are otherwise ignored. Stopping does not cancel already started async work. A rejection after disposal is logged instead of calling the disposed owner's error handler.\n"
-"- Subscribe during application/session setup or a React effect, never during render. Always dispose with the owner's lifetime."
+"- In holo, subscribe in `createModel.connect`. Holo acquires the model after commit and releases it after the last owner leaves. Use `observe` inside connect for reactive subscription conditions. Outside React, application/session setup owns the returned disposer. Never subscribe during render."
 msgstr "- Store-spezifisch, sofort aktiv, kein Replay. Jedes Abonnement hat unabhängige Zuständigkeit; `stop()` ist idempotent.\n"
 "- Callbacks laufen synchron über eine gemeinsame FIFO-Warteschlange. Verschachtelte Benachrichtigungen werden eingereiht; kein dauerhaftes Jobsystem.\n"
 "- Synchrone Throws und zurückgegebene Promise-Rejections gehen an onError dieses Listeners, sonst ins Log. Andere Verbraucher laufen weiter.\n"
 "- Andere Listener-Rückgaben werden ignoriert. Stop bricht gestartete Async-Arbeit nicht ab. Rejection nach Freigabe wird protokolliert statt den freigegebenen onError aufzurufen.\n"
-"- Abonniere beim Anwendungs-/Sitzungsaufbau oder in einem React-Effekt, niemals im Render. Gib immer mit der Lebensdauer des Besitzers frei."
+"- In holo gehört das Abonnement in `createModel.connect`. Holo übernimmt das Modell nach dem Commit und gibt es nach dem letzten Besitzer frei. Reaktive Bedingungen für Abonnements lassen sich mit `observe` innerhalb von connect verwalten. Außerhalb von React gehört die zurückgegebene Aufräumfunktion zum Anwendungs- oder Sitzungsstart. Niemals während des Renderns abonnieren."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

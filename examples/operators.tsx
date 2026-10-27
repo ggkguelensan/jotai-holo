@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useStore } from 'jotai';
+import { createModel } from 'jotai-holo/model';
 import {
   actionAtom,
   bond,
@@ -13,19 +12,28 @@ import {
 } from 'jotai-holo';
 
 type User = { id: number; name: string };
-const $users = stateAtom<readonly User[]>([]);
-const $nextId = stateAtom(1);
-const addRequested = eventAtom();
-const userAdded = actionAtom((_get, set, user: User) => {
-  set($users, (users) => [...users, user]);
-  set($nextId, user.id + 1);
+const UserDirectory = createModel({
+  create: () => {
+    const $users = stateAtom<readonly User[]>([]);
+    const $nextId = stateAtom(1);
+    const addRequested = eventAtom();
+    const userAdded = actionAtom((_get, set, user: User) => {
+      set($users, (users) => [...users, user]);
+      set($nextId, user.id + 1);
+    });
+    const adding = bond({
+      state: $nextId,
+      trigger: addRequested,
+      map: (id) => [{ id, name: `User ${id}` }],
+      yield: userAdded,
+    });
+    return { $users, addRequested, adding };
+  },
+  connect: (model, store) => model.adding.connect(store),
 });
-const adding = bond({
-  state: $nextId,
-  trigger: addRequested,
-  map: (id) => [{ id, name: `User ${id}` }],
-  yield: userAdded,
-});
+
+const $users = stateAtom((get) => get(get(UserDirectory()).$users));
+
 const { $count, $empty } = prism($users, {
   $count: (users) => users.length,
   $empty: (users) => users.length === 0,
@@ -49,6 +57,7 @@ const Content = holoMatch({
   },
 });
 const Controls = holo({
+  model: UserDirectory,
   core: ({ count, onAdd }: { count: number; onAdd: () => void }) => (
     <>
       <output>Users: {count}</output>
@@ -56,14 +65,10 @@ const Controls = holo({
     </>
   ),
   state: { count: $count },
-  actions: { onAdd: addRequested },
+  actions: (model) => ({ onAdd: model.addRequested }),
 });
 
 export function OperatorsExample() {
-  const store = useStore();
-  // The demo owns this connection while mounted. Applications can instead
-  // connect/dispose alongside their store-owned model or request runtime.
-  useEffect(() => adding.connect(store), [store]);
   return (
     <section>
       <h2>Model operators</h2>

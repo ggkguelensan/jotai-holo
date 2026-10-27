@@ -1,6 +1,6 @@
 import { useLingui } from '@lingui/react/macro';
-import { useStore } from 'jotai';
-import { useEffect, useState } from 'react';
+import { observe } from 'jotai-effect';
+import { createModel } from 'jotai-holo/model';
 import {
   actionAtom,
   eventAtom,
@@ -10,35 +10,55 @@ import {
 } from 'jotai-holo';
 
 // #region event
-const messageReceived = eventAtom<{ text: string }>();
+export const Messages = createModel({
+  create: () => {
+    const messageReceived = eventAtom<{ text: string }>();
 
-const $last = stateAtom('');
-const $deliveries = stateAtom(0);
+    const $listening = stateAtom(true);
+    const $last = stateAtom('');
+    const $deliveries = stateAtom(0);
 
-const record = actionAtom((_get, set, text: string) => {
-  set($last, text);
-  set($deliveries, (count) => count + 1);
+    const record = actionAtom((_get, set, text: string) => {
+      set($last, text);
+      set($deliveries, (count) => count + 1);
+    });
+
+    const toggleListening = actionAtom((get, set) =>
+      set($listening, !get($listening)),
+    );
+    return {
+      messageReceived,
+      $listening,
+      $last,
+      $deliveries,
+      record,
+      toggleListening,
+    };
+  },
+  connect: (model, store) =>
+    observe((get) => {
+      if (!get(model.$listening)) return;
+      return subscribeEvent(store, model.messageReceived, ({ text }) =>
+        store.set(model.record, text),
+      );
+    }, store),
 });
 
 function View({
   last,
   deliveries,
   onReceive,
+  listening,
+  onToggleListening,
 }: {
+  listening: boolean;
+  onToggleListening: () => void;
   last: string;
   deliveries: number;
   onReceive: (payload: { text: string }) => void;
 }) {
   const { t } = useLingui();
 
-  const [listening, setListening] = useState(true);
-  const store = useStore();
-  useEffect(() => {
-    if (!listening) return;
-    return subscribeEvent(store, messageReceived, ({ text }) =>
-      store.set(record, text),
-    );
-  }, [store, listening]);
   return (
     <div className="demo-form">
       <span className="demo-eyebrow">{t`Simulated incoming message`}</span>
@@ -50,7 +70,7 @@ function View({
         >
           {t`Receive message`}
         </button>
-        <button type="button" onClick={() => setListening((value) => !value)}>
+        <button type="button" onClick={onToggleListening}>
           {listening ? t`Unsubscribe` : t`Subscribe`}
         </button>
       </div>
@@ -62,9 +82,17 @@ function View({
 }
 
 const IncomingMessages = holo({
+  model: Messages,
   core: View,
-  state: { last: $last, deliveries: $deliveries },
-  actions: { onReceive: messageReceived },
+  state: (model) => ({
+    last: model.$last,
+    deliveries: model.$deliveries,
+    listening: model.$listening,
+  }),
+  actions: (model) => ({
+    onReceive: model.messageReceived,
+    onToggleListening: model.toggleListening,
+  }),
 });
 // #endregion event
 

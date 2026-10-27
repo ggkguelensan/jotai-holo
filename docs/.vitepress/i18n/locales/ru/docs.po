@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-27 12:25+0500\n"
+"POT-Creation-Date: 2026-10-27 12:55+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2216,12 +2216,12 @@ msgid "- Store-specific, active immediately, no replay. Each subscription has in
 "- Callbacks are dispatched synchronously through a shared FIFO queue. Nested notifications are queued; delivery is not a durable job system.\n"
 "- Sync throws and returned Promise rejections go to that listener's onError; without one they are logged. Other consumers continue.\n"
 "- Listener return values are otherwise ignored. Stopping does not cancel already started async work. A rejection after disposal is logged instead of calling the disposed owner's error handler.\n"
-"- Subscribe during application/session setup or a React effect, never during render. Always dispose with the owner's lifetime."
+"- In holo, subscribe in `createModel.connect`. Holo acquires the model after commit and releases it after the last owner leaves. Use `observe` inside connect for reactive subscription conditions. Outside React, application/session setup owns the returned disposer. Never subscribe during render."
 msgstr "- Подписка действует сразу только в указанном store, без replay. Владение независимо; `stop()` идемпотентен.\n"
 "- Колбэки доставляются синхронно через общую FIFO-очередь. Вложенные уведомления ставятся в очередь; это не персистентная система задач.\n"
 "- Sync throw и rejection возвращённого Promise передаются в onError этого подписчика; без него логируются. Другие потребители продолжают работу.\n"
 "- Остальные возвращаемые значения игнорируются. Отписка не отменяет уже начатую async-работу. Rejection после отписки логируется вместо обращения к обработчику закрытого владельца.\n"
-"- Подписывайтесь при создании приложения/сессии или в React effect, никогда во время render. Освобождайте подписку вместе с владельцем."
+"- В holo подключайте подписку в `createModel.connect`. Holo получает модель после commit и освобождает её после ухода последнего владельца. Для реактивного условия подписки используйте `observe` внутри connect. Вне React возвращённой функцией очистки владеет код запуска приложения или сессии. Не создавайте подписки во время render."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
