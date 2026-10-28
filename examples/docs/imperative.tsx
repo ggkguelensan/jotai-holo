@@ -12,7 +12,7 @@ import {
 import { modelRegistry, pipe } from 'jotai-holo/model';
 
 // #region imperative
-const $$checkout = pipe(() => {
+function createCheckoutModel() {
   const $quantity = stateAtom(1);
   const $orderNumber = stateAtom(1000);
 
@@ -31,7 +31,9 @@ const $$checkout = pipe(() => {
   });
 
   return { $quantity, $total, orderCreated, submit };
-}, modelRegistry());
+}
+
+const $$checkout = pipe(createCheckoutModel, modelRegistry());
 
 type Receipt = { orderId: string; total: number };
 type CheckoutHandle = { onOrderCreated(receipt: Receipt): void };

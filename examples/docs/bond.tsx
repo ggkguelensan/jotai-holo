@@ -3,7 +3,7 @@ import { modelRegistry, pipe } from 'jotai-holo/model';
 import { actionAtom, bond, eventAtom, holo, stateAtom } from 'jotai-holo';
 
 // #region bond
-export const $$checkout = pipe(() => {
+function createCheckoutModel() {
   const orderSubmitted = eventAtom<{ number: number }>();
 
   const $number = stateAtom(100);
@@ -24,7 +24,9 @@ export const $$checkout = pipe(() => {
   });
 
   return { $enabled, $receipt, submit, receipt };
-}, modelRegistry());
+}
+
+export const $$checkout = pipe(createCheckoutModel, modelRegistry());
 
 function CheckoutView({
   enabled,
