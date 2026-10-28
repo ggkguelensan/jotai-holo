@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { readdir } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { locales } from '../docs/.vitepress/i18n/locales.mjs';
 import { loadCatalog } from '../docs/.vitepress/i18n/catalog.mjs';
@@ -9,9 +10,21 @@ import { generateMessageId } from '@lingui/message-utils/generateMessageId';
 
 // Test the generated production site, including its configured subpath.
 const base = process.env.DOCS_BASE || '/';
-const server = spawn('pnpm', ['docs:preview', '--host', '127.0.0.1', '--port', '4179'], {
-  stdio: ['ignore', 'pipe', 'pipe'],
-});
+// Own the server process directly: terminating a pnpm wrapper can leave its
+// preview child and inherited output pipes alive on Linux, keeping CI open.
+const server = spawn(
+  process.execPath,
+  [
+    fileURLToPath(new URL('../node_modules/vitepress/bin/vitepress.js', import.meta.url)),
+    'preview',
+    'docs',
+    '--host',
+    '127.0.0.1',
+    '--port',
+    '4179',
+  ],
+  { stdio: ['ignore', 'pipe', 'pipe'] },
+);
 let browser;
 try {
   await Promise.race([
@@ -336,6 +349,13 @@ try {
     `Docs browser smoke: ${references.length * locales.length} reference routes, live controls, teardown, four-language switching/search/validation and mobile layout passed (base ${base}).`,
   );
 } finally {
-  await browser?.close();
-  server.kill('SIGTERM');
+  try {
+    await browser?.close();
+  } finally {
+    if (server.exitCode === null && server.signalCode === null) {
+      const closed = once(server, 'close');
+      server.kill('SIGTERM');
+      await closed;
+    }
+  }
 }
