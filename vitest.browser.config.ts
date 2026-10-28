@@ -8,6 +8,8 @@ export default defineConfig({
   optimizeDeps: {
     include: [
       '@tanstack/react-query',
+      '@hookform/resolvers/zod',
+      'zod',
       '@tanstack/query-core',
       'react-hook-form',
       'react',

@@ -57,6 +57,7 @@ async function localeConfig(code: string, label: string, prefix: string) {
     {
       text: t('Recipes'),
       items: [
+        { text: t('Server data, forms and saving'), link: link('/recipes/server-data') },
         { text: t('Profile: command → fact → reaction'), link: link('/recipes/profile') },
         { text: t('Effects and model lifetime'), link: link('/recipes/integrations') },
         { text: t('Spreadsheet formulas'), link: link('/recipes/spreadsheet') },

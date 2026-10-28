@@ -1041,8 +1041,10 @@ msgid "The example source is included in TypeScript checking. `tests/documentati
 msgstr "The example source is included in TypeScript checking. `tests/documentation.test.ts` checks that no fact occurs before API success, repeated saves make one request, successful facts are delivered, disposal stops reactions, API failure emits no success fact, and invalid input is rejected."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
+#: docs/recipes/server-data.md
 msgid "Reading"
 msgstr "Reading"
 
@@ -1051,6 +1053,178 @@ msgstr "Reading"
 #: docs/recipes/profile.md
 msgid "[React: separating events from effects](https://react.dev/learn/separating-events-from-effects) helps separate explicit operations from synchronization. [Effector sample](https://effector.dev/en/api/effector/sample/) is the declarative connection analogy. This illustrates API design; it is not a server transaction, audit system, or event-sourcing engine."
 msgstr "[React: separating events from effects](https://react.dev/learn/separating-events-from-effects) helps separate explicit operations from synchronization. [Effector sample](https://effector.dev/en/api/effector/sample/) is the declarative connection analogy. This illustrates API design; it is not a server transaction, audit system, or event-sourcing engine."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Server data, forms and saving"
+msgstr "Server data, forms and saving"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A sales team edits the seat count and customer comment of a proposal. These five recipes use the same request factories and Views. QueryClient owns server data; a model owns the user's draft. The examples expect your application to provide GET and PUT `/api/proposals/:id`; they do not install a demo backend."
+msgstr "A sales team edits the seat count and customer comment of a proposal. These five recipes use the same request factories and Views. QueryClient owns server data; a model owns the user's draft. The examples expect your application to provide GET and PUT `/api/proposals/:id`; they do not install a demo backend."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Application setup"
+msgstr "Application setup"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Use the application's existing QueryClient in both providers. This browser setup creates one client and one Jotai store. Create them per request in an SSR application."
+msgstr "Use the application's existing QueryClient in both providers. This browser setup creates one client and one Jotai store. Create them per request in an SSR application."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A model working with server data"
+msgstr "A model working with server data"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need one proposal editor with a calculated total. A plain factory is enough; no registry or `models` field is required."
+msgstr "I need one proposal editor with a calculated total. A plain factory is enough; no registry or `models` field is required."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Until the first edit, the draft comes from the server response. After editing, `$localDraft` owns the entered values. A background refetch can update server prices, but does not replace the user's seat count or comment. Pending and errors remain separate atoms; the View handles them without an effect."
+msgstr "Until the first edit, the draft comes from the server response. After editing, `$localDraft` owns the entered values. A background refetch can update server prices, but does not replace the user's seat count or comment. Pending and errors remain separate atoms; the View handles them without an effect."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A registry model working with server data"
+msgstr "A registry model working with server data"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need several widgets to select the same editor by proposal ID. Reuse the same factory and add a registry for the editor instances."
+msgstr "I need several widgets to select the same editor by proposal ID. Reuse the same factory and add a registry for the editor instances."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "The same model key and store share a local draft. Another proposal ID gets another draft. QueryClient still owns the query cache: the registry does not copy or replace it. Include an editor or tab ID in the model key if two editors of the same proposal need independent drafts."
+msgstr "The same model key and store share a local draft. Another proposal ID gets another draft. QueryClient still owns the query cache: the registry does not copy or replace it. Include an editor or tab ID in the model key if two editors of the same proposal need independent drafts."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A form initialized from server data"
+msgstr "A form initialized from server data"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need native RHF fields with server defaults and a Zod resolver. Wait for the query result before creating the form instance. This keeps loading and request errors outside the form and lets RHF receive synchronous defaultValues."
+msgstr "I need native RHF fields with server defaults and a Zod resolver. Wait for the query result before creating the form instance. This keeps loading and request errors outside the form and lets RHF receive synchronous defaultValues."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "The form key includes editorId: two tabs can share server data and keep independent RHF controls. Background refetches pass a new proposal but do not recreate the existing keyed form or replace its defaults. To explicitly discard edits and reload, use the control's native reset method. Use one holoForm root per control; an external toolbar uses ordinary holo with that same model selection."
+msgstr "The form key includes editorId: two tabs can share server data and keep independent RHF controls. Background refetches pass a new proposal but do not recreate the existing keyed form or replace its defaults. To explicitly discard edits and reload, use the control's native reset method. Use one holoForm root per control; an external toolbar uses ordinary holo with that same model selection."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A model saving through a mutation"
+msgstr "A model saving through a mutation"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need to save the draft and publish a fact only after the server accepts it. Keep the native mutation-options factory separate from the model."
+msgstr "I need to save the draft and publish a fact only after the server accepts it. Keep the native mutation-options factory separate from the model."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Save captures the submitted draft before await and ignores another Save while pending. The mutation updates QueryClient on success. It does not reset the local draft, so edits made during the request survive. Expected request errors appear through the error projection; this save action catches the rejected Promise and emits no success fact on failure."
+msgstr "Save captures the submitted draft before await and ignores another Save while pending. The mutation updates QueryClient on success. It does not reset the local draft, so edits made during the request survive. Expected request errors appear through the error projection; this save action catches the rejected Promise and emits no success fact on failure."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "For a plain instance, bind its atoms directly:"
+msgstr "For a plain instance, bind its atoms directly:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "For keyed instances, apply a registry to the same factory. Each editor instance owns its mutation observer and pending/error state; all use the same QueryClient."
+msgstr "For keyed instances, apply a registry to the same factory. Each editor instance owns its mutation observer and pending/error state; all use the same QueryClient."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A model saving locally"
+msgstr "A model saving locally"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need a draft to survive a page reload without sending it to the server. Persist only the local edits, not a copy of the Query cache. The storage key includes the proposal ID."
+msgstr "I need a draft to survive a page reload without sending it to the server. Persist only the local edits, not a copy of the Query cache. The storage key includes the proposal ID."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Restoration uses the schema to validate stored data. A server response does not count as a local edit and cannot suppress a restored draft. A user's own edits take priority over a late restore. The View disables editing while restoration is pending, displays storage errors and can await disk.flush for an explicit save. Writes are debounced; final release attempts the captured pending write, but browser shutdown is not a delivery guarantee."
+msgstr "Restoration uses the schema to validate stored data. A server response does not count as a local edit and cannot suppress a restored draft. A user's own edits take priority over a late restore. The View disables editing while restoration is pending, displays storage errors and can await disk.flush for an explicit save. Writes are debounced; final release attempts the captured pending write, but browser shutdown is not a delivery guarantee."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A plain model has an application owner: call connectLocalDraft(store) once before mounting LocalProposal, keep the returned disposer and call it when that application session ends. This connection starts storage work; declaring or reading the model alone does not."
+msgstr "A plain model has an application owner: call connectLocalDraft(store) once before mounting LocalProposal, keep the returned disposer and call it when that application session ends. This connection starts storage work; declaring or reading the model alone does not."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A registry model returns the persistence declaration as a top-level field. holo acquires it with the model and releases it after the last owner; no manual connect is needed for this variant."
+msgstr "A registry model returns the persistence declaration as a top-level field. holo acquires it with the model and releases it after the last owner; no manual connect is needed for this variant."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Use a storage key that also identifies the account in a multi-account application. Other storage engines, including IndexedDB, can implement the same PersistenceStorage interface. Retention in a registry alone does not survive reloads; local storage alone does not update the server."
+msgstr "Use a storage key that also identifies the account in a multi-account application. Other storage engines, including IndexedDB, can implement the same PersistenceStorage interface. Retention in a registry alone does not survive reloads; local storage alone does not update the server."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Shared resource factories"
+msgstr "Shared resource factories"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "The recipe's transport contract validates JSON responses with Zod. Reuse existing Query Kit or native options factories in your application; the adapters do not require Query Kit at runtime."
+msgstr "The recipe's transport contract validates JSON responses with Zod. Reuse existing Query Kit or native options factories in your application; the adapters do not require Query Kit at runtime."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "See [queryAtoms](/reference/queryAtoms), [mutationAtoms](/reference/mutationAtoms), [holoForm](/reference/holoForm) and [persist](/runtime#rhf-query-and-persistence) for the individual contracts."
+msgstr "See [queryAtoms](/reference/queryAtoms), [mutationAtoms](/reference/mutationAtoms), [holoForm](/reference/holoForm) and [persist](/runtime#rhf-query-and-persistence) for the individual contracts."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "- [TanStack Query keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys) — server cache identity.\n"
+"- [Updating from mutation responses](https://tanstack.com/query/latest/docs/framework/react/guides/updates-from-mutation-responses) — publishing accepted data into the query cache.\n"
+"- [RHF defaultValues](https://react-hook-form.com/docs/useform#defaultValues) — cached defaults and explicit reset."
+msgstr "- [TanStack Query keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys) — server cache identity.\n"
+"- [Updating from mutation responses](https://tanstack.com/query/latest/docs/framework/react/guides/updates-from-mutation-responses) — publishing accepted data into the query cache.\n"
+"- [RHF defaultValues](https://react-hook-form.com/docs/useform#defaultValues) — cached defaults and explicit reset."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

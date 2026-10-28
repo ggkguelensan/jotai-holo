@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 15:27+0500\n"
+"POT-Creation-Date: 2026-10-28 16:27+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -65,6 +65,11 @@ msgstr "Рендеринг и async"
 #: docs/.vitepress/config.mts
 msgid "Recipes"
 msgstr "Рецепты"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Server data, forms and saving"
+msgstr "Серверные данные, формы и сохранение"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts

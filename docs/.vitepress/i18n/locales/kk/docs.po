@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 16:07+0500\n"
+"POT-Creation-Date: 2026-10-28 16:27+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1041,8 +1041,10 @@ msgid "The example source is included in TypeScript checking. `tests/documentati
 msgstr "Мысал коды TypeScript тексеруіне кіреді. `tests/documentation.test.ts` API жетістігіне дейін факт жоқтығын, қайталанған сақтауда бір сұрау болуын, сәтті фактілердің жеткізілуін, dispose реакцияны тоқтататынын, API қатесі жетістік фактісін бермейтінін және жарамсыз кіріс қабылданбайтынын тексереді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
+#: docs/recipes/server-data.md
 msgid "Reading"
 msgstr "Материалдар"
 
@@ -1051,6 +1053,178 @@ msgstr "Материалдар"
 #: docs/recipes/profile.md
 msgid "[React: separating events from effects](https://react.dev/learn/separating-events-from-effects) helps separate explicit operations from synchronization. [Effector sample](https://effector.dev/en/api/effector/sample/) is the declarative connection analogy. This illustrates API design; it is not a server transaction, audit system, or event-sourcing engine."
 msgstr "[React: оқиғалар мен әсерлерді бөлу](https://react.dev/learn/separating-events-from-effects) айқын операцияны синхрондаудан ажыратуға көмектеседі. [Effector sample](https://effector.dev/en/api/effector/sample/) — декларативті байланыстың ұқсасы. Бұл API дизайнын көрсетеді, сервер транзакциясы, аудит немесе event-sourcing қозғалтқышы емес."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Server data, forms and saving"
+msgstr "Сервер деректері, пішіндер және сақтау"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A sales team edits the seat count and customer comment of a proposal. These five recipes use the same request factories and Views. QueryClient owns server data; a model owns the user's draft. The examples expect your application to provide GET and PUT `/api/proposals/:id`; they do not install a demo backend."
+msgstr "Сату бөлімі коммерциялық ұсыныстағы орын саны мен клиент түсініктемесін өзгертеді. Бес рецептте ортақ сұрау фабрикалары мен View қолданылады. QueryClient сервер деректерін, модель пайдаланушы нобайын сақтайды. Қолданба GET және PUT `/api/proposals/:id` беруі керек; демонстрациялық backend орнатылмайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Application setup"
+msgstr "Қолданбаға қосу"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Use the application's existing QueryClient in both providers. This browser setup creates one client and one Jotai store. Create them per request in an SSR application."
+msgstr "Қолданбадағы QueryClient данасын екі провайдерге де беріңіз. Браузер мысалында бір клиент пен бір Jotai store жасалады. SSR қолданбасында оларды әр сұрау үшін жасаңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A model working with server data"
+msgstr "Сервер деректерімен жұмыс істейтін модель"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need one proposal editor with a calculated total. A plain factory is enough; no registry or `models` field is required."
+msgstr "Маған жалпы соманы есептейтін бір ұсыныс редакторы керек. Кәдімгі фабрика жеткілікті; реестр мен `models` өрісі қажет емес."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Until the first edit, the draft comes from the server response. After editing, `$localDraft` owns the entered values. A background refetch can update server prices, but does not replace the user's seat count or comment. Pending and errors remain separate atoms; the View handles them without an effect."
+msgstr "Алғашқы өзгеріске дейін нобай сервер жауабынан алынады. Өңдеуден кейін енгізілген мәндерді `$localDraft` сақтайды. Фондық refetch сервер бағасын жаңарта алады, бірақ пайдаланушының орын саны мен түсініктемесін ауыстырмайды. Жүктеу мен қателер бөлек атомдармен беріледі; View оларды эффектісіз көрсетеді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A registry model working with server data"
+msgstr "Сервер деректерімен жұмыс істейтін реестр моделі"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need several widgets to select the same editor by proposal ID. Reuse the same factory and add a registry for the editor instances."
+msgstr "Бірнеше виджет ұсыныс ID-і бойынша бір редакторды таңдауы керек. Сол фабриканы қайта қолданып, редактор экземплярларының реестрін қосыңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "The same model key and store share a local draft. Another proposal ID gets another draft. QueryClient still owns the query cache: the registry does not copy or replace it. Include an editor or tab ID in the model key if two editors of the same proposal need independent drafts."
+msgstr "Бірдей модель кілті мен store ортақ нобайды таңдайды. Басқа ұсыныс ID-і бөлек нобай алады. Сұрау кеші QueryClient иелігінде қалады: реестр оны көшірмейді әрі ауыстырмайды. Бір ұсыныстың екі редакторына тәуелсіз нобай қажет болса, модель кілтіне редактор не қойынды ID-ін қосыңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A form initialized from server data"
+msgstr "Сервер деректерімен инициализацияланған пішін"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need native RHF fields with server defaults and a Zod resolver. Wait for the query result before creating the form instance. This keeps loading and request errors outside the form and lets RHF receive synchronous defaultValues."
+msgstr "Маған сервердің бастапқы мәндері және Zod resolver бар нативті RHF өрістері керек. Пішін экземплярын жасамас бұрын сұрау нәтижесін күтіңіз. Жүктеу мен сұрау қателері пішіннен тыс қалады, ал RHF синхронды defaultValues алады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "The form key includes editorId: two tabs can share server data and keep independent RHF controls. Background refetches pass a new proposal but do not recreate the existing keyed form or replace its defaults. To explicitly discard edits and reload, use the control's native reset method. Use one holoForm root per control; an external toolbar uses ordinary holo with that same model selection."
+msgstr "Пішін кілтінде editorId бар: екі қойынды сервер деректерін ортақ пайдаланып, тәуелсіз RHF control сақтай алады. Фондық refetch жаңа ұсынысты береді, бірақ бар пішінді қайта жасамайды және defaults мәндерін ауыстырмайды. Өзгерістерді әдейі тастап, жаңа мәндерді жүктеу үшін нативті reset қолданыңыз. Бір control үшін бір holoForm түбірі керек; сыртқы панель сол модель таңдауымен кәдімгі holo қолданады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A model saving through a mutation"
+msgstr "Модель нәтижені мутация арқылы сақтайды"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need to save the draft and publish a fact only after the server accepts it. Keep the native mutation-options factory separate from the model."
+msgstr "Маған нобайды сақтап, тек сервер қабылдағаннан кейін факт жариялау керек. Нативті mutation options фабрикасын модельден бөлек сақтаңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Save captures the submitted draft before await and ignores another Save while pending. The mutation updates QueryClient on success. It does not reset the local draft, so edits made during the request survive. Expected request errors appear through the error projection; this save action catches the rejected Promise and emits no success fact on failure."
+msgstr "Save жіберілетін нобайды await алдында бекітеді және сұрау орындалып жатқанда қайталанған Save шақыруын елемейді. Сәтті мутация QueryClient деректерін жаңартады. Жергілікті нобай тасталмайды, сондықтан жаңа өзгерістер сақталады. Сұрау қателері проекция арқылы көрсетіледі; save қабылданбаған Promise мәнін өңдеп, қате кезінде сәттілік фактісін жарияламайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "For a plain instance, bind its atoms directly:"
+msgstr "Кәдімгі экземплярдың атомдарын тікелей қосыңыз:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "For keyed instances, apply a registry to the same factory. Each editor instance owns its mutation observer and pending/error state; all use the same QueryClient."
+msgstr "Кілт бойынша экземплярлар үшін сол фабрикаға реестр қолданыңыз. Әр редактор экземпляры өз mutation observer және жүктеу мен қате күйін басқарады; барлығы ортақ QueryClient қолданады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A model saving locally"
+msgstr "Модель нәтижені жергілікті сақтайды"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need a draft to survive a page reload without sending it to the server. Persist only the local edits, not a copy of the Query cache. The storage key includes the proposal ID."
+msgstr "Маған нобайды серверге жібермей, бет қайта жүктелгеннен кейін сақтау керек. Query кешінің көшірмесін емес, тек жергілікті өзгерістерді сақтаңыз. Storage кілтіне ұсыныс ID-і кіреді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Restoration uses the schema to validate stored data. A server response does not count as a local edit and cannot suppress a restored draft. A user's own edits take priority over a late restore. The View disables editing while restoration is pending, displays storage errors and can await disk.flush for an explicit save. Writes are debounced; final release attempts the captured pending write, but browser shutdown is not a delivery guarantee."
+msgstr "Қалпына келтіруде сақталған деректер схема арқылы тексеріледі. Сервер жауабы жергілікті өзгеріс болып саналмайды және нобайды қалпына келтіруге кедергі келтірмейді. Пайдаланушы өзгерістері кеш қалпына келтіруден басым. View қалпына келтіру кезінде енгізуді бұғаттап, storage қателерін көрсетеді және нақты сақтау үшін disk.flush аяқталуын күте алады. Жазу debounce арқылы орындалады; соңғы босату күтілген күйді жазуға тырысады, бірақ браузердің жабылуы жеткізуге кепіл емес."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A plain model has an application owner: call connectLocalDraft(store) once before mounting LocalProposal, keep the returned disposer and call it when that application session ends. This connection starts storage work; declaring or reading the model alone does not."
+msgstr "Кәдімгі модельдің иесі — қолданба: LocalProposal монталмас бұрын connectLocalDraft(store) бір рет шақырып, disposer сақтаңыз және қолданба сессиясы аяқталғанда шақырыңыз. Storage жұмысын осы қосылым іске қосады; модельді жариялау не оқу оны бастамайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A registry model returns the persistence declaration as a top-level field. holo acquires it with the model and releases it after the last owner; no manual connect is needed for this variant."
+msgstr "Реестр моделі persistence декларациясын жоғарғы деңгейдегі өріс ретінде қайтарады. holo оны модельмен бірге қосып, соңғы иесінен кейін босатады; бұл нұсқада қолмен connect жасау қажет емес."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Use a storage key that also identifies the account in a multi-account application. Other storage engines, including IndexedDB, can implement the same PersistenceStorage interface. Retention in a registry alone does not survive reloads; local storage alone does not update the server."
+msgstr "Бірнеше аккаунты бар қолданбада storage кілтіне аккаунтты да қосыңыз. IndexedDB сияқты басқа қоймалар сол PersistenceStorage интерфейсін іске асыра алады. Модельді реестрде ұстау өздігінен бет қайта жүктелгеннен кейін сақталмайды; жергілікті сақтау өздігінен серверді жаңартпайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Shared resource factories"
+msgstr "Ортақ ресурс фабрикалары"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "The recipe's transport contract validates JSON responses with Zod. Reuse existing Query Kit or native options factories in your application; the adapters do not require Query Kit at runtime."
+msgstr "Рецепттің тасымалдау келісімі JSON жауаптарын Zod арқылы тексереді. Қолданбада өз Query Kit не нативті options фабрикаларын қайта қолданыңыз; адаптерлерге орындалу кезінде Query Kit қажет емес."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "See [queryAtoms](/reference/queryAtoms), [mutationAtoms](/reference/mutationAtoms), [holoForm](/reference/holoForm) and [persist](/runtime#rhf-query-and-persistence) for the individual contracts."
+msgstr "Жеке келісімдер: [queryAtoms](/reference/queryAtoms), [mutationAtoms](/reference/mutationAtoms), [holoForm](/reference/holoForm) және [persist](/runtime#rhf-query-and-persistence)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "- [TanStack Query keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys) — server cache identity.\n"
+"- [Updating from mutation responses](https://tanstack.com/query/latest/docs/framework/react/guides/updates-from-mutation-responses) — publishing accepted data into the query cache.\n"
+"- [RHF defaultValues](https://react-hook-form.com/docs/useform#defaultValues) — cached defaults and explicit reset."
+msgstr "- [TanStack Query кілттері](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys) — сервер кешінің сәйкестігі.\n"
+"- [Мутация жауабынан жаңарту](https://tanstack.com/query/latest/docs/framework/react/guides/updates-from-mutation-responses) — сервер қабылдаған деректерді сұрау кешіне жазу.\n"
+"- [RHF defaultValues](https://react-hook-form.com/docs/useform#defaultValues) — бастапқы мәндерді кештеу және нақты reset."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
