@@ -14,6 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 // #region form
+// #region contact-model
 const schema = z.object({
   email: z.email(),
   channel: z.enum(['email', 'phone']),
@@ -44,6 +45,8 @@ const $$contact = pipe(
 
   modelRegistry(),
 );
+
+// #endregion contact-model
 
 function ContactView({ onSave }: { onSave: () => Promise<void> }) {
   const { t } = useLingui();
@@ -95,6 +98,7 @@ function ContactView({ onSave }: { onSave: () => Promise<void> }) {
   );
 }
 
+// #region contact-editor
 const Editor = holoForm({
   form: ({ model }) => model.form,
   models: {
@@ -104,6 +108,8 @@ const Editor = holoForm({
   view: ContactView,
   write: ({ model: m }) => ({ onSave: m.save }),
 });
+
+// #endregion contact-editor
 
 function SaveView({
   email,
@@ -136,6 +142,7 @@ function SaveView({
   );
 }
 
+// #region contact-save-panel
 const SavePanel = holo({
   models: {
     model: (props: { contactId: string }) =>
@@ -149,6 +156,8 @@ const SavePanel = holo({
   }),
   write: ({ model: m }) => ({ onSave: m.save }),
 });
+
+// #endregion contact-save-panel
 
 function ContactsDemo() {
   const { t } = useLingui();

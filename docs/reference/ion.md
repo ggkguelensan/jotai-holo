@@ -1,8 +1,6 @@
 # ion
 
-Calculate one value from several atoms. In the cart below, quantity and discount determine the total.
-
-Read the [Jotai operators overview](/topics/atoms-and-models) for the complete workflow and live examples.
+Calculate one value from several atoms. For example, derive a ticket total from quantity and discount.
 
 <<< @/../examples/documentation.tsx#ion
 

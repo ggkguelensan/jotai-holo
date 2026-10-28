@@ -2,8 +2,6 @@
 
 Compose model behavior in reading order: factory, registry policy, data lifecycle and analytics.
 
-Read [Model composition](/topics/model-composition) for the complete workflow and live examples.
-
 ```ts
 const $$search = pipe(
   createSearchModel,

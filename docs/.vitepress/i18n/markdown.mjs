@@ -1,5 +1,7 @@
 import { parse, stringify } from 'yaml';
 
+const anchorLine = /^\s*<span id="[^"]+"><\/span>\s*$/;
+
 const frontmatterKeys = new Set(['text', 'tagline', 'alt', 'title', 'details']);
 export function frontmatterMessages(value) {
   const result = [];
@@ -39,7 +41,12 @@ export function markdownParts(source) {
       parts.push({ type: 'raw', raw: lines.slice(start, index).join(''), line: start + 1 });
       continue;
     }
-    if (!line.trim() || line.trim() === ':::' || /^\s*(?:<<< |<\/?[A-Z]|<!--|::: ?$)/.test(line)) {
+    if (
+      !line.trim() ||
+      line.trim() === ':::' ||
+      anchorLine.test(line) ||
+      /^\s*(?:<<< |<\/?[A-Z]|<!--|::: ?$)/.test(line)
+    ) {
       parts.push({ type: 'raw', raw: line, line: ++index });
       continue;
     }
@@ -50,7 +57,8 @@ export function markdownParts(source) {
       parts.push({
         type: heading ? 'heading' : 'text',
         prefix: match[1],
-        value: match[2],
+        value: heading ? match[2].replace(/\s+\{#[^}]+\}$/, '') : match[2],
+        ...(heading ? { anchor: match[2].match(/\s+\{#([^}]+)\}$/)?.[1] } : {}),
         suffix: match[3],
         raw: line,
         line: ++index,
@@ -61,6 +69,7 @@ export function markdownParts(source) {
     while (
       index < lines.length &&
       lines[index].trim() &&
+      !anchorLine.test(lines[index]) &&
       !/^\s*(?:`{3,}|~{3,}|<<< |<\/?[A-Z]|:::|#{1,6} )/.test(lines[index])
     )
       index++;
@@ -101,7 +110,7 @@ export function translateMarkdown(source, translate, slugify) {
         return `---\n${stringify(part.value)}---\n`;
       }
       if (part.value === undefined) return part.raw;
-      const heading = part.type === 'heading' ? ` {#${slugify(part.value)}}` : '';
+      const heading = part.type === 'heading' ? ` {#${part.anchor ?? slugify(part.value)}}` : '';
       return `${part.prefix ?? ''}${translate(part.value)}${heading}${part.suffix ?? ''}`;
     })
     .join('');

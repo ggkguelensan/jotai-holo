@@ -14,12 +14,15 @@ export function createSearchModel() {
   const $products = stateAtom<readonly Product[]>([]);
   const $selectedProduct = stateAtom<Product | null>(null);
 
+  // #region search-fact
   const searchCompleted = eventAtom<{
     query: string;
     category: string;
     resultCount: number;
     durationMs: number;
   }>();
+  // #endregion search-fact
+
   const productOpened = eventAtom<{
     productId: string;
     position: number;
@@ -29,6 +32,7 @@ export function createSearchModel() {
     set($query, query);
   });
 
+  // #region search-command
   const search = actionAtom((get, set) => {
     const query = get($query).trim();
     const started = performance.now();
@@ -44,6 +48,8 @@ export function createSearchModel() {
       durationMs: performance.now() - started,
     });
   });
+
+  // #endregion search-command
 
   const openProduct = actionAtom(
     (

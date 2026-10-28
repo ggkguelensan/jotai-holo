@@ -2,8 +2,6 @@
 
 Declare a model factory explicitly while keeping it an ordinary function. This optional identity helper preserves the original function, its creation arguments and its return type.
 
-Read the [Models and registry overview](/topics/models-and-registries) for the complete workflow and live examples.
-
 <<< @/../examples/define-model.ts#factory
 
 ## Contract

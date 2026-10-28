@@ -1,36 +1,52 @@
 # TanStack Query
 
-[Try the product catalog](/examples/product-catalog) or [proposal discounts](/examples/proposal-discount).
+A profile editor needs server values to seed its business model, then a mutation to save the draft. QueryClient owns the server cache. The business model owns editing decisions. Query and mutation models let the atom graph participate in that workflow.
 
-## createQueryModel
+[Try the product catalog](/examples/product-catalog) or follow the complete [profile workflow](/recipes/profile-composition).
 
-Expose server data to atom workflows through independent projections. Use this adapter when atoms or models need reactive Query results; a React-only consumer can keep native Query hooks.
+## Read server data in the atom graph {#createquerymodel}
 
-Prefer native useQuery or useSuspenseQuery with a local select when React alone consumes the data. This remains valid even when another model already uses createQueryModel with the same QueryClient. Use this adapter for atom-graph dependencies; binding its projections through holo is optional. Independent projections reuse prism. The adapter talks directly to QueryObserver without replacing Query's cache or network lifecycle.
+Start with reusable TanStack options factories. The same options can serve native hooks and atom consumers.
 
-## createMutationModel
+<<< @/../examples/profile/profile-composition.ts#profile-options
 
-Save a proposal from a Jotai action and display pending, success, and error states through separate atoms. This local simulation rejects discounts above 25%; no network request is sent.
+Expose only the Query results the model needs. Each `prism` field is a separate projection: a consumer of the profile does not subscribe to the error field.
 
-Use native useMutation when React owns the operation. Use createMutationModel only when the atom/model system needs to execute the mutation or react to its state. Several UI consumers alone do not require an atom adapter. Existing createMutationModel does not prevent native hooks elsewhere; shared mutation keys do not share an observer or execution state.
+<<< @/../examples/profile/profile-composition.ts#profile-query
 
-atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.write and bond.write. Observing all mutations, including those launched by useMutation, is a separate cache-level task.
+The profile projection rejects placeholder data because it will initialize an editable draft. That is a decision for this workflow, not a requirement for every Query projection.
 
-## queryClientAtom
+Creating the declaration does not fetch. A mounted consumer activates the Query observer. The [profile recipe](/recipes/profile-composition#use-existing-data-before-loading) shows how a managed connection reads this source only while the selected business model is empty. Once initialized, background refetches do not replace its draft.
 
-Give Jotai bindings the same QueryClient as the rest of the application. This lets `createQueryModel` and native `useQuery` share one cache.
+## Save through a mutation {#createmutationmodel}
+
+The mutation's `mutate` atom returns that call's Promise. An action can await it and publish a domain fact after success:
+
+<<< @/../examples/profile/profile-composition.ts#profile-save
+
+`profileSaved` is our application's event. It is not an adapter lifecycle event. The save action also rejects a second submission while pending; applications that allow concurrent saves need their own reconciliation policy.
+
+Mutation projections describe the most recently started call, while each returned Promise belongs to its own call. Reusing a `mutationKey` does not merge separate mutation models' execution state.
+
+## Share one QueryClient {#queryclientatom}
 
 ```ts
 import { QueryClient } from '@tanstack/react-query';
 import { createStore } from 'jotai';
 import { queryClientAtom } from 'jotai-holo/query';
+
 const client = new QueryClient();
 const store = createStore();
 store.set(queryClientAtom, client);
-// Use the same client in QueryClientProvider and this store in Jotai Provider.
 ```
 
-Explicit client ownership preserves hydration and cache sharing with native React Query. An explicit createQueryModel client is useful for a self-contained widget; this atom is useful for application-level configuration.
+Pass this client to `QueryClientProvider` and this store to Jotai's `Provider`. Native hooks and atom consumers then use the same cache, including hydration and invalidation.
+
+## Keep native hooks for View-only data
+
+Use `useQuery` or `useSuspenseQuery` with a local `select` when only React needs the result. This remains useful even if an atom consumer already uses the same query. Native hooks keep their Suspense and error-boundary behavior; Query projections do not automatically turn loading into Suspense.
+
+Likewise, keep `useMutation` when the View alone owns the operation. Add an adapter when atoms or models need to execute it or observe its state. A model registry is for a feature's editing instances, not a second Query cache.
 
 ## API reference
 

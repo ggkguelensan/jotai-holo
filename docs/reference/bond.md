@@ -2,13 +2,11 @@
 
 Connect an event to a reaction. When an order is submitted, read the current settings, check a condition and send arguments to the receiving atom.
 
-Read the [bond overview](/topics/atoms-and-models#connections) for the complete workflow and live examples.
-
 <<< @/../examples/documentation.tsx#bond
 
 ## Contract
 
-## Fields and defaults
+### Fields and defaults
 
 | Field   | Role                                             | If omitted                                             |
 | ------- | ------------------------------------------------ | ------------------------------------------------------ |
@@ -20,7 +18,7 @@ Read the [bond overview](/topics/atoms-and-models#connections) for the complete 
 
 At least state or trigger is required. With state, callbacks receive `(stateValue, ...triggerArgs)`; without state, `(...triggerArgs)`. Map must return a tuple, even for one target argument. An atom guard rejects before sampling state; a predicate needs the sampled input. Without a trigger, the state clock itself still has to be read.
 
-## Connection and lifetime
+### Connection and lifetime
 
 ```ts
 const stop = notifying.connect(store, { onError: reportError });
@@ -32,7 +30,7 @@ Use the `notifying` from the example returned by `createNotifications(model)`. `
 
 A returned bond is a **read-only atom of the last accepted argument tuple or undefined**, plus a connection API. It is not a writable command. A downstream bond can use it as trigger and will connect/release the upstream automatically. Rejection by guard retains the previous tuple. A state-only output with no write seeds on connect without publishing an occurrence; a target is not called merely because you connected.
 
-## What can trigger it?
+### What can trigger it?
 
 - actionAtom / eventAtom: every successful synchronous call return, with the original arguments. Async command success requires a separate fact event.
 - Native readable atom / stateAtom: readable value changes, subject to Jotai equality and batching; not every set.
@@ -40,7 +38,7 @@ A returned bond is a **read-only atom of the last accepted argument tuple or und
 
 State and write accept compatible native atoms. A write getter resolves its target for each accepted occurrence, enabling store-local dependency injection without subscribing to the target selection.
 
-## Scheduling and errors
+### Scheduling and errors
 
 Delivery is FIFO, with a cycle limit. State is read when the queued step runs; earlier handlers may have changed it. This is not an atomic transaction snapshot or Effector computation priority. No async guard, async map, implicit Promise-state awaiting, rollback, or target cancellation is provided. Target throws/rejections go to connected owners' onError, defaulting to console.error; they do not change the original trigger result.
 

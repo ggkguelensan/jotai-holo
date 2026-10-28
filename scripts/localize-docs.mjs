@@ -61,7 +61,8 @@ export async function generateLocalizedDocs() {
     for (const [file, content] of source) {
       const lookup = new Map();
       for (const part of markdownParts(content))
-        if (part.type === 'heading') lookup.set(slugify(t(part.value)), slugify(part.value));
+        if (part.type === 'heading')
+          lookup.set(part.anchor ?? slugify(t(part.value)), part.anchor ?? slugify(part.value));
       anchors.set('/' + file.replace(/(?:index)?\.md$/, ''), lookup);
     }
     const localLink = (href) => {

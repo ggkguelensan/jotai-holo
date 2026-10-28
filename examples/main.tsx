@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'jotai';
+import { NameField } from './quickstart.js';
 import { BasicCounter } from './basic.js';
 import { EffectCounter } from './effect.js';
 import { ModelCounters } from './models.js';
@@ -17,6 +18,10 @@ createRoot(root).render(
     <main>
       <h1>jotai-holo</h1>
       <p>Plain React views. Declarative Jotai bindings.</p>
+      <section>
+        <h2>Getting started</h2>
+        <NameField />
+      </section>
       <BasicCounter />
       <OperatorsExample />
       <EffectCounter />

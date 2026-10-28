@@ -3,6 +3,7 @@ import { actionAtom, holo, stateAtom } from 'jotai-holo';
 import { modelRegistry, pipe } from 'jotai-holo/model';
 
 // #region model
+// #region proposal-factory
 function createProposalModel() {
   const $seats = stateAtom(5);
 
@@ -10,9 +11,14 @@ function createProposalModel() {
   return { $seats, addSeat };
 }
 
+// #endregion proposal-factory
+
+// #region proposal-registry
 const $$proposal = pipe(createProposalModel, modelRegistry());
+// #endregion proposal-registry
 // Both bindings select the same instance without a scope provider.
 
+// #region proposal-seats
 function SeatsView({ count }: { count: number }) {
   return <output className="demo-number">{count}</output>;
 }
@@ -23,9 +29,12 @@ const Seats = holo({
       $$proposal({ key: ['proposal', { id: props.proposalId }] }),
   },
   view: SeatsView,
-  read: ({ model: m }) => ({ count: m.$seats }),
+  read: ({ model: $$proposal }) => ({ count: $$proposal.$seats }),
 });
 
+// #endregion proposal-seats
+
+// #region proposal-toolbar
 function ToolbarView({ onAdd }: { onAdd: () => void }) {
   const { t } = useLingui();
 
@@ -38,8 +47,10 @@ const Toolbar = holo({
       $$proposal({ key: ['proposal', { id: props.proposalId }] }),
   },
   view: ToolbarView,
-  write: ({ model: m }) => ({ onAdd: m.addSeat }),
+  write: ({ model: $$proposal }) => ({ onAdd: $$proposal.addSeat }),
 });
+
+// #endregion proposal-toolbar
 
 function ProposalDemo() {
   const { t } = useLingui();
