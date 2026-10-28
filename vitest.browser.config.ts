@@ -8,6 +8,8 @@ export default defineConfig({
   optimizeDeps: {
     include: [
       '@tanstack/react-query',
+      '@hookform/resolvers/zod',
+      'zod',
       '@tanstack/query-core',
       'react-hook-form',
       'react',
@@ -16,7 +18,6 @@ export default defineConfig({
       'jotai',
       'jotai/utils',
       'jotai-effect',
-      'bunshi/react',
       'jotai-scope',
       'jotai/react',
     ],

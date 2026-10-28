@@ -49,6 +49,16 @@ msgstr "Choosing a tool"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
+msgid "Atoms or models?"
+msgstr "Atoms or models?"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Business logic and small Views"
+msgstr "Business logic and small Views"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
 msgid "Model composition"
 msgstr "Model composition"
 
@@ -61,6 +71,16 @@ msgstr "Rendering and async"
 #: docs/.vitepress/config.mts
 msgid "Recipes"
 msgstr "Recipes"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Server data, forms and saving"
+msgstr "Server data, forms and saving"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Profile: creation and editing"
+msgstr "Profile: creation and editing"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -121,11 +141,6 @@ msgstr "Operator contracts"
 #: docs/.vitepress/config.mts
 msgid "Plain React views. Native Jotai models. Declarative connections."
 msgstr "Plain React views. Native Jotai models. Declarative connections."
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "On this page"
-msgstr "On this page"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -271,10 +286,6 @@ msgid "Search"
 msgstr "Search"
 
 #: examples/docs/analytics.tsx
-msgid "Search → Amplitude + warehouse; product open → PostHog."
-msgstr "Search → Amplitude + warehouse; product open → PostHog."
-
-#: examples/docs/analytics.tsx
 msgid "Product details"
 msgstr "Product details"
 
@@ -283,8 +294,24 @@ msgid "Close details"
 msgstr "Close details"
 
 #: examples/docs/analytics.tsx
-msgid "Recording adapters write to the console; no SDK or network."
-msgstr "Recording adapters write to the console; no SDK or network."
+msgid "Actual adapter deliveries · last 50 messages"
+msgstr "Actual adapter deliveries · last 50 messages"
+
+#: examples/docs/analytics.tsx
+msgid "Analytics console"
+msgstr "Analytics console"
+
+#: examples/docs/analytics.tsx
+msgid "Clear logs"
+msgstr "Clear logs"
+
+#: examples/docs/analytics.tsx
+msgid "Search for a product, then open it to see each engine's payload."
+msgstr "Search for a product, then open it to see each engine's payload."
+
+#: examples/docs/analytics.tsx
+msgid "Demo adapters only · no SDK or network requests"
+msgstr "Demo adapters only · no SDK or network requests"
 
 #: examples/docs/bond.tsx
 msgid "A fact → a separate reaction"

@@ -1,11 +1,372 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 13:49+0500\n"
+"POT-Creation-Date: 2026-10-28 20:17+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: de\n"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Atoms or models?"
+msgstr "Atome oder Modelle?"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "First decide whether the value needs to participate in the reactive system of atoms and models at all. Sharing a theme or language between React components is not enough reason to create an atom: an existing theme or localization provider may already solve the task. Add atoms when model calculations, commands or connections need to react to that value."
+msgstr "Entscheide zuerst, ob der Wert überhaupt am reaktiven System aus Atomen und Modellen teilnehmen muss. Ein gemeinsames Farbschema oder eine Sprache für React-Komponenten allein rechtfertigt kein Atom: Ein vorhandener Theme- oder Lokalisierungsprovider kann die Aufgabe bereits lösen. Ergänze Atome, wenn Berechnungen, Befehle oder Verbindungen im Modell auf diesen Wert reagieren müssen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Once the atom/model system needs the value, choose its scope. Use module-level atoms for shared state, a model factory for related state and actions, and a registry when components need to select and share instances by key. These are separate choices; holo does not require all three."
+msgstr "Wenn das Atom-/Modellsystem den Wert benötigt, wähle seinen Gültigkeitsbereich. Atome auf Modulebene eignen sich für gemeinsamen Zustand, Modellfactories für zusammengehörigen Zustand und Aktionen und eine Registry für Auswahl und gemeinsame Nutzung per Schlüssel. Das sind getrennte Entscheidungen; holo verlangt nicht alle drei."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Choose by the task"
+msgstr "Nach Aufgabe auswählen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "| I need to…                                            | Use                            | Why                                                                                  |\n"
+"| ----------------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------ |\n"
+"| Share a theme or language with atom workflows         | Module-level atoms if needed   | First check whether models need it; React-only sharing can use the existing provider |\n"
+"| Publish a help request from a toolbar                 | `eventAtom` in `write`         | An event does not require a model                                                    |\n"
+"| Calculate a cart total                                | A derived atom or `ion`        | A calculation does not need an instance registry                                     |\n"
+"| Keep search text and stock filters together           | A plain model factory          | Group related atoms and create them together                                         |\n"
+"| Give two fixed editors independent drafts             | Call the factory twice         | Different atom records keep the drafts independent                                   |\n"
+"| Share a product editor with its toolbar by product ID | `modelRegistry` + `models`     | Both components select the same instance by key and store                            |\n"
+"| Subscribe to a shipment feed while its model is used  | `modelConnection`              | Model owners activate and release the subscription                                   |\n"
+"| Load and save a draft                                 | `modelLifecycle`               | Add loading and snapshot persistence to the factory                                  |\n"
+"| Share an RHF form with an external toolbar            | `createFormModel` + `holoForm` | The controls use one native RHF form instance                                        |"
+msgstr "| Ich brauche… | Dafür nutze ich | Warum |\n"
+"| --- | --- | --- |\n"
+"| Farbschema oder Sprache mit Atomabläufen teilen | Atome auf Modulebene, falls nötig | Zuerst prüfen, ob Modelle den Wert brauchen; für React kann der vorhandene Provider genügen |\n"
+"| Eine Hilfeanfrage aus der Werkzeugleiste | `eventAtom` in `write` | Ein Ereignis braucht kein Modell |\n"
+"| Eine Warenkorbsumme | Ein abgeleitetes Atom oder `ion` | Eine Berechnung braucht keine Instanzregistry |\n"
+"| Suchbegriff und Bestandsfilter zusammen | Eine einfache Modellfactory | Zusammengehörige Atome gemeinsam erstellen |\n"
+"| Unabhängige Entwürfe für zwei Editoren | Zwei Factory-Aufrufe | Verschiedene Atom-Records halten Werte getrennt |\n"
+"| Produkteditor und Werkzeugleiste per Produkt-ID | `modelRegistry` + `models` | Beide wählen dieselbe Instanz per Schlüssel und Store |\n"
+"| Lieferstatus abonnieren, solange das Modell genutzt wird | `modelConnection` | Modellbesitzer verbinden und lösen das Abonnement |\n"
+"| Einen Entwurf laden und speichern | `modelLifecycle` | Laden und Snapshot-Speicherung ergänzen |\n"
+"| Eine RHF-Form mit externer Werkzeugleiste | `createFormModel` + `holoForm` | Die Controls verwenden eine native RHF-Instanz |"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Global state and events: just atoms"
+msgstr "Globaler Zustand und Ereignisse: Atome genügen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "The workspace toolbar reads the theme, changes it and publishes help requests. There is no model to register."
+msgstr "Die Werkzeugleiste liest und ändert das Farbschema und veröffentlicht Hilfeanfragen. Dafür muss kein Modell registriert werden."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "The View receives ordinary values and callbacks. It does not need to know where they came from."
+msgstr "Die View erhält gewöhnliche Werte und Callbacks. Sie muss deren Herkunft nicht kennen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "`$theme` is a native writable atom, so it works in both `read` and `write`. `helpRequested` is a write-only event, so it belongs in `write`. Publishing it does not open a help window by itself: the application chooses a consumer separately."
+msgstr "`$theme` ist ein natives beschreibbares Atom und passt in `read` und `write`. `helpRequested` ist ein nur schreibbares Ereignis und gehört in `write`. Das Veröffentlichen öffnet noch kein Hilfefenster: Den Empfänger wählt die Anwendung separat."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Global atoms share values within one Jotai store. Separate stores isolate them; a module-level atom definition does not merge their state."
+msgstr "Globale Atome teilen Werte innerhalb eines Jotai-Stores. Verschiedene Stores isolieren sie; eine Atomdefinition auf Modulebene führt deren Zustand nicht zusammen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Related state: a plain factory"
+msgstr "Zusammengehöriger Zustand: eine einfache Factory"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Catalog filters and order filters both have a search term and a stock switch. They use the same factory but need independent values."
+msgstr "Katalog- und Bestellfilter haben einen Suchbegriff und einen Bestandsschalter. Sie verwenden dieselbe Factory, brauchen aber unabhängige Werte."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Each call creates new atoms. The application creates these instances once, outside React render. A plain model is just a record of related atoms; it does not need a registry."
+msgstr "Jeder Aufruf erzeugt neue Atome. Die Anwendung erstellt diese Instanzen einmal außerhalb des React-Renderns. Ein einfaches Modell ist ein Record zusammengehöriger Atome und benötigt keine Registry."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "This connection still has no `models` field. It reads and writes atoms from the explicitly created record. Connect `$$orderFilters` the same way for an independent instance."
+msgstr "Auch diese Verbindung hat kein `models`-Feld. Sie liest und schreibt Atome aus dem explizit erstellten Record. Verbinde `$$orderFilters` genauso für eine unabhängige Instanz."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Shared instances by ID: add a registry"
+msgstr "Geteilte Instanzen per ID: eine Registry ergänzen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "A catalog page and its toolbar need the same filters for the selected catalog. Components choose the instance by `catalogId` instead of passing an atom record between them."
+msgstr "Die Katalogseite und ihre Werkzeugleiste brauchen dieselben Filter für den gewählten Katalog. Komponenten wählen die Instanz per `catalogId`, statt einen Atom-Record weiterzureichen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "The examples use `pipe` from `jotai-holo/model`; a compatible helper from another functional library also works. See [Choose a pipe](/guide/model-composition#choose-a-pipe) for alternatives and the Effect pipeline article."
+msgstr "Die Beispiele verwenden `pipe` aus `jotai-holo/model`; eine kompatible Funktion aus einer anderen funktionalen Bibliothek funktioniert ebenfalls. Alternativen und den Effect-Artikel findest du unter [Einen pipe auswählen](/guide/model-composition#choose-a-pipe)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "The same definition, key and store select the same instance. Another catalog ID selects independent filters. The registry adds identity and retention; `models` lets holo select the instance and own its active connections."
+msgstr "Gleiche Definition, Schlüssel und Store wählen dieselbe Instanz. Eine andere Katalog-ID wählt unabhängige Filter. Die Registry regelt Identität und Aufbewahrung; über `models` wählt holo die Instanz und verwaltet ihre aktiven Verbindungen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Use a registry when independently placed components must find one instance by a business key, or when the instance should survive those components unmounting. A factory alone creates records; the registry gives components a shared way to select and retain them. See [Why use a registry?](/reference/modelRegistry#why-use-a-registry)."
+msgstr "Verwende eine Registry, wenn unabhängig platzierte Komponenten dieselbe Instanz per fachlichem Schlüssel finden sollen oder die Instanz deren Unmount überleben soll. Eine Factory erstellt Records; die Registry ermöglicht ihre gemeinsame Auswahl und Aufbewahrung. Mehr unter [Warum eine Registry?](/reference/modelRegistry#why-use-a-registry)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "The View stays the same in both approaches:"
+msgstr "Beide Varianten verwenden dieselbe View:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "What belongs to an instance?"
+msgstr "Was gehört zu einer Instanz?"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "The registry manages the records created by its factory. It does not copy everything those records depend on."
+msgstr "Die Registry verwaltet die Records ihrer Factory. Sie kopiert nicht deren gesamte Abhängigkeiten."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "For two order keys in the same Jotai store, `$quantity` and `$total` are separate atoms. `$unitPrice` is shared because it was created outside the factory. Changing one quantity updates that order's total. Changing the shared price updates both totals."
+msgstr "Für zwei Bestellschlüssel im selben Jotai-Store sind `$quantity` und `$total` getrennte Atome. `$unitPrice` bleibt gemeinsam, weil es außerhalb der Factory erstellt wurde. Eine Mengenänderung aktualisiert nur die Summe dieser Bestellung; eine Änderung des gemeinsamen Preises beide Summen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "An existing global model works the same way: using its atoms inside a factory does not create another copy of that model. Calling its factory inside createOrderModel would create new atoms instead. Separate Jotai stores still isolate the values of shared atom definitions."
+msgstr "Ein bestehendes globales Modell funktioniert genauso: Seine Atome innerhalb einer Factory zu verwenden, erzeugt keine Modellkopie. Der Aufruf seiner Factory innerhalb von createOrderModel würde neue Atome erzeugen. Verschiedene Jotai-Stores isolieren weiterhin die Werte gemeinsamer Atomdefinitionen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Connections and loading: add only the responsibility you need"
+msgstr "Verbindungen und Laden: nur bei Bedarf ergänzen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "A group of atoms does not need lifecycle hooks just to hold state. Add [modelConnection](/reference/modelConnection) when it owns an external subscription, or [modelLifecycle](/reference/modelLifecycle) when it must load and save data. Add [modelAnalytics](/reference/modelAnalytics) when analytics should follow the model's usage."
+msgstr "Eine Gruppe von Atomen braucht keine Lifecycle-Hooks, nur um Zustand zu halten. Ergänze [modelConnection](/reference/modelConnection) für ein externes Abonnement oder [modelLifecycle](/reference/modelLifecycle) zum Laden und Speichern. Nutze [modelAnalytics](/reference/modelAnalytics), wenn Analytics der Modellnutzung folgen soll."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Use the decorated definition in `holo.models` so holo activates and releases this work. Binding one of its atoms directly does not acquire the model."
+msgstr "Übergib die dekorierte Definition an `holo.models`, damit holo diese Arbeit aktiviert und freigibt. Die direkte Bindung eines ihrer Atome aktiviert nicht das ganze Modell."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "These modifiers manage work while an instance is owned. `modelRegistry` chooses how instances are shared and retained. Read [Model composition](/guide/model-composition) for combining these responsibilities."
+msgstr "Diese Modifier verwalten Arbeit, solange die Instanz einen Besitzer hat. `modelRegistry` regelt, wie Instanzen geteilt und aufbewahrt werden. Mehr dazu unter [Modellkomposition](/guide/model-composition)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "For React-only server data and forms, keep native TanStack Query and RHF hooks. Add [createQueryModel](/reference/createQueryModel), [createMutationModel](/reference/createMutationModel) or [holoForm](/reference/holoForm) when the atom/model graph needs those values or operations. You do not need to wrap unrelated global atoms in a model to bind them to a View."
+msgstr "Für Serverdaten und Formulare, die nur React braucht, bleiben native TanStack-Query- und RHF-Hooks passend. Ergänze [createQueryModel](/reference/createQueryModel), [createMutationModel](/reference/createMutationModel) oder [holoForm](/reference/holoForm), wenn der Atom-/Modellgraph diese Werte oder Operationen benötigt. Unabhängige globale Atome brauchen kein Modell, um eine View zu versorgen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Business logic and small Views"
+msgstr "Geschäftslogik und kleine Views"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "A sales editor calculates a proposal, saves it and reports a successful save. These are related responsibilities, but they need different owners: domain functions define the rules, atoms coordinate the workflow, React renders the result, and analytics observes completed facts."
+msgstr "Ein Angebotseditor berechnet und speichert ein Angebot und meldet den erfolgreichen Abschluss. Diese Aufgaben gehören zusammen, haben aber unterschiedliche Verantwortliche: Domänenfunktionen definieren Regeln, Atome koordinieren den Ablauf, React zeigt das Ergebnis und Analytics beobachtet eingetretene Fakten."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "When to use holo"
+msgstr "Wann holo sinnvoll ist"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Use holo wherever decomposition gives a part of the screen its own responsibility. Connect a price summary, a Save button or a search result near where it is rendered. Each View receives only its values and callbacks; it does not need to know which atoms or model instances provide them."
+msgstr "Verwende holo dort, wo die Zerlegung einem Bildschirmteil eine eigene Verantwortung gibt. Verbinde Preissumme, Speichern-Schaltfläche oder Suchergebnis nahe ihrer Darstellung. Jede View erhält nur ihre Werte und Callbacks; welche Atome oder Modellinstanzen sie liefern, muss sie nicht wissen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Move business decisions and synchronization into the model. Keep formatting, accessibility, local presentation state and native UI hooks in React. The aim is small Views and explicit workflows, not banning every React hook or effect. Declare holo outside render; no model registry is required for direct atom bindings."
+msgstr "Verlagere Geschäftsentscheidungen und Synchronisierung ins Modell. Formatierung, Barrierefreiheit, lokaler Darstellungszustand und native UI-Hooks bleiben in React. Das Ziel sind kleine Views und explizite Abläufe, kein Verbot sämtlicher Hooks und Effekte. Deklariere holo außerhalb des Renderns; direkte Atom-Bindungen benötigen keine Modell-Registry."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Start with a business workflow"
+msgstr "Mit dem Geschäftsablauf beginnen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Write the sequence in business terms: validate the draft, capture the submitted values, request a save, accept the response, publish that the proposal was saved. A command expresses an intention and can fail. A fact describes something that has already happened; publish it only after the relevant operation succeeds."
+msgstr "Beschreibe die Reihenfolge fachlich: Entwurf prüfen, übermittelte Werte festhalten, Speichern anfordern, Antwort übernehmen, die Speicherung melden. Ein Befehl drückt eine Absicht aus und kann scheitern. Ein Fakt beschreibt etwas bereits Geschehenes; veröffentliche ihn erst nach dem erfolgreichen Abschluss der betreffenden Operation."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Keep calculations and validation in ordinary functions with explicit inputs and outputs. Use stateAtom for current values and derived state, actionAtom to coordinate reads, writes and asynchronous work, and eventAtom to publish notifications. Use bond for a separate reaction to a notification; a direct write inside a command is also appropriate when it belongs to the same workflow."
+msgstr "Berechnungen und Validierung bleiben gewöhnliche Funktionen mit expliziten Ein- und Ausgaben. stateAtom hält aktuelle Werte und abgeleiteten Zustand, actionAtom koordiniert Lesen, Schreiben und asynchrone Arbeit, eventAtom veröffentlicht Benachrichtigungen. bond eignet sich für eine eigenständige Reaktion; direktes Schreiben im Befehl passt ebenfalls, wenn es zum selben Ablauf gehört."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "The saving model captures the draft before await. Later edits do not change the submitted request, and a failed request produces no success fact:"
+msgstr "Das Speichermodell hält den Entwurf vor await fest. Spätere Änderungen verändern die gesendete Anfrage nicht; bei einem Fehler entsteht kein Erfolgsfakt:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Make failure, concurrency and ownership decisions explicit. Here one editor ignores duplicate Save while pending, keeps edits made during the request and shows the mutation error. Other workflows may need cancellation, serialization or a revision check instead. Do not infer these rules from a button's disabled appearance."
+msgstr "Lege Fehlerverhalten, Nebenläufigkeit und Besitz explizit fest. Dieser Editor ignoriert erneutes Speichern während einer Anfrage, behält zwischenzeitliche Änderungen und zeigt Mutationsfehler. Andere Abläufe brauchen vielleicht Abbruch, Serialisierung oder eine Revisionsprüfung. Diese Regeln ergeben sich nicht aus einer deaktivierten Schaltfläche."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Separate domain code from assembly"
+msgstr "Domäne und Zusammenbau trennen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "The factory creates related atoms and commands. Application composition adds sharing, persistence, subscriptions or analytics. A registry selects shared instances by key and store; it does not clone imported global atoms or replace QueryClient's cache. Read [model composition](/guide/model-composition) and the [server-data recipes](/recipes/server-data) for complete examples."
+msgstr "Die Factory erstellt zusammengehörige Atome und Befehle. Die Anwendungskomposition ergänzt gemeinsame Nutzung, Persistenz, Abonnements oder Analytics. Eine Registry wählt Instanzen nach Schlüssel und Store; sie klont keine importierten globalen Atome und ersetzt keinen QueryClient-Cache. Vollständige Beispiele zeigen [Modellkomposition](/guide/model-composition) und die [Serverdaten-Rezepte](/recipes/server-data)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Place domain rules and the business factory in modules that do not import React, analytics SDKs or provider-specific event names. The assembly module may import the business factory, the View and optional integrations. A rule can then be tested as a function and a workflow with a Jotai store, without mounting the View."
+msgstr "Domänenregeln und fachliche Factory gehören in Module ohne React, Analytics-SDKs oder anbieterspezifische Ereignisnamen. Das Zusammenbaumodul darf Factory, View und optionale Integrationen importieren. So lassen sich Regeln als Funktionen und Abläufe mit einem Jotai-Store testen, ohne die View zu mounten."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Publish facts that consumers can understand"
+msgstr "Für Empfänger verständliche Fakten veröffentlichen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "In domain modelling, an event commonly already means a fact that occurred. Here the useful distinction is intention versus occurrence: search is a command; searchCompleted reports its result. The payload should contain the business context needed by its consumers at that moment, rather than forcing them to reconstruct history from mutable current state."
+msgstr "In der Domänenmodellierung bezeichnet ein Ereignis üblicherweise bereits einen eingetretenen Fakt. Hilfreich ist die Trennung von Absicht und Geschehen: search ist ein Befehl, searchCompleted meldet sein Ergebnis. Der Payload enthält den damals benötigten fachlichen Kontext, statt Empfänger die Vergangenheit aus veränderlichem aktuellem Zustand rekonstruieren zu lassen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "The search fact carries the query, category, result count and duration. Capture request context before await in a real asynchronous search. If ordering or correlation matters, also define an operation ID, occurrence time or revision. Keep payloads immutable and limited to the permitted business data; do not copy an entire model or personal data just in case."
+msgstr "Der Suchfakt enthält Suchbegriff, Kategorie, Ergebnisanzahl und Dauer. Halte bei einer echten asynchronen Suche den Anfragekontext vor await fest. Falls Reihenfolge oder Zuordnung wichtig sind, ergänze Operations-ID, Zeitpunkt oder Revision. Payloads bleiben unveränderlich und auf zulässige Fachdaten begrenzt; kopiere nicht vorsorglich das ganze Modell oder personenbezogene Daten."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Provider names, field renaming and unit conversions belong in analytics mappings. The business factory and View do not import analytics. Each engine receives only its own mapping; engines absent from a mapping receive nothing:"
+msgstr "Anbieternamen, Feldumbenennungen und Einheitenumrechnungen gehören in Analytics-Mappings. Fachliche Factory und View importieren Analytics nicht. Jede Engine erhält nur ihr eigenes Mapping; nicht aufgeführte Engines erhalten nichts:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Loading analytics and keeping messages"
+msgstr "Analytics laden und Nachrichten behalten"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Attach modelAnalytics in the application assembly, not inside the business factory. It follows committed model ownership. Currently a lazily imported analytics factory starts observing only after it loads: facts emitted earlier are not replayed. Do not rely on this form to preserve the first interaction."
+msgstr "Binde modelAnalytics beim Zusammenbau der Anwendung ein, nicht in der fachlichen Factory. Es folgt dem Modellbesitz nach dem Commit. Eine verzögert importierte Analytics-Factory beobachtet derzeit erst nach dem Laden: Frühere Fakten werden nicht wiederholt. Verlasse dich für die erste Interaktion nicht auf diese Form."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "For essential early facts, provide an eagerly available analytics factory and defer SDK initialization through createAnalytics engine factories. The managed observer must be connected before the fact is emitted. Its per-engine queue retains already mapped, detached messages while the engine loads; it is bounded and has a timeout. See [modelAnalytics](/reference/modelAnalytics) and [createAnalytics](/reference/createAnalytics) for the exact guarantees."
+msgstr "Für wichtige frühe Fakten verwende eine sofort verfügbare Analytics-Factory und verzögere die SDK-Initialisierung über createAnalytics-Engine-Factories. Der verwaltete Beobachter muss vor dem Fakt verbunden sein. Pro Engine bleiben bereits gemappte, abgetrennte Nachrichten während des Ladens in einer begrenzten Queue mit Timeout. Die genauen Garantien stehen bei [modelAnalytics](/reference/modelAnalytics) und [createAnalytics](/reference/createAnalytics)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "This queue is delivery infrastructure, not event sourcing. It is neither a persistent domain journal nor a mechanism for rebuilding state. Surviving reloads or guaranteeing delivery needs a separate durable outbox, identifiers, retries and an acknowledgement policy. A domain-fact buffer before a lazy analytics factory is ready is not implemented in the current API."
+msgstr "Diese Queue dient der Zustellung, ist aber kein Event Sourcing. Sie ist weder ein dauerhaftes Domänenjournal noch ein Mechanismus zur Zustandsrekonstruktion. Für Neustarts oder garantierte Zustellung braucht es eine dauerhafte Outbox, Kennungen, Wiederholungen und eine Bestätigungsstrategie. Einen Domänenfakt-Puffer vor Bereitschaft der verzögerten Analytics-Factory bietet die aktuelle API nicht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Keep Query and RHF native where possible"
+msgstr "Query und RHF möglichst nativ nutzen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Use native TanStack Query hooks near React consumers when only the UI needs the result. Reuse the same query-options factories and select the required data there. Native useQuery tracks accessed result properties; useSuspenseQuery provides Query's Suspense integration. Choose the corresponding error boundary and reset behavior from the native API."
+msgstr "Nutze native TanStack-Query-Hooks nahe den React-Verbrauchern, wenn nur die Oberfläche das Ergebnis braucht. Verwende dieselben Query-Options-Factories und wähle dort die benötigten Daten. useQuery verfolgt gelesene Ergebnisfelder; useSuspenseQuery bietet die native Suspense-Integration. Wähle Fehlergrenzen und Zurücksetzen gemäß der nativen API."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Use createQueryModel only when an atom or model needs reactive server data, and createMutationModel when an atom workflow needs to execute or observe its mutation. Even if these adapters already exist, a React-only consumer can still use native hooks with the same QueryClient. Do not route data through holo merely because it is available as atoms. Mutation keys do not make separate mutation observers share one execution state."
+msgstr "Verwende createQueryModel nur, wenn ein Atom oder Modell reaktive Serverdaten benötigt, und createMutationModel, wenn ein Atomablauf seine Mutation ausführen oder beobachten muss. Auch bei vorhandenen Adaptern dürfen reine React-Verbraucher native Hooks mit demselben QueryClient nutzen. Leite Daten nicht allein deshalb durch holo, weil sie als Atome verfügbar sind. Mutationsschlüssel geben getrennten Beobachtern keinen gemeinsamen Ausführungszustand."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Use native useForm, Controller and FormProvider for a self-contained form. Add createFormModel, formAtom and holoForm only when the atom/model system must react to form values, validation, submission or other form state. Resolvers remain native RHF resolvers; the bridge does not replace them."
+msgstr "Für ein eigenständiges Formular nutze native useForm, Controller und FormProvider. Ergänze createFormModel, formAtom und holoForm nur, wenn das Atom-/Modellsystem auf Werte, Validierung, Absenden oder anderen Formularzustand reagieren muss. Resolver bleiben native RHF-Resolver; die Brücke ersetzt sie nicht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Reading and design review"
+msgstr "Lesestoff und Architekturprüfung"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "[Sasha Bespoyasov's notes on functional domain modelling](https://bespoyasov.ru/blog/domain-modelling-made-functional/) introduce domain language and boundaries. This guide applies that perspective to Jotai workflows; holo supplies bindings and ownership, not a domain architecture generator."
+msgstr "[Sasha Bespoyasovs Notizen zur funktionalen Domänenmodellierung](https://bespoyasov.ru/blog/domain-modelling-made-functional/) führen in Domänensprache und Grenzen ein. Dieser Leitfaden überträgt die Perspektive auf Jotai-Abläufe; holo liefert Bindungen und Besitzverwaltung, keine generierte Domänenarchitektur."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Check a feature by asking: Can the View render with plain props? Can the business workflow run without analytics? Does each fact capture the context its consumers need? Is each subscription owned? Are Query and RHF adapters solving an actual atom-graph dependency? These questions matter more than using every operator."
+msgstr "Prüfe ein Feature mit diesen Fragen: Kann die View mit gewöhnlichen Props rendern? Läuft der Geschäftsablauf ohne Analytics? Hält jeder Fakt den benötigten Kontext fest? Hat jedes Abonnement einen Besitzer? Lösen Query- und RHF-Adapter eine tatsächliche Abhängigkeit im Atomgraphen? Das zählt mehr als der Einsatz aller Operatoren."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -22,26 +383,28 @@ msgstr "Wähle das Werkzeug nach der Aufgabe. Vorhandene Jotai-Atome funktionier
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/ecosystem.md
-msgid "| Task                                    | Start with                          | What holo adds                                                          |\n"
-"| --------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------- |\n"
-"| Local component state                   | useAtom / useAtomValue / useSetAtom | A declaration when repeated wiring deserves a separate binding          |\n"
-"| Conditional derived reads               | atom(get => …)                      | stateAtom preserves native overloads; ion names a fixed input shape     |\n"
-"| One selected value with custom equality | selectAtom                          | prism declares several independent projections, without custom equality |\n"
-"| Per-item writable atoms                 | splitAtom                           | holoList renders keyed Views; it does not replace item atoms            |\n"
-"| Reactive external resource              | jotai-effect                        | input bridges committed props; models own managed connections           |\n"
-"| One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality        |\n"
-"| Async server cache                      | jotai-tanstack-query                | holo accepts its atoms; it adds no cache/retry engine                   |\n"
-"| Share one model across widgets          | modelRegistry                       | Select a default or keyed instance in the current store                 |"
-msgstr "| Aufgabe | Ausgangspunkt | Ergänzung durch holo |\n"
+msgid "| Task                                    | Start with                             | What holo adds                                                          |\n"
+"| --------------------------------------- | -------------------------------------- | ----------------------------------------------------------------------- |\n"
+"| Local component state                   | useAtom / useAtomValue / useSetAtom    | A separate binding for a small View                                     |\n"
+"| Conditional derived reads               | atom(get => …)                         | stateAtom preserves native overloads; ion names a fixed input shape     |\n"
+"| One selected value with custom equality | selectAtom                             | prism declares several independent projections, without custom equality |\n"
+"| Per-item writable atoms                 | splitAtom                              | holoList renders keyed Views; it does not replace item atoms            |\n"
+"| Reactive external resource              | jotai-effect                           | input bridges committed props; models own managed connections           |\n"
+"| One call / a domain fact                | actionAtom / eventAtom                 | Every invocation can trigger bond, independent of value equality        |\n"
+"| Server data used only by React          | Native TanStack Query hooks            | No atom adapter is required                                             |\n"
+"| Server data needed by atom workflows    | createQueryModel / createMutationModel | Named projections and writable actions reuse the existing QueryClient   |\n"
+"| Share one model across widgets          | modelRegistry                          | Select a default or keyed instance in the current store                 |"
+msgstr "| Aufgabe | Ausgangspunkt | Beitrag von holo |\n"
 "| --- | --- | --- |\n"
-"| Lokaler Komponentenzustand | useAtom / useAtomValue / useSetAtom | Deklaration für wiederkehrende Bindungen |\n"
-"| Bedingte abgeleitete Werte | atom(get => …) | stateAtom erhält native Überladungen; ion benennt eine feste Eingabestruktur |\n"
-"| Eine Projektion mit eigenem Vergleich | selectAtom | prism deklariert unabhängige Projektionen ohne eigenen Vergleich |\n"
-"| Beschreibbare Atome je Listenelement | splitAtom | holoList rendert Views nach Schlüssel und ersetzt keine Elementatome |\n"
-"| Reaktive externe Ressource | jotai-effect | input verbindet bestätigte Eingabe-Props; beliebige Ressourcen besitzen eine eigene Verwaltung |\n"
-"| Ein Aufruf oder Domänenfakt | actionAtom / eventAtom | Jeder Aufruf kann bond auslösen, unabhängig von Wertgleichheit |\n"
-"| Serverdaten-Cache | jotai-tanstack-query | holo akzeptiert dessen Atome ohne eigene Cache- oder Wiederholungslogik |\n"
-"| Ein Modell für mehrere Widgets | modelRegistry | Standardinstanz oder schlüsselbasierte Instanz im aktuellen Store wählen |"
+"| Lokaler Komponentenzustand | useAtom / useAtomValue / useSetAtom | Separate Bindung für eine kleine View |\n"
+"| Bedingte abgeleitete Werte | atom(get => …) | stateAtom bewahrt native Überladungen; ion benennt die Eingabeform |\n"
+"| Ein Wert mit eigenem Vergleich | selectAtom | prism definiert unabhängige Projektionen ohne eigenen Vergleich |\n"
+"| Beschreibbare Atome pro Element | splitAtom | holoList rendert Views nach Schlüsseln und ersetzt keine Elementatome |\n"
+"| Reaktive externe Ressource | jotai-effect | input überträgt bestätigte Props; Modelle besitzen Verbindungen |\n"
+"| Aufruf oder Domänenfakt | actionAtom / eventAtom | Jeder Aufruf kann bond unabhängig von Wertgleichheit auslösen |\n"
+"| Serverdaten nur für React | Native TanStack-Query-Hooks | Kein Atomadapter erforderlich |\n"
+"| Serverdaten für Atomabläufe | createQueryModel / createMutationModel | Projektionen und Aktionen nutzen den vorhandenen QueryClient |\n"
+"| Ein Modell für mehrere Widgets | modelRegistry | Default- oder Schlüsselinstanz im aktuellen Store auswählen |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -82,8 +445,20 @@ msgstr "[Jotai atom](https://jotai.org/docs/core/atom), [selectAtom](https://jot
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/ecosystem.md
-msgid "For keyed models without another scope provider, use [modelRegistry](/reference/modelRegistry). For Query factories with independent projections, use [queryAtoms](/reference/queryAtoms). For a form shared by an editor and an external toolbar, use [holoForm](/reference/holoForm). Native useQuery and useForm remain preferable where a separate model binding is unnecessary."
-msgstr "Für Modelle mit Schlüsseln ohne zusätzlichen Scope-Provider gibt es [modelRegistry](/reference/modelRegistry). Für Query-Fabriken mit unabhängigen Projektionen eignet sich [queryAtoms](/reference/queryAtoms), für ein Formular mit Editor und externer Werkzeugleiste [holoForm](/reference/holoForm). Native useQuery und useForm bleiben die einfachere Wahl, wenn keine separate Modellbindung nötig ist."
+msgid "Use [holo](/reference/holo) to connect small Views near their data and keep business workflows in models. Use [modelRegistry](/reference/modelRegistry) when widgets need to select and share instances by key. These choices do not require converting every external library into atoms."
+msgstr "Verbinde kleine Views mit [holo](/reference/holo) nahe ihren Daten und halte Geschäftsabläufe in Modellen. [modelRegistry](/reference/modelRegistry) ist sinnvoll, wenn Widgets Instanzen per Schlüssel auswählen und teilen. Dafür muss nicht jede externe Bibliothek in Atome umgewandelt werden."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/ecosystem.md
+msgid "Keep native TanStack Query hooks for React-only consumers, including when createQueryModel already exists elsewhere. Share the QueryClient and options factories; select data at its point of consumption. Use [createQueryModel](/reference/createQueryModel) or [createMutationModel](/reference/createMutationModel) only when the atom/model graph needs them. Native useSuspenseQuery supplies Suspense integration; createQueryModel does not synthesize it."
+msgstr "Behalte native TanStack-Query-Hooks für reine React-Verbraucher, auch wenn createQueryModel anderswo existiert. Teile QueryClient und Options-Factories; selektiere am Verbrauchsort. [createQueryModel](/reference/createQueryModel) und [createMutationModel](/reference/createMutationModel) sind nur für Abhängigkeiten des Atom-/Modellgraphen nötig. Natives useSuspenseQuery bietet Suspense; createQueryModel erzeugt es nicht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/ecosystem.md
+msgid "Keep native RHF for self-contained forms. Use [holoForm](/reference/holoForm) only when atoms or models must react to form state or events. See [Business logic and small Views](/guide/business-logic) for the responsibilities of each layer."
+msgstr "Behalte natives RHF für eigenständige Formulare. [holoForm](/reference/holoForm) ist nur nötig, wenn Atome oder Modelle auf Formularzustand oder -ereignisse reagieren sollen. Die Zuständigkeiten der Schichten erklärt [Geschäftslogik und kleine Views](/guide/business-logic)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -124,8 +499,8 @@ msgstr "Eine View einmal verbinden"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Render `<NameField />`. Its View receives a name, a title and a callback. `read` supplies values, `write` supplies callbacks, and `props` supplies fixed props. Declare `holo` outside React render; any unbound View props remain inputs to the connected component."
-msgstr "Rendere `<NameField />`. Seine View erhält Name, Titel und Callback. `read` liefert Werte, `write` Callbacks, `props` feste Props. Deklariere `holo` außerhalb des React-Renderns; übrige View-Props bleiben Eingaben der verbundenen Komponente."
+msgid "Render `<NameField />`. Its View receives a name, a title and a callback. `read` supplies values, `write` supplies callbacks, and `static` supplies fixed props. Declare `holo` outside React render; any unbound View props remain inputs to the connected component."
+msgstr "Rendere `<NameField />`. Seine View erhält Name, Titel und Callback. `read` liefert Werte, `write` Callbacks, `static` feste Props. Deklariere `holo` außerhalb des React-Renderns; übrige View-Props bleiben Eingaben der verbundenen Komponente."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -148,8 +523,8 @@ msgstr "Verwende Jotais `<Provider store={store}>`, um ein Widget oder eine Anwe
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "No Provider specific to holo is required. Basic bindings need no `connect`. Only [bond](/reference/bond) and [external event subscriptions](/reference/subscribeEvent) require explicit ownership and disposal."
-msgstr "Ein spezieller holo-Provider ist nicht erforderlich. Einfache Bindungen brauchen kein `connect`. Nur [bond](/reference/bond) und [externe Ereignisabonnements](/reference/subscribeEvent) verlangen ausdrücklich geregelte Zuständigkeit und Freigabe."
+msgid "No Provider specific to holo is required. Basic bindings need no `connect`. Use [bond](/reference/bond) for event reactions. Its connections require explicit ownership and disposal."
+msgstr "Ein spezieller Provider für holo ist nicht nötig. Einfache Bindungen benötigen kein `connect`. Verwenden Sie [bond](/reference/bond) für Ereignisreaktionen. Seine Verbindungen brauchen explizite Besitzer und Freigabe."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -280,6 +655,12 @@ msgstr "Die Factory erstellt synchron einen Record. Sie öffnet keine Sockets, l
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/model-composition.md
+msgid "A factory can optionally be declared with [defineModel](/reference/defineModel). It returns the same function and preserves its signature. It does not create an instance or add registry behavior; plain named functions remain valid."
+msgstr "Eine Factory lässt sich optional mit [defineModel](/reference/defineModel) deklarieren. Es gibt dieselbe Funktion zurück und bewahrt ihre Signatur. Es erzeugt weder eine Instanz noch eine Registry; gewöhnliche benannte Funktionen bleiben gültig."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
 msgid "Compose responsibilities"
 msgstr "Verantwortlichkeiten zusammensetzen"
 
@@ -294,6 +675,24 @@ msgstr "Rufe createShipmentDefinition bei der Anwendungseinrichtung einmal mit d
 #: docs/guide/model-composition.md
 msgid "Two widgets selecting the same key in one store share atoms and one feed subscription. The first committed owner connects; the last release disconnects. Another key or store gets another instance. initial seeds creation only; changing input on an existing instance requires an explicit action or holo.input."
 msgstr "Zwei Widgets mit demselben Schlüssel im selben Store teilen Atome und ein Feed-Abonnement. Der erste bestätigte Besitzer verbindet es, der letzte gibt es frei. Andere Schlüssel oder Stores erhalten eigene Instanzen. initial dient nur der Erstellung; Änderungen bestehender Instanzen benötigen eine explizite Action oder holo.input."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Choose a pipe"
+msgstr "Einen pipe auswählen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "The examples use `pipe` from `jotai-holo/model`. You can also use a compatible `pipe` from Effect or another functional library: each modifier receives the previous result and returns the next model definition. Keep left-to-right order and model type inference."
+msgstr "Die Beispiele verwenden `pipe` aus `jotai-holo/model`. Ein kompatibler `pipe` aus Effect oder einer anderen funktionalen Bibliothek ist ebenfalls möglich: Jeder Modifier erhält das vorherige Ergebnis und liefert die nächste Modelldefinition. Behalte die Reihenfolge von links nach rechts und die Modelltypinferenz bei."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "[Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) explains this style of function composition. Effect is optional; these model modifiers do not require its runtime."
+msgstr "[Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) erklärt diese Funktionskomposition. Effect ist optional; die Modellmodifier benötigen seine Runtime nicht."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -400,20 +799,20 @@ msgstr "Natives Jotai reicht bereits aus:"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "That is a good choice for a small component. When this pattern repeats across a UI, `holo` expresses the same wiring once:"
-msgstr "Für eine kleine Komponente ist das eine gute Wahl. Wenn sich dieses Muster in der Oberfläche wiederholt, beschreibt `holo` dieselbe Verbindung einmal:"
+msgid "Use `holo` when this part of the screen deserves its own View and binding. Decomposition is enough reason; the wiring does not need to repeat first:"
+msgstr "Nutze `holo`, wenn dieser Bildschirmteil eine eigene View und Bindung verdient. Zerlegung allein ist Grund genug; wiederholte Verdrahtung ist keine Voraussetzung:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "Keep the View separate when you want to reuse it in stories, test it with props or bind subscriptions to a small part of the screen. For a local component that already uses several hooks, `useAtomValue` and `useSetAtom` may be simpler."
-msgstr "Trenne die View für Stories, Tests mit Props oder Abonnements kleiner Bildschirmbereiche. Bei einer lokalen Komponente mit mehreren Hooks können `useAtomValue` und `useSetAtom` einfacher sein."
+msgid "Connect small Views lower in the tree, near the data they display. Move business decisions, commands and synchronization into atom models; keep React responsible for presentation and native UI hooks. This reduces business effects inside components and lets each View render with ordinary props. See [Business logic and small Views](/guide/business-logic) for the architecture and its boundaries."
+msgstr "Verbinde kleine Views tiefer im Baum, nahe ihren Daten. Geschäftsentscheidungen, Befehle und Synchronisierung gehören in Atommodelle; React behält Darstellung und native UI-Hooks. Das reduziert fachliche Effekte in Komponenten und lässt Views gewöhnliche Props erhalten. Architektur und Grenzen beschreibt [Geschäftslogik und kleine Views](/guide/business-logic)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "Why separate read, write and props?"
-msgstr "Warum read, write und props trennen?"
+msgid "Why separate read, write and static?"
+msgstr "Warum read, write und static trennen?"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -424,8 +823,8 @@ msgstr "Ein beschreibbares Atom kann sowohl einen Wert als auch einen Callback l
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "`view` names the React component. `props` means fixed View props. `input` maps committed caller props to model actions."
-msgstr "`view` bezeichnet die React-Komponente. `props` enthält feste View-Props. `input` verbindet bestätigte Eingabe-Props mit Modellaktionen."
+msgid "`view` names the React component. `static` means fixed View props. `input` maps committed caller props to model actions."
+msgstr "`view` bezeichnet die React-Komponente. `static` enthält feste View-Props. `input` verbindet bestätigte Eingabe-Props mit Modellaktionen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -492,8 +891,8 @@ msgstr "Was wird erst bei Bedarf ausgeführt?"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/rendering.md
-msgid "An atom declaration does not run its calculation. Reading the atom starts the calculation; subscribing keeps its dependencies active. Likewise, `holo` subscribes when mounted, `bond` connects through `connect(store)`, and event listeners activate through `subscribeEvent`."
-msgstr "Die Atomdeklaration startet keine Berechnung. Lesen berechnet, ein Abonnement hält Abhängigkeiten aktiv. `holo` abonniert beim Mount, `bond` verbindet über `connect(store)`, Ereignislistener starten mit `subscribeEvent`."
+msgid "An atom declaration does not run its calculation. Reading the atom starts the calculation; subscribing keeps its dependencies active. Likewise, `holo` subscribes when mounted, `bond` connects through `connect(store)`."
+msgstr "Die Deklaration eines Atoms startet keine Berechnung. Lesen startet sie, Abonnieren hält ihre Abhängigkeiten aktiv. Ebenso abonniert `holo` beim Mounten; `bond` wird über `connect(store)` verbunden."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -753,6 +1152,150 @@ msgstr "Verträge und Beispiele finden Sie unter [Jotai effect](https://jotai.or
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "Profile: creation and editing"
+msgstr "Profil: Erstellen und Bearbeiten"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "A profile model owns the username, avatar, biography and interests. It can derive an avatar color from the username. It does not know whether its input came from a wizard, an existing model, the server or local storage. Query models fetch data, mutation models save it, and application composition connects their results to the business model."
+msgstr "Das Profilmodell besitzt Benutzername, Avatar, Beschreibung und Interessen. Es kann eine Avatarfarbe aus dem Benutzernamen ableiten. Es weiß nicht, ob seine Daten aus einem Assistenten, einem bestehenden Modell, vom Server oder aus lokalem Speicher stammen. Query-Modelle laden Daten, Mutation-Modelle speichern sie, und die Anwendungskomposition verbindet die Ergebnisse mit dem Geschäftsmodell."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "The business model"
+msgstr "Das Geschäftsmodell"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "The model accepts values through receive and edits through change. Its profileChanged fact describes a local change; receiving server data does not pretend that the user edited a field. The username color is derived with ion and needs no effect."
+msgstr "Das Modell nimmt Werte über receive und Änderungen über change entgegen. Der Fakt profileChanged beschreibt eine lokale Änderung; Serverdaten werden nicht als Benutzereingabe ausgegeben. Die Farbe wird mit ion aus dem Benutzernamen abgeleitet, ohne Effekt."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "**Derived color.** ion calculates the color from the profile. A View can subscribe to this result independently of the other fields."
+msgstr "**Abgeleitete Farbe.** ion berechnet die Farbe aus dem Profil. Eine View kann das Ergebnis unabhängig von anderen Feldern abonnieren."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "**Input port.** Accept data from any source without publishing an edit fact."
+msgstr "**Eingangsport.** Empfängt Daten beliebiger Herkunft ohne Änderungsereignis."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "**Edit command.** Apply the patch and business rules, then publish profileChanged with the resulting profile."
+msgstr "**Bearbeitungsbefehl.** Wendet Änderungen und Geschäftsregeln an und veröffentlicht anschließend profileChanged mit dem resultierenden Profil."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "The factory imports no Query, RHF or analytics code. Tests can run the same rules in a Jotai store without a View or network request. Add domain rules here when the product needs them; provider field names and transport policies belong elsewhere."
+msgstr "Die Factory importiert weder Query noch RHF oder Analytics. Tests führen dieselben Regeln in einem Jotai-Store ohne View oder Netzwerkanfrage aus. Ergänze hier benötigte Domänenregeln; Anbieterfeldnamen und Transportregeln gehören in andere Schichten."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "Independent Query and Mutation models"
+msgstr "Unabhängige Query- und Mutation-Modelle"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "Declare the Query model, mutation model and business model in a module. No application factory is needed. Module declarations describe the graph; each Jotai store holds its own values, and QueryClient holds the server cache. The business factory does not import this assembly module."
+msgstr "Deklarieren Sie Query-, Mutations- und Geschäftsmodell in einem Modul. Eine Anwendungsfactory ist nicht nötig. Die Deklarationen beschreiben den Graphen: Jeder Jotai-Store hält eigene Werte, QueryClient den Servercache. Die Geschäftsfactory importiert dieses Modul nicht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "Use the application's API client in native TanStack options factories. The example profileApi calls /api/profile; replace it with your endpoints. No backend is deployed with the documentation."
+msgstr "Verwenden Sie den API-Client der Anwendung in nativen TanStack-Optionsfactories. Im Beispiel ruft profileApi /api/profile auf; ersetzen Sie dies durch Ihre Endpunkte. Die Dokumentation stellt kein Backend bereit."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "createQueryModel and createMutationModel return records directly, conventionally named $$profileQuery and $$profileMutation. They do not need modelRegistry: QueryClient already owns the server cache."
+msgstr "createQueryModel und createMutationModel geben direkt Records zurück, üblicherweise $$profileQuery und $$profileMutation genannt. Sie benötigen kein modelRegistry: QueryClient verwaltet bereits den Servercache."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "The save command captures the submitted values and publishes profileSaved only after the mutation succeeds. Failure rejects the Promise and emits no success fact; the caller handles rejection. The UI can read the mutation's error projection."
+msgstr "Der save-Befehl hält die übermittelten Werte fest und veröffentlicht profileSaved erst nach erfolgreicher Mutation. Bei einem Fehler wird das Promise abgelehnt; es entsteht kein Erfolgsereignis. Der Aufrufer behandelt den Fehler. Die UI kann die Fehlerprojektion der Mutation lesen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "Use existing data before loading"
+msgstr "Vorhandene Daten zuerst nutzen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "Connect the participants through pipe. The observe connection reads Query only while the business profile is empty. An existing profile needs no request or Query subscription. The bond connection delivers successful saves to receive while the editor has an owner."
+msgstr "Verbinden Sie die Beteiligten über pipe. Die observe-Verbindung liest Query nur, solange das Geschäftsprofil leer ist. Ein vorhandenes Profil benötigt weder Anfrage noch Query-Abonnement. Die bond-Verbindung leitet erfolgreiche Speicherungen an receive weiter, solange der Editor einen Besitzer hat."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "$initial is a derived atom: it reads Query only when the profile is empty. Once receive fills the profile, Jotai removes that dependency and releases the Query subscription. [observe from jotai-effect](https://jotai.org/docs/extensions/effect#observe) forwards the available value; modelConnection stops observation with the last owner. No manual subscription flags or unsubscribe bookkeeping are needed."
+msgstr "$initial ist ein abgeleitetes Atom: Es liest Query nur bei leerem Profil. Sobald receive das Profil füllt, entfernt Jotai diese Abhängigkeit und löst das Query-Abonnement. [observe aus jotai-effect](https://jotai.org/docs/extensions/effect#observe) leitet den verfügbaren Wert weiter; modelConnection beendet die Beobachtung mit dem letzten Besitzer. Manuelle Abonnementflags und Abmeldeverwaltung entfallen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "Background refetches cannot overwrite a populated profile. Another source that fills it during loading also takes priority. Explicitly clearing the profile allows initialization again; this is conditional initialization, not continuous server synchronization."
+msgstr "Hintergrundabfragen überschreiben kein gefülltes Profil. Füllt eine andere Quelle es während des Ladens, haben auch diese Daten Vorrang. Explizites Leeren erlaubt eine erneute Initialisierung: Dies ist bedingte Initialisierung, keine kontinuierliche Serversynchronisierung."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "$$profile and $$editor select the same business record for the same key and store. For multiple accounts, partition Query keys, model selections and connections by account; the fixed current-user key here assumes one account context."
+msgstr "$$profile und $$editor wählen bei gleichem Schlüssel und Store denselben Geschäftsrecord. Trennen Sie für mehrere Konten Query-Schlüssel, Modellauswahl und Verbindungen nach Konto; der feste Schlüssel im Beispiel setzt einen einzigen Kontokontext voraus."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "Creation wizard"
+msgstr "Erstellungsassistent"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "Start a new profile instance with emptyProfile and a key for that creation session. No Query model is needed. Keep one RHF control across the identity, biography, interests and review steps. Step navigation validates the relevant fields using native RHF trigger; moving between steps should not recreate the form or discard values."
+msgstr "Beginne eine neue Profilinstanz mit emptyProfile und einem Schlüssel für die Erstellungssitzung. Ein Query-Modell ist nicht nötig. Nutze einen RHF-Control über die Schritte Identität, Beschreibung, Interessen und Prüfung hinweg. Die Navigation validiert relevante Felder mit nativem RHF trigger; ein Schrittwechsel darf weder das Formular neu erstellen noch Werte verlieren."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "The wizard owns an editable form draft. Use RHF directly unless the atom/model graph needs form values or events. When it does, the current createFormModel and holoForm adapters expose the same native control. The proposed modelForm modifier is not implemented yet. A successful creation uses its own create-mutation options factory; the edit example above demonstrates saving the existing current profile."
+msgstr "Der Assistent besitzt einen bearbeitbaren Formularentwurf. Nutze RHF direkt, solange der Atom-/Modellgraph keine Formularwerte oder -ereignisse benötigt. Andernfalls stellen die vorhandenen Adapter createFormModel und holoForm denselben nativen Control bereit. Der vorgeschlagene Modifikator modelForm ist noch nicht implementiert. Die Erstellung braucht eine eigene Options-Factory für die Create-Mutation; das obige Bearbeitungsbeispiel speichert ein bestehendes Profil des aktuellen Benutzers."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "Editing form"
+msgstr "Bearbeitungsformular"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "Resolve the business profile first: use the existing record or let the source binding supply it. Then create the RHF form with a snapshot of those values. The form key identifies the editing session; include a tab ID when two editors must keep independent drafts. Do not create an empty editable form and later overwrite it with a delayed server response."
+msgstr "Löse zuerst das Geschäftsprofil auf: Nutze den vorhandenen Record oder lasse die Quellverbindung ihn füllen. Erstelle dann das RHF-Formular mit einem Snapshot dieser Werte. Der Formularschlüssel bezeichnet die Bearbeitungssitzung; ergänze eine Tab-ID für unabhängige Entwürfe. Erstelle kein leeres bearbeitbares Formular, das später von einer verzögerten Serverantwort überschrieben wird."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "Form keystrokes need not update the canonical profile. Submit a captured draft through the mutation; accept the server response into the business model after success. A later business update or background refetch must not reset the form automatically, especially if the user has made newer edits. Discard, reload and reset-after-save are explicit product decisions. See the [server-data recipes](/recipes/server-data#a-form-initialized-from-server-data) and [RHF contracts](/reference/holoForm)."
+msgstr "Nicht jede Formulareingabe muss das maßgebliche Profil ändern. Sende einen festgehaltenen Entwurf über die Mutation und übernimm nach Erfolg die Serverantwort ins Geschäftsmodell. Spätere Geschäftsänderungen oder Hintergrund-Refetches dürfen das Formular nicht automatisch zurücksetzen, besonders bei neueren Eingaben. Verwerfen, Neuladen und Zurücksetzen nach dem Speichern sind explizite Produktentscheidungen. Siehe [Serverdaten-Rezepte](/recipes/server-data#a-form-initialized-from-server-data) und [RHF-Verträge](/reference/holoForm)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
 #: docs/recipes/profile.md
 msgid "Profile: command → fact → reaction"
 msgstr "Profil: Befehl → Ereignis → Reaktion"
@@ -836,8 +1379,10 @@ msgid "The example source is included in TypeScript checking. `tests/documentati
 msgstr "Der Beispielcode wird von TypeScript geprüft. `tests/documentation.test.ts` prüft: kein Fakt vor API-Erfolg, nur eine Anfrage bei wiederholtem Speichern, Zustellung erfolgreicher Fakten, Ende der Reaktionen nach Freigabe, kein Erfolgsfakt bei API-Fehler und Ablehnung ungültiger Eingaben."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
+#: docs/recipes/server-data.md
 msgid "Reading"
 msgstr "Weiterführende Literatur"
 
@@ -846,6 +1391,184 @@ msgstr "Weiterführende Literatur"
 #: docs/recipes/profile.md
 msgid "[React: separating events from effects](https://react.dev/learn/separating-events-from-effects) helps separate explicit operations from synchronization. [Effector sample](https://effector.dev/en/api/effector/sample/) is the declarative connection analogy. This illustrates API design; it is not a server transaction, audit system, or event-sourcing engine."
 msgstr "[React: Ereignisse von Effekten trennen](https://react.dev/learn/separating-events-from-effects) hilft, explizite Operationen von Synchronisierung zu unterscheiden. [Effector sample](https://effector.dev/en/api/effector/sample/) ist das Vorbild für deklarative Verbindungen. Dies zeigt API-Design, keine Servertransaktion, kein Audit- oder Event-Sourcing-System."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Server data, forms and saving"
+msgstr "Serverdaten, Formulare und Speichern"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A sales team edits the seat count and customer comment of a proposal. These five recipes use the same request factories and Views. QueryClient owns server data; a model owns the user's draft. The examples expect your application to provide GET and PUT `/api/proposals/:id`; they do not install a demo backend."
+msgstr "Das Vertriebsteam bearbeitet die Anzahl der Plätze und den Kundenkommentar eines Angebots. Fünf Rezepte verwenden dieselben Request-Factories und Views. QueryClient verwaltet Serverdaten, das Modell den Entwurf. Die Anwendung stellt GET und PUT `/api/proposals/:id` bereit; ein Demo-Backend wird nicht installiert."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "These recipes assume the atom/model graph needs server data, form state or save commands. For a React-only editor, prefer native Query and RHF hooks; neither a model registry nor an atom adapter is required. Read [Business logic and small Views](/guide/business-logic) before choosing an adapter."
+msgstr "Diese Rezepte setzen voraus, dass der Atom-/Modellgraph Serverdaten, Formularzustand oder Speicherbefehle benötigt. Für reine React-Editoren passen native Query- und RHF-Hooks besser; Registry und Atomadapter sind nicht erforderlich. Lies vor der Adapterwahl [Geschäftslogik und kleine Views](/guide/business-logic)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Application setup"
+msgstr "Anwendung einrichten"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Use the application's existing QueryClient in both providers. This browser setup creates one client and one Jotai store. Create them per request in an SSR application."
+msgstr "Verwende den bestehenden QueryClient der Anwendung in beiden Providern. Dieses Browser-Setup erstellt einen Client und einen Jotai-Store. Erstelle sie bei SSR pro Anfrage."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A model working with server data"
+msgstr "Ein Modell mit Serverdaten"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need one proposal editor with a calculated total. A plain factory is enough; no registry or `models` field is required."
+msgstr "Ich brauche einen Angebotseditor mit berechneter Summe. Eine einfache Factory genügt; Registry und `models`-Feld sind nicht erforderlich."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Until the first edit, the draft comes from the server response. After editing, `$localDraft` owns the entered values. A background refetch can update server prices, but does not replace the user's seat count or comment. Pending and errors remain separate atoms; the View handles them without an effect."
+msgstr "Bis zur ersten Bearbeitung stammt der Entwurf aus der Serverantwort. Danach hält `$localDraft` die eingegebenen Werte. Ein Hintergrund-Refetch kann Serverpreise aktualisieren, ersetzt aber weder Platzanzahl noch Kommentar des Nutzers. Laden und Fehler bleiben getrennte Atome; die View zeigt sie ohne Effect."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A registry model working with server data"
+msgstr "Ein Registry-Modell mit Serverdaten"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need several widgets to select the same editor by proposal ID. Reuse the same factory and add a registry for the editor instances."
+msgstr "Mehrere Widgets sollen denselben Editor per Angebots-ID auswählen. Verwende dieselbe Factory und ergänze eine Registry für Editorinstanzen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "The same model key and store share a local draft. Another proposal ID gets another draft. QueryClient still owns the query cache: the registry does not copy or replace it. Include an editor or tab ID in the model key if two editors of the same proposal need independent drafts."
+msgstr "Gleicher Modellschlüssel und Store teilen einen lokalen Entwurf. Eine andere Angebots-ID erhält einen anderen Entwurf. QueryClient verwaltet weiterhin den Query-Cache; die Registry kopiert oder ersetzt ihn nicht. Nimm eine Editor- oder Tab-ID in den Modellschlüssel auf, wenn zwei Editoren desselben Angebots unabhängige Entwürfe brauchen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A form initialized from server data"
+msgstr "Ein Formular mit Serverdaten initialisieren"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need native RHF fields with server defaults and a Zod resolver. Wait for the query result before creating the form instance. This keeps loading and request errors outside the form and lets RHF receive synchronous defaultValues."
+msgstr "Ich brauche native RHF-Felder mit Serverdefaults und einem Zod-Resolver. Warte vor dem Erstellen der Formularinstanz auf das Query-Ergebnis. Laden und Request-Fehler bleiben außerhalb des Formulars; RHF erhält synchrone defaultValues."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "The form key includes editorId: two tabs can share server data and keep independent RHF controls. Background refetches pass a new proposal but do not recreate the existing keyed form or replace its defaults. To explicitly discard edits and reload, use the control's native reset method. Use one holoForm root per control; an external toolbar uses ordinary holo with that same model selection."
+msgstr "Der Formularschlüssel enthält editorId: Zwei Tabs teilen Serverdaten und behalten unabhängige RHF-Controls. Hintergrund-Refetches liefern ein neues Angebot, erstellen das bestehende Formular aber nicht neu und ersetzen keine Defaults. Verwende natives reset, um Änderungen ausdrücklich zu verwerfen. Pro Control ist ein holoForm-Root erlaubt; eine externe Werkzeugleiste verwendet gewöhnliches holo mit derselben Modellauswahl."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A model saving through a mutation"
+msgstr "Ein Modell speichert per Mutation"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need to save the draft and publish a fact only after the server accepts it. Keep the native mutation-options factory separate from the model."
+msgstr "Ich möchte den Entwurf speichern und erst nach der Serverbestätigung ein Ereignis veröffentlichen. Halte die native Mutation-Options-Factory getrennt vom Modell."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Save captures the submitted draft before await and ignores another Save while pending. The mutation updates QueryClient on success. It does not reset the local draft, so edits made during the request survive. Expected request errors appear through the error projection; this save action catches the rejected Promise and emits no success fact on failure."
+msgstr "Save erfasst den gesendeten Entwurf vor await und ignoriert weitere Save-Aufrufe während der Anfrage. Bei Erfolg aktualisiert die Mutation QueryClient. Der lokale Entwurf wird nicht zurückgesetzt, sodass neuere Änderungen erhalten bleiben. Request-Fehler erscheinen über die Projektion; save fängt das abgelehnte Promise ab und veröffentlicht bei Fehlern kein Erfolgsereignis."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "For a plain instance, bind its atoms directly:"
+msgstr "Binde die Atome einer einfachen Instanz direkt:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "For keyed instances, apply a registry to the same factory. Each editor instance owns its mutation observer and pending/error state; all use the same QueryClient."
+msgstr "Wende für schlüsselbasierte Instanzen eine Registry auf dieselbe Factory an. Jede Editorinstanz besitzt ihren MutationObserver und eigenen Pending-/Fehlerzustand; alle teilen denselben QueryClient."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A model saving locally"
+msgstr "Ein Modell speichert lokal"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "I need a draft to survive a page reload without sending it to the server. Persist only the local edits, not a copy of the Query cache. The storage key includes the proposal ID."
+msgstr "Ich möchte einen Entwurf über einen Seitenneustart hinweg behalten, ohne ihn an den Server zu senden. Speichere nur lokale Änderungen, keine Kopie des Query-Caches. Der Storage-Schlüssel enthält die Angebots-ID."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Restoration uses the schema to validate stored data. A server response does not count as a local edit and cannot suppress a restored draft. A user's own edits take priority over a late restore. The View disables editing while restoration is pending, displays storage errors and can await disk.flush for an explicit save. Writes are debounced; final release attempts the captured pending write, but browser shutdown is not a delivery guarantee."
+msgstr "Beim Wiederherstellen prüft das Schema gespeicherte Daten. Eine Serverantwort zählt nicht als lokale Änderung und verhindert keine Wiederherstellung. Eigene Änderungen haben Vorrang vor spätem Restore. Die View sperrt Eingaben während des Restore, zeigt Storage-Fehler und kann für explizites Speichern disk.flush abwarten. Schreibvorgänge sind entprellt; die letzte Freigabe versucht den ausstehenden Snapshot zu schreiben, ein Browserende garantiert die Zustellung jedoch nicht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A plain model has an application owner: call connectLocalDraft(store) once before mounting LocalProposal, keep the returned disposer and call it when that application session ends. This connection starts storage work; declaring or reading the model alone does not."
+msgstr "Bei einem einfachen Modell besitzt die Anwendung die Verbindung: Rufe connectLocalDraft(store) einmal vor dem Mounten von LocalProposal auf, behalte den Disposer und rufe ihn beim Ende der Anwendungssitzung auf. Diese Verbindung startet Storage-Arbeit; Deklaration oder Lesen des Modells tun das nicht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "A registry model returns the persistence declaration as a top-level field. holo acquires it with the model and releases it after the last owner; no manual connect is needed for this variant."
+msgstr "Ein Registry-Modell gibt die Persistence-Deklaration als Feld auf oberster Ebene zurück. holo aktiviert sie mit dem Modell und gibt sie nach dem letzten Besitzer frei; diese Variante braucht kein manuelles connect."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Use a storage key that also identifies the account in a multi-account application. Other storage engines, including IndexedDB, can implement the same PersistenceStorage interface. Retention in a registry alone does not survive reloads; local storage alone does not update the server."
+msgstr "Identifiziere bei mehreren Konten auch das Konto im Storage-Schlüssel. Andere Speicher, etwa IndexedDB, können dasselbe PersistenceStorage-Interface implementieren. Registry-Aufbewahrung allein überlebt keinen Seitenneustart; lokaler Speicher allein aktualisiert den Server nicht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "Shared resource factories"
+msgstr "Gemeinsame Ressourcen-Factories"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "The recipe's transport contract validates JSON responses with Zod. Reuse existing Query Kit or native options factories in your application; the adapters do not require Query Kit at runtime."
+msgstr "Der Transportvertrag des Rezepts validiert JSON-Antworten mit Zod. Verwende vorhandene Query-Kit- oder native Options-Factories der Anwendung; die Adapter benötigen Query Kit nicht zur Laufzeit."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "See [createQueryModel](/reference/createQueryModel), [createMutationModel](/reference/createMutationModel), [holoForm](/reference/holoForm) and [persist](/runtime#rhf-query-and-persistence) for the individual contracts."
+msgstr "Einzelne Verträge: [createQueryModel](/reference/createQueryModel), [createMutationModel](/reference/createMutationModel), [holoForm](/reference/holoForm) und [persist](/runtime#rhf-query-and-persistence)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "- [TanStack Query keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys) — server cache identity.\n"
+"- [Updating from mutation responses](https://tanstack.com/query/latest/docs/framework/react/guides/updates-from-mutation-responses) — publishing accepted data into the query cache.\n"
+"- [RHF defaultValues](https://react-hook-form.com/docs/useform#defaultValues) — cached defaults and explicit reset."
+msgstr "- [TanStack Query Keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys) — Identität des Servercaches.\n"
+"- [Updates aus Mutation-Antworten](https://tanstack.com/query/latest/docs/framework/react/guides/updates-from-mutation-responses) — bestätigte Daten im Query-Cache veröffentlichen.\n"
+"- [RHF defaultValues](https://react-hook-form.com/docs/useform#defaultValues) — zwischengespeicherte Defaults und explizites reset."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -990,6 +1713,9 @@ msgstr "Beschreibe eine Operation, die Atome liest oder ändert, etwa einen Entw
 #: docs/reference/bond.md
 #: docs/reference/createAnalytics.md
 #: docs/reference/createFormModel.md
+#: docs/reference/createMutationModel.md
+#: docs/reference/createQueryModel.md
+#: docs/reference/defineModel.md
 #: docs/reference/eq.md
 #: docs/reference/eventAtom.md
 #: docs/reference/formAtom.md
@@ -1003,15 +1729,12 @@ msgstr "Beschreibe eine Operation, die Atome liest oder ändert, etwa einen Entw
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
 #: docs/reference/modelRegistry.md
-#: docs/reference/mutationAtoms.md
 #: docs/reference/or.md
 #: docs/reference/pipe.md
 #: docs/reference/prism.md
-#: docs/reference/queryAtoms.md
 #: docs/reference/queryClientAtom.md
 #: docs/reference/some.md
 #: docs/reference/stateAtom.md
-#: docs/reference/subscribeEvent.md
 #: docs/reference/sum.md
 #: docs/reference/useImperativeHolo.md
 msgid "Contract"
@@ -1064,6 +1787,9 @@ msgstr "- `actionAtom((get, set, ...args) => result)` liefert ein beschreibbares
 #: docs/reference/bond.md
 #: docs/reference/createAnalytics.md
 #: docs/reference/createFormModel.md
+#: docs/reference/createMutationModel.md
+#: docs/reference/createQueryModel.md
+#: docs/reference/defineModel.md
 #: docs/reference/eq.md
 #: docs/reference/eventAtom.md
 #: docs/reference/formAtom.md
@@ -1077,15 +1803,12 @@ msgstr "- `actionAtom((get, set, ...args) => result)` liefert ein beschreibbares
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
 #: docs/reference/modelRegistry.md
-#: docs/reference/mutationAtoms.md
 #: docs/reference/or.md
 #: docs/reference/pipe.md
 #: docs/reference/prism.md
-#: docs/reference/queryAtoms.md
 #: docs/reference/queryClientAtom.md
 #: docs/reference/some.md
 #: docs/reference/stateAtom.md
-#: docs/reference/subscribeEvent.md
 #: docs/reference/sum.md
 #: docs/reference/useImperativeHolo.md
 msgid "Why this API"
@@ -1132,6 +1855,9 @@ msgstr "Natives `atom(null, write)` verarbeitet bereits Befehle. Der Helfer erg�
 #: docs/reference/bond.md
 #: docs/reference/createAnalytics.md
 #: docs/reference/createFormModel.md
+#: docs/reference/createMutationModel.md
+#: docs/reference/createQueryModel.md
+#: docs/reference/defineModel.md
 #: docs/reference/eq.md
 #: docs/reference/eventAtom.md
 #: docs/reference/formAtom.md
@@ -1145,15 +1871,12 @@ msgstr "Natives `atom(null, write)` verarbeitet bereits Befehle. Der Helfer erg�
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
 #: docs/reference/modelRegistry.md
-#: docs/reference/mutationAtoms.md
 #: docs/reference/or.md
 #: docs/reference/pipe.md
 #: docs/reference/prism.md
-#: docs/reference/queryAtoms.md
 #: docs/reference/queryClientAtom.md
 #: docs/reference/some.md
 #: docs/reference/stateAtom.md
-#: docs/reference/subscribeEvent.md
 #: docs/reference/sum.md
 #: docs/reference/useImperativeHolo.md
 msgid "Analogies and reading"
@@ -1382,6 +2105,14 @@ msgid "Map business facts independently for each analytics engine. A search fact
 msgstr "Bilden Sie fachliche Fakten für jede Analyse-Engine getrennt ab. Ein Suchabschluss kann an zwei Engines gehen, ein geöffnetes Produkt nur an eine dritte."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createAnalytics.md
+#: docs/reference/modelAnalytics.md
+msgid "The search form, product list and product details each connect to the same $$search model through their own holo. Each View subscribes only to the values it displays. Analytics is attached once to the model: additional View owners share the connection, so one fact produces one delivery per selected engine. Removing one View leaves observation active until the final owner releases it."
+msgstr "Suchformular, Produktliste und Produktdetails verbinden sich jeweils über ein eigenes holo mit demselben $$search-Modell. Jede View abonniert nur ihre angezeigten Werte. Die Analytik wird einmal am Modell angebunden: Weitere Views teilen die Verbindung, sodass ein Fakt genau eine Sendung pro ausgewählter Plattform erzeugt. Das Entfernen einer View beendet die Beobachtung erst, wenn auch der letzte Besitzer freigegeben wurde."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createAnalytics.md
 msgid "Import from jotai-holo/analytics. Define engines once and reuse the declaration across feature models. Factories initialize on the first mapped message, independently per engine and store. event declares managed observation: trigger causes delivery, state supplies a snapshot, and each map entry prepares one engine message. State changes alone send nothing. Event atoms preserve repeated equal payloads; native atom triggers observe value changes."
@@ -1420,12 +2151,18 @@ msgid "Create a separate RHF form for each model key. An editor and an external 
 msgstr "Erzeuge ein eigenes RHF-Formular pro Modellschlüssel. Editor und externe Speicherleiste teilen ein Formular, ohne einen anderen Kontakt zu beeinflussen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createFormModel.md
+msgid "Use this factory only when atoms or models need to react to form state or operations. A form contained in React can keep native useForm without a model."
+msgstr "Nutze diese Factory nur, wenn Atome oder Modelle auf Formularzustand oder -operationen reagieren müssen. Ein auf React begrenztes Formular kann natives useForm ohne Modell behalten."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createFormModel.md
-#: docs/reference/mutationAtoms.md
-#: docs/reference/queryAtoms.md
+#: docs/reference/createMutationModel.md
+#: docs/reference/createQueryModel.md
 msgid "Installation"
 msgstr "Installation"
 
@@ -1483,6 +2220,276 @@ msgstr "- [RHF createFormControl](https://react-hook-form.com/docs/createFormCon
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "createMutationModel"
+msgstr "createMutationModel"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "Save a proposal from a Jotai action and display pending, success, and error states through separate atoms. This local simulation rejects discounts above 25%; no network request is sent."
+msgstr "Speichere ein Angebot über eine Jotai-Aktion und zeige Ladezustand, Ergebnis und Fehler über getrennte Atome. Diese lokale Simulation lehnt Rabatte über 25 % ab; es werden keine Netzwerkanfragen gesendet."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "Optional entry: `jotai-holo/query`. Requires `@tanstack/query-core` v5. Share your application's QueryClient through [queryClientAtom](/reference/queryClientAtom), or provide a client explicitly."
+msgstr "Optionaler Einstiegspunkt: `jotai-holo/query`. Benötigt `@tanstack/query-core` v5. Übergib den QueryClient der Anwendung über [queryClientAtom](/reference/queryClientAtom) oder explizit als Client."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "`createMutationModel({ mutation, prism?, client? }) → { mutate, reset, ...projections }`"
+msgstr "`createMutationModel({ mutation, prism?, client? }) → { mutate, reset, ...projections }`"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "- `mutation` is a native mutation-options factory. It runs once per initialized store/client pair, not on every render or invocation. Variables carry changing business inputs; use actionAtom or bond to collect current atom values.\n"
+"- `mutate` is an actionAtom accepting the factory's variables and returning its native execution Promise. Void and optional variables can be omitted. Each invocation executes independently, including without React or mounted projections.\n"
+"- `reset` is an actionAtom without arguments. It returns observed state to idle without cancelling requests or changing their Promises. A reset call's previous execution cannot restore its old state.\n"
+"- `prism` is optional and contains independent selectors. Each result is a read-only atom. Unread selectors never execute; unchanged selected values do not notify consumers. New objects still count as changed values. The names mutate and reset are reserved.\n"
+"- Selectors receive native mutation state and status flags, without the mutate/reset methods. Status narrowing preserves data/error types. Reads never execute a mutation, suspend, or automatically throw its error."
+msgstr "- `mutation` ist eine native Factory für Mutation-Options. Sie läuft einmal pro initialisiertem Store/Client-Paar, nicht bei jedem Rendern oder Aufruf. Veränderliche Geschäftsdaten gehören in variables; aktuelle Atomwerte lassen sich mit actionAtom oder bond sammeln.\n"
+"- `mutate` ist ein actionAtom mit den variables der Factory und dem nativen Ausführungs-Promise. Void und optionale variables können entfallen. Jeder Aufruf wird unabhängig ausgeführt, auch ohne React oder abonnierte Projektionen.\n"
+"- `reset` ist ein actionAtom ohne Argumente. Es setzt den beobachteten Zustand auf idle zurück, ohne Anfragen abzubrechen oder deren Promises zu ändern. Eine frühere Ausführung kann den zurückgesetzten Zustand nicht wiederherstellen.\n"
+"- `prism` ist optional und enthält unabhängige Selektoren. Jedes Ergebnis ist ein schreibgeschütztes Atom. Ungelesene Selektoren werden nicht ausgeführt; unveränderte Werte benachrichtigen keine Verbraucher. Neue Objekte gelten als Änderung. Die Namen mutate und reset sind reserviert.\n"
+"- Selektoren erhalten den nativen Mutationszustand und Statusflags ohne mutate/reset-Methoden. Statusprüfungen präzisieren die Typen von data/error. Lesen startet keine Mutation, löst kein Suspense aus und wirft deren Fehler nicht automatisch."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "Execution and errors"
+msgstr "Ausführung und Fehler"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "Await the returned Promise to continue after this particular call. An error projection is a value for the UI; it does not handle a rejected Promise. After awaiting a call, unmounted reads see its completed state unless a newer call or reset superseded it."
+msgstr "Warte auf das zurückgegebene Promise, um nach diesem konkreten Aufruf fortzufahren. Eine Fehlerprojektion ist ein UI-Wert und behandelt kein abgelehntes Promise. Nach await liefern auch nicht abonnierte Lesezugriffe den abgeschlossenen Zustand, sofern kein neuerer Aufruf oder reset ihn ersetzt hat."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "In bond.trigger, mutate signals invocation with its input arguments, not successful completion. Publish a domain fact after await when completion matters. Per-call callback options are deliberately unsupported; use the Promise instead."
+msgstr "In bond.trigger meldet mutate den Aufruf mit seinen Eingabeargumenten, nicht den erfolgreichen Abschluss. Veröffentliche einen Domänenfakt nach await, wenn der Abschluss relevant ist. Callbacks als zusätzliche Aufrufoptionen werden nicht unterstützt; verwende das Promise."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "Parallel calls and reset"
+msgstr "Parallele Aufrufe und reset"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "Projections describe the latest started call. Every call keeps its own Promise. If the second call completes before the first, pending becomes false and the second result remains visible after the first finishes. Pending is not an aggregate count of unfinished saves."
+msgstr "Projektionen beschreiben den zuletzt gestarteten Aufruf. Jeder Aufruf behält sein eigenes Promise. Endet der zweite vor dem ersten, wird pending false; sein Ergebnis bleibt nach Abschluss des ersten sichtbar. Pending zählt nicht alle offenen Speichervorgänge."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "Reset clears observed data, error, and variables. Already started requests and native options callbacks continue. New calls observe new executions; old completions cannot overwrite their state."
+msgstr "Reset löscht die beobachteten data, error und variables. Bereits gestartete Anfragen und native Options-Callbacks laufen weiter. Neue Aufrufe beobachten neue Ausführungen; ältere Abschlüsse überschreiben deren Zustand nicht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "Ownership and isolation"
+msgstr "Lebensdauer und Isolation"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "Mounted projections share one observer subscription. Active calls retain it even without UI subscribers. The last owner releases it. Late subscribers read current state, including a save completed after unmount. Declaration itself creates no observer or subscription."
+msgstr "Gemountete Projektionen teilen ein Observer-Abonnement. Aktive Aufrufe halten es auch ohne UI-Abonnenten. Der letzte Besitzer gibt es frei. Spätere Abonnenten lesen den aktuellen Zustand, auch nach einem während der Abwesenheit abgeschlossenen Speichervorgang. Die Deklaration allein erzeugt weder Observer noch Abonnement."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "Runtime belongs to the store/client pair. The same adapter in one store shares state; separate stores or separate adapters have independent state even with a shared client. Client changes route new calls to the new client; old calls finish in their original client. Returning to an earlier client restores its runtime state."
+msgstr "Die Laufzeit gehört zum Store/Client-Paar. Derselbe Adapter teilt seinen Zustand innerhalb eines Stores; andere Stores oder Adapter bleiben auch bei gemeinsamem Client unabhängig. Nach einem Clientwechsel nutzen neue Aufrufe den neuen Client; ältere enden im ursprünglichen. Bei der Rückkehr wird dessen Laufzeitzustand wieder sichtbar."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "TanStack owns the mutation cache and gcTime. The adapter retains its latest result while its runtime is reachable, without accumulating call history. Unmount does not cancel writes. The application owns QueryClient mounting and disposal, including online resumption."
+msgstr "TanStack verwaltet den Mutation-Cache und gcTime. Der Adapter hält sein letztes Ergebnis, solange seine Laufzeit erreichbar ist, ohne einen Aufrufverlauf anzusammeln. Unmount bricht Schreibvorgänge nicht ab. Die Anwendung verwaltet Mounting und Freigabe des QueryClient sowie die Wiederaufnahme nach einer Netzunterbrechung."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "Native options"
+msgstr "Native Optionen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "Client/key defaults, retry, networkMode, paused state, scope serialization, meta, optimistic updates, rollback, and native options callbacks retain query-core behavior. Async callbacks are awaited by TanStack; the adapter never invokes them again. Query-cache updates remain visible to native useQuery and createQueryModel using the same client."
+msgstr "Client-/Key-Defaults, retry, networkMode, Pausenzustand, scope-Serialisierung, meta, optimistische Updates, Rollback und native Options-Callbacks behalten das Verhalten von query-core. TanStack wartet auf asynchrone Callbacks; der Adapter ruft sie nicht erneut auf. Query-Cache-Updates sind für natives useQuery und createQueryModel mit demselben Client sichtbar."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "React-only throwOnError is unsupported. Enabled values, including inherited client defaults, fail explicitly during runtime initialization. Native factory types may widen this option, so validation occurs at runtime. Catch execution errors or read an error projection. Per-call mutate callbacks, cancellation, and automatic query invalidation are not added."
+msgstr "Die React-Option throwOnError wird nicht unterstützt. Aktivierte Werte, auch aus Client-Defaults, werden bei der Laufzeitinitialisierung explizit abgewiesen. Native Factory-Typen können diese Option erweitern; die Prüfung erfolgt daher zur Laufzeit. Behandle Ausführungsfehler oder lies eine Fehlerprojektion. Aufrufspezifische Callbacks, Abbruch und automatische Query-Invalidierung werden nicht ergänzt."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "Use native useMutation when React owns the operation. Use createMutationModel only when the atom/model system needs to execute the mutation or react to its state. Several UI consumers alone do not require an atom adapter. Existing createMutationModel does not prevent native hooks elsewhere; shared mutation keys do not share an observer or execution state."
+msgstr "Nutze natives useMutation, wenn React die Operation besitzt. createMutationModel ist nur nötig, wenn das Atom-/Modellsystem die Mutation ausführen oder auf ihren Zustand reagieren muss. Mehrere UI-Verbraucher allein brauchen keinen Atomadapter. Vorhandenes createMutationModel verhindert keine nativen Hooks anderswo; gleiche Mutationsschlüssel teilen weder Beobachter noch Ausführungszustand."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.write and bond.write. Observing all mutations, including those launched by useMutation, is a separate cache-level task."
+msgstr "atomWithMutation integriert Jotai bereits mit TanStack. Unser Interface liefert eine schreibbare Aktion und benannte Projektionen direkt, ohne mutate erst aus einem Ergebnisatom lesen zu müssen. Dadurch lässt es sich auch in holo.write und bond.write verwenden. Alle Mutationen einschließlich der über useMutation gestarteten zu beobachten, ist eine separate Aufgabe auf Cache-Ebene."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createMutationModel.md
+msgid "- [TanStack mutation options](https://tanstack.com/query/latest/docs/framework/react/reference/mutationOptions) — reuse native option factories.\n"
+"- [TanStack mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) — execution, callbacks, optimistic updates, and consecutive calls.\n"
+"- [MutationObserver](https://tanstack.com/query/latest/docs/framework/react/reference/classes/MutationObserver) — the underlying executor and observed state.\n"
+"- [useMutationState](https://tanstack.com/query/latest/docs/framework/react/reference/useMutationState) — observing multiple mutation-cache entries.\n"
+"- [Jotai Query](https://jotai.org/docs/extensions/query) — atomWithMutation and atomWithMutationState alternatives."
+msgstr "- [TanStack mutation options](https://tanstack.com/query/latest/docs/framework/react/reference/mutationOptions) — native Options-Factories wiederverwenden.\n"
+"- [TanStack mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) — Ausführung, Callbacks, optimistische Updates und aufeinanderfolgende Aufrufe.\n"
+"- [MutationObserver](https://tanstack.com/query/latest/docs/framework/react/reference/classes/MutationObserver) — zugrunde liegende Ausführung und beobachteter Zustand.\n"
+"- [useMutationState](https://tanstack.com/query/latest/docs/framework/react/reference/useMutationState) — mehrere Mutation-Cache-Einträge beobachten.\n"
+"- [Jotai Query](https://jotai.org/docs/extensions/query) — Alternativen atomWithMutation und atomWithMutationState."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createQueryModel.md
+msgid "createQueryModel"
+msgstr "createQueryModel"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createQueryModel.md
+msgid "Expose server data to atom workflows through independent projections. Use this adapter when atoms or models need reactive Query results; a React-only consumer can keep native Query hooks."
+msgstr "Stelle Serverdaten für Atomabläufe über unabhängige Projektionen bereit. Der Adapter ist nötig, wenn Atome oder Modelle reaktive Query-Ergebnisse brauchen; reine React-Verbraucher können native Query-Hooks behalten."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createQueryModel.md
+msgid "Optional entry: `jotai-holo/query`. Requires `@tanstack/query-core` v5. Use the same version as your application's TanStack Query."
+msgstr "Optionaler Einstieg: `jotai-holo/query`. Benötigt `@tanstack/query-core` v5. Verwende dieselbe Version wie TanStack Query in deiner Anwendung."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createQueryModel.md
+msgid "`createQueryModel({ state?, query, prism, client? }) → named read-only atoms`"
+msgstr "`createQueryModel({ state?, query, prism, client? }) → named read-only atoms`"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createQueryModel.md
+msgid "- `state` accepts the same native atom, tuple, or record inputs as ion. All declared inputs are read when options are needed. The query factory receives their values.\n"
+"- `query` returns complete native QueryObserverOptions. Pass your `productDetailQO(params)` factory result unchanged. Keep keys, query functions, retries, and resource defaults in that factory. No Query Kit runtime is required.\n"
+"- `prism` is an **object of independent selectors**. Unread selectors never execute. Equal selected results do not notify consumers, even if isFetching changes elsewhere in the result. A callback returning all fields is deliberately unsupported.\n"
+"- `client` is your QueryClient or an atom containing it. Otherwise initialize [queryClientAtom](/reference/queryClientAtom) in the application's store. There is no hidden client. Share it with QueryClientProvider for native useQuery interoperability, and manage its application mount/unmount there.\n"
+"- Declaration creates no observer. A read may create an observer and query-cache entry but does not subscribe or fetch. First mounted projection subscribes; sibling projections share it. Last unsubscribe removes the observer from the query; query-core owns cancellation and cache gcTime. Remount rebinds before subscribing, including after the query-cache entry expires.\n"
+"- Runtime state belongs to the Jotai store/client pair. Key/client changes move subscriptions; stale queued callbacks are ignored after unsubscribe. Different stores can share a QueryClient intentionally and still have separate observers.\n"
+"- `enabled`, skipToken, initialData, placeholderData, select, retry, AbortSignal, and ordinary query options retain query-core semantics. Errors are values by default; throwOnError opts into throwing. Async promises are **not** synthesized for Suspense. This is an ordinary QueryObserver adapter, not useSuspenseQuery, infinite queries, or a mutation wrapper.\n"
+"- Unmounted atom reads are cached by Jotai and are not a live imperative cache subscription. Use QueryClient.getQueryData for fresh imperative reads. Mount reconciles the snapshot."
+msgstr "- `state` akzeptiert dieselben nativen Atome, Tupel und Records wie ion. Alle deklarierten Eingaben werden gelesen, wenn Optionen gebraucht werden; die Query-Factory erhält deren Werte.\n"
+"- `query` liefert vollständige native QueryObserverOptions. Übergib `productDetailQO(params)` unverändert. Schlüssel, Query-Funktionen, Retries und Standardwerte gehören in die Factory. Keine Query-Kit-Laufzeit nötig.\n"
+"- `prism` ist ein **Objekt unabhängiger Selektoren**. Ungelesene Selektoren laufen nie. Gleiche Auswahlen benachrichtigen nicht, selbst bei verändertem isFetching. Ein Callback für alle Felder wird absichtlich nicht unterstützt.\n"
+"- `client` ist dein QueryClient oder ein Atom damit. Andernfalls initialisiere [queryClientAtom](/reference/queryClientAtom) im Anwendungsstore. Kein versteckter Client. Teile ihn mit QueryClientProvider für native useQuery-Interoperabilität und verwalte dort Anwendungs-Mount/Unmount.\n"
+"- Deklaration erzeugt keinen Observer. Lesen kann Observer/Cacheeintrag erzeugen, abonniert oder lädt aber nicht. Erste gemountete Projektion abonniert, Geschwister teilen sie. Letzte Abmeldung entfernt den Observer aus der Query; query-core besitzt Abbruch und Cache-gcTime. Remount bindet vor dem Abonnieren neu, auch nach Cacheablauf.\n"
+"- Laufzeit gehört zum Store/Client-Paar. Schlüssel-/Clientwechsel verschieben Abonnements; veraltete Callbacks nach Abmeldung werden ignoriert. Stores können bewusst einen QueryClient teilen und getrennte Observer behalten.\n"
+"- `enabled`, skipToken, initialData, placeholderData, select, retry, AbortSignal und gewöhnliche Optionen behalten query-core-Semantik. Fehler sind standardmäßig Werte, throwOnError aktiviert Werfen. **Keine** synthetischen Async-Promises für Suspense. Dies ist ein QueryObserver-Adapter, kein useSuspenseQuery, Infinite Query oder Mutationswrapper.\n"
+"- Ungemountete Atomreads sind Jotai-gecacht, kein live imperatives Cacheabonnement. Für frische imperative Reads nutze QueryClient.getQueryData. Mount gleicht den Snapshot ab."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createQueryModel.md
+msgid "Explicit notifyOnChangeProps also limits native observer notifications. Avoid restrictive lists if your projections read other result fields."
+msgstr "Explizites notifyOnChangeProps begrenzt auch native Observer-Benachrichtigungen. Vermeide restriktive Listen, wenn Projektionen weitere Ergebnisfelder lesen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createQueryModel.md
+msgid "The example derives `$screen` directly in `prism` and selects a View with `holoMatch`. Initial loading uses `isPending`; background fetching keeps the ready branch visible. A successful `null` result selects the empty branch. Data and error bindings subscribe only while their branch is mounted. The screen atom does not narrow the separate data atom's TypeScript type, so CardView still checks for missing data."
+msgstr "Das Beispiel leitet `$screen` direkt in `prism` ab und wählt mit `holoMatch` eine View. `isPending` kennzeichnet das erste Laden; während Hintergrundabfragen bleibt die fertige Karte sichtbar. Ein erfolgreiches `null`-Ergebnis wählt den leeren Zweig. Daten- und Fehlerbindungen abonnieren nur, solange ihr Zweig angezeigt wird. Das Screen-Atom schränkt den TypeScript-Typ des separaten Daten-Atoms nicht ein; CardView prüft daher weiterhin auf fehlende Daten."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createQueryModel.md
+msgid "Independent models"
+msgstr "Unabhängige Modelle"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createQueryModel.md
+msgid "Declare createQueryModel outside defineModel. Compose cross-model connections separately from the business factory. The current adapter exposes read-only atom projections; it does not publish an event for every completed request. A projected value change and a request-completion fact have different semantics."
+msgstr "Deklariere createQueryModel außerhalb von defineModel. Setze modellübergreifende Verbindungen getrennt von der fachlichen Factory zusammen. Der aktuelle Adapter liefert schreibgeschützte Atomprojektionen; er veröffentlicht kein Ereignis für jede abgeschlossene Anfrage. Eine Projektionsänderung und ein Anfrageabschluss haben unterschiedliche Semantik."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createQueryModel.md
+msgid "Prefer native useQuery or useSuspenseQuery with a local select when React alone consumes the data. This remains valid even when another model already uses createQueryModel with the same QueryClient. Use this adapter for atom-graph dependencies; binding its projections through holo is optional. Independent projections reuse prism. The adapter talks directly to QueryObserver without replacing Query's cache or network lifecycle."
+msgstr "Bevorzuge native useQuery oder useSuspenseQuery mit lokalem select, wenn nur React die Daten nutzt. Das gilt auch, wenn ein anderes Modell createQueryModel mit demselben QueryClient verwendet. Der Adapter dient Abhängigkeiten im Atomgraphen; seine Projektionen müssen nicht über holo gebunden werden. Unabhängige Projektionen nutzen prism. Der Adapter verwendet QueryObserver direkt, ohne Cache oder Netzwerklebenszyklus von Query zu ersetzen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createQueryModel.md
+msgid "- [Query Kit](https://github.com/ggkguelensan/tanstack-query-kit) — resource options factories reused without consumer key duplication.\n"
+"- [TanStack render optimizations](https://tanstack.com/query/latest/docs/framework/react/guides/render-optimizations) — structural sharing, select, and tracked properties in useQuery.\n"
+"- [Jotai Query integration](https://jotai.org/docs/extensions/query) — atomWithQuery is a good alternative when one result atom is sufficient.\n"
+"- [QueryObserver](https://tanstack.com/query/latest/docs/reference/QueryObserver) — native subscription lifecycle."
+msgstr "- [Query Kit](https://github.com/ggkguelensan/tanstack-query-kit) — Optionsfactorys ohne duplizierte Schlüssel beim Verbraucher.\n"
+"- [TanStack render optimizations](https://tanstack.com/query/latest/docs/framework/react/guides/render-optimizations) — Structural Sharing, select und beobachtete Eigenschaften in useQuery.\n"
+"- [Jotai Query integration](https://jotai.org/docs/extensions/query) — atomWithQuery ist eine gute Alternative, wenn ein Ergebnisatom genügt.\n"
+"- [QueryObserver](https://tanstack.com/query/latest/docs/reference/QueryObserver) — nativer Abonnementlebenszyklus."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/defineModel.md
+msgid "defineModel"
+msgstr "defineModel"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/defineModel.md
+msgid "Declare a model factory explicitly while keeping it an ordinary function. This optional identity helper preserves the original function, its creation arguments and its return type."
+msgstr "Deklariere eine Modellfactory ausdrücklich, ohne sie als gewöhnliche Funktion zu verändern. Dieser optionale Identity-Helfer bewahrt die ursprüngliche Funktion, ihre Erstellungsargumente und ihren Rückgabetyp."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/defineModel.md
+msgid "Import defineModel from `jotai-holo/model`. It returns the same function without calling or wrapping it. Declaration creates no atoms, instances, subscriptions or registry. Each direct factory call creates the record described by your factory."
+msgstr "Importiere defineModel aus `jotai-holo/model`. Es gibt dieselbe Funktion zurück, ohne sie aufzurufen oder zu umschließen. Die Deklaration erzeugt keine Atome, Instanzen, Abonnements oder Registry. Jeder direkte Factory-Aufruf erstellt den von deiner Factory beschriebenen Record."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/defineModel.md
+msgid "TypeScript requires a synchronous object result and rejects Promise results. The helper preserves optional parameters and generic signatures; it does not inspect the returned fields or enforce purity at runtime. Keep subscriptions, I/O and hooks outside the factory. For composition with model modifiers, pass creation data through one initial argument."
+msgstr "TypeScript verlangt ein synchrones Objektergebnis und lehnt Promise-Ergebnisse ab. Der Helfer bewahrt optionale Parameter und generische Signaturen; er prüft keine Ergebnisfelder und erzwingt keine Reinheit zur Laufzeit. Abonnements, Ein-/Ausgabe und Hooks bleiben außerhalb der Factory. Für Modellmodifikatoren übergib Erstellungsdaten in einem einzigen initial-Argument."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/defineModel.md
+msgid "Use defineModel to make a factory's role explicit without adding behavior. A plain named function works equally well. Add modelRegistry only when you need shared instance selection; apply other modifiers for their own responsibilities. This helper adds no lifetime management and does not change atom semantics."
+msgstr "Nutze defineModel, um die Rolle einer Factory ohne zusätzliches Verhalten zu kennzeichnen. Eine gewöhnliche benannte Funktion funktioniert genauso. Ergänze modelRegistry nur für die Auswahl gemeinsamer Instanzen; andere Modifikatoren haben ihre eigenen Aufgaben. Der Helfer verwaltet keine Lebensdauer und verändert keine Atomsemantik."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/defineModel.md
+msgid "See [Model composition](/guide/model-composition) for the distinction between factories, definitions and selected instances."
+msgstr "Die Unterschiede zwischen Factories, Definitionen und ausgewählten Instanzen erklärt [Modellkomposition](/guide/model-composition)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/defineModel.md
+msgid "- [TypeScript generic functions](https://www.typescriptlang.org/docs/handbook/2/generics.html) — preserving a function's input and output types."
+msgstr "- [Generische TypeScript-Funktionen](https://www.typescriptlang.org/docs/handbook/2/generics.html) — Ein- und Ausgabetypen einer Funktion bewahren."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
 #: docs/reference/eq.md
 msgid "eq"
 msgstr "eq"
@@ -1518,14 +2525,14 @@ msgid "- `eventAtom<Payload>()` accepts one payload; `eventAtom()` accepts no pa
 "- `store.set(event, payload)` publishes within that store. Repeated equal payloads are delivered every time.\n"
 "- The readable value stays `null`. No last payload, replay, persistence or cross-store broadcast.\n"
 "- A function or Promise payload is passed as data unchanged. The event does not call or await it.\n"
-"- Connect with `bond.trigger`, bind with `holo.write`, or listen with `subscribeEvent`. Native store.sub cannot observe these calls.\n"
+"- Connect reactions with `bond.trigger` or bind publishing with `holo.write`. Native store.sub cannot observe these calls.\n"
 "- In a DOM handler, call a void event explicitly: `onClick={() => onOpen()}` avoids passing a React event as payload."
-msgstr "- `eventAtom<Payload>()` nimmt eine Payload an; `eventAtom()` keine.\n"
-"- `store.set(event, payload)` veröffentlicht im gewählten Store. Gleiche Payloads werden jedes Mal zugestellt.\n"
-"- Der Lesewert bleibt `null`. Keine letzte Payload, kein Replay, keine Persistenz oder storeübergreifende Übertragung.\n"
-"- Funktionen oder Promises bleiben unveränderte Daten. Das Ereignis ruft sie nicht auf und wartet nicht darauf.\n"
-"- Verbinde über `bond.trigger`, binde über `holo.write` oder höre mit `subscribeEvent`. Natives store.sub beobachtet diese Aufrufe nicht.\n"
-"- Rufe im DOM-Handler ein Void-Ereignis ausdrücklich auf: `onClick={() => onOpen()}` verhindert eine React-Event-Payload."
+msgstr "- `eventAtom<Payload>()` akzeptiert eine Payload; `eventAtom()` benötigt keine.\n"
+"- `store.set(event, payload)` veröffentlicht im jeweiligen Store. Auch gleiche Payloads werden bei jedem Aufruf geliefert.\n"
+"- Der lesbare Wert bleibt `null`. Es gibt weder letzte Payload noch Replay, Persistenz oder Broadcast zwischen Stores.\n"
+"- Funktionen und Promises werden unverändert als Daten weitergegeben, weder aufgerufen noch abgewartet.\n"
+"- Reaktionen werden über `bond.trigger` verbunden, Veröffentlichungen aus der UI über `holo.write`. Natives store.sub beobachtet diese Aufrufe nicht.\n"
+"- Rufen Sie ein Ereignis ohne Payload im DOM-Handler explizit auf: `onClick={() => onOpen()}` verhindert eine React-Event-Payload."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1614,44 +2621,74 @@ msgstr "holo"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Connect a React View to atom values and commands. The View receives ordinary props; holo owns subscriptions and selected model leases."
-msgstr "Verbinde eine React-View mit Atomwerten und Befehlen. Die View erhält gewöhnliche Props; holo verwaltet Abonnements und Leases der gewählten Modelle."
+msgid "Connect models and atoms to a React component. Declare the connection once, outside React render. The View receives ordinary props."
+msgstr "Verbinde Modelle und Atome mit einer React-Komponente. Deklariere die Verbindung einmal außerhalb des React-Renderns. Die View erhält gewöhnliche Props."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "| Field      | Role                                     |\n"
-"| ---------- | ---------------------------------------- |\n"
-"| view       | React View or element; required          |\n"
-"| models     | Named default or keyed model selections  |\n"
-"| read       | Readable atoms mapped to value props     |\n"
-"| write      | Writable atoms mapped to callback props  |\n"
-"| props      | Fixed View props                         |\n"
-"| input      | Committed props mapped to writable atoms |\n"
-"| imperative | Event sources mapped to View methods     |\n"
-"| onError    | Connection, input and imperative errors  |"
-msgstr "| Feld | Aufgabe |\n"
+msgid "Use holo when decomposing a screen into small Views and moving business workflows into models. Bind subscriptions near the View that needs them. See [Business logic and small Views](/guide/business-logic) for when to keep native Query and RHF hooks."
+msgstr "Nutze holo, um einen Bildschirm in kleine Views zu zerlegen und Geschäftsabläufe in Modelle zu verlagern. Binde Abonnements nahe der View, die sie braucht. Wann native Query- und RHF-Hooks bleiben sollten, erklärt [Geschäftslogik und kleine Views](/guide/business-logic)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
+msgid "| I want to…                                  | Use                                |\n"
+"| ------------------------------------------- | ---------------------------------- |\n"
+"| Choose the React component                  | `view`                             |\n"
+"| Connect models to the component             | `models`                           |\n"
+"| Use an atom value in the component          | `read`                             |\n"
+"| Send a component interaction to an atom     | `write`                            |\n"
+"| Make the component react to external events | `imperative` + `useImperativeHolo` |\n"
+"| Pass static values to the component         | `static`                           |\n"
+"| Forward incoming props to the model         | `input`                            |\n"
+"| Handle connection and delivery errors       | `onError`                          |"
+msgstr "| Ich möchte… | Dafür nutze ich |\n"
 "| --- | --- |\n"
-"| view | React-View oder Element; erforderlich |\n"
-"| models | Benannte Standard- oder Schlüsselmodelle |\n"
-"| read | Lesbare Atome → Wert-Props |\n"
-"| write | Beschreibbare Atome → Callback-Props |\n"
-"| props | Feste View-Props |\n"
-"| input | Bestätigte Props → beschreibbare Atome |\n"
-"| imperative | Ereignisse → View-Methoden |\n"
-"| onError | Fehler aus Verbindungen, input und imperative |"
+"| Eine React-Komponente auswählen | `view` |\n"
+"| Modelle mit der Komponente verbinden | `models` |\n"
+"| Einen Atomwert in der Komponente verwenden | `read` |\n"
+"| Eine Komponentenaktion an ein Atom senden | `write` |\n"
+"| In der Komponente auf externe Ereignisse reagieren | `imperative` + `useImperativeHolo` |\n"
+"| Statische Werte an die Komponente übergeben | `static` |\n"
+"| Eingehende Props an das Modell weitergeben | `input` |\n"
+"| Verbindungs- und Aufruffehler behandeln | `onError` |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Declare outside React render. Keys supplied by read, write, props and imperative disappear from public props. Input keys and model-selector inputs remain caller props and are forwarded to the View. Binding collisions are rejected. Fixed props win over caller values. Any native atom works; the same writable atom can appear in read and write. Async reads resolve before reaching View. Write callbacks preserve arguments and return values."
-msgstr "Deklariere holo außerhalb des React-Renderns. Nur durch read, write, props und imperative bereitgestellte Schlüssel entfallen als öffentliche Props. input-Schlüssel und Eingaben der Modellauswahl bleiben Aufrufer-Props und werden an die View weitergereicht. Bindungskollisionen werden abgelehnt. Feste Props haben Vorrang vor Aufruferwerten. Native Atome funktionieren direkt; dasselbe beschreibbare Atom darf in read und write stehen. Async-Werte werden vor der Übergabe an die View aufgelöst. Schreibcallbacks erhalten Argumente und Rückgabewerte."
+msgid "Only `view` is required."
+msgstr "Nur `view` ist erforderlich."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Only read bindings subscribe to state. Unchanged values and shallow-equal input props skip View rendering; write callbacks stay stable while store and targets do. Context and local hook updates retain ordinary React behavior. Use small connected Views for independent rendering. Specialize generic Views first; bindings must be valid across union branches."
-msgstr "Nur read abonniert Zustand. Unveränderte Werte und oberflächlich gleiche Eingabe-Props überspringen das View-Rendering; write-Callbacks bleiben bei gleichem Store und Ziel stabil. Kontext und lokale Hooks behalten ihr gewöhnliches React-Verhalten. Nutze kleine gebundene Views für unabhängiges Rendering. Spezialisiere generische Views zuerst; Bindungen müssen für alle Union-Zweige gültig sein."
+msgid "`read`, `write`, `static` and `imperative` supply View props. Pass the remaining props from the parent. `input` forwards selected incoming props to atoms; these props still reach the View."
+msgstr "`read`, `write`, `static` und `imperative` liefern Props an die View. Die übrigen Props übergibt die Elternkomponente. `input` leitet ausgewählte eingehende Props an Atome weiter; diese Props erreichen weiterhin die View."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
+msgid "Atoms without models"
+msgstr "Atome ohne Modelle"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
+msgid "`models` is optional. Pass atoms directly to `read` and `write`: holo does not require a model factory, registry or model modifiers. Native `atom(...)`, `stateAtom`, `actionAtom` and `eventAtom` work according to their read and write capabilities."
+msgstr "`models` ist optional. Übergib Atome direkt an `read` und `write`: holo verlangt weder Modellfactory noch Registry oder Modifier. Native `atom(...)`, `stateAtom`, `actionAtom` und `eventAtom` funktionieren entsprechend ihrer Lese- und Schreibfähigkeiten."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
+msgid "Here, `read` subscribes to the global theme atom. `write` supplies a theme setter and a callback that publishes `helpRequested`. The same View can use unrelated atoms; they do not need to belong to one model."
+msgstr "Hier abonniert `read` das globale Farbschema-Atom. `write` liefert einen Setter und einen Callback, der `helpRequested` veröffentlicht. Dieselbe View kann unabhängige Atome verwenden; sie müssen nicht zu einem Modell gehören."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
+msgid "Global means shared within the same Jotai store. A separate store has independent atom values and event delivery. See [Atoms or models?](/guide/atoms-or-models) for typical choices."
+msgstr "Global bedeutet hier: innerhalb desselben Jotai-Stores geteilt. Ein anderer Store hat unabhängige Atomwerte und Ereigniszustellung. Typische Entscheidungen zeigt [Atome oder Modelle?](/guide/atoms-or-models)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1662,20 +2699,48 @@ msgstr "Benannte Modelle"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "A definition selects the default instance in the current store. A keyed selection shares the instance only with the same definition, structural key and store. Annotate selector input types; they become required public props. Changing model identity remounts the resolved View. Ordinary input changes do not. No extra Provider is required beyond Jotai store isolation."
-msgstr "Eine Definition wählt die Standardinstanz im aktuellen Store. Eine schlüsselbasierte Auswahl teilt die Instanz nur bei gleicher Definition, strukturellem Schlüssel und gleichem Store. Typisiere Selektoreingaben; sie werden zu erforderlichen öffentlichen Props. Ein Wechsel der Modellidentität mountet die aufgelöste View neu, gewöhnliche Eingabeänderungen nicht. Außer der Jotai-Store-Isolation ist kein zusätzlicher Provider erforderlich."
+msgid "- Pass a model definition to use its default instance in the current Jotai store.\n"
+"- Select a key to share that instance between components using the same model, key and store.\n"
+"- Use incoming props to choose the key. In this example, the parent passes `counterId`.\n"
+"- holo activates the selected models after commit and releases them on unmount. A shared model stays active while another owner uses it."
+msgstr "- Übergib eine Modelldefinition für ihre Standardinstanz im aktuellen Jotai-Store.\n"
+"- Wähle einen Schlüssel, um die Instanz zwischen Komponenten mit demselben Modell, Schlüssel und Store zu teilen.\n"
+"- Wähle den Schlüssel anhand eingehender Props. Im Beispiel übergibt die Elternkomponente `counterId`.\n"
+"- holo aktiviert die Modelle nach dem Commit und gibt sie beim Unmount frei. Ein geteiltes Modell bleibt aktiv, solange ein anderer Besitzer es verwendet."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Selected models activate after commit and release after the last owner. Use [input](/reference/input) for prop synchronization and [useImperativeHolo](/reference/useImperativeHolo) for View methods. Raw lifecycle and resources fields are rejected. On React 18, ordinary forwarded refs need an intrinsic, class or forwardRef View."
-msgstr "Ausgewählte Modelle werden nach dem Commit aktiviert und nach dem letzten Besitzer freigegeben. Verwenden Sie [input](/reference/input) für Props und [useImperativeHolo](/reference/useImperativeHolo) für View-Methoden. lifecycle und resources werden abgelehnt. Unter React 18 benötigen gewöhnliche weitergereichte Refs ein natives Element, eine Klasse oder eine forwardRef-View."
+msgid "See [modelRegistry](/reference/modelRegistry) for instance ownership, [input](/reference/input) for prop synchronization and [useImperativeHolo](/reference/useImperativeHolo) for View methods."
+msgstr "Mehr dazu: [modelRegistry](/reference/modelRegistry) für Modellinstanzen, [input](/reference/input) für Prop-Synchronisierung und [useImperativeHolo](/reference/useImperativeHolo) für View-Methoden."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "read and write describe atom capabilities without classifying atoms as commands or state. Models choose instances and own connections. The same View remains directly usable in tests and stories."
-msgstr "read und write beschreiben Atomfähigkeiten ohne Einteilung in Befehle oder Zustand. Modelle wählen Instanzen und besitzen Verbindungen. Dieselbe View bleibt direkt in Tests und Stories verwendbar."
+msgid "Rendering and types"
+msgstr "Rendering und Typen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
+msgid "- Only `read` subscribes to atom state. The same writable atom can be used in both `read` and `write`.\n"
+"- Unchanged values and shallow-equal caller props skip View rendering. Write callbacks remain stable while the store and target atoms stay the same. Local state and React context update normally.\n"
+"- Changing the selected model instance remounts the View. Changing an ordinary prop does not.\n"
+"- Async atom values resolve before reaching the View; use React Suspense and error boundaries while they are pending or fail.\n"
+"- A prop cannot be supplied by several binding sections. Parents do not supply props already provided by `read`, `write`, `static` or `imperative`.\n"
+"- Specialize generic Views before binding them. On React 18, use `forwardRef` when the View needs a forwarded ref."
+msgstr "- Nur `read` abonniert Atomzustand. Dasselbe beschreibbare Atom kann in `read` und `write` stehen.\n"
+"- Unveränderte Werte und flach gleiche Eltern-Props überspringen das View-Rendering. Schreibmethoden bleiben stabil, solange Store und Zielatome gleich bleiben. Lokaler Zustand und React-Kontext funktionieren wie gewohnt.\n"
+"- Eine andere Modellinstanz mountet die View neu. Ein gewöhnlicher Prop-Wechsel tut das nicht.\n"
+"- Asynchrone Atomwerte werden vor der Übergabe an die View aufgelöst. Verwende React Suspense zum Warten und Error Boundaries für Fehler.\n"
+"- Ein Prop darf nicht in mehreren Bindungsabschnitten stehen. Eltern übergeben keine Props, die bereits durch `read`, `write`, `static` oder `imperative` bereitgestellt werden.\n"
+"- Spezialisiere generische Views vor der Bindung. Verwende in React 18 `forwardRef`, wenn die View einen weitergereichten Ref benötigt."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
+msgid "Describe the connection next to the View. Keep state and business actions in models. The View receives values and callbacks, so it can also be rendered directly in tests and stories."
+msgstr "Beschreibe die Verbindung neben der View. Zustand und Geschäftsaktionen bleiben in Modellen. Die View erhält Werte und Callbacks und lässt sich deshalb auch direkt in Tests und Stories rendern."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1718,8 +2783,8 @@ msgstr "- Akzeptiert die holo-Konfiguration mit benannten Modellen und explizite
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holoForm.md
-msgid "Use holoForm when an editor and other widgets need one RHF control. The editor keeps its RHF components; an external Save panel binds to the same model with ordinary holo."
-msgstr "Nutze holoForm, wenn Editor und andere Widgets ein RHF-Control teilen. Der Editor behält seine RHF-Komponenten; eine externe Speicherleiste bindet dasselbe Modell mit gewöhnlichem holo."
+msgid "Use holoForm only when the atom/model system needs to react to form values, validation, submission or other form state. A self-contained form should keep native useForm and FormProvider. When a model is needed, the editor keeps its RHF components and an external Save panel can bind to the same model with ordinary holo."
+msgstr "holoForm ist nur nötig, wenn das Atom-/Modellsystem auf Werte, Validierung, Absenden oder anderen Formularzustand reagieren muss. Eigenständige Formulare behalten native useForm und FormProvider. Bei Bedarf am Modell bleiben RHF-Komponenten erhalten; ein externes Speicherpanel kann dasselbe Modell mit gewöhnlichem holo anbinden."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1746,8 +2811,8 @@ msgstr "Rendere eine View pro Element eines Arrayatoms. Stabile Schlüssel erhal
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holoList.md
-msgid "Requires source, view, getKey and mapItem. Supports the ordinary holo sections read/write/props/input plus optional empty View. Source may contain a Promise; use Suspense/error boundaries."
-msgstr "source, view, getKey und mapItem sind erforderlich. Unterstützt die holo-Bereiche read/write/props/input und eine optionale View für leere Listen. Source darf ein Promise enthalten; verwenden Sie Suspense und Fehlergrenzen."
+msgid "Requires source, view, getKey and mapItem. Supports the ordinary holo sections read/write/static/input plus optional empty View. Source may contain a Promise; use Suspense/error boundaries."
+msgstr "source, view, getKey und mapItem sind erforderlich. Unterstützt die holo-Bereiche read/write/static/input und eine optionale View für leere Listen. Source darf ein Promise enthalten; verwenden Sie Suspense und Fehlergrenzen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2062,6 +3127,66 @@ msgstr "Teilen Sie ein Modell zwischen Editor und Werkzeugleiste mit demselben S
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/modelRegistry.md
+msgid "Why use a registry?"
+msgstr "Warum eine Registry?"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "A proposal editor and its toolbar must use the same seat count. Another proposal needs an independent count. A factory creates the atoms; a registry lets both widgets select the right existing instance by proposal ID, without passing its atom record through their parents."
+msgstr "Der Angebotseditor und seine Werkzeugleiste brauchen dieselbe Anzahl an Plätzen. Ein anderes Angebot benötigt einen unabhängigen Wert. Die Factory erstellt Atome; die Registry lässt beide Widgets die richtige Instanz per Angebots-ID auswählen, ohne den Atom-Record durch ihre Eltern zu reichen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "In the example below, Seats and Toolbar select the Atlas instance. Adding a seat changes Atlas only. The Beacon widgets select another instance and keep their own count."
+msgstr "Im folgenden Beispiel wählen Seats und Toolbar die Atlas-Instanz. Ein zusätzlicher Platz ändert nur Atlas. Die Beacon-Widgets wählen eine andere Instanz und behalten ihre eigene Anzahl."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "What the registry adds"
+msgstr "Was die Registry ergänzt"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "- Shared identity: components selecting the same definition, key and Jotai store use one model instance.\n"
+"- Independent instances: another key creates a different instance from the same factory.\n"
+"- Retention: returning to a previously used key can restore its retained in-memory state. `retainTime` defaults to `Infinity`; this is not persistence across a page reload.\n"
+"- Owner coordination: holo acquires the selected instance after commit and releases it on unmount. Its managed connections stop after the last owner releases it, even if the record remains retained."
+msgstr "- Gemeinsame Identität: Komponenten mit gleicher Definition, Schlüssel und Jotai-Store verwenden dieselbe Modellinstanz.\n"
+"- Unabhängige Instanzen: Ein anderer Schlüssel erzeugt eine weitere Instanz derselben Factory.\n"
+"- Aufbewahrung: Bei Rückkehr zu einem Schlüssel kann der im Speicher gehaltene Zustand wiederverwendet werden. `retainTime` ist standardmäßig `Infinity`; dies speichert keinen Zustand über einen Seitenneustart hinweg.\n"
+"- Besitzerkoordination: holo übernimmt die Instanz nach dem Commit und gibt sie beim Unmount frei. Verwaltete Verbindungen stoppen nach Freigabe durch den letzten Besitzer, auch wenn der Record aufbewahrt bleibt."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "The registry selects and retains model records. [modelConnection](/reference/modelConnection), [modelLifecycle](/reference/modelLifecycle) and [modelAnalytics](/reference/modelAnalytics) define the work that runs while they are owned."
+msgstr "Die Registry wählt Modell-Records aus und bewahrt sie auf. [modelConnection](/reference/modelConnection), [modelLifecycle](/reference/modelLifecycle) und [modelAnalytics](/reference/modelAnalytics) definieren die Arbeit, die während ihrer Nutzung läuft."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "When a registry is unnecessary"
+msgstr "Wann keine Registry nötig ist"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "Use global atoms for shared application state. Use a plain factory when the application already creates and passes the required instance. Use QueryClient to share server query data by queryKey; a model registry is useful only if the surrounding feature also needs its own instances."
+msgstr "Für gemeinsamen Anwendungszustand nutze globale Atome. Eine einfache Factory genügt, wenn die Anwendung die nötige Instanz bereits erstellt und weitergibt. QueryClient teilt Serverabfragedaten per queryKey; eine Modellregistry ist nur nötig, wenn die umgebende Funktion eigene Instanzen braucht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "A registry does not clone imported atoms or models. Atoms created inside the factory belong to each new instance; dependencies created outside keep their existing identity. See [Atoms or models?](/guide/atoms-or-models#what-belongs-to-an-instance) for an example."
+msgstr "Eine Registry kopiert keine importierten Atome oder Modelle. Innerhalb der Factory erstellte Atome gehören zur neuen Instanz; außerhalb erstellte Abhängigkeiten behalten ihre Identität. Ein Beispiel steht unter [Atome oder Modelle?](/guide/atoms-or-models#what-belongs-to-an-instance)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
 msgid "Identity is definition + structural key + store. Without a key, select the default instance. Initial data is creation-only. Reading creates no subscriptions; acquisition activates managed declarations. The last release disconnects them. Infinity retains the instance, not its subscriptions. Use remove for unbounded key spaces; active entries cannot be removed."
 msgstr "Die Identität ergibt sich aus Definition, strukturellem Schlüssel und Store. Ohne Schlüssel wird die Standardinstanz gewählt. Anfangsdaten gelten nur bei Erstellung. Lesen erzeugt keine Abonnements; Besitz aktiviert verwaltete Deklarationen. Die letzte Freigabe trennt sie. Infinity bewahrt die Instanz, nicht die Abonnements. Verwenden Sie remove für unbegrenzte Schlüsselräume; aktive Einträge lassen sich nicht entfernen."
 
@@ -2078,148 +3203,6 @@ msgid "- [Jotai stores](https://jotai.org/docs/core/store) — state isolation.\
 "- [TanStack Query keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys) — structural identity analogy."
 msgstr "- [Jotai stores](https://jotai.org/docs/core/store) — Zustandsisolation.\n"
 "- [TanStack Query-Schlüssel](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys) — Analogie struktureller Identität."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "mutationAtoms"
-msgstr "mutationAtoms"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "Save a proposal from a Jotai action and display pending, success, and error states through separate atoms. This local simulation rejects discounts above 25%; no network request is sent."
-msgstr "Speichere ein Angebot über eine Jotai-Aktion und zeige Ladezustand, Ergebnis und Fehler über getrennte Atome. Diese lokale Simulation lehnt Rabatte über 25 % ab; es werden keine Netzwerkanfragen gesendet."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "Optional entry: `jotai-holo/query`. Requires `@tanstack/query-core` v5. Share your application's QueryClient through [queryClientAtom](/reference/queryClientAtom), or provide a client explicitly."
-msgstr "Optionaler Einstiegspunkt: `jotai-holo/query`. Benötigt `@tanstack/query-core` v5. Übergib den QueryClient der Anwendung über [queryClientAtom](/reference/queryClientAtom) oder explizit als Client."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "`mutationAtoms({ mutation, prism?, client? }) → { mutate, reset, ...projections }`"
-msgstr "`mutationAtoms({ mutation, prism?, client? }) → { mutate, reset, ...projections }`"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "- `mutation` is a native mutation-options factory. It runs once per initialized store/client pair, not on every render or invocation. Variables carry changing business inputs; use actionAtom or bond to collect current atom values.\n"
-"- `mutate` is an actionAtom accepting the factory's variables and returning its native execution Promise. Void and optional variables can be omitted. Each invocation executes independently, including without React or mounted projections.\n"
-"- `reset` is an actionAtom without arguments. It returns observed state to idle without cancelling requests or changing their Promises. A reset call's previous execution cannot restore its old state.\n"
-"- `prism` is optional and contains independent selectors. Each result is a read-only atom. Unread selectors never execute; unchanged selected values do not notify consumers. New objects still count as changed values. The names mutate and reset are reserved.\n"
-"- Selectors receive native mutation state and status flags, without the mutate/reset methods. Status narrowing preserves data/error types. Reads never execute a mutation, suspend, or automatically throw its error."
-msgstr "- `mutation` ist eine native Factory für Mutation-Options. Sie läuft einmal pro initialisiertem Store/Client-Paar, nicht bei jedem Rendern oder Aufruf. Veränderliche Geschäftsdaten gehören in variables; aktuelle Atomwerte lassen sich mit actionAtom oder bond sammeln.\n"
-"- `mutate` ist ein actionAtom mit den variables der Factory und dem nativen Ausführungs-Promise. Void und optionale variables können entfallen. Jeder Aufruf wird unabhängig ausgeführt, auch ohne React oder abonnierte Projektionen.\n"
-"- `reset` ist ein actionAtom ohne Argumente. Es setzt den beobachteten Zustand auf idle zurück, ohne Anfragen abzubrechen oder deren Promises zu ändern. Eine frühere Ausführung kann den zurückgesetzten Zustand nicht wiederherstellen.\n"
-"- `prism` ist optional und enthält unabhängige Selektoren. Jedes Ergebnis ist ein schreibgeschütztes Atom. Ungelesene Selektoren werden nicht ausgeführt; unveränderte Werte benachrichtigen keine Verbraucher. Neue Objekte gelten als Änderung. Die Namen mutate und reset sind reserviert.\n"
-"- Selektoren erhalten den nativen Mutationszustand und Statusflags ohne mutate/reset-Methoden. Statusprüfungen präzisieren die Typen von data/error. Lesen startet keine Mutation, löst kein Suspense aus und wirft deren Fehler nicht automatisch."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "Execution and errors"
-msgstr "Ausführung und Fehler"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "Await the returned Promise to continue after this particular call. An error projection is a value for the UI; it does not handle a rejected Promise. After awaiting a call, unmounted reads see its completed state unless a newer call or reset superseded it."
-msgstr "Warte auf das zurückgegebene Promise, um nach diesem konkreten Aufruf fortzufahren. Eine Fehlerprojektion ist ein UI-Wert und behandelt kein abgelehntes Promise. Nach await liefern auch nicht abonnierte Lesezugriffe den abgeschlossenen Zustand, sofern kein neuerer Aufruf oder reset ihn ersetzt hat."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "In bond.trigger, mutate signals invocation with its input arguments, not successful completion. Publish a domain fact after await when completion matters. Per-call callback options are deliberately unsupported; use the Promise instead."
-msgstr "In bond.trigger meldet mutate den Aufruf mit seinen Eingabeargumenten, nicht den erfolgreichen Abschluss. Veröffentliche einen Domänenfakt nach await, wenn der Abschluss relevant ist. Callbacks als zusätzliche Aufrufoptionen werden nicht unterstützt; verwende das Promise."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "Parallel calls and reset"
-msgstr "Parallele Aufrufe und reset"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "Projections describe the latest started call. Every call keeps its own Promise. If the second call completes before the first, pending becomes false and the second result remains visible after the first finishes. Pending is not an aggregate count of unfinished saves."
-msgstr "Projektionen beschreiben den zuletzt gestarteten Aufruf. Jeder Aufruf behält sein eigenes Promise. Endet der zweite vor dem ersten, wird pending false; sein Ergebnis bleibt nach Abschluss des ersten sichtbar. Pending zählt nicht alle offenen Speichervorgänge."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "Reset clears observed data, error, and variables. Already started requests and native options callbacks continue. New calls observe new executions; old completions cannot overwrite their state."
-msgstr "Reset löscht die beobachteten data, error und variables. Bereits gestartete Anfragen und native Options-Callbacks laufen weiter. Neue Aufrufe beobachten neue Ausführungen; ältere Abschlüsse überschreiben deren Zustand nicht."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "Ownership and isolation"
-msgstr "Lebensdauer und Isolation"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "Mounted projections share one observer subscription. Active calls retain it even without UI subscribers. The last owner releases it. Late subscribers read current state, including a save completed after unmount. Declaration itself creates no observer or subscription."
-msgstr "Gemountete Projektionen teilen ein Observer-Abonnement. Aktive Aufrufe halten es auch ohne UI-Abonnenten. Der letzte Besitzer gibt es frei. Spätere Abonnenten lesen den aktuellen Zustand, auch nach einem während der Abwesenheit abgeschlossenen Speichervorgang. Die Deklaration allein erzeugt weder Observer noch Abonnement."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "Runtime belongs to the store/client pair. The same adapter in one store shares state; separate stores or separate adapters have independent state even with a shared client. Client changes route new calls to the new client; old calls finish in their original client. Returning to an earlier client restores its runtime state."
-msgstr "Die Laufzeit gehört zum Store/Client-Paar. Derselbe Adapter teilt seinen Zustand innerhalb eines Stores; andere Stores oder Adapter bleiben auch bei gemeinsamem Client unabhängig. Nach einem Clientwechsel nutzen neue Aufrufe den neuen Client; ältere enden im ursprünglichen. Bei der Rückkehr wird dessen Laufzeitzustand wieder sichtbar."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "TanStack owns the mutation cache and gcTime. The adapter retains its latest result while its runtime is reachable, without accumulating call history. Unmount does not cancel writes. The application owns QueryClient mounting and disposal, including online resumption."
-msgstr "TanStack verwaltet den Mutation-Cache und gcTime. Der Adapter hält sein letztes Ergebnis, solange seine Laufzeit erreichbar ist, ohne einen Aufrufverlauf anzusammeln. Unmount bricht Schreibvorgänge nicht ab. Die Anwendung verwaltet Mounting und Freigabe des QueryClient sowie die Wiederaufnahme nach einer Netzunterbrechung."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "Native options"
-msgstr "Native Optionen"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "Client/key defaults, retry, networkMode, paused state, scope serialization, meta, optimistic updates, rollback, and native options callbacks retain query-core behavior. Async callbacks are awaited by TanStack; the adapter never invokes them again. Query-cache updates remain visible to native useQuery and queryAtoms using the same client."
-msgstr "Client-/Key-Defaults, retry, networkMode, Pausenzustand, scope-Serialisierung, meta, optimistische Updates, Rollback und native Options-Callbacks behalten das Verhalten von query-core. TanStack wartet auf asynchrone Callbacks; der Adapter ruft sie nicht erneut auf. Query-Cache-Updates sind für natives useQuery und queryAtoms mit demselben Client sichtbar."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "React-only throwOnError is unsupported. Enabled values, including inherited client defaults, fail explicitly during runtime initialization. Native factory types may widen this option, so validation occurs at runtime. Catch execution errors or read an error projection. Per-call mutate callbacks, cancellation, and automatic query invalidation are not added."
-msgstr "Die React-Option throwOnError wird nicht unterstützt. Aktivierte Werte, auch aus Client-Defaults, werden bei der Laufzeitinitialisierung explizit abgewiesen. Native Factory-Typen können diese Option erweitern; die Prüfung erfolgt daher zur Laufzeit. Behandle Ausführungsfehler oder lies eine Fehlerprojektion. Aufrufspezifische Callbacks, Abbruch und automatische Query-Invalidierung werden nicht ergänzt."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "Use native useMutation when a component owns the operation. Use mutationAtoms when a Jotai model must execute it or several Views need separate state projections. The adapter reuses actionAtom and prism; it adds execution ownership and store isolation without another cache or retry engine."
-msgstr "Verwende natives useMutation, wenn eine Komponente die Operation besitzt. mutationAtoms eignet sich, wenn ein Jotai-Modell sie ausführt oder mehrere Views getrennte Zustandsprojektionen benötigen. Der Adapter nutzt actionAtom und prism und ergänzt Ausführungslebensdauer und Store-Isolation ohne weiteren Cache oder Retry-Mechanismus."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.write and bond.write. Observing all mutations, including those launched by useMutation, is a separate cache-level task."
-msgstr "atomWithMutation integriert Jotai bereits mit TanStack. Unser Interface liefert eine schreibbare Aktion und benannte Projektionen direkt, ohne mutate erst aus einem Ergebnisatom lesen zu müssen. Dadurch lässt es sich auch in holo.write und bond.write verwenden. Alle Mutationen einschließlich der über useMutation gestarteten zu beobachten, ist eine separate Aufgabe auf Cache-Ebene."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/mutationAtoms.md
-msgid "- [TanStack mutation options](https://tanstack.com/query/latest/docs/framework/react/reference/mutationOptions) — reuse native option factories.\n"
-"- [TanStack mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) — execution, callbacks, optimistic updates, and consecutive calls.\n"
-"- [MutationObserver](https://tanstack.com/query/latest/docs/framework/react/reference/classes/MutationObserver) — the underlying executor and observed state.\n"
-"- [useMutationState](https://tanstack.com/query/latest/docs/framework/react/reference/useMutationState) — observing multiple mutation-cache entries.\n"
-"- [Jotai Query](https://jotai.org/docs/extensions/query) — atomWithMutation and atomWithMutationState alternatives."
-msgstr "- [TanStack mutation options](https://tanstack.com/query/latest/docs/framework/react/reference/mutationOptions) — native Options-Factories wiederverwenden.\n"
-"- [TanStack mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) — Ausführung, Callbacks, optimistische Updates und aufeinanderfolgende Aufrufe.\n"
-"- [MutationObserver](https://tanstack.com/query/latest/docs/framework/react/reference/classes/MutationObserver) — zugrunde liegende Ausführung und beobachteter Zustand.\n"
-"- [useMutationState](https://tanstack.com/query/latest/docs/framework/react/reference/useMutationState) — mehrere Mutation-Cache-Einträge beobachten.\n"
-"- [Jotai Query](https://jotai.org/docs/extensions/query) — Alternativen atomWithMutation und atomWithMutationState."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2254,14 +3237,27 @@ msgstr "Kombinieren Sie Modellverhalten in Leserichtung: Fabrik, Registry-Regeln
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/pipe.md
-msgid "Import from jotai-holo/model. pipe applies each modifier to the previous result. Declaration runs no model subscriptions or SDK initialization. Reuse the final definition in connected Views."
-msgstr "Importieren Sie aus jotai-holo/model. pipe wendet jeden Modifikator auf das vorherige Ergebnis an. Die Deklaration startet weder Modellabonnements noch SDK-Initialisierung. Verwenden Sie die endgültige Definition in verbundenen Views erneut."
+msgid "Our `pipe` is exported from `jotai-holo/model`. It applies each modifier to the previous result. Declaration runs no model subscriptions or SDK initialization. Reuse the final definition in connected Views."
+msgstr "Unser `pipe` wird aus `jotai-holo/model` exportiert. Es übergibt das Ergebnis eines Modifiers an den nächsten. Die Deklaration startet keine Modellabonnements oder SDKs. Verwende die fertige Definition in verbundenen Views wieder."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/pipe.md
+msgid "Use our `pipe` or a compatible `pipe` from another functional library, such as Effect. Model modifiers are ordinary synchronous functions; they do not depend on our `pipe`. Choose a helper that applies modifiers from left to right and preserves their TypeScript types."
+msgstr "Verwende unseren `pipe` oder einen kompatiblen `pipe` aus einer anderen funktionalen Bibliothek wie Effect. Modellmodifier sind gewöhnliche synchrone Funktionen und hängen nicht von unserem `pipe` ab. Wähle eine Funktion, die Modifier von links nach rechts anwendet und ihre TypeScript-Typen erhält."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/pipe.md
 msgid "Flat composition makes each model responsibility visible without nested calls. Modifiers retain type inference and native atoms remain available inside the factory. See the [composition guide](/guide/model-composition) for modifier order, custom connections and type preservation."
 msgstr "Flache Komposition macht Modellverantwortlichkeiten ohne verschachtelte Aufrufe sichtbar. Modifikatoren bewahren die Typinferenz, native Atome bleiben in der Factory verfügbar. Die [Kompositionsanleitung](/guide/model-composition) erklärt Reihenfolge, eigene Verbindungen und Typbewahrung."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/pipe.md
+msgid "- [Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) — composing functions from left to right with `pipe`."
+msgstr "- [Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) — Funktionen mit `pipe` von links nach rechts zusammensetzen.\n"
+"- [TypeScript Generics](https://www.typescriptlang.org/docs/handbook/2/generics.html) — Typen über die Komposition hinweg erhalten."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2319,80 +3315,6 @@ msgstr "- [Patronum reshape](https://patronum.effector.dev/operators/reshape/) �
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
-msgid "queryAtoms"
-msgstr "queryAtoms"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
-msgid "Bind Query results to a View through separate atoms. Reuse your query-options factory and select only the fields each View needs."
-msgstr "Verbinde Query-Ergebnisse über getrennte Atome mit einer View. Nutze deine Optionsfactory und wähle nur benötigte Ergebnisfelder."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
-msgid "Optional entry: `jotai-holo/query`. Requires `@tanstack/query-core` v5. Use the same version as your application's TanStack Query."
-msgstr "Optionaler Einstieg: `jotai-holo/query`. Benötigt `@tanstack/query-core` v5. Verwende dieselbe Version wie TanStack Query in deiner Anwendung."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
-msgid "`queryAtoms({ state?, query, prism, client? }) → named read-only atoms`"
-msgstr "`queryAtoms({ state?, query, prism, client? }) → named read-only atoms`"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
-msgid "- `state` accepts the same native atom, tuple, or record inputs as ion. All declared inputs are read when options are needed. The query factory receives their values.\n"
-"- `query` returns complete native QueryObserverOptions. Pass your `productDetailQO(params)` factory result unchanged. Keep keys, query functions, retries, and resource defaults in that factory. No Query Kit runtime is required.\n"
-"- `prism` is an **object of independent selectors**. Unread selectors never execute. Equal selected results do not notify consumers, even if isFetching changes elsewhere in the result. A callback returning all fields is deliberately unsupported.\n"
-"- `client` is your QueryClient or an atom containing it. Otherwise initialize [queryClientAtom](/reference/queryClientAtom) in the application's store. There is no hidden client. Share it with QueryClientProvider for native useQuery interoperability, and manage its application mount/unmount there.\n"
-"- Declaration creates no observer. A read may create an observer and query-cache entry but does not subscribe or fetch. First mounted projection subscribes; sibling projections share it. Last unsubscribe removes the observer from the query; query-core owns cancellation and cache gcTime. Remount rebinds before subscribing, including after the query-cache entry expires.\n"
-"- Runtime state belongs to the Jotai store/client pair. Key/client changes move subscriptions; stale queued callbacks are ignored after unsubscribe. Different stores can share a QueryClient intentionally and still have separate observers.\n"
-"- `enabled`, skipToken, initialData, placeholderData, select, retry, AbortSignal, and ordinary query options retain query-core semantics. Errors are values by default; throwOnError opts into throwing. Async promises are **not** synthesized for Suspense. This is an ordinary QueryObserver adapter, not useSuspenseQuery, infinite queries, or a mutation wrapper.\n"
-"- Unmounted atom reads are cached by Jotai and are not a live imperative cache subscription. Use QueryClient.getQueryData for fresh imperative reads. Mount reconciles the snapshot."
-msgstr "- `state` akzeptiert dieselben nativen Atome, Tupel und Records wie ion. Alle deklarierten Eingaben werden gelesen, wenn Optionen gebraucht werden; die Query-Factory erhält deren Werte.\n"
-"- `query` liefert vollständige native QueryObserverOptions. Übergib `productDetailQO(params)` unverändert. Schlüssel, Query-Funktionen, Retries und Standardwerte gehören in die Factory. Keine Query-Kit-Laufzeit nötig.\n"
-"- `prism` ist ein **Objekt unabhängiger Selektoren**. Ungelesene Selektoren laufen nie. Gleiche Auswahlen benachrichtigen nicht, selbst bei verändertem isFetching. Ein Callback für alle Felder wird absichtlich nicht unterstützt.\n"
-"- `client` ist dein QueryClient oder ein Atom damit. Andernfalls initialisiere [queryClientAtom](/reference/queryClientAtom) im Anwendungsstore. Kein versteckter Client. Teile ihn mit QueryClientProvider für native useQuery-Interoperabilität und verwalte dort Anwendungs-Mount/Unmount.\n"
-"- Deklaration erzeugt keinen Observer. Lesen kann Observer/Cacheeintrag erzeugen, abonniert oder lädt aber nicht. Erste gemountete Projektion abonniert, Geschwister teilen sie. Letzte Abmeldung entfernt den Observer aus der Query; query-core besitzt Abbruch und Cache-gcTime. Remount bindet vor dem Abonnieren neu, auch nach Cacheablauf.\n"
-"- Laufzeit gehört zum Store/Client-Paar. Schlüssel-/Clientwechsel verschieben Abonnements; veraltete Callbacks nach Abmeldung werden ignoriert. Stores können bewusst einen QueryClient teilen und getrennte Observer behalten.\n"
-"- `enabled`, skipToken, initialData, placeholderData, select, retry, AbortSignal und gewöhnliche Optionen behalten query-core-Semantik. Fehler sind standardmäßig Werte, throwOnError aktiviert Werfen. **Keine** synthetischen Async-Promises für Suspense. Dies ist ein QueryObserver-Adapter, kein useSuspenseQuery, Infinite Query oder Mutationswrapper.\n"
-"- Ungemountete Atomreads sind Jotai-gecacht, kein live imperatives Cacheabonnement. Für frische imperative Reads nutze QueryClient.getQueryData. Mount gleicht den Snapshot ab."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
-msgid "Explicit notifyOnChangeProps also limits native observer notifications. Avoid restrictive lists if your projections read other result fields."
-msgstr "Explizites notifyOnChangeProps begrenzt auch native Observer-Benachrichtigungen. Vermeide restriktive Listen, wenn Projektionen weitere Ergebnisfelder lesen."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
-msgid "The example derives `$screen` directly in `prism` and selects a View with `holoMatch`. Initial loading uses `isPending`; background fetching keeps the ready branch visible. A successful `null` result selects the empty branch. Data and error bindings subscribe only while their branch is mounted. The screen atom does not narrow the separate data atom's TypeScript type, so CardView still checks for missing data."
-msgstr "Das Beispiel leitet `$screen` direkt in `prism` ab und wählt mit `holoMatch` eine View. `isPending` kennzeichnet das erste Laden; während Hintergrundabfragen bleibt die fertige Karte sichtbar. Ein erfolgreiches `null`-Ergebnis wählt den leeren Zweig. Daten- und Fehlerbindungen abonnieren nur, solange ihr Zweig angezeigt wird. Das Screen-Atom schränkt den TypeScript-Typ des separaten Daten-Atoms nicht ein; CardView prüft daher weiterhin auf fehlende Daten."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
-msgid "Native useQuery's property tracking works well in hook-based components. Holo needs named atoms to bind a plain View. Independent projections reuse prism and let data-only Views ignore fetching changes. This adapter talks directly to QueryObserver; it does not wrap atomWithQuery or replace Query's cache, network lifecycle, or mutation infrastructure."
-msgstr "Natives useQuery-Eigenschaftstracking passt zu Hook-Komponenten. Holo braucht benannte Atome für gewöhnliche Views. Unabhängige Projektionen nutzen prism wieder und lassen datenbezogene Views Fetching-Änderungen ignorieren. Der Adapter spricht direkt mit QueryObserver; er umhüllt kein atomWithQuery und ersetzt weder Cache noch Netzwerk- oder Mutationsinfrastruktur."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
-msgid "- [Query Kit](https://github.com/ggkguelensan/tanstack-query-kit) — resource options factories reused without consumer key duplication.\n"
-"- [TanStack render optimizations](https://tanstack.com/query/latest/docs/framework/react/guides/render-optimizations) — structural sharing, select, and tracked properties in useQuery.\n"
-"- [Jotai Query integration](https://jotai.org/docs/extensions/query) — atomWithQuery is a good alternative when one result atom is sufficient.\n"
-"- [QueryObserver](https://tanstack.com/query/latest/docs/reference/QueryObserver) — native subscription lifecycle."
-msgstr "- [Query Kit](https://github.com/ggkguelensan/tanstack-query-kit) — Optionsfactorys ohne duplizierte Schlüssel beim Verbraucher.\n"
-"- [TanStack render optimizations](https://tanstack.com/query/latest/docs/framework/react/guides/render-optimizations) — Structural Sharing, select und beobachtete Eigenschaften in useQuery.\n"
-"- [Jotai Query integration](https://jotai.org/docs/extensions/query) — atomWithQuery ist eine gute Alternative, wenn ein Ergebnisatom genügt.\n"
-"- [QueryObserver](https://tanstack.com/query/latest/docs/reference/QueryObserver) — nativer Abonnementlebenszyklus."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
 #: docs/reference/queryClientAtom.md
 msgid "queryClientAtom"
 msgstr "queryClientAtom"
@@ -2400,8 +3322,8 @@ msgstr "queryClientAtom"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/queryClientAtom.md
-msgid "Give Jotai bindings the same QueryClient as the rest of the application. This lets `queryAtoms` and native `useQuery` share one cache."
-msgstr "Gib Jotai-Bindungen denselben QueryClient wie der Anwendung. So teilen `queryAtoms` und natives `useQuery` einen Cache."
+msgid "Give Jotai bindings the same QueryClient as the rest of the application. This lets `createQueryModel` and native `useQuery` share one cache."
+msgstr "Gib Jotai-Bindungen denselben QueryClient wie der Anwendung. So teilen `createQueryModel` und natives `useQuery` einen Cache."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2412,8 +3334,8 @@ msgstr "Natives beschreibbares `Atom<QueryClient | null>`, initial null. Ohne ex
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/queryClientAtom.md
-msgid "Explicit client ownership preserves hydration and cache sharing with native React Query. An explicit queryAtoms client is useful for a self-contained widget; this atom is useful for application-level configuration."
-msgstr "Explizite Client-Zuständigkeit erhält Hydration und Cachefreigabe mit nativem React Query. Ein expliziter queryAtoms-client eignet sich für eigenständige Widgets, dieses Atom für Anwendungskonfiguration."
+msgid "Explicit client ownership preserves hydration and cache sharing with native React Query. An explicit createQueryModel client is useful for a self-contained widget; this atom is useful for application-level configuration."
+msgstr "Explizite Client-Zuständigkeit erhält Hydration und Cachefreigabe mit nativem React Query. Ein expliziter createQueryModel-client eignet sich für eigenständige Widgets, dieses Atom für Anwendungskonfiguration."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2478,52 +3400,6 @@ msgid "- [Jotai atom](https://jotai.org/docs/core/atom) — the underlying primi
 "- [Jotai performance](https://jotai.org/docs/guides/performance) — why stable selections and small subscription boundaries matter."
 msgstr "- [Jotai atom](https://jotai.org/docs/core/atom) — zugrunde liegende Primitive-/Read-only-/Write-only-Verträge.\n"
 "- [Jotai performance](https://jotai.org/docs/guides/performance) — stabile Auswahlen und kleine Abonnementgrenzen."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/subscribeEvent.md
-msgid "subscribeEvent"
-msgstr "subscribeEvent"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/subscribeEvent.md
-msgid "Listen to an event in one store. For example, show a notification after `profileSaved`. Call the returned function when the listener is no longer needed."
-msgstr "Höre auf ein Ereignis in einem Store, etwa um nach `profileSaved` eine Meldung anzuzeigen. Die zurückgegebene Funktion beendet das Abonnement."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/subscribeEvent.md
-msgid "`subscribeEvent(store, event, listener, { onError? }) → stop`"
-msgstr "`subscribeEvent(store, event, listener, { onError? }) → stop`"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/subscribeEvent.md
-msgid "- Store-specific, active immediately, no replay. Each subscription has independent ownership; `stop()` is idempotent.\n"
-"- Callbacks are dispatched synchronously through a shared FIFO queue. Nested notifications are queued; delivery is not a durable job system.\n"
-"- Sync throws and returned Promise rejections go to that listener's onError; without one they are logged. Other consumers continue.\n"
-"- Listener return values are otherwise ignored. Stopping does not cancel already started async work. A rejection after disposal is logged instead of calling the disposed owner's error handler.\n"
-"- Use modelConnection for external listeners owned by a model. For atom-to-atom reactions, return a bond from the model factory. Outside React, application/session setup owns the disposer. Never subscribe during render."
-msgstr "- Store-spezifisch, sofort aktiv, ohne Replay. Jedes Abonnement hat eigenen Besitz; stop() ist idempotent.\n"
-"- Callbacks laufen synchron über eine gemeinsame FIFO-Warteschlange. Verschachtelte Benachrichtigungen werden eingereiht; dies ist kein dauerhaftes Jobsystem.\n"
-"- Synchrone Fehler und abgelehnte Promises gehen an onError des Listeners; ohne Handler werden sie protokolliert. Andere Verbraucher arbeiten weiter.\n"
-"- Sonstige Rückgabewerte werden ignoriert. Abmelden bricht gestartete asynchrone Arbeit nicht ab. Späte Fehler werden protokolliert, ohne den früheren Besitzer aufzurufen.\n"
-"- Verwende modelConnection für externe Listener eines Modells. Für Atom-Reaktionen gib einen bond aus der Factory zurück. Außerhalb von React besitzt die Anwendungs- oder Sitzungseinrichtung den Disposer. Abonniere nie während des Renderns."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/subscribeEvent.md
-msgid "Native store.sub observes value changes, so a write-only event with constant null has nothing to notify through that channel. Separating subscription from event construction keeps publishing small and lifetime explicit. Use bond for atom-to-atom routing and jotai-effect for reactive state effects."
-msgstr "Natives store.sub beobachtet Wertänderungen; ein Write-only-Ereignis mit konstantem null hat dort nichts zu melden. Getrennte Abonnements halten Veröffentlichung klein und Lebensdauer explizit. Nutze bond für Atom-zu-Atom-Routing und jotai-effect für reaktive Zustandseffekte."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/subscribeEvent.md
-msgid "- [Jotai atom](https://jotai.org/docs/core/atom) — the underlying primitive/read-only/write-only contracts.\n"
-"- [Jotai effect](https://jotai.org/docs/extensions/effect) — observe is the alternative for state-driven synchronization."
-msgstr "- [Jotai atom](https://jotai.org/docs/core/atom) — zugrunde liegende Primitive-/Read-only-/Write-only-Verträge.\n"
-"- [Jotai effect](https://jotai.org/docs/extensions/effect) — observe als Alternative für zustandsgetriebene Synchronisierung."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

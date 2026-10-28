@@ -1,11 +1,10 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 12:28+0500\n"
+"POT-Creation-Date: 2026-10-28 19:00+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: de\n"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -49,6 +48,16 @@ msgstr "Werkzeug wählen"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
+msgid "Atoms or models?"
+msgstr "Atome oder Modelle?"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Business logic and small Views"
+msgstr "Geschäftslogik und kleine Views"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
 msgid "Model composition"
 msgstr "Modellkomposition"
 
@@ -61,6 +70,16 @@ msgstr "Rendering und Async"
 #: docs/.vitepress/config.mts
 msgid "Recipes"
 msgstr "Rezepte"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Server data, forms and saving"
+msgstr "Serverdaten, Formulare und Speichern"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Profile: creation and editing"
+msgstr "Profil: Erstellen und Bearbeiten"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -121,11 +140,6 @@ msgstr "Operatorverträge"
 #: docs/.vitepress/config.mts
 msgid "Plain React views. Native Jotai models. Declarative connections."
 msgstr "Gewöhnliche React-Views. Native Jotai-Modelle. Deklarative Verbindungen."
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "On this page"
-msgstr "Auf dieser Seite"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -271,10 +285,6 @@ msgid "Search"
 msgstr "Suchen"
 
 #: examples/docs/analytics.tsx
-msgid "Search → Amplitude + warehouse; product open → PostHog."
-msgstr "Suche → Amplitude + Warehouse; Produkt öffnen → PostHog."
-
-#: examples/docs/analytics.tsx
 msgid "Product details"
 msgstr "Produktdetails"
 
@@ -283,8 +293,24 @@ msgid "Close details"
 msgstr "Details schließen"
 
 #: examples/docs/analytics.tsx
-msgid "Recording adapters write to the console; no SDK or network."
-msgstr "Demo-Adapter schreiben in die Konsole; ohne SDK oder Netzwerk."
+msgid "Actual adapter deliveries · last 50 messages"
+msgstr "Adapter-Sendungen · letzte 50 Nachrichten"
+
+#: examples/docs/analytics.tsx
+msgid "Analytics console"
+msgstr "Analysekonsole"
+
+#: examples/docs/analytics.tsx
+msgid "Clear logs"
+msgstr "Leeren"
+
+#: examples/docs/analytics.tsx
+msgid "Search for a product, then open it to see each engine's payload."
+msgstr "Suchen und öffnen Sie ein Produkt, um die Nutzdaten jeder Plattform zu sehen."
+
+#: examples/docs/analytics.tsx
+msgid "Demo adapters only · no SDK or network requests"
+msgstr "Demo-Adapter · ohne SDK und Netzwerkanfragen"
 
 #: examples/docs/bond.tsx
 msgid "A fact → a separate reaction"

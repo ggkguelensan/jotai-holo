@@ -1,6 +1,6 @@
-# queryAtoms
+# createQueryModel
 
-Bind Query results to a View through separate atoms. Reuse your query-options factory and select only the fields each View needs.
+Expose server data to atom workflows through independent projections. Use this adapter when atoms or models need reactive Query results; a React-only consumer can keep native Query hooks.
 
 <Demo kind="query">
 
@@ -14,7 +14,7 @@ Optional entry: `jotai-holo/query`. Requires `@tanstack/query-core` v5. Use the 
 
 ## Contract
 
-`queryAtoms({ state?, query, prism, client? }) → named read-only atoms`
+`createQueryModel({ state?, query, prism, client? }) → named read-only atoms`
 
 - `state` accepts the same native atom, tuple, or record inputs as ion. All declared inputs are read when options are needed. The query factory receives their values.
 - `query` returns complete native QueryObserverOptions. Pass your `productDetailQO(params)` factory result unchanged. Keep keys, query functions, retries, and resource defaults in that factory. No Query Kit runtime is required.
@@ -29,9 +29,13 @@ Explicit notifyOnChangeProps also limits native observer notifications. Avoid re
 
 The example derives `$screen` directly in `prism` and selects a View with `holoMatch`. Initial loading uses `isPending`; background fetching keeps the ready branch visible. A successful `null` result selects the empty branch. Data and error bindings subscribe only while their branch is mounted. The screen atom does not narrow the separate data atom's TypeScript type, so CardView still checks for missing data.
 
+## Independent models
+
+Declare createQueryModel outside defineModel. Compose cross-model connections separately from the business factory. The current adapter exposes read-only atom projections; it does not publish an event for every completed request. A projected value change and a request-completion fact have different semantics.
+
 ## Why this API
 
-Native useQuery's property tracking works well in hook-based components. Holo needs named atoms to bind a plain View. Independent projections reuse prism and let data-only Views ignore fetching changes. This adapter talks directly to QueryObserver; it does not wrap atomWithQuery or replace Query's cache, network lifecycle, or mutation infrastructure.
+Prefer native useQuery or useSuspenseQuery with a local select when React alone consumes the data. This remains valid even when another model already uses createQueryModel with the same QueryClient. Use this adapter for atom-graph dependencies; binding its projections through holo is optional. Independent projections reuse prism. The adapter talks directly to QueryObserver without replacing Query's cache or network lifecycle.
 
 ## Analogies and reading
 

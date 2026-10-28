@@ -10,7 +10,7 @@ const sources = sourceLinks();
 
 const groups = (t: (message: string) => string) => [
   { title: t('State'), names: ['stateAtom', 'ion', 'prism', 'eq', 'and', 'or', 'some', 'sum'] },
-  { title: t('Commands & events'), names: ['actionAtom', 'eventAtom', 'subscribeEvent', 'bond'] },
+  { title: t('Commands & events'), names: ['actionAtom', 'eventAtom', 'bond'] },
   {
     title: t('React bindings'),
     names: ['holo', 'useImperativeHolo', 'input', 'holoList', 'holoMatch'],
@@ -18,14 +18,15 @@ const groups = (t: (message: string) => string) => [
   {
     title: t('Integrations'),
     names: [
+      'defineModel',
       'pipe',
       'modelRegistry',
       'modelLifecycle',
       'modelAnalytics',
       'createAnalytics',
       'modelConnection',
-      'queryAtoms',
-      'mutationAtoms',
+      'createQueryModel',
+      'createMutationModel',
       'queryClientAtom',
       'createFormModel',
       'holoForm',
@@ -45,6 +46,8 @@ async function localeConfig(code: string, label: string, prefix: string) {
         { text: t('Getting started'), link: link('/guide/getting-started') },
         { text: t('Why jotai-holo'), link: link('/guide/motivation') },
         { text: t('Choosing a tool'), link: link('/guide/ecosystem') },
+        { text: t('Atoms or models?'), link: link('/guide/atoms-or-models') },
+        { text: t('Business logic and small Views'), link: link('/guide/business-logic') },
         { text: t('Model composition'), link: link('/guide/model-composition') },
         { text: t('Rendering and async'), link: link('/guide/rendering') },
       ],
@@ -56,6 +59,8 @@ async function localeConfig(code: string, label: string, prefix: string) {
     {
       text: t('Recipes'),
       items: [
+        { text: t('Server data, forms and saving'), link: link('/recipes/server-data') },
+        { text: t('Profile: creation and editing'), link: link('/recipes/profile-composition') },
         { text: t('Profile: command → fact → reaction'), link: link('/recipes/profile') },
         { text: t('Effects and model lifetime'), link: link('/recipes/integrations') },
         { text: t('Spreadsheet formulas'), link: link('/recipes/spreadsheet') },
@@ -85,7 +90,6 @@ async function localeConfig(code: string, label: string, prefix: string) {
         { text: 'API', link: link('/reference/holo') },
       ],
       sidebar,
-      outline: { label: t('On this page') },
       docFooter: { prev: t('Previous page'), next: t('Next page') },
       returnToTopLabel: t('Return to top'),
       sidebarMenuLabel: t('Menu'),
@@ -169,7 +173,8 @@ export default defineConfig({
     logo: '/mark.svg',
     socialLinks: [{ icon: 'github', link: sources.repository }],
     search: { provider: 'local', options: { locales: searchLocales } },
-    outline: [2, 3],
+    aside: false,
+    outline: false,
   },
   markdown: {
     config(md) {

@@ -1,14 +1,7 @@
+import { captureEvent } from './event-harness.js';
 import { atom, createStore, type Atom } from 'jotai/vanilla';
 import { expect, test, vi } from 'vitest';
-import {
-  actionAtom,
-  bond,
-  eventAtom,
-  ion,
-  prism,
-  stateAtom,
-  subscribeEvent,
-} from '../src/vanilla.js';
+import { actionAtom, bond, eventAtom, ion, prism, stateAtom } from '../src/vanilla.js';
 
 test('prism follows dynamic dependencies independently in each store and releases the old branch', () => {
   const $left = stateAtom(1);
@@ -135,12 +128,12 @@ test('event dispatch queues and disposal remain independent during nested calls 
   const a = createStore();
   const b = createStore();
   const seen: string[] = [];
-  const stopA = subscribeEvent(a, event, (value) => {
+  const stopA = captureEvent(a, event, (value) => {
     seen.push(`a:start:${value}`);
     b.set(event, value + 1);
     seen.push(`a:end:${value}`);
   });
-  const stopB = subscribeEvent(b, event, (value) => seen.push(`b:${value}`));
+  const stopB = captureEvent(b, event, (value) => seen.push(`b:${value}`));
   a.set(event, 1);
   expect(seen).toEqual(['a:start:1', 'b:2', 'a:end:1']);
   stopA();

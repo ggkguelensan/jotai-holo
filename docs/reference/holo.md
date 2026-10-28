@@ -1,6 +1,8 @@
 # holo
 
-Connect a React View to atom values and commands. The View receives ordinary props; holo owns subscriptions and selected model leases.
+Connect models and atoms to a React component. Declare the connection once, outside React render. The View receives ordinary props.
+
+Use holo when decomposing a screen into small Views and moving business workflows into models. Bind subscriptions near the View that needs them. See [Business logic and small Views](/guide/business-logic) for when to keep native Query and RHF hooks.
 
 <Demo kind="counter">
 
@@ -12,28 +14,39 @@ Connect a React View to atom values and commands. The View receives ordinary pro
 
 ## Contract
 
-| Field      | Role                                     |
-| ---------- | ---------------------------------------- |
-| view       | React View or element; required          |
-| models     | Named default or keyed model selections  |
-| read       | Readable atoms mapped to value props     |
-| write      | Writable atoms mapped to callback props  |
-| props      | Fixed View props                         |
-| input      | Committed props mapped to writable atoms |
-| imperative | Event sources mapped to View methods     |
-| onError    | Connection, input and imperative errors  |
+| I want to…                                  | Use                                |
+| ------------------------------------------- | ---------------------------------- |
+| Choose the React component                  | `view`                             |
+| Connect models to the component             | `models`                           |
+| Use an atom value in the component          | `read`                             |
+| Send a component interaction to an atom     | `write`                            |
+| Make the component react to external events | `imperative` + `useImperativeHolo` |
+| Pass static values to the component         | `static`                           |
+| Forward incoming props to the model         | `input`                            |
+| Handle connection and delivery errors       | `onError`                          |
 
-Declare outside React render. Keys supplied by read, write, props and imperative disappear from public props. Input keys and model-selector inputs remain caller props and are forwarded to the View. Binding collisions are rejected. Fixed props win over caller values. Any native atom works; the same writable atom can appear in read and write. Async reads resolve before reaching View. Write callbacks preserve arguments and return values.
+Only `view` is required.
 
-Only read bindings subscribe to state. Unchanged values and shallow-equal input props skip View rendering; write callbacks stay stable while store and targets do. Context and local hook updates retain ordinary React behavior. Use small connected Views for independent rendering. Specialize generic Views first; bindings must be valid across union branches.
+`read`, `write`, `static` and `imperative` supply View props. Pass the remaining props from the parent. `input` forwards selected incoming props to atoms; these props still reach the View.
+
+## Atoms without models
+
+`models` is optional. Pass atoms directly to `read` and `write`: holo does not require a model factory, registry or model modifiers. Native `atom(...)`, `stateAtom`, `actionAtom` and `eventAtom` work according to their read and write capabilities.
+
+<<< @/../examples/atoms-or-models.tsx#atom-imports
+<<< @/../examples/atoms-or-models.tsx#global-atoms
+
+Here, `read` subscribes to the global theme atom. `write` supplies a theme setter and a callback that publishes `helpRequested`. The same View can use unrelated atoms; they do not need to belong to one model.
+
+Global means shared within the same Jotai store. A separate store has independent atom values and event delivery. See [Atoms or models?](/guide/atoms-or-models) for typical choices.
 
 ## Named models
 
 ```tsx
 const Counter = holo({
   models: {
-    counter: (input: { counterId: string }) =>
-      $$counter({ key: ['counter', input.counterId] }),
+    counter: (props: { counterId: string }) =>
+      $$counter({ key: ['counter', props.counterId] }),
     session: $$session,
   },
   view: CounterView,
@@ -42,13 +55,25 @@ const Counter = holo({
 });
 ```
 
-A definition selects the default instance in the current store. A keyed selection shares the instance only with the same definition, structural key and store. Annotate selector input types; they become required public props. Changing model identity remounts the resolved View. Ordinary input changes do not. No extra Provider is required beyond Jotai store isolation.
+- Pass a model definition to use its default instance in the current Jotai store.
+- Select a key to share that instance between components using the same model, key and store.
+- Use incoming props to choose the key. In this example, the parent passes `counterId`.
+- holo activates the selected models after commit and releases them on unmount. A shared model stays active while another owner uses it.
 
-Selected models activate after commit and release after the last owner. Use [input](/reference/input) for prop synchronization and [useImperativeHolo](/reference/useImperativeHolo) for View methods. Raw lifecycle and resources fields are rejected. On React 18, ordinary forwarded refs need an intrinsic, class or forwardRef View.
+See [modelRegistry](/reference/modelRegistry) for instance ownership, [input](/reference/input) for prop synchronization and [useImperativeHolo](/reference/useImperativeHolo) for View methods.
+
+## Rendering and types
+
+- Only `read` subscribes to atom state. The same writable atom can be used in both `read` and `write`.
+- Unchanged values and shallow-equal caller props skip View rendering. Write callbacks remain stable while the store and target atoms stay the same. Local state and React context update normally.
+- Changing the selected model instance remounts the View. Changing an ordinary prop does not.
+- Async atom values resolve before reaching the View; use React Suspense and error boundaries while they are pending or fail.
+- A prop cannot be supplied by several binding sections. Parents do not supply props already provided by `read`, `write`, `static` or `imperative`.
+- Specialize generic Views before binding them. On React 18, use `forwardRef` when the View needs a forwarded ref.
 
 ## Why this API
 
-read and write describe atom capabilities without classifying atoms as commands or state. Models choose instances and own connections. The same View remains directly usable in tests and stories.
+Describe the connection next to the View. Keep state and business actions in models. The View receives values and callbacks, so it can also be rendered directly in tests and stories.
 
 ## Analogies and reading
 

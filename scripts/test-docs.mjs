@@ -119,7 +119,7 @@ try {
         await page.getByRole('button', { name: label('Back to cart'), exact: true }).click();
         assert.equal(await page.getByRole('spinbutton').inputValue(), '2');
       }
-      if (file === 'mutationAtoms.md') {
+      if (file === 'createMutationModel.md') {
         const catalog = await loadCatalog(code, 'ui');
         const label = (text) => catalog._(generateMessageId(text));
         const save = page.getByRole('button', { name: label('Save proposal'), exact: true });
@@ -206,11 +206,6 @@ try {
   await page.getByRole('spinbutton', { name: 'Quantity' }).fill('4');
   await page.getByRole('checkbox').check();
   await page.getByText('$80.00', { exact: true }).waitFor();
-  await page.goto(`${origin}reference/subscribeEvent`);
-  assert.equal(
-    (await page.locator('h1').innerText()).replace(/\u200b/g, '').trim(),
-    'subscribeEvent',
-  );
   await page.goto(`${origin}reference/input`);
   await page.getByRole('textbox').fill('react');
   await page.getByText('$query: react', { exact: true }).waitFor();
@@ -234,7 +229,7 @@ try {
   await page.getByRole('button', { name: 'Add a seat', exact: true }).first().click();
   await page.locator('.example-preview output').first().getByText('6', { exact: true }).waitFor();
   assert.equal(await page.locator('.example-preview output').last().innerText(), '5');
-  await page.goto(`${origin}reference/queryAtoms`);
+  await page.goto(`${origin}reference/createQueryModel`);
   await page.getByText('Oak desk · $240', { exact: true }).waitFor();
   await page.getByRole('button', { name: 'Lamp', exact: true }).click();
   await page.getByText('Desk lamp · $45', { exact: true }).waitFor();

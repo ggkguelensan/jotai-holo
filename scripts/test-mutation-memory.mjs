@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { QueryClient, MutationObserver } from '@tanstack/query-core';
 import { createStore } from 'jotai/vanilla';
-import { mutationAtoms } from '../dist/query.js';
+import { createMutationModel } from '../dist/query.js';
 
 assert.equal(typeof global.gc, 'function', 'Run with node --expose-gc.');
 const pause = () => new Promise((resolve) => setTimeout(resolve, 0));
@@ -21,7 +21,7 @@ MutationObserver.prototype.subscribe = function (...args) {
 };
 const results = [];
 function definition() {
-  return mutationAtoms({
+  return createMutationModel({
     client,
     mutation: () => ({
       mutationFn: async (id) => {

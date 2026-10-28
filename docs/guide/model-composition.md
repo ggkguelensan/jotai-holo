@@ -8,6 +8,8 @@ A shipment page and its status badge need the same live status. A factory define
 
 The factory creates a record synchronously. It does not open sockets, read storage or run hooks. Use a plain factory without a registry when the caller already owns the instance. Use a derived atom for a calculation, an action for a command and an event for a fact with independent consumers.
 
+A factory can optionally be declared with [defineModel](/reference/defineModel). It returns the same function and preserves its signature. It does not create an instance or add registry behavior; plain named functions remain valid.
+
 ## Compose responsibilities
 
 <<< @/../examples/model-composition.ts#composition
@@ -31,6 +33,12 @@ const Shipment = holo({
 ```
 
 Two widgets selecting the same key in one store share atoms and one feed subscription. The first committed owner connects; the last release disconnects. Another key or store gets another instance. initial seeds creation only; changing input on an existing instance requires an explicit action or holo.input.
+
+## Choose a pipe
+
+The examples use `pipe` from `jotai-holo/model`. You can also use a compatible `pipe` from Effect or another functional library: each modifier receives the previous result and returns the next model definition. Keep left-to-right order and model type inference.
+
+[Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) explains this style of function composition. Effect is optional; these model modifiers do not require its runtime.
 
 ## Modifier order and identity
 

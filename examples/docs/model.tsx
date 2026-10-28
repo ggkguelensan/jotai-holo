@@ -3,12 +3,14 @@ import { actionAtom, holo, stateAtom } from 'jotai-holo';
 import { modelRegistry, pipe } from 'jotai-holo/model';
 
 // #region model
-const $$proposal = pipe(() => {
+function createProposalModel() {
   const $seats = stateAtom(5);
 
   const addSeat = actionAtom((_get, set) => set($seats, (n) => n + 1));
   return { $seats, addSeat };
-}, modelRegistry());
+}
+
+const $$proposal = pipe(createProposalModel, modelRegistry());
 // Both bindings select the same instance without a scope provider.
 
 function SeatsView({ count }: { count: number }) {

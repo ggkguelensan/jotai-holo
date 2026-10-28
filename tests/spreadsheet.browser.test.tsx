@@ -27,7 +27,7 @@ test('only edited/dependent holo cells commit; the sheet shell stays untouched',
         });
         return <CellView {...props} />;
       },
-      props: { address, onSelect: () => {} },
+      static: { address, onSelect: () => {} },
       read: { input: cell.$input, value: cell.$value },
       write: { onChange: cell.$input },
     });

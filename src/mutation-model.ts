@@ -22,7 +22,7 @@ type VariablesArgs<Variables> = undefined extends Variables
   : [variables: Variables];
 
 /** A store-local mutation executor. Reads never execute a mutation. */
-export function mutationAtoms<
+export function createMutationModel<
   Data = unknown,
   Error = DefaultError,
   Variables = void,
@@ -47,14 +47,14 @@ export function mutationAtoms<
   type Result = MutationSnapshot<Data, Error, Variables, Context>;
   type Publish = (result: Result) => void;
   if (config.prism && ('mutate' in config.prism || 'reset' in config.prism))
-    throw new TypeError('mutationAtoms: prism names mutate and reset are reserved.');
+    throw new TypeError('createMutationModel: prism names mutate and reset are reserved.');
 
   function createRuntime(client: QueryClient) {
     // Apply client/key defaults before validating unsupported React-only options.
     const options = client.defaultMutationOptions(config.mutation());
     if (options.throwOnError !== undefined && options.throwOnError !== false)
       throw new TypeError(
-        'mutationAtoms: throwOnError is unsupported. Handle the returned Promise or read an error projection.',
+        'createMutationModel: throwOnError is unsupported. Handle the returned Promise or read an error projection.',
       );
     const observer = new MutationObserver<Data, Error, Variables, Context>(client, options);
     let nativeResult: NativeResult | undefined;
@@ -99,7 +99,7 @@ export function mutationAtoms<
     const client = isAtom(provided) ? get(provided as Atom<QueryClient | null>) : provided;
     if (!client)
       throw new Error(
-        'mutationAtoms: provide the application QueryClient through queryClientAtom or client.',
+        'createMutationModel: provide the application QueryClient through queryClientAtom or client.',
       );
     const cache = get($cache);
     let runtime = cache.get(client);
@@ -116,7 +116,7 @@ export function mutationAtoms<
   const mutate = actionAtom((get, set, ...args: VariablesArgs<Variables>): Promise<Data> => {
     if (args.length > 1)
       throw new TypeError(
-        'mutationAtoms: per-call options are unsupported. Use the returned Promise.',
+        'createMutationModel: per-call options are unsupported. Use the returned Promise.',
       );
     const { observer, $snapshot, retain } = get($runtime);
     const release = retain((result) => set($snapshot, result));

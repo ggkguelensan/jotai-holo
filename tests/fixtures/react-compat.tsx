@@ -8,7 +8,6 @@ import {
   type HoloImperative,
   actionAtom,
   eventAtom,
-  subscribeEvent,
   stateAtom,
   ion,
   prism,
@@ -18,7 +17,7 @@ import {
 } from 'jotai-holo';
 
 import { pipe, modelRegistry, modelConnection } from 'jotai-holo/model';
-import { queryAtoms } from 'jotai-holo/query';
+import { createQueryModel } from 'jotai-holo/query';
 import { createFormModel, holoForm } from 'jotai-holo/rhf';
 import { QueryClient, queryOptions } from '@tanstack/react-query';
 import { useFormContext } from 'react-hook-form';
@@ -109,7 +108,7 @@ const queryClient = new QueryClient();
 const detailQO = () =>
   queryOptions({ queryKey: ['compat'], queryFn: async () => 'Ready', staleTime: Infinity });
 queryClient.setQueryData(detailQO().queryKey, 'Ready');
-const query = queryAtoms({
+const query = createQueryModel({
   query: detailQO,
   client: queryClient,
   prism: { $data: (result) => result.data },
@@ -127,9 +126,10 @@ const changed = eventAtom<number>();
 const routing = bond({ trigger: changed, write: $count });
 const stopBond = routing.connect(store);
 let deliveries = 0;
-const stopEvent = subscribeEvent(store, changed, () => {
+const recordDelivery = actionAtom(() => {
   deliveries++;
 });
+const stopEvent = bond({ trigger: changed, map: () => [], write: recordDelivery }).connect(store);
 const lifecycle: string[] = [];
 const Counter = holo({
   view: ({
@@ -151,7 +151,7 @@ const Counter = holo({
   ),
   read: { count: $count, doubled: $double, parity: $parity },
   write: { onIncrement: increment },
-  props: { title: 'counter' },
+  static: { title: 'counter' },
   models: {
     owner: pipe(
       () => ({}),
@@ -173,7 +173,7 @@ const Counter = holo({
 const inputRef = createRef<HTMLInputElement>();
 const Input = holo({
   view: 'input',
-  props: { defaultValue: 'ref works' },
+  static: { defaultValue: 'ref works' },
 });
 const Match = holoMatch({ source: atom<'input'>('input'), cases: { input: Input } });
 const $items = atom<readonly number[]>([1, 2]);
@@ -216,7 +216,7 @@ const AdaptedInput = holo({
   },
   view: 'input',
   read: ({ selected }) => ({ value: selected.$value }),
-  props: { readOnly: true },
+  static: { readOnly: true },
 });
 const PlainAsync = holo({
   view: ({ text }: { text: string }) => <output id="plain">{text}</output>,

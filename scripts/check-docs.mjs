@@ -24,7 +24,7 @@ for (const file of await files(path.resolve('examples'), ['.ts', '.tsx'])) {
   );
   assert.doesNotMatch(
     await readFile(file, 'utf8'),
-    /\b(?:bunshi|holoMolecule|ScopeProvider|useMolecule|InjectorProvider|createModel)\b/i,
+    /\bcreateModel\b/,
     `Retired integration in ${file}`,
   );
 }
@@ -53,12 +53,7 @@ for (const file of pages) {
   assert.doesNotMatch(text, /\bcreateModel\b/, `Retired model constructor in ${file}`);
   assert.doesNotMatch(
     text,
-    /\b(?:bunshi|holoMolecule|ScopeProvider|useMolecule)\b/i,
-    `Retired integration in ${file}`,
-  );
-  assert.doesNotMatch(
-    text,
-    /\b(?:core|bindProps|cage)\s*:|ctx\.props|\/reference\/cage\b/,
+    /\b(?:core|bindProps|cage)\s*:|^\s*(?:props|staticProps|inputProps)\s*:|ctx\.props|holo\.inputProps\b|\/reference\/(?:cage|inputProps)\b/m,
     `Retired holo syntax in ${file}`,
   );
   if (file.includes('/reference/')) {

@@ -9,7 +9,6 @@ import {
   ion,
   prism,
   stateAtom,
-  subscribeEvent,
 } from 'jotai-holo';
 import { createStore } from 'jotai/vanilla';
 
@@ -102,22 +101,6 @@ export function publishSaved(
 }
 // #endregion event
 
-// #region subscription
-export function connectAudit(
-  store: ReturnType<typeof createStore>,
-  writeAudit: (profileId: string) => Promise<void>,
-  onError: (error: unknown) => void,
-) {
-  return subscribeEvent(
-    store,
-    profileSaved,
-    (profile) => writeAudit(profile.id),
-    { onError },
-  );
-}
-// Owner calls the returned function when this application/session ends.
-// #endregion subscription
-
 // #region bond
 export function createNotifications(model: ReturnType<typeof createProfile>) {
   const $enabled = stateAtom(true);
@@ -166,7 +149,7 @@ export const NameField = holo({
   view: NameView,
   read: { name: $name },
   write: { onChange: changeName },
-  props: { title: 'Display name' },
+  static: { title: 'Display name' },
 });
 // <NameField /> has no required public props.
 // #endregion holo

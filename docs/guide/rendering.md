@@ -2,7 +2,7 @@
 
 ## What is lazy?
 
-An atom declaration does not run its calculation. Reading the atom starts the calculation; subscribing keeps its dependencies active. Likewise, `holo` subscribes when mounted, `bond` connects through `connect(store)`, and event listeners activate through `subscribeEvent`.
+An atom declaration does not run its calculation. Reading the atom starts the calculation; subscribing keeps its dependencies active. Likewise, `holo` subscribes when mounted, `bond` connects through `connect(store)`.
 
 | Operation                                    | Expected work                                       |
 | -------------------------------------------- | --------------------------------------------------- |

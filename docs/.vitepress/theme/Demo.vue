@@ -39,7 +39,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="holo-example">
+  <div class="holo-example" :class="{ 'holo-example-wide': kind === 'analytics' }">
     <div class="example-live">
       <div class="example-toolbar">
         <span><span class="example-dot" />{{ theme.docsUi.liveExample }}</span

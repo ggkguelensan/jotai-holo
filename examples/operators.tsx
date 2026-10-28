@@ -10,7 +10,7 @@ import {
 } from 'jotai-holo';
 
 type User = { id: number; name: string };
-const $$users = pipe(() => {
+function createUsersModel() {
   const $users = stateAtom<readonly User[]>([]);
   const $nextId = stateAtom(1);
 
@@ -21,7 +21,9 @@ const $$users = pipe(() => {
   });
 
   return { $users, addUser };
-}, modelRegistry());
+}
+
+const $$users = pipe(createUsersModel, modelRegistry());
 
 const $users = stateAtom((get) => get(get($$users()).$users));
 

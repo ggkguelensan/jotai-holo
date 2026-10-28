@@ -6,7 +6,7 @@ import { atom, createStore } from 'jotai/vanilla';
 import { createFormControl } from 'react-hook-form';
 import { actionAtom, eventAtom, stateAtom, bond } from '../../src/vanilla.js';
 import { modelRegistry, pipe } from '../../src/model.js';
-import { mutationAtoms } from '../../src/query.js';
+import { createMutationModel } from '../../src/query.js';
 import { createShipmentDefinition as defineShipment } from '../../examples/model-composition.js';
 import { createFormModel } from '../../src/rhf.js';
 export { createSearchModel } from '../../examples/analytics/search-model.js';
@@ -154,7 +154,7 @@ export declare const loadSearchAnalytics: () => Promise<
 export type ProposalInput = { proposalId: string; discount: number; comment: string };
 export type Proposal = ProposalInput & { approved: boolean };
 export const proposalSaved = eventAtom<Proposal>();
-export const saving = mutationAtoms({
+export const $$proposalMutation = createMutationModel({
   mutation: () => ({
     mutationFn: async (input: ProposalInput): Promise<Proposal> => ({ ...input, approved: true }),
   }),

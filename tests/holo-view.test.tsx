@@ -22,7 +22,7 @@ test('new bindings render on the server without acquiring any resources or handl
     view: View,
     models: { counter: $$model, _lifetime: $$owner0, _connections: $$owner1 },
     read: ({ counter }) => ({ count: counter.$count }),
-    props: { title: 'Count' },
+    static: { title: 'Count' },
   });
   expect(renderToStaticMarkup(<Connected />)).toBe('<b>Count:2</b>');
   expect(connect).not.toHaveBeenCalled();
@@ -43,7 +43,7 @@ test('native async models and async reads resolve before rendering the View', as
 test('duplicate bindings and non-event imperative sources are rejected for JS callers too', () => {
   const View = (_props: { value: number }) => null;
   // @ts-expect-error Duplicate read/props bindings.
-  const Duplicate = holo({ view: View, read: { value: atom(0) }, props: { value: 1 } });
+  const Duplicate = holo({ view: View, read: { value: atom(0) }, static: { value: 1 } });
   expect(() => renderToStaticMarkup(<Duplicate />)).toThrow();
 });
 
@@ -69,7 +69,7 @@ function typeChecks() {
     models: { current: (input: { id: string }) => $$model({ key: [input.id] }) },
     read: ({ current }) => ({ count: current.$count }),
     write: ({ current }) => ({ onIncrement: current.increment }),
-    props: { title: 'Title' },
+    static: { title: 'Title' },
     imperative: ({ current }) => ({ onCreated: current.event }),
   });
   expectTypeOf<ComponentProps<typeof Connected>>().toEqualTypeOf<{ id: string }>();
@@ -91,8 +91,8 @@ function typeChecks() {
   // @ts-expect-error Unknown imperative method.
   holo({ view: View, imperative: { unknown: event } });
   // @ts-expect-error Duplicate write/props binding.
-  holo({ view: View, write: { onIncrement: increment }, props: { onIncrement: () => 1 } });
-  const Intrinsic = holo({ view: 'input', props: { type: 'text' } });
+  holo({ view: View, write: { onIncrement: increment }, static: { onIncrement: () => 1 } });
+  const Intrinsic = holo({ view: 'input', static: { type: 'text' } });
   const ref = <Intrinsic ref={createRef<HTMLInputElement>()} />;
   // @ts-expect-error Preserve DOM ref type.
   const wrongRef = <Intrinsic ref={createRef<HTMLButtonElement>()} />;

@@ -15,7 +15,7 @@ import { queryClientAtom } from './query-client-atom.js';
 
 export { queryClientAtom } from './query-client-atom.js';
 
-export function queryAtoms<
+export function createQueryModel<
   QueryData,
   Error = DefaultError,
   Data = QueryData,
@@ -49,7 +49,7 @@ export function queryAtoms<
     const client = isAtom(provided) ? get(provided as Atom<QueryClient | null>) : provided;
     if (!client)
       throw new Error(
-        'queryAtoms: provide the application QueryClient through queryClientAtom or client.',
+        'createQueryModel: provide the application QueryClient through queryClientAtom or client.',
       );
     const options = client.defaultQueryOptions(get($options));
     options._optimisticResults = 'optimistic';
@@ -96,4 +96,4 @@ export function queryAtoms<
   return prism($result, config.prism);
 }
 
-export { mutationAtoms, type MutationSnapshot } from './mutation-atoms.js';
+export { createMutationModel, type MutationSnapshot } from './mutation-model.js';

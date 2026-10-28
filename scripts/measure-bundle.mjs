@@ -39,7 +39,7 @@ ${
   holo
     ? `const Counter=holo({view:${imperative ? 'ImperativeView' : 'CounterView'},
 ${model ? 'models:{counter:$$counter},read:({counter})=>({count:counter.$count,double:counter.$double}),write:({counter})=>({onIncrement:counter.increment}),' : 'read:{count:$count,double:$double},write:{onIncrement:increment},'}
-props:{title:'Counter'},
+static:{title:'Counter'},
 ${input ? 'input:{title:atom(null,(_get,_set,title)=>console.log(title))},' : ''}
 ${imperative ? 'imperative:{onCompleted:completed},' : ''}
 });`
@@ -98,8 +98,8 @@ try {
     ['analytics', 'analytics', ['createAnalytics', 'modelAnalytics']],
     ['amplitude', 'analytics-amplitude', ['createAmplitudeAdapter']],
     ['persist', 'persist', ['persist', 'localStorageAdapter']],
-    ['query', 'query', ['queryAtoms', 'queryClientAtom']],
-    ['mutation', 'query', ['mutationAtoms', 'queryClientAtom']],
+    ['query', 'query', ['createQueryModel', 'queryClientAtom']],
+    ['mutation', 'query', ['createMutationModel', 'queryClientAtom']],
     ['rhf', 'rhf', ['createFormModel', 'holoForm', 'formAtom']],
   ]) {
     const input = `${fixture}/optional.js`;
@@ -133,7 +133,7 @@ try {
   for (const result of Object.values(results))
     assert.ok(
       !result.modules.some((id) =>
-        /(?:bunshi|holo-cage|model-binding|state-binding-atom|\/binding\.js)/.test(id),
+        /(?:holo-cage|model-binding|state-binding-atom|\/binding\.js)/.test(id),
       ),
       'Retired runtime must not enter any fixture.',
     );

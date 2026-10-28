@@ -87,7 +87,7 @@ export type HoloConfig<
     { [Key in WriteKeys]: Key extends ReadKeys ? never : Callable<PropsOf<NoInfer<View>>[Key]> },
     Sources
   >;
-  props?: {
+  static?: {
     [Key in StaticKeys]: Key extends ReadKeys | WriteKeys | 'imperative'
       ? never
       : NoInfer<PropsOf<View>[Key]>;
@@ -123,7 +123,7 @@ export type ViewRuntimeConfig = {
   models?: Models;
   read?: RuntimeFactory<Record<string, Atom<unknown>>>;
   write?: RuntimeFactory<Record<string, WritableAtom<unknown, never[], unknown>>>;
-  props?: RecordValue;
+  static?: RecordValue;
   imperative?: RuntimeFactory<Record<string, ActionSource<never[]>>>;
   input?: RuntimeFactory<Record<string, WritableAtom<unknown, never[], unknown>>>;
   onError?: (error: unknown) => void;
@@ -147,6 +147,9 @@ export function connectView(
     'state',
     'actions',
     'bindProps',
+    'props',
+    'staticProps',
+    'inputProps',
     'cage',
     'model',
     'lifecycle',
@@ -154,7 +157,7 @@ export function connectView(
   ])
     if (field in config)
       throw new TypeError(
-        `holo: unsupported field "${field}". Use view/read/write/props/models/input.`,
+        `holo: unsupported field "${field}". Use view/read/write/static/models/input.`,
       );
   if (!config.view) throw new TypeError('holo: view is required.');
   const sources = Object.entries(config.models ?? {});
@@ -168,7 +171,7 @@ export function connectView(
     }
   };
   const hasImperative = config.imperative !== undefined;
-  const staticProps = { ...config.props };
+  const staticProps = { ...config.static };
   const useModels = createUseBindingState(sources.map(([key]) => key));
   type Owner = { current?: { lease: object; close(): void } | undefined };
   type BoundInput = { ownProps: RecordValue; owner: Owner };

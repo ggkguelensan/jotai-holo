@@ -14,17 +14,17 @@ function NameField() {
 }
 ```
 
-That is a good choice for a small component. When this pattern repeats across a UI, `holo` expresses the same wiring once:
+Use `holo` when this part of the screen deserves its own View and binding. Decomposition is enough reason; the wiring does not need to repeat first:
 
 <<< @/../examples/documentation.tsx#holo
 
-Keep the View separate when you want to reuse it in stories, test it with props or bind subscriptions to a small part of the screen. For a local component that already uses several hooks, `useAtomValue` and `useSetAtom` may be simpler.
+Connect small Views lower in the tree, near the data they display. Move business decisions, commands and synchronization into atom models; keep React responsible for presentation and native UI hooks. This reduces business effects inside components and lets each View render with ordinary props. See [Business logic and small Views](/guide/business-logic) for the architecture and its boundaries.
 
-## Why separate read, write and props?
+## Why separate read, write and static?
 
 A writable atom can supply both a value and a callback. A function might be a prop, a React component, or an action. Separate sections make the operation explicit without guessing from runtime object shapes. The same native atom can appear in `read` and `write` under different prop names.
 
-`view` names the React component. `props` means fixed View props. `input` maps committed caller props to model actions.
+`view` names the React component. `static` means fixed View props. `input` maps committed caller props to model actions.
 
 ## A small vocabulary, native semantics
 

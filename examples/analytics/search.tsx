@@ -15,88 +15,107 @@ export const $$search = pipe(
     ),
   ),
 );
+// #endregion analytics-binding
 
-function SearchView({
+function SearchFormView({
   query,
-  products,
-  selectedProduct,
   onTermChange,
   onSearch,
-  onProductOpen,
-  onProductClose,
 }: {
   initialTerm: string;
   query: string;
-  products: readonly Product[];
-  selectedProduct: Product | null;
-  onProductClose: () => void;
   onTermChange: (value: string) => void;
   onSearch: () => void;
+}) {
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        onSearch();
+      }}
+    >
+      <input
+        aria-label="Catalog search"
+        value={query}
+        onChange={(event) => onTermChange(event.target.value)}
+      />
+      <button type="submit">Search catalog</button>
+    </form>
+  );
+}
+
+export const SearchForm = holo({
+  models: { search: $$search },
+  view: SearchFormView,
+  read: ({ search: $$search }) => ({ query: $$search.$query }),
+  write: ({ search: $$search }) => ({
+    onTermChange: $$search.termChanged,
+    onSearch: $$search.search,
+  }),
+  input: ({ search: $$search }) => ({ initialTerm: $$search.termChanged }),
+});
+
+function ProductListView({
+  products,
+  onProductOpen,
+}: {
+  products: readonly Product[];
   onProductOpen: (fact: { productId: string; position: number }) => void;
 }) {
+  return (
+    <ul>
+      {products.map((product, position) => (
+        <li key={product.id}>
+          <button
+            onClick={() => onProductOpen({ productId: product.id, position })}
+          >
+            {product.name} · ${product.price}
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export const ProductList = holo({
+  models: { search: $$search },
+  view: ProductListView,
+  read: ({ search: $$search }) => ({ products: $$search.$products }),
+  write: ({ search: $$search }) => ({ onProductOpen: $$search.openProduct }),
+});
+
+function ProductDetailsView({
+  product,
+  onClose,
+}: {
+  product: Product | null;
+  onClose: () => void;
+}) {
+  if (!product) return null;
+  return (
+    <article>
+      <h3>{product.name}</h3>
+      <p>${product.price}</p>
+      <button onClick={onClose}>Close details</button>
+    </article>
+  );
+}
+
+export const ProductDetails = holo({
+  models: { search: $$search },
+  view: ProductDetailsView,
+  read: ({ search: $$search }) => ({ product: $$search.$selectedProduct }),
+  write: ({ search: $$search }) => ({ onClose: $$search.closeProduct }),
+});
+
+export function AnalyticsSearch({ initialTerm }: { initialTerm: string }) {
   return (
     <section>
       <h2>Product search and independent analytics</h2>
       <p>Local catalog; recording adapters, no external SDK or requests.</p>
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-          onSearch();
-        }}
-      >
-        <input
-          aria-label="Catalog search"
-          value={query}
-          onChange={(event) => onTermChange(event.target.value)}
-        />
-        <button type="submit">Search catalog</button>
-      </form>
-      <ul>
-        {products.map((product, position) => (
-          <li key={product.id}>
-            <button
-              onClick={() =>
-                onProductOpen({
-                  productId: product.id,
-                  position,
-                })
-              }
-            >
-              {product.name} · ${product.price}
-            </button>
-          </li>
-        ))}
-      </ul>
-      {selectedProduct && (
-        <article>
-          <h3>{selectedProduct.name}</h3>
-          <p>${selectedProduct.price}</p>
-          <button onClick={onProductClose}>Close details</button>
-        </article>
-      )}
+      <SearchForm initialTerm={initialTerm} />
+      <ProductList />
+      <ProductDetails />
     </section>
   );
 }
-
-export const AnalyticsSearch = holo({
-  models: { search: $$search },
-  view: SearchView,
-
-  read: ({ search }) => ({
-    query: search.$query,
-    products: search.$products,
-    selectedProduct: search.$selectedProduct,
-  }),
-
-  write: ({ search }) => ({
-    onTermChange: search.termChanged,
-    onSearch: search.search,
-    onProductOpen: search.openProduct,
-    onProductClose: search.closeProduct,
-  }),
-
-  input: ({ search }) => ({
-    initialTerm: search.termChanged,
-  }),
-});
-// #endregion analytics-binding

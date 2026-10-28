@@ -1,4 +1,4 @@
-# mutationAtoms
+# createMutationModel
 
 Save a proposal from a Jotai action and display pending, success, and error states through separate atoms. This local simulation rejects discounts above 25%; no network request is sent.
 
@@ -14,7 +14,7 @@ Optional entry: `jotai-holo/query`. Requires `@tanstack/query-core` v5. Share yo
 
 ## Contract
 
-`mutationAtoms({ mutation, prism?, client? }) → { mutate, reset, ...projections }`
+`createMutationModel({ mutation, prism?, client? }) → { mutate, reset, ...projections }`
 
 - `mutation` is a native mutation-options factory. It runs once per initialized store/client pair, not on every render or invocation. Variables carry changing business inputs; use actionAtom or bond to collect current atom values.
 - `mutate` is an actionAtom accepting the factory's variables and returning its native execution Promise. Void and optional variables can be omitted. Each invocation executes independently, including without React or mounted projections.
@@ -28,7 +28,7 @@ Await the returned Promise to continue after this particular call. An error proj
 
 ```tsx
 const save = actionAtom(async (_get, set, input: ProposalInput) => {
-  const proposal = await set(saving.mutate, input);
+  const proposal = await set($$proposalMutation.mutate, input);
 
   set(proposalSaved, proposal);
   return proposal;
@@ -53,13 +53,13 @@ TanStack owns the mutation cache and gcTime. The adapter retains its latest resu
 
 ### Native options
 
-Client/key defaults, retry, networkMode, paused state, scope serialization, meta, optimistic updates, rollback, and native options callbacks retain query-core behavior. Async callbacks are awaited by TanStack; the adapter never invokes them again. Query-cache updates remain visible to native useQuery and queryAtoms using the same client.
+Client/key defaults, retry, networkMode, paused state, scope serialization, meta, optimistic updates, rollback, and native options callbacks retain query-core behavior. Async callbacks are awaited by TanStack; the adapter never invokes them again. Query-cache updates remain visible to native useQuery and createQueryModel using the same client.
 
 React-only throwOnError is unsupported. Enabled values, including inherited client defaults, fail explicitly during runtime initialization. Native factory types may widen this option, so validation occurs at runtime. Catch execution errors or read an error projection. Per-call mutate callbacks, cancellation, and automatic query invalidation are not added.
 
 ## Why this API
 
-Use native useMutation when a component owns the operation. Use mutationAtoms when a Jotai model must execute it or several Views need separate state projections. The adapter reuses actionAtom and prism; it adds execution ownership and store isolation without another cache or retry engine.
+Use native useMutation when React owns the operation. Use createMutationModel only when the atom/model system needs to execute the mutation or react to its state. Several UI consumers alone do not require an atom adapter. Existing createMutationModel does not prevent native hooks elsewhere; shared mutation keys do not share an observer or execution state.
 
 atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.write and bond.write. Observing all mutations, including those launched by useMutation, is a separate cache-level task.
 

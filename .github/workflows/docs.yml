@@ -22,7 +22,10 @@ jobs:
         env:
           DOCS_BASE: /${{ github.event.repository.name }}/
       - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test:docs
+      - run: |
+          pnpm test:docs
+          pnpm test:docs-annotations
+          pnpm test:docs-analytics
         env:
           DOCS_BASE: /${{ github.event.repository.name }}/
       - uses: actions/upload-pages-artifact@v3

@@ -1,7 +1,7 @@
 import { QueryClient, queryOptions, skipToken } from '@tanstack/react-query';
 import { atom, createStore } from 'jotai/vanilla';
 import { afterEach, expect, expectTypeOf, test, vi } from 'vitest';
-import { queryAtoms, queryClientAtom } from '../src/query.js';
+import { createQueryModel, queryClientAtom } from '../src/query.js';
 
 const clients: QueryClient[] = [];
 const client = () => {
@@ -21,7 +21,7 @@ test('declaration is lazy, reads do not fetch, mounted projections share one obs
   const unused = vi.fn(() => {
     throw new Error('unused projection');
   });
-  const query = queryAtoms({
+  const query = createQueryModel({
     query: options,
     client: cache,
     prism: {
@@ -54,7 +54,7 @@ test('reactive factory parameters switch query keys while preserving a single ac
   const $id = atom('one');
   const detailQO = ({ id }: { id: string }) =>
     queryOptions({ queryKey: ['user', { id }] as const, queryFn: async () => ({ id }) });
-  const query = queryAtoms({
+  const query = createQueryModel({
     state: { id: $id },
     query: detailQO,
     client: cache,
@@ -81,7 +81,7 @@ test('data consumers ignore fetching-only updates and unchanged refetch data', a
   const key = ['same'] as const;
   cache.setQueryData(key, { name: 'Anna' });
   let resolve!: (data: { name: string }) => void;
-  const query = queryAtoms({
+  const query = createQueryModel({
     query: () =>
       queryOptions({
         queryKey: key,
@@ -121,7 +121,7 @@ test('client replacement and stores isolate observers, snapshots and selected da
   const key = ['user'];
   first.setQueryData(key, { name: 'First' });
   second.setQueryData(key, { name: 'Second' });
-  const query = queryAtoms({
+  const query = createQueryModel({
     query: () =>
       queryOptions({
         queryKey: key,
@@ -153,13 +153,13 @@ test('skipToken and enabled preserve native blocking, and a later enabled state 
   const cache = client();
   const $enabled = atom(false);
   const fetch = vi.fn(async () => 1);
-  const query = queryAtoms({
+  const query = createQueryModel({
     state: { enabled: $enabled },
     query: ({ enabled }) => queryOptions({ queryKey: ['enabled'], enabled, queryFn: fetch }),
     client: cache,
     prism: { $data: (result) => result.data },
   });
-  const skipped = queryAtoms({
+  const skipped = createQueryModel({
     query: () => queryOptions({ queryKey: ['unavailable'], queryFn: skipToken }),
     client: cache,
     prism: { $data: (result) => result.data },
@@ -178,7 +178,7 @@ test('background errors retain data and errors remain typed without implicit thr
   const cache = client();
   const error = new Error('offline');
   cache.setQueryData(['user'], { name: 'Anna' });
-  const query = queryAtoms({
+  const query = createQueryModel({
     query: () =>
       queryOptions({
         queryKey: ['user'],
@@ -205,7 +205,7 @@ test('key replacement and last unsubscribe abort consumed signals; late response
   const $id = atom('one');
   const signals = new Map<string, AbortSignal>();
   const finish = new Map<string, (value: string) => void>();
-  const query = queryAtoms({
+  const query = createQueryModel({
     state: { id: $id },
     client: cache,
     query: ({ id }) =>
@@ -241,7 +241,7 @@ test('mount reconciles cache updates made while detached and native hydration pr
   const key = ['hydrated'];
   server.setQueryData(key, { name: 'Server' });
   hydrate(browser, dehydrate(server));
-  const query = queryAtoms({
+  const query = createQueryModel({
     client: browser,
     query: () =>
       queryOptions({
@@ -269,7 +269,11 @@ test('remount after query-cache eviction attaches to a fresh cache entry and ref
   const fetch = vi.fn(async () => value);
   const options = () =>
     queryOptions({ queryKey: ['evicted'], queryFn: fetch, staleTime: Infinity, gcTime: 0 });
-  const query = queryAtoms({ client: cache, query: options, prism: { $data: (r) => r.data } });
+  const query = createQueryModel({
+    client: cache,
+    query: options,
+    prism: { $data: (r) => r.data },
+  });
   const store = createStore();
   const stop = store.sub(query.$data, () => {});
   await tick();

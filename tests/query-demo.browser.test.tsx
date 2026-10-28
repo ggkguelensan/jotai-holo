@@ -2,7 +2,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { createStore, Provider } from 'jotai';
 import { act, Profiler } from 'react';
 import { expect, test, vi } from 'vitest';
-import CatalogDemo, { product, productDetailQO } from '../examples/docs/query.js';
+import CatalogDemo, { $$productQuery, productDetailQO } from '../examples/docs/query.js';
 import { queryClientAtom } from '../src/query.js';
 import { createHarness, deferred } from './browser-harness.js';
 
@@ -62,15 +62,15 @@ test('screen ignores background fetching and renders error, empty and recovered 
   const commitsBefore = committed.mock.calls.length;
   const card = h.container.querySelector('[role="status"]');
   const screenChanged = vi.fn();
-  const stop = store.sub(product.$screen, screenChanged);
+  const stop = store.sub($$productQuery.$screen, screenChanged);
   const pending = deferred<typeof desk>();
   let refetch!: Promise<typeof desk | null>;
   await act(async () => {
     refetch = client.fetchQuery({ ...options, staleTime: 0, queryFn: () => pending.promise });
     await settle();
   });
-  expect(store.get(product.$refreshing)).toBe(true);
-  expect(store.get(product.$screen)).toBe('ready');
+  expect(store.get($$productQuery.$refreshing)).toBe(true);
+  expect(store.get($$productQuery.$screen)).toBe('ready');
   expect(screenChanged).not.toHaveBeenCalled();
   expect(committed).toHaveBeenCalledTimes(commitsBefore);
   expect(h.container.querySelector('[role="status"]')).toBe(card);
@@ -91,13 +91,13 @@ test('screen ignores background fetching and renders error, empty and recovered 
       .catch(() => {});
     await settle();
   });
-  expect(store.get(product.$screen)).toBe('error');
+  expect(store.get($$productQuery.$screen)).toBe('error');
   expect(h.container.querySelector('[role="alert"]')?.textContent).toBe('Catalog unavailable');
   await act(async () => {
     client.setQueryData(options.queryKey, null);
     await settle();
   });
-  expect(store.get(product.$screen)).toBe('empty');
+  expect(store.get($$productQuery.$screen)).toBe('empty');
   expect(h.container.textContent).toContain('Product not found.');
   await act(async () => {
     client.setQueryData(options.queryKey, desk);

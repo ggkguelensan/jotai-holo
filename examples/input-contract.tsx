@@ -65,7 +65,7 @@ export const Counter = holo({
 
   input: ({ counter }) => ({ initial: counter.$count }),
 
-  props: { title: 'Counter' },
+  static: { title: 'Counter' },
 });
 // #endregion input-binding
 

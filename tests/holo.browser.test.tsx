@@ -1,13 +1,8 @@
+import { captureEvent } from './event-harness.js';
 import { atom, createStore, Provider } from 'jotai';
 import { act, StrictMode, Suspense, startTransition, type ComponentProps } from 'react';
 import { expect, expectTypeOf, test, vi } from 'vitest';
-import {
-  holo,
-  eventAtom,
-  subscribeEvent,
-  useImperativeHolo,
-  type HoloImperative,
-} from '../src/index.js';
+import { holo, eventAtom, useImperativeHolo, type HoloImperative } from '../src/index.js';
 import { createModel } from '../src/model-registry.js';
 import { createHarness, deferred, suspense } from './browser-harness.js';
 
@@ -46,7 +41,7 @@ test('each input binding compares independently, and fixed props win', async () 
       count: atom(null, (_g, _s, v: number) => count(v)),
       fixed: atom(null, (_g, _s, v: string) => name(v)),
     },
-    props: { fixed: 'fixed' },
+    static: { fixed: 'fixed' },
   });
   const h = createHarness();
   await h.render(<Connected name="a" count={1} />);
@@ -62,7 +57,7 @@ test('input subscriptions are absent and direct targets may be native writable s
   const changed = eventAtom<string>();
   const received = vi.fn();
   const store = createStore();
-  const stop = subscribeEvent(store, changed, received);
+  const stop = captureEvent(store, changed, received);
   const Connected = holo({
     view: (_props: { term: string; fact: string }) => null,
     input: { term: $term, fact: changed },
@@ -266,7 +261,7 @@ test('input facts reach connected analytics resources and committed imperative m
   }
   const $$owner3 = createModel({
     create: () => ({}),
-    resources: () => [{ connect: (store) => subscribeEvent(store, event, tracked) }],
+    resources: () => [{ connect: (store) => captureEvent(store, event, tracked) }],
   });
   const Connected = holo({
     models: { _connections: $$owner3 },
@@ -315,7 +310,10 @@ test('input errors are isolated and async failures are reported', async () => {
 
 function typeChecks() {
   const changed = atom(null, (_g, _s, v: string) => {});
-  const Connected = holo({ view: (_props: { term: string }) => null, input: { term: changed } });
+  const Connected = holo({
+    view: (_props: { term: string }) => null,
+    input: { term: changed },
+  });
   expectTypeOf<ComponentProps<typeof Connected>>().toEqualTypeOf<{ term: string }>();
   // @ts-expect-error Input bindings do not provide required View props.
   const missing = <Connected />;

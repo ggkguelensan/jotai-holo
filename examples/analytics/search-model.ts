@@ -16,6 +16,7 @@ export function createSearchModel() {
 
   const searchCompleted = eventAtom<{
     query: string;
+    category: string;
     resultCount: number;
     durationMs: number;
   }>();
@@ -38,6 +39,7 @@ export function createSearchModel() {
     set($products, found);
     set(searchCompleted, {
       query,
+      category: get($category),
       resultCount: found.length,
       durationMs: performance.now() - started,
     });

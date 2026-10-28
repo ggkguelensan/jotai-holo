@@ -1,6 +1,7 @@
+import { captureEvent } from './event-harness.js';
 import { atom, createStore } from 'jotai/vanilla';
 import { expect, expectTypeOf, test, vi } from 'vitest';
-import { actionAtom, bond, eventAtom, subscribeEvent, type EventAtom } from '../src/vanilla.js';
+import { actionAtom, bond, eventAtom, type EventAtom } from '../src/vanilla.js';
 
 test('eventAtom delivers every write without storing, cloning or replaying its payload', () => {
   const userCreated = eventAtom<{ id: string }>();
@@ -11,13 +12,13 @@ test('eventAtom delivers every write without storing, cloning or replaying its p
   const notified = vi.fn();
   const stopValue = s.sub(userCreated, notified);
   s.set(userCreated, user);
-  const stopFirst = subscribeEvent(s, userCreated, first);
+  const stopFirst = captureEvent(s, userCreated, first);
   expect(first).not.toHaveBeenCalled();
   expect(s.set(userCreated, user)).toBeUndefined();
   s.set(userCreated, user);
   expect(first.mock.calls).toEqual([[user], [user]]);
   expect(first.mock.calls[0]![0]).toBe(user);
-  const stopSecond = subscribeEvent(s, userCreated, second);
+  const stopSecond = captureEvent(s, userCreated, second);
   expect(second).not.toHaveBeenCalled();
   expect(s.get(userCreated)).toBeNull();
   expect(notified).not.toHaveBeenCalled();
@@ -36,7 +37,7 @@ test('event subscriptions belong to one store and payloadless events need no arg
   const b = createStore();
   const first = vi.fn();
   const second = vi.fn();
-  const stops = [subscribeEvent(a, opened, first), subscribeEvent(b, opened, second)];
+  const stops = [captureEvent(a, opened, first), captureEvent(b, opened, second)];
   a.set(opened);
   expect(first.mock.calls).toEqual([[undefined]]);
   expect(second).not.toHaveBeenCalled();
@@ -46,13 +47,13 @@ test('event subscriptions belong to one store and payloadless events need no arg
   expectTypeOf(opened).toEqualTypeOf<EventAtom<void>>();
 });
 
-test('eventAtom triggers bond with an inferred payload and works as a writable yield target', () => {
+test('eventAtom triggers bond with an inferred payload and works as a writable target', () => {
   const requested = eventAtom<{ id: string }>();
   const delivered = eventAtom<string>();
   const link = bond({ trigger: requested, map: (user) => [user.id], write: delivered });
   const s = createStore();
   const received = vi.fn();
-  const stopListen = subscribeEvent(s, delivered, received);
+  const stopListen = captureEvent(s, delivered, received);
   s.set(requested, { id: 'cold' });
   expect(received).not.toHaveBeenCalled();
   const stop = link.connect(s);
@@ -68,7 +69,7 @@ test('event subscriptions and bond share FIFO delivery even with reentrant write
   const event = eventAtom<number>();
   const s = createStore();
   const log: string[] = [];
-  const first = subscribeEvent(s, event, (n) => {
+  const first = captureEvent(s, event, (n) => {
     log.push(`first:${n}`);
     if (n < 2) s.set(event, n + 1);
   });
@@ -79,7 +80,7 @@ test('event subscriptions and bond share FIFO delivery even with reentrant write
     }),
   });
   const stopBond = link.connect(s);
-  const last = subscribeEvent(s, event, (n) => {
+  const last = captureEvent(s, event, (n) => {
     log.push(`last:${n}`);
   });
   s.set(event, 0);
@@ -106,12 +107,12 @@ test('unsubscribe skips an already queued listener and listeners added during de
   const late = vi.fn();
   let stopSecond = () => {};
   let stopLate = () => {};
-  const stopFirst = subscribeEvent(s, event, () => {
+  const stopFirst = captureEvent(s, event, () => {
     stopSecond();
     stopLate();
-    stopLate = subscribeEvent(s, event, late);
+    stopLate = captureEvent(s, event, late);
   });
-  stopSecond = subscribeEvent(s, event, seen);
+  stopSecond = captureEvent(s, event, seen);
   s.set(event, 1);
   expect(seen).not.toHaveBeenCalled();
   expect(late).not.toHaveBeenCalled();
@@ -129,7 +130,7 @@ test('sync and async listener errors are reported without interrupting other lis
   const async = new Error('async');
   const received = vi.fn();
   const stops = [
-    subscribeEvent(
+    captureEvent(
       s,
       event,
       () => {
@@ -137,7 +138,7 @@ test('sync and async listener errors are reported without interrupting other lis
       },
       { onError: (e) => errors.push(e) },
     ),
-    subscribeEvent(
+    captureEvent(
       s,
       event,
       async () => {
@@ -145,7 +146,7 @@ test('sync and async listener errors are reported without interrupting other lis
       },
       { onError: (e) => errors.push(e) },
     ),
-    subscribeEvent(s, event, received),
+    captureEvent(s, event, received),
   ];
   expect(s.set(event, 1)).toBeUndefined();
   await Promise.resolve();
@@ -160,7 +161,7 @@ test('promise payloads are delivered as data without being awaited', async () =>
   const s = createStore();
   const promise = Promise.resolve(1);
   const listener = vi.fn();
-  const stop = subscribeEvent(s, event, listener);
+  const stop = captureEvent(s, event, listener);
   s.set(event, promise);
   expect(listener.mock.calls[0]![0]).toBe(promise);
   stop();
@@ -172,7 +173,7 @@ test('subscribing to an event does not execute or mount unrelated state', () => 
   const $state = atom(read);
   const event = eventAtom<string>();
   const s = createStore();
-  const stop = subscribeEvent(s, event, () => {});
+  const stop = captureEvent(s, event, () => {});
   s.set(event, 'value');
   expect(read).not.toHaveBeenCalled();
   stop();
@@ -190,10 +191,10 @@ function invalidEventCalls() {
   s.set(requested, { id: '1' }, true);
   // @ts-expect-error Event creation takes no write handler.
   eventAtom(() => {});
-  // @ts-expect-error Subscription belongs to the separate utility.
+  // @ts-expect-error Events have no imperative subscription method.
   requested.subscribe(s, () => {});
   // @ts-expect-error Listener payload is inferred from the event.
-  subscribeEvent(s, requested, (value: number) => {});
+  captureEvent(s, requested, (value: number) => {});
 }
 void invalidEventCalls;
 
@@ -201,13 +202,13 @@ test('event listener feedback cycles are bounded and the dispatch queue recovers
   const event = eventAtom();
   const s = createStore();
   const onError = vi.fn();
-  const stop = subscribeEvent(s, event, () => s.set(event), { onError });
+  const stop = captureEvent(s, event, () => s.set(event), { onError });
   s.set(event);
   expect(onError).toHaveBeenCalledTimes(1);
   expect(String(onError.mock.calls[0]![0])).toContain('cycle');
   stop();
   const received = vi.fn();
-  const again = subscribeEvent(s, event, received);
+  const again = captureEvent(s, event, received);
   s.set(event);
   expect(received).toHaveBeenCalledTimes(1);
   again();
@@ -224,7 +225,7 @@ test('unsubscribing releases the listener error handler while pending async fail
   });
   const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
   try {
-    const stop = subscribeEvent(s, event, () => pending, { onError });
+    const stop = captureEvent(s, event, () => pending, { onError });
     s.set(event);
     stop();
     reject(error);
@@ -252,11 +253,11 @@ test('the last unsubscribe detaches delivery and an old disposer cannot disconne
   const s = createStore();
   const first = vi.fn();
   const second = vi.fn();
-  const stopFirst = subscribeEvent(s, event, first);
+  const stopFirst = captureEvent(s, event, first);
   s.set(event, 1);
   stopFirst();
   s.set(event, 2);
-  const stopSecond = subscribeEvent(s, event, second);
+  const stopSecond = captureEvent(s, event, second);
   stopFirst();
   s.set(event, 3);
   expect(first.mock.calls).toEqual([[1]]);
