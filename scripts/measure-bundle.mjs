@@ -98,7 +98,7 @@ try {
     ['analytics', 'analytics', ['createAnalytics', 'modelAnalytics']],
     ['amplitude', 'analytics-amplitude', ['createAmplitudeAdapter']],
     ['persist', 'persist', ['persist', 'localStorageAdapter']],
-    ['query', 'query', ['queryAtoms', 'queryClientAtom']],
+    ['query', 'query', ['queryModel', 'queryClientAtom']],
     ['mutation', 'query', ['mutationAtoms', 'queryClientAtom']],
     ['rhf', 'rhf', ['createFormModel', 'holoForm', 'formAtom']],
   ]) {

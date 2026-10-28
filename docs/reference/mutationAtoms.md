@@ -53,7 +53,7 @@ TanStack owns the mutation cache and gcTime. The adapter retains its latest resu
 
 ### Native options
 
-Client/key defaults, retry, networkMode, paused state, scope serialization, meta, optimistic updates, rollback, and native options callbacks retain query-core behavior. Async callbacks are awaited by TanStack; the adapter never invokes them again. Query-cache updates remain visible to native useQuery and queryAtoms using the same client.
+Client/key defaults, retry, networkMode, paused state, scope serialization, meta, optimistic updates, rollback, and native options callbacks retain query-core behavior. Async callbacks are awaited by TanStack; the adapter never invokes them again. Query-cache updates remain visible to native useQuery and queryModel using the same client.
 
 React-only throwOnError is unsupported. Enabled values, including inherited client defaults, fail explicitly during runtime initialization. Native factory types may widen this option, so validation occurs at runtime. Catch execution errors or read an error projection. Per-call mutate callbacks, cancellation, and automatic query invalidation are not added.
 

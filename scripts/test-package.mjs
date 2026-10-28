@@ -39,10 +39,12 @@ try {
     import { persist, localStorageAdapter } from 'jotai-holo/persist';
     assert.equal(typeof persist, 'function');
     assert.equal(typeof localStorageAdapter, 'function');
-    import { mutationAtoms, queryAtoms, queryClientAtom } from 'jotai-holo/query';
+    import { mutationAtoms, queryModel, queryClientAtom } from 'jotai-holo/query';
+    import * as queryApi from 'jotai-holo/query';
+    assert.deepEqual(Object.keys(queryApi).sort(), ['mutationAtoms', 'queryClientAtom', 'queryModel']);
     import { QueryClient } from '@tanstack/query-core';
     import { createFormModel, formAtom, holoForm } from 'jotai-holo/rhf';
-    assert.equal(typeof queryAtoms, 'function');
+    assert.equal(typeof queryModel, 'function');
     assert.equal(typeof mutationAtoms, 'function');
     assert.equal(typeof holoForm, 'function');
     const createValue = modelApi.defineModel(() => ({value: 1}));

@@ -3,7 +3,7 @@ import { createStore } from 'jotai';
 import { queryClientAtom } from 'jotai-holo/query';
 import { QueryClient } from '@tanstack/react-query';
 import { holo, holoMatch, stateAtom } from 'jotai-holo';
-import { queryAtoms } from 'jotai-holo/query';
+import { queryModel } from 'jotai-holo/query';
 import { queryOptions } from '@tanstack/react-query';
 
 // #region query
@@ -34,7 +34,7 @@ export const productDetailQO = ({ productId }: { productId: string }) =>
     },
   });
 
-export const product = queryAtoms({
+export const product = queryModel({
   state: { productId: $productId },
   query: productDetailQO,
   prism: {

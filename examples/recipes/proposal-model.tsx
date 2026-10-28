@@ -1,5 +1,5 @@
 import { holo, ion, stateAtom } from 'jotai-holo';
-import { queryAtoms } from 'jotai-holo/query';
+import { queryModel } from 'jotai-holo/query';
 import {
   proposalDetailQO,
   toDraft,
@@ -10,7 +10,7 @@ import { ProposalView } from './proposal-views.js';
 
 // #region server-model
 export function createProposalModel(initial: ProposalInput) {
-  const query = queryAtoms({
+  const query = queryModel({
     query: () => proposalDetailQO(initial),
     prism: {
       $proposal: (result) => result.data,

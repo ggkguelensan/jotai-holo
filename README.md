@@ -127,12 +127,12 @@ const Counter = holo({
 | Entry              | Exports                                                                     | Ownership                                                                                |
 | ------------------ | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | `jotai-holo/model` | `defineModel`, `pipe`, `modelRegistry`, `modelLifecycle`, `modelConnection` | Default/keyed instances per Jotai store; committed leases; Infinity retention by default |
-| `jotai-holo/query` | `queryAtoms`, `mutationAtoms`, `queryClientAtom`                            | Native Query/MutationObserver, shared QueryClient, independent prism selectors           |
+| `jotai-holo/query` | `queryModel`, `mutationAtoms`, `queryClientAtom`                            | Native Query/MutationObserver, shared QueryClient, independent prism selectors           |
 | `jotai-holo/rhf`   | `createFormModel`, `holoForm`, `formAtom`                                   | One native RHF control per model; ordinary RHF markup and resolvers                      |
 
 Optional analytics uses `jotai-holo/analytics` (`createAnalytics`, `modelAnalytics`). Vendor adapters have separate entries; `jotai-holo/analytics/amplitude` imports no SDK. `createFormModel` returns a pure factory; apply `modelRegistry()` explicitly.
 
-Declare `holo` outside React. Use named `models` for default or keyed instances; read/write factories receive those names. The registry and optional Query/RHF peers stay outside ordinary holo bundles. See [model contracts](docs/reference/modelRegistry.md), [Query](docs/reference/queryAtoms.md) and [forms](docs/reference/holoForm.md).
+Declare `holo` outside React. Use named `models` for default or keyed instances; read/write factories receive those names. The registry and optional Query/RHF peers stay outside ordinary holo bundles. See [model contracts](docs/reference/modelRegistry.md), [Query](docs/reference/queryModel.md) and [forms](docs/reference/holoForm.md).
 
 ## Rendering and async state
 

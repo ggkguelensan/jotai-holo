@@ -18,7 +18,7 @@ import {
 } from 'jotai-holo';
 
 import { pipe, modelRegistry, modelConnection } from 'jotai-holo/model';
-import { queryAtoms } from 'jotai-holo/query';
+import { queryModel } from 'jotai-holo/query';
 import { createFormModel, holoForm } from 'jotai-holo/rhf';
 import { QueryClient, queryOptions } from '@tanstack/react-query';
 import { useFormContext } from 'react-hook-form';
@@ -109,7 +109,7 @@ const queryClient = new QueryClient();
 const detailQO = () =>
   queryOptions({ queryKey: ['compat'], queryFn: async () => 'Ready', staleTime: Infinity });
 queryClient.setQueryData(detailQO().queryKey, 'Ready');
-const query = queryAtoms({
+const query = queryModel({
   query: detailQO,
   client: queryClient,
   prism: { $data: (result) => result.data },

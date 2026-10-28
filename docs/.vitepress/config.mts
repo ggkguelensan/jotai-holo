@@ -25,7 +25,7 @@ const groups = (t: (message: string) => string) => [
       'modelAnalytics',
       'createAnalytics',
       'modelConnection',
-      'queryAtoms',
+      'queryModel',
       'mutationAtoms',
       'queryClientAtom',
       'createFormModel',

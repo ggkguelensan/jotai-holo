@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 16:53+0500\n"
+"POT-Creation-Date: 2026-10-28 17:22+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -197,8 +197,8 @@ msgstr "Diese Modifier verwalten Arbeit, solange die Instanz einen Besitzer hat.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/atoms-or-models.md
-msgid "For React-only server data and forms, keep native TanStack Query and RHF hooks. Add [queryAtoms](/reference/queryAtoms), [mutationAtoms](/reference/mutationAtoms) or [holoForm](/reference/holoForm) when the atom/model graph needs those values or operations. You do not need to wrap unrelated global atoms in a model to bind them to a View."
-msgstr "Für Serverdaten und Formulare, die nur React braucht, bleiben native TanStack-Query- und RHF-Hooks passend. Ergänze [queryAtoms](/reference/queryAtoms), [mutationAtoms](/reference/mutationAtoms) oder [holoForm](/reference/holoForm), wenn der Atom-/Modellgraph diese Werte oder Operationen benötigt. Unabhängige globale Atome brauchen kein Modell, um eine View zu versorgen."
+msgid "For React-only server data and forms, keep native TanStack Query and RHF hooks. Add [queryModel](/reference/queryModel), [mutationAtoms](/reference/mutationAtoms) or [holoForm](/reference/holoForm) when the atom/model graph needs those values or operations. You do not need to wrap unrelated global atoms in a model to bind them to a View."
+msgstr "Für Serverdaten und Formulare, die nur React braucht, bleiben native TanStack-Query- und RHF-Hooks passend. Ergänze [queryModel](/reference/queryModel), [mutationAtoms](/reference/mutationAtoms) oder [holoForm](/reference/holoForm), wenn der Atom-/Modellgraph diese Werte oder Operationen benötigt. Unabhängige globale Atome brauchen kein Modell, um eine View zu versorgen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -341,8 +341,8 @@ msgstr "Nutze native TanStack-Query-Hooks nahe den React-Verbrauchern, wenn nur 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/business-logic.md
-msgid "Use queryAtoms only when an atom or model needs reactive server data, and mutationAtoms when an atom workflow needs to execute or observe its mutation. Even if these adapters already exist, a React-only consumer can still use native hooks with the same QueryClient. Do not route data through holo merely because it is available as atoms. Mutation keys do not make separate mutation observers share one execution state."
-msgstr "Verwende queryAtoms nur, wenn ein Atom oder Modell reaktive Serverdaten benötigt, und mutationAtoms, wenn ein Atomablauf seine Mutation ausführen oder beobachten muss. Auch bei vorhandenen Adaptern dürfen reine React-Verbraucher native Hooks mit demselben QueryClient nutzen. Leite Daten nicht allein deshalb durch holo, weil sie als Atome verfügbar sind. Mutationsschlüssel geben getrennten Beobachtern keinen gemeinsamen Ausführungszustand."
+msgid "Use queryModel only when an atom or model needs reactive server data, and mutationAtoms when an atom workflow needs to execute or observe its mutation. Even if these adapters already exist, a React-only consumer can still use native hooks with the same QueryClient. Do not route data through holo merely because it is available as atoms. Mutation keys do not make separate mutation observers share one execution state."
+msgstr "Verwende queryModel nur, wenn ein Atom oder Modell reaktive Serverdaten benötigt, und mutationAtoms, wenn ein Atomablauf seine Mutation ausführen oder beobachten muss. Auch bei vorhandenen Adaptern dürfen reine React-Verbraucher native Hooks mit demselben QueryClient nutzen. Leite Daten nicht allein deshalb durch holo, weil sie als Atome verfügbar sind. Mutationsschlüssel geben getrennten Beobachtern keinen gemeinsamen Ausführungszustand."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -392,7 +392,7 @@ msgid "| Task                                    | Start with                   
 "| Reactive external resource              | jotai-effect                        | input bridges committed props; models own managed connections           |\n"
 "| One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality        |\n"
 "| Server data used only by React          | Native TanStack Query hooks         | No atom adapter is required                                             |\n"
-"| Server data needed by atom workflows    | queryAtoms / mutationAtoms          | Named projections and writable actions reuse the existing QueryClient   |\n"
+"| Server data needed by atom workflows    | queryModel / mutationAtoms          | Named projections and writable actions reuse the existing QueryClient   |\n"
 "| Share one model across widgets          | modelRegistry                       | Select a default or keyed instance in the current store                 |"
 msgstr "| Aufgabe | Ausgangspunkt | Beitrag von holo |\n"
 "| --- | --- | --- |\n"
@@ -403,7 +403,7 @@ msgstr "| Aufgabe | Ausgangspunkt | Beitrag von holo |\n"
 "| Reaktive externe Ressource | jotai-effect | input überträgt bestätigte Props; Modelle besitzen Verbindungen |\n"
 "| Aufruf oder Domänenfakt | actionAtom / eventAtom | Jeder Aufruf kann bond unabhängig von Wertgleichheit auslösen |\n"
 "| Serverdaten nur für React | Native TanStack-Query-Hooks | Kein Atomadapter erforderlich |\n"
-"| Serverdaten für Atomabläufe | queryAtoms / mutationAtoms | Projektionen und Aktionen nutzen den vorhandenen QueryClient |\n"
+"| Serverdaten für Atomabläufe | queryModel / mutationAtoms | Projektionen und Aktionen nutzen den vorhandenen QueryClient |\n"
 "| Ein Modell für mehrere Widgets | modelRegistry | Default- oder Schlüsselinstanz im aktuellen Store auswählen |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -451,8 +451,8 @@ msgstr "Verbinde kleine Views mit [holo](/reference/holo) nahe ihren Daten und h
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/ecosystem.md
-msgid "Keep native TanStack Query hooks for React-only consumers, including when queryAtoms already exists elsewhere. Share the QueryClient and options factories; select data at its point of consumption. Use [queryAtoms](/reference/queryAtoms) or [mutationAtoms](/reference/mutationAtoms) only when the atom/model graph needs them. Native useSuspenseQuery supplies Suspense integration; queryAtoms does not synthesize it."
-msgstr "Behalte native TanStack-Query-Hooks für reine React-Verbraucher, auch wenn queryAtoms anderswo existiert. Teile QueryClient und Options-Factories; selektiere am Verbrauchsort. [queryAtoms](/reference/queryAtoms) und [mutationAtoms](/reference/mutationAtoms) sind nur für Abhängigkeiten des Atom-/Modellgraphen nötig. Natives useSuspenseQuery bietet Suspense; queryAtoms erzeugt es nicht."
+msgid "Keep native TanStack Query hooks for React-only consumers, including when queryModel already exists elsewhere. Share the QueryClient and options factories; select data at its point of consumption. Use [queryModel](/reference/queryModel) or [mutationAtoms](/reference/mutationAtoms) only when the atom/model graph needs them. Native useSuspenseQuery supplies Suspense integration; queryModel does not synthesize it."
+msgstr "Behalte native TanStack-Query-Hooks für reine React-Verbraucher, auch wenn queryModel anderswo existiert. Teile QueryClient und Options-Factories; selektiere am Verbrauchsort. [queryModel](/reference/queryModel) und [mutationAtoms](/reference/mutationAtoms) sind nur für Abhängigkeiten des Atom-/Modellgraphen nötig. Natives useSuspenseQuery bietet Suspense; queryModel erzeugt es nicht."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1413,8 +1413,8 @@ msgstr "Der Transportvertrag des Rezepts validiert JSON-Antworten mit Zod. Verwe
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/server-data.md
-msgid "See [queryAtoms](/reference/queryAtoms), [mutationAtoms](/reference/mutationAtoms), [holoForm](/reference/holoForm) and [persist](/runtime#rhf-query-and-persistence) for the individual contracts."
-msgstr "Einzelne Verträge: [queryAtoms](/reference/queryAtoms), [mutationAtoms](/reference/mutationAtoms), [holoForm](/reference/holoForm) und [persist](/runtime#rhf-query-and-persistence)."
+msgid "See [queryModel](/reference/queryModel), [mutationAtoms](/reference/mutationAtoms), [holoForm](/reference/holoForm) and [persist](/runtime#rhf-query-and-persistence) for the individual contracts."
+msgstr "Einzelne Verträge: [queryModel](/reference/queryModel), [mutationAtoms](/reference/mutationAtoms), [holoForm](/reference/holoForm) und [persist](/runtime#rhf-query-and-persistence)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1588,8 +1588,8 @@ msgstr "Beschreibe eine Operation, die Atome liest oder ändert, etwa einen Entw
 #: docs/reference/or.md
 #: docs/reference/pipe.md
 #: docs/reference/prism.md
-#: docs/reference/queryAtoms.md
 #: docs/reference/queryClientAtom.md
+#: docs/reference/queryModel.md
 #: docs/reference/some.md
 #: docs/reference/stateAtom.md
 #: docs/reference/subscribeEvent.md
@@ -1664,8 +1664,8 @@ msgstr "- `actionAtom((get, set, ...args) => result)` liefert ein beschreibbares
 #: docs/reference/or.md
 #: docs/reference/pipe.md
 #: docs/reference/prism.md
-#: docs/reference/queryAtoms.md
 #: docs/reference/queryClientAtom.md
+#: docs/reference/queryModel.md
 #: docs/reference/some.md
 #: docs/reference/stateAtom.md
 #: docs/reference/subscribeEvent.md
@@ -1734,8 +1734,8 @@ msgstr "Natives `atom(null, write)` verarbeitet bereits Befehle. Der Helfer erg�
 #: docs/reference/or.md
 #: docs/reference/pipe.md
 #: docs/reference/prism.md
-#: docs/reference/queryAtoms.md
 #: docs/reference/queryClientAtom.md
+#: docs/reference/queryModel.md
 #: docs/reference/some.md
 #: docs/reference/stateAtom.md
 #: docs/reference/subscribeEvent.md
@@ -2016,7 +2016,7 @@ msgstr "Nutze diese Factory nur, wenn Atome oder Modelle auf Formularzustand ode
 #. js-lingui-explicit-id
 #: docs/reference/createFormModel.md
 #: docs/reference/mutationAtoms.md
-#: docs/reference/queryAtoms.md
+#: docs/reference/queryModel.md
 msgid "Installation"
 msgstr "Installation"
 
@@ -2937,8 +2937,8 @@ msgstr "Native Optionen"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/mutationAtoms.md
-msgid "Client/key defaults, retry, networkMode, paused state, scope serialization, meta, optimistic updates, rollback, and native options callbacks retain query-core behavior. Async callbacks are awaited by TanStack; the adapter never invokes them again. Query-cache updates remain visible to native useQuery and queryAtoms using the same client."
-msgstr "Client-/Key-Defaults, retry, networkMode, Pausenzustand, scope-Serialisierung, meta, optimistische Updates, Rollback und native Options-Callbacks behalten das Verhalten von query-core. TanStack wartet auf asynchrone Callbacks; der Adapter ruft sie nicht erneut auf. Query-Cache-Updates sind für natives useQuery und queryAtoms mit demselben Client sichtbar."
+msgid "Client/key defaults, retry, networkMode, paused state, scope serialization, meta, optimistic updates, rollback, and native options callbacks retain query-core behavior. Async callbacks are awaited by TanStack; the adapter never invokes them again. Query-cache updates remain visible to native useQuery and queryModel using the same client."
+msgstr "Client-/Key-Defaults, retry, networkMode, Pausenzustand, scope-Serialisierung, meta, optimistische Updates, Rollback und native Options-Callbacks behalten das Verhalten von query-core. TanStack wartet auf asynchrone Callbacks; der Adapter ruft sie nicht erneut auf. Query-Cache-Updates sind für natives useQuery und queryModel mit demselben Client sichtbar."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3083,31 +3083,63 @@ msgstr "- [Patronum reshape](https://patronum.effector.dev/operators/reshape/) �
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
-msgid "queryAtoms"
-msgstr "queryAtoms"
+#: docs/reference/queryClientAtom.md
+msgid "queryClientAtom"
+msgstr "queryClientAtom"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
+#: docs/reference/queryClientAtom.md
+msgid "Give Jotai bindings the same QueryClient as the rest of the application. This lets `queryModel` and native `useQuery` share one cache."
+msgstr "Gib Jotai-Bindungen denselben QueryClient wie der Anwendung. So teilen `queryModel` und natives `useQuery` einen Cache."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/queryClientAtom.md
+msgid "A native writable `Atom<QueryClient | null>`, initially null. Query bindings without an explicit client throw a descriptive error if it is missing. Replacing it moves mounted query subscriptions. Create a fresh client/store pair per SSR request. Injection alone does not mount the client or fetch queries."
+msgstr "Natives beschreibbares `Atom<QueryClient | null>`, initial null. Ohne expliziten Client werfen Query-Bindungen bei fehlender Injektion einen erklärenden Fehler. Austausch verschiebt gemountete Query-Abonnements. Erzeuge pro SSR-Request ein neues Client/Store-Paar. Injektion allein mountet weder Client noch lädt sie Queries."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/queryClientAtom.md
+msgid "Explicit client ownership preserves hydration and cache sharing with native React Query. An explicit queryModel client is useful for a self-contained widget; this atom is useful for application-level configuration."
+msgstr "Explizite Client-Zuständigkeit erhält Hydration und Cachefreigabe mit nativem React Query. Ein expliziter queryModel-client eignet sich für eigenständige Widgets, dieses Atom für Anwendungskonfiguration."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/queryClientAtom.md
+msgid "- [QueryClientProvider](https://tanstack.com/query/latest/docs/framework/react/reference/QueryClientProvider) — native client ownership.\n"
+"- [Jotai hydration](https://jotai.org/docs/utilities/ssr) — hydrate values into the request store."
+msgstr "- [QueryClientProvider](https://tanstack.com/query/latest/docs/framework/react/reference/QueryClientProvider) — native Client-Zuständigkeit.\n"
+"- [Jotai hydration](https://jotai.org/docs/utilities/ssr) — Werte in den Request-Store hydrieren."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/queryModel.md
+msgid "queryModel"
+msgstr "queryModel"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/queryModel.md
 msgid "Expose server data to atom workflows through independent projections. Use this adapter when atoms or models need reactive Query results; a React-only consumer can keep native Query hooks."
 msgstr "Stelle Serverdaten für Atomabläufe über unabhängige Projektionen bereit. Der Adapter ist nötig, wenn Atome oder Modelle reaktive Query-Ergebnisse brauchen; reine React-Verbraucher können native Query-Hooks behalten."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
+#: docs/reference/queryModel.md
 msgid "Optional entry: `jotai-holo/query`. Requires `@tanstack/query-core` v5. Use the same version as your application's TanStack Query."
 msgstr "Optionaler Einstieg: `jotai-holo/query`. Benötigt `@tanstack/query-core` v5. Verwende dieselbe Version wie TanStack Query in deiner Anwendung."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
-msgid "`queryAtoms({ state?, query, prism, client? }) → named read-only atoms`"
-msgstr "`queryAtoms({ state?, query, prism, client? }) → named read-only atoms`"
+#: docs/reference/queryModel.md
+msgid "`queryModel({ state?, query, prism, client? }) → named read-only atoms`"
+msgstr "`queryModel({ state?, query, prism, client? }) → named read-only atoms`"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
+#: docs/reference/queryModel.md
 msgid "- `state` accepts the same native atom, tuple, or record inputs as ion. All declared inputs are read when options are needed. The query factory receives their values.\n"
 "- `query` returns complete native QueryObserverOptions. Pass your `productDetailQO(params)` factory result unchanged. Keep keys, query functions, retries, and resource defaults in that factory. No Query Kit runtime is required.\n"
 "- `prism` is an **object of independent selectors**. Unread selectors never execute. Equal selected results do not notify consumers, even if isFetching changes elsewhere in the result. A callback returning all fields is deliberately unsupported.\n"
@@ -3127,25 +3159,37 @@ msgstr "- `state` akzeptiert dieselben nativen Atome, Tupel und Records wie ion.
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
+#: docs/reference/queryModel.md
 msgid "Explicit notifyOnChangeProps also limits native observer notifications. Avoid restrictive lists if your projections read other result fields."
 msgstr "Explizites notifyOnChangeProps begrenzt auch native Observer-Benachrichtigungen. Vermeide restriktive Listen, wenn Projektionen weitere Ergebnisfelder lesen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
+#: docs/reference/queryModel.md
 msgid "The example derives `$screen` directly in `prism` and selects a View with `holoMatch`. Initial loading uses `isPending`; background fetching keeps the ready branch visible. A successful `null` result selects the empty branch. Data and error bindings subscribe only while their branch is mounted. The screen atom does not narrow the separate data atom's TypeScript type, so CardView still checks for missing data."
 msgstr "Das Beispiel leitet `$screen` direkt in `prism` ab und wählt mit `holoMatch` eine View. `isPending` kennzeichnet das erste Laden; während Hintergrundabfragen bleibt die fertige Karte sichtbar. Ein erfolgreiches `null`-Ergebnis wählt den leeren Zweig. Daten- und Fehlerbindungen abonnieren nur, solange ihr Zweig angezeigt wird. Das Screen-Atom schränkt den TypeScript-Typ des separaten Daten-Atoms nicht ein; CardView prüft daher weiterhin auf fehlende Daten."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
-msgid "Prefer native useQuery or useSuspenseQuery with a local select when React alone consumes the data. This remains valid even when another model already uses queryAtoms with the same QueryClient. Use this adapter for atom-graph dependencies; binding its projections through holo is optional. Independent projections reuse prism. The adapter talks directly to QueryObserver without replacing Query's cache or network lifecycle."
-msgstr "Bevorzuge native useQuery oder useSuspenseQuery mit lokalem select, wenn nur React die Daten nutzt. Das gilt auch, wenn ein anderes Modell queryAtoms mit demselben QueryClient verwendet. Der Adapter dient Abhängigkeiten im Atomgraphen; seine Projektionen müssen nicht über holo gebunden werden. Unabhängige Projektionen nutzen prism. Der Adapter verwendet QueryObserver direkt, ohne Cache oder Netzwerklebenszyklus von Query zu ersetzen."
+#: docs/reference/queryModel.md
+msgid "Independent models"
+msgstr "Unabhängige Modelle"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/queryAtoms.md
+#: docs/reference/queryModel.md
+msgid "Declare queryModel outside defineModel. Compose cross-model connections separately from the business factory. The current adapter exposes read-only atom projections; it does not publish an event for every completed request. A projected value change and a request-completion fact have different semantics."
+msgstr "Deklariere queryModel außerhalb von defineModel. Setze modellübergreifende Verbindungen getrennt von der fachlichen Factory zusammen. Der aktuelle Adapter liefert schreibgeschützte Atomprojektionen; er veröffentlicht kein Ereignis für jede abgeschlossene Anfrage. Eine Projektionsänderung und ein Anfrageabschluss haben unterschiedliche Semantik."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/queryModel.md
+msgid "Prefer native useQuery or useSuspenseQuery with a local select when React alone consumes the data. This remains valid even when another model already uses queryModel with the same QueryClient. Use this adapter for atom-graph dependencies; binding its projections through holo is optional. Independent projections reuse prism. The adapter talks directly to QueryObserver without replacing Query's cache or network lifecycle."
+msgstr "Bevorzuge native useQuery oder useSuspenseQuery mit lokalem select, wenn nur React die Daten nutzt. Das gilt auch, wenn ein anderes Modell queryModel mit demselben QueryClient verwendet. Der Adapter dient Abhängigkeiten im Atomgraphen; seine Projektionen müssen nicht über holo gebunden werden. Unabhängige Projektionen nutzen prism. Der Adapter verwendet QueryObserver direkt, ohne Cache oder Netzwerklebenszyklus von Query zu ersetzen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/queryModel.md
 msgid "- [Query Kit](https://github.com/ggkguelensan/tanstack-query-kit) — resource options factories reused without consumer key duplication.\n"
 "- [TanStack render optimizations](https://tanstack.com/query/latest/docs/framework/react/guides/render-optimizations) — structural sharing, select, and tracked properties in useQuery.\n"
 "- [Jotai Query integration](https://jotai.org/docs/extensions/query) — atomWithQuery is a good alternative when one result atom is sufficient.\n"
@@ -3154,38 +3198,6 @@ msgstr "- [Query Kit](https://github.com/ggkguelensan/tanstack-query-kit) — Op
 "- [TanStack render optimizations](https://tanstack.com/query/latest/docs/framework/react/guides/render-optimizations) — Structural Sharing, select und beobachtete Eigenschaften in useQuery.\n"
 "- [Jotai Query integration](https://jotai.org/docs/extensions/query) — atomWithQuery ist eine gute Alternative, wenn ein Ergebnisatom genügt.\n"
 "- [QueryObserver](https://tanstack.com/query/latest/docs/reference/QueryObserver) — nativer Abonnementlebenszyklus."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryClientAtom.md
-msgid "queryClientAtom"
-msgstr "queryClientAtom"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryClientAtom.md
-msgid "Give Jotai bindings the same QueryClient as the rest of the application. This lets `queryAtoms` and native `useQuery` share one cache."
-msgstr "Gib Jotai-Bindungen denselben QueryClient wie der Anwendung. So teilen `queryAtoms` und natives `useQuery` einen Cache."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryClientAtom.md
-msgid "A native writable `Atom<QueryClient | null>`, initially null. Query bindings without an explicit client throw a descriptive error if it is missing. Replacing it moves mounted query subscriptions. Create a fresh client/store pair per SSR request. Injection alone does not mount the client or fetch queries."
-msgstr "Natives beschreibbares `Atom<QueryClient | null>`, initial null. Ohne expliziten Client werfen Query-Bindungen bei fehlender Injektion einen erklärenden Fehler. Austausch verschiebt gemountete Query-Abonnements. Erzeuge pro SSR-Request ein neues Client/Store-Paar. Injektion allein mountet weder Client noch lädt sie Queries."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryClientAtom.md
-msgid "Explicit client ownership preserves hydration and cache sharing with native React Query. An explicit queryAtoms client is useful for a self-contained widget; this atom is useful for application-level configuration."
-msgstr "Explizite Client-Zuständigkeit erhält Hydration und Cachefreigabe mit nativem React Query. Ein expliziter queryAtoms-client eignet sich für eigenständige Widgets, dieses Atom für Anwendungskonfiguration."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryClientAtom.md
-msgid "- [QueryClientProvider](https://tanstack.com/query/latest/docs/framework/react/reference/QueryClientProvider) — native client ownership.\n"
-"- [Jotai hydration](https://jotai.org/docs/utilities/ssr) — hydrate values into the request store."
-msgstr "- [QueryClientProvider](https://tanstack.com/query/latest/docs/framework/react/reference/QueryClientProvider) — native Client-Zuständigkeit.\n"
-"- [Jotai hydration](https://jotai.org/docs/utilities/ssr) — Werte in den Request-Store hydrieren."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

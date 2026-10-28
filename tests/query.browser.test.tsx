@@ -3,7 +3,7 @@ import { createStore, Provider } from 'jotai';
 import { act } from 'react';
 import { expect, test, vi } from 'vitest';
 import { holo } from '../src/holo.js';
-import { queryAtoms, queryClientAtom } from '../src/query.js';
+import { queryModel, queryClientAtom } from '../src/query.js';
 import { createHarness, deferred } from './browser-harness.js';
 
 test('factory queries share native useQuery cache and data-only holo skips refetch renders', async () => {
@@ -15,7 +15,7 @@ test('factory queries share native useQuery cache and data-only holo skips refet
   const detailQO = ({ id }: { id: string }) =>
     queryOptions({ queryKey: ['users', { id }], queryFn: fetch });
   client.setQueryData(detailQO({ id: 'one' }).queryKey, { name: 'Ada' });
-  const query = queryAtoms({
+  const query = queryModel({
     query: () => detailQO({ id: 'one' }),
     prism: { $user: (r) => r.data },
   });

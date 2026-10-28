@@ -234,7 +234,7 @@ try {
   await page.getByRole('button', { name: 'Add a seat', exact: true }).first().click();
   await page.locator('.example-preview output').first().getByText('6', { exact: true }).waitFor();
   assert.equal(await page.locator('.example-preview output').last().innerText(), '5');
-  await page.goto(`${origin}reference/queryAtoms`);
+  await page.goto(`${origin}reference/queryModel`);
   await page.getByText('Oak desk · $240', { exact: true }).waitFor();
   await page.getByRole('button', { name: 'Lamp', exact: true }).click();
   await page.getByText('Desk lamp · $45', { exact: true }).waitFor();

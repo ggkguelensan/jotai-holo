@@ -11,7 +11,7 @@ Start with the task, then choose the tool. Existing Jotai atoms work in holo; yo
 | Reactive external resource              | jotai-effect                        | input bridges committed props; models own managed connections           |
 | One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality        |
 | Server data used only by React          | Native TanStack Query hooks         | No atom adapter is required                                             |
-| Server data needed by atom workflows    | queryAtoms / mutationAtoms          | Named projections and writable actions reuse the existing QueryClient   |
+| Server data needed by atom workflows    | queryModel / mutationAtoms          | Named projections and writable actions reuse the existing QueryClient   |
 | Share one model across widgets          | modelRegistry                       | Select a default or keyed instance in the current store                 |
 
 ## Why not atomWithListeners?
@@ -28,6 +28,6 @@ The official [atomWithListeners recipe](https://jotai.org/docs/recipes/atom-with
 
 Use [holo](/reference/holo) to connect small Views near their data and keep business workflows in models. Use [modelRegistry](/reference/modelRegistry) when widgets need to select and share instances by key. These choices do not require converting every external library into atoms.
 
-Keep native TanStack Query hooks for React-only consumers, including when queryAtoms already exists elsewhere. Share the QueryClient and options factories; select data at its point of consumption. Use [queryAtoms](/reference/queryAtoms) or [mutationAtoms](/reference/mutationAtoms) only when the atom/model graph needs them. Native useSuspenseQuery supplies Suspense integration; queryAtoms does not synthesize it.
+Keep native TanStack Query hooks for React-only consumers, including when queryModel already exists elsewhere. Share the QueryClient and options factories; select data at its point of consumption. Use [queryModel](/reference/queryModel) or [mutationAtoms](/reference/mutationAtoms) only when the atom/model graph needs them. Native useSuspenseQuery supplies Suspense integration; queryModel does not synthesize it.
 
 Keep native RHF for self-contained forms. Use [holoForm](/reference/holoForm) only when atoms or models must react to form state or events. See [Business logic and small Views](/guide/business-logic) for the responsibilities of each layer.
