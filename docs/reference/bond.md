@@ -2,11 +2,7 @@
 
 Connect an event to a reaction. When an order is submitted, read the current settings, check a condition and send arguments to the receiving atom.
 
-<Demo kind="bond">
-
-<<< @/../examples/docs/bond.tsx#bond
-
-</Demo>
+Read the [bond overview](/topics/atoms-and-models#connections) for the complete workflow and live examples.
 
 <<< @/../examples/documentation.tsx#bond
 

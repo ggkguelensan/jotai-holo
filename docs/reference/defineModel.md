@@ -2,6 +2,8 @@
 
 Declare a model factory explicitly while keeping it an ordinary function. This optional identity helper preserves the original function, its creation arguments and its return type.
 
+Read the [Models and registry overview](/topics/models-and-registries) for the complete workflow and live examples.
+
 <<< @/../examples/define-model.ts#factory
 
 ## Contract
@@ -16,7 +18,7 @@ TypeScript requires a synchronous object result and rejects Promise results. The
 
 Use defineModel to make a factory's role explicit without adding behavior. A plain named function works equally well. Add modelRegistry only when you need shared instance selection; apply other modifiers for their own responsibilities. This helper adds no lifetime management and does not change atom semantics.
 
-See [Model composition](/guide/model-composition) for the distinction between factories, definitions and selected instances.
+See [Model composition](/topics/model-composition) for the distinction between factories, definitions and selected instances.
 
 ## Analogies and reading
 

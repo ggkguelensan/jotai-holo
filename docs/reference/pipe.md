@@ -2,11 +2,7 @@
 
 Compose model behavior in reading order: factory, registry policy, data lifecycle and analytics.
 
-<Demo kind="model">
-
-<<< @/../examples/docs/model.tsx#model
-
-</Demo>
+Read [Model composition](/topics/model-composition) for the complete workflow and live examples.
 
 ```ts
 const $$search = pipe(
@@ -24,7 +20,7 @@ Use our `pipe` or a compatible `pipe` from another functional library, such as E
 
 ## Why this API
 
-Flat composition makes each model responsibility visible without nested calls. Modifiers retain type inference and native atoms remain available inside the factory. See the [composition guide](/guide/model-composition) for modifier order, custom connections and type preservation.
+Flat composition makes each model responsibility visible without nested calls. Modifiers retain type inference and native atoms remain available inside the factory. See the [composition guide](/topics/model-composition) for modifier order, custom connections and type preservation.
 
 ## Analogies and reading
 

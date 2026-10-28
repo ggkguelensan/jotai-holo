@@ -11,83 +11,107 @@ const sources = sourceLinks();
 const groups = (t: (message: string) => string) => [
   { title: t('State'), names: ['stateAtom', 'ion', 'prism', 'eq', 'and', 'or', 'some', 'sum'] },
   { title: t('Commands & events'), names: ['actionAtom', 'eventAtom', 'bond'] },
+  { title: t('React bindings'), names: ['holo', 'useImperativeHolo', 'holoList', 'holoMatch'] },
   {
-    title: t('React bindings'),
-    names: ['holo', 'useImperativeHolo', 'input', 'holoList', 'holoMatch'],
+    title: t('Models'),
+    names: ['defineModel', 'pipe', 'modelRegistry', 'modelLifecycle', 'modelConnection'],
   },
   {
-    title: t('Integrations'),
-    names: [
-      'defineModel',
-      'pipe',
-      'modelRegistry',
-      'modelLifecycle',
-      'modelAnalytics',
-      'createAnalytics',
-      'modelConnection',
-      'createQueryModel',
-      'createMutationModel',
-      'queryClientAtom',
-      'createFormModel',
-      'holoForm',
-      'formAtom',
-    ],
+    title: 'TanStack Query',
+    names: ['createQueryModel', 'createMutationModel', 'queryClientAtom'],
   },
+  { title: 'React Hook Form', names: ['createFormModel', 'holoForm', 'formAtom'] },
+  { title: t('Analytics'), names: ['createAnalytics', 'modelAnalytics', 'createAmplitudeAdapter'] },
+  { title: t('Persistence'), names: ['persist', 'localStorageAdapter'] },
 ];
 
 async function localeConfig(code: string, label: string, prefix: string) {
   const catalog = await loadCatalog(code, 'ui');
   const t = (message: string) => catalog._(message);
   const link = (path: string) => `${prefix}${path}`;
-  const sidebar: DefaultTheme.SidebarItem[] = [
+  const introduction: DefaultTheme.SidebarItem[] = [
     {
-      text: t('Guide'),
+      text: t('Introduction'),
       items: [
         { text: t('Getting started'), link: link('/guide/getting-started') },
         { text: t('Why jotai-holo'), link: link('/guide/motivation') },
-        { text: t('Choosing a tool'), link: link('/guide/ecosystem') },
-        { text: t('Atoms or models?'), link: link('/guide/atoms-or-models') },
-        { text: t('Business logic and small Views'), link: link('/guide/business-logic') },
-        { text: t('Model composition'), link: link('/guide/model-composition') },
-        { text: t('Rendering and async'), link: link('/guide/rendering') },
+        { text: t('Architecture and stack'), link: link('/guide/architecture') },
       ],
     },
-    ...groups(t).map(({ title, names }) => ({
-      text: title,
-      items: names.map((text) => ({ text, link: link(`/reference/${text}`) })),
-    })),
+  ];
+  const topics: DefaultTheme.SidebarItem[] = [
+    {
+      text: t('Topics'),
+      items: [
+        { text: 'holo', link: link('/topics/holo') },
+        { text: t('Atoms and models'), link: link('/topics/atoms-and-models') },
+        { text: t('Models and registry'), link: link('/topics/models-and-registries') },
+        { text: 'TanStack Query', link: link('/topics/tanstack-models') },
+        { text: 'React Hook Form', link: link('/topics/rhf-models') },
+        { text: t('Analytics'), link: link('/topics/analytics') },
+        { text: t('Model composition'), link: link('/topics/model-composition') },
+      ],
+    },
+  ];
+  const recipes: DefaultTheme.SidebarItem[] = [
     {
       text: t('Recipes'),
       items: [
+        { text: t('Choose by the task'), link: link('/recipes/') },
         { text: t('Server data, forms and saving'), link: link('/recipes/server-data') },
         { text: t('Profile: creation and editing'), link: link('/recipes/profile-composition') },
         { text: t('Profile: command → fact → reaction'), link: link('/recipes/profile') },
         { text: t('Effects and model lifetime'), link: link('/recipes/integrations') },
-        { text: t('Spreadsheet formulas'), link: link('/recipes/spreadsheet') },
-        { text: t('Hosting the docs'), link: link('/guide/hosting') },
-      ],
-    },
-    {
-      text: t('Engineering notes (English)'),
-      collapsed: true,
-      items: [
-        { text: t('Compatibility'), link: '/compatibility' },
-        { text: t('Bundle measurements'), link: '/bundle-size' },
-        { text: t('Aggregation'), link: '/aggregation' },
-        { text: t('Laziness and isolation audit'), link: '/laziness-isolation' },
-        { text: t('Detailed contracts'), link: '/api' },
-        { text: t('Operator contracts'), link: '/operators' },
+        { text: t('Add an analytics engine'), link: link('/recipes/analytics-adapter') },
       ],
     },
   ];
+  const examples: DefaultTheme.SidebarItem[] = [
+    {
+      text: t('Examples'),
+      items: [
+        { text: t('All examples'), link: link('/examples/') },
+        ...[
+          [t('Workshop tickets'), 'workshop-tickets'],
+          [t('Independent profile fields'), 'profile-fields'],
+          [t('Small Views and committed inputs'), 'view-bindings'],
+          [t('Order confirmation'), 'order-confirmation'],
+          [t('Independent proposal drafts'), 'model-instances'],
+          [t('Product catalog'), 'product-catalog'],
+          [t('Proposal discount'), 'proposal-discount'],
+          [t('Isolated contact forms'), 'contact-forms'],
+          [t('Rows and screen states'), 'lists-and-branches'],
+          [t('Catalog analytics'), 'catalog-analytics'],
+          [t('Spreadsheet formulas'), 'spreadsheet'],
+        ].map(([title, slug]) => ({ text: title!, link: link(`/examples/${slug}`) })),
+      ],
+    },
+  ];
+  const reference: DefaultTheme.SidebarItem[] = groups(t).map(({ title, names }) => ({
+    text: title,
+    items: names.map((text) => ({ text, link: link(`/reference/${text}`) })),
+  }));
+  const sidebar = Object.fromEntries(
+    [
+      ['guide', introduction],
+      ['topics', topics],
+      ['overview', topics],
+      ['recipes', recipes],
+      ['reference', reference],
+      ['examples', examples],
+    ].map(([section, items]) => [link(`/${section}/`), items]),
+  );
   return {
     label,
     lang: code,
     description: t('Plain React views. Native Jotai models. Declarative connections.'),
     themeConfig: {
       nav: [
-        { text: t('Guide'), link: link('/guide/getting-started') },
+        { text: t('Introduction'), link: link('/guide/getting-started') },
+        { text: t('Topics'), link: link('/topics/') },
+        { text: t('Recipes'), link: link('/recipes/') },
         { text: 'API', link: link('/reference/holo') },
+        { text: t('Examples'), link: link('/examples/') },
       ],
       sidebar,
       docFooter: { prev: t('Previous page'), next: t('Next page') },

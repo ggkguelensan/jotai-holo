@@ -54,7 +54,7 @@ a particular key already exists.
 
 ## Documentation and examples
 
-The new [composition guide](/guide/model-composition) explains pure factories,
+The new [composition guide](/topics/model-composition) explains pure factories,
 record extension, registry identity, modifier order, custom connections and
 ownership outside React. Its shipment tracking modifier is executable and tested
 with a fake transport, shared owners and separate stores.

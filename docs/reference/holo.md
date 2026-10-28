@@ -2,13 +2,12 @@
 
 Connect models and atoms to a React component. Declare the connection once, outside React render. The View receives ordinary props.
 
+<span id="atoms-without-models"></span>
+<span id="named-models"></span>
+
+Read the [holo overview](/topics/holo) for the complete workflow and live examples.
+
 Use holo when decomposing a screen into small Views and moving business workflows into models. Bind subscriptions near the View that needs them. See [Business logic and small Views](/guide/business-logic) for when to keep native Query and RHF hooks.
-
-<Demo kind="counter">
-
-<<< @/../examples/docs/counter.tsx#counter
-
-</Demo>
 
 <<< @/../examples/documentation.tsx#holo
 
@@ -29,38 +28,11 @@ Only `view` is required.
 
 `read`, `write`, `static` and `imperative` supply View props. Pass the remaining props from the parent. `input` forwards selected incoming props to atoms; these props still reach the View.
 
-## Atoms without models
+## Input
 
-`models` is optional. Pass atoms directly to `read` and `write`: holo does not require a model factory, registry or model modifiers. Native `atom(...)`, `stateAtom`, `actionAtom` and `eventAtom` work according to their read and write capabilities.
+input maps incoming prop names to writable atoms. Targets receive the initial committed value and then changes compared with Object.is. Generated read, write and imperative props cannot be input sources. The input props remain public and reach the View. Async failures go to onError.
 
-<<< @/../examples/atoms-or-models.tsx#atom-imports
-<<< @/../examples/atoms-or-models.tsx#global-atoms
-
-Here, `read` subscribes to the global theme atom. `write` supplies a theme setter and a callback that publishes `helpRequested`. The same View can use unrelated atoms; they do not need to belong to one model.
-
-Global means shared within the same Jotai store. A separate store has independent atom values and event delivery. See [Atoms or models?](/guide/atoms-or-models) for typical choices.
-
-## Named models
-
-```tsx
-const Counter = holo({
-  models: {
-    counter: (props: { counterId: string }) =>
-      $$counter({ key: ['counter', props.counterId] }),
-    session: $$session,
-  },
-  view: CounterView,
-  read: ({ counter }) => ({ count: counter.$count }),
-  write: ({ counter }) => ({ onIncrement: counter.increment }),
-});
-```
-
-- Pass a model definition to use its default instance in the current Jotai store.
-- Select a key to share that instance between components using the same model, key and store.
-- Use incoming props to choose the key. In this example, the parent passes `counterId`.
-- holo activates the selected models after commit and releases them on unmount. A shared model stays active while another owner uses it.
-
-See [modelRegistry](/reference/modelRegistry) for instance ownership, [input](/reference/input) for prop synchronization and [useImperativeHolo](/reference/useImperativeHolo) for View methods.
+StrictMode replay does not repeat initial input. Abandoned renders publish nothing. Input cannot initialize pending state that prevents its own first commit. For creation-only values, use the model selection's initial data.
 
 ## Rendering and types
 

@@ -31,6 +31,22 @@
 .VPNavBar .logo {
   border-radius: 5px;
 }
+/* Five translated section names need more room than the default tablet menu. */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .VPNavBar .VPNavBarMenu,
+  .VPNavBar .VPNavBarTranslations,
+  .VPNavBar .VPNavBarAppearance,
+  .VPNavBar .VPNavBarSocialLinks,
+  .VPNavBar .VPNavBarExtra {
+    display: none;
+  }
+  .VPNavBar .VPNavBarHamburger {
+    display: flex;
+  }
+  .VPNav .VPNavScreen {
+    display: block;
+  }
+}
 .VPSidebar {
   border-right: 1px solid var(--vp-c-divider);
 }
@@ -700,4 +716,19 @@
     border-left: 0;
     border-top: 1px solid var(--vp-c-divider);
   }
+}
+
+/* File navigation stays with the example; all source blocks remain visible. */
+.example-files {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  padding: 12px 18px;
+  background: var(--vp-c-bg-soft);
+}
+.example-files ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.example-files a {
+  overflow-wrap: anywhere;
 }

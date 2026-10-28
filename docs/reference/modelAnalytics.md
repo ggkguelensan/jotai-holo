@@ -2,20 +2,14 @@
 
 Load feature analytics when its business model acquires a committed owner.
 
-The search form, product list and product details each connect to the same $$search model through their own holo. Each View subscribes only to the values it displays. Analytics is attached once to the model: additional View owners share the connection, so one fact produces one delivery per selected engine. Removing one View leaves observation active until the final owner releases it.
+Read the [Analytics overview](/topics/analytics) for the complete workflow and live examples.
 
-<Demo kind="analytics">
-
-<<< @/../examples/docs/analytics.tsx#analytics
-
-</Demo>
+## Usage
 
 ```ts
 const $$search = pipe(
   createSearchModel,
-
-  modelRegistry({ retainTime: Infinity }),
-
+  modelRegistry(),
   modelAnalytics(() =>
     import('./search.analytics').then(
       (module) => module.createSearchAnalyticsModel,
@@ -26,7 +20,7 @@ const $$search = pipe(
 
 ## Contract
 
-Import from jotai-holo/analytics. The loader returns a synchronous factory receiving the selected business model. Its returned managed declarations activate together and roll back on setup failure. Ordinary returned atoms remain lazy. Repeated modifiers load independently. Two owners share one child; retained parents reuse it on return. Last release stops observation. Late imports never activate a released owner.
+Import from jotai-holo/analytics. modelAnalytics(load, { onError? }) returns a model-preserving modifier. Errors default to console.error. The loader returns a synchronous factory receiving the selected business model. Its returned managed declarations activate together and roll back on setup failure. Ordinary returned atoms remain lazy. Repeated modifiers load independently. Two owners share one child; retained parents reuse it on return. Last release stops observation. Late imports never activate a released owner.
 
 Observation begins when the factory is ready. Earlier facts are not replayed with later state. If the first fact is essential, use an eagerly defined analytics declaration or load the feature before producing that fact. Already mapped engine messages can drain after release without observing the source.
 

@@ -2,6 +2,8 @@
 
 Announce that something happened. Emit `profileSaved` after the API confirms a save, then let notifications or analytics react to that fact.
 
+Read the [Jotai operators overview](/topics/atoms-and-models) for the complete workflow and live examples.
+
 <<< @/../examples/documentation.tsx#workflow
 
 ## Contract

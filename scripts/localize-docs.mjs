@@ -4,11 +4,12 @@ import { createMarkdownRenderer } from 'vitepress';
 import { parse, stringify } from 'yaml';
 import { loadCatalog } from '../docs/.vitepress/i18n/catalog.mjs';
 import { locales } from '../docs/.vitepress/i18n/locales.mjs';
+import { sourceDirectories } from '../docs/.vitepress/content.mjs';
 import { markdownParts, translateMarkdown } from '../docs/.vitepress/i18n/markdown.mjs';
 
 export async function sourcePages() {
   const files = ['index.md'];
-  for (const dir of ['guide', 'reference', 'recipes'])
+  for (const dir of sourceDirectories)
     for (const file of (await readdir(`docs/${dir}`)).sort())
       if (file.endsWith('.md')) files.push(`${dir}/${file}`);
   return files;
@@ -79,7 +80,8 @@ export async function generateLocalizedDocs() {
         const visit = (node) => {
           if (!node || typeof node !== 'object') return;
           for (const [key, value] of Object.entries(node)) {
-            if (key === 'link' && typeof value === 'string') node[key] = localLink(value);
+            if ((key === 'link' || key === 'redirect') && typeof value === 'string')
+              node[key] = localLink(value);
             else visit(value);
           }
         };

@@ -35,7 +35,7 @@ Change the quantity or apply a discount. `ion` derives the total; `holo` supplie
 
 ## Start with a task
 
-- [Bind a View](/reference/holo) without forwarding hooks.
+- [Bind a View](/topics/holo) without forwarding hooks.
 - [Save a profile](/recipes/profile) and react to the confirmed fact.
 - [Choose existing ecosystem tools](/guide/ecosystem) before adding an abstraction.
 - [Understand lazy projections and rendering](/guide/rendering).

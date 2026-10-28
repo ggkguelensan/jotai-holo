@@ -22,7 +22,7 @@ Make failure, concurrency and ownership decisions explicit. Here one editor igno
 
 ## Separate domain code from assembly
 
-The factory creates related atoms and commands. Application composition adds sharing, persistence, subscriptions or analytics. A registry selects shared instances by key and store; it does not clone imported global atoms or replace QueryClient's cache. Read [model composition](/guide/model-composition) and the [server-data recipes](/recipes/server-data) for complete examples.
+The factory creates related atoms and commands. Application composition adds sharing, persistence, subscriptions or analytics. A registry selects shared instances by key and store; it does not clone imported global atoms or replace QueryClient's cache. Read [model composition](/topics/model-composition) and the [server-data recipes](/recipes/server-data) for complete examples.
 
 Place domain rules and the business factory in modules that do not import React, analytics SDKs or provider-specific event names. The assembly module may import the business factory, the View and optional integrations. A rule can then be tested as a function and a workflow with a Jotai store, without mounting the View.
 

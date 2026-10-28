@@ -2,11 +2,7 @@
 
 Check whether any boolean atom is true. Use it when either of several delivery methods is enough to proceed.
 
-<Demo kind="operators">
-
-<<< @/../examples/docs/operators.tsx#operators
-
-</Demo>
+Read the [Jotai operators overview](/topics/atoms-and-models) for the complete workflow and live examples.
 
 ## Usage
 
