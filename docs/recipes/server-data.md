@@ -1,7 +1,5 @@
 # Server data, forms and saving
 
-A sales team edits the seat count and customer comment of a proposal. These five recipes use the same request factories and Views. QueryClient owns server data; a model owns the user's draft. The examples expect your application to provide GET and PUT `/api/proposals/:id`; they do not install a demo backend.
-
 These recipes assume the atom/model graph needs server data, form state or save commands. For a React-only editor, prefer native Query and RHF hooks; neither a model registry nor an atom adapter is required. Read [Business logic and small Views](/guide/business-logic) before choosing an adapter.
 
 ## Application setup
@@ -12,23 +10,23 @@ Use the application's existing QueryClient in both providers. This browser setup
 
 ## A model working with server data
 
-I need one proposal editor with a calculated total. A plain factory is enough; no registry or `models` field is required.
+A profile model owns the username, avatar, biography and interests. It can derive an avatar color from the username. It does not know whether its input came from a wizard, an existing model, the server or local storage. Query models fetch data, mutation models save it, and application composition connects their results to the business model.
 
-<<< @/../examples/recipes/proposal-model.tsx#server-model
+Declare the Query model, mutation model and business model in a module. No application factory is needed. Module declarations describe the graph; each Jotai store holds its own values, and QueryClient holds the server cache. The business factory does not import this assembly module.
 
-Until the first edit, the draft comes from the server response. After editing, `$localDraft` owns the entered values. A background refetch can update server prices, but does not replace the user's seat count or comment. Pending and errors remain separate atoms; the View handles them without an effect.
+<<< @/../examples/profile/profile-composition.ts#profile-query
 
-<<< @/../examples/recipes/proposal-model.tsx#plain-binding
+Connect the participants through pipe. The observe connection reads Query only while the business profile is empty. An existing profile needs no request or Query subscription. The bond connection delivers successful saves to receive while the editor has an owner.
 
-<<< @/../examples/recipes/proposal-views.tsx#view
+<<< @/../examples/profile/profile-composition.ts#profile-binding
+
+$initial is a derived atom: it reads Query only when the profile is empty. Once receive fills the profile, Jotai removes that dependency and releases the Query subscription. [observe from jotai-effect](https://jotai.org/docs/extensions/effect#observe) forwards the available value; modelConnection stops observation with the last owner. No manual subscription flags or unsubscribe bookkeeping are needed.
+
+Background refetches cannot overwrite a populated profile. Another source that fills it during loading also takes priority. Explicitly clearing the profile allows initialization again; this is conditional initialization, not continuous server synchronization.
 
 ## A registry model working with server data
 
-I need several widgets to select the same editor by proposal ID. Reuse the same factory and add a registry for the editor instances.
-
-<<< @/../examples/recipes/proposal-registry.tsx#keyed-binding
-
-<<< @/../examples/recipes/proposal-registry.tsx#keyed-usage
+$$profile and $$editor select the same business record for the same key and store. For multiple accounts, partition Query keys, model selections and connections by account; the fixed current-user key here assumes one account context.
 
 The same model key and store share a local draft. Another proposal ID gets another draft. QueryClient still owns the query cache: the registry does not copy or replace it. Include an editor or tab ID in the model key if two editors of the same proposal need independent drafts.
 
@@ -42,57 +40,23 @@ I need native RHF fields with server defaults and a Zod resolver. Wait for the q
 
 <<< @/../examples/recipes/proposal-form.tsx#form-binding
 
-<<< @/../examples/recipes/proposal-form.tsx#form-loading
-
 The form key includes editorId: two tabs can share server data and keep independent RHF controls. Background refetches pass a new proposal but do not recreate the existing keyed form or replace its defaults. To explicitly discard edits and reload, use the control's native reset method. Use one holoForm root per control; an external toolbar uses ordinary holo with that same model selection.
 
 ## A model saving through a mutation
 
-I need to save the draft and publish a fact only after the server accepts it. Keep the native mutation-options factory separate from the model.
+The save command captures the submitted values and publishes profileSaved only after the mutation succeeds. Failure rejects the Promise and emits no success fact; the caller handles rejection. The UI can read the mutation's error projection.
 
-<<< @/../examples/recipes/proposal-api.ts#mutation-factory
+<<< @/../examples/profile/profile-composition.ts#profile-save
 
-<<< @/../examples/recipes/proposal-mutation.tsx#saving-model
-
-Save captures the submitted draft before await and ignores another Save while pending. The mutation updates QueryClient on success. It does not reset the local draft, so edits made during the request survive. Expected request errors appear through the error projection; this save action catches the rejected Promise and emits no success fact on failure.
-
-For a plain instance, bind its atoms directly:
-
-<<< @/../examples/recipes/proposal-mutation.tsx#plain-saving
-
-For keyed instances, apply a registry to the same factory. Each editor instance owns its mutation observer and pending/error state; all use the same QueryClient.
-
-<<< @/../examples/recipes/proposal-mutation.tsx#keyed-saving
+Form keystrokes need not update the canonical profile. Submit a captured draft through the mutation; accept the server response into the business model after success. A later business update or background refetch must not reset the form automatically, especially if the user has made newer edits. Discard, reload and reset-after-save are explicit product decisions. See the [server-data recipes](/recipes/server-data#a-form-initialized-from-server-data) and [RHF contracts](/reference/holoForm).
 
 ## A model saving locally
 
-I need a draft to survive a page reload without sending it to the server. Persist only the local edits, not a copy of the Query cache. The storage key includes the proposal ID.
+Persist only the editable draft. Keep the storage transport and codec separate from the business factory; the application chooses the storage key and owns the connection. A registry retains in-memory instances, while persist restores snapshots across reloads.
 
-<<< @/../examples/recipes/proposal-local.tsx#local-model
+[Use the persist example](/reference/persist#usage) for a plain draft factory and [the composition guide](/topics/model-composition) to give its connection a model owner. Include account and document identity in the storage key.
 
-Restoration uses the schema to validate stored data. A server response does not count as a local edit and cannot suppress a restored draft. A user's own edits take priority over a late restore. The View disables editing while restoration is pending, displays storage errors and can await disk.flush for an explicit save. Writes are debounced; final release attempts the captured pending write, but browser shutdown is not a delivery guarantee.
-
-A plain model has an application owner: call connectLocalDraft(store) once before mounting LocalProposal, keep the returned disposer and call it when that application session ends. This connection starts storage work; declaring or reading the model alone does not.
-
-<<< @/../examples/recipes/proposal-local.tsx#plain-local-owner
-
-<<< @/../examples/recipes/proposal-local.tsx#plain-local-binding
-
-A registry model returns the persistence declaration as a top-level field. holo acquires it with the model and releases it after the last owner; no manual connect is needed for this variant.
-
-<<< @/../examples/recipes/proposal-local.tsx#keyed-local
-
-Use a storage key that also identifies the account in a multi-account application. Other storage engines, including IndexedDB, can implement the same PersistenceStorage interface. Retention in a registry alone does not survive reloads; local storage alone does not update the server.
-
-## Shared resource factories
-
-The recipe's transport contract validates JSON responses with Zod. Reuse existing Query Kit or native options factories in your application; the adapters do not require Query Kit at runtime.
-
-<<< @/../examples/recipes/proposal-api.ts#contract
-
-<<< @/../examples/recipes/proposal-api.ts#query-factory
-
-See [createQueryModel](/reference/createQueryModel), [createMutationModel](/reference/createMutationModel), [holoForm](/reference/holoForm) and [persist](/runtime#rhf-query-and-persistence) for the individual contracts.
+Validate stored data in the codec. Observe the local draft rather than the Query cache, so a background server update is not treated as a local edit. Local edits take priority over late restoration. Await flush for an explicit save; final release attempts a pending write, but browser shutdown cannot guarantee delivery.
 
 ## Reading
 
