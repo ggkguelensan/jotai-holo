@@ -8,6 +8,158 @@ msgstr ""
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Atoms or models?"
+msgstr "Atoms or models?"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Start with atoms. Use a model when related state and actions need a common factory. Add a registry when components need to select and share instances by key. These are separate choices; holo does not require all three."
+msgstr "Start with atoms. Use a model when related state and actions need a common factory. Add a registry when components need to select and share instances by key. These are separate choices; holo does not require all three."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Choose by the task"
+msgstr "Choose by the task"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "| I need to…                                            | Use                            | Why                                                       |\n"
+"| ----------------------------------------------------- | ------------------------------ | --------------------------------------------------------- |\n"
+"| Share a theme or language preference                  | Module-level atoms             | Components in the same store read the same values         |\n"
+"| Publish a help request from a toolbar                 | `eventAtom` in `write`         | An event does not require a model                         |\n"
+"| Calculate a cart total                                | A derived atom or `ion`        | A calculation does not need an instance registry          |\n"
+"| Keep search text and stock filters together           | A plain model factory          | Group related atoms and create them together              |\n"
+"| Give two fixed editors independent drafts             | Call the factory twice         | Different atom records keep the drafts independent        |\n"
+"| Share a product editor with its toolbar by product ID | `modelRegistry` + `models`     | Both components select the same instance by key and store |\n"
+"| Subscribe to a shipment feed while its model is used  | `modelConnection`              | Model owners activate and release the subscription        |\n"
+"| Load and save a draft                                 | `modelLifecycle`               | Add loading and snapshot persistence to the factory       |\n"
+"| Share an RHF form with an external toolbar            | `createFormModel` + `holoForm` | The controls use one native RHF form instance             |"
+msgstr "| I need to…                                            | Use                            | Why                                                       |\n"
+"| ----------------------------------------------------- | ------------------------------ | --------------------------------------------------------- |\n"
+"| Share a theme or language preference                  | Module-level atoms             | Components in the same store read the same values         |\n"
+"| Publish a help request from a toolbar                 | `eventAtom` in `write`         | An event does not require a model                         |\n"
+"| Calculate a cart total                                | A derived atom or `ion`        | A calculation does not need an instance registry          |\n"
+"| Keep search text and stock filters together           | A plain model factory          | Group related atoms and create them together              |\n"
+"| Give two fixed editors independent drafts             | Call the factory twice         | Different atom records keep the drafts independent        |\n"
+"| Share a product editor with its toolbar by product ID | `modelRegistry` + `models`     | Both components select the same instance by key and store |\n"
+"| Subscribe to a shipment feed while its model is used  | `modelConnection`              | Model owners activate and release the subscription        |\n"
+"| Load and save a draft                                 | `modelLifecycle`               | Add loading and snapshot persistence to the factory       |\n"
+"| Share an RHF form with an external toolbar            | `createFormModel` + `holoForm` | The controls use one native RHF form instance             |"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Global state and events: just atoms"
+msgstr "Global state and events: just atoms"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "The workspace toolbar reads the theme, changes it and publishes help requests. There is no model to register."
+msgstr "The workspace toolbar reads the theme, changes it and publishes help requests. There is no model to register."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "The View receives ordinary values and callbacks. It does not need to know where they came from."
+msgstr "The View receives ordinary values and callbacks. It does not need to know where they came from."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "`$theme` is a native writable atom, so it works in both `read` and `write`. `helpRequested` is a write-only event, so it belongs in `write`. Publishing it does not open a help window by itself: the application chooses a consumer separately."
+msgstr "`$theme` is a native writable atom, so it works in both `read` and `write`. `helpRequested` is a write-only event, so it belongs in `write`. Publishing it does not open a help window by itself: the application chooses a consumer separately."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Global atoms share values within one Jotai store. Separate stores isolate them; a module-level atom definition does not merge their state."
+msgstr "Global atoms share values within one Jotai store. Separate stores isolate them; a module-level atom definition does not merge their state."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Related state: a plain factory"
+msgstr "Related state: a plain factory"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Catalog filters and order filters both have a search term and a stock switch. They use the same factory but need independent values."
+msgstr "Catalog filters and order filters both have a search term and a stock switch. They use the same factory but need independent values."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Each call creates new atoms. The application creates these instances once, outside React render. A plain model is just a record of related atoms; it does not need a registry."
+msgstr "Each call creates new atoms. The application creates these instances once, outside React render. A plain model is just a record of related atoms; it does not need a registry."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "This connection still has no `models` field. It reads and writes atoms from the explicitly created record. Connect `$$orderFilters` the same way for an independent instance."
+msgstr "This connection still has no `models` field. It reads and writes atoms from the explicitly created record. Connect `$$orderFilters` the same way for an independent instance."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Shared instances by ID: add a registry"
+msgstr "Shared instances by ID: add a registry"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "A catalog page and its toolbar need the same filters for the selected catalog. Components choose the instance by `catalogId` instead of passing an atom record between them."
+msgstr "A catalog page and its toolbar need the same filters for the selected catalog. Components choose the instance by `catalogId` instead of passing an atom record between them."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "The same definition, key and store select the same instance. Another catalog ID selects independent filters. The registry adds identity and retention; `models` lets holo select the instance and own its active connections."
+msgstr "The same definition, key and store select the same instance. Another catalog ID selects independent filters. The registry adds identity and retention; `models` lets holo select the instance and own its active connections."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "The View stays the same in both approaches:"
+msgstr "The View stays the same in both approaches:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Connections and loading: add only the responsibility you need"
+msgstr "Connections and loading: add only the responsibility you need"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "A group of atoms does not need lifecycle hooks just to hold state. Add [modelConnection](/reference/modelConnection) when it owns an external subscription, or [modelLifecycle](/reference/modelLifecycle) when it must load and save data. Add [modelAnalytics](/reference/modelAnalytics) when analytics should follow the model's usage."
+msgstr "A group of atoms does not need lifecycle hooks just to hold state. Add [modelConnection](/reference/modelConnection) when it owns an external subscription, or [modelLifecycle](/reference/modelLifecycle) when it must load and save data. Add [modelAnalytics](/reference/modelAnalytics) when analytics should follow the model's usage."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Use the decorated definition in `holo.models` so holo activates and releases this work. Binding one of its atoms directly does not acquire the model."
+msgstr "Use the decorated definition in `holo.models` so holo activates and releases this work. Binding one of its atoms directly does not acquire the model."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "These modifiers manage work while an instance is owned. `modelRegistry` chooses how instances are shared and retained. Read [Model composition](/guide/model-composition) for combining these responsibilities."
+msgstr "These modifiers manage work while an instance is owned. `modelRegistry` chooses how instances are shared and retained. Read [Model composition](/guide/model-composition) for combining these responsibilities."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "For server cache use [queryAtoms](/reference/queryAtoms); for RHF use [holoForm](/reference/holoForm). You do not need to wrap unrelated global atoms in a model to bind them to a View."
+msgstr "For server cache use [queryAtoms](/reference/queryAtoms); for RHF use [holoForm](/reference/holoForm). You do not need to wrap unrelated global atoms in a model to bind them to a View."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
 #: docs/guide/ecosystem.md
 msgid "Choosing a tool"
 msgstr "Choosing a tool"
@@ -1655,6 +1807,30 @@ msgstr "Only `view` is required."
 #: docs/reference/holo.md
 msgid "`read`, `write`, `static` and `imperative` supply View props. Pass the remaining props from the parent. `input` forwards selected incoming props to atoms; these props still reach the View."
 msgstr "`read`, `write`, `static` and `imperative` supply View props. Pass the remaining props from the parent. `input` forwards selected incoming props to atoms; these props still reach the View."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
+msgid "Atoms without models"
+msgstr "Atoms without models"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
+msgid "`models` is optional. Pass atoms directly to `read` and `write`: holo does not require a model factory, registry or model modifiers. Native `atom(...)`, `stateAtom`, `actionAtom` and `eventAtom` work according to their read and write capabilities."
+msgstr "`models` is optional. Pass atoms directly to `read` and `write`: holo does not require a model factory, registry or model modifiers. Native `atom(...)`, `stateAtom`, `actionAtom` and `eventAtom` work according to their read and write capabilities."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
+msgid "Here, `read` subscribes to the global theme atom. `write` supplies a theme setter and a callback that publishes `helpRequested`. The same View can use unrelated atoms; they do not need to belong to one model."
+msgstr "Here, `read` subscribes to the global theme atom. `write` supplies a theme setter and a callback that publishes `helpRequested`. The same View can use unrelated atoms; they do not need to belong to one model."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
+msgid "Global means shared within the same Jotai store. A separate store has independent atom values and event delivery. See [Atoms or models?](/guide/atoms-or-models) for typical choices."
+msgstr "Global means shared within the same Jotai store. A separate store has independent atom values and event delivery. See [Atoms or models?](/guide/atoms-or-models) for typical choices."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

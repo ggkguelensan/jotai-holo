@@ -27,6 +27,17 @@ Only `view` is required.
 
 `read`, `write`, `static` and `imperative` supply View props. Pass the remaining props from the parent. `input` forwards selected incoming props to atoms; these props still reach the View.
 
+## Atoms without models
+
+`models` is optional. Pass atoms directly to `read` and `write`: holo does not require a model factory, registry or model modifiers. Native `atom(...)`, `stateAtom`, `actionAtom` and `eventAtom` work according to their read and write capabilities.
+
+<<< @/../examples/atoms-or-models.tsx#atom-imports
+<<< @/../examples/atoms-or-models.tsx#global-atoms
+
+Here, `read` subscribes to the global theme atom. `write` supplies a theme setter and a callback that publishes `helpRequested`. The same View can use unrelated atoms; they do not need to belong to one model.
+
+Global means shared within the same Jotai store. A separate store has independent atom values and event delivery. See [Atoms or models?](/guide/atoms-or-models) for typical choices.
+
 ## Named models
 
 ```tsx

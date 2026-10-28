@@ -49,6 +49,11 @@ msgstr "Choosing a tool"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
+msgid "Atoms or models?"
+msgstr "Atoms or models?"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
 msgid "Model composition"
 msgstr "Model composition"
 
