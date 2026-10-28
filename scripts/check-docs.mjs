@@ -1,5 +1,6 @@
 import { readFile, readdir, access } from 'node:fs/promises';
 import path from 'node:path';
+import { createMarkdownRenderer } from 'vitepress';
 import assert from 'node:assert/strict';
 import { locales } from '../docs/.vitepress/i18n/locales.mjs';
 import { sourcePages } from './localize-docs.mjs';
@@ -35,6 +36,16 @@ for (const { prefix } of locales.filter((locale) => locale.code !== 'en')) {
     await access(path.join(root, path.relative(root + prefix, file)));
     assert.match(await readFile(file, 'utf8'), /<!-- Generated from .*Lingui/);
   }
+}
+const markdown = await createMarkdownRenderer(root);
+const anchors = new Map();
+async function headingIds(file) {
+  if (!anchors.has(file)) {
+    const text = (await readFile(file, 'utf8')).replace(/^<<< .*$/gm, '');
+    const rendered = markdown.render(text);
+    anchors.set(file, new Set([...rendered.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1])));
+  }
+  return anchors.get(file);
 }
 let snippets = 0;
 for (const file of pages) {
@@ -109,6 +120,22 @@ for (const file of pages) {
           ? path.join(target, 'index.md')
           : `${target}.md`,
     );
+  }
+  for (const match of text.matchAll(/\]\(([^\s)]*)#([^\s)]+)\)/g)) {
+    const [, href, fragment] = match;
+    if (/^[a-z]+:/i.test(href)) continue;
+    let target = !href
+      ? file
+      : href.startsWith('/')
+        ? path.join(root, href)
+        : path.resolve(path.dirname(file), href);
+    if (!path.extname(target)) target += '.md';
+    if (target.endsWith('.md')) {
+      assert.ok(
+        (await headingIds(target)).has(decodeURIComponent(fragment)),
+        `Missing heading #${fragment} in ${target}, linked from ${file}`,
+      );
+    }
   }
 }
 

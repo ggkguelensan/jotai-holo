@@ -82,7 +82,7 @@
     "docs:dev": "pnpm docs:prepare && vitepress dev docs",
     "docs:build": "pnpm docs:prepare && vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "docs:check": "pnpm docs:prepare && pnpm i18n:test && node scripts/test-code-blocks.mjs && node scripts/check-docs.mjs",
+    "docs:check": "pnpm docs:prepare && pnpm i18n:test && node scripts/check-doc-examples.mjs && node scripts/test-code-blocks.mjs && node scripts/check-docs.mjs",
     "test:docs": "node scripts/test-docs.mjs",
     "test:react": "node scripts/test-react-compat.mjs",
     "test:model-memory": "pnpm build && node --expose-gc scripts/test-model-memory.mjs",

@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 12:28+0500\n"
+"POT-Creation-Date: 2026-10-28 13:17+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1462,14 +1462,14 @@ msgid "- `options(initial)` returns native UseFormProps. It creates one createFo
 "- `model({ form, initial })` optionally returns your atoms and actions. The returned instance includes those fields and `form`. The name form is reserved.\n"
 "- Input, resolver context, and transformed output types are retained. Native zodResolver, yupResolver, valibotResolver, and other Resolver implementations pass through unchanged; no schema translation is performed. The executable demo uses Zod; the tests also exercise an asynchronous transforming resolver.\n"
 "- With modelRegistry, control identity is: same definition/key/store shares a control; different keys/stores isolate forms. Default retainTime is Infinity. This retains drafts after unmount; remove them explicitly when no longer needed.\n"
-"- The model exposes native register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control, and other createFormControl methods. It does not fabricate useForm's formState object. Use native useFormState for flags and errors.\n"
+"- model.form exposes native register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control, and other createFormControl methods. It does not fabricate useForm's formState object. Use native useFormState for flags and errors.\n"
 "- Options are fixed at creation. Change values with reset/setValue and explicit model actions. This wrapper does not add reactive values/resolver prop rebinding to holo. Async defaultValues start when a holoForm root mounts, with native RHF loading state. The initial load is shared per model and is not reapplied after successful completion on later remounts. Use reset for an explicit reload.\n"
 "- The factory creates no subscriptions and runs no React hooks. Custom resources still need explicit ownership. Native RHF state can be shared intentionally across stores only if the application passes the same raw control itself; each registry instance creates its own control."
 msgstr "- `options(initial)` нативті UseFormProps қайтарады. Әр модель экземплярына бір createFormControl жасалады. `initial` тек жасағанда қолданылады, реактивті reset емес.\n"
 "- `model({ form, initial })` өз атомдарыңыз бен action-дарыңызды қайтара алады. Экземплярда сол өрістер және `form` болады; form атауы резервтелген.\n"
 "- Кіріс, resolver контексті және түрленген шығыс типтері сақталады. zodResolver, yupResolver, valibotResolver және басқа Resolver-лер өзгеріссіз беріледі; схема аударылмайды. Демо Zod қолданады, тесттер async түрлендіретін resolver-ді де тексереді.\n"
 "- Control идентификациясы modelRegistry ережесіне сай: бір definition/key/store бір control-ды бөліседі; басқа key/store формаларды оқшаулайды. Әдепкі retainTime — Infinity. Драфт unmount-тен кейін сақталады; қажет болмаса айқын жойыңыз.\n"
-"- Модель нативті register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control және басқа createFormControl әдістерін береді. useForm formState объектісін қолдан жасамайды. Жалаушалар мен қателерге useFormState қолданыңыз.\n"
+"- model.form нативті register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control және басқа createFormControl әдістерін береді. useForm formState объектісін қолдан жасамайды. Жалаушалар мен қателерге useFormState қолданыңыз.\n"
 "- Опциялар жасағанда бекітіледі. Мәндерді reset/setValue және модель action-дары арқылы өзгертіңіз. Holo-ға реактивті values/resolver қайта байланыстыру қосылмайды. Async defaultValues holoForm root mount кезінде нативті RHF loading күйімен басталады. Бастапқы жүктеу модельге ортақ, сәтті аяқталған соң remount кезінде қайталанбайды. Қайта жүктеуге reset қолданыңыз.\n"
 "- Фабрика жазылым жасамайды, React хуктарын орындамайды. Арнайы ресурстарға айқын ие қажет. Қолданба бір raw control-ды өзі берсе ғана RHF күйі store-лар арасында ортақ болады; createFormModel мұны жасамайды."
 
@@ -1636,7 +1636,8 @@ msgid "| Field      | Role                                     |\n"
 "| write      | Writable atoms mapped to callback props  |\n"
 "| props      | Fixed View props                         |\n"
 "| input      | Committed props mapped to writable atoms |\n"
-"| imperative | Event sources mapped to View methods     |"
+"| imperative | Event sources mapped to View methods     |\n"
+"| onError    | Connection, input and imperative errors  |"
 msgstr "| Өріс | Міндеті |\n"
 "| --- | --- |\n"
 "| view | React View не элемент; міндетті |\n"
@@ -1645,13 +1646,14 @@ msgstr "| Өріс | Міндеті |\n"
 "| write | Writable атомдары → callback пропстары |\n"
 "| props | View тұрақты пропстары |\n"
 "| input | Commit аяқталған пропстар → writable атомдары |\n"
-"| imperative | Оқиғалар → View әдістері |"
+"| imperative | Оқиғалар → View әдістері |\n"
+"| onError | Қосылым, input және imperative қателері |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Declare outside React render. Supplied keys disappear from public props. Binding collisions are rejected. Fixed props win over caller values. Any native atom works; the same writable atom can appear in read and write. Async reads resolve before reaching View. Write callbacks preserve arguments and return values."
-msgstr "holo-ны React render-ден тыс жариялаңыз. Байланыстырылған кілттер жария props-тан алынады. Байланыс қақтығыстары қабылданбайды. Бекітілген props шақырушы мәндерінен басым. Кез келген стандартты atom жарайды; бір жазылатын атом read пен write ішінде қатар бола алады. Асинхронды оқу View-ге берілмей тұрып шешіледі. Жазу callback-тері аргументтер мен қайтарылатын мәндерді сақтайды."
+msgid "Declare outside React render. Keys supplied by read, write, props and imperative disappear from public props. Input keys and model-selector inputs remain caller props and are forwarded to the View. Binding collisions are rejected. Fixed props win over caller values. Any native atom works; the same writable atom can appear in read and write. Async reads resolve before reaching View. Write callbacks preserve arguments and return values."
+msgstr "holo-ны React render сыртында жариялаңыз. Тек read, write, props және imperative беретін кілттер публичті props құрамынан алынады. input кілттері мен модель таңдау кірістері шақырушының props-ы болып қалады және View-ға беріледі. Байланыс қақтығыстары қабылданбайды. Тұрақты props шақырушы мәндерінен басым. Нативті атомдар тікелей жұмыс істейді; бір жазылатын атом read пен write ішінде қатар бола алады. Async мәндер View-ға берілгенше шешіледі. Жазу callback-тары аргументтер мен қайтарылатын мәндерді сақтайды."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1862,6 +1864,24 @@ msgstr "input пропс атауларын writable атомдарымен ті
 #: docs/reference/input.md
 msgid "StrictMode replay does not repeat initial input. Suspended or abandoned renders publish no input. Temporary Suspense hiding preserves model ownership; real unmount releases it. Input cannot initialize the pending state that prevents its own first commit."
 msgstr "StrictMode қайталауы бастапқы input мәнін қайталамайды. Тоқтатылған не тасталған рендерлер кіріс жарияламайды. Suspense уақытша жасырғанда модельге иелік сақталады; нақты unmount оны босатады. input алғашқы commit-ті бөгейтін pending күйді инициализациялай алмайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "Model inputs and View props"
+msgstr "Модель кірістері мен View props-ы"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "input does not supply a prop or remove it from the public component type. In this example, callers must pass both counterId and initial. The View receives those props together with count, callbacks and the fixed title."
+msgstr "input prop мәнін бермейді және оны компоненттің публичті типінен алып тастамайды. Бұл мысалда шақырушы counterId мен initial беруі керек. View оларды count, callback-тар және тұрақты title мәнімен бірге алады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "initial here is a live input, not creation-only data. Changing it writes count again. An increment followed by a parent render with the same initial leaves count unchanged. For creation-only input, pass initial in the model selection instead."
+msgstr "Мұндағы initial — тек жасау дерегі емес, өзгеретін кіріс. Оны өзгерту count мәнін қайта жазады. increment-тен кейін ата-ана бұрынғы initial мәнімен қайта render жасаса, count өзгермейді. Тек жасау кезінде керек дерек үшін initial мәнін модель таңдауына беріңіз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

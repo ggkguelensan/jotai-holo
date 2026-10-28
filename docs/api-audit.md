@@ -74,7 +74,7 @@ as measurements of this checkout.
 ## Validation
 
 - Strict TypeScript and packed package exports/declarations.
-- 190 unit tests, 17 ecosystem checks and 142 Chromium tests (349 total).
+- 190 unit tests, 17 ecosystem checks and 143 Chromium tests (350 total).
 - Packed React 18.0, 18.3 and 19.3 development/production consumers.
 - Four-language catalog, snippet, link and production documentation checks.
 - Registry/composition and production-browser forced-GC scenarios.
@@ -90,3 +90,20 @@ unchanged from the preceding revision, and 4,216 bytes with pipe/modelRegistry.
 The new type-preservation evidence is erased; optional modelConnection code does
 not enter ordinary bindings. These are non-additive fixture deltas, not standalone
 export sizes. Run pnpm size to reproduce them.
+
+## Example verification
+
+All 34 inline TypeScript/TSX fences in README and canonical documentation are
+compiled with strict settings against the source API. Short fragments receive
+explicitly typed application dependencies from tests/fixtures/docs-context.tsx;
+helpers, model factories and adapters use actual implementations. This checks
+API compatibility of partial snippets, not whether each fragment is standalone.
+Three deliberately invalid examples verify the checker rejects wrong read types,
+missing public input and retired syntax. Imported snippet sources are also
+included in the ordinary project typecheck and browser suites.
+
+Input examples distinguish synchronized props from creation-only model input:
+input props and model-selector props remain public and reach the View. An
+unchanged initial does not reset edits; changing it writes the target again.
+The corrected RHF example selects $$contact and accesses its native model.form.
+Documentation checks validate internal heading fragments as well as page paths.

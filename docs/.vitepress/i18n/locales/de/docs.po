@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 12:28+0500\n"
+"POT-Creation-Date: 2026-10-28 13:17+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1454,14 +1454,14 @@ msgid "- `options(initial)` returns native UseFormProps. It creates one createFo
 "- `model({ form, initial })` optionally returns your atoms and actions. The returned instance includes those fields and `form`. The name form is reserved.\n"
 "- Input, resolver context, and transformed output types are retained. Native zodResolver, yupResolver, valibotResolver, and other Resolver implementations pass through unchanged; no schema translation is performed. The executable demo uses Zod; the tests also exercise an asynchronous transforming resolver.\n"
 "- With modelRegistry, control identity is: same definition/key/store shares a control; different keys/stores isolate forms. Default retainTime is Infinity. This retains drafts after unmount; remove them explicitly when no longer needed.\n"
-"- The model exposes native register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control, and other createFormControl methods. It does not fabricate useForm's formState object. Use native useFormState for flags and errors.\n"
+"- model.form exposes native register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control, and other createFormControl methods. It does not fabricate useForm's formState object. Use native useFormState for flags and errors.\n"
 "- Options are fixed at creation. Change values with reset/setValue and explicit model actions. This wrapper does not add reactive values/resolver prop rebinding to holo. Async defaultValues start when a holoForm root mounts, with native RHF loading state. The initial load is shared per model and is not reapplied after successful completion on later remounts. Use reset for an explicit reload.\n"
 "- The factory creates no subscriptions and runs no React hooks. Custom resources still need explicit ownership. Native RHF state can be shared intentionally across stores only if the application passes the same raw control itself; each registry instance creates its own control."
 msgstr "- `options(initial)` liefert native UseFormProps und erzeugt ein createFormControl pro Modellinstanz. `initial` gilt nur bei Erstellung, niemals als reaktives Reset.\n"
 "- `model({ form, initial })` kann eigene Atome und Aktionen zurückgeben. Die Instanz enthält diese Felder und `form`; dieser Name ist reserviert.\n"
 "- Eingabe-, Resolver-Kontext- und transformierte Ausgabetypen bleiben erhalten. zodResolver, yupResolver, valibotResolver und andere Resolver bleiben unverändert; keine Schemaübersetzung. Die Demo nutzt Zod, Tests auch einen asynchron transformierenden Resolver.\n"
 "- Control-Identität folgt modelRegistry: gleiche Definition/Schlüssel/Store teilen ein Control; andere Schlüssel/Stores isolieren Formulare. Standard-retainTime ist Infinity. Entwürfe bleiben nach Unmount erhalten; entferne sie ausdrücklich, wenn sie nicht mehr benötigt werden.\n"
-"- Das Modell bietet native register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control und weitere createFormControl-Methoden. Kein nachgebautes useForm-formState; verwende useFormState für Flags und Fehler.\n"
+"- model.form bietet native register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control und weitere createFormControl-Methoden. Kein nachgebautes useForm-formState; verwende useFormState für Flags und Fehler.\n"
 "- Optionen stehen bei Erstellung fest. Ändere Werte mit reset/setValue und Modellaktionen. Kein reaktives values/resolver-Rebinding in holo. Async-defaultValues starten beim Mount eines holoForm-Roots mit nativem RHF-Ladestatus. Die initiale Ladung wird pro Modell geteilt und nach Erfolg bei Remount nicht wiederholt. Für erneutes Laden nutze reset.\n"
 "- Die Factory erzeugt keine Abonnements und führt keine React-Hooks aus. Eigene Ressourcen brauchen explizite Zuständigkeit. Native RHF-Daten werden nur dann bewusst zwischen Stores geteilt, wenn die Anwendung dasselbe rohe Control übergibt; createFormModel tut das nicht."
 
@@ -1628,7 +1628,8 @@ msgid "| Field      | Role                                     |\n"
 "| write      | Writable atoms mapped to callback props  |\n"
 "| props      | Fixed View props                         |\n"
 "| input      | Committed props mapped to writable atoms |\n"
-"| imperative | Event sources mapped to View methods     |"
+"| imperative | Event sources mapped to View methods     |\n"
+"| onError    | Connection, input and imperative errors  |"
 msgstr "| Feld | Aufgabe |\n"
 "| --- | --- |\n"
 "| view | React-View oder Element; erforderlich |\n"
@@ -1637,13 +1638,14 @@ msgstr "| Feld | Aufgabe |\n"
 "| write | Beschreibbare Atome → Callback-Props |\n"
 "| props | Feste View-Props |\n"
 "| input | Bestätigte Props → beschreibbare Atome |\n"
-"| imperative | Ereignisse → View-Methoden |"
+"| imperative | Ereignisse → View-Methoden |\n"
+"| onError | Fehler aus Verbindungen, input und imperative |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Declare outside React render. Supplied keys disappear from public props. Binding collisions are rejected. Fixed props win over caller values. Any native atom works; the same writable atom can appear in read and write. Async reads resolve before reaching View. Write callbacks preserve arguments and return values."
-msgstr "Deklariere holo außerhalb des React-Renderns. Gebundene Schlüssel entfallen aus den öffentlichen Props. Überschneidungen werden abgewiesen. Feste Props haben Vorrang vor Aufruferwerten. Jedes native Atom ist zulässig; dasselbe beschreibbare Atom kann in read und write stehen. Asynchrone Werte werden vor der Übergabe an die View aufgelöst. Schreib-Callbacks erhalten Argumente und Rückgabewerte."
+msgid "Declare outside React render. Keys supplied by read, write, props and imperative disappear from public props. Input keys and model-selector inputs remain caller props and are forwarded to the View. Binding collisions are rejected. Fixed props win over caller values. Any native atom works; the same writable atom can appear in read and write. Async reads resolve before reaching View. Write callbacks preserve arguments and return values."
+msgstr "Deklariere holo außerhalb des React-Renderns. Nur durch read, write, props und imperative bereitgestellte Schlüssel entfallen als öffentliche Props. input-Schlüssel und Eingaben der Modellauswahl bleiben Aufrufer-Props und werden an die View weitergereicht. Bindungskollisionen werden abgelehnt. Feste Props haben Vorrang vor Aufruferwerten. Native Atome funktionieren direkt; dasselbe beschreibbare Atom darf in read und write stehen. Async-Werte werden vor der Übergabe an die View aufgelöst. Schreibcallbacks erhalten Argumente und Rückgabewerte."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1854,6 +1856,24 @@ msgstr "input ordnet Prop-Namen beschreibbaren Atomen zu, direkt oder über eine
 #: docs/reference/input.md
 msgid "StrictMode replay does not repeat initial input. Suspended or abandoned renders publish no input. Temporary Suspense hiding preserves model ownership; real unmount releases it. Input cannot initialize the pending state that prevents its own first commit."
 msgstr "StrictMode-Wiederholung dupliziert den anfänglichen input nicht. Angehaltene oder verworfene Render veröffentlichen keine Eingaben. Vorübergehendes Suspense-Ausblenden erhält den Modellbesitz; tatsächlicher Unmount gibt ihn frei. input kann keinen ausstehenden Zustand initialisieren, der den ersten Commit blockiert."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "Model inputs and View props"
+msgstr "Modelleingaben und View-Props"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "input does not supply a prop or remove it from the public component type. In this example, callers must pass both counterId and initial. The View receives those props together with count, callbacks and the fixed title."
+msgstr "input liefert keinen Prop-Wert und entfernt ihn nicht aus dem öffentlichen Komponententyp. Hier müssen Aufrufer counterId und initial übergeben. Die View erhält diese zusammen mit count, Callbacks und dem festen title."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "initial here is a live input, not creation-only data. Changing it writes count again. An increment followed by a parent render with the same initial leaves count unchanged. For creation-only input, pass initial in the model selection instead."
+msgstr "initial ist hier eine veränderliche Eingabe, keine reine Erstellungsinformation. Eine Änderung schreibt count erneut. Rendert der Elternknoten nach increment mit demselben initial, bleibt count unverändert. Übergib initial bei der Modellauswahl, wenn es nur zur Erstellung dienen soll."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

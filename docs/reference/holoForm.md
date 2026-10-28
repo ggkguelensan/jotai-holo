@@ -15,7 +15,7 @@ import { holoForm } from 'jotai-holo/rhf';
 const ContactEditor = holoForm({
   models: {
     model: (props: { contactId: string }) =>
-      Contact({ key: [props.contactId] }),
+      $$contact({ key: [props.contactId] }),
   },
   form: ({ model }) => model.form,
   view: ContactView,

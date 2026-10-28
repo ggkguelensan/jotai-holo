@@ -1458,14 +1458,14 @@ msgid "- `options(initial)` returns native UseFormProps. It creates one createFo
 "- `model({ form, initial })` optionally returns your atoms and actions. The returned instance includes those fields and `form`. The name form is reserved.\n"
 "- Input, resolver context, and transformed output types are retained. Native zodResolver, yupResolver, valibotResolver, and other Resolver implementations pass through unchanged; no schema translation is performed. The executable demo uses Zod; the tests also exercise an asynchronous transforming resolver.\n"
 "- With modelRegistry, control identity is: same definition/key/store shares a control; different keys/stores isolate forms. Default retainTime is Infinity. This retains drafts after unmount; remove them explicitly when no longer needed.\n"
-"- The model exposes native register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control, and other createFormControl methods. It does not fabricate useForm's formState object. Use native useFormState for flags and errors.\n"
+"- model.form exposes native register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control, and other createFormControl methods. It does not fabricate useForm's formState object. Use native useFormState for flags and errors.\n"
 "- Options are fixed at creation. Change values with reset/setValue and explicit model actions. This wrapper does not add reactive values/resolver prop rebinding to holo. Async defaultValues start when a holoForm root mounts, with native RHF loading state. The initial load is shared per model and is not reapplied after successful completion on later remounts. Use reset for an explicit reload.\n"
 "- The factory creates no subscriptions and runs no React hooks. Custom resources still need explicit ownership. Native RHF state can be shared intentionally across stores only if the application passes the same raw control itself; each registry instance creates its own control."
 msgstr "- `options(initial)` returns native UseFormProps. It creates one createFormControl per model instance. `initial` is creation-only, never a reactive reset.\n"
 "- `model({ form, initial })` optionally returns your atoms and actions. The returned instance includes those fields and `form`. The name form is reserved.\n"
 "- Input, resolver context, and transformed output types are retained. Native zodResolver, yupResolver, valibotResolver, and other Resolver implementations pass through unchanged; no schema translation is performed. The executable demo uses Zod; the tests also exercise an asynchronous transforming resolver.\n"
 "- With modelRegistry, control identity is: same definition/key/store shares a control; different keys/stores isolate forms. Default retainTime is Infinity. This retains drafts after unmount; remove them explicitly when no longer needed.\n"
-"- The model exposes native register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control, and other createFormControl methods. It does not fabricate useForm's formState object. Use native useFormState for flags and errors.\n"
+"- model.form exposes native register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control, and other createFormControl methods. It does not fabricate useForm's formState object. Use native useFormState for flags and errors.\n"
 "- Options are fixed at creation. Change values with reset/setValue and explicit model actions. This wrapper does not add reactive values/resolver prop rebinding to holo. Async defaultValues start when a holoForm root mounts, with native RHF loading state. The initial load is shared per model and is not reapplied after successful completion on later remounts. Use reset for an explicit reload.\n"
 "- The factory creates no subscriptions and runs no React hooks. Custom resources still need explicit ownership. Native RHF state can be shared intentionally across stores only if the application passes the same raw control itself; each registry instance creates its own control."
 
@@ -1632,7 +1632,8 @@ msgid "| Field      | Role                                     |\n"
 "| write      | Writable atoms mapped to callback props  |\n"
 "| props      | Fixed View props                         |\n"
 "| input      | Committed props mapped to writable atoms |\n"
-"| imperative | Event sources mapped to View methods     |"
+"| imperative | Event sources mapped to View methods     |\n"
+"| onError    | Connection, input and imperative errors  |"
 msgstr "| Field      | Role                                     |\n"
 "| ---------- | ---------------------------------------- |\n"
 "| view       | React View or element; required          |\n"
@@ -1641,13 +1642,14 @@ msgstr "| Field      | Role                                     |\n"
 "| write      | Writable atoms mapped to callback props  |\n"
 "| props      | Fixed View props                         |\n"
 "| input      | Committed props mapped to writable atoms |\n"
-"| imperative | Event sources mapped to View methods     |"
+"| imperative | Event sources mapped to View methods     |\n"
+"| onError    | Connection, input and imperative errors  |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Declare outside React render. Supplied keys disappear from public props. Binding collisions are rejected. Fixed props win over caller values. Any native atom works; the same writable atom can appear in read and write. Async reads resolve before reaching View. Write callbacks preserve arguments and return values."
-msgstr "Declare outside React render. Supplied keys disappear from public props. Binding collisions are rejected. Fixed props win over caller values. Any native atom works; the same writable atom can appear in read and write. Async reads resolve before reaching View. Write callbacks preserve arguments and return values."
+msgid "Declare outside React render. Keys supplied by read, write, props and imperative disappear from public props. Input keys and model-selector inputs remain caller props and are forwarded to the View. Binding collisions are rejected. Fixed props win over caller values. Any native atom works; the same writable atom can appear in read and write. Async reads resolve before reaching View. Write callbacks preserve arguments and return values."
+msgstr "Declare outside React render. Keys supplied by read, write, props and imperative disappear from public props. Input keys and model-selector inputs remain caller props and are forwarded to the View. Binding collisions are rejected. Fixed props win over caller values. Any native atom works; the same writable atom can appear in read and write. Async reads resolve before reaching View. Write callbacks preserve arguments and return values."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1858,6 +1860,24 @@ msgstr "input maps prop names to writable atoms, directly or through a named-mod
 #: docs/reference/input.md
 msgid "StrictMode replay does not repeat initial input. Suspended or abandoned renders publish no input. Temporary Suspense hiding preserves model ownership; real unmount releases it. Input cannot initialize the pending state that prevents its own first commit."
 msgstr "StrictMode replay does not repeat initial input. Suspended or abandoned renders publish no input. Temporary Suspense hiding preserves model ownership; real unmount releases it. Input cannot initialize the pending state that prevents its own first commit."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "Model inputs and View props"
+msgstr "Model inputs and View props"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "input does not supply a prop or remove it from the public component type. In this example, callers must pass both counterId and initial. The View receives those props together with count, callbacks and the fixed title."
+msgstr "input does not supply a prop or remove it from the public component type. In this example, callers must pass both counterId and initial. The View receives those props together with count, callbacks and the fixed title."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "initial here is a live input, not creation-only data. Changing it writes count again. An increment followed by a parent render with the same initial leaves count unchanged. For creation-only input, pass initial in the model selection instead."
+msgstr "initial here is a live input, not creation-only data. Changing it writes count again. An increment followed by a parent render with the same initial leaves count unchanged. For creation-only input, pass initial in the model selection instead."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

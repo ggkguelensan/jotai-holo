@@ -2,7 +2,7 @@
 
 `ion`, `prism`, `bond`, `stateAtom`, `actionAtom` and `eventAtom` are also exported from `jotai-holo/vanilla`, whose module graph has no React dependency. `holoList` and `holoMatch` are React adapters exported from the root. They use the current Jotai Provider store.
 
-The [runnable example](../examples/operators.tsx) connects a model in a React effect, renders projected counts, switches empty/ready branches and preserves keyed user rows.
+The [runnable example](../examples/operators.tsx) selects a store-owned model through holo, renders projected counts, switches empty/ready branches and preserves keyed user rows.
 
 ## ion
 
@@ -39,7 +39,7 @@ const { $name, $age, $isAdult } = prism($user, {
 
 Each property is an independent read-only derived atom. An age-only change does not notify a `$name` subscriber if its selected value is unchanged. Projectors receive raw values, including promises, and may return undefined, promises or throw, just like native derived reads. There is no deep equality or writable lens.
 
-Events have one payload and no handler: `eventAtom<User>()`. They can be written through store.set, subscribed through subscribeEvent, or bound to UI actions. See [event subscriptions and ownership](api.md#eventatom).
+Events have one payload and no handler: `eventAtom<User>()`. They can be written through store.set, subscribed through subscribeEvent, or bound to UI actions. See [event subscriptions and ownership](reference/eventAtom.md).
 
 ## bond
 
@@ -128,7 +128,7 @@ const UsersList = holoList({
 });
 ```
 
-Declare the list once outside render. `source` is a native readable atom of a readonly array or a promise of one. A stable `getKey` is required. Duplicate React keys throw. `mapItem(item, index)` supplies row props and cannot overlap `read`, `write` or `props`. These sections follow ordinary holo contracts. `input` forwards committed row props to writable atoms. Models selected for a row own its connections. Each row owns its subscriptions and cleanup.
+Declare the list once outside render. `source` is a native readable atom of a readonly array or a promise of one. A stable `getKey` is required. Duplicate React keys throw. `mapItem(item, index)` supplies row props and cannot overlap `read`, `write` or `props`. These sections follow ordinary holo contracts. `input` forwards committed row props to writable atoms. For a row that selects a named model, declare a separate holo View with its own models and render it as the row View. Each row owns its subscriptions and cleanup.
 
 Remaining required row props are required on the list and forwarded to each row and the optional empty View. An empty array renders that View, or null. Async arrays use native Suspense and rejection boundaries. Reordering stable keys preserves row-local state; deleting a key disposes that row. Changing the key creates a new row. `mapItem` still runs for each item on a list update; unchanged shallow mapped props skip row/core renders. New object/function props, changed indices and shared state updates can cause additional row renders. Prefer immutable items and stable callbacks.
 

@@ -21,8 +21,9 @@ Connect a React View to atom values and commands. The View receives ordinary pro
 | props      | Fixed View props                         |
 | input      | Committed props mapped to writable atoms |
 | imperative | Event sources mapped to View methods     |
+| onError    | Connection, input and imperative errors  |
 
-Declare outside React render. Supplied keys disappear from public props. Binding collisions are rejected. Fixed props win over caller values. Any native atom works; the same writable atom can appear in read and write. Async reads resolve before reaching View. Write callbacks preserve arguments and return values.
+Declare outside React render. Keys supplied by read, write, props and imperative disappear from public props. Input keys and model-selector inputs remain caller props and are forwarded to the View. Binding collisions are rejected. Fixed props win over caller values. Any native atom works; the same writable atom can appear in read and write. Async reads resolve before reaching View. Write callbacks preserve arguments and return values.
 
 Only read bindings subscribe to state. Unchanged values and shallow-equal input props skip View rendering; write callbacks stay stable while store and targets do. Context and local hook updates retain ordinary React behavior. Use small connected Views for independent rendering. Specialize generic Views first; bindings must be valid across union branches.
 
