@@ -4,5 +4,5 @@ See the [composition guide](/guide/model-composition) for pure factories, modifi
 order, custom connections, structural keys and ownership.
 
 The [runtime contract](runtime.md) documents cleanup, loading and analytics.
-[Validation evidence](model-composition-validation.md) records the checked
-implementation and its limitations; measurements apply to that recorded revision.
+The [API audit](api-audit.md) records the checked contracts, example verification
+and bundle measurements.

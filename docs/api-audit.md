@@ -6,17 +6,17 @@ strict type fixtures and executable examples are the sources of truth.
 ## One model interface
 
 ```text
-Before                                 After
-createModel({ create, resources, … })   pure factory
-pipe(factory, modelRegistry(), …)         → pipe
-                                           → modelRegistry
-                                           → modelConnection / modelLifecycle
-                                           → modelAnalytics (optional entry)
-bond({ trigger, yield })               bond({ trigger, write })
+pure factory
+  → pipe
+    → modelRegistry
+    → modelConnection / modelLifecycle
+    → modelAnalytics (optional entry)
+
+holo(view, models, read, write, props, input, imperative)
 ```
 
-- `createModel` is no longer exported. The private registry engine remains an
-  implementation detail; package consumers use the composition entry.
+- Model construction uses pure factories and composition modifiers. The registry
+  engine is private; package consumers use the composition entry.
 - `bond.write` is the only recipient field. Retired `yield` and `action` fields
   throw rather than being silently ignored. Types reject them.
 - `holo` accepts view/models/read/write/props/input/imperative/onError. Retired
@@ -59,7 +59,7 @@ record extension, registry identity, modifier order, custom connections and
 ownership outside React. Its shipment tracking modifier is executable and tested
 with a fake transport, shared owners and separate stores.
 
-Removed the duplicate createModel reference, obsolete runtime validation page,
+Removed the duplicate registry-constructor reference, obsolete runtime validation page,
 stale development-branch checkout instruction and artificial message demo.
 Public examples use one model syntax and bond.write. Event documentation follows
 API-confirmed profile saving; the order example shows an independent receipt

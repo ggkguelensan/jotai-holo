@@ -50,6 +50,7 @@ async function headingIds(file) {
 let snippets = 0;
 for (const file of pages) {
   const text = await readFile(file, 'utf8');
+  assert.doesNotMatch(text, /\bcreateModel\b/, `Retired model constructor in ${file}`);
   assert.doesNotMatch(
     text,
     /\b(?:bunshi|holoMolecule|ScopeProvider|useMolecule)\b/i,
