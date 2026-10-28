@@ -46,6 +46,7 @@ async function localeConfig(code: string, label: string, prefix: string) {
         { text: t('Why jotai-holo'), link: link('/guide/motivation') },
         { text: t('Choosing a tool'), link: link('/guide/ecosystem') },
         { text: t('Atoms or models?'), link: link('/guide/atoms-or-models') },
+        { text: t('Business logic and small Views'), link: link('/guide/business-logic') },
         { text: t('Model composition'), link: link('/guide/model-composition') },
         { text: t('Rendering and async'), link: link('/guide/rendering') },
       ],

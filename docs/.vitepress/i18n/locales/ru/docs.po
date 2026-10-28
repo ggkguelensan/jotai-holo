@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 16:27+0500\n"
+"POT-Creation-Date: 2026-10-28 16:44+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -191,8 +191,176 @@ msgstr "Модификаторы управляют работой, пока у 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/atoms-or-models.md
-msgid "For server cache use [queryAtoms](/reference/queryAtoms); for RHF use [holoForm](/reference/holoForm). You do not need to wrap unrelated global atoms in a model to bind them to a View."
-msgstr "Для серверного кеша используйте [queryAtoms](/reference/queryAtoms), для RHF — [holoForm](/reference/holoForm). Не нужно объединять несвязанные глобальные атомы в модель только ради подключения к View."
+msgid "For React-only server data and forms, keep native TanStack Query and RHF hooks. Add [queryAtoms](/reference/queryAtoms), [mutationAtoms](/reference/mutationAtoms) or [holoForm](/reference/holoForm) when the atom/model graph needs those values or operations. You do not need to wrap unrelated global atoms in a model to bind them to a View."
+msgstr "Если серверные данные и формы нужны только React, оставьте нативные хуки TanStack Query и RHF. Добавьте [queryAtoms](/reference/queryAtoms), [mutationAtoms](/reference/mutationAtoms) или [holoForm](/reference/holoForm), когда эти значения или операции нужны системе атомов и моделей. Оборачивать несвязанные глобальные атомы в модель ради подключения к View не нужно."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Business logic and small Views"
+msgstr "Бизнес-логика и маленькие View"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "A sales editor calculates a proposal, saves it and reports a successful save. These are related responsibilities, but they need different owners: domain functions define the rules, atoms coordinate the workflow, React renders the result, and analytics observes completed facts."
+msgstr "Редактор рассчитывает предложение, сохраняет его и сообщает об успешном сохранении. Эти обязанности связаны, но у каждой свой владелец: доменные функции определяют правила, атомы управляют процессом, React показывает результат, а аналитика наблюдает за произошедшими фактами."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "When to use holo"
+msgstr "Когда использовать holo"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Use holo wherever decomposition gives a part of the screen its own responsibility. Connect a price summary, a Save button or a search result near where it is rendered. Each View receives only its values and callbacks; it does not need to know which atoms or model instances provide them."
+msgstr "Используйте holo везде, где декомпозиция выделяет части экрана собственную ответственность. Подключайте итоговую стоимость, кнопку сохранения или результаты поиска рядом с местом их отображения. Каждая View получает только свои значения и обработчики; ей не нужно знать, какие атомы или экземпляры моделей их предоставляют."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Move business decisions and synchronization into the model. Keep formatting, accessibility, local presentation state and native UI hooks in React. The aim is small Views and explicit workflows, not banning every React hook or effect. Declare holo outside render; no model registry is required for direct atom bindings."
+msgstr "Переносите бизнес-решения и синхронизацию в модель. Форматирование, доступность, локальное состояние отображения и нативные UI-хуки оставляйте в React. Цель — маленькие View и явные процессы, а не запрет всех хуков и эффектов. Объявляйте holo вне render; для прямого подключения атомов реестр моделей не нужен."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Start with a business workflow"
+msgstr "Начните с бизнес-процесса"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Write the sequence in business terms: validate the draft, capture the submitted values, request a save, accept the response, publish that the proposal was saved. A command expresses an intention and can fail. A fact describes something that has already happened; publish it only after the relevant operation succeeds."
+msgstr "Опишите последовательность на языке бизнеса: проверить черновик, зафиксировать отправляемые значения, запросить сохранение, принять ответ, сообщить о сохранённом предложении. Команда выражает намерение и может завершиться ошибкой. Факт описывает то, что уже произошло; публикуйте его только после успешного завершения соответствующей операции."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Keep calculations and validation in ordinary functions with explicit inputs and outputs. Use stateAtom for current values and derived state, actionAtom to coordinate reads, writes and asynchronous work, and eventAtom to publish notifications. Use bond for a separate reaction to a notification; a direct write inside a command is also appropriate when it belongs to the same workflow."
+msgstr "Расчёты и проверку данных оставляйте обычными функциями с явными входами и результатами. stateAtom хранит текущие значения и производное состояние, actionAtom координирует чтение, запись и асинхронную работу, eventAtom публикует уведомления. bond подходит для отдельной реакции на уведомление; прямая запись внутри команды тоже уместна, если относится к тому же процессу."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "The saving model captures the draft before await. Later edits do not change the submitted request, and a failed request produces no success fact:"
+msgstr "Модель сохранения фиксирует черновик до await. Последующие правки не меняют отправленный запрос, а ошибка запроса не порождает факт успешного сохранения:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Make failure, concurrency and ownership decisions explicit. Here one editor ignores duplicate Save while pending, keeps edits made during the request and shows the mutation error. Other workflows may need cancellation, serialization or a revision check instead. Do not infer these rules from a button's disabled appearance."
+msgstr "Явно определите поведение при ошибках, параллельных вызовах и смене владельца. Здесь редактор игнорирует повторное сохранение во время запроса, сохраняет введённые за это время правки и показывает ошибку мутации. Другому процессу могут понадобиться отмена, последовательное выполнение или проверка ревизии. Эти правила нельзя выводить из того, что кнопка выглядит отключённой."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Separate domain code from assembly"
+msgstr "Отделите домен от сборки"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "The factory creates related atoms and commands. Application composition adds sharing, persistence, subscriptions or analytics. A registry selects shared instances by key and store; it does not clone imported global atoms or replace QueryClient's cache. Read [model composition](/guide/model-composition) and the [server-data recipes](/recipes/server-data) for complete examples."
+msgstr "Фабрика создаёт связанные атомы и команды. Сборка приложения добавляет совместное использование, сохранение, подписки или аналитику. Реестр выбирает общие экземпляры по ключу и store; он не клонирует импортированные глобальные атомы и не заменяет кеш QueryClient. Полные примеры — в статьях [о композиции моделей](/guide/model-composition) и [о серверных данных](/recipes/server-data)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Place domain rules and the business factory in modules that do not import React, analytics SDKs or provider-specific event names. The assembly module may import the business factory, the View and optional integrations. A rule can then be tested as a function and a workflow with a Jotai store, without mounting the View."
+msgstr "Доменные правила и бизнес-фабрика должны лежать в модулях без импортов React, SDK аналитики и названий событий конкретного провайдера. Модуль сборки может импортировать фабрику, View и дополнительные интеграции. Тогда правило можно проверить как функцию, а процесс — через Jotai store, не монтируя View."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Publish facts that consumers can understand"
+msgstr "Публикуйте понятные потребителям факты"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "In domain modelling, an event commonly already means a fact that occurred. Here the useful distinction is intention versus occurrence: search is a command; searchCompleted reports its result. The payload should contain the business context needed by its consumers at that moment, rather than forcing them to reconstruct history from mutable current state."
+msgstr "В доменном моделировании событие обычно уже означает произошедший факт. Полезнее различать намерение и результат: search — команда, а searchCompleted сообщает о её результате. Payload должен содержать нужный потребителям бизнес-контекст на тот момент, чтобы им не приходилось восстанавливать историю по изменяемому текущему состоянию."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "The search fact carries the query, category, result count and duration. Capture request context before await in a real asynchronous search. If ordering or correlation matters, also define an operation ID, occurrence time or revision. Keep payloads immutable and limited to the permitted business data; do not copy an entire model or personal data just in case."
+msgstr "Факт поиска содержит запрос, категорию, число результатов и длительность. В реальном асинхронном поиске фиксируйте контекст запроса до await. Если важны порядок или сопоставление операций, добавьте ID операции, время события или ревизию. Payload должен быть неизменяемым и содержать только разрешённые бизнес-данные; не копируйте модель целиком или персональные данные про запас."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Provider names, field renaming and unit conversions belong in analytics mappings. The business factory and View do not import analytics. Each engine receives only its own mapping; engines absent from a mapping receive nothing:"
+msgstr "Названия провайдеров, переименование полей и перевод единиц измерения относятся к мапперам аналитики. Бизнес-фабрика и View не импортируют аналитику. Каждый движок получает только свой маппинг; движкам, которых нет в карте, ничего не отправляется:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Loading analytics and keeping messages"
+msgstr "Загрузка аналитики и сохранение сообщений"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Attach modelAnalytics in the application assembly, not inside the business factory. It follows committed model ownership. Currently a lazily imported analytics factory starts observing only after it loads: facts emitted earlier are not replayed. Do not rely on this form to preserve the first interaction."
+msgstr "Подключайте modelAnalytics при сборке приложения, а не внутри бизнес-фабрики. Он следует за владением моделью после commit. Сейчас лениво импортируемая фабрика аналитики начинает наблюдение только после загрузки: более ранние факты не воспроизводятся. Не полагайтесь на эту форму для сохранения первого взаимодействия."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "For essential early facts, provide an eagerly available analytics factory and defer SDK initialization through createAnalytics engine factories. The managed observer must be connected before the fact is emitted. Its per-engine queue retains already mapped, detached messages while the engine loads; it is bounded and has a timeout. See [modelAnalytics](/reference/modelAnalytics) and [createAnalytics](/reference/createAnalytics) for the exact guarantees."
+msgstr "Для важных ранних фактов используйте заранее доступную фабрику аналитики, а инициализацию SDK отложите через фабрики движков createAnalytics. Управляемый наблюдатель должен подключиться до публикации факта. Очередь каждого движка хранит уже преобразованные, отделённые от источника сообщения на время загрузки; у неё есть лимит и таймаут. Точные гарантии описаны в [modelAnalytics](/reference/modelAnalytics) и [createAnalytics](/reference/createAnalytics)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "This queue is delivery infrastructure, not event sourcing. It is neither a persistent domain journal nor a mechanism for rebuilding state. Surviving reloads or guaranteeing delivery needs a separate durable outbox, identifiers, retries and an acknowledgement policy. A domain-fact buffer before a lazy analytics factory is ready is not implemented in the current API."
+msgstr "Эта очередь отвечает за доставку, но не реализует event sourcing. Это не постоянный журнал доменных событий и не способ восстановить состояние. Для переживания перезагрузок или гарантированной доставки нужны отдельный надёжный outbox, идентификаторы, повторы и правила подтверждения. Буфера доменных фактов до готовности ленивой фабрики аналитики в текущем API нет."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Keep Query and RHF native where possible"
+msgstr "Сохраняйте нативные Query и RHF, когда возможно"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Use native TanStack Query hooks near React consumers when only the UI needs the result. Reuse the same query-options factories and select the required data there. Native useQuery tracks accessed result properties; useSuspenseQuery provides Query's Suspense integration. Choose the corresponding error boundary and reset behavior from the native API."
+msgstr "Используйте нативные хуки TanStack Query рядом с React-потребителями, если результат нужен только интерфейсу. Переиспользуйте фабрики query-options и выбирайте нужные данные на месте. useQuery отслеживает прочитанные поля результата; useSuspenseQuery даёт нативную интеграцию Query с Suspense. Поведение error boundary и сброса ошибок выбирайте по нативному API."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Use queryAtoms only when an atom or model needs reactive server data, and mutationAtoms when an atom workflow needs to execute or observe its mutation. Even if these adapters already exist, a React-only consumer can still use native hooks with the same QueryClient. Do not route data through holo merely because it is available as atoms. Mutation keys do not make separate mutation observers share one execution state."
+msgstr "Используйте queryAtoms, только когда атому или модели нужны реактивные серверные данные, а mutationAtoms — когда атомный процесс должен выполнить свою мутацию или наблюдать её состояние. Даже при наличии адаптеров потребитель только в React может использовать нативные хуки с тем же QueryClient. Не проводите данные через holo лишь потому, что они доступны как атомы. Ключи мутаций не объединяют состояние выполнения отдельных наблюдателей."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Use native useForm, Controller and FormProvider for a self-contained form. Add createFormModel, formAtom and holoForm only when the atom/model system must react to form values, validation, submission or other form state. Resolvers remain native RHF resolvers; the bridge does not replace them."
+msgstr "Для самостоятельной формы используйте нативные useForm, Controller и FormProvider. Добавляйте createFormModel, formAtom и holoForm, только когда система атомов и моделей должна реагировать на значения, валидацию, отправку или другое состояние формы. Резолверы остаются нативными резолверами RHF; адаптер их не заменяет."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Reading and design review"
+msgstr "Материалы и проверка архитектуры"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "[Sasha Bespoyasov's notes on functional domain modelling](https://bespoyasov.ru/blog/domain-modelling-made-functional/) introduce domain language and boundaries. This guide applies that perspective to Jotai workflows; holo supplies bindings and ownership, not a domain architecture generator."
+msgstr "[Конспект Саши Беспоясова о функциональном доменном моделировании](https://bespoyasov.ru/blog/domain-modelling-made-functional/) знакомит с языком домена и его границами. Эта статья применяет такой подход к процессам на Jotai; holo даёт связывание и управление владельцами, а не генерирует доменную архитектуру."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
+msgid "Check a feature by asking: Can the View render with plain props? Can the business workflow run without analytics? Does each fact capture the context its consumers need? Is each subscription owned? Are Query and RHF adapters solving an actual atom-graph dependency? These questions matter more than using every operator."
+msgstr "Проверьте фичу вопросами: может ли View отобразиться с обычными пропсами? Может ли бизнес-процесс работать без аналитики? Фиксирует ли каждый факт нужный потребителям контекст? Есть ли владелец у каждой подписки? Решают ли адаптеры Query и RHF реальную зависимость атомного графа? Это важнее использования всех операторов."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -211,24 +379,26 @@ msgstr "Сначала определите задачу, затем выбер�
 #: docs/guide/ecosystem.md
 msgid "| Task                                    | Start with                          | What holo adds                                                          |\n"
 "| --------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------- |\n"
-"| Local component state                   | useAtom / useAtomValue / useSetAtom | A declaration when repeated wiring deserves a separate binding          |\n"
+"| Local component state                   | useAtom / useAtomValue / useSetAtom | A separate binding for a small View                                     |\n"
 "| Conditional derived reads               | atom(get => …)                      | stateAtom preserves native overloads; ion names a fixed input shape     |\n"
 "| One selected value with custom equality | selectAtom                          | prism declares several independent projections, without custom equality |\n"
 "| Per-item writable atoms                 | splitAtom                           | holoList renders keyed Views; it does not replace item atoms            |\n"
 "| Reactive external resource              | jotai-effect                        | input bridges committed props; models own managed connections           |\n"
 "| One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality        |\n"
-"| Async server cache                      | jotai-tanstack-query                | holo accepts its atoms; it adds no cache/retry engine                   |\n"
+"| Server data used only by React          | Native TanStack Query hooks         | No atom adapter is required                                             |\n"
+"| Server data needed by atom workflows    | queryAtoms / mutationAtoms          | Named projections and writable actions reuse the existing QueryClient   |\n"
 "| Share one model across widgets          | modelRegistry                       | Select a default or keyed instance in the current store                 |"
-msgstr "| Задача | С чего начать | Что добавляет holo |\n"
+msgstr "| Задача | Начните с | Что добавляет holo |\n"
 "| --- | --- | --- |\n"
-"| Локальное состояние компонента | useAtom / useAtomValue / useSetAtom | Декларация для повторяющихся привязок |\n"
-"| Условное производное чтение | atom(get => …) | stateAtom сохраняет перегрузки atom; ion задаёт фиксированную структуру входов |\n"
-"| Одна проекция со своим сравнением | selectAtom | prism объявляет независимые проекции без собственного сравнения |\n"
-"| Записываемые атомы элементов | splitAtom | holoList отображает View по ключам, сохраняя атомы элементов |\n"
-"| Реактивный внешний ресурс | jotai-effect | input связывает входные props после commit; произвольные ресурсы имеют отдельное владение |\n"
-"| Вызов команды или доменный факт | actionAtom / eventAtom | Каждый вызов может запускать bond независимо от равенства значений |\n"
-"| Кеш серверных данных | jotai-tanstack-query | holo принимает его атомы, не добавляя свой кеш и повторы запросов |\n"
-"| Общая модель для нескольких виджетов | modelRegistry | Выбор экземпляра по умолчанию или по ключу в текущем store |"
+"| Локальное состояние компонента | useAtom / useAtomValue / useSetAtom | Отдельное связывание небольшой View |\n"
+"| Условные производные значения | atom(get => …) | stateAtom сохраняет нативные перегрузки; ion задаёт форму входов |\n"
+"| Одно значение со своим сравнением | selectAtom | prism описывает независимые проекции без своего сравнения |\n"
+"| Writable-атомы элементов | splitAtom | holoList отображает View по ключам, не заменяя атомы элементов |\n"
+"| Реактивный внешний ресурс | jotai-effect | input передаёт подтверждённые props; модель владеет подключениями |\n"
+"| Вызов или доменный факт | actionAtom / eventAtom | Каждый вызов может запускать bond независимо от равенства данных |\n"
+"| Серверные данные только для React | Нативные хуки TanStack Query | Атомный адаптер не нужен |\n"
+"| Серверные данные для атомных процессов | queryAtoms / mutationAtoms | Проекции и действия используют существующий QueryClient |\n"
+"| Общая модель для виджетов | modelRegistry | Выбор default или keyed экземпляра в текущем store |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -269,8 +439,20 @@ msgstr "[Jotai atom](https://jotai.org/docs/core/atom), [selectAtom](https://jot
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/ecosystem.md
-msgid "For keyed models without another scope provider, use [modelRegistry](/reference/modelRegistry). For Query factories with independent projections, use [queryAtoms](/reference/queryAtoms). For a form shared by an editor and an external toolbar, use [holoForm](/reference/holoForm). Native useQuery and useForm remain preferable where a separate model binding is unnecessary."
-msgstr "Для ключевых моделей без дополнительного scope-провайдера используйте [modelRegistry](/reference/modelRegistry). Для Query-фабрик и независимых проекций есть [queryAtoms](/reference/queryAtoms); для формы, которую разделяют редактор и внешняя панель — [holoForm](/reference/holoForm). Нативные useQuery и useForm остаются предпочтительными там, где отдельная привязка модели не нужна."
+msgid "Use [holo](/reference/holo) to connect small Views near their data and keep business workflows in models. Use [modelRegistry](/reference/modelRegistry) when widgets need to select and share instances by key. These choices do not require converting every external library into atoms."
+msgstr "Используйте [holo](/reference/holo), чтобы подключать маленькие View рядом с их данными и оставлять бизнес-процессы в моделях. [modelRegistry](/reference/modelRegistry) нужен, когда виджеты выбирают и разделяют экземпляры по ключу. Эти решения не требуют превращать каждую внешнюю библиотеку в атомы."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/ecosystem.md
+msgid "Keep native TanStack Query hooks for React-only consumers, including when queryAtoms already exists elsewhere. Share the QueryClient and options factories; select data at its point of consumption. Use [queryAtoms](/reference/queryAtoms) or [mutationAtoms](/reference/mutationAtoms) only when the atom/model graph needs them. Native useSuspenseQuery supplies Suspense integration; queryAtoms does not synthesize it."
+msgstr "Для потребителей только в React оставляйте нативные хуки TanStack Query, даже если где-то уже есть queryAtoms. Разделяйте QueryClient и фабрики опций; выбирайте данные в месте потребления. [queryAtoms](/reference/queryAtoms) и [mutationAtoms](/reference/mutationAtoms) нужны, только когда их требует система атомов и моделей. Нативный useSuspenseQuery поддерживает Suspense; queryAtoms его не создаёт."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/ecosystem.md
+msgid "Keep native RHF for self-contained forms. Use [holoForm](/reference/holoForm) only when atoms or models must react to form state or events. See [Business logic and small Views](/guide/business-logic) for the responsibilities of each layer."
+msgstr "Для самостоятельных форм оставляйте нативный RHF. [holoForm](/reference/holoForm) нужен, только когда атомы или модели должны реагировать на состояние или события формы. Ответственности каждого слоя описаны в статье [«Бизнес-логика и маленькие View»](/guide/business-logic)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -605,14 +787,14 @@ msgstr "Нативного Jotai уже достаточно:"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "That is a good choice for a small component. When this pattern repeats across a UI, `holo` expresses the same wiring once:"
-msgstr "Для небольшого компонента это хороший вариант. Если такое связывание повторяется по всему UI, `holo` позволяет описать его декларативно:"
+msgid "Use `holo` when this part of the screen deserves its own View and binding. Decomposition is enough reason; the wiring does not need to repeat first:"
+msgstr "Используйте `holo`, когда этой части экрана нужны собственные View и связывание. Декомпозиция — уже достаточная причина; ждать повторений одного и того же кода не нужно:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "Keep the View separate when you want to reuse it in stories, test it with props or bind subscriptions to a small part of the screen. For a local component that already uses several hooks, `useAtomValue` and `useSetAtom` may be simpler."
-msgstr "Отделяйте View, когда хотите использовать его в историях, тестировать через props или подписать на данные небольшой участок экрана. Для локального компонента с несколькими хуками `useAtomValue` и `useSetAtom` могут быть проще."
+msgid "Connect small Views lower in the tree, near the data they display. Move business decisions, commands and synchronization into atom models; keep React responsible for presentation and native UI hooks. This reduces business effects inside components and lets each View render with ordinary props. See [Business logic and small Views](/guide/business-logic) for the architecture and its boundaries."
+msgstr "Подключайте маленькие View ниже по дереву, рядом с отображаемыми данными. Бизнес-решения, команды и синхронизацию переносите в модели атомов; React оставляйте отображение и нативные UI-хуки. Так в компонентах становится меньше бизнес-эффектов, а View получает обычные пропсы. Об архитектуре и её границах — в статье [«Бизнес-логика и маленькие View»](/guide/business-logic)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1065,6 +1247,12 @@ msgstr "Серверные данные, формы и сохранение"
 #: docs/recipes/server-data.md
 msgid "A sales team edits the seat count and customer comment of a proposal. These five recipes use the same request factories and Views. QueryClient owns server data; a model owns the user's draft. The examples expect your application to provide GET and PUT `/api/proposals/:id`; they do not install a demo backend."
 msgstr "Отдел продаж меняет количество мест и комментарий клиента в коммерческом предложении. В пяти рецептах используются одни фабрики запросов и View. QueryClient хранит серверные данные, модель — черновик пользователя. Приложение должно предоставить GET и PUT `/api/proposals/:id`; демонстрационный backend не устанавливается."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/server-data.md
+msgid "These recipes assume the atom/model graph needs server data, form state or save commands. For a React-only editor, prefer native Query and RHF hooks; neither a model registry nor an atom adapter is required. Read [Business logic and small Views](/guide/business-logic) before choosing an adapter."
+msgstr "Эти рецепты предполагают, что серверные данные, состояние формы или команды сохранения нужны системе атомов и моделей. Для редактора только на React предпочтительнее нативные хуки Query и RHF; ни реестр моделей, ни атомный адаптер не обязательны. Прежде чем выбирать адаптер, прочтите [«Бизнес-логика и маленькие View»](/guide/business-logic)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1803,6 +1991,12 @@ msgid "Create a separate RHF form for each model key. An editor and an external 
 msgstr "Создайте отдельную форму RHF для каждого ключа модели. Редактор и внешняя панель сохранения могут работать с одной формой, не затрагивая другого контакта."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createFormModel.md
+msgid "Use this factory only when atoms or models need to react to form state or operations. A form contained in React can keep native useForm without a model."
+msgstr "Используйте эту фабрику, только когда атомы или модели должны реагировать на состояние или операции формы. Форма, целиком работающая в React, может оставить нативный useForm без модели."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2003,6 +2197,12 @@ msgstr "Свяжите модели и атомы с React-компоненто�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
+msgid "Use holo when decomposing a screen into small Views and moving business workflows into models. Bind subscriptions near the View that needs them. See [Business logic and small Views](/guide/business-logic) for when to keep native Query and RHF hooks."
+msgstr "Используйте holo, когда делите экран на маленькие View и переносите бизнес-процессы в модели. Подключайте подписки рядом с View, которой они нужны. Когда стоит оставить нативные хуки Query и RHF, объясняет статья [«Бизнес-логика и маленькие View»](/guide/business-logic)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
 msgid "| I want to…                                  | Use                                |\n"
 "| ------------------------------------------- | ---------------------------------- |\n"
 "| Choose the React component                  | `view`                             |\n"
@@ -2153,8 +2353,8 @@ msgstr "- Принимает конфигурацию holo с именованн
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holoForm.md
-msgid "Use holoForm when an editor and other widgets need one RHF control. The editor keeps its RHF components; an external Save panel binds to the same model with ordinary holo."
-msgstr "Используйте holoForm, когда редактору и другим виджетам нужен один RHF control. Редактор сохраняет свои RHF-компоненты, внешняя панель сохранения подключается к той же модели через обычный holo."
+msgid "Use holoForm only when the atom/model system needs to react to form values, validation, submission or other form state. A self-contained form should keep native useForm and FormProvider. When a model is needed, the editor keeps its RHF components and an external Save panel can bind to the same model with ordinary holo."
+msgstr "holoForm нужен, только когда система атомов и моделей должна реагировать на значения, валидацию, отправку или другое состояние формы. Самостоятельной форме достаточно нативных useForm и FormProvider. Когда модель нужна, редактор сохраняет свои RHF-компоненты, а внешняя панель сохранения может подключиться к той же модели через обычный holo."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2693,8 +2893,8 @@ msgstr "React-опция throwOnError не поддерживается. Вкл�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/mutationAtoms.md
-msgid "Use native useMutation when a component owns the operation. Use mutationAtoms when a Jotai model must execute it or several Views need separate state projections. The adapter reuses actionAtom and prism; it adds execution ownership and store isolation without another cache or retry engine."
-msgstr "Используйте нативный useMutation, если операцией владеет компонент. mutationAtoms нужен, когда её запускает модель Jotai или нескольким View нужны отдельные проекции состояния. Адаптер переиспользует actionAtom и prism, добавляя владение выполнением и изоляцию store без нового cache или механизма retry."
+msgid "Use native useMutation when React owns the operation. Use mutationAtoms only when the atom/model system needs to execute the mutation or react to its state. Several UI consumers alone do not require an atom adapter. Existing mutationAtoms does not prevent native hooks elsewhere; shared mutation keys do not share an observer or execution state."
+msgstr "Если операция принадлежит React, используйте нативный useMutation. mutationAtoms нужен, только когда система атомов и моделей должна запускать мутацию или реагировать на её состояние. Несколько UI-потребителей сами по себе не требуют атомного адаптера. Наличие mutationAtoms не мешает нативным хукам в других местах; одинаковые ключи мутаций не объединяют наблюдателей и состояния выполнения."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2834,8 +3034,8 @@ msgstr "queryAtoms"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/queryAtoms.md
-msgid "Bind Query results to a View through separate atoms. Reuse your query-options factory and select only the fields each View needs."
-msgstr "Свяжите результаты Query с View через отдельные атомы. Используйте готовую фабрику query options и выбирайте поля, нужные конкретному View."
+msgid "Expose server data to atom workflows through independent projections. Use this adapter when atoms or models need reactive Query results; a React-only consumer can keep native Query hooks."
+msgstr "Предоставляйте серверные данные атомным процессам через независимые проекции. Адаптер нужен, когда атомам или моделям необходимы реактивные результаты Query; потребитель только в React может оставить нативные хуки Query."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2884,8 +3084,8 @@ msgstr "В примере `$screen` вычисляется прямо в `prism`
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/queryAtoms.md
-msgid "Native useQuery's property tracking works well in hook-based components. Holo needs named atoms to bind a plain View. Independent projections reuse prism and let data-only Views ignore fetching changes. This adapter talks directly to QueryObserver; it does not wrap atomWithQuery or replace Query's cache, network lifecycle, or mutation infrastructure."
-msgstr "Отслеживание полей useQuery удобно внутри React-хуков. Для привязки обычного View через holo нужны именованные атомы. Независимые проекции переиспользуют prism и позволяют View с данными игнорировать изменения загрузки. Адаптер работает прямо с QueryObserver, сохраняя сетевую логику и кеш TanStack Query."
+msgid "Prefer native useQuery or useSuspenseQuery with a local select when React alone consumes the data. This remains valid even when another model already uses queryAtoms with the same QueryClient. Use this adapter for atom-graph dependencies; binding its projections through holo is optional. Independent projections reuse prism. The adapter talks directly to QueryObserver without replacing Query's cache or network lifecycle."
+msgstr "Если данные нужны только React, предпочтительнее нативные useQuery или useSuspenseQuery с select на месте. Это верно, даже если другая модель уже использует queryAtoms с тем же QueryClient. Адаптер нужен для зависимостей атомного графа; связывать его проекции через holo необязательно. Независимые проекции переиспользуют prism. Адаптер работает напрямую с QueryObserver, не заменяя кеш и сетевой цикл Query."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

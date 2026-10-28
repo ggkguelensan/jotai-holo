@@ -80,4 +80,4 @@ Use the decorated definition in `holo.models` so holo activates and releases thi
 
 These modifiers manage work while an instance is owned. `modelRegistry` chooses how instances are shared and retained. Read [Model composition](/guide/model-composition) for combining these responsibilities.
 
-For server cache use [queryAtoms](/reference/queryAtoms); for RHF use [holoForm](/reference/holoForm). You do not need to wrap unrelated global atoms in a model to bind them to a View.
+For React-only server data and forms, keep native TanStack Query and RHF hooks. Add [queryAtoms](/reference/queryAtoms), [mutationAtoms](/reference/mutationAtoms) or [holoForm](/reference/holoForm) when the atom/model graph needs those values or operations. You do not need to wrap unrelated global atoms in a model to bind them to a View.

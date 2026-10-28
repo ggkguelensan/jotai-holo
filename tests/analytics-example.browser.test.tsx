@@ -21,6 +21,8 @@ test('the documented product search sends a completed fact to two engines and an
     });
     await act(async () => {
       store.set(store.get($$search()).search);
+      // The queued fact keeps the category at occurrence time.
+      store.set(store.get($$search()).$category, 'lighting');
       await $$analytics.flush(store);
     });
     expect(h.container.textContent).toContain('Oak desk');

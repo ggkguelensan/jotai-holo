@@ -1,6 +1,6 @@
 # queryAtoms
 
-Bind Query results to a View through separate atoms. Reuse your query-options factory and select only the fields each View needs.
+Expose server data to atom workflows through independent projections. Use this adapter when atoms or models need reactive Query results; a React-only consumer can keep native Query hooks.
 
 <Demo kind="query">
 
@@ -31,7 +31,7 @@ The example derives `$screen` directly in `prism` and selects a View with `holoM
 
 ## Why this API
 
-Native useQuery's property tracking works well in hook-based components. Holo needs named atoms to bind a plain View. Independent projections reuse prism and let data-only Views ignore fetching changes. This adapter talks directly to QueryObserver; it does not wrap atomWithQuery or replace Query's cache, network lifecycle, or mutation infrastructure.
+Prefer native useQuery or useSuspenseQuery with a local select when React alone consumes the data. This remains valid even when another model already uses queryAtoms with the same QueryClient. Use this adapter for atom-graph dependencies; binding its projections through holo is optional. Independent projections reuse prism. The adapter talks directly to QueryObserver without replacing Query's cache or network lifecycle.
 
 ## Analogies and reading
 

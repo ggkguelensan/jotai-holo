@@ -2,6 +2,8 @@
 
 Connect models and atoms to a React component. Declare the connection once, outside React render. The View receives ordinary props.
 
+Use holo when decomposing a screen into small Views and moving business workflows into models. Bind subscriptions near the View that needs them. See [Business logic and small Views](/guide/business-logic) for when to keep native Query and RHF hooks.
+
 <Demo kind="counter">
 
 <<< @/../examples/docs/counter.tsx#counter

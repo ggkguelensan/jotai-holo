@@ -54,6 +54,11 @@ msgstr "Atoms or models?"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
+msgid "Business logic and small Views"
+msgstr "Business logic and small Views"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
 msgid "Model composition"
 msgstr "Model composition"
 

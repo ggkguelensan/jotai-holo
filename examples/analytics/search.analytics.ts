@@ -6,21 +6,17 @@ export function createSearchAnalyticsModel(search: SearchModel) {
   const searchCompleted = $$analytics.event({
     trigger: search.searchCompleted,
 
-    state: {
-      category: search.$category,
-    },
-
     map: {
-      amplitude: ({ category }, fact) => ({
+      amplitude: (fact) => ({
         name: 'Search completed',
         properties: {
           query: fact.query,
-          category,
+          category: fact.category,
           results: fact.resultCount,
         },
       }),
 
-      warehouse: (_state, fact) => ({
+      warehouse: (fact) => ({
         name: 'search_performance',
         properties: {
           elapsed_seconds: fact.durationMs / 1_000,

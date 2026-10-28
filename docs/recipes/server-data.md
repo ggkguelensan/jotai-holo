@@ -2,6 +2,8 @@
 
 A sales team edits the seat count and customer comment of a proposal. These five recipes use the same request factories and Views. QueryClient owns server data; a model owns the user's draft. The examples expect your application to provide GET and PUT `/api/proposals/:id`; they do not install a demo backend.
 
+These recipes assume the atom/model graph needs server data, form state or save commands. For a React-only editor, prefer native Query and RHF hooks; neither a model registry nor an atom adapter is required. Read [Business logic and small Views](/guide/business-logic) before choosing an adapter.
+
 ## Application setup
 
 Use the application's existing QueryClient in both providers. This browser setup creates one client and one Jotai store. Create them per request in an SSR application.

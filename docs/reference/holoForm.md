@@ -36,7 +36,7 @@ const ContactEditor = holoForm({
 
 ## Why this API
 
-Use holoForm when an editor and other widgets need one RHF control. The editor keeps its RHF components; an external Save panel binds to the same model with ordinary holo.
+Use holoForm only when the atom/model system needs to react to form values, validation, submission or other form state. A self-contained form should keep native useForm and FormProvider. When a model is needed, the editor keeps its RHF components and an external Save panel can bind to the same model with ordinary holo.
 
 ## Analogies and reading
 
