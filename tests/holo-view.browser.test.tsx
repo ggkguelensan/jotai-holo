@@ -1,6 +1,14 @@
 import { modelLifetime } from './model-lifetime.js';
 import { atom, createStore, Provider } from 'jotai';
-import { act, StrictMode, Suspense, startTransition, useState } from 'react';
+import {
+  act,
+  StrictMode,
+  Suspense,
+  startTransition,
+  useState,
+  createContext,
+  useContext,
+} from 'react';
 import { expect, test, vi } from 'vitest';
 import {
   actionAtom,
@@ -161,6 +169,55 @@ test('events emitted during resource connection and lifecycle mount reach the re
   expect(active).toEqual(['connect']);
   await h.unmount();
   expect(active).toEqual(['connect', 'unmount', 'disconnect']);
+});
+
+test('imperative navigation follows committed router context and ignores suspended replacements', async () => {
+  const created = eventAtom<{ id: string }>();
+  const first = vi.fn<(path: string) => void>();
+  const second = vi.fn<(path: string) => void>();
+  const abandoned = vi.fn<(path: string) => void>();
+  const pending = new Promise<never>(() => {});
+  const Router = createContext<{ navigate: (path: string) => void; pending: boolean }>({
+    navigate: first,
+    pending: false,
+  });
+  function CheckoutView({ imperative }: { imperative: HoloImperative<Handle> }) {
+    const router = useContext(Router);
+    useImperativeHolo(imperative, {
+      onCreated({ id }) {
+        router.navigate(`/orders/${id}`);
+      },
+    });
+    if (router.pending) throw pending;
+    return null;
+  }
+  const Checkout = holo({ view: CheckoutView, imperative: { onCreated: created } });
+  const store = createStore();
+  const h = createHarness();
+  const tree = (navigate: (path: string) => void, pending = false) => (
+    <Provider store={store}>
+      <Router.Provider value={{ navigate, pending }}>{suspense(<Checkout />)}</Router.Provider>
+    </Provider>
+  );
+  await h.render(tree(first));
+  store.set(created, { id: 'first' });
+  expect(first).toHaveBeenCalledExactlyOnceWith('/orders/first');
+
+  // holo's own props remain unchanged; only the View's router context changes.
+  await h.render(tree(second));
+  store.set(created, { id: 'second' });
+  expect(second).toHaveBeenCalledExactlyOnceWith('/orders/second');
+  expect(first).toHaveBeenCalledTimes(1);
+
+  await h.transition(tree(abandoned, true));
+  store.set(created, { id: 'during-transition' });
+  expect(second).toHaveBeenLastCalledWith('/orders/during-transition');
+  expect(abandoned).not.toHaveBeenCalled();
+
+  await h.render(tree(second));
+  await h.unmount();
+  store.set(created, { id: 'after-unmount' });
+  expect(second).toHaveBeenCalledTimes(2);
 });
 
 test('an abandoned suspended render publishes no handlers and acquires no resources', async () => {

@@ -29,6 +29,7 @@ export function useImperativeHolo<
     Object.keys(handlers).some((key) => !Object.hasOwn(handle, key))
   )
     throw new TypeError('useImperativeHolo: method names must remain stable.');
+  // No dependency array: refresh after every commit, including context-only updates.
   useImperativeHandle(imperative, () => {
     committed.current = handlers;
     return handle;

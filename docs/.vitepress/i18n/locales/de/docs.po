@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 13:17+0500\n"
+"POT-Creation-Date: 2026-10-28 13:49+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2558,8 +2558,8 @@ msgstr "Belasse Router, DOM und Editormethoden in der View. Verbinde Modellereig
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useImperativeHolo.md
-msgid "`useImperativeHolo(imperative, handlers)` exposes a stable method table. Handlers update after commit, without a dependency array. Abandoned renders do not publish handlers. Method names must remain stable. The `imperative` prop is an ordinary typed React ref, supported on React 18 and 19."
-msgstr "`useImperativeHolo(imperative, handlers)` stellt eine stabile Methodentabelle bereit. Handler werden nach dem Commit ohne Abhängigkeitsarray aktualisiert. Verworfene Renderdurchläufe veröffentlichen keine Handler. Methodennamen müssen stabil bleiben. Das Prop `imperative` ist eine gewöhnliche typisierte React-Ref für React 18 und 19."
+msgid "`useImperativeHolo(imperative, handlers)` exposes a stable method table. Handlers update after commit, without a dependency array. Abandoned renders do not publish handlers. Method names must remain stable. The `imperative` prop is an ordinary typed React ref, supported on React 18 and 19. Each call uses the latest committed props and context, even when holo's own binding props have not changed."
+msgstr "`useImperativeHolo(imperative, handlers)` stellt eine stabile Methodentabelle bereit. Handler werden nach dem Commit ohne Abhängigkeitsarray aktualisiert. Verworfene Renderdurchläufe veröffentlichen keine Handler. Methodennamen müssen stabil bleiben. Das Prop `imperative` ist eine gewöhnliche typisierte React-Ref für React 18 und 19. Jeder Aufruf verwendet die zuletzt bestätigten Props und den aktuellen bestätigten Kontext, auch wenn sich holos eigene Bindungs-Props nicht geändert haben."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

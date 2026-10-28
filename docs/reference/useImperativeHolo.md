@@ -10,7 +10,7 @@ Keep router, DOM and editor methods inside View. Connect model events to those m
 
 ## Contract
 
-`useImperativeHolo(imperative, handlers)` exposes a stable method table. Handlers update after commit, without a dependency array. Abandoned renders do not publish handlers. Method names must remain stable. The `imperative` prop is an ordinary typed React ref, supported on React 18 and 19.
+`useImperativeHolo(imperative, handlers)` exposes a stable method table. Handlers update after commit, without a dependency array. Abandoned renders do not publish handlers. Method names must remain stable. The `imperative` prop is an ordinary typed React ref, supported on React 18 and 19. Each call uses the latest committed props and context, even when holo's own binding props have not changed.
 
 `holo.imperative` maps handle methods to eventAtom or actionAtom sources. It does not observe arbitrary writable atoms. Delivery is per View instance, uses the current store and stops when the handle is unavailable. Events are not replayed after mount or Suspense reveal. Two Views observing one source both receive its events; choose one navigation owner deliberately.
 

@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 13:17+0500\n"
+"POT-Creation-Date: 2026-10-28 13:49+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2562,8 +2562,8 @@ msgstr "Оставляйте router, DOM и методы редактора вн
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useImperativeHolo.md
-msgid "`useImperativeHolo(imperative, handlers)` exposes a stable method table. Handlers update after commit, without a dependency array. Abandoned renders do not publish handlers. Method names must remain stable. The `imperative` prop is an ordinary typed React ref, supported on React 18 and 19."
-msgstr "`useImperativeHolo(imperative, handlers)` предоставляет стабильную таблицу методов. Обработчики обновляются после commit без массива зависимостей. Отброшенный render не публикует обработчики. Имена методов должны оставаться стабильными. Prop `imperative` — обычный типизированный React ref для React 18 и 19."
+msgid "`useImperativeHolo(imperative, handlers)` exposes a stable method table. Handlers update after commit, without a dependency array. Abandoned renders do not publish handlers. Method names must remain stable. The `imperative` prop is an ordinary typed React ref, supported on React 18 and 19. Each call uses the latest committed props and context, even when holo's own binding props have not changed."
+msgstr "`useImperativeHolo(imperative, handlers)` предоставляет стабильную таблицу методов. Обработчики обновляются после commit без массива зависимостей. Отброшенный render не публикует обработчики. Имена методов должны оставаться стабильными. Prop `imperative` — обычный типизированный React ref для React 18 и 19. Каждый вызов использует последние подтверждённые props и context, даже если собственные пропсы привязки holo не менялись."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

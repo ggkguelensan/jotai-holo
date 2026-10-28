@@ -74,7 +74,7 @@ as measurements of this checkout.
 ## Validation
 
 - Strict TypeScript and packed package exports/declarations.
-- 190 unit tests, 17 ecosystem checks and 143 Chromium tests (350 total).
+- 190 unit tests, 17 ecosystem checks and 144 Chromium tests (351 total).
 - Packed React 18.0, 18.3 and 19.3 development/production consumers.
 - Four-language catalog, snippet, link and production documentation checks.
 - Registry/composition and production-browser forced-GC scenarios.
