@@ -1,13 +1,8 @@
+import { captureEvent } from './event-harness.js';
 import { atom, createStore, Provider } from 'jotai';
 import { act, StrictMode, Suspense, startTransition, type ComponentProps } from 'react';
 import { expect, expectTypeOf, test, vi } from 'vitest';
-import {
-  holo,
-  eventAtom,
-  subscribeEvent,
-  useImperativeHolo,
-  type HoloImperative,
-} from '../src/index.js';
+import { holo, eventAtom, useImperativeHolo, type HoloImperative } from '../src/index.js';
 import { createModel } from '../src/model-registry.js';
 import { createHarness, deferred, suspense } from './browser-harness.js';
 
@@ -62,7 +57,7 @@ test('input subscriptions are absent and direct targets may be native writable s
   const changed = eventAtom<string>();
   const received = vi.fn();
   const store = createStore();
-  const stop = subscribeEvent(store, changed, received);
+  const stop = captureEvent(store, changed, received);
   const Connected = holo({
     view: (_props: { term: string; fact: string }) => null,
     input: { term: $term, fact: changed },
@@ -266,7 +261,7 @@ test('input facts reach connected analytics resources and committed imperative m
   }
   const $$owner3 = createModel({
     create: () => ({}),
-    resources: () => [{ connect: (store) => subscribeEvent(store, event, tracked) }],
+    resources: () => [{ connect: (store) => captureEvent(store, event, tracked) }],
   });
   const Connected = holo({
     models: { _connections: $$owner3 },

@@ -206,11 +206,6 @@ try {
   await page.getByRole('spinbutton', { name: 'Quantity' }).fill('4');
   await page.getByRole('checkbox').check();
   await page.getByText('$80.00', { exact: true }).waitFor();
-  await page.goto(`${origin}reference/subscribeEvent`);
-  assert.equal(
-    (await page.locator('h1').innerText()).replace(/\u200b/g, '').trim(),
-    'subscribeEvent',
-  );
   await page.goto(`${origin}reference/input`);
   await page.getByRole('textbox').fill('react');
   await page.getByText('$query: react', { exact: true }).waitFor();

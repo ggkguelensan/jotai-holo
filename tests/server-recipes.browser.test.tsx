@@ -1,8 +1,8 @@
+import { captureEvent } from './event-harness.js';
 import { QueryClient } from '@tanstack/react-query';
 import { createStore, Provider } from 'jotai';
 import { act } from 'react';
 import { afterEach, expect, test, vi } from 'vitest';
-import { subscribeEvent } from '../src/vanilla.js';
 import { queryClientAtom } from '../src/query.js';
 import { createHarness, deferred } from './browser-harness.js';
 import { proposalDetailQO, type Proposal } from '../examples/recipes/proposal-api.js';
@@ -84,7 +84,7 @@ test('mutation recipe captures submission, deduplicates Save and emits only acce
     return Response.json({ ...proposal, seats: 7, comment: 'Submitted' });
   });
   const facts: Proposal[] = [];
-  const stopFacts = subscribeEvent(store, model.proposalSaved, (fact) => facts.push(fact));
+  const stopFacts = captureEvent(store, model.proposalSaved, (fact) => facts.push(fact));
   store.set(model.$draft, { seats: 7, comment: 'Submitted' });
   const pending = store.set(model.save);
   await store.set(model.save);

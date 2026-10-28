@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 19:16+0500\n"
+"POT-Creation-Date: 2026-10-28 20:00+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -523,8 +523,8 @@ msgstr "Виджетті немесе қолданбаны оқшаулау үш
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "No Provider specific to holo is required. Basic bindings need no `connect`. Only [bond](/reference/bond) and [external event subscriptions](/reference/subscribeEvent) require explicit ownership and disposal."
-msgstr "Holo-ға арнайы Provider қажет емес. Қарапайым байланыстарға `connect` керек емес. Тек [bond](/reference/bond) және [сыртқы оқиға жазылымдары](/reference/subscribeEvent) үшін иелік ету мен босату айқын көрсетіледі."
+msgid "No Provider specific to holo is required. Basic bindings need no `connect`. Use [bond](/reference/bond) for event reactions. Its connections require explicit ownership and disposal."
+msgstr "holo үшін арнайы Provider қажет емес. Қарапайым байланыстарға `connect` керек емес. Оқиғаларға жауап беру үшін [bond](/reference/bond) пайдаланыңыз. Оның қосылымдарына айқын иелік пен босату қажет."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -891,8 +891,8 @@ msgstr "Не сұраныс бойынша орындалады?"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/rendering.md
-msgid "An atom declaration does not run its calculation. Reading the atom starts the calculation; subscribing keeps its dependencies active. Likewise, `holo` subscribes when mounted, `bond` connects through `connect(store)`, and event listeners activate through `subscribeEvent`."
-msgstr "Атомды жариялау есептеуді бастамайды. Оқу есептейді, жазылым тәуелділіктерді белсенді ұстайды. `holo` mount кезінде жазылады, `bond` — `connect(store)`, оқиға тыңдаушысы — `subscribeEvent` арқылы қосылады."
+msgid "An atom declaration does not run its calculation. Reading the atom starts the calculation; subscribing keeps its dependencies active. Likewise, `holo` subscribes when mounted, `bond` connects through `connect(store)`."
+msgstr "Атомды жариялау есептеуді іске қоспайды. Оқу есептеуді бастайды, ал жазылым тәуелділіктерді белсенді ұстайды. Сол сияқты, `holo` монталғанда жазылады, `bond` болса `connect(store)` арқылы қосылады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1707,7 +1707,6 @@ msgstr "Атомдарды оқитын не өзгертетін операци
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
@@ -1736,7 +1735,6 @@ msgstr "Атомдарды оқитын не өзгертетін операци
 #: docs/reference/queryClientAtom.md
 #: docs/reference/some.md
 #: docs/reference/stateAtom.md
-#: docs/reference/subscribeEvent.md
 #: docs/reference/sum.md
 #: docs/reference/useImperativeHolo.md
 msgid "Contract"
@@ -1791,7 +1789,6 @@ msgstr "useSetAtom(command)` oder `holo.write`.\n"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
@@ -1820,7 +1817,6 @@ msgstr "useSetAtom(command)` oder `holo.write`.\n"
 #: docs/reference/queryClientAtom.md
 #: docs/reference/some.md
 #: docs/reference/stateAtom.md
-#: docs/reference/subscribeEvent.md
 #: docs/reference/sum.md
 #: docs/reference/useImperativeHolo.md
 msgid "Why this API"
@@ -1861,7 +1857,6 @@ msgstr "Нативті `atom(null, write)` командаларды орында
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
@@ -1890,7 +1885,6 @@ msgstr "Нативті `atom(null, write)` командаларды орында
 #: docs/reference/queryClientAtom.md
 #: docs/reference/some.md
 #: docs/reference/stateAtom.md
-#: docs/reference/subscribeEvent.md
 #: docs/reference/sum.md
 #: docs/reference/useImperativeHolo.md
 msgid "Analogies and reading"
@@ -2531,14 +2525,14 @@ msgid "- `eventAtom<Payload>()` accepts one payload; `eventAtom()` accepts no pa
 "- `store.set(event, payload)` publishes within that store. Repeated equal payloads are delivered every time.\n"
 "- The readable value stays `null`. No last payload, replay, persistence or cross-store broadcast.\n"
 "- A function or Promise payload is passed as data unchanged. The event does not call or await it.\n"
-"- Connect with `bond.trigger`, bind with `holo.write`, or listen with `subscribeEvent`. Native store.sub cannot observe these calls.\n"
+"- Connect reactions with `bond.trigger` or bind publishing with `holo.write`. Native store.sub cannot observe these calls.\n"
 "- In a DOM handler, call a void event explicitly: `onClick={() => onOpen()}` avoids passing a React event as payload."
-msgstr "- `eventAtom<Payload>()` бір payload, `eventAtom()` payload-сыз шақыру қабылдайды.\n"
-"- `store.set(event, payload)` сол store ішінде жариялайды. Тең payload әр жолы жеткізіледі.\n"
-"- Оқу мәні `null` болып қалады. Соңғы payload, replay, persistence не store-лар арасында broadcast жоқ.\n"
-"- Функция не Promise payload өзгеріссіз дерек болып беріледі. Оқиға оны шақырмайды, күтпейді.\n"
-"- `bond.trigger` арқылы қосыңыз, `holo.write` арқылы байланыстырыңыз не `subscribeEvent` арқылы тыңдаңыз. Нативті store.sub бұл шақыруларды бақыламайды.\n"
-"- DOM handler-де void оқиғаны айқын шақырыңыз: `onClick={() => onOpen()}` React event-тің payload болуын болдырмайды."
+msgstr "- `eventAtom<Payload>()` бір payload қабылдайды; `eventAtom()` payload талап етпейді.\n"
+"- `store.set(event, payload)` оқиғаны сол store ішінде жариялайды. Бірдей payload әр шақырғанда жеткізіледі.\n"
+"- Оқылатын мән `null` болып қалады. Соңғы payload, replay, persistence немесе store арасында broadcast жоқ.\n"
+"- Функция немесе Promise өзгеріссіз дерек ретінде беріледі. Оқиға оларды шақырмайды және күтпейді.\n"
+"- Реакциялар `bond.trigger` арқылы, UI ішінен жариялау `holo.write` арқылы қосылады. Нативті store.sub бұл шақыруларды бақыламайды.\n"
+"- DOM өңдеушісінде payload жоқ оқиғаны айқын шақырыңыз: `onClick={() => onOpen()}` React event мәнін payload ретінде бермейді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3406,52 +3400,6 @@ msgid "- [Jotai atom](https://jotai.org/docs/core/atom) — the underlying primi
 "- [Jotai performance](https://jotai.org/docs/guides/performance) — why stable selections and small subscription boundaries matter."
 msgstr "- [Jotai atom](https://jotai.org/docs/core/atom) — негізгі primitive/read-only/write-only келісімдері.\n"
 "- [Jotai performance](https://jotai.org/docs/guides/performance) — тұрақты таңдау мен шағын жазылым шекаралары."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/subscribeEvent.md
-msgid "subscribeEvent"
-msgstr "subscribeEvent"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/subscribeEvent.md
-msgid "Listen to an event in one store. For example, show a notification after `profileSaved`. Call the returned function when the listener is no longer needed."
-msgstr "Бір store ішіндегі оқиғаны тыңдаңыз. Мысалы, `profileSaved` соң хабарландыру көрсетіңіз. Жазылым қажет болмағанда қайтарылған функцияны шақырыңыз."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/subscribeEvent.md
-msgid "`subscribeEvent(store, event, listener, { onError? }) → stop`"
-msgstr "`subscribeEvent(store, event, listener, { onError? }) → stop`"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/subscribeEvent.md
-msgid "- Store-specific, active immediately, no replay. Each subscription has independent ownership; `stop()` is idempotent.\n"
-"- Callbacks are dispatched synchronously through a shared FIFO queue. Nested notifications are queued; delivery is not a durable job system.\n"
-"- Sync throws and returned Promise rejections go to that listener's onError; without one they are logged. Other consumers continue.\n"
-"- Listener return values are otherwise ignored. Stopping does not cancel already started async work. A rejection after disposal is logged instead of calling the disposed owner's error handler.\n"
-"- Use modelConnection for external listeners owned by a model. For atom-to-atom reactions, return a bond from the model factory. Outside React, application/session setup owns the disposer. Never subscribe during render."
-msgstr "- Бір store-ға тиесілі, бірден белсенді, replay жоқ. Әр жазылымның жеке иесі бар; stop() идемпотентті.\n"
-"- Callback ортақ FIFO кезегі арқылы синхронды шақырылады. Кірістірілген хабарлар кезекке қойылады; бұл тұрақты тапсырма жүйесі емес.\n"
-"- Синхронды қателер мен қабылданбаған Promise тыңдаушының onError функциясына барады; ол болмаса, журналға жазылады. Басқа тұтынушылар жалғастырады.\n"
-"- Басқа қайтарылған мәндер еленбейді. Жазылымды тоқтату басталған async жұмысты тоқтатпайды. Кейінгі қате бұрынғы иенің өңдегішін шақырмай, журналға жазылады.\n"
-"- Модельге тиесілі сыртқы тыңдаушылар үшін modelConnection қолданыңыз. Атомдар арасындағы реакция үшін фабрикадан bond қайтарыңыз. React сыртында disposer-ге қолданба не сессия баптауы иелік етеді. Render кезінде жазылмаңыз."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/subscribeEvent.md
-msgid "Native store.sub observes value changes, so a write-only event with constant null has nothing to notify through that channel. Separating subscription from event construction keeps publishing small and lifetime explicit. Use bond for atom-to-atom routing and jotai-effect for reactive state effects."
-msgstr "Нативті store.sub мән өзгерісін бақылайды, сондықтан тұрақты null write-only оқиғасы ол арнамен хабарлай алмайды. Жазылымды оқиға жасаудан бөлу жариялауды шағын, өмірлік циклді айқын ұстайды. Атомнан атомға бағыттауға bond, реактивті күй әсеріне jotai-effect қолданыңыз."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/subscribeEvent.md
-msgid "- [Jotai atom](https://jotai.org/docs/core/atom) — the underlying primitive/read-only/write-only contracts.\n"
-"- [Jotai effect](https://jotai.org/docs/extensions/effect) — observe is the alternative for state-driven synchronization."
-msgstr "- [Jotai atom](https://jotai.org/docs/core/atom) — негізгі primitive/read-only/write-only келісімдері.\n"
-"- [Jotai effect](https://jotai.org/docs/extensions/effect) — күйге негізделген синхрондауға observe балама."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

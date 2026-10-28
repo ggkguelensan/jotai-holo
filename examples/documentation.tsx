@@ -9,7 +9,6 @@ import {
   ion,
   prism,
   stateAtom,
-  subscribeEvent,
 } from 'jotai-holo';
 import { createStore } from 'jotai/vanilla';
 
@@ -101,22 +100,6 @@ export function publishSaved(
   store.set(profileSaved, profile);
 }
 // #endregion event
-
-// #region subscription
-export function connectAudit(
-  store: ReturnType<typeof createStore>,
-  writeAudit: (profileId: string) => Promise<void>,
-  onError: (error: unknown) => void,
-) {
-  return subscribeEvent(
-    store,
-    profileSaved,
-    (profile) => writeAudit(profile.id),
-    { onError },
-  );
-}
-// Owner calls the returned function when this application/session ends.
-// #endregion subscription
 
 // #region bond
 export function createNotifications(model: ReturnType<typeof createProfile>) {

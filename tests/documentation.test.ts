@@ -1,6 +1,6 @@
+import { captureEvent } from './event-harness.js';
 import { describe, expect, it, vi } from 'vitest';
 import { createStore } from 'jotai/vanilla';
-import { subscribeEvent } from 'jotai-holo';
 import { createNotifications, createProfile, type Profile } from '../examples/documentation.js';
 
 describe('documentation profile workflow', () => {
@@ -19,7 +19,7 @@ describe('documentation profile workflow', () => {
     const notifications = createNotifications(model);
     const store = createStore();
     const audit = vi.fn();
-    const stopAudit = subscribeEvent(store, model.profileSaved, audit);
+    const stopAudit = captureEvent(store, model.profileSaved, audit);
     const stopNotifications = notifications.notifying.connect(store);
     store.set(model.edit, { name: profile.name, email: profile.email });
     const saving = store.set(model.save);
@@ -48,7 +48,7 @@ describe('documentation profile workflow', () => {
     });
     const store = createStore();
     const audit = vi.fn();
-    const stop = subscribeEvent(store, model.profileSaved, audit);
+    const stop = captureEvent(store, model.profileSaved, audit);
     store.set(model.edit, { name: 'Ada', email: 'ada@example.com' });
     await store.set(model.save);
     expect(store.get(model.$error)).toBe('Offline');

@@ -8,7 +8,6 @@ import {
   type HoloImperative,
   actionAtom,
   eventAtom,
-  subscribeEvent,
   stateAtom,
   ion,
   prism,
@@ -127,9 +126,10 @@ const changed = eventAtom<number>();
 const routing = bond({ trigger: changed, write: $count });
 const stopBond = routing.connect(store);
 let deliveries = 0;
-const stopEvent = subscribeEvent(store, changed, () => {
+const recordDelivery = actionAtom(() => {
   deliveries++;
 });
+const stopEvent = bond({ trigger: changed, map: () => [], write: recordDelivery }).connect(store);
 const lifecycle: string[] = [];
 const Counter = holo({
   view: ({

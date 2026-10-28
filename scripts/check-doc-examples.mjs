@@ -20,7 +20,6 @@ for (const [module, names] of Object.entries({
     'stateAtom',
     'actionAtom',
     'eventAtom',
-    'subscribeEvent',
     'holo',
     'holoList',
     'holoMatch',

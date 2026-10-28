@@ -1,3 +1,4 @@
+import { captureEvent } from './event-harness.js';
 import { QueryClient } from '@tanstack/query-core';
 import { createStore } from 'jotai/vanilla';
 import { expect, test, vi } from 'vitest';
@@ -13,7 +14,6 @@ import {
   type Profile,
 } from '../examples/profile/profile-model.js';
 import { queryClientAtom } from '../src/query.js';
-import { subscribeEvent } from '../src/subscribe-event.js';
 
 const serverProfile: Profile = {
   username: 'alex',
@@ -33,7 +33,7 @@ test('profile rules and derived color work without a server or a form', () => {
   const first = createProfileModel(emptyProfile);
   const second = createProfileModel(emptyProfile);
   const facts: Profile[] = [];
-  const stop = subscribeEvent(store, first.profileChanged, (fact) => facts.push(fact));
+  const stop = captureEvent(store, first.profileChanged, (fact) => facts.push(fact));
   store.set(first.change, { username: ' alex ', interests: ['books'] });
   const color = store.get(first.$color);
   expect(color).toMatch(/^#[0-9a-f]{6}$/);
@@ -134,7 +134,7 @@ test('save assembly publishes only accepted facts and connects them to the owned
   vi.mocked(profileApi.save).mockImplementation(save);
   const editor = models.$$editor.acquire(store, { initial: serverProfile });
   const facts: Profile[] = [];
-  const stop = subscribeEvent(store, models.profileSaved, (fact) => facts.push(fact));
+  const stop = captureEvent(store, models.profileSaved, (fact) => facts.push(fact));
   await store.set(models.save, { ...serverProfile, bio: 'Submitted' });
   expect(store.get(editor.model.$profile)?.bio).toBe('Accepted');
   expect(client.getQueryData(['profile', 'current'])).toMatchObject({ bio: 'Accepted' });

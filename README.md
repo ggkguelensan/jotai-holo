@@ -93,7 +93,7 @@ Use `$` for state atoms and `$$` for model instances if these conventions help y
 | `eventAtom<Payload>()`                      | Typed notification without a handler or retained state            |
 | `holo({ view, read, write, static })`       | Declarative React adapter; only `view` is required                |
 
-`eventAtom<Payload>()` declares a typed notification without a handler or retained state. Dispatch with `store.set(event, payload)`, use it in `bond.trigger`/`holo.write`, or attach an external listener with `subscribeEvent(store, event, listener)`. Subscriptions return a disposer; see [event contracts](docs/reference/eventAtom.md).
+`eventAtom<Payload>()` declares a typed notification without a handler or retained state. Publish with `store.set(event, payload)` or `holo.write`. Connect reactions through `bond` under explicit ownership; see [event contracts](docs/reference/eventAtom.md).
 
 Numeric/boolean operators `eq`, `and`, `or`, `some`, and `sum` accept native atoms (arrays or records for multiple inputs) and return lazy read-only atoms.
 

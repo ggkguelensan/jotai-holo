@@ -51,8 +51,8 @@ try {
     const definition = pipe(createValue, modelRegistry());
     const forms = modelRegistry()(createFormModel({initial: {name: ''}, options: initial => ({defaultValues: initial})}));
     import { createStore } from 'jotai/vanilla';
-    assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'or', 'prism', 'some', 'stateAtom', 'subscribeEvent', 'sum', 'useImperativeHolo']);
-    assert.deepEqual(Object.keys(vanilla).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'ion', 'or', 'prism', 'some', 'stateAtom', 'subscribeEvent', 'sum']);
+    assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'or', 'prism', 'some', 'stateAtom', 'sum', 'useImperativeHolo']);
+    assert.deepEqual(Object.keys(vanilla).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'ion', 'or', 'prism', 'some', 'stateAtom', 'sum']);
 
     const analyticsStore = createStore();
     let tracked = 0;
@@ -87,7 +87,7 @@ try {
     assert.equal(store.get(vanilla.prism(value, { doubled: n => n * 2 }).doubled), 4);
     const requested = vanilla.eventAtom();
     let delivered = 0;
-    const unsubscribe = vanilla.subscribeEvent(store, requested, () => { delivered++; });
+    const unsubscribe = vanilla.bond({ trigger: requested, write: vanilla.actionAtom(() => { delivered++; }) }).connect(store);
     const link = vanilla.bond({ trigger: requested, write: increment });
     const stop = link.connect(store); store.set(requested); stop(); assert.equal(store.get(value), 3); unsubscribe(); assert.equal(delivered, 1);
   `,
@@ -97,7 +97,7 @@ try {
   await writeFile(
     `${fixture}/consumer.tsx`,
     `
-    import { holo, stateAtom, actionAtom, eventAtom, bond, subscribeEvent } from 'jotai-holo';
+    import { holo, stateAtom, actionAtom, eventAtom, bond } from 'jotai-holo';
     import { stateAtom as vanillaStateAtom } from 'jotai-holo/vanilla';
     import { createMutationModel } from 'jotai-holo/query';
     import { mutationOptions } from '@tanstack/react-query';
@@ -111,7 +111,7 @@ try {
     (await import('jotai/vanilla')).createStore().set(saving.mutate);
     void projected;
     const renamed = eventAtom<string>();
-    const stop = subscribeEvent((await import('jotai/vanilla')).createStore(), renamed, value => { const name: string = value; void name; });
+    const stop = bond({ trigger: renamed, write: actionAtom((_get, _set, value: string) => { const name: string = value; void name; }) }).connect((await import('jotai/vanilla')).createStore());
     const forwarding = bond({ trigger: renamed, map: name => [name.length] });
     stop(); void forwarding;
     const count = stateAtom(0);
