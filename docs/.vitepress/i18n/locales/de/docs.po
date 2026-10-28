@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 17:56+0500\n"
+"POT-Creation-Date: 2026-10-28 18:39+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1173,6 +1173,24 @@ msgstr "Das Geschäftsmodell"
 #: docs/recipes/profile-composition.md
 msgid "The model accepts values through receive and edits through change. Its profileChanged fact describes a local change; receiving server data does not pretend that the user edited a field. The username color is derived with ion and needs no effect."
 msgstr "Das Modell nimmt Werte über receive und Änderungen über change entgegen. Der Fakt profileChanged beschreibt eine lokale Änderung; Serverdaten werden nicht als Benutzereingabe ausgegeben. Die Farbe wird mit ion aus dem Benutzernamen abgeleitet, ohne Effekt."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "**Derived color.** ion calculates the color from the profile. A View can subscribe to this result independently of the other fields."
+msgstr "**Abgeleitete Farbe.** ion berechnet die Farbe aus dem Profil. Eine View kann das Ergebnis unabhängig von anderen Feldern abonnieren."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "**Input port.** Accept data from any source without publishing an edit fact."
+msgstr "**Eingangsport.** Empfängt Daten beliebiger Herkunft ohne Änderungsereignis."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "**Edit command.** Apply the patch and business rules, then publish profileChanged with the resulting profile."
+msgstr "**Bearbeitungsbefehl.** Wendet Änderungen und Geschäftsregeln an und veröffentlicht anschließend profileChanged mit dem resultierenden Profil."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

@@ -36,7 +36,6 @@ export const createProfileModel = defineModel(
 
     const profileChanged = eventAtom<Profile>();
 
-    // An input port: the caller chooses where these values came from.
     const receive = actionAtom((_get, set, profile: Profile) => {
       set($profile, { ...profile, interests: [...profile.interests] });
     });

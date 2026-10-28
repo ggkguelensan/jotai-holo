@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 17:56+0500\n"
+"POT-Creation-Date: 2026-10-28 18:42+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1173,6 +1173,24 @@ msgstr "Бизнес моделі"
 #: docs/recipes/profile-composition.md
 msgid "The model accepts values through receive and edits through change. Its profileChanged fact describes a local change; receiving server data does not pretend that the user edited a field. The username color is derived with ion and needs no effect."
 msgstr "Модель деректерді receive, ал өзгерістерді change арқылы қабылдайды. profileChanged фактісі жергілікті өзгерісті сипаттайды; сервер деректерін алу пайдаланушы өрісті өңдеді дегенді білдірмейді. Username түсі эффектісіз ion арқылы есептеледі."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "**Derived color.** ion calculates the color from the profile. A View can subscribe to this result independently of the other fields."
+msgstr "**Туынды түс.** ion профиль бойынша түсті есептейді. View нәтижеге басқа өрістерден тәуелсіз жазыла алады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "**Input port.** Accept data from any source without publishing an edit fact."
+msgstr "**Кіріс порты.** Дереккөзді сырттан таңдайды. Бұл өңдеу оқиғасы емес."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "**Edit command.** Apply the patch and business rules, then publish profileChanged with the resulting profile."
+msgstr "**Өңдеу командасы.** Өзгерістер мен бизнес ережелерін қолданып, кейін алынған профильмен profileChanged жариялайды."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

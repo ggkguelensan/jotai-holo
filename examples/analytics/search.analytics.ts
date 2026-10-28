@@ -2,8 +2,11 @@ import { $$analytics } from './application-analytics.js';
 import type { SearchModel } from './search-model.js';
 
 // #region search-analytics
-export function createSearchAnalyticsModel(search: SearchModel) {
-  const searchCompleted = $$analytics.event({
+export function createSearchAnalyticsModel(
+  search: SearchModel,
+  analytics = $$analytics,
+) {
+  const searchCompleted = analytics.event({
     trigger: search.searchCompleted,
 
     map: {
@@ -27,7 +30,7 @@ export function createSearchAnalyticsModel(search: SearchModel) {
     },
   });
 
-  const productOpened = $$analytics.event({
+  const productOpened = analytics.event({
     trigger: search.productOpened,
 
     map: {

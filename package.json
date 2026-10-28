@@ -92,7 +92,9 @@
     "i18n:test": "node scripts/test-docs-i18n.mjs",
     "test:mutation-memory": "pnpm build && node --expose-gc scripts/test-mutation-memory.mjs",
     "test:analytics-adapter": "node scripts/test-analytics-adapter.mjs",
-    "test:composition-memory": "pnpm build && node --expose-gc scripts/test-model-composition-memory.mjs"
+    "test:composition-memory": "pnpm build && node --expose-gc scripts/test-model-composition-memory.mjs",
+    "test:docs-analytics": "node scripts/test-doc-analytics.mjs",
+    "test:docs-annotations": "node scripts/test-doc-annotations.mjs"
   },
   "peerDependencies": {
     "@tanstack/query-core": ">=5.104.5 <6",

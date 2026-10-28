@@ -81,9 +81,6 @@
   border-radius: 4px;
   font-size: 0.88em;
 }
-.VPDocAsideOutline .outline-title {
-  font-size: 12px;
-}
 .VPButton:focus-visible,
 .holo-example :is(button, input, select, summary):focus-visible {
   outline: 2px solid var(--vp-c-brand-1);
@@ -346,22 +343,77 @@
   color: var(--vp-c-danger-1);
 }
 
-/* Leave room for 80 monospace columns plus the code block's padding. */
-.Layout .VPDoc.has-aside .content-container {
-  max-width: 832px;
+/* Keep prose readable; let annotated examples use the former outline space. */
+.Layout .VPDoc .content-container {
+  max-width: 1160px;
 }
-.Layout .VPDoc.has-aside .content {
+.Layout .VPDoc .content {
   min-width: 0;
 }
-@media (min-width: 1280px) and (max-width: 1439px) {
-  .Layout .VPDoc.has-aside .aside {
-    display: none;
-  }
+:is(.vp-doc, .vp-doc > div) > :is(p, ul, ol, h1, h2, h3, blockquote, .holo-example),
+:is(.vp-doc, .vp-doc > div) > div[class*='language-'] {
+  max-width: 832px;
 }
-@media (min-width: 1440px) {
-  .Layout .VPDoc.has-aside .aside {
-    max-width: 208px;
-    padding-left: 24px;
+.code-notes-frame {
+  container: code-notes / inline-size;
+}
+.code-notes {
+  position: relative;
+  display: flow-root;
+  min-width: 0;
+  margin: 24px 0;
+}
+.code-note {
+  margin: 20px 0;
+  padding: 0 0 0 14px;
+  border-left: 2px solid var(--vp-c-brand-soft);
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+.code-note p {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+.code-note strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--vp-c-text-1);
+  font-weight: 600;
+}
+.code-note-location {
+  display: inline-block;
+  margin-bottom: 8px;
+  text-decoration: none !important;
+}
+.code-note-target {
+  scroll-margin-top: calc(var(--vp-nav-height) + 32px);
+  background: var(--vp-c-brand-soft);
+  border-radius: 3px;
+}
+@container code-notes (min-width: 1100px) {
+  .code-notes {
+    padding-right: 328px;
+  }
+  .code-notes[data-aligned='true'] > .code-note {
+    position: absolute;
+    top: var(--code-note-top);
+    right: 0;
+    width: 304px;
+    margin: 0;
+  }
+  .code-notes[data-aligned='true'] > .code-note::before {
+    position: absolute;
+    top: 11px;
+    left: -24px;
+    width: 16px;
+    border-top: 1px solid var(--vp-c-divider);
+    content: '';
+  }
+  .code-notes[data-aligned='true'] .code-note-location {
+    display: none;
   }
 }
 /* Preserve source indentation, wrapping only when the viewport needs it. */
@@ -527,5 +579,121 @@
     align-items: flex-start;
     flex-direction: column;
     gap: 10px;
+  }
+}
+
+/* Keep the product UI and real adapter journal in the same live window. */
+:is(.vp-doc, .vp-doc > div) > .holo-example-wide {
+  max-width: none;
+}
+.example-preview[data-demo='analytics'] {
+  display: block;
+  padding: 0;
+}
+.demo-analytics {
+  display: grid;
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+  font-size: 13px;
+}
+.demo-analytics .demo-analytics-catalog {
+  width: 100%;
+  align-content: start;
+  padding: 24px;
+  gap: 16px;
+}
+.vp-doc ul.demo-analytics-products {
+  display: grid;
+  gap: 8px;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.demo-analytics-products li + li {
+  margin: 0;
+}
+.demo-analytics-products button {
+  width: 100%;
+  text-align: left;
+}
+.demo-analytics-catalog article {
+  border-top: 1px solid var(--vp-c-divider);
+  padding-top: 16px;
+}
+.demo-analytics-catalog article h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+.demo-analytics-catalog article button {
+  margin-top: 12px;
+}
+.demo-analytics-console {
+  min-width: 0;
+  padding: 24px;
+  border-left: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg-alt);
+}
+.demo-analytics-console header,
+.demo-analytics-console li > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.demo-analytics-console header button {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+.demo-analytics-console .demo-note {
+  padding-top: 8px;
+  font-size: 11px;
+}
+.demo-analytics-console ol {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  max-height: 420px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0;
+  margin: 20px 0;
+  list-style: none;
+}
+.demo-analytics-console li {
+  margin: 0;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  padding: 12px;
+}
+.demo-analytics-console li > div {
+  margin-bottom: 6px;
+  color: var(--vp-c-brand-1);
+  font-size: 11px;
+}
+.demo-analytics-console pre {
+  margin: 8px 0 0;
+  padding: 0;
+  background: transparent;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.demo-analytics-console footer,
+.demo-analytics-empty {
+  color: var(--vp-c-text-3);
+  font-size: 11px;
+}
+.demo-analytics-empty {
+  padding: 32px 0;
+}
+@media (max-width: 767px) {
+  .demo-analytics {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .demo-analytics-console {
+    border-left: 0;
+    border-top: 1px solid var(--vp-c-divider);
   }
 }

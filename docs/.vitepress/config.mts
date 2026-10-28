@@ -90,7 +90,6 @@ async function localeConfig(code: string, label: string, prefix: string) {
         { text: 'API', link: link('/reference/holo') },
       ],
       sidebar,
-      outline: { label: t('On this page') },
       docFooter: { prev: t('Previous page'), next: t('Next page') },
       returnToTopLabel: t('Return to top'),
       sidebarMenuLabel: t('Menu'),
@@ -174,7 +173,8 @@ export default defineConfig({
     logo: '/mark.svg',
     socialLinks: [{ icon: 'github', link: sources.repository }],
     search: { provider: 'local', options: { locales: searchLocales } },
-    outline: [2, 3],
+    aside: false,
+    outline: false,
   },
   markdown: {
     config(md) {

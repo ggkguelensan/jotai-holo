@@ -7,7 +7,29 @@ A profile model owns the username, avatar, biography and interests. It can deriv
 The model accepts values through receive and edits through change. Its profileChanged fact describes a local change; receiving server data does not pretend that the user edited a field. The username color is derived with ion and needs no effect.
 
 <<< @/../examples/profile/profile-model.ts#profile-contract
+<CodeNotes>
+
 <<< @/../examples/profile/profile-model.ts#profile-model
+
+<CodeNote anchor="const $color">
+
+**Derived color.** ion calculates the color from the profile. A View can subscribe to this result independently of the other fields.
+
+</CodeNote>
+
+<CodeNote anchor="const receive">
+
+**Input port.** Accept data from any source without publishing an edit fact.
+
+</CodeNote>
+
+<CodeNote anchor="const change">
+
+**Edit command.** Apply the patch and business rules, then publish profileChanged with the resulting profile.
+
+</CodeNote>
+
+</CodeNotes>
 
 The factory imports no Query, RHF or analytics code. Tests can run the same rules in a Jotai store without a View or network request. Add domain rules here when the product needs them; provider field names and transport policies belong elsewhere.
 
