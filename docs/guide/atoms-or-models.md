@@ -56,9 +56,21 @@ The examples use `pipe` from `jotai-holo/model`; a compatible helper from anothe
 
 The same definition, key and store select the same instance. Another catalog ID selects independent filters. The registry adds identity and retention; `models` lets holo select the instance and own its active connections.
 
+Use a registry when independently placed components must find one instance by a business key, or when the instance should survive those components unmounting. A factory alone creates records; the registry gives components a shared way to select and retain them. See [Why use a registry?](/reference/modelRegistry#why-use-a-registry).
+
 The View stays the same in both approaches:
 
 <<< @/../examples/atoms-or-models.tsx#filters-view
+
+## What belongs to an instance?
+
+The registry manages the records created by its factory. It does not copy everything those records depend on.
+
+<<< @/../examples/registry-dependencies.ts#shared-dependency
+
+For two order keys in the same Jotai store, `$quantity` and `$total` are separate atoms. `$unitPrice` is shared because it was created outside the factory. Changing one quantity updates that order's total. Changing the shared price updates both totals.
+
+An existing global model works the same way: using its atoms inside a factory does not create another copy of that model. Calling its factory inside createOrderModel would create new atoms instead. Separate Jotai stores still isolate the values of shared atom definitions.
 
 ## Connections and loading: add only the responsibility you need
 

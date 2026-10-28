@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 15:34+0500\n"
+"POT-Creation-Date: 2026-10-28 16:07+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -131,8 +131,38 @@ msgstr "Gleiche Definition, Schlüssel und Store wählen dieselbe Instanz. Eine 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/atoms-or-models.md
+msgid "Use a registry when independently placed components must find one instance by a business key, or when the instance should survive those components unmounting. A factory alone creates records; the registry gives components a shared way to select and retain them. See [Why use a registry?](/reference/modelRegistry#why-use-a-registry)."
+msgstr "Verwende eine Registry, wenn unabhängig platzierte Komponenten dieselbe Instanz per fachlichem Schlüssel finden sollen oder die Instanz deren Unmount überleben soll. Eine Factory erstellt Records; die Registry ermöglicht ihre gemeinsame Auswahl und Aufbewahrung. Mehr unter [Warum eine Registry?](/reference/modelRegistry#why-use-a-registry)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
 msgid "The View stays the same in both approaches:"
 msgstr "Beide Varianten verwenden dieselbe View:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "What belongs to an instance?"
+msgstr "Was gehört zu einer Instanz?"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "The registry manages the records created by its factory. It does not copy everything those records depend on."
+msgstr "Die Registry verwaltet die Records ihrer Factory. Sie kopiert nicht deren gesamte Abhängigkeiten."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "For two order keys in the same Jotai store, `$quantity` and `$total` are separate atoms. `$unitPrice` is shared because it was created outside the factory. Changing one quantity updates that order's total. Changing the shared price updates both totals."
+msgstr "Für zwei Bestellschlüssel im selben Jotai-Store sind `$quantity` und `$total` getrennte Atome. `$unitPrice` bleibt gemeinsam, weil es außerhalb der Factory erstellt wurde. Eine Mengenänderung aktualisiert nur die Summe dieser Bestellung; eine Änderung des gemeinsamen Preises beide Summen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "An existing global model works the same way: using its atoms inside a factory does not create another copy of that model. Calling its factory inside createOrderModel would create new atoms instead. Separate Jotai stores still isolate the values of shared atom definitions."
+msgstr "Ein bestehendes globales Modell funktioniert genauso: Seine Atome innerhalb einer Factory zu verwenden, erzeugt keine Modellkopie. Der Aufruf seiner Factory innerhalb von createOrderModel würde neue Atome erzeugen. Verschiedene Jotai-Stores isolieren weiterhin die Werte gemeinsamer Atomdefinitionen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2285,6 +2315,66 @@ msgstr "modelRegistry"
 #: docs/reference/modelRegistry.md
 msgid "Share a model between an editor and a toolbar using the same key and Jotai store."
 msgstr "Teilen Sie ein Modell zwischen Editor und Werkzeugleiste mit demselben Schlüssel und Jotai-Store."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "Why use a registry?"
+msgstr "Warum eine Registry?"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "A proposal editor and its toolbar must use the same seat count. Another proposal needs an independent count. A factory creates the atoms; a registry lets both widgets select the right existing instance by proposal ID, without passing its atom record through their parents."
+msgstr "Der Angebotseditor und seine Werkzeugleiste brauchen dieselbe Anzahl an Plätzen. Ein anderes Angebot benötigt einen unabhängigen Wert. Die Factory erstellt Atome; die Registry lässt beide Widgets die richtige Instanz per Angebots-ID auswählen, ohne den Atom-Record durch ihre Eltern zu reichen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "In the example below, Seats and Toolbar select the Atlas instance. Adding a seat changes Atlas only. The Beacon widgets select another instance and keep their own count."
+msgstr "Im folgenden Beispiel wählen Seats und Toolbar die Atlas-Instanz. Ein zusätzlicher Platz ändert nur Atlas. Die Beacon-Widgets wählen eine andere Instanz und behalten ihre eigene Anzahl."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "What the registry adds"
+msgstr "Was die Registry ergänzt"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "- Shared identity: components selecting the same definition, key and Jotai store use one model instance.\n"
+"- Independent instances: another key creates a different instance from the same factory.\n"
+"- Retention: returning to a previously used key can restore its retained in-memory state. `retainTime` defaults to `Infinity`; this is not persistence across a page reload.\n"
+"- Owner coordination: holo acquires the selected instance after commit and releases it on unmount. Its managed connections stop after the last owner releases it, even if the record remains retained."
+msgstr "- Gemeinsame Identität: Komponenten mit gleicher Definition, Schlüssel und Jotai-Store verwenden dieselbe Modellinstanz.\n"
+"- Unabhängige Instanzen: Ein anderer Schlüssel erzeugt eine weitere Instanz derselben Factory.\n"
+"- Aufbewahrung: Bei Rückkehr zu einem Schlüssel kann der im Speicher gehaltene Zustand wiederverwendet werden. `retainTime` ist standardmäßig `Infinity`; dies speichert keinen Zustand über einen Seitenneustart hinweg.\n"
+"- Besitzerkoordination: holo übernimmt die Instanz nach dem Commit und gibt sie beim Unmount frei. Verwaltete Verbindungen stoppen nach Freigabe durch den letzten Besitzer, auch wenn der Record aufbewahrt bleibt."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "The registry selects and retains model records. [modelConnection](/reference/modelConnection), [modelLifecycle](/reference/modelLifecycle) and [modelAnalytics](/reference/modelAnalytics) define the work that runs while they are owned."
+msgstr "Die Registry wählt Modell-Records aus und bewahrt sie auf. [modelConnection](/reference/modelConnection), [modelLifecycle](/reference/modelLifecycle) und [modelAnalytics](/reference/modelAnalytics) definieren die Arbeit, die während ihrer Nutzung läuft."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "When a registry is unnecessary"
+msgstr "Wann keine Registry nötig ist"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "Use global atoms for shared application state. Use a plain factory when the application already creates and passes the required instance. Use QueryClient to share server query data by queryKey; a model registry is useful only if the surrounding feature also needs its own instances."
+msgstr "Für gemeinsamen Anwendungszustand nutze globale Atome. Eine einfache Factory genügt, wenn die Anwendung die nötige Instanz bereits erstellt und weitergibt. QueryClient teilt Serverabfragedaten per queryKey; eine Modellregistry ist nur nötig, wenn die umgebende Funktion eigene Instanzen braucht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "A registry does not clone imported atoms or models. Atoms created inside the factory belong to each new instance; dependencies created outside keep their existing identity. See [Atoms or models?](/guide/atoms-or-models#what-belongs-to-an-instance) for an example."
+msgstr "Eine Registry kopiert keine importierten Atome oder Modelle. Innerhalb der Factory erstellte Atome gehören zur neuen Instanz; außerhalb erstellte Abhängigkeiten behalten ihre Identität. Ein Beispiel steht unter [Atome oder Modelle?](/guide/atoms-or-models#what-belongs-to-an-instance)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
