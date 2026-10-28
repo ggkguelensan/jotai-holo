@@ -136,7 +136,7 @@ test('list preserves keyed local state on reorder and renders only changed rows'
         </button>
       );
     },
-    props: { title: 'User' },
+    staticProps: { title: 'User' },
 
     empty: () => <span>empty</span>,
   });

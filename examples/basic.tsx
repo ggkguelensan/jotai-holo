@@ -36,5 +36,5 @@ export const BasicCounter = holo({
     onIncrement: $$counter.increment,
     onDecrement: $$counter.decrement,
   },
-  props: { title: 'State + actions' },
+  staticProps: { title: 'State + actions' },
 });

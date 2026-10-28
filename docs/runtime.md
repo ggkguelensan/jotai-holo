@@ -1,6 +1,6 @@
 # Models, committed input and analytics
 
-Declare `holo({ view, models, read, write, props, input, imperative, onError })`
+Declare `holo({ view, models, read, write, staticProps, inputProps, imperative, onError })`
 outside React. Raw lifecycle/resources fields are rejected.
 
 ```text

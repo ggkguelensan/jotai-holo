@@ -74,7 +74,7 @@ const Counter = holo({
   view: CounterView,
   read: { count: $$counter.$count },
   write: { onIncrement: $$counter.increment },
-  props: { title: 'Counter' },
+  staticProps: { title: 'Counter' },
 });
 
 // All three View props are supplied by holo.
@@ -91,7 +91,7 @@ Use `$` for state atoms and `$$` for model instances if these conventions help y
 | `stateAtom(get => value)`                   | Derived state with native read options                            |
 | `actionAtom((get, set, ...args) => result)` | Write-only native atom; preserves arguments and sync/async result |
 | `eventAtom<Payload>()`                      | Typed notification without a handler or retained state            |
-| `holo({ view, read, write, props })`        | Declarative React adapter; only `view` is required                |
+| `holo({ view, read, write, staticProps })`  | Declarative React adapter; only `view` is required                |
 
 `eventAtom<Payload>()` declares a typed notification without a handler or retained state. Dispatch with `store.set(event, payload)`, use it in `bond.trigger`/`holo.write`, or attach an external listener with `subscribeEvent(store, event, listener)`. Subscriptions return a disposer; see [event contracts](docs/reference/eventAtom.md).
 
@@ -99,7 +99,7 @@ Numeric/boolean operators `eq`, `and`, `or`, `some`, and `sum` accept native ato
 
 Model operators are available from the root and `jotai-holo/vanilla`: `ion(source, project?)` combines readable atoms, `prism(source, selectors)` splits projections, and `bond({ state, trigger, guard, map, write })` connects store-owned actions. React also has `holoList` for keyed rows and `holoMatch` for conditional branches. See [operator contracts and examples](docs/operators.md).
 
-Use `props` for fixed UI values and `input` to forward committed props to writable atoms. Named models own connections. Compose pure factories with `pipe`, `modelRegistry`, `modelLifecycle` and optional `modelAnalytics`. See the [runtime guide](docs/runtime.md).
+Use `staticProps` for fixed UI values and `inputProps` to forward committed props to writable atoms. Named models own connections. Compose pure factories with `pipe`, `modelRegistry`, `modelLifecycle` and optional `modelAnalytics`. See the [runtime guide](docs/runtime.md).
 
 `stateAtom` is a direct alias of native `atom`, preserving writable derivations and async read options. No alternate state runtime is introduced.
 
@@ -120,7 +120,7 @@ const Counter = holo({
 });
 ```
 
-`read` reads and resolves values; `write` supplies store-bound setters. `props` accepts ordinary values, functions and components unchanged. Duplicate keys across sections are rejected. Remaining View props form the public props of the connected component.
+`read` reads and resolves values; `write` supplies store-bound setters. `staticProps` accepts ordinary values, functions and components unchanged. Duplicate keys across sections are rejected. Remaining View props form the public props of the connected component.
 
 ## Optional infrastructure
 
@@ -144,7 +144,7 @@ An async action returns its original promise to the caller. There is no automati
 
 ## Lifecycle and integrations
 
-`input` forwards each selected committed prop independently. StrictMode replay represents one logical owner. Models activate managed bonds, persistence and analytics declarations; the last owner disconnects them. See [input](docs/reference/input.md) and [analytics](docs/reference/createAnalytics.md).
+`inputProps` forwards each selected committed prop independently. StrictMode replay represents one logical owner. Models activate managed bonds, persistence and analytics declarations; the last owner disconnects them. See [inputProps](docs/reference/inputProps.md) and [analytics](docs/reference/createAnalytics.md).
 
 - [Complete interface and lifecycle contract](docs/api.md)
 - [Effects and model lifetime](docs/integrations.md)

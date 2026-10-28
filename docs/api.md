@@ -1,6 +1,6 @@
 # Interface
 
-The React configuration uses view, models, read, write, props, input and imperative. Only view is required. There are no compatibility aliases.
+The React configuration uses view, models, read, write, staticProps, inputProps and imperative. Only view is required. There are no compatibility aliases.
 
 ## Atoms and operators
 
@@ -18,13 +18,13 @@ const Counter = holo({
   view: CounterView,
   read: ({ counter }) => ({ count: counter.$count }),
   write: ({ counter }) => ({ onChange: counter.$count }),
-  props: { title: 'Counter' },
+  staticProps: { title: 'Counter' },
 });
 ```
 
 Compose a pure factory with modelRegistry and optional modelConnection modifiers. Model identity is definition + structural key + store. Resources connect after acquisition and disconnect after the last owner; retention preserves state separately. Input maps committed props to writable atoms. useImperativeHolo implements View methods without moving React capabilities into atoms.
 
-See [holo](reference/holo.md), [modelRegistry](reference/modelRegistry.md), [input](reference/input.md), [useImperativeHolo](reference/useImperativeHolo.md) and the [runtime guide](runtime.md).
+See [holo](reference/holo.md), [modelRegistry](reference/modelRegistry.md), [inputProps](reference/inputProps.md), [useImperativeHolo](reference/useImperativeHolo.md) and the [runtime guide](runtime.md).
 
 ## Optional integrations
 

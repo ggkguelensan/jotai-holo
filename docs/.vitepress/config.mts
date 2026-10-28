@@ -13,7 +13,7 @@ const groups = (t: (message: string) => string) => [
   { title: t('Commands & events'), names: ['actionAtom', 'eventAtom', 'subscribeEvent', 'bond'] },
   {
     title: t('React bindings'),
-    names: ['holo', 'useImperativeHolo', 'input', 'holoList', 'holoMatch'],
+    names: ['holo', 'useImperativeHolo', 'inputProps', 'holoList', 'holoMatch'],
   },
   {
     title: t('Integrations'),

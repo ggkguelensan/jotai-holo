@@ -23,7 +23,7 @@ pnpm examples
 <<< @/../examples/documentation.tsx#prism
 <<< @/../examples/documentation.tsx#holo
 
-Render `<NameField />`. Its View receives a name, a title and a callback. `read` supplies values, `write` supplies callbacks, and `props` supplies fixed props. Declare `holo` outside React render; any unbound View props remain inputs to the connected component.
+Render `<NameField />`. Its View receives a name, a title and a callback. `read` supplies values, `write` supplies callbacks, and `staticProps` supplies fixed props. Declare `holo` outside React render; any unbound View props remain inputs to the connected component.
 
 The snippets come from one TypeScript-checked example. Import helpers from `jotai-holo`, or use `jotai-holo/vanilla` for model code that does not need React.
 

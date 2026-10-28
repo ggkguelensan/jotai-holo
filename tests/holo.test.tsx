@@ -53,7 +53,7 @@ describe('holo', () => {
       view: View,
       read: { count, doubled },
       write: { onIncrement: increment },
-      props: { icon: Icon, data: reader },
+      staticProps: { icon: Icon, data: reader },
     });
     expectTypeOf<ComponentProps<typeof Counter>>().toEqualTypeOf<{ title: string }>();
 
@@ -81,7 +81,7 @@ describe('holo', () => {
       return <span>{title}</span>;
     }
     const Plain = holo({ view: View });
-    const Static = holo({ view: memo(View), props: { title: 'static' } });
+    const Static = holo({ view: memo(View), staticProps: { title: 'static' } });
 
     expectTypeOf<ComponentProps<typeof Plain>>().toEqualTypeOf<{ title?: string }>();
     expect(renderToStaticMarkup(<Plain />)).toBe('<span>default</span>');
@@ -132,7 +132,7 @@ describe('holo', () => {
         return <span>{count}</span>;
       },
       read: { count: atom(1) },
-      props: { count: 2 },
+      staticProps: { count: 2 },
     };
     // @ts-expect-error A prop cannot appear in both read and props.
     const Duplicate = holo(config);
@@ -166,12 +166,12 @@ function _checkInvalidBindings() {
   // @ts-expect-error Non-callable view props cannot be actions.
   holo({ view: View, write: { count } });
   // @ts-expect-error Static props must match the view prop type.
-  holo({ view: View, props: { title: 1 } });
+  holo({ view: View, staticProps: { title: 1 } });
   holo({
     view: View,
     write: { onIncrement: increment },
     // @ts-expect-error A write prop cannot also be static.
-    props: { onIncrement: () => undefined },
+    staticProps: { onIncrement: () => undefined },
   });
   // @ts-expect-error A required own prop is still required.
   const missing = <Connected />;

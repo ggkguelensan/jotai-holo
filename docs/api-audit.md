@@ -12,14 +12,14 @@ pure factory
     → modelConnection / modelLifecycle
     → modelAnalytics (optional entry)
 
-holo(view, models, read, write, props, input, imperative)
+holo(view, models, read, write, staticProps, inputProps, imperative)
 ```
 
 - Model construction uses pure factories and composition modifiers. The registry
   engine is private; package consumers use the composition entry.
 - `bond.write` is the only recipient field. Retired `yield` and `action` fields
   throw rather than being silently ignored. Types reject them.
-- `holo` accepts view/models/read/write/props/input/imperative/onError. Retired
+- `holo` accepts view/models/read/write/staticProps/inputProps/imperative/onError. Retired
   aliases and raw lifecycle/resources fields are rejected, including in holoForm.
 - `modelConnection` reuses shared activation, reverse cleanup and setup rollback
   for external integrations. It adds no registry and does not extend model records.

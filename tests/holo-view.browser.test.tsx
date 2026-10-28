@@ -62,7 +62,7 @@ test('native read/write bindings and two named keyed models isolate state withou
       online: $online,
     }),
     write: ({ counter }) => ({ onIncrement: counter.increment }),
-    props: { title: 'Counter' },
+    staticProps: { title: 'Counter' },
   });
   const store = createStore();
   const h = createHarness();

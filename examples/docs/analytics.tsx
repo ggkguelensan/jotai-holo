@@ -89,8 +89,8 @@ const SearchAnalytics = holo({
     onProductClose: search.closeProduct,
   }),
 
-  props: { initialTerm: 'desk' },
-  input: ({ search }) => ({ initialTerm: search.termChanged }),
+  staticProps: { initialTerm: 'desk' },
+  inputProps: ({ search }) => ({ initialTerm: search.termChanged }),
 });
 // #endregion analytics
 

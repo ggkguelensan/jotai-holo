@@ -19,7 +19,7 @@ function SearchView({ term }: { term: string }) {
 
 const Search = holo({
   view: SearchView,
-  input: { term: changed },
+  inputProps: { term: changed },
 });
 
 function StatusView({ query }: { query: string }) {

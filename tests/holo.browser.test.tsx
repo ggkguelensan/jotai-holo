@@ -18,7 +18,7 @@ test('initial input and each changed field write after commit, without replay or
   });
   const Connected = holo({
     view: (_props: { term: string; other: number }) => null,
-    input: { term: changed },
+    inputProps: { term: changed },
   });
   const h = createHarness();
   const tree = (term: string, other = 0) => (
@@ -41,12 +41,12 @@ test('each input binding compares independently, and fixed props win', async () 
     count = vi.fn();
   const Connected = holo({
     view: (_props: { name: string; count: number; fixed: string }) => null,
-    input: {
+    inputProps: {
       name: atom(null, (_g, _s, v: string) => name(v)),
       count: atom(null, (_g, _s, v: number) => count(v)),
       fixed: atom(null, (_g, _s, v: string) => name(v)),
     },
-    props: { fixed: 'fixed' },
+    staticProps: { fixed: 'fixed' },
   });
   const h = createHarness();
   await h.render(<Connected name="a" count={1} />);
@@ -65,7 +65,7 @@ test('input subscriptions are absent and direct targets may be native writable s
   const stop = subscribeEvent(store, changed, received);
   const Connected = holo({
     view: (_props: { term: string; fact: string }) => null,
-    input: { term: $term, fact: changed },
+    inputProps: { term: $term, fact: changed },
   });
   const h = createHarness();
   await h.render(
@@ -89,7 +89,7 @@ test('two Views share one resource but preserve separate input values and releas
   const Connected = holo({
     models: { _connections: $$owner0 },
     view: (_props: { term: string }) => null,
-    input: { term: changed },
+    inputProps: { term: changed },
   });
   const h = createHarness();
   await h.render(
@@ -131,7 +131,7 @@ test('pending state delays ownership and input writes; settled async state does 
       );
     },
     read: { text: $async, count: $count },
-    input: { term: atom(null, (_g, _s, v: string) => write(v)) },
+    inputProps: { term: atom(null, (_g, _s, v: string) => write(v)) },
   });
   const h = createHarness();
   const store = createStore();
@@ -162,7 +162,7 @@ test('abandoned transition props do not reach input targets', async () => {
   }
   const Connected = holo({
     view: View,
-    input: { term: atom(null, (_g, _s, v: string) => write(v)) },
+    inputProps: { term: atom(null, (_g, _s, v: string) => write(v)) },
   });
   const h = createHarness();
   await h.render(suspense(<Connected term="first" />));
@@ -182,7 +182,7 @@ test('temporary Suspense preserves resources and does not replay input, real unm
     models: { _connections: $$owner2 },
     view: ({ text }: { text: string; term: string }) => <b>{text}</b>,
     read: { text: $text },
-    input: { term: atom(null, (_g, _s, v: string) => write(v)) },
+    inputProps: { term: atom(null, (_g, _s, v: string) => write(v)) },
   });
   const h = createHarness();
   const store = createStore();
@@ -225,7 +225,7 @@ test('key and store replacement clean old resources before new input arrives', a
   const Connected = holo({
     models: { search: (input: { id: string }) => $$search({ key: [input.id], initial: input.id }) },
     view: (_props: { term: string }) => null,
-    input: ({ search }) => ({ term: search.changed }),
+    inputProps: ({ search }) => ({ term: search.changed }),
   });
   const h = createHarness();
   const first = createStore(),
@@ -271,7 +271,7 @@ test('input facts reach connected analytics resources and committed imperative m
   const Connected = holo({
     models: { _connections: $$owner3 },
     view: View,
-    input: { term: event },
+    inputProps: { term: event },
     imperative: { onInput: event },
   });
   const h = createHarness();
@@ -297,7 +297,7 @@ test('input errors are isolated and async failures are reported', async () => {
   const Connected = holo({
     view: (_props: { a: string; b: string; c: string }) => null,
     onError,
-    input: {
+    inputProps: {
       a: atom(null, () => {
         throw error;
       }),
@@ -315,19 +315,22 @@ test('input errors are isolated and async failures are reported', async () => {
 
 function typeChecks() {
   const changed = atom(null, (_g, _s, v: string) => {});
-  const Connected = holo({ view: (_props: { term: string }) => null, input: { term: changed } });
+  const Connected = holo({
+    view: (_props: { term: string }) => null,
+    inputProps: { term: changed },
+  });
   expectTypeOf<ComponentProps<typeof Connected>>().toEqualTypeOf<{ term: string }>();
   // @ts-expect-error Input bindings do not provide required View props.
   const missing = <Connected />;
   // @ts-expect-error Input payload must match the incoming prop.
-  holo({ view: (_props: { term: string }) => null, input: { term: atom(0) } });
+  holo({ view: (_props: { term: string }) => null, inputProps: { term: atom(0) } });
   // @ts-expect-error Unknown input prop.
-  holo({ view: (_props: { term: string }) => null, input: { missing: changed } });
+  holo({ view: (_props: { term: string }) => null, inputProps: { missing: changed } });
   holo({
     view: (_props: { term: string }) => null,
     read: { term: atom('') },
     // @ts-expect-error Generated read props are not external inputs.
-    input: { term: changed },
+    inputProps: { term: changed },
   });
   void missing;
 }
@@ -337,7 +340,7 @@ test('input prop names are checked against own bindings rather than Object.proto
   const received = vi.fn();
   const Connected = holo({
     view: (_props: { toString: string }) => null,
-    input: { toString: atom(null, (_get, _set, value: string) => received(value)) },
+    inputProps: { toString: atom(null, (_get, _set, value: string) => received(value)) },
   });
   const h = createHarness();
   await h.render(<Connected toString="value" />);

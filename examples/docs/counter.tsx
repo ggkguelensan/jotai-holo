@@ -58,7 +58,7 @@ const Counter = holo({
   view: CounterView,
   read: { count: $count, doubled: $double },
   write: { onIncrement: increment },
-  props: { title: <Trans id="One model, ordinary props" /> },
+  staticProps: { title: <Trans id="One model, ordinary props" /> },
 });
 // #endregion counter
 

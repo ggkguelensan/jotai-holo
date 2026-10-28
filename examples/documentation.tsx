@@ -166,7 +166,7 @@ export const NameField = holo({
   view: NameView,
   read: { name: $name },
   write: { onChange: changeName },
-  props: { title: 'Display name' },
+  staticProps: { title: 'Display name' },
 });
 // <NameField /> has no required public props.
 // #endregion holo
@@ -186,7 +186,7 @@ function SearchView({ query, term }: { query: string; term: string }) {
 export const Search = holo({
   view: SearchView,
   read: { query: $query },
-  input: { term: inputChanged },
+  inputProps: { term: inputChanged },
 });
 // <Search term="jotai" />
 // #endregion input

@@ -152,7 +152,7 @@ test('Controller passes native controlled value/events/ref and skips View for un
 
 test('native RHF components can themselves be specialized and wrapped with holo', async () => {
   type Data = { name: string };
-  const BoundController = holo({ view: Controller<Data, 'name'>, props: { name: 'name' } });
+  const BoundController = holo({ view: Controller<Data, 'name'>, staticProps: { name: 'name' } });
   function App() {
     const { control } = useForm<Data>({ defaultValues: { name: 'Ada' } });
     return <BoundController control={control} render={({ field }) => <Input {...field} />} />;

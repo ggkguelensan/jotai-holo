@@ -59,7 +59,7 @@ test('changing store updates callbacks and restarts lifecycle without changing m
     view: Button,
     read: ({ model: m }) => ({ count: m.$count }),
     write: ({ model: m }) => ({ increment: m.increment }),
-    props: { title: 'count' },
+    staticProps: { title: 'count' },
   });
   second.set(m.$count, 10);
   const h = createHarness();
@@ -180,7 +180,7 @@ test('StrictMode and repeated mount/unmount leave no active model resources or a
     view: Button,
     read: ({ model: m }) => ({ count: m.$count }),
     write: ({ model: m }) => ({ increment: m.increment }),
-    props: { title: 'count' },
+    staticProps: { title: 'count' },
   });
   const h = createHarness();
   for (let i = 0; i < 30; i++) {
@@ -355,7 +355,7 @@ test('changing public props rerenders View once without reselecting atoms or res
       })(),
     }),
     write: ({ model: m }) => ({ increment: m.increment }),
-    input: {
+    inputProps: {
       label: atom(null, (_get, _set, value: string) => {
         changes.push(value);
       }),

@@ -16,7 +16,7 @@ export const KeyedCounter = holo({
     onIncrement: model.increment,
     onDecrement: model.decrement,
   }),
-  props: { title: 'Shared by model key' },
+  staticProps: { title: 'Shared by model key' },
 });
 
 export function ModelCounters() {

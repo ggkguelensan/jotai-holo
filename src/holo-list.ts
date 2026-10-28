@@ -58,7 +58,7 @@ export function holoList(config: {
       if (keys.has(id)) throw new Error(`holoList: duplicate key "${id}".`);
       keys.add(id);
       const mapped = mapItem(item as never, index);
-      for (const section of ['read', 'write', 'props'] as const) {
+      for (const section of ['read', 'write', 'staticProps'] as const) {
         const bound = Reflect.get(config, section) as Record<string, unknown> | undefined;
         if (bound)
           for (const name of Object.keys(mapped)) {

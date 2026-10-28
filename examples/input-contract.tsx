@@ -63,9 +63,9 @@ export const Counter = holo({
     onIncrement: counter.increment,
   }),
 
-  input: ({ counter }) => ({ initial: counter.$count }),
+  inputProps: ({ counter }) => ({ initial: counter.$count }),
 
-  props: { title: 'Counter' },
+  staticProps: { title: 'Counter' },
 });
 // #endregion input-binding
 

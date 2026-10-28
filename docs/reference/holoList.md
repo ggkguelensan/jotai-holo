@@ -12,7 +12,7 @@ Render a View for each item in an array atom. Stable keys keep row state attache
 
 ## Contract
 
-Requires source, view, getKey and mapItem. Supports the ordinary holo sections read/write/props/input plus optional empty View. Source may contain a Promise; use Suspense/error boundaries.
+Requires source, view, getKey and mapItem. Supports the ordinary holo sections read/write/staticProps/inputProps plus optional empty View. Source may contain a Promise; use Suspense/error boundaries.
 
 mapItem returns ordinary row props, not atom bindings, and may not overlap bound sections. Remaining required row props are public props of the list and are also passed to the empty View. Empty source creates no rows and therefore no row state subscriptions.
 
