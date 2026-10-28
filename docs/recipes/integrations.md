@@ -18,6 +18,6 @@ For a store-wide effect, call `observe(effect, store)` during application setup.
 
 ## Choose the owner
 
-Use `inputProps` for committed props, `jotai-effect` for reactive synchronization, and model ownership for shared connections. For a calculated value, use a derived atom. Async actions need their own cancellation and error policy.
+Use `input` for committed props, `jotai-effect` for reactive synchronization, and model ownership for shared connections. For a calculated value, use a derived atom. Async actions need their own cancellation and error policy.
 
-Read [Jotai effect](https://jotai.org/docs/extensions/effect), [modelRegistry](/reference/modelRegistry) and [inputProps](/reference/inputProps) for their contracts and examples.
+Read [Jotai effect](https://jotai.org/docs/extensions/effect), [modelRegistry](/reference/modelRegistry) and [input](/reference/input) for their contracts and examples.

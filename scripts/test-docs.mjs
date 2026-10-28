@@ -211,7 +211,7 @@ try {
     (await page.locator('h1').innerText()).replace(/\u200b/g, '').trim(),
     'subscribeEvent',
   );
-  await page.goto(`${origin}reference/inputProps`);
+  await page.goto(`${origin}reference/input`);
   await page.getByRole('textbox').fill('react');
   await page.getByText('$query: react', { exact: true }).waitFor();
   await page.getByRole('checkbox').uncheck();

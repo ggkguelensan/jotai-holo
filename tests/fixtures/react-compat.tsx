@@ -151,7 +151,7 @@ const Counter = holo({
   ),
   read: { count: $count, doubled: $double, parity: $parity },
   write: { onIncrement: increment },
-  staticProps: { title: 'counter' },
+  static: { title: 'counter' },
   models: {
     owner: pipe(
       () => ({}),
@@ -164,7 +164,7 @@ const Counter = holo({
       }),
     ),
   },
-  inputProps: {
+  input: {
     title: atom(null, (_get, _set, _title: string) => {
       lifecycle.push('change');
     }),
@@ -173,7 +173,7 @@ const Counter = holo({
 const inputRef = createRef<HTMLInputElement>();
 const Input = holo({
   view: 'input',
-  staticProps: { defaultValue: 'ref works' },
+  static: { defaultValue: 'ref works' },
 });
 const Match = holoMatch({ source: atom<'input'>('input'), cases: { input: Input } });
 const $items = atom<readonly number[]>([1, 2]);
@@ -216,7 +216,7 @@ const AdaptedInput = holo({
   },
   view: 'input',
   read: ({ selected }) => ({ value: selected.$value }),
-  staticProps: { readOnly: true },
+  static: { readOnly: true },
 });
 const PlainAsync = holo({
   view: ({ text }: { text: string }) => <output id="plain">{text}</output>,

@@ -95,7 +95,7 @@ export const AnalyticsSearch = holo({
     onProductClose: search.closeProduct,
   }),
 
-  inputProps: ({ search }) => ({
+  input: ({ search }) => ({
     initialTerm: search.termChanged,
   }),
 });

@@ -87,12 +87,12 @@ export type HoloConfig<
     { [Key in WriteKeys]: Key extends ReadKeys ? never : Callable<PropsOf<NoInfer<View>>[Key]> },
     Sources
   >;
-  staticProps?: {
+  static?: {
     [Key in StaticKeys]: Key extends ReadKeys | WriteKeys | 'imperative'
       ? never
       : NoInfer<PropsOf<View>[Key]>;
   };
-  inputProps?: Bindings<
+  input?: Bindings<
     InputBindings<
       InputProps<NoInfer<View>, NoInfer<ReadKeys>, NoInfer<WriteKeys>> &
         SourceInputs<NoInfer<Sources>>
@@ -123,9 +123,9 @@ export type ViewRuntimeConfig = {
   models?: Models;
   read?: RuntimeFactory<Record<string, Atom<unknown>>>;
   write?: RuntimeFactory<Record<string, WritableAtom<unknown, never[], unknown>>>;
-  staticProps?: RecordValue;
+  static?: RecordValue;
   imperative?: RuntimeFactory<Record<string, ActionSource<never[]>>>;
-  inputProps?: RuntimeFactory<Record<string, WritableAtom<unknown, never[], unknown>>>;
+  input?: RuntimeFactory<Record<string, WritableAtom<unknown, never[], unknown>>>;
   onError?: (error: unknown) => void;
 };
 const useCommitEffect = typeof document === 'undefined' ? useEffect : useLayoutEffect;
@@ -148,7 +148,8 @@ export function connectView(
     'actions',
     'bindProps',
     'props',
-    'input',
+    'staticProps',
+    'inputProps',
     'cage',
     'model',
     'lifecycle',
@@ -156,7 +157,7 @@ export function connectView(
   ])
     if (field in config)
       throw new TypeError(
-        `holo: unsupported field "${field}". Use view/read/write/staticProps/models/inputProps.`,
+        `holo: unsupported field "${field}". Use view/read/write/static/models/input.`,
       );
   if (!config.view) throw new TypeError('holo: view is required.');
   const sources = Object.entries(config.models ?? {});
@@ -170,7 +171,7 @@ export function connectView(
     }
   };
   const hasImperative = config.imperative !== undefined;
-  const staticProps = { ...config.staticProps };
+  const staticProps = { ...config.static };
   const useModels = createUseBindingState(sources.map(([key]) => key));
   type Owner = { current?: { lease: object; close(): void } | undefined };
   type BoundInput = { ownProps: RecordValue; owner: Owner };
@@ -198,7 +199,7 @@ export function connectView(
         reads: Object.entries(read),
         write,
         imperative,
-        input: Object.entries(resolveFactory(config.inputProps, models, {})),
+        input: Object.entries(resolveFactory(config.input, models, {})),
       };
     })();
     const useValues = createUseBindingState(resolved.reads.map(([key]) => key));
@@ -208,7 +209,7 @@ export function connectView(
         resolved.reads.some(([key]) => key === name) ||
         Object.hasOwn(resolved.write, name)
       )
-        throw new Error(`holo.inputProps: "${name}" is a generated prop.`);
+        throw new Error(`holo.input: "${name}" is a generated prop.`);
     return memoWithRef(function HoloResolved({ ownProps, owner }: BoundInput) {
       const store = useStore();
       const input = resolved.input.map(([name]) =>

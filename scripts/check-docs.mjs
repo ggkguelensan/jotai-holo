@@ -58,7 +58,7 @@ for (const file of pages) {
   );
   assert.doesNotMatch(
     text,
-    /\b(?:core|bindProps|cage)\s*:|^\s*props\s*:|ctx\.props|holo\.input\b|\/reference\/(?:cage|input)\b/m,
+    /\b(?:core|bindProps|cage)\s*:|^\s*(?:props|staticProps|inputProps)\s*:|ctx\.props|holo\.inputProps\b|\/reference\/(?:cage|inputProps)\b/m,
     `Retired holo syntax in ${file}`,
   );
   if (file.includes('/reference/')) {

@@ -34,7 +34,7 @@ test('lazy analytics activation adds no View render and input reaches the same s
       );
     },
     read: ({ search }) => ({ value: search.$term }),
-    inputProps: ({ search }) => ({ term: search.changed }),
+    input: ({ search }) => ({ term: search.changed }),
   });
   const store = createStore();
   const h = createHarness();
@@ -183,7 +183,7 @@ test('an eager analytics factory observes the first committed input fact without
   const Search = holo({
     models: { search: $$model },
     view: (_props: { term: string }) => null,
-    inputProps: ({ search }) => ({ term: search.inputReceived }),
+    input: ({ search }) => ({ term: search.inputReceived }),
   });
   const store = createStore();
   const h = createHarness();

@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 14:45+0500\n"
+"POT-Creation-Date: 2026-10-28 14:55+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,7 +27,7 @@ msgid "| Task                                    | Start with                   
 "| Conditional derived reads               | atom(get => …)                      | stateAtom preserves native overloads; ion names a fixed input shape     |\n"
 "| One selected value with custom equality | selectAtom                          | prism declares several independent projections, without custom equality |\n"
 "| Per-item writable atoms                 | splitAtom                           | holoList renders keyed Views; it does not replace item atoms            |\n"
-"| Reactive external resource              | jotai-effect                        | inputProps bridges committed props; models own managed connections      |\n"
+"| Reactive external resource              | jotai-effect                        | input bridges committed props; models own managed connections           |\n"
 "| One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality        |\n"
 "| Async server cache                      | jotai-tanstack-query                | holo accepts its atoms; it adds no cache/retry engine                   |\n"
 "| Share one model across widgets          | modelRegistry                       | Select a default or keyed instance in the current store                 |"
@@ -37,7 +37,7 @@ msgstr "| Задача | С чего начать | Что добавляет ho
 "| Условное производное чтение | atom(get => …) | stateAtom сохраняет перегрузки atom; ion задаёт фиксированную структуру входов |\n"
 "| Одна проекция со своим сравнением | selectAtom | prism объявляет независимые проекции без собственного сравнения |\n"
 "| Записываемые атомы элементов | splitAtom | holoList отображает View по ключам, сохраняя атомы элементов |\n"
-"| Реактивный внешний ресурс | jotai-effect | inputProps связывает входные props после commit; произвольные ресурсы имеют отдельное владение |\n"
+"| Реактивный внешний ресурс | jotai-effect | input связывает входные props после commit; произвольные ресурсы имеют отдельное владение |\n"
 "| Вызов команды или доменный факт | actionAtom / eventAtom | Каждый вызов может запускать bond независимо от равенства значений |\n"
 "| Кеш серверных данных | jotai-tanstack-query | holo принимает его атомы, не добавляя свой кеш и повторы запросов |\n"
 "| Общая модель для нескольких виджетов | modelRegistry | Выбор экземпляра по умолчанию или по ключу в текущем store |"
@@ -123,8 +123,8 @@ msgstr "Объявите связь с View один раз"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Render `<NameField />`. Its View receives a name, a title and a callback. `read` supplies values, `write` supplies callbacks, and `staticProps` supplies fixed props. Declare `holo` outside React render; any unbound View props remain inputs to the connected component."
-msgstr "Отобразите `<NameField />`. Его View получает имя, заголовок и обработчик. `read` передаёт значения, `write` — обработчики, `staticProps` — фиксированные props. Объявляйте `holo` вне render React. Незаданные props View остаются входами связанного компонента."
+msgid "Render `<NameField />`. Its View receives a name, a title and a callback. `read` supplies values, `write` supplies callbacks, and `static` supplies fixed props. Declare `holo` outside React render; any unbound View props remain inputs to the connected component."
+msgstr "Отобразите `<NameField />`. Его View получает имя, заголовок и обработчик. `read` передаёт значения, `write` — обработчики, `static` — фиксированные props. Объявляйте `holo` вне render React. Незаданные props View остаются входами связанного компонента."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -291,8 +291,8 @@ msgstr "Вызовите createShipmentDefinition один раз при нас�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/model-composition.md
-msgid "Two widgets selecting the same key in one store share atoms and one feed subscription. The first committed owner connects; the last release disconnects. Another key or store gets another instance. initial seeds creation only; changing input on an existing instance requires an explicit action or holo.inputProps."
-msgstr "Два виджета с одинаковым ключом в одном store разделяют атомы и одну подписку. Первый подтверждённый владелец подключает обновления; последний освобождает подписку. Другой ключ или store создаёт отдельный экземпляр. initial используется только при создании; для изменения существующего экземпляра нужны явная команда или holo.inputProps."
+msgid "Two widgets selecting the same key in one store share atoms and one feed subscription. The first committed owner connects; the last release disconnects. Another key or store gets another instance. initial seeds creation only; changing input on an existing instance requires an explicit action or holo.input."
+msgstr "Два виджета с одинаковым ключом в одном store разделяют атомы и одну подписку. Первый подтверждённый владелец подключает обновления; последний освобождает подписку. Другой ключ или store создаёт отдельный экземпляр. initial используется только при создании; для изменения существующего экземпляра нужны явная команда или holo.input."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -411,8 +411,8 @@ msgstr "Отделяйте View, когда хотите использоват�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "Why separate read, write and staticProps?"
-msgstr "Зачем разделять read, write и staticProps?"
+msgid "Why separate read, write and static?"
+msgstr "Зачем разделять read, write и static?"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -423,8 +423,8 @@ msgstr "Один writable atom может давать и значение, и �
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "`view` names the React component. `staticProps` means fixed View props. `inputProps` maps committed caller props to model actions."
-msgstr "`view` задаёт React-компонент. `staticProps` содержит фиксированные пропсы View. `inputProps` связывает входные пропсы после commit с действиями модели."
+msgid "`view` names the React component. `static` means fixed View props. `input` maps committed caller props to model actions."
+msgstr "`view` задаёт React-компонент. `static` содержит фиксированные пропсы View. `input` связывает входные пропсы после commit с действиями модели."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -543,8 +543,8 @@ msgstr "Для чтений с отменой используйте натив�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/rendering.md
-msgid "Initial Suspense delays commit: **inputProps cannot initialize the state blocking the first render**. Initialize before rendering or use native async atoms or Query. Later Suspense hiding preserves model ownership; real unmount releases it."
-msgstr "Начальный Suspense откладывает commit: **inputProps не может инициализировать состояние, которое блокирует первый рендер**. Задайте его заранее или используйте нативные async-атомы либо Query. Временное скрытие через Suspense сохраняет владение моделью; окончательный unmount освобождает его."
+msgid "Initial Suspense delays commit: **input cannot initialize the state blocking the first render**. Initialize before rendering or use native async atoms or Query. Later Suspense hiding preserves model ownership; real unmount releases it."
+msgstr "Начальный Suspense откладывает commit: **input не может инициализировать состояние, которое блокирует первый рендер**. Задайте его заранее или используйте нативные async-атомы либо Query. Временное скрытие через Suspense сохраняет владение моделью; окончательный unmount освобождает его."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -741,14 +741,14 @@ msgstr "Выберите владельца"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/integrations.md
-msgid "Use `inputProps` for committed props, `jotai-effect` for reactive synchronization, and model ownership for shared connections. For a calculated value, use a derived atom. Async actions need their own cancellation and error policy."
-msgstr "Используйте `inputProps` для входных пропсов после commit, `jotai-effect` для реактивной синхронизации и владение моделью для общих подключений. Вычисляемые значения выражайте производными атомами. Отмена и обработка ошибок async-действий требуют явной политики."
+msgid "Use `input` for committed props, `jotai-effect` for reactive synchronization, and model ownership for shared connections. For a calculated value, use a derived atom. Async actions need their own cancellation and error policy."
+msgstr "Используйте `input` для входных пропсов после commit, `jotai-effect` для реактивной синхронизации и владение моделью для общих подключений. Вычисляемые значения выражайте производными атомами. Отмена и обработка ошибок async-действий требуют явной политики."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/integrations.md
-msgid "Read [Jotai effect](https://jotai.org/docs/extensions/effect), [modelRegistry](/reference/modelRegistry) and [inputProps](/reference/inputProps) for their contracts and examples."
-msgstr "Контракты и примеры описаны в [Jotai effect](https://jotai.org/docs/extensions/effect), [modelRegistry](/reference/modelRegistry) и [inputProps](/reference/inputProps)."
+msgid "Read [Jotai effect](https://jotai.org/docs/extensions/effect), [modelRegistry](/reference/modelRegistry) and [input](/reference/input) for their contracts and examples."
+msgstr "Контракты и примеры описаны в [Jotai effect](https://jotai.org/docs/extensions/effect), [modelRegistry](/reference/modelRegistry) и [input](/reference/input)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -996,7 +996,7 @@ msgstr "Опишите операцию, которая читает или из
 #: docs/reference/holoForm.md
 #: docs/reference/holoList.md
 #: docs/reference/holoMatch.md
-#: docs/reference/inputProps.md
+#: docs/reference/input.md
 #: docs/reference/ion.md
 #: docs/reference/modelAnalytics.md
 #: docs/reference/modelConnection.md
@@ -1074,7 +1074,7 @@ msgstr "- `actionAtom((get, set, ...args) => result)` возвращает writa
 #: docs/reference/holoForm.md
 #: docs/reference/holoList.md
 #: docs/reference/holoMatch.md
-#: docs/reference/inputProps.md
+#: docs/reference/input.md
 #: docs/reference/ion.md
 #: docs/reference/modelAnalytics.md
 #: docs/reference/modelConnection.md
@@ -1142,7 +1142,7 @@ msgstr "Нативный `atom(null, write)` уже подходит для ко
 #: docs/reference/holoForm.md
 #: docs/reference/holoList.md
 #: docs/reference/holoMatch.md
-#: docs/reference/inputProps.md
+#: docs/reference/input.md
 #: docs/reference/ion.md
 #: docs/reference/modelAnalytics.md
 #: docs/reference/modelConnection.md
@@ -1617,44 +1617,44 @@ msgstr "holo"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Connect a React View to atom values and commands. The View receives ordinary props; holo owns subscriptions and selected model leases."
-msgstr "Свяжите React View со значениями атомов и командами. View получает обычные props; holo управляет подписками и владением выбранными моделями."
+msgid "Connect models and atoms to a React component. Declare the connection once, outside React render. The View receives ordinary props."
+msgstr "Свяжите модели и атомы с React-компонентом. Объявите связь один раз, вне React render. View получает обычные props."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "| Field       | Role                                     |\n"
-"| ----------- | ---------------------------------------- |\n"
-"| view        | React View or element; required          |\n"
-"| models      | Named default or keyed model selections  |\n"
-"| read        | Readable atoms mapped to value props     |\n"
-"| write       | Writable atoms mapped to callback props  |\n"
-"| staticProps | Fixed View props                         |\n"
-"| inputProps  | Committed props mapped to writable atoms |\n"
-"| imperative  | Event sources mapped to View methods     |\n"
-"| onError     | Connection, input and imperative errors  |"
-msgstr "| Поле | Назначение |\n"
+msgid "| I want to…                                  | Use                                |\n"
+"| ------------------------------------------- | ---------------------------------- |\n"
+"| Choose the React component                  | `view`                             |\n"
+"| Connect models to the component             | `models`                           |\n"
+"| Use an atom value in the component          | `read`                             |\n"
+"| Send a component interaction to an atom     | `write`                            |\n"
+"| Make the component react to external events | `imperative` + `useImperativeHolo` |\n"
+"| Pass static values to the component         | `static`                           |\n"
+"| Forward incoming props to the model         | `input`                            |\n"
+"| Handle connection and delivery errors       | `onError`                          |"
+msgstr "| Хочу… | Использую |\n"
 "| --- | --- |\n"
-"| view | React View или элемент; обязательно |\n"
-"| models | Именованные default или keyed модели |\n"
-"| read | Читаемые атомы → значения пропсов |\n"
-"| write | Writable-атомы → callback-пропсы |\n"
-"| staticProps | Фиксированные пропсы View |\n"
-"| inputProps | Пропсы после commit → writable-атомы |\n"
-"| imperative | События → методы View |\n"
-"| onError | Ошибки подключений, inputProps и imperative |"
+"| Выбрать React-компонент | `view` |\n"
+"| Подключить модели к компоненту | `models` |\n"
+"| Использовать значение атома в компоненте | `read` |\n"
+"| Реагировать на действия компонента | `write` |\n"
+"| Реагировать внутри компонента на внешние события | `imperative` + `useImperativeHolo` |\n"
+"| Передать в компонент статические значения | `static` |\n"
+"| Передать входящие props в модель | `input` |\n"
+"| Обработать ошибки подключений и вызовов | `onError` |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Declare outside React render. Keys supplied by read, write, staticProps and imperative disappear from public props. Input keys and model-selector inputs remain caller props and are forwarded to the View. Binding collisions are rejected. Fixed props win over caller values. Any native atom works; the same writable atom can appear in read and write. Async reads resolve before reaching View. Write callbacks preserve arguments and return values."
-msgstr "Объявляйте holo вне React render. Только ключи read, write, props и imperative исключаются из публичных пропсов. Ключи input и входы выбора модели остаются пропсами вызывающего кода и передаются во View. Конфликты привязок отклоняются. Фиксированные props имеют приоритет над значениями вызывающего кода. Подходят любые нативные атомы; один writable-атом может участвовать в read и write. Асинхронные значения разрешаются до передачи во View. Функции записи сохраняют аргументы и возвращаемые значения."
+msgid "Only `view` is required."
+msgstr "Обязательно только поле `view`."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Only read bindings subscribe to state. Unchanged values and shallow-equal input props skip View rendering; write callbacks stay stable while store and targets do. Context and local hook updates retain ordinary React behavior. Use small connected Views for independent rendering. Specialize generic Views first; bindings must be valid across union branches."
-msgstr "Только read подписывается на состояние. Неизменившиеся значения и поверхностно равные входные props не вызывают render View; callbacks write стабильны, пока стабильны store и атомы. Контекст и локальные хуки работают как в обычном React. Для независимого рендеринга подключайте небольшие View. Сначала специализируйте generic View; привязки должны подходить всем ветвям union."
+msgid "`read`, `write`, `static` and `imperative` supply View props. Pass the remaining props from the parent. `input` forwards selected incoming props to atoms; these props still reach the View."
+msgstr "`read`, `write`, `static` и `imperative` передают props во View. Остальные props задаёт родительский компонент. `input` передаёт выбранные входящие props в атомы; эти же props получает и View."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1665,20 +1665,48 @@ msgstr "Именованные модели"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "A definition selects the default instance in the current store. A keyed selection shares the instance only with the same definition, structural key and store. Annotate selector input types; they become required public props. Changing model identity remounts the resolved View. Ordinary input changes do not. No extra Provider is required beyond Jotai store isolation."
-msgstr "Определение выбирает экземпляр по умолчанию в текущем store. Выбор по ключу разделяет экземпляр только при совпадении определения, структурного ключа и store. Указывайте тип входов селектора: они становятся обязательными публичными props. Смена экземпляра модели перемонтирует View; обычное изменение входов — нет. Дополнительный Provider не требуется: изоляцию задаёт store Jotai."
+msgid "- Pass a model definition to use its default instance in the current Jotai store.\n"
+"- Select a key to share that instance between components using the same model, key and store.\n"
+"- Use incoming props to choose the key. In this example, the parent passes `counterId`.\n"
+"- holo activates the selected models after commit and releases them on unmount. A shared model stays active while another owner uses it."
+msgstr "- Передайте определение модели, чтобы использовать её default-экземпляр в текущем Jotai store.\n"
+"- Укажите ключ, чтобы разделять экземпляр между компонентами с одной моделью, ключом и store.\n"
+"- Выбирайте ключ по входящим props. В примере родительский компонент передаёт `counterId`.\n"
+"- holo активирует выбранные модели после commit и освобождает их при unmount. Общая модель остаётся активной, пока её использует другой владелец."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Selected models activate after commit and release after the last owner. Use [inputProps](/reference/inputProps) for prop synchronization and [useImperativeHolo](/reference/useImperativeHolo) for View methods. Raw lifecycle and resources fields are rejected. On React 18, ordinary forwarded refs need an intrinsic, class or forwardRef View."
-msgstr "Выбранные модели активируются после commit и освобождаются после последнего владельца. Для синхронизации пропсов используйте [inputProps](/reference/inputProps), для методов View — [useImperativeHolo](/reference/useImperativeHolo). Поля lifecycle и resources не принимаются. В React 18 обычный пробрасываемый ref требует нативного элемента, класса или View с forwardRef."
+msgid "See [modelRegistry](/reference/modelRegistry) for instance ownership, [input](/reference/input) for prop synchronization and [useImperativeHolo](/reference/useImperativeHolo) for View methods."
+msgstr "Подробнее: [modelRegistry](/reference/modelRegistry) — экземпляры моделей, [input](/reference/input) — передача props в модель, [useImperativeHolo](/reference/useImperativeHolo) — методы View."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "read and write describe atom capabilities without classifying atoms as commands or state. Models choose instances and own connections. The same View remains directly usable in tests and stories."
-msgstr "read и write описывают возможности атомов без классификации на команды и состояние. Модели выбирают экземпляры и владеют подключениями. View по-прежнему можно напрямую использовать в тестах и историях."
+msgid "Rendering and types"
+msgstr "Рендеринг и типы"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
+msgid "- Only `read` subscribes to atom state. The same writable atom can be used in both `read` and `write`.\n"
+"- Unchanged values and shallow-equal caller props skip View rendering. Write callbacks remain stable while the store and target atoms stay the same. Local state and React context update normally.\n"
+"- Changing the selected model instance remounts the View. Changing an ordinary prop does not.\n"
+"- Async atom values resolve before reaching the View; use React Suspense and error boundaries while they are pending or fail.\n"
+"- A prop cannot be supplied by several binding sections. Parents do not supply props already provided by `read`, `write`, `static` or `imperative`.\n"
+"- Specialize generic Views before binding them. On React 18, use `forwardRef` when the View needs a forwarded ref."
+msgstr "- Только `read` подписывается на состояние атомов. Один writable-атом можно использовать и в `read`, и в `write`.\n"
+"- Неизменившиеся значения и поверхностно равные props родителя не вызывают рендер View. Методы записи стабильны, пока не изменились store и атомы-получатели. Локальное состояние и React context работают как обычно.\n"
+"- При смене экземпляра модели View монтируется заново. Изменение обычного prop этого не вызывает.\n"
+"- Асинхронные значения атомов разрешаются до передачи во View. Для ожидания используйте React Suspense, для ошибок — Error Boundary.\n"
+"- Один prop нельзя задать в нескольких разделах привязки. Родителю не нужно передавать props, которые уже заданы через `read`, `write`, `static` или `imperative`.\n"
+"- Перед привязкой generic View задайте конкретные типы. В React 18 используйте `forwardRef`, если View должен получать ref."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/holo.md
+msgid "Describe the connection next to the View. Keep state and business actions in models. The View receives values and callbacks, so it can also be rendered directly in tests and stories."
+msgstr "Описывайте связь рядом с View. Состояние и бизнес-действия оставляйте в моделях. View получает значения и обработчики, поэтому его можно отдельно отобразить в тестах и историях."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1749,8 +1777,8 @@ msgstr "Покажите View для каждого элемента масси�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holoList.md
-msgid "Requires source, view, getKey and mapItem. Supports the ordinary holo sections read/write/staticProps/inputProps plus optional empty View. Source may contain a Promise; use Suspense/error boundaries."
-msgstr "Обязательны source, view, getKey и mapItem. Поддерживаются обычные разделы holo read/write/staticProps/inputProps и опциональная View для пустого списка. Source может содержать Promise; используйте Suspense и границы ошибок."
+msgid "Requires source, view, getKey and mapItem. Supports the ordinary holo sections read/write/static/input plus optional empty View. Source may contain a Promise; use Suspense/error boundaries."
+msgstr "Обязательны source, view, getKey и mapItem. Поддерживаются обычные разделы holo read/write/static/input и опциональная View для пустого списка. Source может содержать Promise; используйте Suspense и границы ошибок."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1838,55 +1866,55 @@ msgstr "- [Reflect variant](https://reflect.effector.dev/docs/variant) — ан�
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/inputProps.md
-msgid "inputProps"
-msgstr "inputProps"
+#: docs/reference/input.md
+msgid "input"
+msgstr "input"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/inputProps.md
+#: docs/reference/input.md
 msgid "Forward committed input props to model actions without a forwarding effect in each View."
 msgstr "Передавайте входные пропсы после commit в действия модели без дополнительного эффекта в каждой View."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/inputProps.md
-msgid "inputProps maps prop names to writable atoms, directly or through a named-model callback. Each target receives its initial value after commit, then only changes compared with Object.is. Fixed props win. Generated read, write and imperative props cannot be input sources. Native writable atoms, actionAtom and eventAtom are accepted. Async results and synchronous failures reach holo.onError."
-msgstr "inputProps связывает имена пропсов с writable-атомами напрямую или через callback именованных моделей. Каждый получатель получает начальное значение после commit, затем только изменения по Object.is. Фиксированные props имеют приоритет. Сгенерированные read, write и imperative не могут быть источниками inputProps. Допустимы нативные writable-атомы, actionAtom и eventAtom. Ошибки и отклонённые Promise поступают в holo.onError."
+#: docs/reference/input.md
+msgid "input maps prop names to writable atoms, directly or through a named-model callback. Each target receives its initial value after commit, then only changes compared with Object.is. Fixed props win. Generated read, write and imperative props cannot be input sources. Native writable atoms, actionAtom and eventAtom are accepted. Async results and synchronous failures reach holo.onError."
+msgstr "input связывает имена пропсов с writable-атомами напрямую или через callback именованных моделей. Каждый получатель получает начальное значение после commit, затем только изменения по Object.is. Фиксированные props имеют приоритет. Сгенерированные read, write и imperative не могут быть источниками input. Допустимы нативные writable-атомы, actionAtom и eventAtom. Ошибки и отклонённые Promise поступают в holo.onError."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/inputProps.md
+#: docs/reference/input.md
 msgid "StrictMode replay does not repeat initial input. Suspended or abandoned renders publish no input. Temporary Suspense hiding preserves model ownership; real unmount releases it. Input cannot initialize the pending state that prevents its own first commit."
 msgstr "Повтор эффектов в StrictMode не дублирует начальный input. Приостановленные и отброшенные рендеры ничего не передают. Временное скрытие через Suspense сохраняет владение моделью; окончательный unmount освобождает его. input не может инициализировать pending-состояние, блокирующее первый commit."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/inputProps.md
+#: docs/reference/input.md
 msgid "Model inputs and View props"
 msgstr "Входы модели и пропсы View"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/inputProps.md
-msgid "inputProps does not supply a prop or remove it from the public component type. In this example, callers must pass both counterId and initial. The View receives those props together with count, callbacks and the fixed title."
-msgstr "inputProps не подставляет значение пропса и не убирает его из публичного типа компонента. Здесь вызывающий код обязан передать counterId и initial. View получает их вместе с count, обработчиками и фиксированным title."
+#: docs/reference/input.md
+msgid "input does not supply a prop or remove it from the public component type. In this example, callers must pass both counterId and initial. The View receives those props together with count, callbacks and the fixed title."
+msgstr "input не подставляет значение пропса и не убирает его из публичного типа компонента. Здесь вызывающий код обязан передать counterId и initial. View получает их вместе с count, обработчиками и фиксированным title."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/inputProps.md
+#: docs/reference/input.md
 msgid "initial here is a live input, not creation-only data. Changing it writes count again. An increment followed by a parent render with the same initial leaves count unchanged. For creation-only input, pass initial in the model selection instead."
 msgstr "initial здесь — изменяемый вход, а не данные только для создания. Его изменение снова записывает count. Если после increment родитель перерендерится с прежним initial, count не изменится. Для данных только на момент создания передавайте initial в выбор модели."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/inputProps.md
+#: docs/reference/input.md
 msgid "Input synchronization and model ownership have separate responsibilities. Models own subscriptions and data lifecycles; holo forwards selected committed props without a proxy or an extra input atom."
 msgstr "Синхронизация входных пропсов и владение моделью — разные обязанности. Модели владеют подписками и загрузкой данных; holo передаёт выбранные пропсы после commit без прокси и дополнительного атома."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/inputProps.md
+#: docs/reference/input.md
 msgid "- [Effector useGate](https://effector.dev/en/api/effector-react/usegate/) — the input-to-model analogy.\n"
 "- [React effects](https://react.dev/reference/react/useEffect) — commit constraints."
 msgstr "- [Effector useGate](https://effector.dev/en/api/effector-react/usegate/) — аналогия передачи пропсов в модель.\n"

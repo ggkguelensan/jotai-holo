@@ -39,8 +39,8 @@ ${
   holo
     ? `const Counter=holo({view:${imperative ? 'ImperativeView' : 'CounterView'},
 ${model ? 'models:{counter:$$counter},read:({counter})=>({count:counter.$count,double:counter.$double}),write:({counter})=>({onIncrement:counter.increment}),' : 'read:{count:$count,double:$double},write:{onIncrement:increment},'}
-staticProps:{title:'Counter'},
-${input ? 'inputProps:{title:atom(null,(_get,_set,title)=>console.log(title))},' : ''}
+static:{title:'Counter'},
+${input ? 'input:{title:atom(null,(_get,_set,title)=>console.log(title))},' : ''}
 ${imperative ? 'imperative:{onCompleted:completed},' : ''}
 });`
     : `function Counter(){const count=useAtomValue($count);const double=useAtomValue($double);const onIncrement=useSetAtom(increment);return h(CounterView,{count,double,onIncrement,title:'Counter'})}`

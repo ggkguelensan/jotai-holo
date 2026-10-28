@@ -20,11 +20,11 @@ That is a good choice for a small component. When this pattern repeats across a 
 
 Keep the View separate when you want to reuse it in stories, test it with props or bind subscriptions to a small part of the screen. For a local component that already uses several hooks, `useAtomValue` and `useSetAtom` may be simpler.
 
-## Why separate read, write and staticProps?
+## Why separate read, write and static?
 
 A writable atom can supply both a value and a callback. A function might be a prop, a React component, or an action. Separate sections make the operation explicit without guessing from runtime object shapes. The same native atom can appear in `read` and `write` under different prop names.
 
-`view` names the React component. `staticProps` means fixed View props. `inputProps` maps committed caller props to model actions.
+`view` names the React component. `static` means fixed View props. `input` maps committed caller props to model actions.
 
 ## A small vocabulary, native semantics
 

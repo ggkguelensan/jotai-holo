@@ -13,7 +13,8 @@ test.each([
   'actions',
   'bindProps',
   'props',
-  'input',
+  'staticProps',
+  'inputProps',
   'cage',
   'model',
   'lifecycle',
@@ -39,10 +40,12 @@ function typeChecks() {
   holo({ core: view });
   // @ts-expect-error The new API cannot be mixed with the retired one.
   holo({ view, state: {} });
-  // @ts-expect-error Static View props use staticProps.
+  // @ts-expect-error Static View props use static.
   holo({ view, props: {} });
-  // @ts-expect-error Committed prop forwarding uses inputProps.
-  holo({ view, input: {} });
+  // @ts-expect-error Committed prop forwarding uses input.
+  holo({ view, inputProps: {} });
+  // @ts-expect-error The longer staticProps name is not an alias.
+  holo({ view, staticProps: {} });
   // @ts-expect-error Form adapters use the same canonical prop names.
   holoForm({ view, props: {} });
   // @ts-expect-error Model connections belong in resources.

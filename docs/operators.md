@@ -123,12 +123,12 @@ const UsersList = holoList({
   getKey: (user) => user.id,
   mapItem: (user) => ({ user }),
   write: { onSelect: userSelected },
-  staticProps: { title: 'User' },
+  static: { title: 'User' },
   empty: EmptyUsersView,
 });
 ```
 
-Declare the list once outside render. `source` is a native readable atom of a readonly array or a promise of one. A stable `getKey` is required. Duplicate React keys throw. `mapItem(item, index)` supplies row props and cannot overlap `read`, `write` or `staticProps`. These sections follow ordinary holo contracts. `inputProps` forwards committed row props to writable atoms. For a row that selects a named model, declare a separate holo View with its own models and render it as the row View. Each row owns its subscriptions and cleanup.
+Declare the list once outside render. `source` is a native readable atom of a readonly array or a promise of one. A stable `getKey` is required. Duplicate React keys throw. `mapItem(item, index)` supplies row props and cannot overlap `read`, `write` or `static`. These sections follow ordinary holo contracts. `input` forwards committed row props to writable atoms. For a row that selects a named model, declare a separate holo View with its own models and render it as the row View. Each row owns its subscriptions and cleanup.
 
 Remaining required row props are required on the list and forwarded to each row and the optional empty View. An empty array renders that View, or null. Async arrays use native Suspense and rejection boundaries. Reordering stable keys preserves row-local state; deleting a key disposes that row. Changing the key creates a new row. `mapItem` still runs for each item on a list update; unchanged shallow mapped props skip row/core renders. New object/function props, changed indices and shared state updates can cause additional row renders. Prefer immutable items and stable callbacks.
 

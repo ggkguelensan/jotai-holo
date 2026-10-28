@@ -8,7 +8,7 @@ Start with the task, then choose the tool. Existing Jotai atoms work in holo; yo
 | Conditional derived reads               | atom(get => …)                      | stateAtom preserves native overloads; ion names a fixed input shape     |
 | One selected value with custom equality | selectAtom                          | prism declares several independent projections, without custom equality |
 | Per-item writable atoms                 | splitAtom                           | holoList renders keyed Views; it does not replace item atoms            |
-| Reactive external resource              | jotai-effect                        | inputProps bridges committed props; models own managed connections      |
+| Reactive external resource              | jotai-effect                        | input bridges committed props; models own managed connections           |
 | One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality        |
 | Async server cache                      | jotai-tanstack-query                | holo accepts its atoms; it adds no cache/retry engine                   |
 | Share one model across widgets          | modelRegistry                       | Select a default or keyed instance in the current store                 |

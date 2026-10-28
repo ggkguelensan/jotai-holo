@@ -1,4 +1,4 @@
-# inputProps
+# input
 
 Forward committed input props to model actions without a forwarding effect in each View.
 
@@ -12,13 +12,13 @@ Forward committed input props to model actions without a forwarding effect in ea
 
 ## Contract
 
-inputProps maps prop names to writable atoms, directly or through a named-model callback. Each target receives its initial value after commit, then only changes compared with Object.is. Fixed props win. Generated read, write and imperative props cannot be input sources. Native writable atoms, actionAtom and eventAtom are accepted. Async results and synchronous failures reach holo.onError.
+input maps prop names to writable atoms, directly or through a named-model callback. Each target receives its initial value after commit, then only changes compared with Object.is. Fixed props win. Generated read, write and imperative props cannot be input sources. Native writable atoms, actionAtom and eventAtom are accepted. Async results and synchronous failures reach holo.onError.
 
 StrictMode replay does not repeat initial input. Suspended or abandoned renders publish no input. Temporary Suspense hiding preserves model ownership; real unmount releases it. Input cannot initialize the pending state that prevents its own first commit.
 
 ## Model inputs and View props
 
-inputProps does not supply a prop or remove it from the public component type. In this example, callers must pass both counterId and initial. The View receives those props together with count, callbacks and the fixed title.
+input does not supply a prop or remove it from the public component type. In this example, callers must pass both counterId and initial. The View receives those props together with count, callbacks and the fixed title.
 
 <<< @/../examples/input-contract.tsx#input-model
 <<< @/../examples/input-contract.tsx#input-view

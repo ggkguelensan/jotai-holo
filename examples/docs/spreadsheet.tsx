@@ -156,7 +156,7 @@ const Cells = Object.fromEntries(
       address,
       holo({
         view: CellView,
-        staticProps: { address },
+        static: { address },
         read: { input: cell.$input, value: cell.$value },
         write: { onChange: cell.$input },
         // Selection belongs to the sheet; typing belongs to this cell.
