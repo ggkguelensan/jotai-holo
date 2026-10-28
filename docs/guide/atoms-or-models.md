@@ -1,20 +1,22 @@
 # Atoms or models?
 
-Start with atoms. Use a model when related state and actions need a common factory. Add a registry when components need to select and share instances by key. These are separate choices; holo does not require all three.
+First decide whether the value needs to participate in the reactive system of atoms and models at all. Sharing a theme or language between React components is not enough reason to create an atom: an existing theme or localization provider may already solve the task. Add atoms when model calculations, commands or connections need to react to that value.
+
+Once the atom/model system needs the value, choose its scope. Use module-level atoms for shared state, a model factory for related state and actions, and a registry when components need to select and share instances by key. These are separate choices; holo does not require all three.
 
 ## Choose by the task
 
-| I need to…                                            | Use                            | Why                                                       |
-| ----------------------------------------------------- | ------------------------------ | --------------------------------------------------------- |
-| Share a theme or language preference                  | Module-level atoms             | Components in the same store read the same values         |
-| Publish a help request from a toolbar                 | `eventAtom` in `write`         | An event does not require a model                         |
-| Calculate a cart total                                | A derived atom or `ion`        | A calculation does not need an instance registry          |
-| Keep search text and stock filters together           | A plain model factory          | Group related atoms and create them together              |
-| Give two fixed editors independent drafts             | Call the factory twice         | Different atom records keep the drafts independent        |
-| Share a product editor with its toolbar by product ID | `modelRegistry` + `models`     | Both components select the same instance by key and store |
-| Subscribe to a shipment feed while its model is used  | `modelConnection`              | Model owners activate and release the subscription        |
-| Load and save a draft                                 | `modelLifecycle`               | Add loading and snapshot persistence to the factory       |
-| Share an RHF form with an external toolbar            | `createFormModel` + `holoForm` | The controls use one native RHF form instance             |
+| I need to…                                            | Use                            | Why                                                                                  |
+| ----------------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------ |
+| Share a theme or language with atom workflows         | Module-level atoms if needed   | First check whether models need it; React-only sharing can use the existing provider |
+| Publish a help request from a toolbar                 | `eventAtom` in `write`         | An event does not require a model                                                    |
+| Calculate a cart total                                | A derived atom or `ion`        | A calculation does not need an instance registry                                     |
+| Keep search text and stock filters together           | A plain model factory          | Group related atoms and create them together                                         |
+| Give two fixed editors independent drafts             | Call the factory twice         | Different atom records keep the drafts independent                                   |
+| Share a product editor with its toolbar by product ID | `modelRegistry` + `models`     | Both components select the same instance by key and store                            |
+| Subscribe to a shipment feed while its model is used  | `modelConnection`              | Model owners activate and release the subscription                                   |
+| Load and save a draft                                 | `modelLifecycle`               | Add loading and snapshot persistence to the factory                                  |
+| Share an RHF form with an external toolbar            | `createFormModel` + `holoForm` | The controls use one native RHF form instance                                        |
 
 ## Global state and events: just atoms
 

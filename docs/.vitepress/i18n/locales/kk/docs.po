@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 16:44+0500\n"
+"POT-Creation-Date: 2026-10-28 16:47+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -15,8 +15,14 @@ msgstr "Атомдар ма, модельдер ме?"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/atoms-or-models.md
-msgid "Start with atoms. Use a model when related state and actions need a common factory. Add a registry when components need to select and share instances by key. These are separate choices; holo does not require all three."
-msgstr "Атомдардан бастаңыз. Байланысты күй мен әрекеттерді ортақ фабрикамен жасау ыңғайлы болса, модель қолданыңыз. Компоненттер экземплярларды кілт бойынша таңдап, ортақ пайдалануы керек болса, реестр қосыңыз. Бұлар бөлек міндеттер: holo үшеуін де талап етпейді."
+msgid "First decide whether the value needs to participate in the reactive system of atoms and models at all. Sharing a theme or language between React components is not enough reason to create an atom: an existing theme or localization provider may already solve the task. Add atoms when model calculations, commands or connections need to react to that value."
+msgstr "Алдымен мән атомдар мен модельдердің реактивті жүйесіне мүлде қатысуы керек пе, соны шешіңіз. React компоненттерінің тақырыпты не тілді бөлісуі атом жасауға өздігінен себеп емес: қолданыстағы тақырып немесе локализация провайдері бұл міндетті шешуі мүмкін. Модель есептеулері, командалары не қосылымдары осы мәнге реакция беруі керек болғанда атом қосыңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "Once the atom/model system needs the value, choose its scope. Use module-level atoms for shared state, a model factory for related state and actions, and a registry when components need to select and share instances by key. These are separate choices; holo does not require all three."
+msgstr "Мән атомдар мен модельдер жүйесіне қажет болса, оның қолданылу аясын таңдаңыз. Модуль деңгейіндегі атомдар ортақ күйге, модель фабрикасы байланысты күй мен әрекеттерге, ал реестр экземплярларды кілтпен таңдап, ортақ пайдалануға арналған. Бұлар бөлек шешімдер; holo үшеуін де талап етпейді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -27,20 +33,20 @@ msgstr "Міндетке қарай таңдау"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/atoms-or-models.md
-msgid "| I need to…                                            | Use                            | Why                                                       |\n"
-"| ----------------------------------------------------- | ------------------------------ | --------------------------------------------------------- |\n"
-"| Share a theme or language preference                  | Module-level atoms             | Components in the same store read the same values         |\n"
-"| Publish a help request from a toolbar                 | `eventAtom` in `write`         | An event does not require a model                         |\n"
-"| Calculate a cart total                                | A derived atom or `ion`        | A calculation does not need an instance registry          |\n"
-"| Keep search text and stock filters together           | A plain model factory          | Group related atoms and create them together              |\n"
-"| Give two fixed editors independent drafts             | Call the factory twice         | Different atom records keep the drafts independent        |\n"
-"| Share a product editor with its toolbar by product ID | `modelRegistry` + `models`     | Both components select the same instance by key and store |\n"
-"| Subscribe to a shipment feed while its model is used  | `modelConnection`              | Model owners activate and release the subscription        |\n"
-"| Load and save a draft                                 | `modelLifecycle`               | Add loading and snapshot persistence to the factory       |\n"
-"| Share an RHF form with an external toolbar            | `createFormModel` + `holoForm` | The controls use one native RHF form instance             |"
+msgid "| I need to…                                            | Use                            | Why                                                                                  |\n"
+"| ----------------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------ |\n"
+"| Share a theme or language with atom workflows         | Module-level atoms if needed   | First check whether models need it; React-only sharing can use the existing provider |\n"
+"| Publish a help request from a toolbar                 | `eventAtom` in `write`         | An event does not require a model                                                    |\n"
+"| Calculate a cart total                                | A derived atom or `ion`        | A calculation does not need an instance registry                                     |\n"
+"| Keep search text and stock filters together           | A plain model factory          | Group related atoms and create them together                                         |\n"
+"| Give two fixed editors independent drafts             | Call the factory twice         | Different atom records keep the drafts independent                                   |\n"
+"| Share a product editor with its toolbar by product ID | `modelRegistry` + `models`     | Both components select the same instance by key and store                            |\n"
+"| Subscribe to a shipment feed while its model is used  | `modelConnection`              | Model owners activate and release the subscription                                   |\n"
+"| Load and save a draft                                 | `modelLifecycle`               | Add loading and snapshot persistence to the factory                                  |\n"
+"| Share an RHF form with an external toolbar            | `createFormModel` + `holoForm` | The controls use one native RHF form instance                                        |"
 msgstr "| Маған керек… | Қолданамын | Неге |\n"
 "| --- | --- | --- |\n"
-"| Компоненттерге ортақ тақырып не тіл | Модуль деңгейіндегі атомдар | Бір store компоненттері ортақ мәндерді оқиды |\n"
+"| Тақырып не тілді атом процестерімен бөлісу | Қажет болса, модуль деңгейіндегі атомдар | Алдымен мән модельдерге керек пе, тексеріңіз; React үшін бар провайдер жеткілікті болуы мүмкін |\n"
 "| Панельден көмек сұрау | `write` ішіндегі `eventAtom` | Оқиғаға модель қажет емес |\n"
 "| Себеттің жалпы сомасын есептеу | Derived атомы немесе `ion` | Есептеуге экземплярлар реестрі қажет емес |\n"
 "| Іздеу жолы мен бар тауар сүзгісін біріктіру | Кәдімгі модель фабрикасы | Байланысты атомдар бірге жасалады |\n"
