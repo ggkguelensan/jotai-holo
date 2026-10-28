@@ -1,5 +1,7 @@
 'use client';
 
+import { memoWithRef } from './react-compat.js';
+
 import { useAtomValue, type Atom } from 'jotai';
 import {
   createElement,
@@ -9,14 +11,15 @@ import {
   type NamedExoticComponent,
 } from 'react';
 
-type Intersect<Union> = (Union extends unknown ? (value: Union) => void : never) extends (
-  value: infer Value,
-) => void
-  ? Value
+// Intersect component call signatures before extracting props. A zero-argument
+// View has unknown props, which would erase required inputs in a props union.
+type BranchSignature<View> = View extends ElementType
+  ? (props: ComponentPropsWithRef<View>) => void
   : never;
-type BranchProps<Cases, Fallback> = Intersect<
-  ComponentPropsWithRef<Extract<Cases[keyof Cases] | Fallback, ElementType>>
->;
+type BranchProps<Cases, Fallback> =
+  BranchSignature<Cases[keyof Cases] | Fallback> extends (props: infer Props) => void
+    ? Props
+    : never;
 export function holoMatch<
   Value extends string | number,
   const Cases extends Partial<Record<NoInfer<Value>, ElementType>>,
@@ -37,14 +40,19 @@ export function holoMatch({
   cases: Record<string, ElementType>;
   fallback?: ElementType;
 }) {
-  const views = new Map(Object.entries(cases));
-  return memo(function HoloMatch(props: Record<string, unknown>) {
+  const views = new Map(Object.entries(cases).map(([key, view]) => [key, memoView(view)]));
+  const Fallback = fallback ? memoView(fallback) : undefined;
+  return memoWithRef(function HoloMatch(props: Record<string, unknown>) {
     const value = useAtomValue(source);
     const view = views.get(String(value));
-    if (!view && !fallback) throw new Error(`holoMatch: no case for "${String(value)}".`);
-    return createElement((view ?? fallback)!, {
+    if (!view && !Fallback) throw new Error(`holoMatch: no case for "${String(value)}".`);
+    return createElement((view ?? Fallback)!, {
       ...props,
       key: view ? `case:${String(value)}` : 'fallback',
     });
   });
+}
+
+function memoView(view: ElementType) {
+  return typeof view === 'string' ? view : memo(view);
 }

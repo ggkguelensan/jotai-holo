@@ -7,3 +7,13 @@ example-dist/
 **/__screenshots__/
 
 .bundle-size/
+
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+
+.react-compat/
+
+docs/ru/
+docs/de/
+docs/kk/
+docs/.vitepress/i18n/locales/

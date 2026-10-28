@@ -32,7 +32,7 @@ test('withAtomEffect owns a subscription and disposes with the last consumer', a
   const increment = actionAtom((_get, set) => {
     set($count, (n) => n + 1);
   });
-  const C = holo({ core: Value, state: { count: watched }, actions: { increment } });
+  const C = holo({ view: Value, read: { count: watched }, write: { increment } });
   const store = createStore();
   const h = createHarness();
   await h.render(
@@ -63,8 +63,8 @@ test('atomEffect and observe use the same explicit store as holo', async () => {
     return get($observed);
   });
   const C = holo({
-    core: ({ count }: { count: number }) => <b>{count}</b>,
-    state: { count: $display },
+    view: ({ count }: { count: number }) => <b>{count}</b>,
+    read: { count: $display },
   });
   const h = createHarness();
   await h.render(
@@ -91,8 +91,8 @@ test('atomEffect and observe use the same explicit store as holo', async () => {
 test('hydration is available before a connected child first reads state', async () => {
   const $count = stateAtom(0);
   const C = holo({
-    core: ({ count }: { count: number }) => <b>{count}</b>,
-    state: { count: $count },
+    view: ({ count }: { count: number }) => <b>{count}</b>,
+    read: { count: $count },
   });
   function Hydrate({ children }: { children: ReactNode }) {
     useHydrateAtoms([[$count, 12]]);
@@ -115,7 +115,7 @@ test('jotai-scope isolates a bound primitive and its derived state', async () =>
   const increment = actionAtom((_get, set) => {
     set($count, (n) => n + 1);
   });
-  const C = holo({ core: Value, state: { count: $double }, actions: { increment } });
+  const C = holo({ view: Value, read: { count: $double }, write: { increment } });
   const h = createHarness();
   await h.render(
     <Provider>
@@ -156,9 +156,9 @@ test('Bunshi composition shares same-scope models, isolates scopes and preserves
     const Connected = useMemo(() => {
       bindings++;
       return holo({
-        core: Value,
-        state: { count: model.$count },
-        actions: { increment: model.increment },
+        view: Value,
+        read: { count: model.$count },
+        write: { increment: model.increment },
       });
     }, [model]);
     return <Connected />;
@@ -221,9 +221,9 @@ test('Bunshi model identity does not replace Jotai Provider isolation', async ()
     const Connected = useMemo(
       () =>
         holo({
-          core: Value,
-          state: { count: model.$count },
-          actions: { increment: model.increment },
+          view: Value,
+          read: { count: model.$count },
+          write: { increment: model.increment },
         }),
       [model],
     );

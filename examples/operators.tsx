@@ -1,21 +1,30 @@
-import { useEffect } from 'react';
-import { useStore } from 'jotai';
-import { actionAtom, bond, holo, holoList, holoMatch, ion, prism, stateAtom } from 'jotai-holo';
+import { modelRegistry, pipe } from 'jotai-holo/model';
+import {
+  actionAtom,
+  holo,
+  holoList,
+  holoMatch,
+  ion,
+  prism,
+  stateAtom,
+} from 'jotai-holo';
 
 type User = { id: number; name: string };
-const $users = stateAtom<readonly User[]>([]);
-const $nextId = stateAtom(1);
-const addRequested = actionAtom();
-const userAdded = actionAtom((_get, set, user: User) => {
-  set($users, (users) => [...users, user]);
-  set($nextId, user.id + 1);
-});
-const adding = bond({
-  state: $nextId,
-  trigger: addRequested,
-  map: (id) => [{ id, name: `User ${id}` }],
-  yield: userAdded,
-});
+const $$users = pipe(() => {
+  const $users = stateAtom<readonly User[]>([]);
+  const $nextId = stateAtom(1);
+
+  const addUser = actionAtom((get, set) => {
+    const id = get($nextId);
+    set($users, (users) => [...users, { id, name: `User ${id}` }]);
+    set($nextId, id + 1);
+  });
+
+  return { $users, addUser };
+}, modelRegistry());
+
+const $users = stateAtom((get) => get(get($$users()).$users));
+
 const { $count, $empty } = prism($users, {
   $count: (users) => users.length,
   $empty: (users) => users.length === 0,
@@ -23,7 +32,7 @@ const { $count, $empty } = prism($users, {
 const $status = ion($empty, (empty) => (empty ? 'idle' : 'ready'));
 const Users = holoList({
   source: $users,
-  core: ({ user }: { user: User }) => <li>{user.name}</li>,
+  view: ({ user }: { user: User }) => <li>{user.name}</li>,
   getKey: (user) => user.id,
   mapItem: (user) => ({ user }),
 });
@@ -39,21 +48,18 @@ const Content = holoMatch({
   },
 });
 const Controls = holo({
-  core: ({ count, onAdd }: { count: number; onAdd: () => void }) => (
+  models: { model: $$users },
+  view: ({ count, onAdd }: { count: number; onAdd: () => void }) => (
     <>
       <output>Users: {count}</output>
-      <button onClick={onAdd}>Add user</button>
+      <button onClick={() => onAdd()}>Add user</button>
     </>
   ),
-  state: { count: $count },
-  actions: { onAdd: addRequested },
+  read: { count: $count },
+  write: ({ model }) => ({ onAdd: model.addUser }),
 });
 
 export function OperatorsExample() {
-  const store = useStore();
-  // The demo owns this connection while mounted. Applications can instead
-  // connect/dispose alongside their store-owned model or request runtime.
-  useEffect(() => adding.connect(store), [store]);
   return (
     <section>
       <h2>Model operators</h2>

@@ -1,209 +1,158 @@
 import assert from 'node:assert/strict';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { brotliCompressSync, constants, gzipSync } from 'node:zlib';
+import { gzipSync, brotliCompressSync, constants } from 'node:zlib';
 import { build } from 'vite';
 
 const root = fileURLToPath(new URL('..', import.meta.url)).replace(/\/$/, '');
 const fixture = `${root}/.bundle-size`;
 const manifest = JSON.parse(await readFile(`${root}/package.json`, 'utf8'));
-const shared = `
-import { createElement as h } from 'react';
-import { createRoot } from 'react-dom/client';
-import { atom, Provider, useAtomValue, useSetAtom } from 'jotai';
-function CounterView({ count, double, onIncrement, title }) {
-  return h('button', { onClick: onIncrement }, title + ': ' + count + '/' + double);
-}
-`;
-function app({ helpers, holo, preexistingUnwrap = false, molecule = false }) {
-  if (molecule)
-    return (
-      shared +
-      `
-import { molecule, useMolecule } from 'bunshi/react';
-import { holo } from '../../dist/index.js';
-import { holoMolecule } from '../../dist/bunshi.js';
-const Model = molecule(() => {
-  const $count = atom(0);
-  const $double = atom(get => get($count) * 2);
-  const increment = atom(null, (_get, set) => { set($count, n => n + 1); });
-  return { $count, $double, increment };
+const sizes = (code) => ({
+  minified: Buffer.byteLength(code),
+  gzip: gzipSync(code, { level: 9 }).length,
+  brotli: brotliCompressSync(code, { params: { [constants.BROTLI_PARAM_QUALITY]: 11 } }).length,
 });
-${
-  holo
-    ? `const counter = holoMolecule(Model);
-const Counter = holo({ core: CounterView,
-  state: { count: counter(m => m.$count), double: counter(m => m.$double) },
-  actions: { onIncrement: counter(m => m.increment) }, bindProps: { title: 'Counter' },
-});`
-    : `function Counter() {
-  const model = useMolecule(Model);
-  const count = useAtomValue(model.$count);
-  const double = useAtomValue(model.$double);
-  const onIncrement = useSetAtom(model.increment);
-  return h(CounterView, { count, double, onIncrement, title: 'Counter' });
-}`
-}
-createRoot(document.getElementById('root')).render(h(Provider, null, h(Counter)));
-`
-    );
-
+const common = `
+import {createElement as h} from 'react';
+import {createRoot} from 'react-dom/client';
+import {atom,Provider,useAtomValue,useSetAtom} from 'jotai';
+function CounterView({count,double,onIncrement,title}){return h('button',{onClick:onIncrement},title+': '+count+'/'+double)}
+`;
+function app({
+  holo = false,
+  helpers = false,
+  input = false,
+  imperative = false,
+  model = false,
+} = {}) {
   return (
-    shared +
-    (helpers ? `import { stateAtom, actionAtom } from '../../dist/${helpers}.js';\n` : '') +
-    (holo ? `import { holo } from '../../dist/index.js';\n` : '') +
-    (preexistingUnwrap ? `import { unwrap } from 'jotai/vanilla/utils';\n` : '') +
+    common +
     `
-const $count = ${helpers ? 'stateAtom' : 'atom'}(0);
-const $doubleBase = ${helpers ? 'stateAtom' : 'atom'}(get => get($count) * 2);
-const $double = ${preexistingUnwrap ? 'unwrap($doubleBase)' : '$doubleBase'};
-const increment = ${helpers ? 'actionAtom(' : 'atom(null, '}(_get, set) => { set($count, n => n + 1); });
+${holo || helpers || imperative ? "import {holo,stateAtom,actionAtom,eventAtom,useImperativeHolo} from '../dist/index.js';" : ''}
+${model ? "import {modelRegistry,pipe} from '../dist/model.js';" : ''}
+const $count=${helpers ? 'stateAtom' : 'atom'}(0);
+const $double=${helpers ? 'stateAtom' : 'atom'}(get=>get($count)*2);
+const increment=${helpers ? 'actionAtom(' : 'atom(null,'}(_get,set)=>{set($count,n=>n+1)});
+${model ? 'const $$counter=pipe(()=>({$count,$double,increment}),modelRegistry());' : ''}
+${imperative ? "const completed=eventAtom(); function ImperativeView({imperative,...props}){useImperativeHolo(imperative,{onCompleted(){console.log('completed')}});return h(CounterView,props)}" : ''}
 ${
   holo
-    ? `const Counter = holo({ core: CounterView, state: { count: $count, double: $double }, actions: { onIncrement: increment }, bindProps: { title: 'Counter' } });`
-    : `
-function Counter() {
-  const count = useAtomValue($count);
-  const double = useAtomValue($double);
-  const onIncrement = useSetAtom(increment);
-  return h(CounterView, { count, double, onIncrement, title: 'Counter' });
-}`
+    ? `const Counter=holo({view:${imperative ? 'ImperativeView' : 'CounterView'},
+${model ? 'models:{counter:$$counter},read:({counter})=>({count:counter.$count,double:counter.$double}),write:({counter})=>({onIncrement:counter.increment}),' : 'read:{count:$count,double:$double},write:{onIncrement:increment},'}
+props:{title:'Counter'},
+${input ? 'input:{title:atom(null,(_get,_set,title)=>console.log(title))},' : ''}
+${imperative ? 'imperative:{onCompleted:completed},' : ''}
+});`
+    : `function Counter(){const count=useAtomValue($count);const double=useAtomValue($double);const onIncrement=useSetAtom(increment);return h(CounterView,{count,double,onIncrement,title:'Counter'})}`
 }
-createRoot(document.getElementById('root')).render(h(Provider, null, h(Counter)));
+createRoot(document.getElementById('root')).render(h(Provider,null,h(Counter)));
 `
   );
 }
-function sizes(code) {
-  return {
-    minified: Buffer.byteLength(code),
-    gzip: gzipSync(code, { level: 9 }).byteLength,
-    brotli: brotliCompressSync(code, { params: { [constants.BROTLI_PARAM_QUALITY]: 11 } })
-      .byteLength,
-  };
-}
-function inspect(result, allowBunshi = false) {
-  const chunks = (Array.isArray(result) ? result : [result]).flatMap((output) =>
-    output.output.filter((item) => item.type === 'chunk'),
+function inspect(result) {
+  const chunks = (Array.isArray(result) ? result.flatMap((r) => r.output) : result.output).filter(
+    (o) => o.type === 'chunk',
   );
-  assert.equal(chunks.length, 1, 'Fixture must produce exactly one JavaScript chunk.');
-  const chunk = chunks[0];
-  assert.ok(chunk);
-  const modules = Object.entries(chunk.modules)
-    .filter(([, info]) => info.renderedLength > 0)
-    .map(([id]) => id);
-  assert.ok(
-    !modules.some((id) =>
-      /node_modules\/(?:.*\/)?(?:jotai-effect|rxjs|jotai-eager)(?:@|\/)/.test(id),
-    ),
-    'Optional integrations must not enter the bundle.',
-  );
-  const bunshiIncluded = modules.some((id) => /node_modules\/(?:.*\/)?bunshi(?:@|\/)/.test(id));
-  if (!allowBunshi) assert.equal(bunshiIncluded, false, 'Bunshi must stay outside core bundles.');
+  const modules = chunks.flatMap((c) => Object.keys(c.modules));
   return {
-    bunshiIncluded,
-    ...sizes(chunk.code),
+    ...sizes(chunks.map((c) => c.code).join('\n')),
     modules: modules
       .filter((id) => id.startsWith(`${root}/dist/`))
       .map((id) => id.slice(root.length + 1)),
   };
 }
-// Measurement-only transform: remove cage and its wiring without changing project sources.
-function withoutCage() {
-  return {
-    name: 'measure-without-cage',
-    enforce: 'pre',
-    transform(code, id) {
-      if (id !== `${root}/dist/holo.js`) return null;
-      const branch = code.indexOf('    if (!cage ||');
-      assert.ok(
-        branch > 0 && code.includes('return WithCage;'),
-        'Update the measurement transform for the new holo implementation.',
-      );
-      const head = code
-        .slice(0, branch)
-        .replace(/^import .*from ['"]\.\/holo-cage\.js['"];\n/m, '')
-        .replace(/\bcage,\s*(?=})/, '');
-      assert.ok(!head.includes('holo-cage.js'));
-      return { code: `${head}    return Bound;\n}\n`, map: null };
-    },
-  };
-}
-const cases = [
-  ['native', {}],
-  ['native-molecule', { molecule: true }],
-  ['holo-molecule', { molecule: true, holo: true }],
-  ['helpers-root', { helpers: 'index' }],
-  ['helpers-vanilla', { helpers: 'vanilla' }],
-  ['holo', { holo: true }],
-  ['holo-and-helpers', { holo: true, helpers: 'index' }],
-  ['holo-without-cage', { holo: true, helpers: 'index', omitCage: true }],
-  ['native-with-unwrap', { preexistingUnwrap: true }],
-  ['holo-with-unwrap', { holo: true, helpers: 'index', preexistingUnwrap: true }],
-];
-const results = {};
+const results = {},
+  optionalEntries = {};
 try {
-  await rm(fixture, { recursive: true, force: true });
   await mkdir(fixture, { recursive: true });
-  for (const [name, options] of cases) {
-    const entry = `${fixture}/main.js`;
-    await writeFile(
-      `${fixture}/index.html`,
-      '<!doctype html><html><body><div id="root"></div><script type="module" src="/main.js"></script></body></html>',
+  await writeFile(
+    `${fixture}/index.html`,
+    '<div id="root"></div><script type="module" src="/main.js"></script>',
+  );
+  for (const [name, options] of [
+    ['native', {}],
+    ['helpers', { helpers: true }],
+    ['holo', { holo: true }],
+    ['holo-and-helpers', { holo: true, helpers: true }],
+    ['holo-input', { holo: true, input: true }],
+    ['holo-imperative', { holo: true, imperative: true }],
+    ['holo-models', { holo: true, model: true }],
+  ]) {
+    await writeFile(`${fixture}/main.js`, app(options));
+    results[name] = inspect(
+      await build({
+        configFile: false,
+        root: fixture,
+        logLevel: 'silent',
+        build: { write: false, target: 'es2022', minify: 'oxc', modulePreload: false },
+      }),
     );
-    // main.js lives one level below the package, rather than two.
-    await writeFile(entry, app(options).replaceAll('../../dist/', '../dist/'));
-    const result = await build({
-      configFile: false,
-      root: fixture,
-      logLevel: 'silent',
-      mode: 'production',
-      plugins: options.omitCage ? [withoutCage()] : [],
-      build: {
-        target: 'es2022',
-        write: false,
-        sourcemap: false,
-        minify: 'oxc',
-        modulePreload: false,
-      },
-    });
-    results[name] = inspect(result, !!options.molecule);
   }
-  const isolated = await build({
-    configFile: false,
-    root,
-    logLevel: 'silent',
-    mode: 'production',
-    build: {
-      target: 'es2022',
-      write: false,
-      sourcemap: false,
-      minify: 'oxc',
-      rolldownOptions: {
-        input: `${root}/dist/index.js`,
-        preserveEntrySignatures: 'strict',
-        external: (id) => /^(?:react|jotai)(?:\/|$)/.test(id),
-      },
-    },
-  });
-  results['library-peers-external'] = inspect(isolated);
-  for (const key of ['helpers-root', 'helpers-vanilla']) {
+  for (const [name, entry, exports] of [
+    ['stateAtom', 'vanilla', ['stateAtom']],
+    ['actionAtom', 'vanilla', ['actionAtom']],
+    ['eventAtom', 'vanilla', ['eventAtom']],
+    ['imperative', 'index', ['useImperativeHolo']],
+    ['model', 'model', ['pipe', 'modelRegistry']],
+    ['modelLifecycle', 'model', ['modelLifecycle']],
+    ['analytics', 'analytics', ['createAnalytics', 'modelAnalytics']],
+    ['amplitude', 'analytics-amplitude', ['createAmplitudeAdapter']],
+    ['persist', 'persist', ['persist', 'localStorageAdapter']],
+    ['query', 'query', ['queryAtoms', 'queryClientAtom']],
+    ['mutation', 'query', ['mutationAtoms', 'queryClientAtom']],
+    ['rhf', 'rhf', ['createFormModel', 'holoForm', 'formAtom']],
+  ]) {
+    const input = `${fixture}/optional.js`;
+    await writeFile(input, `export {${exports.join(',')}} from '../dist/${entry}.js';`);
+    optionalEntries[name] = inspect(
+      await build({
+        configFile: false,
+        root,
+        logLevel: 'silent',
+        build: {
+          write: false,
+          target: 'es2022',
+          minify: 'oxc',
+          rolldownOptions: {
+            input,
+            preserveEntrySignatures: 'strict',
+            external: (id) =>
+              /^(?:react|jotai|react-hook-form|@tanstack\/query-core)(?:\/|$)/.test(id),
+          },
+        },
+      }),
+    );
+  }
+  for (const name of ['holo', 'holo-input', 'holo-imperative'])
     assert.ok(
-      !results[key].modules.some((id) => /holo|state-binding/.test(id)),
-      'Unused React adapter must be tree-shaken.',
+      !results[name].modules.some((id) =>
+        /\/(?:model|model-composition|analytics|query|rhf|persist)\.js$/.test(id),
+      ),
+      'Optional infrastructure must stay out of ordinary holo.',
     );
-  }
-  for (const key of ['helpers-root', 'helpers-vanilla', 'holo', 'holo-and-helpers']) {
+  for (const result of Object.values(results))
     assert.ok(
-      !results[key].modules.some((id) => /\/(?:bond|ion|prism|holo-list|holo-match)\.js$/.test(id)),
-      'Unused operators must be tree-shaken.',
+      !result.modules.some((id) =>
+        /(?:bunshi|holo-cage|model-binding|state-binding-atom|\/binding\.js)/.test(id),
+      ),
+      'Retired runtime must not enter any fixture.',
     );
-  }
-  assert.ok(!results['holo-without-cage'].modules.some((id) => id.endsWith('/holo-cage.js')));
-  assert.ok(results['holo-and-helpers'].modules.some((id) => id.endsWith('/holo-cage.js')));
+  const increments = Object.fromEntries(
+    Object.entries(results)
+      .filter(([name]) => name !== 'native')
+      .map(([name, value]) => [
+        name,
+        Object.fromEntries(
+          ['minified', 'gzip', 'brotli'].map((metric) => [
+            metric,
+            value[metric] - results.native[metric],
+          ]),
+        ),
+      ]),
+  );
   console.log(
     JSON.stringify(
       {
-        source: process.env.BUNDLE_SOURCE_COMMIT ?? 'working tree',
         tooling: {
           vite: manifest.devDependencies.vite,
           react: manifest.devDependencies.react,
@@ -211,34 +160,8 @@ try {
         },
         units: 'bytes; JS only; gzip level 9; Brotli quality 11',
         results,
-        moleculeIncrement: Object.fromEntries(
-          ['minified', 'gzip', 'brotli'].map((metric) => [
-            metric,
-            results['holo-molecule'][metric] - results['native-molecule'][metric],
-          ]),
-        ),
-        cageIncrement: Object.fromEntries(
-          ['minified', 'gzip', 'brotli'].map((metric) => [
-            metric,
-            results['holo-and-helpers'][metric] - results['holo-without-cage'][metric],
-          ]),
-        ),
-        increments: Object.fromEntries(
-          ['helpers-root', 'helpers-vanilla', 'holo', 'holo-and-helpers', 'holo-with-unwrap'].map(
-            (name) => {
-              const base = results[name === 'holo-with-unwrap' ? 'native-with-unwrap' : 'native'];
-              return [
-                name,
-                Object.fromEntries(
-                  ['minified', 'gzip', 'brotli'].map((metric) => [
-                    metric,
-                    results[name][metric] - base[metric],
-                  ]),
-                ),
-              ];
-            },
-          ),
-        ),
+        increments,
+        optionalEntries,
       },
       null,
       2,

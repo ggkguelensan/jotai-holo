@@ -39,13 +39,33 @@
       "import": "./dist/vanilla.js"
     },
     "./package.json": "./package.json",
-    "./bunshi": {
-      "types": "./dist/bunshi.d.ts",
-      "import": "./dist/bunshi.js"
+    "./model": {
+      "types": "./dist/model.d.ts",
+      "import": "./dist/model.js"
+    },
+    "./query": {
+      "types": "./dist/query.d.ts",
+      "import": "./dist/query.js"
+    },
+    "./rhf": {
+      "types": "./dist/rhf.d.ts",
+      "import": "./dist/rhf.js"
+    },
+    "./persist": {
+      "types": "./dist/persist.d.ts",
+      "import": "./dist/persist.js"
+    },
+    "./analytics": {
+      "types": "./dist/analytics.d.ts",
+      "import": "./dist/analytics.js"
+    },
+    "./analytics/amplitude": {
+      "types": "./dist/analytics-amplitude.d.ts",
+      "import": "./dist/analytics-amplitude.js"
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "node scripts/build.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --config vitest.config.ts",
     "test:browser": "vitest run --config vitest.browser.config.ts",
@@ -58,23 +78,50 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "size": "pnpm build && node scripts/measure-bundle.mjs",
-    "test:memory": "pnpm build && node scripts/test-molecule-memory.mjs"
+    "test:memory": "pnpm build && node scripts/test-holo-memory.mjs",
+    "docs:dev": "pnpm docs:prepare && vitepress dev docs",
+    "docs:build": "pnpm docs:prepare && vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "docs:check": "pnpm docs:prepare && pnpm i18n:test && node scripts/check-doc-examples.mjs && node scripts/test-code-blocks.mjs && node scripts/check-docs.mjs",
+    "test:docs": "node scripts/test-docs.mjs",
+    "test:react": "node scripts/test-react-compat.mjs",
+    "test:model-memory": "pnpm build && node --expose-gc scripts/test-model-memory.mjs",
+    "i18n:extract": "lingui extract --clean",
+    "i18n:compile": "lingui compile --strict",
+    "docs:prepare": "pnpm i18n:extract && pnpm i18n:compile && node scripts/localize-docs.mjs",
+    "i18n:test": "node scripts/test-docs-i18n.mjs",
+    "test:mutation-memory": "pnpm build && node --expose-gc scripts/test-mutation-memory.mjs",
+    "test:analytics-adapter": "node scripts/test-analytics-adapter.mjs",
+    "test:composition-memory": "pnpm build && node --expose-gc scripts/test-model-composition-memory.mjs"
   },
   "peerDependencies": {
-    "@types/react": ">=19 <20",
+    "@tanstack/query-core": ">=5.104.5 <6",
+    "@types/react": ">=18 <20",
     "jotai": ">=3.0.1 <4",
-    "react": ">=19 <20",
-    "bunshi": ">=2.2.0 <3"
+    "react": ">=18 <20",
+    "react-hook-form": ">=7.91.0 <8"
   },
   "peerDependenciesMeta": {
-    "@types/react": {
+    "@tanstack/query-core": {
       "optional": true
     },
-    "bunshi": {
+    "react-hook-form": {
+      "optional": true
+    },
+    "@types/react": {
       "optional": true
     }
   },
   "devDependencies": {
+    "@babel/core": "7.29.7",
+    "@hookform/resolvers": "6.0.0",
+    "@lingui/babel-plugin-lingui-macro": "6.10.1",
+    "@lingui/cli": "6.10.1",
+    "@lingui/core": "6.10.1",
+    "@lingui/format-po": "6.10.1",
+    "@lingui/message-utils": "6.10.1",
+    "@lingui/react": "6.10.1",
+    "@tanstack/query-core": "5.104.5",
     "@tanstack/react-query": "5.104.5",
     "@types/node": "^22.0.0",
     "@types/react": "^19.2.0",
@@ -96,10 +143,15 @@
     "prettier": "3.6.2",
     "react": "19.3.1",
     "react-dom": "19.3.1",
+    "react-hook-form": "7.91.0",
     "rxjs": "7.8.2",
     "typescript": "~5.9.3",
     "vite": "8.0.13",
+    "vitepress": "1.6.4",
     "vitest": "4.1.6",
-    "xstate": "5.33.3"
+    "vue": "3.5.44",
+    "xstate": "5.33.3",
+    "yaml": "2.8.3",
+    "zod": "4.6.7"
   }
 }

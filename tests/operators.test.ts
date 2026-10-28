@@ -58,7 +58,7 @@ test('bond forwards every call including repeated payloads, preserves action res
   const target = actionAtom((_get, _set, value: number) => {
     seen.push(value);
   });
-  const link = bond({ trigger, yield: target });
+  const link = bond({ trigger, write: target });
   const a = store();
   const b = store();
   const stop = link.connect(a);
@@ -89,7 +89,7 @@ test('bond reads after synchronous writes, guard skips map and resolver, and for
     count,
     amount,
   ]);
-  const link = bond({ state: { count: $count }, trigger, guard: $allowed, map, yield: resolve });
+  const link = bond({ state: { count: $count }, trigger, guard: $allowed, map, write: resolve });
   const s = store();
   const stop = link.connect(s);
   s.set(trigger, 2);
@@ -109,13 +109,13 @@ test('bond defaults state to one argument, no-state callbacks get only trigger a
   const save = actionAtom((_get, _set, name: string) => {
     seen.push(name);
   });
-  const explicit = bond({ state: $name, trigger, yield: save });
-  const implicit = bond({ state: $name, yield: save });
+  const explicit = bond({ state: $name, trigger, write: save });
+  const implicit = bond({ state: $name, write: save });
   const filtered = bond({
     trigger,
     guard: (notify) => notify,
     map: (notify) => [String(notify)],
-    yield: save,
+    write: save,
   });
   const s = store();
   const stops = [explicit.connect(s), implicit.connect(s), filtered.connect(s)];
@@ -135,7 +135,7 @@ test('derived outputs activate upstream links, shared connections are ref-counte
   const values: number[] = [];
   const terminal = bond({
     trigger: prepared,
-    yield: actionAtom((_get, _set, value: number) => {
+    write: actionAtom((_get, _set, value: number) => {
       values.push(value);
     }),
   });
@@ -177,13 +177,13 @@ test('sync target errors and async rejections reach owners without changing trig
   const errors: unknown[] = [];
   const first = bond({
     trigger,
-    yield: actionAtom((_get, _set, _id: number) => {
+    write: actionAtom((_get, _set, _id: number) => {
       throw sync;
     }),
   });
   const second = bond({
     trigger,
-    yield: actionAtom(async (_get, _set, _id: number) => {
+    write: actionAtom(async (_get, _set, _id: number) => {
       throw async;
     }),
   });
@@ -206,11 +206,11 @@ test('nested emissions use FIFO order, repeated nested events are retained, and 
     trigger,
     guard: (value) => value < 3,
     map: (value) => [value + 1],
-    yield: trigger,
+    write: trigger,
   });
   const observer = bond({
     trigger,
-    yield: actionAtom((_get, _set, value: number) => {
+    write: actionAtom((_get, _set, value: number) => {
       values.push(value);
     }),
   });
@@ -250,7 +250,7 @@ test('bond releases native subscriptions on last disposal and can reconnect', ()
 test('bond disposes queued work, contains feedback cycles and recovers for the next event', () => {
   const trigger = actionAtom<[number]>();
   const errors: unknown[] = [];
-  const loop = bond({ trigger, yield: trigger });
+  const loop = bond({ trigger, write: trigger });
   const s = store();
   const stop = loop.connect(s, { onError: (error) => errors.push(error) });
   s.set(trigger, 1);
@@ -261,13 +261,13 @@ test('bond disposes queued work, contains feedback cycles and recovers for the n
   let disconnect = () => {};
   const first = bond({
     trigger,
-    yield: actionAtom((_get, _set, _n: number) => {
+    write: actionAtom((_get, _set, _n: number) => {
       disconnect();
     }),
   });
   const second = bond({
     trigger,
-    yield: actionAtom((_get, _set, n: number) => {
+    write: actionAtom((_get, _set, n: number) => {
       calls.push(n);
     }),
   });
@@ -321,7 +321,7 @@ test('all 24 valid combinations of optional bond fields deliver the expected arg
       ...(withTrigger ? { trigger } : {}),
       ...(withGuard ? { guard: atom(true) } : {}),
       ...(withMap ? { map: (...args: number[]) => [args.reduce((sum, n) => sum + n, 0)] } : {}),
-      ...(withTarget ? { yield: target } : {}),
+      ...(withTarget ? { write: target } : {}),
     };
     const link = Reflect.apply(bond, undefined, [config]) as import('../src/bond.js').Bond<
       number[]

@@ -16,7 +16,12 @@
     "paths": {
       "jotai-holo": ["./src/index.ts"],
       "jotai-holo/vanilla": ["./src/vanilla.ts"],
-      "jotai-holo/bunshi": ["./src/bunshi.ts"]
+      "jotai-holo/model": ["./src/model.ts"],
+      "jotai-holo/query": ["./src/query.ts"],
+      "jotai-holo/rhf": ["./src/rhf.ts"],
+      "jotai-holo/persist": ["./src/persist.ts"],
+      "jotai-holo/analytics": ["./src/analytics.ts"],
+      "jotai-holo/analytics/amplitude": ["./src/analytics-amplitude.ts"]
     }
   },
   "include": ["src", "tests", "examples", "*.config.ts"]

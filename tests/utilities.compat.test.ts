@@ -34,11 +34,11 @@ type Store = ReturnType<typeof createStore>;
 function capture(target: Atom<unknown>, store: Store) {
   let value: unknown;
   const Connected = holo({
-    core: function Core(props: { value: unknown }) {
+    view: function Core(props: { value: unknown }) {
       value = props.value;
       return null;
     },
-    state: { value: target },
+    read: { value: target },
   });
   return { node: createElement(Provider, { store }, createElement(Connected)), value: () => value };
 }
@@ -88,12 +88,12 @@ test('native writable derived atoms bind state and actions without conversion', 
   );
   let change: ((n: number) => void) | undefined;
   const Connected = holo({
-    core: function Core(props: { value: number; change: (n: number) => void }) {
+    view: function Core(props: { value: number; change: (n: number) => void }) {
       change = props.change;
       return null;
     },
-    state: { value: doubled },
-    actions: { change: doubled },
+    read: { value: doubled },
+    write: { change: doubled },
   });
   renderToStaticMarkup(createElement(Provider, { store }, createElement(Connected)));
   if (!change) throw new Error('Core not rendered');
@@ -122,10 +122,10 @@ test('lazy atoms initialize on store access rather than holo creation', () => {
   let calls = 0;
   const lazy = atomWithLazy(() => ++calls);
   const C = holo({
-    core: function Core(_props: { value: number }) {
+    view: function Core(_props: { value: number }) {
       return null;
     },
-    state: { value: lazy },
+    read: { value: lazy },
   });
   expect(calls).toBe(0);
   renderToStaticMarkup(createElement(Provider, { store: createStore() }, createElement(C)));

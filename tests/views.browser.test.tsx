@@ -1,64 +1,8 @@
 import { atom, createStore, Provider } from 'jotai';
-import { act, useState } from 'react';
+import { act, useState, useEffect } from 'react';
 import { expect, test } from 'vitest';
 import { holo, holoList, holoMatch } from '../src/index.js';
 import { createHarness, deferred, ErrorBoundary, suspense } from './browser-harness.js';
-
-test('list preserves keyed local state on reorder and renders only changed rows', async () => {
-  type Item = { id: string; title: string };
-  const a = { id: 'a', title: 'Ada' };
-  const b = { id: 'b', title: 'Bob' };
-  const $items = atom<Item[]>([a, b]);
-  const store = createStore();
-  const renders: Record<string, number> = {};
-  const mounts: string[] = [];
-  const unmounts: string[] = [];
-  const List = holoList({
-    source: $items,
-    getKey: (item) => item.id,
-    mapItem: (item) => ({ item }),
-    core: function Row({ item, title }: { item: Item; title: string }) {
-      const [n, setN] = useState(0);
-      renders[item.id] = (renders[item.id] ?? 0) + 1;
-      return (
-        <button data-id={item.id} onClick={() => setN(n + 1)}>
-          {title}:{item.title}:{n}
-        </button>
-      );
-    },
-    bindProps: { title: 'User' },
-    cage: {
-      onMount(_get, _set, ctx) {
-        mounts.push(ctx.props.item.id);
-      },
-      onUnmount(_get, _set, ctx) {
-        unmounts.push(ctx.props.item.id);
-      },
-    },
-    empty: () => <span>empty</span>,
-  });
-  const h = createHarness();
-  await h.render(
-    <Provider store={store}>
-      <List />
-    </Provider>,
-  );
-  await act(async () => h.container.querySelector<HTMLButtonElement>('[data-id=a]')!.click());
-  const before = { ...renders };
-  await act(async () => store.set($items, [b, a]));
-  expect(renders).toEqual(before);
-  expect([...h.container.querySelectorAll('button')].map((node) => node.textContent)).toEqual([
-    'User:Bob:0',
-    'User:Ada:1',
-  ]);
-  await act(async () => store.set($items, [b, { ...a, title: 'Alice' }]));
-  expect(renders.b).toBe(before.b);
-  expect(renders.a).toBe(before.a! + 1);
-  expect(mounts).toEqual(['a', 'b']);
-  await act(async () => store.set($items, []));
-  expect(h.container.textContent).toBe('empty');
-  expect(unmounts.sort()).toEqual(['a', 'b']);
-});
 
 test('list supports native async sources and reports duplicate keys', async () => {
   const pending = deferred<readonly number[]>();
@@ -66,7 +10,7 @@ test('list supports native async sources and reports duplicate keys', async () =
   const $items = atom(pending.promise);
   const List = holoList({
     source: $items,
-    core: ({ value }: { value: number }) => <span>{value}</span>,
+    view: ({ value }: { value: number }) => <span>{value}</span>,
     getKey: (value) => value,
     mapItem: (value) => ({ value }),
   });
@@ -103,12 +47,12 @@ test('match subscribes only the active branch and resets local state across case
     };
   };
   const A = holo({
-    core: ({ count }: { count: number }) => <span>a:{count}</span>,
-    state: { count: $a },
+    view: ({ count }: { count: number }) => <span>a:{count}</span>,
+    read: { count: $a },
   });
   const B = holo({
-    core: ({ count }: { count: number }) => <span>b:{count}</span>,
-    state: { count: $b },
+    view: ({ count }: { count: number }) => <span>b:{count}</span>,
+    read: { count: $b },
   });
   const Page = holoMatch({ source: $status, cases: { a: A, b: B } });
   const h = createHarness();
@@ -162,4 +106,59 @@ test('match resolves async selection and preserves fallback identity between unk
   expect(h.container.textContent).toBe('page:1');
   await act(async () => store.set($status, 'ready'));
   expect(h.container.textContent).toBe('page');
+});
+
+test('list preserves keyed local state on reorder and renders only changed rows', async () => {
+  type Item = { id: string; title: string };
+  const a = { id: 'a', title: 'Ada' };
+  const b = { id: 'b', title: 'Bob' };
+  const $items = atom<Item[]>([a, b]);
+  const store = createStore();
+  const renders: Record<string, number> = {};
+  const mounts: string[] = [];
+  const unmounts: string[] = [];
+  const List = holoList({
+    source: $items,
+    getKey: (item) => item.id,
+    mapItem: (item) => ({ item }),
+    view: function Row({ item, title }: { item: Item; title: string }) {
+      const [n, setN] = useState(0);
+      useEffect(() => {
+        mounts.push(item.id);
+        return () => {
+          unmounts.push(item.id);
+        };
+      }, []);
+      renders[item.id] = (renders[item.id] ?? 0) + 1;
+      return (
+        <button data-id={item.id} onClick={() => setN(n + 1)}>
+          {title}:{item.title}:{n}
+        </button>
+      );
+    },
+    props: { title: 'User' },
+
+    empty: () => <span>empty</span>,
+  });
+  const h = createHarness();
+  await h.render(
+    <Provider store={store}>
+      <List />
+    </Provider>,
+  );
+  await act(async () => h.container.querySelector<HTMLButtonElement>('[data-id=a]')!.click());
+  const before = { ...renders };
+  await act(async () => store.set($items, [b, a]));
+  expect(renders).toEqual(before);
+  expect([...h.container.querySelectorAll('button')].map((node) => node.textContent)).toEqual([
+    'User:Bob:0',
+    'User:Ada:1',
+  ]);
+  await act(async () => store.set($items, [b, { ...a, title: 'Alice' }]));
+  expect(renders.b).toBe(before.b);
+  expect(renders.a).toBe(before.a! + 1);
+  expect(mounts).toEqual(['a', 'b']);
+  await act(async () => store.set($items, []));
+  expect(h.container.textContent).toBe('empty');
+  expect(unmounts.sort()).toEqual(['a', 'b']);
 });

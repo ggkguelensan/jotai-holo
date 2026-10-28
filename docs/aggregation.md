@@ -1,50 +1,21 @@
-# State binding aggregation
+# Binding snapshots
 
-The internal `createStateBindingAtom` assembles native atom values into core props. It uses public Jotai APIs and standard promises; there is no external runtime dependency or private Jotai/React API.
+All bindings use one implementation: a fixed chain of public Jotai raw atom hooks. The chain is built when a binding is declared; render does not conditionally loop over hooks.
 
 ```text
-state bindings
-  ├─ direct source dependencies ──────────────┐
-  └─ raw snapshot atom → snapshot identity    │
-        └─ unwrap each async source          │
-              ├─ all ready → synchronous props
-              └─ any pending → Promise.all → props / original rejection
-                        └─ useAtomValue → React core
+Named selections → resolved models → selected atoms
+                                         ↓
+                                useAtomValueRaw
+                                         ↓
+                           store-owned weak snapshot cache
+                            ↙                         ↘
+                    resolved props             stable pending Promise
+                            ↘                         ↙
+                                      View
 ```
 
-## States
+Native hooks preserve Jotai continuable promises, including source replacement before first commit. The cache preserves pending result identity across Suspense retries. Fulfilled sources beside changed synchronous values return synchronous props. Any rejected source reaches ErrorBoundary without waiting for a never-settling sibling.
 
-| Inputs                            | Aggregate result                                                 |
-| --------------------------------- | ---------------------------------------------------------------- |
-| All synchronous                   | Synchronous props object                                         |
-| At least one pending              | Stable promise for that raw snapshot                             |
-| All fulfilled, same raw snapshot  | The same fulfilled promise, retained for Suspense retry identity |
-| All fulfilled, a new raw snapshot | Synchronous props, without new suspension                        |
-| A synchronous read throws         | Original thrown value                                            |
-| Any pending promise rejects       | Original reason, without waiting for other pending sources       |
+Caches are weakly keyed by store and atom references. Pending promise handlers capture only promise status, not models or store registries. This avoids a globally mounted atom retaining discarded per-model graphs through a pending aggregate dependency.
 
-A private symbol distinguishes pending from valid values such as `undefined`, `null`, `false` and `0`. `unwrap` owns per-promise readiness/error bookkeeping. We do not mutate promises with React status fields or maintain a second promise-state cache.
-
-## Snapshot identity
-
-A raw snapshot contains the source values, including original promise references. A WeakMap associates each Jotai-owned raw snapshot with its aggregate result. This caches the **result identity**, not promise readiness: readiness belongs to `unwrap`. Keys are store-owned snapshot arrays, so different stores do not share a snapshot, and obsolete snapshots can be collected.
-
-Retaining a pending snapshot's result prevents a retry from manufacturing a different promise or changing that same snapshot's result representation. When a sync value changes beside a fulfilled async source, the new raw snapshot reads the fulfilled value through `unwrap` and returns plain props.
-
-The aggregate also reads sources **directly**. Before the first React commit, intermediate derived atoms may be unmounted. Direct dependencies let Jotai invalidate/abort the aggregate's pending result when a source changes. This is necessary to escape an old promise that never settles. Native `useAtomValue` keeps Jotai's continuation mechanism; the library does not replace it with raw `React.use`.
-
-## Experiments retained as tests
-
-- Rejection in every position while the remaining requests never settle.
-- Success in different resolution orders; the core receives one complete snapshot.
-- Original falsy thrown/rejected values, including `null` and `undefined`.
-- A fulfilled `undefined` value beside changing sync state.
-- Replacing a never-settling source before first commit.
-- Pending and fulfilled snapshot identity, including a late subscription.
-- Existing async cancellation, stale resolutions/rejections, store switching, SSR, effects, scopes and core render counts.
-
-Tests live in `state-binding-atom.test.ts`, `aggregate.browser.test.tsx` and the existing async/rendering suites. The pinned React/Jotai async→sync development warning has a separate native control; see [compatibility](compatibility.md#native-development-warning).
-
-## Optional adapter bindings
-
-This native aggregation path is retained for ordinary atom bindings. When descriptors are present, selected atoms use public Jotai raw hooks and React-level promise aggregation to avoid retaining scoped models through pending dependency links from global atoms. See [adapter validation and ownership](bunshi-validation.md).
+The SSR regression with an async model and an async field is covered by holo-view.test.tsx. Browser aggregation, model-async and rendering suites cover stale requests, falsy values, rejection, replacement and commit counts. Production Chromium forced-GC tests cover mounted, abandoned and discarded-store models and imperative handles.

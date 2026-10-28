@@ -1,0 +1,653 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-28 12:28+0500\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ru\n"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "State"
+msgstr "Состояние"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Commands & events"
+msgstr "Команды и события"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "React bindings"
+msgstr "Привязки React"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Integrations"
+msgstr "Интеграции"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Guide"
+msgstr "Руководство"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Getting started"
+msgstr "Начало работы"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Why jotai-holo"
+msgstr "Зачем jotai-holo"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Choosing a tool"
+msgstr "Выбор инструмента"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Model composition"
+msgstr "Композиция моделей"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Rendering and async"
+msgstr "Рендеринг и async"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Recipes"
+msgstr "Рецепты"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Profile: command → fact → reaction"
+msgstr "Профиль: команда → факт → реакция"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Effects and model lifetime"
+msgstr "Эффекты и время жизни модели"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Spreadsheet formulas"
+msgstr "Таблица с формулами"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Hosting the docs"
+msgstr "Публикация документации"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Engineering notes (English)"
+msgstr "Технические отчёты (EN)"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Compatibility"
+msgstr "Совместимость"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Bundle measurements"
+msgstr "Размер бандла"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Aggregation"
+msgstr "Агрегация"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Laziness and isolation audit"
+msgstr "Проверка ленивости и изоляции"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Detailed contracts"
+msgstr "Подробные контракты"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Operator contracts"
+msgstr "Контракты операторов"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Plain React views. Native Jotai models. Declarative connections."
+msgstr "Обычные React-компоненты. Нативные модели Jotai. Декларативные связи."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "On this page"
+msgstr "На этой странице"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Previous page"
+msgstr "Предыдущая страница"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Next page"
+msgstr "Следующая страница"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Return to top"
+msgstr "Наверх"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Menu"
+msgstr "Меню"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Appearance"
+msgstr "Оформление"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Switch to light theme"
+msgstr "Включить светлую тему"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Switch to dark theme"
+msgstr "Включить тёмную тему"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Change language"
+msgstr "Сменить язык"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Last updated"
+msgstr "Обновлено"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Edit this page"
+msgstr "Редактировать страницу"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Page not found"
+msgstr "Страница не найдена"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "This page may have moved. Find the guide or an API reference in the navigation."
+msgstr "Возможно, страница переместилась. Найдите руководство или API в навигации."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Go to home"
+msgstr "На главную"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Live example"
+msgstr "Живой пример"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "View example code"
+msgstr "Код примера"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Complete source with imports"
+msgstr "Полный исходник с импортами"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "This engineering report is maintained in English."
+msgstr "Этот технический отчёт ведётся на английском языке."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Read the English report"
+msgstr "Открыть отчёт на английском"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Search"
+msgstr "Поиск"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "No results for"
+msgstr "Ничего не найдено по запросу"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Clear search"
+msgstr "Очистить поиск"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Display detailed list"
+msgstr "Показать подробный список"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Close search"
+msgstr "Закрыть поиск"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "to select"
+msgstr "выбрать"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "to navigate"
+msgstr "перейти"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "to close"
+msgstr "закрыть"
+
+#: examples/docs/analytics.tsx
+#: examples/docs/query.tsx
+msgid "Product catalog"
+msgstr "Каталог товаров"
+
+#: examples/docs/analytics.tsx
+msgid "Search products"
+msgstr "Поиск товаров"
+
+#: examples/docs/analytics.tsx
+msgid "Search"
+msgstr "Найти"
+
+#: examples/docs/analytics.tsx
+msgid "Search → Amplitude + warehouse; product open → PostHog."
+msgstr "Поиск → Amplitude + warehouse; открытие товара → PostHog."
+
+#: examples/docs/analytics.tsx
+msgid "Product details"
+msgstr "Карточка товара"
+
+#: examples/docs/analytics.tsx
+msgid "Close details"
+msgstr "Закрыть карточку"
+
+#: examples/docs/analytics.tsx
+msgid "Recording adapters write to the console; no SDK or network."
+msgstr "Демо-адаптеры записывают в консоль; без SDK и сетевых запросов."
+
+#: examples/docs/bond.tsx
+msgid "A fact → a separate reaction"
+msgstr "Факт → независимая реакция"
+
+#: examples/docs/bond.tsx
+msgid "Generate receipt"
+msgstr "Создавать чек"
+
+#: examples/docs/bond.tsx
+msgid "Submit demo order"
+msgstr "Оформить демо-заказ"
+
+#: examples/docs/bond.tsx
+msgid "No receipts yet"
+msgstr "Чеков пока нет"
+
+#: examples/docs/bond.tsx
+msgid "Receipt for order"
+msgstr "Чек для заказа"
+
+#: examples/docs/bond.tsx
+msgid "Local simulation: no payment or network request."
+msgstr "Локальная имитация: без оплаты и сетевых запросов."
+
+#: examples/docs/counter.tsx
+msgid "Derived × 2"
+msgstr "Производное × 2"
+
+#: examples/docs/counter.tsx
+msgid "Decrement"
+msgstr "Уменьшить"
+
+#: examples/docs/counter.tsx
+msgid "Increment"
+msgstr "Увеличить"
+
+#. js-lingui-explicit-id
+#: examples/docs/counter.tsx
+msgid "One model, ordinary props"
+msgstr "Одна модель, обычные пропсы"
+
+#: examples/docs/data-lifecycle.tsx
+msgid "Name"
+msgstr "Имя"
+
+#: examples/docs/data-lifecycle.tsx
+msgid "Profile draft"
+msgstr "Черновик профиля"
+
+#: examples/docs/data-lifecycle.tsx
+msgid "Mount editor"
+msgstr "Показать редактор"
+
+#: examples/docs/data-lifecycle.tsx
+msgid "Hiding the editor saves your draft in this tab."
+msgstr "Скрытие редактора сохраняет черновик в этой вкладке."
+
+#: examples/docs/form.tsx
+msgid "Email"
+msgstr "Электронная почта"
+
+#: examples/docs/form.tsx
+msgid "Enter a valid email"
+msgstr "Введите корректный email"
+
+#: examples/docs/form.tsx
+msgid "Contact channel"
+msgstr "Канал связи"
+
+#: examples/docs/form.tsx
+msgid "Phone"
+msgstr "Телефон"
+
+#: examples/docs/form.tsx
+msgid "External save panel"
+msgstr "Внешняя панель сохранения"
+
+#: examples/docs/form.tsx
+msgid "No email yet"
+msgstr "Email пока не указан"
+
+#: examples/docs/form.tsx
+msgid "Save contact"
+msgstr "Сохранить контакт"
+
+#: examples/docs/form.tsx
+msgid "Saved:"
+msgstr "Сохранено:"
+
+#: examples/docs/form.tsx
+msgid "Contact preferences"
+msgstr "Настройки контакта"
+
+#: examples/docs/imperative.tsx
+msgid "Order confirmation"
+msgstr "Подтверждение заказа"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/ion.tsx
+msgid "Total"
+msgstr "Итого"
+
+#: examples/docs/imperative.tsx
+msgid "Back to cart"
+msgstr "Вернуться в корзину"
+
+#: examples/docs/imperative.tsx
+msgid "Checkout"
+msgstr "Оформление заказа"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/query.tsx
+msgid "Oak desk"
+msgstr "Дубовый стол"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/ion.tsx
+msgid "Quantity"
+msgstr "Количество"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/operators.tsx
+msgid "Place order"
+msgstr "Оформить заказ"
+
+#: examples/docs/input.tsx
+msgid "Mounted search View receives"
+msgstr "Смонтированный Search View получает"
+
+#: examples/docs/input.tsx
+msgid "Input prop: term"
+msgstr "Входной пропс: term"
+
+#: examples/docs/input.tsx
+msgid "Mount Search"
+msgstr "Монтировать Search"
+
+#: examples/docs/ion.tsx
+msgid "Workshop tickets · $25 each"
+msgstr "Билеты на воркшоп · $25 каждый"
+
+#: examples/docs/ion.tsx
+msgid "Member discount · 20%"
+msgstr "Скидка участника · 20%"
+
+#: examples/docs/list.tsx
+msgid "Review proposal"
+msgstr "Проверить предложение"
+
+#: examples/docs/list.tsx
+msgid "Ship documentation"
+msgstr "Опубликовать документацию"
+
+#: examples/docs/list.tsx
+msgid "All clear."
+msgstr "Список пуст."
+
+#: examples/docs/list.tsx
+msgid "Reverse rows"
+msgstr "Развернуть список"
+
+#: examples/docs/list.tsx
+msgid "Clear"
+msgstr "Очистить"
+
+#: examples/docs/list.tsx
+msgid "Stable keys preserve row state"
+msgstr "Стабильные ключи сохраняют состояние строки"
+
+#: examples/docs/list.tsx
+msgid "Check a task, then reverse the rows."
+msgstr "Отметьте задачу, затем разверните список."
+
+#: examples/docs/match.tsx
+msgid "Loading your workspace…"
+msgstr "Загрузка пространства…"
+
+#: examples/docs/match.tsx
+msgid "Your workspace is ready."
+msgstr "Пространство готово."
+
+#: examples/docs/match.tsx
+#: examples/docs/query.tsx
+msgid "Could not load. Try again."
+msgstr "Не удалось загрузить. Попробуйте ещё раз."
+
+#: examples/docs/match.tsx
+msgid "Loading"
+msgstr "Загрузка"
+
+#: examples/docs/match.tsx
+msgid "Ready"
+msgstr "Готово"
+
+#: examples/docs/match.tsx
+msgid "Error"
+msgstr "Ошибка"
+
+#: examples/docs/model.tsx
+msgid "Add a seat"
+msgstr "Добавить место"
+
+#: examples/docs/model.tsx
+msgid "Proposal"
+msgstr "Предложение"
+
+#: examples/docs/mutation.tsx
+msgid "Proposal P-1042"
+msgstr "Предложение P-1042"
+
+#: examples/docs/mutation.tsx
+msgid "Discount, %"
+msgstr "Скидка, %"
+
+#: examples/docs/mutation.tsx
+msgid "Comment for the customer"
+msgstr "Комментарий для клиента"
+
+#: examples/docs/mutation.tsx
+msgid "Try a discount above 25% to see a server rejection."
+msgstr "Укажите скидку выше 25%, чтобы увидеть отказ сервера."
+
+#: examples/docs/mutation.tsx
+msgid "Saving proposal…"
+msgstr "Сохраняем предложение…"
+
+#: examples/docs/mutation.tsx
+msgid "Save proposal"
+msgstr "Сохранить предложение"
+
+#: examples/docs/mutation.tsx
+msgid "Clear feedback"
+msgstr "Очистить сообщения"
+
+#: examples/docs/mutation.tsx
+msgid "Discounts above 25% need approval."
+msgstr "Скидка выше 25% требует согласования."
+
+#: examples/docs/mutation.tsx
+msgid "Saved discount"
+msgstr "Сохранённая скидка"
+
+#: examples/docs/operators.tsx
+msgid "Order review · courier delivery"
+msgstr "Проверка заказа · доставка курьером"
+
+#: examples/docs/operators.tsx
+msgid "Goods $80 + delivery $15"
+msgstr "Товары $80 + доставка $15"
+
+#: examples/docs/operators.tsx
+msgid "I accept the delivery terms"
+msgstr "Я принимаю условия доставки"
+
+#: examples/docs/operators.tsx
+msgid "Surcharge applies"
+msgstr "Есть доплата"
+
+#: examples/docs/operators.tsx
+msgid "No surcharge"
+msgstr "Без доплаты"
+
+#: examples/docs/prism.tsx
+msgid "Name projection"
+msgstr "Проекция имени"
+
+#: examples/docs/prism.tsx
+msgid "Role projection"
+msgstr "Проекция роли"
+
+#: examples/docs/prism.tsx
+msgid "Editor"
+msgstr "Редактор"
+
+#: examples/docs/prism.tsx
+msgid "Viewer"
+msgstr "Читатель"
+
+#: examples/docs/prism.tsx
+msgid "Admin"
+msgstr "Администратор"
+
+#: examples/docs/prism.tsx
+msgid "One source → two independent atoms"
+msgstr "Один источник → два независимых атома"
+
+#: examples/docs/prism.tsx
+msgid "Changing the role keeps the selected name unchanged."
+msgstr "Смена роли не меняет выбранное значение имени."
+
+#: examples/docs/query.tsx
+msgid "Desk lamp"
+msgstr "Настольная лампа"
+
+#: examples/docs/query.tsx
+msgid "Loading…"
+msgstr "Загрузка…"
+
+#: examples/docs/query.tsx
+msgid "Product not found."
+msgstr "Товар не найден."
+
+#: examples/docs/query.tsx
+msgid "Desk"
+msgstr "Стол"
+
+#: examples/docs/query.tsx
+msgid "Lamp"
+msgstr "Лампа"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Check the formula and its references."
+msgstr "Проверьте формулу и её ссылки."
+
+#: examples/docs/spreadsheet.tsx
+msgid "Formula for the selected cell"
+msgstr "Формула выбранной ячейки"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Project estimate"
+msgstr "Стоимость проекта"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Reset sheet"
+msgstr "Сбросить таблицу"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Workstream"
+msgstr "Работы"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Hours / ratio"
+msgstr "Часы / доля"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Rate / base, €"
+msgstr "Ставка / база, €"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Amount, €"
+msgstr "Сумма, €"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Website launch · estimate"
+msgstr "Запуск сайта · смета"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Change the hours. The estimate follows."
+msgstr "Измените часы — смета пересчитается."
+
+#: examples/docs/spreadsheet.tsx
+msgid "Project budget"
+msgstr "Бюджет проекта"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Row"
+msgstr "Строка"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Rows 1–3: hours × rate. Row 4: 10% reserve. Row 5: total."
+msgstr "Строки 1–3: часы × ставка. Строка 4: резерв 10%. Строка 5: итог."
+
+#: examples/docs/spreadsheet.tsx
+msgid "Select a cell to edit. Enter moves down; Tab moves across."
+msgstr "Выберите ячейку. Enter — вниз, Tab — к следующей."

@@ -1,9 +1,10 @@
 'use client';
 
+import { memoWithRef } from './react-compat.js';
+
 import { useAtomValue, type Atom } from 'jotai';
 import {
   createElement,
-  memo,
   type ComponentPropsWithRef,
   type ComponentType,
   type ElementType,
@@ -12,34 +13,34 @@ import {
 } from 'react';
 import { holo, type HoloConfig, type BindingKeys, type OwnProps } from './holo.js';
 
-type RowProps<Core extends ElementType, M, S, A, P> = OwnProps<
-  ComponentPropsWithRef<NoInfer<Core>>,
+type RowProps<View extends ElementType, M, S, A, P> = OwnProps<
+  ComponentPropsWithRef<NoInfer<View>>,
   Extract<M | S | A | P, PropertyKey>
 >;
 export function holoList<
-  Core extends ElementType,
+  View extends ElementType,
   Item,
-  MappedKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<Core>>> = never,
-  StateKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<Core>>> = never,
-  ActionKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<Core>>> = never,
-  StaticKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<Core>>> = never,
+  MappedKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<View>>> = never,
+  ReadKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<View>>> = never,
+  WriteKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<View>>> = never,
+  StaticKeys extends BindingKeys<ComponentPropsWithRef<NoInfer<View>>> = never,
 >(
-  config: HoloConfig<Core, StateKeys, ActionKeys, StaticKeys> & {
+  config: HoloConfig<View, {}, ReadKeys, WriteKeys, StaticKeys> & {
     source: Atom<readonly Item[] | PromiseLike<readonly Item[]>>;
     getKey: (item: Item, index: number) => Key;
     mapItem: (
       item: Item,
       index: number,
     ) => {
-      [Key in MappedKeys]: Key extends StateKeys | ActionKeys | StaticKeys
+      [Key in MappedKeys]: Key extends ReadKeys | WriteKeys | StaticKeys
         ? never
-        : NoInfer<ComponentPropsWithRef<NoInfer<Core>>[Key]>;
+        : NoInfer<ComponentPropsWithRef<NoInfer<View>>[Key]>;
     };
-    empty?: ComponentType<RowProps<Core, MappedKeys, StateKeys, ActionKeys, StaticKeys>>;
+    empty?: ComponentType<RowProps<View, MappedKeys, ReadKeys, WriteKeys, StaticKeys>>;
   },
-): NamedExoticComponent<RowProps<Core, MappedKeys, StateKeys, ActionKeys, StaticKeys>>;
+): NamedExoticComponent<RowProps<View, MappedKeys, ReadKeys, WriteKeys, StaticKeys>>;
 export function holoList(config: {
-  core: ElementType;
+  view: ElementType;
   source: Atom<readonly unknown[] | PromiseLike<readonly unknown[]>>;
   getKey: (item: never, index: number) => Key;
   mapItem: (item: never, index: number) => Record<string, unknown>;
@@ -47,7 +48,7 @@ export function holoList(config: {
 }) {
   const { source, getKey, mapItem, empty } = config;
   const Row: ComponentType<Record<string, unknown>> = Reflect.apply(holo, undefined, [config]);
-  return memo(function HoloList(props: Record<string, unknown>) {
+  return memoWithRef(function HoloList(props: Record<string, unknown>) {
     const items = useAtomValue(source);
     if (!items.length) return empty ? createElement(empty, props) : null;
     const keys = new Set<string>();
@@ -57,7 +58,7 @@ export function holoList(config: {
       if (keys.has(id)) throw new Error(`holoList: duplicate key "${id}".`);
       keys.add(id);
       const mapped = mapItem(item as never, index);
-      for (const section of ['state', 'actions', 'bindProps'] as const) {
+      for (const section of ['read', 'write', 'props'] as const) {
         const bound = Reflect.get(config, section) as Record<string, unknown> | undefined;
         if (bound)
           for (const name of Object.keys(mapped)) {

@@ -21,9 +21,9 @@ function invalidContracts() {
   // @ts-expect-error No implicit clock can be selected without state or trigger.
   bond({});
   // @ts-expect-error Default trigger args must fit target args.
-  bond({ trigger, yield: stringTarget });
+  bond({ trigger, write: stringTarget });
   // @ts-expect-error Mapped args must fit target args.
-  bond({ trigger, map: (value) => [value], yield: stringTarget });
+  bond({ trigger, map: (value) => [value], write: stringTarget });
   // @ts-expect-error Guards are synchronous.
   bond({ trigger, guard: async () => true });
   // @ts-expect-error Maps are synchronous argument tuples.
@@ -36,26 +36,40 @@ function invalidContracts() {
   holoMatch({ source: $status, cases: { ready: View, loading: View, extra: View } });
   const Match = holoMatch({ source: $status, cases: { ready: View, loading: View } });
   const valid = <Match title="title" />;
+  const Mixed = holoMatch({ source: $status, cases: { ready: View, loading: () => null } });
+  const mixed = <Mixed title="title" />;
+  // @ts-expect-error A zero-argument branch cannot erase required inputs of another branch.
+  const missingMixed = <Mixed />;
+  const Fallback = holoMatch({
+    source: atom('unknown'),
+    cases: { ready: () => null },
+    fallback: View,
+  });
+  const fallback = <Fallback title="title" />;
+  // @ts-expect-error Required fallback inputs remain public even with zero-argument cases.
+  const missingFallback = <Fallback />;
+  void [mixed, missingMixed, fallback, missingFallback];
+
   // @ts-expect-error Required branch input remains public.
   const invalid = <Match />;
   const List = holoList({
     source: atom([1]),
     getKey: (n) => n,
     mapItem: (n) => ({ n }),
-    core: (_props: { n: number; title: string }) => null,
+    view: (_props: { n: number; title: string }) => null,
   });
   const list = <List title="title" />;
   // @ts-expect-error Mapped input is no longer public.
   const invalidList = <List title="title" n={1} />;
   // @ts-expect-error A stable row key is required.
-  holoList({ source: atom([1]), mapItem: (n) => ({ n }), core: (_props: { n: number }) => null });
+  holoList({ source: atom([1]), mapItem: (n) => ({ n }), view: (_props: { n: number }) => null });
   holoList({
     source: atom([1]),
     getKey: (n) => n,
     // @ts-expect-error A prop cannot be both mapped and bound.
     mapItem: (n) => ({ n }),
-    state: { n: atom(1) },
-    core: (_props: { n: number }) => null,
+    read: { n: atom(1) },
+    view: (_props: { n: number }) => null,
   });
   return [valid, invalid, list, invalidList];
 }

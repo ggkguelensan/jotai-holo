@@ -1,7 +1,8 @@
 'use client';
 
-import { useAtomValueRaw, type Atom } from 'jotai';
-import { use, useMemo } from 'react';
+import { useAtomValueRaw, useStore, type Atom } from 'jotai';
+import { useMemo } from 'react';
+import { usePromise } from './react-compat.js';
 
 type Entries = readonly (readonly [string, Atom<unknown>])[];
 type Values = readonly unknown[];
@@ -24,12 +25,13 @@ export function createUseBindingState(keys: readonly string[]) {
     raw?: Values;
     result?: Props | Promise<Props>;
   };
-  const root: Node = {};
+  const roots = new WeakMap<ReturnType<typeof useStore>, Node>();
   const statuses = new WeakMap<PromiseLike<unknown>, Status>();
   const toProps = (values: Values) =>
     Object.fromEntries(keys.map((key, index) => [key, values[index]]));
-  const read = (entries: Entries, values: Values) => {
-    let node = root;
+  const read = (store: ReturnType<typeof useStore>, entries: Entries, values: Values) => {
+    let node: Node = roots.get(store) ?? {};
+    roots.set(store, node);
     for (const [, target] of entries) {
       const next = (node.next ??= new WeakMap());
       let child = next.get(target);
@@ -81,8 +83,9 @@ export function createUseBindingState(keys: readonly string[]) {
     };
   }
   return function useBindingState(entries: Entries) {
+    const store = useStore();
     const values = useValues(entries);
-    const result = read(entries, values);
-    return isPromise(result) ? use(result) : result;
+    const result = read(store, entries, values);
+    return isPromise(result) ? usePromise(result) : result;
   };
 }

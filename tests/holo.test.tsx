@@ -50,10 +50,10 @@ describe('holo', () => {
       );
     }
     const Counter = holo({
-      core: View,
-      state: { count, doubled },
-      actions: { onIncrement: increment },
-      bindProps: { icon: Icon, data: reader },
+      view: View,
+      read: { count, doubled },
+      write: { onIncrement: increment },
+      props: { icon: Icon, data: reader },
     });
     expectTypeOf<ComponentProps<typeof Counter>>().toEqualTypeOf<{ title: string }>();
 
@@ -80,8 +80,8 @@ describe('holo', () => {
     function View({ title = 'default' }: { title?: string }) {
       return <span>{title}</span>;
     }
-    const Plain = holo({ core: View });
-    const Static = holo({ core: memo(View), bindProps: { title: 'static' } });
+    const Plain = holo({ view: View });
+    const Static = holo({ view: memo(View), props: { title: 'static' } });
 
     expectTypeOf<ComponentProps<typeof Plain>>().toEqualTypeOf<{ title?: string }>();
     expect(renderToStaticMarkup(<Plain />)).toBe('<span>default</span>');
@@ -99,7 +99,7 @@ describe('holo', () => {
       onSave = props.onSave;
       return null;
     }
-    const Connected = holo({ core: View, actions: { onSave: save } });
+    const Connected = holo({ view: View, write: { onSave: save } });
 
     renderToStaticMarkup(<Connected />);
     if (!onSave) throw new Error('View was not rendered');
@@ -111,14 +111,14 @@ describe('holo', () => {
     const name = atom(Promise.resolve('resolved'));
     const count = atom(2);
     const Connected = holo({
-      core: function View({ name, count }: { name: string; count: number }) {
+      view: function View({ name, count }: { name: string; count: number }) {
         return (
           <span>
             {name}:{count}
           </span>
         );
       },
-      state: { name, count },
+      read: { name, count },
     });
 
     const stream = await renderToReadableStream(<Connected />);
@@ -128,55 +128,15 @@ describe('holo', () => {
 
   test('rejects duplicate keys at runtime for JavaScript callers too', () => {
     const config = {
-      core: function View({ count }: { count: number }) {
+      view: function View({ count }: { count: number }) {
         return <span>{count}</span>;
       },
-      state: { count: atom(1) },
-      bindProps: { count: 2 },
+      read: { count: atom(1) },
+      props: { count: 2 },
     };
-    // @ts-expect-error A prop cannot appear in both state and props.
-    expect(() => holo(config)).toThrow(/count.*more than one section/);
-  });
-
-  test('does not execute cage callbacks during server rendering', () => {
-    const $count = atom(0);
-    const store = createStore();
-    const events: string[] = [];
-    function Core({ count }: { count: number; init: number; reactive: string }) {
-      return <span>{count}</span>;
-    }
-    const Connected = holo({
-      core: Core,
-      state: { count: $count },
-      bindProps: { init: 5 },
-      cage: {
-        onMount(_get, set, ctx) {
-          expectTypeOf(ctx.props.init).toEqualTypeOf<number>();
-          expectTypeOf(ctx.props.reactive).toEqualTypeOf<string>();
-          set($count, ctx.props.init * 2);
-          events.push('mount');
-        },
-        onChange() {
-          events.push('change');
-        },
-        onUnmount() {
-          events.push('unmount');
-        },
-      },
-    });
-
-    expectTypeOf<ComponentProps<typeof Connected>>().toEqualTypeOf<{
-      reactive: string;
-    }>();
-    expect(
-      renderToStaticMarkup(
-        <Provider store={store}>
-          <Connected reactive="input" />
-        </Provider>,
-      ),
-    ).toBe('<span>0</span>');
-    expect(events).toEqual([]);
-    expect(store.get($count)).toBe(0);
+    // @ts-expect-error A prop cannot appear in both read and props.
+    const Duplicate = holo(config);
+    expect(() => renderToStaticMarkup(<Duplicate />)).toThrow(/count.*more than one section/);
   });
 });
 
@@ -189,49 +149,38 @@ function _checkInvalidBindings() {
   const increment = actionAtom((_get, set, amount: number) => set(count, amount));
   const wrongIncrement = actionAtom((_get, _set, amount: string) => amount);
   const Connected = holo({
-    core: View,
-    state: { count },
-    actions: { onIncrement: increment },
+    view: View,
+    read: { count },
+    write: { onIncrement: increment },
   });
   // @ts-expect-error An atom must resolve to the declared view prop type.
-  holo({ core: View, state: { count: atom('wrong') } });
+  holo({ view: View, read: { count: atom('wrong') } });
   // @ts-expect-error State requires an atom, not a static value.
-  holo({ core: View, state: { count: 1 } });
+  holo({ view: View, read: { count: 1 } });
   // @ts-expect-error Unknown view props are rejected.
-  holo({ core: View, state: { missing: count } });
+  holo({ view: View, read: { missing: count } });
   // @ts-expect-error Action argument types must match the view callback.
-  holo({ core: View, actions: { onIncrement: wrongIncrement } });
+  holo({ view: View, write: { onIncrement: wrongIncrement } });
   // @ts-expect-error Actions require a writable atom.
-  holo({ core: View, actions: { onIncrement: atom((get) => get(count)) } });
+  holo({ view: View, write: { onIncrement: atom((get) => get(count)) } });
   // @ts-expect-error Non-callable view props cannot be actions.
-  holo({ core: View, actions: { count } });
+  holo({ view: View, write: { count } });
   // @ts-expect-error Static props must match the view prop type.
-  holo({ core: View, bindProps: { title: 1 } });
+  holo({ view: View, props: { title: 1 } });
   holo({
-    core: View,
-    actions: { onIncrement: increment },
-    // @ts-expect-error An action prop cannot also be static.
-    bindProps: { onIncrement: () => undefined },
+    view: View,
+    write: { onIncrement: increment },
+    // @ts-expect-error A write prop cannot also be static.
+    props: { onIncrement: () => undefined },
   });
   // @ts-expect-error A required own prop is still required.
   const missing = <Connected />;
   // @ts-expect-error Bound props cannot be overridden by callers.
   const overridden = <Connected title="Counter" count={9} />;
   holo({
-    core: View,
-    state: { count },
-    actions: { onIncrement: increment },
-    cage: {
-      onChange(_get, _set, ctx) {
-        expectTypeOf(ctx.props.title).toEqualTypeOf<string>();
-        // @ts-expect-error State bindings are outputs, not cage inputs.
-        void ctx.props.count;
-        // @ts-expect-error Action bindings are outputs, not cage inputs.
-        void ctx.props.onIncrement;
-        // @ts-expect-error Lifecycle snapshots cannot be mutated.
-        ctx.props.title = 'changed';
-      },
-    },
+    view: View,
+    read: { count },
+    write: { onIncrement: increment },
   });
   return [missing, overridden];
 }

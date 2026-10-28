@@ -14,25 +14,25 @@ test('leaf subscriptions update only their core; actions and parent have zero re
   const calls = { parent: 0, count: 0, label: 0, button: 0 };
   const increment = actionAtom((_get, set) => set($count, (n) => n + 1));
   const Count = holo({
-    core: function CountView({ count }: { count: number }) {
+    view: function CountView({ count }: { count: number }) {
       calls.count++;
       return <span data-count>{count}</span>;
     },
-    state: { count: $count },
+    read: { count: $count },
   });
   const Label = holo({
-    core: function LabelView({ label }: { label: string }) {
+    view: function LabelView({ label }: { label: string }) {
       calls.label++;
       return <span>{label}</span>;
     },
-    state: { label: $label },
+    read: { label: $label },
   });
   const Button = holo({
-    core: function ButtonView({ onClick }: { onClick: () => void }) {
+    view: function ButtonView({ onClick }: { onClick: () => void }) {
       calls.button++;
       return <button onClick={onClick}>increment</button>;
     },
-    actions: { onClick: increment },
+    write: { onClick: increment },
   });
   function Parent() {
     calls.parent++;
@@ -67,11 +67,11 @@ test('same-value updates and unchanged derived values do not render the core', a
   const store = createStore();
   let renders = 0;
   const C = holo({
-    core: ({ even }: { even: boolean }) => {
+    view: ({ even }: { even: boolean }) => {
       renders++;
       return <span>{String(even)}</span>;
     },
-    state: { even: $even },
+    read: { even: $even },
   });
   const h = createHarness();
   await h.render(
@@ -91,7 +91,7 @@ test('memoized holo skips unrelated parent renders, but forwards changed own pro
   const $count = atom(0);
   let calls = 0;
   const C = holo({
-    core: ({ count, title }: { count: number; title: string }) => {
+    view: ({ count, title }: { count: number; title: string }) => {
       calls++;
       return (
         <span>
@@ -99,7 +99,7 @@ test('memoized holo skips unrelated parent renders, but forwards changed own pro
         </span>
       );
     },
-    state: { count: $count },
+    read: { count: $count },
   });
   let update: ((value: number) => void) | undefined;
   function Parent({ title }: { title: string }) {
@@ -127,11 +127,11 @@ test('action-only bindings never mount or subscribe to their source atom', async
     mounts++;
   };
   const C = holo({
-    core: ({ onChange }: { onChange: (n: number) => void }) => {
+    view: ({ onChange }: { onChange: (n: number) => void }) => {
       renders++;
       return <button onClick={() => onChange(1)}>set</button>;
     },
-    actions: { onChange: $count },
+    write: { onChange: $count },
   });
   const h = createHarness();
   await h.render(
@@ -155,7 +155,7 @@ test('a multi-write action commits one core render with a consistent snapshot', 
     set($second, 2);
   });
   const C = holo({
-    core: ({ first, second }: { first: number; second: number }) => {
+    view: ({ first, second }: { first: number; second: number }) => {
       snapshots.push([first, second]);
       return (
         <span>
@@ -163,7 +163,7 @@ test('a multi-write action commits one core render with a consistent snapshot', 
         </span>
       );
     },
-    state: { first: $first, second: $second },
+    read: { first: $first, second: $second },
   });
   const h = createHarness();
   await h.render(
@@ -185,11 +185,11 @@ test('selector equality and splitAtom item identity preserve local subscriptions
   const store = createStore();
   let calls = 0;
   const C = holo({
-    core: ({ value }: { value: typeof item }) => {
+    view: ({ value }: { value: typeof item }) => {
       calls++;
       return <span>{value.name}</span>;
     },
-    state: { value: $item },
+    read: { value: $item },
   });
   const h = createHarness();
   await h.render(
@@ -205,11 +205,11 @@ test('selector equality and splitAtom item identity preserve local subscriptions
   const [first] = store.get($parts);
   if (!first) throw new Error('Item missing');
   const I = holo({
-    core: ({ value }: { value: typeof item }) => {
+    view: ({ value }: { value: typeof item }) => {
       calls++;
       return <span>{value.name}</span>;
     },
-    state: { value: first },
+    read: { value: first },
   });
   await h.render(
     <Provider store={store}>
@@ -231,13 +231,13 @@ test('synchronous child mount writes are visible without a subsequent update', a
     return null;
   }
   const C = holo({
-    core: ({ count }: { count: number }) => (
+    view: ({ count }: { count: number }) => (
       <>
         <Child />
         <span>{count}</span>
       </>
     ),
-    state: { count: $count },
+    read: { count: $count },
   });
   const h = createHarness();
   await h.render(
@@ -251,7 +251,7 @@ test('synchronous child mount writes are visible without a subsequent update', a
 test('intrinsic elements, forwarded refs and React 19 ref props reach the original core', async () => {
   const $label = atom('button');
   const ref = createRef<HTMLButtonElement>();
-  const C = holo({ core: 'button', state: { children: $label }, bindProps: { type: 'button' } });
+  const C = holo({ view: 'button', read: { children: $label }, props: { type: 'button' } });
   const h = createHarness();
   await h.render(<C ref={ref} />);
   expect(ref.current).toBe(h.container.querySelector('button'));
@@ -262,7 +262,7 @@ test('intrinsic elements, forwarded refs and React 19 ref props reach the origin
     return <input ref={inputRef} aria-label={label} />;
   });
   const inputRef = createRef<HTMLInputElement>();
-  const F = holo({ core: memo(Forwarded), bindProps: { label: 'field' } });
+  const F = holo({ view: memo(Forwarded), props: { label: 'field' } });
   await h.render(<F ref={inputRef} />);
   expect(inputRef.current?.getAttribute('aria-label')).toBe('field');
 });
@@ -271,7 +271,7 @@ test('hook consumers inside a core retain normal React context subscriptions', a
   const $count = atom(0);
   const store = createStore();
   const C = holo({
-    core: function Core() {
+    view: function Core() {
       return <span>{useAtomValue($count)}</span>;
     },
   });
@@ -292,11 +292,11 @@ test('static and action-only holo instances create no atom subscriptions', async
     },
   };
   const save = actionAtom(() => undefined);
-  const Static = holo({ core: 'span', bindProps: { children: 'static' } });
+  const Static = holo({ view: 'span', props: { children: 'static' } });
   const Action = holo({
-    core: 'button',
-    actions: { onClick: save },
-    bindProps: { children: 'save' },
+    view: 'button',
+    write: { onClick: save },
+    props: { children: 'save' },
   });
   const h = createHarness();
   await h.render(
@@ -319,8 +319,8 @@ test('native onMount can publish a queued write to bound state', async () => {
     };
   };
   const C = holo({
-    core: ({ value }: { value: number }) => <span>{value}</span>,
-    state: { value: $value },
+    view: ({ value }: { value: number }) => <span>{value}</span>,
+    read: { value: $value },
   });
   const h = createHarness();
   await h.render(
@@ -340,11 +340,11 @@ test('class and lazy cores retain React component behavior', async () => {
       return <span>{this.props.value}</span>;
     }
   }
-  const ClassBinding = holo({ core: ClassView, state: { value: atom(2) } });
+  const ClassBinding = holo({ view: ClassView, read: { value: atom(2) } });
   const LazyView = lazy(async () => ({
     default: ({ value }: { value: number }) => <b>{value}</b>,
   }));
-  const LazyBinding = holo({ core: LazyView, state: { value: atom(Promise.resolve(3)) } });
+  const LazyBinding = holo({ view: LazyView, read: { value: atom(Promise.resolve(3)) } });
   const h = createHarness();
   await h.render(
     suspense(

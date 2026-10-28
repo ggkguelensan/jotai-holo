@@ -3,12 +3,13 @@ import {
   actionSource,
   createActionChannel,
   emitAction,
-  enqueueAction,
   isActionSource,
   type ActionSource,
 } from './action-source.js';
 import { readSource, type AtomSource, type SourceValue } from './atom-source.js';
 import { ion } from './ion.js';
+import { managedConnection } from './model-managed.js';
+import { enqueueAction, subscribeAction } from './event-dispatch.js';
 
 type Store = ReturnType<typeof createStore>;
 type Trigger = Atom<unknown>;
@@ -28,7 +29,7 @@ type Config<Source, Clock, Target> = {
   state?: Source;
   trigger?: Clock;
   guard?: Atom<boolean> | ((...args: Inputs<Source, Clock>) => boolean);
-  yield?: [Target] extends [undefined] ? never : Target | ((get: Getter) => Target);
+  write?: [Target] extends [undefined] ? never : Target | ((get: Getter) => Target);
 };
 type HasInput<Source, Clock> = Source extends undefined
   ? Clock extends undefined
@@ -38,7 +39,7 @@ type HasInput<Source, Clock> = Source extends undefined
 type Compatible<Target, Args extends readonly unknown[]> = Target extends Writable
   ? [...Args] extends TargetArgs<Target>
     ? {}
-    : { yield: never }
+    : { write: never }
   : {};
 export function bond<
   const Source extends AtomSource | undefined = undefined,
@@ -47,7 +48,7 @@ export function bond<
 >(
   config: Config<Source, Clock, Target> & {
     map: (...args: Inputs<Source, Clock>) => readonly [...TargetArgs<NoInfer<Target>>];
-    yield: Target | ((get: Getter) => Target);
+    write: Target | ((get: Getter) => Target);
   } & HasInput<Source, Clock>,
 ): Bond<TargetArgs<Target>>;
 export function bond<
@@ -72,8 +73,10 @@ export function bond(config: {
   trigger?: Atom<unknown>;
   guard?: Atom<boolean> | ((...args: never[]) => boolean);
   map?: (...args: never[]) => readonly unknown[];
-  yield?: Writable | ((get: Getter) => Writable);
+  write?: Writable | ((get: Getter) => Writable);
 }): unknown {
+  if ('yield' in config) throw new TypeError('bond: use write instead of yield.');
+  if ('action' in config) throw new TypeError('bond: use trigger instead of action.');
   const { state, trigger, guard, map } = config;
   if (!state && !trigger) throw new Error('bond: state or trigger is required.');
   const clock = trigger ?? ion(state!);
@@ -97,16 +100,13 @@ export function bond(config: {
       const evaluate = (args: readonly unknown[], publish = true) => {
         if (!current.owners.size) return;
         try {
+          // An atom guard can reject before sampling an otherwise unused source.
+          // Predicate guards need the sampled data as their input.
+          if (guard && typeof guard !== 'function' && !passesGuard(store.get(guard))) return;
           const data = state ? readSource(store.get, state) : undefined;
           const inputs = state ? [data, ...args] : args;
-          const allowed = !guard
-            ? true
-            : typeof guard === 'function'
-              ? Reflect.apply(guard, undefined, inputs)
-              : store.get(guard);
-          if (typeof allowed !== 'boolean')
-            throw new TypeError('bond: guard must return a synchronous boolean.');
-          if (!allowed) return;
+          if (typeof guard === 'function' && !passesGuard(Reflect.apply(guard, undefined, inputs)))
+            return;
           const next = map
             ? (Reflect.apply(map, undefined, inputs) as unknown)
             : state
@@ -114,9 +114,9 @@ export function bond(config: {
               : args;
           if (!Array.isArray(next))
             throw new TypeError('bond: map must return an argument tuple synchronously.');
-          if (config.yield && publish) {
+          if (config.write && publish) {
             const target =
-              typeof config.yield === 'function' ? config.yield(store.get) : config.yield;
+              typeof config.write === 'function' ? config.write(store.get) : config.write;
             const result: unknown = Reflect.apply(store.set, store, [target, ...next]);
             if (isPromise(result)) {
               const sink = current.owners;
@@ -131,7 +131,6 @@ export function bond(config: {
       };
       try {
         if (isActionSource(clock)) {
-          const listeners = store.get(clock[actionSource]);
           const listener = (args: readonly unknown[]) =>
             enqueueAction(
               store.get,
@@ -140,10 +139,8 @@ export function bond(config: {
               },
               (error) => report(current.owners, error),
             );
-          listeners.add(listener);
-          current.stop = () => {
-            listeners.delete(listener);
-          };
+          const unsubscribe = subscribeAction(store.get, clock[actionSource], listener);
+          current.stop = unsubscribe;
           const disconnect =
             'connect' in clock && typeof clock.connect === 'function'
               ? (clock.connect(store, {
@@ -151,7 +148,7 @@ export function bond(config: {
                 }) as () => void)
               : () => {};
           current.stop = () => {
-            listeners.delete(listener);
+            unsubscribe();
             disconnect();
           };
         } else {
@@ -172,7 +169,7 @@ export function bond(config: {
               report(current.owners, error);
             }
           });
-          if (!trigger && !config.yield) evaluate([], false);
+          if (!trigger && !config.write) evaluate([], false);
         }
       } catch (error) {
         current.owners.delete(owner);
@@ -193,6 +190,7 @@ export function bond(config: {
       }
     };
   };
+  Object.assign(output, { [managedConnection]: output.connect });
   return output;
 }
 
@@ -219,4 +217,10 @@ function isPromise(value: unknown): value is PromiseLike<unknown> {
     'then' in value &&
     typeof value.then === 'function'
   );
+}
+
+function passesGuard(value: unknown): boolean {
+  if (typeof value !== 'boolean')
+    throw new TypeError('bond: guard must return a synchronous boolean.');
+  return value;
 }

@@ -23,14 +23,14 @@ const refresh = actionAtom((_get, set) => {
   set($version, (v) => v + 1);
 });
 const Refresh = holo({
-  core: ({ onClick }: { onClick: () => void }) => (
+  view: ({ onClick }: { onClick: () => void }) => (
     <button onClick={onClick}>Refresh async state</button>
   ),
-  actions: { onClick: refresh },
+  write: { onClick: refresh },
 });
 const Result = holo({
-  core: ({ text }: { text: string }) => <output>{text}</output>,
-  state: { text: $result },
+  view: ({ text }: { text: string }) => <output>{text}</output>,
+  read: { text: $result },
 });
 export function AsyncExample() {
   return (
