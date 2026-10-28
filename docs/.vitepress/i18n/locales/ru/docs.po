@@ -1633,7 +1633,7 @@ msgid "| I want to…                                  | Use                    
 "| Pass static values to the component         | `static`                           |\n"
 "| Forward incoming props to the model         | `input`                            |\n"
 "| Handle connection and delivery errors       | `onError`                          |"
-msgstr "| Хочу… | Использую |\n"
+msgstr "| Мне надо… | Использую |\n"
 "| --- | --- |\n"
 "| Выбрать React-компонент | `view` |\n"
 "| Подключить модели к компоненту | `models` |\n"
