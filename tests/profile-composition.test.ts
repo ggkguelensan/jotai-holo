@@ -1,7 +1,12 @@
 import { QueryClient } from '@tanstack/query-core';
 import { createStore } from 'jotai/vanilla';
 import { expect, test, vi } from 'vitest';
-import { createProfileEditor } from '../examples/profile/profile-composition.js';
+import * as models from '../examples/profile/profile-composition.js';
+import { profileApi } from '../examples/profile/profile-api.js';
+
+vi.mock('../examples/profile/profile-api.js', () => ({
+  profileApi: { get: vi.fn(), save: vi.fn() },
+}));
 import {
   createProfileModel,
   emptyProfile,
@@ -44,7 +49,8 @@ test('profile rules and derived color work without a server or a form', () => {
 test('an existing business profile avoids querying and preserves model identity', () => {
   const { client, store } = setup();
   const get = vi.fn(async () => serverProfile);
-  const models = createProfileEditor({ get, save: async (values) => values });
+  vi.mocked(profileApi.get).mockImplementation(get);
+  vi.mocked(profileApi.save).mockImplementation(async (values) => values);
   const existing = models.$$profile.acquire(store, { initial: serverProfile });
   const editor = models.$$editor.acquire(store);
   expect(editor.model).toBe(existing.model);
@@ -59,11 +65,13 @@ test('an existing business profile avoids querying and preserves model identity'
 test('cold loading fills the business model once and later cache updates keep edits', async () => {
   const { client, store } = setup();
   const get = vi.fn(async () => serverProfile);
-  const models = createProfileEditor({ get, save: async (values) => values });
+  vi.mocked(profileApi.get).mockImplementation(get);
+  vi.mocked(profileApi.save).mockImplementation(async (values) => values);
   expect(get).not.toHaveBeenCalled();
   const editor = models.$$editor.acquire(store);
   await vi.waitFor(() => expect(store.get(editor.model.$profile)).toEqual(serverProfile));
   expect(get).toHaveBeenCalledTimes(1);
+  expect(client.getQueryCache().getAll()[0]?.getObserversCount()).toBe(0);
   store.set(editor.model.change, { username: 'local' });
   client.setQueryData(['profile', 'current'], { ...serverProfile, username: 'remote' });
   await new Promise((resolve) => setTimeout(resolve, 0));
@@ -77,7 +85,8 @@ test('cached data initializes without a request and creation starts without Quer
   const { client, store } = setup();
   client.setQueryData(['profile', 'current'], serverProfile);
   const get = vi.fn(async () => serverProfile);
-  const models = createProfileEditor({ get, save: async (values) => values });
+  vi.mocked(profileApi.get).mockImplementation(get);
+  vi.mocked(profileApi.save).mockImplementation(async (values) => values);
   const editor = models.$$editor.acquire(store);
   expect(store.get(editor.model.$profile)).toEqual(serverProfile);
   expect(get).not.toHaveBeenCalled();
@@ -102,7 +111,8 @@ test('owners share loading and final release aborts observation and ignores a la
       finish = resolve;
     });
   });
-  const models = createProfileEditor({ get, save: async (values) => values });
+  vi.mocked(profileApi.get).mockImplementation(get);
+  vi.mocked(profileApi.save).mockImplementation(async (values) => values);
   const first = models.$$editor.acquire(store);
   const second = models.$$editor.acquire(store);
   expect(first.model).toBe(second.model);
@@ -120,7 +130,8 @@ test('owners share loading and final release aborts observation and ignores a la
 test('save assembly publishes only accepted facts and connects them to the owned profile', async () => {
   const { client, store } = setup();
   const save = vi.fn(async (values: Profile) => ({ ...values, bio: 'Accepted' }));
-  const models = createProfileEditor({ get: async () => serverProfile, save });
+  vi.mocked(profileApi.get).mockResolvedValue(serverProfile);
+  vi.mocked(profileApi.save).mockImplementation(save);
   const editor = models.$$editor.acquire(store, { initial: serverProfile });
   const facts: Profile[] = [];
   const stop = subscribeEvent(store, models.profileSaved, (fact) => facts.push(fact));
@@ -138,5 +149,43 @@ test('save assembly publishes only accepted facts and connects them to the owned
   expect(facts).toHaveLength(2);
   expect(store.get(editor.model.$profile)?.bio).toBe('Accepted');
   stop();
+  client.clear();
+});
+
+test('module declarations keep profile instances and Query caches isolated by store', () => {
+  const first = setup();
+  const second = setup();
+  first.client.setQueryData(['profile', 'current'], serverProfile);
+  second.client.setQueryData(['profile', 'current'], { ...serverProfile, username: 'sam' });
+  const a = models.$$editor.acquire(first.store);
+  const b = models.$$editor.acquire(second.store);
+  expect(first.store.get(a.model.$profile)?.username).toBe('alex');
+  expect(second.store.get(b.model.$profile)?.username).toBe('sam');
+  first.store.set(a.model.change, { username: 'changed' });
+  expect(second.store.get(b.model.$profile)?.username).toBe('sam');
+  a.release();
+  b.release();
+  first.client.clear();
+  second.client.clear();
+});
+
+test('another input can fill the profile during loading and detach Query immediately', async () => {
+  const { client, store } = setup();
+  let finish!: (profile: Profile) => void;
+  let signal!: AbortSignal;
+  vi.mocked(profileApi.get).mockImplementation((current) => {
+    signal = current;
+    return new Promise((resolve) => {
+      finish = resolve;
+    });
+  });
+  const editor = models.$$editor.acquire(store);
+  store.set(editor.model.receive, { ...serverProfile, username: 'local' });
+  expect(signal.aborted).toBe(true);
+  expect(client.getQueryCache().getAll()[0]?.getObserversCount()).toBe(0);
+  finish(serverProfile);
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  expect(store.get(editor.model.$profile)?.username).toBe('local');
+  editor.release();
   client.clear();
 });

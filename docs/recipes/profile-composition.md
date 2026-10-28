@@ -35,19 +35,31 @@ The factory imports no Query, RHF or analytics code. Tests can run the same rule
 
 ## Independent Query and Mutation models
 
-createQueryModel and createMutationModel create model records directly, conventionally named $$profileQuery and $$profileMutation. They are not factories returned by defineModel. QueryClient owns their server cache; modelRegistry owns shared business-model instances. The example receives an application API adapter; it installs no backend or vendor SDK.
+Declare the Query model, mutation model and business model in a module. No application factory is needed. Module declarations describe the graph; each Jotai store holds its own values, and QueryClient holds the server cache. The business factory does not import this assembly module.
 
-<<< @/../examples/profile/profile-composition.ts#profile-composition
+Use the application's API client in native TanStack options factories. The example profileApi calls /api/profile; replace it with your endpoints. No backend is deployed with the documentation.
 
-createProfileEditor is application assembly, not a business-model factory. It creates independent participants and connects them. The save action captures the submitted values, awaits the mutation and only then publishes profileSaved. A bond attached through pipe delivers that fact to the owned business model. Failure rejects the Promise and emits no success fact; the caller must handle rejection. The mutation error projection is available for the UI.
+<<< @/../examples/profile/profile-composition.ts#profile-options
+
+createQueryModel and createMutationModel return records directly, conventionally named $$profileQuery and $$profileMutation. They do not need modelRegistry: QueryClient already owns the server cache.
+
+<<< @/../examples/profile/profile-composition.ts#profile-query
+
+The save command captures the submitted values and publishes profileSaved only after the mutation succeeds. Failure rejects the Promise and emits no success fact; the caller handles rejection. The UI can read the mutation's error projection.
+
+<<< @/../examples/profile/profile-composition.ts#profile-save
 
 ## Use existing data before loading
 
-The example edits one current-user profile. The base and decorated definitions select the same business record for the same key and store. An already populated profile is used as-is: the binding does not mount the Query projection. Otherwise it accepts the first usable cached or fetched value through the model's receive port and releases that source subscription. Another source that initializes the profile while loading takes priority.
+Connect the participants through pipe. The observe connection reads Query only while the business profile is empty. An existing profile needs no request or Query subscription. The bond connection delivers successful saves to receive while the editor has an owner.
 
-<<< @/../examples/profile/profile-source.ts#profile-source
+<<< @/../examples/profile/profile-composition.ts#profile-binding
 
-modelProfileSource is an application-specific modifier built with modelConnection, not a new library export. It supplies missing initial data once; it does not claim that every observed value is a completed request. It unsubscribes on release and ignores late results. There is no implicit continuous server synchronization. A product that needs fresh data on every visit must define that policy separately. For multiple accounts, partition the Query keys, model selections and bindings by account; the fixed current-user key here assumes one account context.
+$initial is a derived atom: it reads Query only when the profile is empty. Once receive fills the profile, Jotai removes that dependency and releases the Query subscription. [observe from jotai-effect](https://jotai.org/docs/extensions/effect#observe) forwards the available value; modelConnection stops observation with the last owner. No manual subscription flags or unsubscribe bookkeeping are needed.
+
+Background refetches cannot overwrite a populated profile. Another source that fills it during loading also takes priority. Explicitly clearing the profile allows initialization again; this is conditional initialization, not continuous server synchronization.
+
+$$profile and $$editor select the same business record for the same key and store. For multiple accounts, partition Query keys, model selections and connections by account; the fixed current-user key here assumes one account context.
 
 ## Creation wizard
 

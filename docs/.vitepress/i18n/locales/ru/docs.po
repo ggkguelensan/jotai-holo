@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 18:39+0500\n"
+"POT-Creation-Date: 2026-10-28 19:16+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1207,14 +1207,26 @@ msgstr "Независимые Query- и Mutation-модели"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile-composition.md
-msgid "createQueryModel and createMutationModel create model records directly, conventionally named $$profileQuery and $$profileMutation. They are not factories returned by defineModel. QueryClient owns their server cache; modelRegistry owns shared business-model instances. The example receives an application API adapter; it installs no backend or vendor SDK."
-msgstr "createQueryModel и createMutationModel сразу создают record моделей; по конвенции они называются $$profileQuery и $$profileMutation. Это не фабрики, возвращённые defineModel. QueryClient владеет серверным кешем, а modelRegistry — общими экземплярами бизнес-модели. Пример принимает API-адаптер приложения; он не устанавливает backend или SDK провайдера."
+msgid "Declare the Query model, mutation model and business model in a module. No application factory is needed. Module declarations describe the graph; each Jotai store holds its own values, and QueryClient holds the server cache. The business factory does not import this assembly module."
+msgstr "Объявите Query-модель, модель мутации и бизнес-модель в модуле. Фабрика сборки приложения не нужна. Объявления описывают граф: каждый Jotai store хранит собственные значения, а QueryClient — серверный кеш. Бизнес-фабрика не импортирует модуль сборки."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile-composition.md
-msgid "createProfileEditor is application assembly, not a business-model factory. It creates independent participants and connects them. The save action captures the submitted values, awaits the mutation and only then publishes profileSaved. A bond attached through pipe delivers that fact to the owned business model. Failure rejects the Promise and emits no success fact; the caller must handle rejection. The mutation error projection is available for the UI."
-msgstr "createProfileEditor — сборка приложения, а не фабрика бизнес-модели. Она создаёт независимых участников и связывает их. Команда save фиксирует отправляемые значения, ожидает мутацию и только затем публикует profileSaved. bond, подключённый через pipe, передаёт факт бизнес-модели, пока у неё есть владелец. Ошибка отклоняет Promise и не порождает факт успеха; вызывающий код обязан обработать rejection. UI может читать проекцию ошибки мутации."
+msgid "Use the application's API client in native TanStack options factories. The example profileApi calls /api/profile; replace it with your endpoints. No backend is deployed with the documentation."
+msgstr "Используйте API-клиент приложения в обычных фабриках опций TanStack. В примере profileApi обращается к /api/profile; замените этот адрес своими эндпоинтами. Документация не разворачивает backend."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "createQueryModel and createMutationModel return records directly, conventionally named $$profileQuery and $$profileMutation. They do not need modelRegistry: QueryClient already owns the server cache."
+msgstr "createQueryModel и createMutationModel сразу возвращают записи, которые по соглашению называются $$profileQuery и $$profileMutation. Им не нужен modelRegistry: серверным кешем уже управляет QueryClient."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "The save command captures the submitted values and publishes profileSaved only after the mutation succeeds. Failure rejects the Promise and emits no success fact; the caller handles rejection. The UI can read the mutation's error projection."
+msgstr "Команда save фиксирует отправляемые значения и публикует profileSaved только после успешной мутации. При ошибке Promise отклоняется, а факт успеха не возникает; вызывающий код обрабатывает ошибку. UI может читать проекцию ошибки мутации."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1225,14 +1237,26 @@ msgstr "Сначала используйте имеющиеся данные"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile-composition.md
-msgid "The example edits one current-user profile. The base and decorated definitions select the same business record for the same key and store. An already populated profile is used as-is: the binding does not mount the Query projection. Otherwise it accepts the first usable cached or fetched value through the model's receive port and releases that source subscription. Another source that initializes the profile while loading takes priority."
-msgstr "Пример редактирует один профиль текущего пользователя. Базовое и дополненное определения выбирают один бизнес-record при одинаковых ключе и store. Заполненный профиль используется как есть: связь не монтирует Query-проекцию. Иначе она принимает первое подходящее значение из кеша или запроса через receive и освобождает подписку на источник. Если другой источник успел заполнить профиль во время загрузки, он получает приоритет."
+msgid "Connect the participants through pipe. The observe connection reads Query only while the business profile is empty. An existing profile needs no request or Query subscription. The bond connection delivers successful saves to receive while the editor has an owner."
+msgstr "Соедините участников через pipe. Связь observe читает Query, только пока бизнес-профиль пуст. Заполненному профилю не нужны запрос и подписка на Query. Связь bond передаёт результаты успешного сохранения в receive, пока у редактора есть владелец."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile-composition.md
-msgid "modelProfileSource is an application-specific modifier built with modelConnection, not a new library export. It supplies missing initial data once; it does not claim that every observed value is a completed request. It unsubscribes on release and ignores late results. There is no implicit continuous server synchronization. A product that needs fresh data on every visit must define that policy separately. For multiple accounts, partition the Query keys, model selections and bindings by account; the fixed current-user key here assumes one account context."
-msgstr "modelProfileSource — модификатор приложения на основе modelConnection, а не новый экспорт библиотеки. Он один раз заполняет отсутствующие начальные данные и не считает каждое наблюдаемое значение завершённым запросом. При освобождении он отписывается и игнорирует поздние результаты. Непрерывная синхронизация с сервером не включается автоматически. Если продукту нужны свежие данные при каждом открытии, это отдельная политика. Для нескольких аккаунтов разделяйте Query-ключи, выбор моделей и связи по аккаунту; фиксированный ключ текущего пользователя в примере предполагает один контекст аккаунта."
+msgid "$initial is a derived atom: it reads Query only when the profile is empty. Once receive fills the profile, Jotai removes that dependency and releases the Query subscription. [observe from jotai-effect](https://jotai.org/docs/extensions/effect#observe) forwards the available value; modelConnection stops observation with the last owner. No manual subscription flags or unsubscribe bookkeeping are needed."
+msgstr "$initial — производный атом: он читает Query, только когда профиль пуст. После заполнения через receive Jotai убирает эту зависимость и освобождает подписку на Query. [observe из jotai-effect](https://jotai.org/docs/extensions/effect#observe) передаёт доступное значение; modelConnection останавливает наблюдение с уходом последнего владельца. Флаги подписки и ручная отписка не нужны."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "Background refetches cannot overwrite a populated profile. Another source that fills it during loading also takes priority. Explicitly clearing the profile allows initialization again; this is conditional initialization, not continuous server synchronization."
+msgstr "Фоновая загрузка не перезаписывает заполненный профиль. Если другой источник заполнил его во время запроса, его данные тоже имеют приоритет. Явная очистка профиля снова разрешает инициализацию: это заполнение по условию, а не непрерывная синхронизация с сервером."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile-composition.md
+msgid "$$profile and $$editor select the same business record for the same key and store. For multiple accounts, partition Query keys, model selections and connections by account; the fixed current-user key here assumes one account context."
+msgstr "$$profile и $$editor выбирают одну бизнес-модель при одинаковых ключе и store. Для нескольких аккаунтов разделяйте Query-ключи, выбор моделей и связи по аккаунту; фиксированный ключ текущего пользователя в примере предполагает один контекст аккаунта."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
