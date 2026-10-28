@@ -1,6 +1,6 @@
 import { createStore } from 'jotai/vanilla';
 import { expect, test, vi } from 'vitest';
-import { createModel } from '../src/model.js';
+import { createModel } from '../src/model-registry.js';
 import { stateAtom } from '../src/vanilla.js';
 
 test('reading a dependent model during connect does not acquire its resources', () => {

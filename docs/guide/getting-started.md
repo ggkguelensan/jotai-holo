@@ -11,7 +11,6 @@ Use Node 22.12+, React 18 or 19, Jotai 3.0.1+ within v3, and TypeScript 5.9+ wit
 ```sh
 git clone https://github.com/ggkguelensan/jotai-holo.git
 cd jotai-holo
-git switch docs/lingui-i18n
 corepack enable
 pnpm install --frozen-lockfile
 pnpm examples
@@ -38,4 +37,4 @@ Continue with [why this API](/guide/motivation), the [profile workflow](/recipes
 
 ## Shared models and external resources
 
-Use [createModel](/reference/createModel) when several widgets need one model. The same definition, key and store select the same instance. Without a key, they select the default instance. Query and form bindings have separate entries, `jotai-holo/query` and `jotai-holo/rhf`.
+Use [modelRegistry](/reference/modelRegistry) when several widgets need one model. The same definition, key and store select the same instance. Without a key, they select the default instance. Query and form bindings have separate entries, `jotai-holo/query` and `jotai-holo/rhf`.

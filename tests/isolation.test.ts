@@ -109,7 +109,7 @@ test('an async action keeps get/set and its trigger delivery in the invocation s
   b.set($value, 100);
   const calledA = vi.fn();
   const calledB = vi.fn();
-  const link = bond({ trigger: save, yield: actionAtom(() => {}) });
+  const link = bond({ trigger: save, write: actionAtom(() => {}) });
   const output = prism(link, { $args: (args) => args });
   const stopA = link.connect(a);
   const stopB = link.connect(b);
@@ -155,7 +155,7 @@ test('a connected bond chain ref-counts owners independently per store and recon
   const $offset = stateAtom(0);
   const $saved = stateAtom(0);
   const upstream = bond({ state: $offset, trigger, map: (offset, n) => [offset + n] });
-  const downstream = bond({ trigger: upstream, yield: $saved });
+  const downstream = bond({ trigger: upstream, write: $saved });
   const a = createStore();
   const b = createStore();
   a.set($offset, 10);
@@ -199,7 +199,7 @@ test('bond resolves writable recipients lazily from the invocation store without
   b.set($recipient, second);
   const trigger = eventAtom<number>();
   const resolve = vi.fn((get: import('jotai/vanilla').Getter) => get($recipient));
-  const link = bond({ trigger, yield: resolve });
+  const link = bond({ trigger, write: resolve });
   const stopA = link.connect(a);
   const stopB = link.connect(b);
   expect(resolve).not.toHaveBeenCalled();
@@ -218,7 +218,7 @@ test('native write-only atoms are writable recipients but their calls are not ob
   const forwarded = vi.fn();
   const link = bond({
     trigger: native,
-    yield: actionAtom((_get, _set, value: null) => forwarded(value)),
+    write: actionAtom((_get, _set, value: null) => forwarded(value)),
   });
   const store = createStore();
   const stop = link.connect(store);

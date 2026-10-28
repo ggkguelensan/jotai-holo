@@ -1,3 +1,4 @@
+import type { ModelModifierTag } from './model-modifier.js';
 import { atom } from 'jotai/vanilla';
 import {
   modelAcquire,
@@ -173,14 +174,20 @@ export function modifyModel<Model extends object, Initial>(
 export function modelRegistry(options?: {
   retainTime?: number;
   initial?: undefined;
-}): <Model extends object, Initial>(
+}): (<Model extends object, Initial>(
   source: ModelSource<Model, Initial>,
-) => ModelDefinition<Model, Initial>;
+) => ModelDefinition<Model, Initial>) &
+  ModelModifierTag;
 export function modelRegistry<Initial>(options: {
   retainTime?: number;
   initial: Initial;
-}): <Model extends object>(source: ModelSource<Model, Initial>) => ModelDefinition<Model, Initial>;
+}): (<Model extends object>(
+  source: ModelSource<Model, Initial>,
+) => ModelDefinition<Model, Initial>) &
+  ModelModifierTag;
 export function modelRegistry(options: { retainTime?: number; initial?: unknown } = {}) {
+  for (const field of ['gcTime', 'connect', 'resources'])
+    if (field in options) throw new TypeError(`modelRegistry: unsupported field "${field}".`);
   return (source: ModelSource<object, unknown>) =>
     modifyModel(source, (descriptor) => {
       const { base: _previousRegistry, ...settings } = descriptor;
@@ -202,6 +209,21 @@ export function addModelActivation<Model extends object, Initial>(
   }));
 }
 
+/** A connection belongs to a selected model entry and its active owners. */
+export type ModelConnectionContext<Initial> = {
+  readonly initial: Initial;
+  readonly store: Store;
+};
+
+/** Extend a model with synchronous setup and cleanup, without changing its record. */
+export function modelConnection<Model extends object, Initial = undefined>(
+  connect: (model: Model, context: ModelConnectionContext<Initial>) => void | (() => void),
+) {
+  const modifier = (source: ModelSource<Model, Initial>): ModelDefinition<Model, Initial> =>
+    addModelActivation(source, (model, initial, store) => connect(model, { initial, store }));
+  return modifier as typeof modifier & ModelModifierTag;
+}
+
 export type ModelLifecycleContext<Initial> = {
   readonly initial: Initial;
   readonly signal: AbortSignal;
@@ -220,7 +242,7 @@ export function modelLifecycle<Model extends object, Initial, Loaded, Snapshot =
   timeout?: number;
   onError?: (error: unknown) => void;
 }) {
-  return (source: ModelSource<Model, Initial>): ModelDefinition<Model, Initial> => {
+  const modifier = (source: ModelSource<Model, Initial>): ModelDefinition<Model, Initial> => {
     if (options.load && !options.restore)
       throw new TypeError('modelLifecycle: load requires restore.');
     if (options.save && !options.snapshot)
@@ -355,4 +377,5 @@ export function modelLifecycle<Model extends object, Initial, Loaded, Snapshot =
       ],
     }));
   };
+  return modifier as typeof modifier & ModelModifierTag;
 }

@@ -49,7 +49,7 @@ test('event subscriptions belong to one store and payloadless events need no arg
 test('eventAtom triggers bond with an inferred payload and works as a writable yield target', () => {
   const requested = eventAtom<{ id: string }>();
   const delivered = eventAtom<string>();
-  const link = bond({ trigger: requested, map: (user) => [user.id], yield: delivered });
+  const link = bond({ trigger: requested, map: (user) => [user.id], write: delivered });
   const s = createStore();
   const received = vi.fn();
   const stopListen = subscribeEvent(s, delivered, received);
@@ -74,7 +74,7 @@ test('event subscriptions and bond share FIFO delivery even with reentrant write
   });
   const link = bond({
     trigger: event,
-    yield: actionAtom((_get, _set, n: number) => {
+    write: actionAtom((_get, _set, n: number) => {
       log.push(`bond:${n}`);
     }),
   });

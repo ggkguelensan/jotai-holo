@@ -1,6 +1,6 @@
 import { createStore } from 'jotai/vanilla';
 import { afterEach, expect, test, vi } from 'vitest';
-import { createModel } from '../src/model.js';
+import { createModel } from '../src/model-registry.js';
 import { actionAtom, bond, eventAtom, stateAtom } from '../src/vanilla.js';
 
 afterEach(() => vi.useRealTimers());
@@ -123,7 +123,7 @@ test('model connections share one bond and dispose it without cancelling unrelat
   const model = createModel({
     create: () => {
       const $value = stateAtom(0);
-      return { $value, link: bond({ trigger: requested, yield: $value }) };
+      return { $value, link: bond({ trigger: requested, write: $value }) };
     },
     resources: (model) => [{ connect: (store) => model.link.connect(store) }],
   });

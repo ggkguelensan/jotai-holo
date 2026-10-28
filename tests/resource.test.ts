@@ -1,7 +1,7 @@
 import { createStore } from 'jotai/vanilla';
 import { expect, test, vi } from 'vitest';
 import { acquireResources } from '../src/resource.js';
-import { createModel } from '../src/model.js';
+import { createModel } from '../src/model-registry.js';
 
 test('resource identity shares ownership per store and reconnects after the last release', () => {
   const stop = vi.fn();

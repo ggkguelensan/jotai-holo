@@ -11,7 +11,7 @@ Start with the task, then choose the tool. Existing Jotai atoms work in holo; yo
 | Reactive external resource              | jotai-effect                        | input bridges committed props; models own managed connections           |
 | One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality        |
 | Async server cache                      | jotai-tanstack-query                | holo accepts its atoms; it adds no cache/retry engine                   |
-| Share one model across widgets          | createModel                         | Select a default or keyed instance in the current store                 |
+| Share one model across widgets          | modelRegistry                       | Select a default or keyed instance in the current store                 |
 
 ## Why not atomWithListeners?
 
@@ -25,4 +25,4 @@ The official [atomWithListeners recipe](https://jotai.org/docs/recipes/atom-with
 
 [Jotai atom](https://jotai.org/docs/core/atom), [selectAtom](https://jotai.org/docs/utilities/select), [splitAtom](https://jotai.org/docs/utilities/split), [async utilities](https://jotai.org/docs/utilities/async), [query integration](https://jotai.org/docs/extensions/query). These tools remain usable directly; holo does not require replacing them with wrappers.
 
-For keyed models without another scope provider, use [createModel](/reference/createModel). For Query factories with independent projections, use [queryAtoms](/reference/queryAtoms). For a form shared by an editor and an external toolbar, use [holoForm](/reference/holoForm). Native useQuery and useForm remain preferable where a separate model binding is unnecessary.
+For keyed models without another scope provider, use [modelRegistry](/reference/modelRegistry). For Query factories with independent projections, use [queryAtoms](/reference/queryAtoms). For a form shared by an editor and an external toolbar, use [holoForm](/reference/holoForm). Native useQuery and useForm remain preferable where a separate model binding is unnecessary.

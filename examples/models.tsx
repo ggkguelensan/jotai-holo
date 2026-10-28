@@ -1,14 +1,14 @@
 import { holo } from 'jotai-holo';
-import { createModel } from 'jotai-holo/model';
+import { modelRegistry, pipe } from 'jotai-holo/model';
 import { CounterView } from './basic.js';
 import { createCounter } from './counter-model.js';
 
-export const Counter = createModel({ create: () => createCounter() });
+export const $$counter = pipe(createCounter, modelRegistry());
 
 export const KeyedCounter = holo({
   models: {
     model: (props: { counterId: string }) =>
-      Counter({ key: ['counter', props.counterId] }),
+      $$counter({ key: ['counter', props.counterId] }),
   },
   view: CounterView,
   read: ({ model: model }) => ({ count: model.$count, double: model.$double }),

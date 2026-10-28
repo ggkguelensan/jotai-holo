@@ -137,7 +137,7 @@ export function createNotifications(model: ReturnType<typeof createProfile>) {
         ? `Сохранён профиль ${profile.name}`
         : `Saved ${profile.name}`,
     ],
-    yield: show,
+    write: show,
   });
   return { $enabled, $locale, $message, notifying };
 }

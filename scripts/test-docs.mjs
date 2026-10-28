@@ -80,17 +80,21 @@ try {
       assert.match(await page.locator('h1').innerText(), new RegExp(file.slice(0, -3)));
       assert.equal(await page.locator('html').getAttribute('lang'), code);
       assert.ok(await page.locator('.vp-doc a[href^="https://"]').count());
-      await page.locator('.example-preview :is(button, input)').first().waitFor();
-      assert.equal(await page.locator('.example-preview').count(), 1);
-      const sourceUrl = new URL(await page.locator('.example-file').getAttribute('href'));
-      const demo = await page.locator('.example-preview').getAttribute('data-demo');
-      assert.equal(sourceUrl.hostname, 'github.com');
-      assert.match(
-        sourceUrl.pathname,
-        new RegExp(`/blob/[a-f0-9]{40,64}/examples/docs/${demo}\\.tsx$`),
-      );
+      if (await page.locator('.example-preview').count()) {
+        await page.locator('.example-preview :is(button, input)').first().waitFor();
+        assert.equal(await page.locator('.example-preview').count(), 1);
+        const sourceUrl = new URL(await page.locator('.example-file').getAttribute('href'));
+        const demo = await page.locator('.example-preview').getAttribute('data-demo');
+        assert.equal(sourceUrl.hostname, 'github.com');
+        assert.match(
+          sourceUrl.pathname,
+          new RegExp(`/blob/[a-f0-9]{40,64}/examples/docs/${demo}\\.tsx$`),
+        );
 
-      assert.ok((await page.locator('.example-source pre').count()) > 1);
+        assert.ok((await page.locator('.example-source pre').count()) > 1);
+      } else {
+        assert.ok(await page.locator('.vp-doc pre').count(), page.url());
+      }
       await checkCodeLayout();
       if (file === 'useImperativeHolo.md') {
         const catalog = await loadCatalog(code, 'ui');
@@ -150,6 +154,29 @@ try {
     await page.getByRole('button', { name: sheetLabel('Reset sheet'), exact: true }).click();
     assert.equal((await input('D5').inputValue()).replace(/\D/g, ''), '4136');
     await checkCodeLayout();
+    await page.goto(`${origin}${prefix.slice(1)}${prefix ? '/' : ''}guide/model-composition`);
+    const docsCatalog = await loadCatalog(code, 'docs');
+    assert.equal(
+      (await page.locator('h1').innerText()).replace(/\u200b/g, '').trim(),
+      docsCatalog._('Model composition'),
+    );
+    assert.ok((await page.locator('.vp-doc pre').count()) >= 6);
+    assert.deepEqual(
+      await page
+        .locator('.vp-doc pre')
+        .evaluateAll((blocks) =>
+          blocks
+            .filter((block) => block.scrollWidth > block.clientWidth + 1)
+            .map((block) => block.innerText),
+        ),
+      [],
+      'Composition examples fit without horizontal scrolling',
+    );
+    if (code === 'ru')
+      await page.screenshot({
+        path: '.vitest-attachments/docs-model-composition-ru.png',
+        fullPage: true,
+      });
     console.log(`${code}: ${references.length} reference routes passed.`);
   }
   await page.goto(`${origin}kk/compatibility`);
@@ -167,12 +194,10 @@ try {
   await page.getByRole('checkbox').check();
   await page.getByText('$80.00', { exact: true }).waitFor();
   await page.goto(`${origin}reference/subscribeEvent`);
-  await page.getByRole('button', { name: 'Receive message' }).click();
-  await page.getByRole('button', { name: 'Receive message' }).click();
-  await page.getByText('Deliveries: 2 · Hello, Jotai!', { exact: true }).waitFor();
-  await page.getByRole('button', { name: 'Unsubscribe', exact: true }).click();
-  await page.getByRole('button', { name: 'Receive message' }).click();
-  assert.match(await page.locator('.example-preview output').innerText(), /Deliveries: 2/);
+  assert.equal(
+    (await page.locator('h1').innerText()).replace(/\u200b/g, '').trim(),
+    'subscribeEvent',
+  );
   await page.goto(`${origin}reference/input`);
   await page.getByRole('textbox').fill('react');
   await page.getByText('$query: react', { exact: true }).waitFor();
@@ -192,7 +217,7 @@ try {
   await page.getByRole('checkbox').uncheck();
   await page.getByRole('button', { name: 'Submit demo order' }).click();
   assert.match(await page.locator('.example-preview output').innerText(), /#100/);
-  await page.goto(`${origin}reference/createModel`);
+  await page.goto(`${origin}reference/modelRegistry`);
   await page.getByRole('button', { name: 'Add a seat', exact: true }).first().click();
   await page.locator('.example-preview output').first().getByText('6', { exact: true }).waitFor();
   assert.equal(await page.locator('.example-preview output').last().innerText(), '5');
@@ -255,7 +280,8 @@ try {
     );
     const hits = await page.locator('.VPLocalSearchBox .result').first().getAttribute('href');
     assert.ok(
-      hits?.includes(`${prefix}/recipes/profile`),
+      hits?.includes(`${prefix}/recipes/profile`) ||
+        hits?.includes(`${prefix}/reference/eventAtom`),
       `${code}: locale-specific search result: ${hits}`,
     );
     await page.keyboard.press('Escape');

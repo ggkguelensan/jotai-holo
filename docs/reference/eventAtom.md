@@ -2,13 +2,7 @@
 
 Announce that something happened. Emit `profileSaved` after the API confirms a save, then let notifications or analytics react to that fact.
 
-<Demo kind="event">
-
-<<< @/../examples/docs/event.tsx#event
-
-</Demo>
-
-<<< @/../examples/documentation.tsx#event
+<<< @/../examples/documentation.tsx#workflow
 
 ## Contract
 

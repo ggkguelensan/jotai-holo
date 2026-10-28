@@ -20,7 +20,7 @@ import {createRoot} from 'react-dom/client';
 import {flushSync} from 'react-dom';
 import {atom,createStore,Provider,useAtomValue,useSetAtom,useStore} from 'jotai';
 import {holo,useImperativeHolo,eventAtom} from '../dist/index.js';
-import {createModel} from '../dist/model.js';
+import {pipe,modelRegistry,modelConnection} from '../dist/model.js';
 const store=createStore();const $shared=atom('shared');let refs;let active=0;let subscriptions=0;
 function createRuntime(){
  const $count=atom(0),$pending=atom(new Promise(()=>{}));
@@ -29,7 +29,7 @@ function createRuntime(){
  const model={$count,$pending,increment,changed:eventAtom()};
  refs.models.push(new WeakRef(model));refs.atoms.push(new WeakRef($count),new WeakRef($pending));return model;
 }
-function definition(retainTime){return createModel({retainTime,create:createRuntime,resources:()=>[{connect(){active++;return()=>{active--}}}]})}
+function definition(retainTime){return pipe(createRuntime,modelRegistry({retainTime}),modelConnection(()=>{active++;return()=>{active--}}))}
 const finite=definition(0),permanent=definition(Infinity);
 function View({count,increment}){useEffect(()=>{refs.callbacks.push(new WeakRef(increment))},[increment]);return h('button',{onClick:increment},count)}
 function ImperativeView({imperative,...props}){useImperativeHolo(imperative,{changed(){props.increment()}});useEffect(()=>{refs.handles.push(new WeakRef(imperative.current))},[imperative]);return h(View,props)}

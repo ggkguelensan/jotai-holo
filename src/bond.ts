@@ -29,7 +29,7 @@ type Config<Source, Clock, Target> = {
   state?: Source;
   trigger?: Clock;
   guard?: Atom<boolean> | ((...args: Inputs<Source, Clock>) => boolean);
-  yield?: [Target] extends [undefined] ? never : Target | ((get: Getter) => Target);
+  write?: [Target] extends [undefined] ? never : Target | ((get: Getter) => Target);
 };
 type HasInput<Source, Clock> = Source extends undefined
   ? Clock extends undefined
@@ -39,7 +39,7 @@ type HasInput<Source, Clock> = Source extends undefined
 type Compatible<Target, Args extends readonly unknown[]> = Target extends Writable
   ? [...Args] extends TargetArgs<Target>
     ? {}
-    : { yield: never }
+    : { write: never }
   : {};
 export function bond<
   const Source extends AtomSource | undefined = undefined,
@@ -48,7 +48,7 @@ export function bond<
 >(
   config: Config<Source, Clock, Target> & {
     map: (...args: Inputs<Source, Clock>) => readonly [...TargetArgs<NoInfer<Target>>];
-    yield: Target | ((get: Getter) => Target);
+    write: Target | ((get: Getter) => Target);
   } & HasInput<Source, Clock>,
 ): Bond<TargetArgs<Target>>;
 export function bond<
@@ -73,8 +73,10 @@ export function bond(config: {
   trigger?: Atom<unknown>;
   guard?: Atom<boolean> | ((...args: never[]) => boolean);
   map?: (...args: never[]) => readonly unknown[];
-  yield?: Writable | ((get: Getter) => Writable);
+  write?: Writable | ((get: Getter) => Writable);
 }): unknown {
+  if ('yield' in config) throw new TypeError('bond: use write instead of yield.');
+  if ('action' in config) throw new TypeError('bond: use trigger instead of action.');
   const { state, trigger, guard, map } = config;
   if (!state && !trigger) throw new Error('bond: state or trigger is required.');
   const clock = trigger ?? ion(state!);
@@ -112,9 +114,9 @@ export function bond(config: {
               : args;
           if (!Array.isArray(next))
             throw new TypeError('bond: map must return an argument tuple synchronously.');
-          if (config.yield && publish) {
+          if (config.write && publish) {
             const target =
-              typeof config.yield === 'function' ? config.yield(store.get) : config.yield;
+              typeof config.write === 'function' ? config.write(store.get) : config.write;
             const result: unknown = Reflect.apply(store.set, store, [target, ...next]);
             if (isPromise(result)) {
               const sink = current.owners;
@@ -167,7 +169,7 @@ export function bond(config: {
               report(current.owners, error);
             }
           });
-          if (!trigger && !config.yield) evaluate([], false);
+          if (!trigger && !config.write) evaluate([], false);
         }
       } catch (error) {
         current.owners.delete(owner);

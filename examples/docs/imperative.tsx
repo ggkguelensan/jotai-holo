@@ -9,31 +9,29 @@ import {
   useImperativeHolo,
   type HoloImperative,
 } from 'jotai-holo';
-import { createModel } from 'jotai-holo/model';
+import { modelRegistry, pipe } from 'jotai-holo/model';
 
 // #region imperative
-const $$checkout = createModel({
-  create: () => {
-    const $quantity = stateAtom(1);
-    const $orderNumber = stateAtom(1000);
+const $$checkout = pipe(() => {
+  const $quantity = stateAtom(1);
+  const $orderNumber = stateAtom(1000);
 
-    const $total = ion($quantity, (quantity) => quantity * 125);
+  const $total = ion($quantity, (quantity) => quantity * 125);
 
-    const orderCreated = eventAtom<{
-      orderId: string;
-      total: number;
-    }>();
+  const orderCreated = eventAtom<{
+    orderId: string;
+    total: number;
+  }>();
 
-    // Demo boundary: a real application publishes after its API succeeds.
-    const submit = actionAtom((get, set) => {
-      const orderId = String(get($orderNumber) + 1);
-      set($orderNumber, Number(orderId));
-      set(orderCreated, { orderId, total: get($total) });
-    });
+  // Demo boundary: a real application publishes after its API succeeds.
+  const submit = actionAtom((get, set) => {
+    const orderId = String(get($orderNumber) + 1);
+    set($orderNumber, Number(orderId));
+    set(orderCreated, { orderId, total: get($total) });
+  });
 
-    return { $quantity, $total, orderCreated, submit };
-  },
-});
+  return { $quantity, $total, orderCreated, submit };
+}, modelRegistry());
 
 type Receipt = { orderId: string; total: number };
 type CheckoutHandle = { onOrderCreated(receipt: Receipt): void };

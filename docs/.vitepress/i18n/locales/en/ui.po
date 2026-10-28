@@ -49,6 +49,11 @@ msgstr "Choosing a tool"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
+msgid "Model composition"
+msgstr "Model composition"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
 msgid "Rendering and async"
 msgstr "Rendering and async"
 
@@ -337,34 +342,6 @@ msgstr "Mount editor"
 #: examples/docs/data-lifecycle.tsx
 msgid "Hiding the editor saves your draft in this tab."
 msgstr "Hiding the editor saves your draft in this tab."
-
-#: examples/docs/event.tsx
-msgid "Simulated incoming message"
-msgstr "Simulated incoming message"
-
-#: examples/docs/event.tsx
-msgid "The same payload is delivered on every occurrence."
-msgstr "The same payload is delivered on every occurrence."
-
-#: examples/docs/event.tsx
-msgid "Hello, Jotai!"
-msgstr "Hello, Jotai!"
-
-#: examples/docs/event.tsx
-msgid "Receive message"
-msgstr "Receive message"
-
-#: examples/docs/event.tsx
-msgid "Unsubscribe"
-msgstr "Unsubscribe"
-
-#: examples/docs/event.tsx
-msgid "Subscribe"
-msgstr "Subscribe"
-
-#: examples/docs/event.tsx
-msgid "Deliveries"
-msgstr "Deliveries"
 
 #: examples/docs/form.tsx
 msgid "Email"

@@ -1,24 +1,25 @@
 import { observe } from 'jotai-effect';
 import { holo, stateAtom } from 'jotai-holo';
-import { createModel } from 'jotai-holo/model';
+import { modelConnection, modelRegistry, pipe } from 'jotai-holo/model';
 import { createCounter } from './counter-model.js';
 
-export const CounterRuntime = createModel({
-  create: () => {
-    const counter = createCounter();
+function createObservedCounter() {
+  const counter = createCounter();
 
-    const $message = stateAtom('');
-    return { ...counter, $message };
-  },
-  resources: (model) => [
-    {
-      connect: (store) =>
-        observe((get, set) => {
-          set(model.$message, `Observed count: ${get(model.$count)}`);
-        }, store),
-    },
-  ],
-});
+  const $message = stateAtom('');
+
+  return { ...counter, $message };
+}
+
+export const $$counterRuntime = pipe(
+  createObservedCounter,
+  modelRegistry(),
+  modelConnection((model, { store }) =>
+    observe((get, set) => {
+      set(model.$message, `Observed count: ${get(model.$count)}`);
+    }, store),
+  ),
+);
 
 function ObservedCounterView({
   message,
@@ -37,7 +38,7 @@ function ObservedCounterView({
 }
 
 export const ModelEffectCounter = holo({
-  models: { model: CounterRuntime },
+  models: { model: $$counterRuntime },
   view: ObservedCounterView,
   read: ({ model: model }) => ({ message: model.$message }),
   write: ({ model: model }) => ({ onIncrement: model.increment }),

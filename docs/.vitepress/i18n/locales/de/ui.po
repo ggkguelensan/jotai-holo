@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 11:00+0500\n"
+"POT-Creation-Date: 2026-10-28 12:28+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -46,6 +46,11 @@ msgstr "Warum jotai-holo?"
 #: docs/.vitepress/config.mts
 msgid "Choosing a tool"
 msgstr "Werkzeug wählen"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Model composition"
+msgstr "Modellkomposition"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -337,34 +342,6 @@ msgstr "Editor einblenden"
 #: examples/docs/data-lifecycle.tsx
 msgid "Hiding the editor saves your draft in this tab."
 msgstr "Ausblenden des Editors speichert den Entwurf in diesem Tab."
-
-#: examples/docs/event.tsx
-msgid "Simulated incoming message"
-msgstr "Simulierter Nachrichteneingang"
-
-#: examples/docs/event.tsx
-msgid "The same payload is delivered on every occurrence."
-msgstr "Dieselbe Payload wird bei jedem Ereignis zugestellt."
-
-#: examples/docs/event.tsx
-msgid "Hello, Jotai!"
-msgstr "Hallo, Jotai!"
-
-#: examples/docs/event.tsx
-msgid "Receive message"
-msgstr "Nachricht empfangen"
-
-#: examples/docs/event.tsx
-msgid "Unsubscribe"
-msgstr "Abbestellen"
-
-#: examples/docs/event.tsx
-msgid "Subscribe"
-msgstr "Abonnieren"
-
-#: examples/docs/event.tsx
-msgid "Deliveries"
-msgstr "Zustellungen"
 
 #: examples/docs/form.tsx
 msgid "Email"

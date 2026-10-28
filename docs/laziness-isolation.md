@@ -16,7 +16,6 @@ cloning of application data.
 | `subscribeEvent` | Installs a listener without running unrelated atom reads.                                                                                                            | An explicit disposer releases that listener; disposing one store does not affect another. It does not cancel work the listener already started.                    |
 | `bond`           | Declaration, reading, and observing the output do not connect the link. `connect(store)` activates it. A boolean atom guard can reject before sampled state is read. | Connections are reference-counted per store; the final disconnect releases clocks and upstream links. Dynamic recipients are resolved from that store at delivery. |
 | `holo`           | Declaration reads no state. Mount reads every configured `read` binding. `write` creates write callbacks without reading the action atom.                            | Reads, writes, and callbacks use the nearest store. Shared atom definitions in the same store intentionally share state.                                           |
-| `lifecycle`      | Callbacks run in committed passive effects; definition and abandoned render do not invoke them.                                                                      | Props are retained per React instance. Store replacement cleans up the old store and opens the new one. StrictMode can replay effects.                             |
 | `holoList`       | Empty lists do not mount row state. A new list value runs key extraction and mapping for its items. This is not virtualization or incremental list reconciliation.   | Stable keys preserve mounted row identity. Separate stores have separate source values. Removing rows releases their subscriptions.                                |
 | `holoMatch`      | Only the active branch is rendered and subscribed. Inactive branches remain dormant.                                                                                 | Branch choice belongs to the nearest store; switching away releases that branch's mounted subscriptions.                                                           |
 
@@ -39,7 +38,7 @@ cloning of application data.
 - Two stores do not deep-clone an atom's initial object. Use immutable updates;
   mutating an initial object shared by reference is outside isolation guarantees.
 - Two React components bound to the same atoms in the same store share state.
-  Per-instance state requires separate model atoms or explicit createModel keys.
+  Per-instance state requires separate model atoms or explicit modelRegistry keys.
 - Creating a new model or atom on every render is not made stable by Holo.
 - Disposing an event or bond listener does not dispose the application's store or
   reset its state.
@@ -57,7 +56,7 @@ The additional audit scenarios are in:
   reference-counted bond chains; per-store recipients; native clock limitations;
   and complete reading of ion inputs.
 - `tests/isolation.browser.test.tsx`: one Holo definition across two stores;
-  independent callbacks/lifecycles; keyed rows combined with branch switching; and a
+  independent callbacks and model leases; keyed rows combined with branch switching; and a
   child mount effect writing to a selected model binding before initial commit settles.
 
 Other integration tests cover store replacement, async aggregation, error boundaries, native Jotai utilities and RHF interoperability. The model memory experiment below checks retention and cleanup for store-owned instances.
@@ -78,7 +77,7 @@ Build first: some documentation fixtures import the package's compiled entry.
 ## Model, Query and form integrations
 
 - `eq`, `and`, `or`, `some`, `sum`: native derived atoms. Boolean branches and some short-circuit; sum reads all inputs. No extra subscriptions at declaration.
-- `createModel`: per-store identity and structural keys. Pure reads are weakly retained; acquire/committed holo owns resources. Infinity retains committed models intentionally, while zero/finite retainTime removes released instances. `tests/model.test.ts`, `tests/model.browser.test.tsx` cover key/store replacement, ownership, Suspense and StrictMode.
+- `modelRegistry`: per-store identity and structural keys. Pure reads are weakly retained; acquire/committed holo owns resources. Infinity retains committed models intentionally, while zero/finite retainTime removes released instances. `tests/model.test.ts`, `tests/model.browser.test.tsx` cover key/store replacement, ownership, Suspense and StrictMode.
 - `queryAtoms`: observer construction may occur on read; fetch/subscription starts only after mount. Independent prism outputs share one observer per store/client and release it after the last subscriber. `tests/query.test.ts`, `tests/query.browser.test.tsx` cover options factories, client/key replacement, data equality and native useQuery cache sharing.
 - `createFormModel` / `holoForm`: create native RHF controls per model instance, retain the resolver and values across bridge remount, and require one active form root per control. `tests/form-model.browser.test.tsx` covers independent forms, external panels, async transforming resolvers, field arrays and StrictMode.
 - `formAtom`: filtered native subscribe on mount, coalesced publication outside RHF callbacks, selected immutable snapshots with structural sharing, last-owner disposal. Native useFormState remains responsible for flags/errors.

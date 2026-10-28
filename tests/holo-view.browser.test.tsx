@@ -9,7 +9,7 @@ import {
   useImperativeHolo,
   type HoloImperative,
 } from '../src/index.js';
-import { createModel } from '../src/model.js';
+import { createModel } from '../src/model-registry.js';
 import { createHarness, deferred, suspense } from './browser-harness.js';
 
 type Handle = { onCreated(payload: { id: string }): void };

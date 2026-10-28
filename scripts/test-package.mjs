@@ -30,7 +30,9 @@ try {
     import assert from 'node:assert/strict';
     import * as library from 'jotai-holo';
     import * as vanilla from 'jotai-holo/vanilla';
-    import { createModel, modelRegistry, pipe } from 'jotai-holo/model';
+    import * as modelApi from 'jotai-holo/model';
+    import { modelRegistry, pipe, modelConnection } from 'jotai-holo/model';
+    assert.deepEqual(Object.keys(modelApi).sort(), ['modelConnection', 'modelLifecycle', 'modelRegistry', 'pipe']);
     import { createAnalytics, modelAnalytics } from 'jotai-holo/analytics';
     import { createAmplitudeAdapter } from 'jotai-holo/analytics/amplitude';
     assert.equal(typeof createAmplitudeAdapter, 'function');
@@ -43,7 +45,7 @@ try {
     assert.equal(typeof queryAtoms, 'function');
     assert.equal(typeof mutationAtoms, 'function');
     assert.equal(typeof holoForm, 'function');
-    const definition = createModel({create: () => ({value: 1})});
+    const definition = pipe(() => ({value: 1}), modelRegistry());
     const forms = modelRegistry()(createFormModel({initial: {name: ''}, options: initial => ({defaultValues: initial})}));
     import { createStore } from 'jotai/vanilla';
     assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'or', 'prism', 'some', 'stateAtom', 'subscribeEvent', 'sum', 'useImperativeHolo']);
@@ -83,7 +85,7 @@ try {
     const requested = vanilla.eventAtom();
     let delivered = 0;
     const unsubscribe = vanilla.subscribeEvent(store, requested, () => { delivered++; });
-    const link = vanilla.bond({ trigger: requested, yield: increment });
+    const link = vanilla.bond({ trigger: requested, write: increment });
     const stop = link.connect(store); store.set(requested); stop(); assert.equal(store.get(value), 3); unsubscribe(); assert.equal(delivered, 1);
   `,
     ],
@@ -116,8 +118,8 @@ try {
       read: { count }, write: { onIncrement: increment },
     });
     const valid = <Counter title="counter" />;
-    const { createModel } = await import('jotai-holo/model');
-    const definition = createModel({create: () => ({count, increment})});
+    const { modelRegistry, pipe } = await import('jotai-holo/model');
+    const definition = pipe(() => ({count, increment}), modelRegistry());
     const Selected = holo({
       models: { counter: definition },
       view: (_props: {count: number; onIncrement: (amount: number) => void; title: string}) => null,

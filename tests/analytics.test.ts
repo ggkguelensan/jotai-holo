@@ -3,7 +3,8 @@ import { persist } from '../src/persist.js';
 import { atom, createStore } from 'jotai/vanilla';
 import { expect, test, vi } from 'vitest';
 import { createAnalytics, modelAnalytics } from '../src/analytics.js';
-import { createModel, modelLifecycle, modelRegistry, pipe } from '../src/model.js';
+import { createModel } from '../src/model-registry.js';
+import { modelLifecycle, modelRegistry, pipe } from '../src/model.js';
 import { actionAtom, bond, eventAtom, stateAtom } from '../src/vanilla.js';
 
 const tick = async () => {

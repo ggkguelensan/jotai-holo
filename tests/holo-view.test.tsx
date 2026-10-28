@@ -4,7 +4,7 @@ import { createRef, type ComponentProps } from 'react';
 import { renderToStaticMarkup, renderToReadableStream } from 'react-dom/server';
 import { expect, expectTypeOf, test, vi } from 'vitest';
 import { actionAtom, eventAtom, holo, type HoloImperative } from '../src/index.js';
-import { createModel } from '../src/model.js';
+import { createModel } from '../src/model-registry.js';
 
 test('new bindings render on the server without acquiring any resources or handling events', () => {
   const connect = vi.fn();

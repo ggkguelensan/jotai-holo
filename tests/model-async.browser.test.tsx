@@ -1,7 +1,7 @@
 import { modelLifetime } from './model-lifetime.js';
 import { act, StrictMode, useEffect } from 'react';
 import { atom, createStore, Provider } from 'jotai';
-import { createModel } from '../src/model.js';
+import { createModel } from '../src/model-registry.js';
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import { actionAtom, holo } from '../src/index.js';
 import { createHarness, deferred, ErrorBoundary, suspense } from './browser-harness.js';

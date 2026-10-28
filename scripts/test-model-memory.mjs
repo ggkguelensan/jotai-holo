@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { atom, createStore } from 'jotai/vanilla';
-import { createModel, modelRegistry } from '../dist/model.js';
+import { pipe, modelRegistry, modelConnection } from '../dist/model.js';
 import { createFormModel, formAtom } from '../dist/rhf.js';
 
 assert.equal(typeof global.gc, 'function', 'Run with node --expose-gc.');
@@ -16,24 +16,20 @@ const store = createStore();
 let refs = [];
 let active = 0;
 const definition = (retainTime) =>
-  createModel({
-    retainTime,
-    create: () => {
+  pipe(
+    () => {
       const model = { $value: atom(0) };
       refs.push(new WeakRef(model));
       return model;
     },
-    resources: () => [
-      {
-        connect: () => {
-          active++;
-          return () => {
-            active--;
-          };
-        },
-      },
-    ],
-  });
+    modelRegistry({ retainTime }),
+    modelConnection(() => {
+      active++;
+      return () => {
+        active--;
+      };
+    }),
+  );
 const counts = () => refs.filter((ref) => ref.deref()).length;
 const report = {};
 const provisional = definition(Infinity);

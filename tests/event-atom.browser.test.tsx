@@ -12,7 +12,7 @@ test('holo dispatches events without rerendering; bond updates state only when i
   const changeName = actionAtom((_get, set, name: string) => {
     set($name, name);
   });
-  const apply = bond({ trigger: renamed, yield: changeName });
+  const apply = bond({ trigger: renamed, write: changeName });
   const events = vi.fn();
   const openings = vi.fn();
   const stops = [

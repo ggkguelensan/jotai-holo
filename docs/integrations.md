@@ -1,6 +1,6 @@
 # Model integration recipes
 
-Use jotai-effect to synchronize a model with external resources. Use createModel to share that model between widgets. See the [effects recipe](recipes/integrations.md) for choosing a lifetime.
+Use jotai-effect to synchronize a model with external resources. Use modelRegistry to share that model between widgets. See the [effects recipe](recipes/integrations.md) for choosing a lifetime.
 
 ## jotai-effect
 
@@ -34,6 +34,6 @@ const $display = stateAtom((get) => {
 
 For application/store-owned effects, use `observe(effect, store)`, retain its disposer and call it at the owner's teardown. Pass that same store to `<Provider store={store}>`; omitting it silently selects a different default store in an explicitly scoped application.
 
-Reactive async work belongs in an effect or action with explicit cancellation/error handling. Capture dependencies synchronously before launching work; reads made only after `await` are not effect dependencies. Effects return synchronous cleanup, such as `() => controller.abort()`. Lifecycle handlers start handled actions; resource connections own cleanup.
+Reactive async work belongs in an effect or action with explicit cancellation/error handling. Capture dependencies synchronously before launching work; reads made only after `await` are not effect dependencies. Effects return synchronous cleanup, such as `() => controller.abort()`. Model connections return synchronous cleanup.
 
 Runnable example: [effect.tsx](../examples/effect.tsx). Subscription/disposal tests: [integrations.browser.test.tsx](../tests/integrations.browser.test.tsx).

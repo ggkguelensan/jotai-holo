@@ -5,7 +5,7 @@ import { OperatorsExample } from '../examples/operators.js';
 import { BasicCounter } from '../examples/basic.js';
 import { EffectCounter } from '../examples/effect.js';
 import { ModelCounters } from '../examples/models.js';
-import { ModelEffectCounter, CounterRuntime } from '../examples/model-effect.js';
+import { ModelEffectCounter, $$counterRuntime } from '../examples/model-effect.js';
 import { createHarness } from './browser-harness.js';
 
 test('runnable basic and effect examples respond to their rendered controls', async () => {
@@ -53,7 +53,7 @@ test('shared model effect survives one owner and stops after the final owner', a
       </Provider>,
     );
   await render(true);
-  const model = store.get(CounterRuntime());
+  const model = store.get($$counterRuntime());
   await act(async () => {
     store.set(model.increment);
   });

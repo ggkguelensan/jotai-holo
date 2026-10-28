@@ -20,7 +20,7 @@ The fact has already happened; the notification is a consequence. Disabling noti
 
 <<< @/../examples/documentation.tsx#runtime
 
-Create the runtime before rendering. Give the Provider `runtime.store`, bind `runtime.model` outside render, and call `runtime.dispose()` when the session ends. For SSR, create a runtime per request. To share keyed models between widgets, use [createModel](/reference/createModel).
+Create the runtime before rendering. Give the Provider `runtime.store`, bind `runtime.model` outside render, and call `runtime.dispose()` when the session ends. For SSR, create a runtime per request. To share keyed models between widgets, use [modelRegistry](/reference/modelRegistry).
 
 API failure is expected model state; the connection's onError handles failures in the reaction itself. This example catches API errors inside save rather than rejecting to the calling View.
 

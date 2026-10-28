@@ -77,9 +77,9 @@ import React from 'react';
 import { renderToPipeableStream } from 'react-dom/server';
 import { PassThrough } from 'node:stream';
 import { holo, stateAtom } from 'jotai-holo';
-import { createModel } from 'jotai-holo/model';
+import { modelRegistry, pipe } from 'jotai-holo/model';
 const C = holo({ view: ({ value }) => React.createElement('b', null, value), read: { value: stateAtom(Promise.resolve('server-ready')) } });
-const Model = createModel({create: () => ({value: stateAtom(Promise.resolve('model-ready'))})});
+const Model = pipe(() => ({value: stateAtom(Promise.resolve('model-ready'))}), modelRegistry());
 const Selected = holo({ models: {selected: Model}, view: ({ value }) => React.createElement('i', null, value), read: ({selected}) => ({value: selected.value}) });
 let html = '';
 await new Promise((resolve, reject) => {

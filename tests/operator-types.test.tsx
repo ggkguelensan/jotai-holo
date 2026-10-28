@@ -21,9 +21,9 @@ function invalidContracts() {
   // @ts-expect-error No implicit clock can be selected without state or trigger.
   bond({});
   // @ts-expect-error Default trigger args must fit target args.
-  bond({ trigger, yield: stringTarget });
+  bond({ trigger, write: stringTarget });
   // @ts-expect-error Mapped args must fit target args.
-  bond({ trigger, map: (value) => [value], yield: stringTarget });
+  bond({ trigger, map: (value) => [value], write: stringTarget });
   // @ts-expect-error Guards are synchronous.
   bond({ trigger, guard: async () => true });
   // @ts-expect-error Maps are synchronous argument tuples.

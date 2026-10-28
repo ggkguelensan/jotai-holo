@@ -1,7 +1,10 @@
 import { createStore, Provider } from 'jotai';
 import { act, StrictMode } from 'react';
 import { expect, test, vi } from 'vitest';
-import IncomingMessages, { Messages } from '../examples/docs/event.js';
+import { $$messages } from './fixtures/managed-events.js';
+import { holo } from '../src/holo.js';
+
+const IncomingMessages = holo({ models: { messages: $$messages }, view: () => null });
 import Checkout, { $$checkout } from '../examples/docs/bond.js';
 import { createHarness } from './browser-harness.js';
 
@@ -11,7 +14,7 @@ vi.mock('@lingui/react/macro', () => ({
 
 test('holo owns one event listener across StrictMode, shared Views and reactive toggles', async () => {
   const store = createStore();
-  const model = store.get(Messages());
+  const model = store.get($$messages());
   const emit = () => store.set(model.messageReceived, { text: 'same' });
   emit();
   expect(store.get(model.$deliveries)).toBe(0);
@@ -53,7 +56,7 @@ test('holo owns one event listener across StrictMode, shared Views and reactive 
   emit();
   expect(store.get(model.$deliveries)).toBe(4);
   const other = createStore();
-  expect(other.get(other.get(Messages()).$deliveries)).toBe(0);
+  expect(other.get(other.get($$messages()).$deliveries)).toBe(0);
 });
 
 test('the checkout bond connects once per model and stops after its last View leaves', async () => {

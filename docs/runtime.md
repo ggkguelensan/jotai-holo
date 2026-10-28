@@ -22,7 +22,7 @@ Returned bonds, persistence declarations and analytics observations carry an
 explicit internal managed marker. Acquisition activates only those declarations;
 it does not subscribe to every returned atom. Setup rolls back in reverse order.
 Two owners share the same connection, and the final release stops it.
-The low-level createModel resource contract remains available for external adapters.
+Use `modelConnection` for external subscriptions and synchronous cleanup.
 
 Infinity retention preserves state without preserving active subscriptions.
 Finite retention starts after last release. Pure reads are weakly cached so

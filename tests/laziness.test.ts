@@ -175,7 +175,7 @@ test('bond does not evaluate before connect or keep its sampled data mounted', (
   const requested = actionAtom();
   const map = vi.fn((value: number) => [value] as [number]);
   const target = actionAtom(vi.fn((_get, _set, _n: number) => {}));
-  const link = bond({ state: $state, trigger: requested, map, yield: target });
+  const link = bond({ state: $state, trigger: requested, map, write: target });
   const unsub = s.sub(link, () => {});
   s.set(requested);
   expect(s.get(link)).toBeUndefined();

@@ -372,8 +372,8 @@ test('bond consumes mutate and observes call-time arguments, not successful comp
   const observed = actionAtom((_get, set, n: number) => {
     set($seen, n);
   });
-  const invoking = bond({ trigger: requested, yield: f.saving.mutate });
-  const observing = bond({ trigger: f.saving.mutate, yield: observed });
+  const invoking = bond({ trigger: requested, write: f.saving.mutate });
+  const observing = bond({ trigger: f.saving.mutate, write: observed });
   const stopInvoke = invoking.connect(f.store);
   const stopObserve = observing.connect(f.store);
   f.store.set(requested, 3);

@@ -1,8 +1,6 @@
-import { createModel } from 'jotai-holo/model';
+import { modelRegistry, pipe } from 'jotai-holo/model';
 import {
   actionAtom,
-  bond,
-  eventAtom,
   holo,
   holoList,
   holoMatch,
@@ -12,27 +10,20 @@ import {
 } from 'jotai-holo';
 
 type User = { id: number; name: string };
-const UserDirectory = createModel({
-  create: () => {
-    const $users = stateAtom<readonly User[]>([]);
-    const $nextId = stateAtom(1);
-    const addRequested = eventAtom();
-    const userAdded = actionAtom((_get, set, user: User) => {
-      set($users, (users) => [...users, user]);
-      set($nextId, user.id + 1);
-    });
-    const adding = bond({
-      state: $nextId,
-      trigger: addRequested,
-      map: (id) => [{ id, name: `User ${id}` }],
-      yield: userAdded,
-    });
-    return { $users, addRequested, adding };
-  },
-  resources: (model) => [model.adding],
-});
+const $$users = pipe(() => {
+  const $users = stateAtom<readonly User[]>([]);
+  const $nextId = stateAtom(1);
 
-const $users = stateAtom((get) => get(get(UserDirectory()).$users));
+  const addUser = actionAtom((get, set) => {
+    const id = get($nextId);
+    set($users, (users) => [...users, { id, name: `User ${id}` }]);
+    set($nextId, id + 1);
+  });
+
+  return { $users, addUser };
+}, modelRegistry());
+
+const $users = stateAtom((get) => get(get($$users()).$users));
 
 const { $count, $empty } = prism($users, {
   $count: (users) => users.length,
@@ -57,7 +48,7 @@ const Content = holoMatch({
   },
 });
 const Controls = holo({
-  models: { model: UserDirectory },
+  models: { model: $$users },
   view: ({ count, onAdd }: { count: number; onAdd: () => void }) => (
     <>
       <output>Users: {count}</output>
@@ -65,7 +56,7 @@ const Controls = holo({
     </>
   ),
   read: { count: $count },
-  write: ({ model: model }) => ({ onAdd: model.addRequested }),
+  write: ({ model }) => ({ onAdd: model.addUser }),
 });
 
 export function OperatorsExample() {

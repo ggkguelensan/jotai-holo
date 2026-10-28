@@ -1,4 +1,3 @@
-import { modelRegistry } from 'jotai-holo/model';
 import { createRoot } from 'react-dom/client';
 import { createRef, Component, StrictMode, Suspense, useState, type ReactNode } from 'react';
 import { Provider, atom } from 'jotai';
@@ -18,7 +17,7 @@ import {
   holoList,
 } from 'jotai-holo';
 
-import { createModel } from 'jotai-holo/model';
+import { pipe, modelRegistry, modelConnection } from 'jotai-holo/model';
 import { queryAtoms } from 'jotai-holo/query';
 import { createFormModel, holoForm } from 'jotai-holo/rhf';
 import { QueryClient, queryOptions } from '@tanstack/react-query';
@@ -28,9 +27,8 @@ const store = createStore();
 let ownActive = 0;
 let ownCreates = 0;
 let resolveOwn: (value: string) => void = () => {};
-const OwnModel = createModel({
-  retainTime: 0,
-  create: () => {
+const OwnModel = pipe(
+  () => {
     ownCreates++;
     const $value = atom(0);
     const $text = atom<string | Promise<string>>('ready');
@@ -41,17 +39,14 @@ const OwnModel = createModel({
     });
     return { $value, $text, incremented, increment };
   },
-  resources: (_model) => [
-    {
-      connect: (_store) => {
-        ownActive++;
-        return () => {
-          ownActive--;
-        };
-      },
-    },
-  ],
-});
+  modelRegistry({ retainTime: 0 }),
+  modelConnection(() => {
+    ownActive++;
+    return () => {
+      ownActive--;
+    };
+  }),
+);
 const imperativeCalls: number[] = [];
 function OwnCounterView({
   value,
@@ -129,7 +124,7 @@ const $double = ion($count, (count) => count * 2);
 const { $parity } = prism($count, { $parity: (count) => count % 2 });
 const increment = actionAtom((_get, set) => set($count, (count) => count + 1));
 const changed = eventAtom<number>();
-const routing = bond({ trigger: changed, yield: $count });
+const routing = bond({ trigger: changed, write: $count });
 const stopBond = routing.connect(store);
 let deliveries = 0;
 const stopEvent = subscribeEvent(store, changed, () => {
@@ -158,19 +153,16 @@ const Counter = holo({
   write: { onIncrement: increment },
   props: { title: 'counter' },
   models: {
-    owner: createModel({
-      create: () => ({}),
-      resources: () => [
-        {
-          connect() {
-            lifecycle.push('mount');
-            return () => {
-              lifecycle.push('unmount');
-            };
-          },
-        },
-      ],
-    }),
+    owner: pipe(
+      () => ({}),
+      modelRegistry({}),
+      modelConnection(() => {
+        lifecycle.push('mount');
+        return () => {
+          lifecycle.push('unmount');
+        };
+      }),
+    ),
   },
   input: {
     title: atom(null, (_get, _set, _title: string) => {
@@ -197,13 +189,13 @@ const firstPromise = new Promise<string>((resolve) => {
 });
 const $async = atom<string | Promise<string>>(firstPromise);
 let models = 0;
-const Model = createModel({
-  initial: 'a',
-  create: (id) => {
+const Model = pipe(
+  (id: string) => {
     models++;
     return { $value: atom((get) => `${id}:${get($count)}`), $async };
   },
-});
+  modelRegistry({ initial: 'a' }),
+);
 const adaptedRef = createRef<HTMLInputElement>();
 const AsyncView = holo({
   models: {

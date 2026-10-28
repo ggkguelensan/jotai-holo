@@ -1,6 +1,8 @@
 import { expect, test } from 'vitest';
+import { bond, stateAtom } from '../src/vanilla.js';
+import * as modelApi from '../src/model.js';
 import { holo } from '../src/holo.js';
-import { createModel } from '../src/model.js';
+import { createModel } from '../src/model-registry.js';
 import { createFormModel, holoForm } from '../src/rhf.js';
 
 const view = () => null;
@@ -25,7 +27,7 @@ test('rejects retired model options rather than silently changing resource owner
 });
 
 function typeChecks() {
-  // @ts-expect-error Only view/read/write/props/models/lifecycle are supported.
+  // @ts-expect-error Only the canonical holo configuration is supported.
   holo({ core: view });
   // @ts-expect-error The new API cannot be mixed with the retired one.
   holo({ view, state: {} });
@@ -37,3 +39,33 @@ function typeChecks() {
   holoForm({ view, model: createFormModel({ initial: {}, options: () => ({}) }) });
 }
 void typeChecks;
+
+test('the public model entry exposes composition, not a second registry constructor', () => {
+  expect(Object.keys(modelApi).sort()).toEqual([
+    'modelConnection',
+    'modelLifecycle',
+    'modelRegistry',
+    'pipe',
+  ]);
+});
+
+test('retired bond and registry options fail instead of changing behavior silently', () => {
+  expect(() =>
+    Reflect.apply(bond, undefined, [{ trigger: stateAtom(0), yield: stateAtom(0) }]),
+  ).toThrow('use write');
+  for (const field of ['gcTime', 'connect', 'resources']) {
+    expect(() => Reflect.apply(modelApi.modelRegistry, undefined, [{ [field]: 0 }])).toThrow(
+      'unsupported field',
+    );
+  }
+});
+
+function retiredTypes() {
+  // @ts-expect-error bond uses write, not yield.
+  bond({ trigger: stateAtom(0), yield: stateAtom(0) });
+  // @ts-expect-error bond uses trigger, not action.
+  bond({ action: stateAtom(0), write: stateAtom(0) });
+  // @ts-expect-error createModel is internal, not a public model API.
+  modelApi.createModel;
+}
+void retiredTypes;

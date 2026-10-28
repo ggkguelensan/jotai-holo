@@ -10,7 +10,7 @@ Use `withAtomEffect` when a resource is needed while a View subscribes to an ato
 
 ## Shared model resources
 
-An editor and its toolbar may need one model even when one widget is hidden. Put the connection in [createModel.resources](/reference/createModel#contract). The first committed owner starts it; the last owner releases it. Select the same key and store in both widgets. Keeping an instance with `retainTime: Infinity` does not keep released subscriptions active.
+An editor and its toolbar may need one model even when one widget is hidden. Put the connection in [modelConnection](/reference/modelConnection). The first committed owner starts it; the last owner releases it. Select the same key and store in both widgets. Keeping an instance with `retainTime: Infinity` does not keep released subscriptions active.
 
 ## Application resources
 
@@ -20,4 +20,4 @@ For a store-wide effect, call `observe(effect, store)` during application setup.
 
 Use `input` for committed props, `jotai-effect` for reactive synchronization, and model ownership for shared connections. For a calculated value, use a derived atom. Async actions need their own cancellation and error policy.
 
-Read [Jotai effect](https://jotai.org/docs/extensions/effect), [createModel](/reference/createModel) and [input](/reference/input) for their contracts and examples.
+Read [Jotai effect](https://jotai.org/docs/extensions/effect), [modelRegistry](/reference/modelRegistry) and [input](/reference/input) for their contracts and examples.

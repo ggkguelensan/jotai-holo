@@ -1,5 +1,5 @@
 import type { Getter, Setter } from 'jotai/vanilla';
-import { createModel } from '../src/model.js';
+import { createModel } from '../src/model-registry.js';
 
 /** Count actual model owners in binding tests, independently of View renders. */
 export function modelLifetime(callbacks: {

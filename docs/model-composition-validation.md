@@ -1,5 +1,7 @@
 # Model composition validation
 
+Measurements in this report describe commit `fcecee6`. The current public model entry uses pipe and modifiers; the low-level registry constructor measured here is now internal. Re-run pnpm size for this checkout.
+
 Checked on 2026-10-28 in `feat/model-composition`, based on `8f96d38`.
 [Machine-readable measurements](./model-composition-validation.json) include
 module lists, tooling and forced-GC results. Public contracts are in the
@@ -87,7 +89,7 @@ code rather than an increment over a project already using shared infrastructure
 
 | Exports                               | Gzip bytes |
 | ------------------------------------- | ---------: |
-| createModel + pipe + modelRegistry    |      2,539 |
+| modelRegistry + pipe + modelRegistry  |      2,539 |
 | createAnalytics + modelAnalytics      |      4,876 |
 | createAmplitudeAdapter, no SDK import |        210 |
 

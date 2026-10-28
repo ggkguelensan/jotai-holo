@@ -8,7 +8,7 @@ import {
   useImperativeHolo,
   type HoloImperative,
 } from '../src/index.js';
-import { createModel } from '../src/model.js';
+import { createModel } from '../src/model-registry.js';
 import { createHarness, deferred, suspense } from './browser-harness.js';
 
 test('initial input and each changed field write after commit, without replay or unrelated updates', async () => {

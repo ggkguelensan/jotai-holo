@@ -3,7 +3,7 @@ import { atom, createStore, Provider } from 'jotai';
 import { act, StrictMode, useEffect } from 'react';
 import { expect, expectTypeOf, test, vi } from 'vitest';
 import { actionAtom, holo } from '../src/index.js';
-import { createModel } from '../src/model.js';
+import { createModel } from '../src/model-registry.js';
 import { createHarness, deferred, suspense } from './browser-harness.js';
 
 function createCounter() {
@@ -130,7 +130,7 @@ test('model resource connections exist before child lifecycle passive effects em
   const model = createModel({
     create: () => {
       const $count = atom(0);
-      return { $count, link: bond({ trigger: requested, yield: $count }) };
+      return { $count, link: bond({ trigger: requested, write: $count }) };
     },
     resources: (m) => [{ connect: (store) => m.link.connect(store) }],
   });

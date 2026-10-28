@@ -14,7 +14,6 @@ const demos: Record<string, () => Promise<DemoModule>> = {
   imperative: () => import('../../../examples/docs/imperative'),
   ion: () => import('../../../examples/docs/ion'),
   prism: () => import('../../../examples/docs/prism'),
-  event: () => import('../../../examples/docs/event'),
   bond: () => import('../../../examples/docs/bond'),
   input: () => import('../../../examples/docs/input'),
   analytics: () => import('../../../examples/docs/analytics'),

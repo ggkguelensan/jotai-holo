@@ -24,17 +24,16 @@ function app({
   input = false,
   imperative = false,
   model = false,
-  composed = false,
 } = {}) {
   return (
     common +
     `
 ${holo || helpers || imperative ? "import {holo,stateAtom,actionAtom,eventAtom,useImperativeHolo} from '../dist/index.js';" : ''}
-${model ? "import {createModel,modelRegistry,pipe} from '../dist/model.js';" : ''}
+${model ? "import {modelRegistry,pipe} from '../dist/model.js';" : ''}
 const $count=${helpers ? 'stateAtom' : 'atom'}(0);
 const $double=${helpers ? 'stateAtom' : 'atom'}(get=>get($count)*2);
 const increment=${helpers ? 'actionAtom(' : 'atom(null,'}(_get,set)=>{set($count,n=>n+1)});
-${model ? (composed ? 'const $$counter=pipe(()=>({$count,$double,increment}),modelRegistry());' : 'const $$counter=createModel({create:()=>({$count,$double,increment})});') : ''}
+${model ? 'const $$counter=pipe(()=>({$count,$double,increment}),modelRegistry());' : ''}
 ${imperative ? "const completed=eventAtom(); function ImperativeView({imperative,...props}){useImperativeHolo(imperative,{onCompleted(){console.log('completed')}});return h(CounterView,props)}" : ''}
 ${
   holo
@@ -78,7 +77,6 @@ try {
     ['holo-input', { holo: true, input: true }],
     ['holo-imperative', { holo: true, imperative: true }],
     ['holo-models', { holo: true, model: true }],
-    ['holo-composed-models', { holo: true, model: true, composed: true }],
   ]) {
     await writeFile(`${fixture}/main.js`, app(options));
     results[name] = inspect(
@@ -95,7 +93,7 @@ try {
     ['actionAtom', 'vanilla', ['actionAtom']],
     ['eventAtom', 'vanilla', ['eventAtom']],
     ['imperative', 'index', ['useImperativeHolo']],
-    ['model', 'model', ['createModel', 'pipe', 'modelRegistry']],
+    ['model', 'model', ['pipe', 'modelRegistry']],
     ['modelLifecycle', 'model', ['modelLifecycle']],
     ['analytics', 'analytics', ['createAnalytics', 'modelAnalytics']],
     ['amplitude', 'analytics-amplitude', ['createAmplitudeAdapter']],

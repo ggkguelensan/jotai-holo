@@ -35,7 +35,7 @@ A writable atom can supply both a value and a callback. A function might be a pr
 | Combine / project              | ion / prism                 | Jotai dependencies and Object.is                      |
 | React to a domain notification | bond                        | Explicit store-owned connection                       |
 | Bind / repeat / choose Views   | holo / holoList / holoMatch | Ordinary React props and model ownership              |
-| Share a model between widgets  | createModel                 | Instance selected by definition, key and store        |
+| Share a model between widgets  | modelRegistry               | Instance selected by definition, key and store        |
 
 The names use a playful molecular vocabulary. Holo recalls an assembled holoenzyme, and `Re` in the mark stands for React. This is an identity metaphor, not a chemistry model.
 

@@ -50,7 +50,7 @@ const saving = bond({
   trigger: saveRequested,
   guard: $canSave,
   map: ({ id, draft }, notify) => [{ id, draft, notify }],
-  yield: saveUser,
+  write: saveUser,
 });
 
 const store = createStore();
@@ -68,7 +68,7 @@ stop();
 | `trigger` | `eventAtom`/`actionAtom`/bond emission, or a native readable atom's value change | State changes are the trigger                                   |
 | `guard`   | Synchronous boolean predicate or `Atom<boolean>`                                 | Every trigger passes                                            |
 | `map`     | Synchronous transformation returning an argument tuple                           | `[stateValue]` with state; otherwise original trigger arguments |
-| `yield`   | Writable atom, or `(get) => writableAtom` resolver                               | Output can feed another bond                                    |
+| `write`   | Writable atom, or `(get) => writableAtom` resolver                               | Output can feed another bond                                    |
 
 At least **state or trigger** is required. Every other field can be omitted independently. `map` and predicate arguments are `(stateValue, ...triggerArgs)` with state, or `(...triggerArgs)` without it. A state-only connection calls predicates and maps with just the sampled state. A false guard skips map, target resolution, target writes and output updates. An atom guard is checked before reading sampled state, so a rejected event does not start an otherwise unused state read. A predicate needs state as input and is checked after sampling. With an implicit state clock, observing that clock still requires state reads.
 
@@ -80,7 +80,7 @@ const saving = bond({
   trigger: saveRequested,
   state: $draft,
   map: (draft, notify) => [{ draft, notify }],
-  yield: (get) => get($savePort),
+  write: (get) => get($savePort),
 });
 ```
 
@@ -94,7 +94,7 @@ const doubled = bond({
   trigger: amountRequested,
   map: (amount) => [amount * 2],
 });
-const sink = bond({ trigger: doubled, yield: increment });
+const sink = bond({ trigger: doubled, write: increment });
 const stop = sink.connect(store); // Also connects doubled; disposal releases it.
 
 const selected = bond({ state: $count });
@@ -102,9 +102,9 @@ const release = selected.connect(store);
 store.get(selected); // [currentCount], or undefined if the initial guard rejected it
 ```
 
-A bond is a **read-only atom of the last emitted argument tuple**, initially `undefined`, with `connect`. Source-only outputs without `yield` seed their initial tuple on connection, without sending a trigger. Connecting a target-bearing bond does not invoke its target immediately. A rejected guard retains the last accepted output. Disconnect retains that output until a later accepted emission; use `ion`/`prism` for live derived state.
+A bond is a **read-only atom of the last emitted argument tuple**, initially `undefined`, with `connect`. Source-only outputs without `write` seed their initial tuple on connection, without sending a trigger. Connecting a target-bearing bond does not invoke its target immediately. A rejected guard retains the last accepted output. Disconnect retains that output until a later accepted emission; use `ion`/`prism` for live derived state.
 
-Repeated `eventAtom` writes and `actionAtom` calls publish repeatedly even with identical payloads. The observable call fires after the handler's synchronous work succeeds. A throwing handler does not emit. An async handler emits when it returns its promise, before completion; its eventual rejection remains the caller's responsibility. Native write-only atoms whose readable value stays null cannot act as call events. They remain fully supported as `yield` and `holo.write` targets. Native readable triggers use value-change notifications, including normal Jotai batching; they cannot observe identical writes as separate events.
+Repeated `eventAtom` writes and `actionAtom` calls publish repeatedly even with identical payloads. The observable call fires after the handler's synchronous work succeeds. A throwing handler does not emit. An async handler emits when it returns its promise, before completion; its eventual rejection remains the caller's responsibility. Native write-only atoms whose readable value stays null cannot act as call events. They remain fully supported as `write` and `holo.write` targets. Native readable triggers use value-change notifications, including normal Jotai batching; they cannot observe identical writes as separate events.
 
 ### Scheduling, ownership and async work
 
@@ -128,7 +128,7 @@ const UsersList = holoList({
 });
 ```
 
-Declare the list once outside render. `source` is a native readable atom of a readonly array or a promise of one. A stable `getKey` is required. Duplicate React keys throw. `mapItem(item, index)` supplies row props and cannot overlap `read`, `write` or `props`. These sections follow ordinary holo contracts. `lifecycle` is per row; its inputs include mapped row props and caller props. Each row owns its subscriptions and cleanup.
+Declare the list once outside render. `source` is a native readable atom of a readonly array or a promise of one. A stable `getKey` is required. Duplicate React keys throw. `mapItem(item, index)` supplies row props and cannot overlap `read`, `write` or `props`. These sections follow ordinary holo contracts. `input` forwards committed row props to writable atoms. Models selected for a row own its connections. Each row owns its subscriptions and cleanup.
 
 Remaining required row props are required on the list and forwarded to each row and the optional empty View. An empty array renders that View, or null. Async arrays use native Suspense and rejection boundaries. Reordering stable keys preserves row-local state; deleting a key disposes that row. Changing the key creates a new row. `mapItem` still runs for each item on a list update; unchanged shallow mapped props skip row/core renders. New object/function props, changed indices and shared state updates can cause additional row renders. Prefer immutable items and stable callbacks.
 
@@ -178,4 +178,4 @@ If only `$name` is consumed, the other two selectors never execute. If all are m
 
 Several consumers of the same projection in one store share Jotai's cached computation. Different stores have independent caches. Reading without subscribing computes a value but does not mount dependency resources. After the last subscriber leaves, dependency writes do not execute the projection until its next read.
 
-Async selectors also wait for their first read. A new promise is a new raw value and can suspend even if it eventually resolves to the same primitive. The tests verify that holo skips the unchanged resolved View props and that its passive lifecycle lifecycle remains mounted during ordinary Suspense hiding. Laziness does not cancel async work already started by a read. Use native Jotai abort signals or model-owned cancellation where required.
+Async selectors also wait for their first read. A new promise is a new raw value and can suspend even if it eventually resolves to the same primitive. The tests verify that holo skips the unchanged resolved View props and that its model ownership remains active during ordinary Suspense hiding. Laziness does not cancel async work already started by a read. Use native Jotai abort signals or model-owned cancellation where required.

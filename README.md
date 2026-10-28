@@ -97,7 +97,7 @@ Use `$` for state atoms and `$$` for model instances if these conventions help y
 
 Numeric/boolean operators `eq`, `and`, `or`, `some`, and `sum` accept native atoms (arrays or records for multiple inputs) and return lazy read-only atoms.
 
-Model operators are available from the root and `jotai-holo/vanilla`: `ion(source, project?)` combines readable atoms, `prism(source, selectors)` splits projections, and `bond({ state, trigger, guard, map, yield })` connects store-owned actions. React also has `holoList` for keyed rows and `holoMatch` for conditional branches. See [operator contracts and examples](docs/operators.md).
+Model operators are available from the root and `jotai-holo/vanilla`: `ion(source, project?)` combines readable atoms, `prism(source, selectors)` splits projections, and `bond({ state, trigger, guard, map, write })` connects store-owned actions. React also has `holoList` for keyed rows and `holoMatch` for conditional branches. See [operator contracts and examples](docs/operators.md).
 
 Use `props` for fixed UI values and `input` to forward committed props to writable atoms. Named models own connections. Compose pure factories with `pipe`, `modelRegistry`, `modelLifecycle` and optional `modelAnalytics`. See the [runtime guide](docs/runtime.md).
 
@@ -124,15 +124,15 @@ const Counter = holo({
 
 ## Optional infrastructure
 
-| Entry              | Exports                                                            | Ownership                                                                                |
-| ------------------ | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| `jotai-holo/model` | `pipe`, `modelRegistry`, `modelLifecycle`, low-level `createModel` | Default/keyed instances per Jotai store; committed leases; Infinity retention by default |
-| `jotai-holo/query` | `queryAtoms`, `mutationAtoms`, `queryClientAtom`                   | Native Query/MutationObserver, shared QueryClient, independent prism selectors           |
-| `jotai-holo/rhf`   | `createFormModel`, `holoForm`, `formAtom`                          | One native RHF control per model; ordinary RHF markup and resolvers                      |
+| Entry              | Exports                                                      | Ownership                                                                                |
+| ------------------ | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| `jotai-holo/model` | `pipe`, `modelRegistry`, `modelLifecycle`, `modelConnection` | Default/keyed instances per Jotai store; committed leases; Infinity retention by default |
+| `jotai-holo/query` | `queryAtoms`, `mutationAtoms`, `queryClientAtom`             | Native Query/MutationObserver, shared QueryClient, independent prism selectors           |
+| `jotai-holo/rhf`   | `createFormModel`, `holoForm`, `formAtom`                    | One native RHF control per model; ordinary RHF markup and resolvers                      |
 
 Optional analytics uses `jotai-holo/analytics` (`createAnalytics`, `modelAnalytics`). Vendor adapters have separate entries; `jotai-holo/analytics/amplitude` imports no SDK. `createFormModel` returns a pure factory; apply `modelRegistry()` explicitly.
 
-Declare `holo` outside React. Use named `models` for default or keyed instances; read/write factories receive those names. The registry and optional Query/RHF peers stay outside ordinary holo bundles. See [model contracts](docs/reference/createModel.md), [Query](docs/reference/queryAtoms.md) and [forms](docs/reference/holoForm.md).
+Declare `holo` outside React. Use named `models` for default or keyed instances; read/write factories receive those names. The registry and optional Query/RHF peers stay outside ordinary holo bundles. See [model contracts](docs/reference/modelRegistry.md), [Query](docs/reference/queryAtoms.md) and [forms](docs/reference/holoForm.md).
 
 ## Rendering and async state
 
@@ -149,7 +149,8 @@ An async action returns its original promise to the caller. There is no automati
 - [Complete interface and lifecycle contract](docs/api.md)
 - [Effects and model lifetime](docs/integrations.md)
 - [Compatibility and rendering evidence](docs/compatibility.md)
-- [Model composition validation](docs/model-composition-validation.md)
+- [Model composition and custom modifiers](docs/guide/model-composition.md)
+- [Public API and documentation audit](docs/api-audit.md)
 - [Production bundle measurements](docs/bundle-size.md)
 - [Runnable examples](examples) and [contributing](CONTRIBUTING.md)
 
@@ -167,4 +168,4 @@ Use [mutationAtoms](docs/reference/mutationAtoms.md) from `jotai-holo/query`
 to execute native TanStack mutations through a writable atom and expose
 independent status/data/error projections. It shares the application's
 `queryClientAtom`, works without React subscribers, and connects directly
-to `holo.write` and `bond.yield`.
+to `holo.write` and `bond.write`.

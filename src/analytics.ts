@@ -1,3 +1,4 @@
+import type { ModelModifierTag } from './model-modifier.js';
 import { bounded, isPromiseLike } from './async-task.js';
 import { atom, type Atom } from 'jotai/vanilla';
 import type { ActionSource } from './action-source.js';
@@ -247,7 +248,9 @@ export function modelAnalytics<Model extends object>(
     | Promise<(model: Model) => object & { then?: never }>,
   options: { onError?: (error: unknown) => void } = {},
 ) {
-  return <Initial>(source: ModelSource<Model, Initial>): ModelDefinition<Model, Initial> => {
+  const modifier = <Initial>(
+    source: ModelSource<Model, Initial>,
+  ): ModelDefinition<Model, Initial> => {
     const children = new WeakMap<Store, WeakMap<object, object>>();
     return addModelActivation(source, (model, _initial, store, scope) => {
       let models = children.get(store);
@@ -302,6 +305,7 @@ export function modelAnalytics<Model extends object>(
       };
     });
   };
+  return modifier as typeof modifier & ModelModifierTag;
 }
 
 /** JSON-compatible, detached and immutable provider message. */

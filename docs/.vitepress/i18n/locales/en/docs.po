@@ -31,7 +31,7 @@ msgid "| Task                                    | Start with                   
 "| Reactive external resource              | jotai-effect                        | input bridges committed props; models own managed connections           |\n"
 "| One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality        |\n"
 "| Async server cache                      | jotai-tanstack-query                | holo accepts its atoms; it adds no cache/retry engine                   |\n"
-"| Share one model across widgets          | createModel                         | Select a default or keyed instance in the current store                 |"
+"| Share one model across widgets          | modelRegistry                       | Select a default or keyed instance in the current store                 |"
 msgstr "| Task                                    | Start with                          | What holo adds                                                          |\n"
 "| --------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------- |\n"
 "| Local component state                   | useAtom / useAtomValue / useSetAtom | A declaration when repeated wiring deserves a separate binding          |\n"
@@ -41,7 +41,7 @@ msgstr "| Task                                    | Start with                  
 "| Reactive external resource              | jotai-effect                        | input bridges committed props; models own managed connections           |\n"
 "| One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality        |\n"
 "| Async server cache                      | jotai-tanstack-query                | holo accepts its atoms; it adds no cache/retry engine                   |\n"
-"| Share one model across widgets          | createModel                         | Select a default or keyed instance in the current store                 |"
+"| Share one model across widgets          | modelRegistry                       | Select a default or keyed instance in the current store                 |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -82,8 +82,8 @@ msgstr "[Jotai atom](https://jotai.org/docs/core/atom), [selectAtom](https://jot
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/ecosystem.md
-msgid "For keyed models without another scope provider, use [createModel](/reference/createModel). For Query factories with independent projections, use [queryAtoms](/reference/queryAtoms). For a form shared by an editor and an external toolbar, use [holoForm](/reference/holoForm). Native useQuery and useForm remain preferable where a separate model binding is unnecessary."
-msgstr "For keyed models without another scope provider, use [createModel](/reference/createModel). For Query factories with independent projections, use [queryAtoms](/reference/queryAtoms). For a form shared by an editor and an external toolbar, use [holoForm](/reference/holoForm). Native useQuery and useForm remain preferable where a separate model binding is unnecessary."
+msgid "For keyed models without another scope provider, use [modelRegistry](/reference/modelRegistry). For Query factories with independent projections, use [queryAtoms](/reference/queryAtoms). For a form shared by an editor and an external toolbar, use [holoForm](/reference/holoForm). Native useQuery and useForm remain preferable where a separate model binding is unnecessary."
+msgstr "For keyed models without another scope provider, use [modelRegistry](/reference/modelRegistry). For Query factories with independent projections, use [queryAtoms](/reference/queryAtoms). For a form shared by an editor and an external toolbar, use [holoForm](/reference/holoForm). Native useQuery and useForm remain preferable where a separate model binding is unnecessary."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -166,8 +166,8 @@ msgstr "Shared models and external resources"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Use [createModel](/reference/createModel) when several widgets need one model. The same definition, key and store select the same instance. Without a key, they select the default instance. Query and form bindings have separate entries, `jotai-holo/query` and `jotai-holo/rhf`."
-msgstr "Use [createModel](/reference/createModel) when several widgets need one model. The same definition, key and store select the same instance. Without a key, they select the default instance. Query and form bindings have separate entries, `jotai-holo/query` and `jotai-holo/rhf`."
+msgid "Use [modelRegistry](/reference/modelRegistry) when several widgets need one model. The same definition, key and store select the same instance. Without a key, they select the default instance. Query and form bindings have separate entries, `jotai-holo/query` and `jotai-holo/rhf`."
+msgstr "Use [modelRegistry](/reference/modelRegistry) when several widgets need one model. The same definition, key and store select the same instance. Without a key, they select the default instance. Query and form bindings have separate entries, `jotai-holo/query` and `jotai-holo/rhf`."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -255,6 +255,126 @@ msgstr "Live examples run the library in React, inside the Vue documentation she
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Model composition"
+msgstr "Model composition"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "A shipment page and its status badge need the same live status. A factory defines the atoms; modifiers decide how long the instance lives and when its tracking feed connects. The View receives ordinary props."
+msgstr "A shipment page and its status badge need the same live status. A factory defines the atoms; modifiers decide how long the instance lives and when its tracking feed connects. The View receives ordinary props."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Start with a pure factory"
+msgstr "Start with a pure factory"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "The factory creates a record synchronously. It does not open sockets, read storage or run hooks. Use a plain factory without a registry when the caller already owns the instance. Use a derived atom for a calculation, an action for a command and an event for a fact with independent consumers."
+msgstr "The factory creates a record synchronously. It does not open sockets, read storage or run hooks. Use a plain factory without a registry when the caller already owns the instance. Use a derived atom for a calculation, an action for a command and an event for a fact with independent consumers."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Compose responsibilities"
+msgstr "Compose responsibilities"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Call createShipmentDefinition once during application setup with your tracking adapter. Reuse the returned $$shipment definition outside React. pipe applies modifiers from left to right; it does not create a model until an instance is selected and read."
+msgstr "Call createShipmentDefinition once during application setup with your tracking adapter. Reuse the returned $$shipment definition outside React. pipe applies modifiers from left to right; it does not create a model until an instance is selected and read."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Two widgets selecting the same key in one store share atoms and one feed subscription. The first committed owner connects; the last release disconnects. Another key or store gets another instance. initial seeds creation only; changing input on an existing instance requires an explicit action or holo.input."
+msgstr "Two widgets selecting the same key in one store share atoms and one feed subscription. The first committed owner connects; the last release disconnects. Another key or store gets another instance. initial seeds creation only; changing input on an existing instance requires an explicit action or holo.input."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Modifier order and identity"
+msgstr "Modifier order and identity"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "modelRegistry establishes a registry namespace. Adding modelConnection, modelLifecycle or modelAnalytics to an existing definition preserves its records and shares inherited activations. Applying modelRegistry again establishes a separate namespace. Define the final pipeline once; rebuilding it creates different definitions."
+msgstr "modelRegistry establishes a registry namespace. Adding modelConnection, modelLifecycle or modelAnalytics to an existing definition preserves its records and shares inherited activations. Applying modelRegistry again establishes a separate namespace. Define the final pipeline once; rebuilding it creates different definitions."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Connections activate in declaration order and release in reverse order. If a later connection fails, earlier connections roll back. Keep dependencies explicit: reading another model does not acquire its connections, and keys do not propagate to dependencies automatically."
+msgstr "Connections activate in declaration order and release in reverse order. If a later connection fails, earlier connections roll back. Keep dependencies explicit: reading another model does not acquire its connections, and keys do not propagate to dependencies automatically."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Write a custom modifier"
+msgstr "Write a custom modifier"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "A modifier is an ordinary function from ModelSource to ModelDefinition. ModelSource accepts either a pure factory or an existing definition. modelConnection preserves the record and initial types, gives setup the selected store and creation input, and owns its synchronous disposer. It also shares setup across owners and handles rollback between modifiers."
+msgstr "A modifier is an ordinary function from ModelSource to ModelDefinition. ModelSource accepts either a pure factory or an existing definition. modelConnection preserves the record and initial types, gives setup the selected store and creation input, and owns its synchronous disposer. It also shares setup across owners and handles rollback between modifiers."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "The tracking adapter supplies the transport; the model never imports a socket singleton. Tests can pass a fake feed. The callback receives updates only while the connection is active. The adapter must unsubscribe and ignore late callbacks after cleanup. Setup must undo any partial work before throwing; a cleanup cannot undo work that failed before it was returned."
+msgstr "The tracking adapter supplies the transport; the model never imports a socket singleton. Tests can pass a fake feed. The callback receives updates only while the connection is active. The adapter must unsubscribe and ignore late callbacks after cleanup. Setup must undo any partial work before throwing; a cleanup cannot undo work that failed before it was returned."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Use modelLifecycle inside a custom modifier when the task is loading and saving snapshots. Use modelAnalytics for a lazy analytic child. modelConnection is for subscriptions or external handles with synchronous setup and cleanup. Do not use it for values that ion or a derived atom can calculate."
+msgstr "Use modelLifecycle inside a custom modifier when the task is loading and saving snapshots. Use modelAnalytics for a lazy analytic child. modelConnection is for subscriptions or external handles with synchronous setup and cleanup. Do not use it for values that ion or a derived atom can calculate."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Type preservation"
+msgstr "Type preservation"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Built-in modifiers preserve the model record, writable arguments, action results and initial input. pipe checks adjacent steps, including long chains of model-preserving modifiers. Give reusable custom modifiers an explicit ModelSource<Model, Initial> parameter so inference does not widen their input to object or any."
+msgstr "Built-in modifiers preserve the model record, writable arguments, action results and initial input. pipe checks adjacent steps, including long chains of model-preserving modifiers. Give reusable custom modifiers an explicit ModelSource<Model, Initial> parameter so inference does not widen their input to object or any."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "A connection modifier cannot add fields to the record. Add atoms in the factory, or compose pure factory functions before applying modelRegistry. A cast to ModelDefinition does not install ownership behavior. Public helpers avoid depending on internal symbols or registry maps."
+msgstr "A connection modifier cannot add fields to the record. Add atoms in the factory, or compose pure factory functions before applying modelRegistry. A cast to ModelDefinition does not install ownership behavior. Public helpers avoid depending on internal symbols or registry maps."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Select and own outside React"
+msgstr "Select and own outside React"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "A store.get read alone creates no connection. retainTime defaults to Infinity: state survives release, subscriptions do not. Use finite retention or explicit remove for unbounded keys. Await flush before removal when saved data matters; React cleanup cannot wait for a save."
+msgstr "A store.get read alone creates no connection. retainTime defaults to Infinity: state survives release, subscriptions do not. Use finite retention or explicit remove for unbounded keys. Await flush before removal when saved data matters; React cleanup cannot wait for a save."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "See [modelRegistry](/reference/modelRegistry), [modelConnection](/reference/modelConnection), [modelLifecycle](/reference/modelLifecycle) and [modelAnalytics](/reference/modelAnalytics) for individual contracts."
+msgstr "See [modelRegistry](/reference/modelRegistry), [modelConnection](/reference/modelConnection), [modelLifecycle](/reference/modelLifecycle) and [modelAnalytics](/reference/modelAnalytics) for individual contracts."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
 #: docs/guide/motivation.md
 msgid "Why jotai-holo"
 msgstr "Why jotai-holo"
@@ -323,7 +443,7 @@ msgid "| Need                           | Tool                        | Boundary
 "| Combine / project              | ion / prism                 | Jotai dependencies and Object.is                      |\n"
 "| React to a domain notification | bond                        | Explicit store-owned connection                       |\n"
 "| Bind / repeat / choose Views   | holo / holoList / holoMatch | Ordinary React props and model ownership              |\n"
-"| Share a model between widgets  | createModel                 | Instance selected by definition, key and store        |"
+"| Share a model between widgets  | modelRegistry               | Instance selected by definition, key and store        |"
 msgstr "| Need                           | Tool                        | Boundary                                              |\n"
 "| ------------------------------ | --------------------------- | ----------------------------------------------------- |\n"
 "| Store values / derived reads   | stateAtom                   | Native atom overloads, including writable derivations |\n"
@@ -331,7 +451,7 @@ msgstr "| Need                           | Tool                        | Boundar
 "| Combine / project              | ion / prism                 | Jotai dependencies and Object.is                      |\n"
 "| React to a domain notification | bond                        | Explicit store-owned connection                       |\n"
 "| Bind / repeat / choose Views   | holo / holoList / holoMatch | Ordinary React props and model ownership              |\n"
-"| Share a model between widgets  | createModel                 | Instance selected by definition, key and store        |"
+"| Share a model between widgets  | modelRegistry               | Instance selected by definition, key and store        |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -598,8 +718,8 @@ msgstr "Shared model resources"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/integrations.md
-msgid "An editor and its toolbar may need one model even when one widget is hidden. Put the connection in [createModel.resources](/reference/createModel#contract). The first committed owner starts it; the last owner releases it. Select the same key and store in both widgets. Keeping an instance with `retainTime: Infinity` does not keep released subscriptions active."
-msgstr "An editor and its toolbar may need one model even when one widget is hidden. Put the connection in [createModel.resources](/reference/createModel#contract). The first committed owner starts it; the last owner releases it. Select the same key and store in both widgets. Keeping an instance with `retainTime: Infinity` does not keep released subscriptions active."
+msgid "An editor and its toolbar may need one model even when one widget is hidden. Put the connection in [modelConnection](/reference/modelConnection). The first committed owner starts it; the last owner releases it. Select the same key and store in both widgets. Keeping an instance with `retainTime: Infinity` does not keep released subscriptions active."
+msgstr "An editor and its toolbar may need one model even when one widget is hidden. Put the connection in [modelConnection](/reference/modelConnection). The first committed owner starts it; the last owner releases it. Select the same key and store in both widgets. Keeping an instance with `retainTime: Infinity` does not keep released subscriptions active."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -628,8 +748,8 @@ msgstr "Use `input` for committed props, `jotai-effect` for reactive synchroniza
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/integrations.md
-msgid "Read [Jotai effect](https://jotai.org/docs/extensions/effect), [createModel](/reference/createModel) and [input](/reference/input) for their contracts and examples."
-msgstr "Read [Jotai effect](https://jotai.org/docs/extensions/effect), [createModel](/reference/createModel) and [input](/reference/input) for their contracts and examples."
+msgid "Read [Jotai effect](https://jotai.org/docs/extensions/effect), [modelRegistry](/reference/modelRegistry) and [input](/reference/input) for their contracts and examples."
+msgstr "Read [Jotai effect](https://jotai.org/docs/extensions/effect), [modelRegistry](/reference/modelRegistry) and [input](/reference/input) for their contracts and examples."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -682,8 +802,8 @@ msgstr "Connection ownership"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "Create the runtime before rendering. Give the Provider `runtime.store`, bind `runtime.model` outside render, and call `runtime.dispose()` when the session ends. For SSR, create a runtime per request. To share keyed models between widgets, use [createModel](/reference/createModel)."
-msgstr "Create the runtime before rendering. Give the Provider `runtime.store`, bind `runtime.model` outside render, and call `runtime.dispose()` when the session ends. For SSR, create a runtime per request. To share keyed models between widgets, use [createModel](/reference/createModel)."
+msgid "Create the runtime before rendering. Give the Provider `runtime.store`, bind `runtime.model` outside render, and call `runtime.dispose()` when the session ends. For SSR, create a runtime per request. To share keyed models between widgets, use [modelRegistry](/reference/modelRegistry)."
+msgstr "Create the runtime before rendering. Give the Provider `runtime.store`, bind `runtime.model` outside render, and call `runtime.dispose()` when the session ends. For SSR, create a runtime per request. To share keyed models between widgets, use [modelRegistry](/reference/modelRegistry)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -870,7 +990,6 @@ msgstr "Describe an operation that reads or updates atoms. For example, validate
 #: docs/reference/bond.md
 #: docs/reference/createAnalytics.md
 #: docs/reference/createFormModel.md
-#: docs/reference/createModel.md
 #: docs/reference/eq.md
 #: docs/reference/eventAtom.md
 #: docs/reference/formAtom.md
@@ -881,6 +1000,7 @@ msgstr "Describe an operation that reads or updates atoms. For example, validate
 #: docs/reference/input.md
 #: docs/reference/ion.md
 #: docs/reference/modelAnalytics.md
+#: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
 #: docs/reference/modelRegistry.md
 #: docs/reference/mutationAtoms.md
@@ -948,7 +1068,6 @@ msgstr "- `actionAtom((get, set, ...args) => result)` returns a writable atom wh
 #: docs/reference/bond.md
 #: docs/reference/createAnalytics.md
 #: docs/reference/createFormModel.md
-#: docs/reference/createModel.md
 #: docs/reference/eq.md
 #: docs/reference/eventAtom.md
 #: docs/reference/formAtom.md
@@ -959,6 +1078,7 @@ msgstr "- `actionAtom((get, set, ...args) => result)` returns a writable atom wh
 #: docs/reference/input.md
 #: docs/reference/ion.md
 #: docs/reference/modelAnalytics.md
+#: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
 #: docs/reference/modelRegistry.md
 #: docs/reference/mutationAtoms.md
@@ -1016,7 +1136,6 @@ msgstr "Native `atom(null, write)` already handles commands. This helper adds a 
 #: docs/reference/bond.md
 #: docs/reference/createAnalytics.md
 #: docs/reference/createFormModel.md
-#: docs/reference/createModel.md
 #: docs/reference/eq.md
 #: docs/reference/eventAtom.md
 #: docs/reference/formAtom.md
@@ -1027,6 +1146,7 @@ msgstr "Native `atom(null, write)` already handles commands. This helper adds a 
 #: docs/reference/input.md
 #: docs/reference/ion.md
 #: docs/reference/modelAnalytics.md
+#: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
 #: docs/reference/modelRegistry.md
 #: docs/reference/mutationAtoms.md
@@ -1080,10 +1200,8 @@ msgstr "Require every condition to pass. For example, enable ordering only when 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/and.md
-#: docs/reference/createModel.md
 #: docs/reference/eq.md
 #: docs/reference/formAtom.md
 #: docs/reference/holoForm.md
@@ -1172,14 +1290,14 @@ msgid "| Field   | Role                                             | If omitted
 "| trigger | Call notification or readable value-change clock | State becomes the clock                                |\n"
 "| guard   | `Atom<boolean>` or synchronous predicate         | Accept all                                             |\n"
 "| map     | Synchronous function returning an argument tuple | `[stateValue]` with state; otherwise trigger arguments |\n"
-"| yield   | Writable atom or `(get) => writableAtom`         | Publish the resulting tuple on the returned bond       |"
+"| write   | Writable atom or `(get) => writableAtom`         | Publish the resulting tuple on the returned bond       |"
 msgstr "| Field   | Role                                             | If omitted                                             |\n"
 "| ------- | ------------------------------------------------ | ------------------------------------------------------ |\n"
 "| state   | Atom, record or tuple sampled on delivery        | Use trigger arguments                                  |\n"
 "| trigger | Call notification or readable value-change clock | State becomes the clock                                |\n"
 "| guard   | `Atom<boolean>` or synchronous predicate         | Accept all                                             |\n"
 "| map     | Synchronous function returning an argument tuple | `[stateValue]` with state; otherwise trigger arguments |\n"
-"| yield   | Writable atom or `(get) => writableAtom`         | Publish the resulting tuple on the returned bond       |"
+"| write   | Writable atom or `(get) => writableAtom`         | Publish the resulting tuple on the returned bond       |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1202,8 +1320,8 @@ msgstr "Use the `notifying` from the example returned by `createNotifications(mo
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/bond.md
-msgid "A returned bond is a **read-only atom of the last accepted argument tuple or undefined**, plus a connection API. It is not a writable command. A downstream bond can use it as trigger and will connect/release the upstream automatically. Rejection by guard retains the previous tuple. A state-only output with no yield seeds on connect without publishing an occurrence; a target is not called merely because you connected."
-msgstr "A returned bond is a **read-only atom of the last accepted argument tuple or undefined**, plus a connection API. It is not a writable command. A downstream bond can use it as trigger and will connect/release the upstream automatically. Rejection by guard retains the previous tuple. A state-only output with no yield seeds on connect without publishing an occurrence; a target is not called merely because you connected."
+msgid "A returned bond is a **read-only atom of the last accepted argument tuple or undefined**, plus a connection API. It is not a writable command. A downstream bond can use it as trigger and will connect/release the upstream automatically. Rejection by guard retains the previous tuple. A state-only output with no write seeds on connect without publishing an occurrence; a target is not called merely because you connected."
+msgstr "A returned bond is a **read-only atom of the last accepted argument tuple or undefined**, plus a connection API. It is not a writable command. A downstream bond can use it as trigger and will connect/release the upstream automatically. Rejection by guard retains the previous tuple. A state-only output with no write seeds on connect without publishing an occurrence; a target is not called merely because you connected."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1224,8 +1342,8 @@ msgstr "- actionAtom / eventAtom: every successful synchronous call return, with
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/bond.md
-msgid "State and yield accept compatible native atoms. A yield getter resolves its target for each accepted occurrence, enabling store-local dependency injection without subscribing to the target selection."
-msgstr "State and yield accept compatible native atoms. A yield getter resolves its target for each accepted occurrence, enabling store-local dependency injection without subscribing to the target selection."
+msgid "State and write accept compatible native atoms. A write getter resolves its target for each accepted occurrence, enabling store-local dependency injection without subscribing to the target selection."
+msgstr "State and write accept compatible native atoms. A write getter resolves its target for each accepted occurrence, enabling store-local dependency injection without subscribing to the target selection."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1242,8 +1360,8 @@ msgstr "Delivery is FIFO, with a cycle limit. State is read when the queued step
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/bond.md
-msgid "The API borrows the sampling vocabulary from Effector: state/source, trigger/clock, guard/filter, map/fn, yield/target. Explicit connect gives a Jotai store an owner and disposer instead of installing permanent module-level effects. For state-driven reactive synchronization, jotai-effect.observe is usually simpler. For one direct command, calling set inside actionAtom is usually clearer."
-msgstr "The API borrows the sampling vocabulary from Effector: state/source, trigger/clock, guard/filter, map/fn, yield/target. Explicit connect gives a Jotai store an owner and disposer instead of installing permanent module-level effects. For state-driven reactive synchronization, jotai-effect.observe is usually simpler. For one direct command, calling set inside actionAtom is usually clearer."
+msgid "The API borrows the sampling vocabulary from Effector: state/source, trigger/clock, guard/filter, map/fn, write/target. Explicit connect gives a Jotai store an owner and disposer instead of installing permanent module-level effects. For state-driven reactive synchronization, jotai-effect.observe is usually simpler. For one direct command, calling set inside actionAtom is usually clearer."
+msgstr "The API borrows the sampling vocabulary from Effector: state/source, trigger/clock, guard/filter, map/fn, write/target. Explicit connect gives a Jotai store an owner and disposer instead of installing permanent module-level effects. For state-driven reactive synchronization, jotai-effect.observe is usually simpler. For one direct command, calling set inside actionAtom is usually clearer."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1366,86 +1484,6 @@ msgid "- [RHF createFormControl](https://react-hook-form.com/docs/createFormCont
 msgstr "- [RHF createFormControl](https://react-hook-form.com/docs/createFormControl) — native control outside React.\n"
 "- [RHF resolvers](https://github.com/react-hook-form/resolvers) — validation adapters and transformed output inference.\n"
 "- [RHF useForm](https://react-hook-form.com/docs/useform) — native options and defaults."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createModel.md
-msgid "createModel"
-msgstr "createModel"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createModel.md
-msgid "Share one model between widgets by key. A proposal editor and its toolbar select the same instance when they use the same key and Jotai store."
-msgstr "Share one model between widgets by key. A proposal editor and its toolbar select the same instance when they use the same key and Jotai store."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createModel.md
-msgid "Create and select an instance"
-msgstr "Create and select an instance"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createModel.md
-msgid "- `create(initial)` is pure and synchronous. Declare atom definitions, actions, and bonds here; declare connections in `resources(model)`. It returns an object.\n"
-"- The returned definition creates read-only model atoms. The same definition, structural key, and store resolve one instance. Different definitions or stores isolate instances. Without a key, the default instance is selected. An empty key is distinct from default.\n"
-"- Keys are JSON-like arrays: finite numbers, strings, booleans, null, arrays, and plain objects. Object property order does not matter; array order does. Undefined, functions, symbols, dates, cycles, and non-finite numbers are rejected. Keys are identifiers, not arbitrary objects.\n"
-"- `initial` is creation-only. A later caller with the same key does not reset a shared model. Define an explicit action for updates."
-msgstr "- `create(initial)` is pure and synchronous. Declare atom definitions, actions, and bonds here; declare connections in `resources(model)`. It returns an object.\n"
-"- The returned definition creates read-only model atoms. The same definition, structural key, and store resolve one instance. Different definitions or stores isolate instances. Without a key, the default instance is selected. An empty key is distinct from default.\n"
-"- Keys are JSON-like arrays: finite numbers, strings, booleans, null, arrays, and plain objects. Object property order does not matter; array order does. Undefined, functions, symbols, dates, cycles, and non-finite numbers are rejected. Keys are identifiers, not arbitrary objects.\n"
-"- `initial` is creation-only. A later caller with the same key does not reset a shared model. Define an explicit action for updates."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createModel.md
-msgid "Connect and release resources"
-msgstr "Connect and release resources"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createModel.md
-msgid "- Pure reads use weak caching and do not acquire resources. Abandoned render does not acquire ownership. A provisional instance may be recreated after collection.\n"
-"- `acquire` creates a lease. First owner acquires resources; last release invokes their synchronous cleanup. Exceptions propagate; ownership is rolled back if resource acquisition throws. Cleanup does not cancel async application work automatically.\n"
-"- `holo({ models: { proposal: Proposal }, … })` acquires after commit and releases on cleanup. Each named selector can choose a structural key from input props. read/write/resources factories receive the resolved named models. Changing model identity remounts the connected View."
-msgstr "- Pure reads use weak caching and do not acquire resources. Abandoned render does not acquire ownership. A provisional instance may be recreated after collection.\n"
-"- `acquire` creates a lease. First owner acquires resources; last release invokes their synchronous cleanup. Exceptions propagate; ownership is rolled back if resource acquisition throws. Cleanup does not cancel async application work automatically.\n"
-"- `holo({ models: { proposal: Proposal }, … })` acquires after commit and releases on cleanup. Each named selector can choose a structural key from input props. read/write/resources factories receive the resolved named models. Changing model identity remounts the connected View."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createModel.md
-msgid "Keep or remove a model"
-msgstr "Keep or remove a model"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createModel.md
-msgid "- `retainTime: Infinity` retains acquired instances for the store lifetime. It does **not** retain active subscriptions after release. Finite retainTime starts after the last release and is cancelled on reacquire. Zero schedules removal for the next task, so StrictMode replay can reacquire safely.\n"
-"- `remove` returns false for an active or absent instance, true after removal. Existing selection handles resolve a new generation on their next read. Infinity requires deliberate removal for unbounded key spaces."
-msgstr "- `retainTime: Infinity` retains acquired instances for the store lifetime. It does **not** retain active subscriptions after release. Finite retainTime starts after the last release and is cancelled on reacquire. Zero schedules removal for the next task, so StrictMode replay can reacquire safely.\n"
-"- `remove` returns false for an active or absent instance, true after removal. Existing selection handles resolve a new generation on their next read. Infinity requires deliberate removal for unbounded key spaces."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createModel.md
-msgid "In React, temporary Suspense hiding retains the lease. Actual unmount releases in a microtask after passive cleanup. Replacing the selected model or store closes the old lifecycle and resources before activating the new owner. onUnmount runs before its resources disconnect, so synchronous facts can reach connected bonds. Explicit lease.release() outside React remains synchronous."
-msgstr "In React, temporary Suspense hiding retains the lease. Actual unmount releases in a microtask after passive cleanup. Replacing the selected model or store closes the old lifecycle and resources before activating the new owner. onUnmount runs before its resources disconnect, so synchronous facts can reach connected bonds. Explicit lease.release() outside React remains synchronous."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createModel.md
-msgid "Use a key when separate parts of the screen need the same model. Store isolation separates users or requests; keys separate resources within that store. For a model used by only one widget, a plain atom factory may be enough."
-msgstr "Use a key when separate parts of the screen need the same model. Store isolation separates users or requests; keys separate resources within that store. For a model used by only one widget, a plain atom factory may be enough."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createModel.md
-msgid "- [Jotai store](https://jotai.org/docs/core/store) — values and ownership per store.\n"
-"- [TanStack Query keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys) — structural resource identity; the model registry does not implement network caching."
-msgstr "- [Jotai store](https://jotai.org/docs/core/store) — values and ownership per store.\n"
-"- [TanStack Query keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys) — structural resource identity; the model registry does not implement network caching."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1919,6 +1957,44 @@ msgstr "- [Dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScri
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/reference/modelConnection.md
+msgid "modelConnection"
+msgstr "modelConnection"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelConnection.md
+msgid "Connect a tracking feed while at least one widget owns a shipment model. Keep transport setup separate from atom construction."
+msgstr "Connect a tracking feed while at least one widget owns a shipment model. Keep transport setup separate from atom construction."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelConnection.md
+msgid "Import from jotai-holo/model. modelConnection(connect) returns a model-preserving modifier. connect receives the selected model and { store, initial }. It runs on the first active owner and returns a synchronous disposer or undefined. The final owner releases it; another activation reconnects. Declaration and reads do no connection work."
+msgstr "Import from jotai-holo/model. modelConnection(connect) returns a model-preserving modifier. connect receives the selected model and { store, initial }. It runs on the first active owner and returns a synchronous disposer or undefined. The final owner releases it; another activation reconnects. Declaration and reads do no connection work."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelConnection.md
+msgid "Connections compose in declaration order, clean up in reverse order, and roll back on setup failure. A modifier applied to an existing registry preserves its records. Different entries or stores have independent connections. Do not return a Promise; asynchronous initialization needs a cancellation and error policy inside the adapter, or modelLifecycle."
+msgstr "Connections compose in declaration order, clean up in reverse order, and roll back on setup failure. A modifier applied to an existing registry preserves its records. Different entries or stores have independent connections. Do not return a Promise; asynchronous initialization needs a cancellation and error policy inside the adapter, or modelLifecycle."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelConnection.md
+msgid "A custom modifier should reuse ownership and rollback without exposing registry internals. Return bonds directly from factories for atom-to-atom routing; use this helper for external subscriptions. See the [composition guide](/guide/model-composition) for modifier authoring and type preservation."
+msgstr "A custom modifier should reuse ownership and rollback without exposing registry internals. Return bonds directly from factories for atom-to-atom routing; use this helper for external subscriptions. See the [composition guide](/guide/model-composition) for modifier authoring and type preservation."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelConnection.md
+msgid "- [Jotai store](https://jotai.org/docs/core/store) — reads, writes and subscriptions in one store.\n"
+"- [TypeScript generics](https://www.typescriptlang.org/docs/handbook/2/generics.html) — preserving a factory's model and input types."
+msgstr "- [Jotai store](https://jotai.org/docs/core/store) — reads, writes and subscriptions in one store.\n"
+"- [TypeScript generics](https://www.typescriptlang.org/docs/handbook/2/generics.html) — preserving a factory's model and input types."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
 #: docs/reference/modelLifecycle.md
 msgid "modelLifecycle"
 msgstr "modelLifecycle"
@@ -2112,8 +2188,8 @@ msgstr "Use native useMutation when a component owns the operation. Use mutation
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/mutationAtoms.md
-msgid "atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.write and bond.yield. Observing all mutations, including those launched by useMutation, is a separate cache-level task."
-msgstr "atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.write and bond.yield. Observing all mutations, including those launched by useMutation, is a separate cache-level task."
+msgid "atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.write and bond.write. Observing all mutations, including those launched by useMutation, is a separate cache-level task."
+msgstr "atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.write and bond.write. Observing all mutations, including those launched by useMutation, is a separate cache-level task."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2168,8 +2244,8 @@ msgstr "Import from jotai-holo/model. pipe applies each modifier to the previous
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/pipe.md
-msgid "Flat composition makes each model responsibility visible without nested calls. Modifiers retain type inference and native atoms remain available inside the factory."
-msgstr "Flat composition makes each model responsibility visible without nested calls. Modifiers retain type inference and native atoms remain available inside the factory."
+msgid "Flat composition makes each model responsibility visible without nested calls. Modifiers retain type inference and native atoms remain available inside the factory. See the [composition guide](/guide/model-composition) for modifier order, custom connections and type preservation."
+msgstr "Flat composition makes each model responsibility visible without nested calls. Modifiers retain type inference and native atoms remain available inside the factory. See the [composition guide](/guide/model-composition) for modifier order, custom connections and type preservation."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2412,12 +2488,12 @@ msgid "- Store-specific, active immediately, no replay. Each subscription has in
 "- Callbacks are dispatched synchronously through a shared FIFO queue. Nested notifications are queued; delivery is not a durable job system.\n"
 "- Sync throws and returned Promise rejections go to that listener's onError; without one they are logged. Other consumers continue.\n"
 "- Listener return values are otherwise ignored. Stopping does not cancel already started async work. A rejection after disposal is logged instead of calling the disposed owner's error handler.\n"
-"- In holo, subscribe in `createModel.resources`. Holo acquires the model after commit and releases it after the last owner leaves. Use `observe` inside a resource connection for reactive subscription conditions. Outside React, application/session setup owns the returned disposer. Never subscribe during render."
+"- Use modelConnection for external listeners owned by a model. For atom-to-atom reactions, return a bond from the model factory. Outside React, application/session setup owns the disposer. Never subscribe during render."
 msgstr "- Store-specific, active immediately, no replay. Each subscription has independent ownership; `stop()` is idempotent.\n"
 "- Callbacks are dispatched synchronously through a shared FIFO queue. Nested notifications are queued; delivery is not a durable job system.\n"
 "- Sync throws and returned Promise rejections go to that listener's onError; without one they are logged. Other consumers continue.\n"
 "- Listener return values are otherwise ignored. Stopping does not cancel already started async work. A rejection after disposal is logged instead of calling the disposed owner's error handler.\n"
-"- In holo, subscribe in `createModel.resources`. Holo acquires the model after commit and releases it after the last owner leaves. Use `observe` inside a resource connection for reactive subscription conditions. Outside React, application/session setup owns the returned disposer. Never subscribe during render."
+"- Use modelConnection for external listeners owned by a model. For atom-to-atom reactions, return a bond from the model factory. Outside React, application/session setup owns the disposer. Never subscribe during render."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

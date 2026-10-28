@@ -1,6 +1,6 @@
 import { atom, createStore, Provider } from 'jotai';
 import { act, useEffect, useState } from 'react';
-import { createModel } from '../src/model.js';
+import { createModel } from '../src/model-registry.js';
 import { expect, test, vi } from 'vitest';
 import { actionAtom, holo, holoList, holoMatch, prism } from '../src/index.js';
 import { createHarness } from './browser-harness.js';

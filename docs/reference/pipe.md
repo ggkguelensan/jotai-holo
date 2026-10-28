@@ -22,7 +22,7 @@ Import from jotai-holo/model. pipe applies each modifier to the previous result.
 
 ## Why this API
 
-Flat composition makes each model responsibility visible without nested calls. Modifiers retain type inference and native atoms remain available inside the factory.
+Flat composition makes each model responsibility visible without nested calls. Modifiers retain type inference and native atoms remain available inside the factory. See the [composition guide](/guide/model-composition) for modifier order, custom connections and type preservation.
 
 ## Analogies and reading
 

@@ -23,7 +23,7 @@ for (const file of await files(path.resolve('examples'), ['.ts', '.tsx'])) {
   );
   assert.doesNotMatch(
     await readFile(file, 'utf8'),
-    /\b(?:bunshi|holoMolecule|ScopeProvider|useMolecule|InjectorProvider)\b/i,
+    /\b(?:bunshi|holoMolecule|ScopeProvider|useMolecule|InjectorProvider|createModel)\b/i,
     `Retired integration in ${file}`,
   );
 }
@@ -69,6 +69,11 @@ for (const file of pages) {
     assert.match(text, /\]\(https:\/\//, file);
   }
   if (file.includes('/reference/') || file.includes('/guide/') || file.includes('/recipes/')) {
+    assert.doesNotMatch(
+      text,
+      /\bcreateModel\b|\byield\s*:|\b(?:lifecycle|resources)\s*:/,
+      `Retired public API in ${file}`,
+    );
     for (const block of text.matchAll(/^```[^\n]*\n([\s\S]*?)^```/gm)) {
       for (const line of block[1].split('\n')) {
         assert.ok([...line].length <= 80, `Code fence exceeds 80 columns in ${file}: ${line}`);
@@ -111,7 +116,11 @@ for (const entry of ['src/index.ts', 'src/model.ts', 'src/query.ts', 'src/rhf.ts
   const source = await readFile(entry, 'utf8');
   const names = entry.endsWith('index.ts')
     ? [...source.matchAll(/export \{ (\w+) \}/g)].map((match) => match[1])
-    : [...source.matchAll(/export (?:function|const) (\w+)/g)].map((match) => match[1]);
+    : entry.endsWith('model.ts')
+      ? [...source.matchAll(/export \{ ([^}]+) \}/g)].flatMap((match) =>
+          match[1].split(',').map((name) => name.trim()),
+        )
+      : [...source.matchAll(/export (?:function|const) (\w+)/g)].map((match) => match[1]);
   for (const name of names) await access(path.join(root, 'reference', `${name}.md`));
 }
 

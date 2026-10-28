@@ -20,7 +20,7 @@ export const $$checkout = pipe(() => {
     trigger: orderSubmitted,
     guard: $enabled,
     map: (order) => [order.number],
-    yield: $receipt,
+    write: $receipt,
   });
 
   return { $enabled, $receipt, submit, receipt };
