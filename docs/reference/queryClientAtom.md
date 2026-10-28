@@ -1,6 +1,6 @@
 # queryClientAtom
 
-Give Jotai bindings the same QueryClient as the rest of the application. This lets `queryModel` and native `useQuery` share one cache.
+Give Jotai bindings the same QueryClient as the rest of the application. This lets `createQueryModel` and native `useQuery` share one cache.
 
 <Demo kind="query">
 
@@ -24,7 +24,7 @@ A native writable `Atom<QueryClient | null>`, initially null. Query bindings wit
 
 ## Why this API
 
-Explicit client ownership preserves hydration and cache sharing with native React Query. An explicit queryModel client is useful for a self-contained widget; this atom is useful for application-level configuration.
+Explicit client ownership preserves hydration and cache sharing with native React Query. An explicit createQueryModel client is useful for a self-contained widget; this atom is useful for application-level configuration.
 
 ## Analogies and reading
 

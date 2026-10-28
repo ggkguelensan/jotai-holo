@@ -79,6 +79,11 @@ msgstr "Server data, forms and saving"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
+msgid "Profile: creation and editing"
+msgstr "Profile: creation and editing"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
 msgid "Profile: command → fact → reaction"
 msgstr "Profile: command → fact → reaction"
 

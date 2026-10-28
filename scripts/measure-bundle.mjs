@@ -98,8 +98,8 @@ try {
     ['analytics', 'analytics', ['createAnalytics', 'modelAnalytics']],
     ['amplitude', 'analytics-amplitude', ['createAmplitudeAdapter']],
     ['persist', 'persist', ['persist', 'localStorageAdapter']],
-    ['query', 'query', ['queryModel', 'queryClientAtom']],
-    ['mutation', 'query', ['mutationAtoms', 'queryClientAtom']],
+    ['query', 'query', ['createQueryModel', 'queryClientAtom']],
+    ['mutation', 'query', ['createMutationModel', 'queryClientAtom']],
     ['rhf', 'rhf', ['createFormModel', 'holoForm', 'formAtom']],
   ]) {
     const input = `${fixture}/optional.js`;

@@ -78,7 +78,7 @@ Build first: some documentation fixtures import the package's compiled entry.
 
 - `eq`, `and`, `or`, `some`, `sum`: native derived atoms. Boolean branches and some short-circuit; sum reads all inputs. No extra subscriptions at declaration.
 - `modelRegistry`: per-store identity and structural keys. Pure reads are weakly retained; acquire/committed holo owns resources. Infinity retains committed models intentionally, while zero/finite retainTime removes released instances. `tests/model.test.ts`, `tests/model.browser.test.tsx` cover key/store replacement, ownership, Suspense and StrictMode.
-- `queryModel`: observer construction may occur on read; fetch/subscription starts only after mount. Independent prism outputs share one observer per store/client and release it after the last subscriber. `tests/query.test.ts`, `tests/query.browser.test.tsx` cover options factories, client/key replacement, data equality and native useQuery cache sharing.
+- `createQueryModel`: observer construction may occur on read; fetch/subscription starts only after mount. Independent prism outputs share one observer per store/client and release it after the last subscriber. `tests/query.test.ts`, `tests/query.browser.test.tsx` cover options factories, client/key replacement, data equality and native useQuery cache sharing.
 - `createFormModel` / `holoForm`: create native RHF controls per model instance, retain the resolver and values across bridge remount, and require one active form root per control. `tests/form-model.browser.test.tsx` covers independent forms, external panels, async transforming resolvers, field arrays and StrictMode.
 - `formAtom`: filtered native subscribe on mount, coalesced publication outside RHF callbacks, selected immutable snapshots with structural sharing, last-owner disposal. Native useFormState remains responsible for flags/errors.
 
@@ -88,7 +88,7 @@ Run `pnpm test:model-memory` for a forced-GC experiment with 300 instances per c
 
 ## Mutation execution
 
-`mutationAtoms` is lazy at declaration. Reading initializes an idle runtime but
+`createMutationModel` is lazy at declaration. Reading initializes an idle runtime but
 never builds a mutation or subscribes. Mounted projections and active executions
 share one native listener per store/client runtime. Execution retains it without
 UI subscribers, and the last owner releases it. Projections reuse `prism`.

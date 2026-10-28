@@ -7,7 +7,7 @@ import {
 } from '@tanstack/react-query';
 import { atom, createStore, type Atom, type WritableAtom } from 'jotai/vanilla';
 import { afterEach, expect, expectTypeOf, test, vi } from 'vitest';
-import { mutationAtoms, queryClientAtom } from '../src/query.js';
+import { createMutationModel, queryClientAtom } from '../src/query.js';
 import { actionAtom } from '../src/action-atom.js';
 import { eventAtom } from '../src/event-atom.js';
 import { bond } from '../src/bond.js';
@@ -51,7 +51,7 @@ function fixture(cache = client()) {
   const unused = vi.fn(() => {
     throw new Error('unused projection');
   });
-  const saving = mutationAtoms({
+  const saving = createMutationModel({
     client: cache,
     mutation: factory,
     prism: {
@@ -185,10 +185,12 @@ test('void/optional variables and absent prism require no extra arguments', asyn
   const cache = client();
   const store = createStore();
   store.set(queryClientAtom, cache);
-  const empty = mutationAtoms({ mutation: () => mutationOptions({ mutationFn: async () => 7 }) });
+  const empty = createMutationModel({
+    mutation: () => mutationOptions({ mutationFn: async () => 7 }),
+  });
   expect(await store.set(empty.mutate)).toBe(7);
   store.set(empty.reset);
-  const optional = mutationAtoms({
+  const optional = createMutationModel({
     mutation: () => mutationOptions({ mutationFn: async (input?: string) => input ?? 'default' }),
   });
   expect(await store.set(optional.mutate)).toBe('default');
@@ -200,7 +202,7 @@ test('store and client identities isolate runtime; A → B → A retains the rig
   const b = client();
   const $client = atom<QueryClient | null>(a);
   const calls: { client: QueryClient; pending: ReturnType<typeof deferred<number>> }[] = [];
-  const saving = mutationAtoms({
+  const saving = createMutationModel({
     client: $client,
     mutation: () =>
       mutationOptions({
@@ -271,7 +273,7 @@ test('native callbacks, async onMutate context, optimistic rollback and cache ho
   cache.setQueryData(['proposal'], 'old');
   const error = new Error('refused');
   let fail = false;
-  const saving = mutationAtoms({
+  const saving = createMutationModel({
     client: cache,
     mutation: () =>
       mutationOptions({
@@ -322,12 +324,15 @@ test('key defaults, retries, meta, scope serialization and paused mutations use 
       },
     });
     const store = createStore();
-    const retrying = mutationAtoms({ client: cache, mutation: () => ({ mutationKey: ['retry'] }) });
+    const retrying = createMutationModel({
+      client: cache,
+      mutation: () => ({ mutationKey: ['retry'] }),
+    });
     expect(await store.set(retrying.mutate)).toBe(5);
     expect(attempts).toBe(2);
     const calls: number[] = [];
     const gate = deferred<void>();
-    const serial = mutationAtoms({
+    const serial = createMutationModel({
       client: cache,
       mutation: () =>
         mutationOptions({
@@ -349,7 +354,7 @@ test('key defaults, retries, meta, scope serialization and paused mutations use 
     await Promise.all([first, second]);
     expect(calls).toEqual([1, 2]);
     onlineManager.setOnline(false);
-    const paused = mutationAtoms({
+    const paused = createMutationModel({
       client: cache,
       mutation: () => mutationOptions({ mutationFn: async () => 9 }),
       prism: { $paused: (r) => r.isPaused },
@@ -388,15 +393,15 @@ test('bond consumes mutate and observes call-time arguments, not successful comp
 
 test('invalid configuration fails clearly without creating a mutation', () => {
   const store = createStore();
-  const absent = mutationAtoms({ mutation: () => ({}) });
+  const absent = createMutationModel({ mutation: () => ({}) });
   expect(() => store.set(absent.mutate)).toThrow('provide the application QueryClient');
   for (const throwOnError of [true, () => true]) {
-    const saving = mutationAtoms({ client: client(), mutation: () => ({ throwOnError }) });
+    const saving = createMutationModel({ client: client(), mutation: () => ({ throwOnError }) });
     expect(() => store.set(saving.mutate)).toThrow('throwOnError is unsupported');
   }
   const bad = { mutation: () => ({}), prism: { mutate: () => 1 } };
   // @ts-expect-error Reserved names cannot shadow commands.
-  expect(() => mutationAtoms(bad)).toThrow('reserved');
+  expect(() => createMutationModel(bad)).toThrow('reserved');
 });
 
 // Type-only negative assertions must never execute.
@@ -447,7 +452,7 @@ test('typed error/context and discriminated snapshots retain native inference', 
   class SaveError extends Error {
     readonly code = 'SAVE';
   }
-  const saving = mutationAtoms({
+  const saving = createMutationModel({
     client: client(),
     mutation: () =>
       mutationOptions<number, SaveError, string, { before: string }>({
@@ -476,12 +481,12 @@ test('typed error/context and discriminated snapshots retain native inference', 
 test('client default throwOnError is rejected instead of silently ignored', () => {
   const cache = client();
   cache.setDefaultOptions({ mutations: { throwOnError: true } });
-  const saving = mutationAtoms({ client: cache, mutation: () => ({}) });
+  const saving = createMutationModel({ client: cache, mutation: () => ({}) });
   expect(() => createStore().set(saving.mutate)).toThrow('throwOnError is unsupported');
 });
 
 test('projection snapshots expose state without imperative methods', () => {
-  const saving = mutationAtoms({
+  const saving = createMutationModel({
     client: client(),
     mutation: () => ({}),
     prism: { $methods: (r) => 'mutate' in r || 'reset' in r },

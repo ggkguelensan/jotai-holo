@@ -59,6 +59,7 @@ void typeChecks;
 
 test('the public model entry exposes composition, not a second registry constructor', () => {
   expect(Object.keys(modelApi).sort()).toEqual([
+    'defineModel',
     'modelConnection',
     'modelLifecycle',
     'modelRegistry',

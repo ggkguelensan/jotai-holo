@@ -2,7 +2,7 @@ import { useLingui } from '@lingui/react/macro';
 import { QueryClient, mutationOptions } from '@tanstack/react-query';
 import type { createStore } from 'jotai';
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
-import { mutationAtoms, queryClientAtom } from 'jotai-holo/query';
+import { createMutationModel, queryClientAtom } from 'jotai-holo/query';
 
 // #region mutation
 const $discount = stateAtom(10);
@@ -25,7 +25,7 @@ const saveProposalMO = () =>
     },
   });
 
-const saving = mutationAtoms({
+const $$proposalMutation = createMutationModel({
   mutation: saveProposalMO,
 
   prism: {
@@ -36,7 +36,7 @@ const saving = mutationAtoms({
 });
 
 const save = actionAtom((get, set) =>
-  set(saving.mutate, {
+  set($$proposalMutation.mutate, {
     id: 'P-1042',
     discount: get($discount),
     comment: get($comment),
@@ -118,16 +118,16 @@ const Proposal = holo({
   read: {
     discount: $discount,
     comment: $comment,
-    proposal: saving.$proposal,
-    pending: saving.$pending,
-    error: saving.$error,
+    proposal: $$proposalMutation.$proposal,
+    pending: $$proposalMutation.$pending,
+    error: $$proposalMutation.$error,
   },
 
   write: {
     onDiscount: $discount,
     onComment: $comment,
     onSave: save,
-    onReset: saving.reset,
+    onReset: $$proposalMutation.reset,
   },
 });
 // #endregion mutation

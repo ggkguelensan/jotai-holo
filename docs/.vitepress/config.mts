@@ -25,8 +25,8 @@ const groups = (t: (message: string) => string) => [
       'modelAnalytics',
       'createAnalytics',
       'modelConnection',
-      'queryModel',
-      'mutationAtoms',
+      'createQueryModel',
+      'createMutationModel',
       'queryClientAtom',
       'createFormModel',
       'holoForm',
@@ -60,6 +60,7 @@ async function localeConfig(code: string, label: string, prefix: string) {
       text: t('Recipes'),
       items: [
         { text: t('Server data, forms and saving'), link: link('/recipes/server-data') },
+        { text: t('Profile: creation and editing'), link: link('/recipes/profile-composition') },
         { text: t('Profile: command → fact → reaction'), link: link('/recipes/profile') },
         { text: t('Effects and model lifetime'), link: link('/recipes/integrations') },
         { text: t('Spreadsheet formulas'), link: link('/recipes/spreadsheet') },

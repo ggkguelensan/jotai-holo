@@ -1,6 +1,6 @@
 import { actionAtom, eventAtom, holo } from 'jotai-holo';
 import { modelRegistry, pipe } from 'jotai-holo/model';
-import { mutationAtoms } from 'jotai-holo/query';
+import { createMutationModel } from 'jotai-holo/query';
 import {
   saveProposalMO,
   type Proposal,
@@ -13,7 +13,7 @@ import { SaveProposalView } from './proposal-views.js';
 export function createSavingProposalModel(initial: ProposalInput) {
   const proposal = createProposalModel(initial);
 
-  const saving = mutationAtoms({
+  const $$proposalMutation = createMutationModel({
     mutation: saveProposalMO,
     prism: {
       $pending: (result) => result.isPending,
@@ -25,11 +25,11 @@ export function createSavingProposalModel(initial: ProposalInput) {
 
   const save = actionAtom(async (get, set) => {
     const draft = get(proposal.$draft);
-    if (!draft || get(saving.$pending)) return;
+    if (!draft || get($$proposalMutation.$pending)) return;
 
     const submitted = { ...draft };
     try {
-      const saved = await set(saving.mutate, {
+      const saved = await set($$proposalMutation.mutate, {
         id: initial.proposalId,
         draft: submitted,
       });
@@ -39,7 +39,7 @@ export function createSavingProposalModel(initial: ProposalInput) {
     }
   });
 
-  return { ...proposal, saving, save, proposalSaved };
+  return { ...proposal, saving: $$proposalMutation, save, proposalSaved };
 }
 // #endregion saving-model
 

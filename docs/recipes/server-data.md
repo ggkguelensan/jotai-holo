@@ -92,7 +92,7 @@ The recipe's transport contract validates JSON responses with Zod. Reuse existin
 
 <<< @/../examples/recipes/proposal-api.ts#query-factory
 
-See [queryModel](/reference/queryModel), [mutationAtoms](/reference/mutationAtoms), [holoForm](/reference/holoForm) and [persist](/runtime#rhf-query-and-persistence) for the individual contracts.
+See [createQueryModel](/reference/createQueryModel), [createMutationModel](/reference/createMutationModel), [holoForm](/reference/holoForm) and [persist](/runtime#rhf-query-and-persistence) for the individual contracts.
 
 ## Reading
 

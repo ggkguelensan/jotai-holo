@@ -1,5 +1,5 @@
 import { holo, ion, stateAtom } from 'jotai-holo';
-import { queryModel } from 'jotai-holo/query';
+import { createQueryModel } from 'jotai-holo/query';
 import {
   proposalDetailQO,
   toDraft,
@@ -10,7 +10,7 @@ import { ProposalView } from './proposal-views.js';
 
 // #region server-model
 export function createProposalModel(initial: ProposalInput) {
-  const query = queryModel({
+  const $$proposalQuery = createQueryModel({
     query: () => proposalDetailQO(initial),
     prism: {
       $proposal: (result) => result.data,
@@ -25,19 +25,19 @@ export function createProposalModel(initial: ProposalInput) {
     (get) => {
       const local = get($localDraft);
       if (local) return local;
-      const proposal = get(query.$proposal);
+      const proposal = get($$proposalQuery.$proposal);
       return proposal ? toDraft(proposal) : null;
     },
     (_get, set, value: ProposalDraft) => set($localDraft, value),
   );
 
   const $total = ion(
-    { proposal: query.$proposal, draft: $draft },
+    { proposal: $$proposalQuery.$proposal, draft: $draft },
     ({ proposal, draft }) =>
       proposal && draft ? proposal.seatPrice * draft.seats : 0,
   );
 
-  return { ...query, $localDraft, $draft, $total };
+  return { ...$$proposalQuery, $localDraft, $draft, $total };
 }
 // #endregion server-model
 

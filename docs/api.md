@@ -30,6 +30,6 @@ See [holo](reference/holo.md), [modelRegistry](reference/modelRegistry.md), [inp
 
 Query and Mutation use the query entry. RHF uses named models and an explicit form selector. Persistence uses the persist entry and a library-independent codec. These modules are absent from ordinary holo imports.
 
-See [queryModel](reference/queryModel.md), [mutationAtoms](reference/mutationAtoms.md), [holoForm](reference/holoForm.md) and [persistence](runtime.md#rhf-query-and-persistence).
+See [createQueryModel](reference/createQueryModel.md), [createMutationModel](reference/createMutationModel.md), [holoForm](reference/holoForm.md) and [persistence](runtime.md#rhf-query-and-persistence).
 
 Optional factory declaration: [defineModel](reference/defineModel.md). Model modifiers: [modelRegistry](reference/modelRegistry.md), [modelLifecycle](reference/modelLifecycle.md), [modelAnalytics](reference/modelAnalytics.md). [createAnalytics](reference/createAnalytics.md) provides optional independent engine routing.

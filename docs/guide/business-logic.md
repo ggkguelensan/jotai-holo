@@ -52,7 +52,7 @@ Use native TanStack Query hooks near React consumers when only the UI needs the 
 
 <<< @/../examples/recipes/native-query.tsx#native-query
 
-Use queryModel only when an atom or model needs reactive server data, and mutationAtoms when an atom workflow needs to execute or observe its mutation. Even if these adapters already exist, a React-only consumer can still use native hooks with the same QueryClient. Do not route data through holo merely because it is available as atoms. Mutation keys do not make separate mutation observers share one execution state.
+Use createQueryModel only when an atom or model needs reactive server data, and createMutationModel when an atom workflow needs to execute or observe its mutation. Even if these adapters already exist, a React-only consumer can still use native hooks with the same QueryClient. Do not route data through holo merely because it is available as atoms. Mutation keys do not make separate mutation observers share one execution state.
 
 Use native useForm, Controller and FormProvider for a self-contained form. Add createFormModel, formAtom and holoForm only when the atom/model system must react to form values, validation, submission or other form state. Resolvers remain native RHF resolvers; the bridge does not replace them.
 

@@ -10,7 +10,7 @@ import { createStore, Provider } from 'jotai';
 import { act, StrictMode, Suspense, useLayoutEffect } from 'react';
 import { expect, test, vi } from 'vitest';
 import { holo } from '../src/holo.js';
-import { mutationAtoms, queryClientAtom } from '../src/query.js';
+import { createMutationModel, queryClientAtom } from '../src/query.js';
 import { createHarness, deferred } from './browser-harness.js';
 
 test('holo commits only changed projections, shares native Query cache and releases subscriptions', async () => {
@@ -26,7 +26,7 @@ test('holo commits only changed projections, shares native Query cache and relea
     queryFn: async () => ({ name: 'Draft' }),
   });
   client.setQueryData(detailQO.queryKey, { name: 'Draft' });
-  const saving = mutationAtoms({
+  const saving = createMutationModel({
     mutation: () =>
       mutationOptions({
         mutationKey: ['proposal', 'save'],
@@ -104,7 +104,7 @@ test('holo commits only changed projections, shares native Query cache and relea
 test('unmount during save does not cancel and remount reads its completed state', async () => {
   const client = new QueryClient({ defaultOptions: { mutations: { gcTime: 0 } } });
   const pending = deferred<number>();
-  const saving = mutationAtoms({
+  const saving = createMutationModel({
     client,
     mutation: () => mutationOptions({ mutationFn: async () => pending.promise }),
     prism: { $data: (r) => r.data },
@@ -143,7 +143,7 @@ test('an abandoned Suspense render creates no subscription or execution', async 
   const subscribe = vi.spyOn(MutationObserver.prototype, 'subscribe');
   const client = new QueryClient();
   let executions = 0;
-  const saving = mutationAtoms({
+  const saving = createMutationModel({
     client,
     mutation: () => mutationOptions({ mutationFn: async () => ++executions }),
     prism: { $data: (r) => r.data },

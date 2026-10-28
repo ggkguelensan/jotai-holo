@@ -39,13 +39,13 @@ try {
     import { persist, localStorageAdapter } from 'jotai-holo/persist';
     assert.equal(typeof persist, 'function');
     assert.equal(typeof localStorageAdapter, 'function');
-    import { mutationAtoms, queryModel, queryClientAtom } from 'jotai-holo/query';
+    import { createMutationModel, createQueryModel, queryClientAtom } from 'jotai-holo/query';
     import * as queryApi from 'jotai-holo/query';
-    assert.deepEqual(Object.keys(queryApi).sort(), ['mutationAtoms', 'queryClientAtom', 'queryModel']);
+    assert.deepEqual(Object.keys(queryApi).sort(), ['createMutationModel', 'createQueryModel', 'queryClientAtom']);
     import { QueryClient } from '@tanstack/query-core';
     import { createFormModel, formAtom, holoForm } from 'jotai-holo/rhf';
-    assert.equal(typeof queryModel, 'function');
-    assert.equal(typeof mutationAtoms, 'function');
+    assert.equal(typeof createQueryModel, 'function');
+    assert.equal(typeof createMutationModel, 'function');
     assert.equal(typeof holoForm, 'function');
     const createValue = modelApi.defineModel(() => ({value: 1}));
     const definition = pipe(createValue, modelRegistry());
@@ -78,7 +78,7 @@ try {
     assert.equal(store.get(formAtom(store.get(forms()).form, 'name')), '');
     assert.equal(store.get(queryClientAtom), null);
     const client = new QueryClient({defaultOptions: {mutations: {gcTime: 0}}});
-    const saving = mutationAtoms({client, mutation: () => ({mutationFn: async input => input + 1}), prism: {data: r => r.data}});
+    const saving = createMutationModel({client, mutation: () => ({mutationFn: async input => input + 1}), prism: {data: r => r.data}});
     assert.equal(await store.set(saving.mutate, 4), 5);
     assert.equal(store.get(saving.data), 5);
     client.clear();
@@ -99,10 +99,10 @@ try {
     `
     import { holo, stateAtom, actionAtom, eventAtom, bond, subscribeEvent } from 'jotai-holo';
     import { stateAtom as vanillaStateAtom } from 'jotai-holo/vanilla';
-    import { mutationAtoms } from 'jotai-holo/query';
+    import { createMutationModel } from 'jotai-holo/query';
     import { mutationOptions } from '@tanstack/react-query';
     import type { Atom } from 'jotai/vanilla';
-    const saving = mutationAtoms({
+    const saving = createMutationModel({
       mutation: () => mutationOptions({mutationFn: async (input: {id: string}) => input.id}),
       prism: {data: r => r.data},
     });
