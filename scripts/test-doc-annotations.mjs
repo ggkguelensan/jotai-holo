@@ -47,6 +47,19 @@ try {
     assert.equal(await page.locator('.code-note').count(), 3);
     for (const width of [2048, 1920, 1600, 1440, 1280, 960, 768, 390]) {
       await page.setViewportSize({ width, height: 1080 });
+      if (width === 768) {
+        assert.equal(await page.locator('.VPNavBarMenu').isVisible(), false);
+        const menu = page.locator('.VPNavBarHamburger');
+        await menu.click();
+        await page.locator('.VPNavScreen').waitFor({ state: 'visible' });
+        assert.equal(await page.locator('.VPNavScreenMenu a').count(), 5);
+        assert.ok(
+          await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
+          `${locale}: open tablet navigation fits`,
+        );
+        await menu.click();
+        await page.locator('.VPNavScreen').waitFor({ state: 'hidden' });
+      }
       await page.evaluate(async () => {
         await document.fonts.ready;
         for (let frame = 0; frame < 4; frame++)

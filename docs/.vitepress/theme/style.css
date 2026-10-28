@@ -31,6 +31,22 @@
 .VPNavBar .logo {
   border-radius: 5px;
 }
+/* Five translated section names need more room than the default tablet menu. */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .VPNavBar .VPNavBarMenu,
+  .VPNavBar .VPNavBarTranslations,
+  .VPNavBar .VPNavBarAppearance,
+  .VPNavBar .VPNavBarSocialLinks,
+  .VPNavBar .VPNavBarExtra {
+    display: none;
+  }
+  .VPNavBar .VPNavBarHamburger {
+    display: flex;
+  }
+  .VPNav .VPNavScreen {
+    display: block;
+  }
+}
 .VPSidebar {
   border-right: 1px solid var(--vp-c-divider);
 }
