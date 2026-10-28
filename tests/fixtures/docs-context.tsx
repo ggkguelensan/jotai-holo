@@ -154,7 +154,7 @@ export declare const loadSearchAnalytics: () => Promise<
 export type ProposalInput = { proposalId: string; discount: number; comment: string };
 export type Proposal = ProposalInput & { approved: boolean };
 export const proposalSaved = eventAtom<Proposal>();
-export const saving = createMutationModel({
+export const $$proposalMutation = createMutationModel({
   mutation: () => ({
     mutationFn: async (input: ProposalInput): Promise<Proposal> => ({ ...input, approved: true }),
   }),

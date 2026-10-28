@@ -28,7 +28,7 @@ Await the returned Promise to continue after this particular call. An error proj
 
 ```tsx
 const save = actionAtom(async (_get, set, input: ProposalInput) => {
-  const proposal = await set(saving.mutate, input);
+  const proposal = await set($$proposalMutation.mutate, input);
 
   set(proposalSaved, proposal);
   return proposal;
