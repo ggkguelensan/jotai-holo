@@ -1,4 +1,5 @@
 import { defineConfig } from '@lingui/cli';
+import { sourceDirectories } from './docs/.vitepress/content.mjs';
 import { extractor as babelExtractor } from '@lingui/cli/api';
 import { extractor } from './docs/.vitepress/i18n/extractor.mjs';
 import { catalogFormatter } from './docs/.vitepress/i18n/formatter.mjs';
@@ -14,10 +15,7 @@ export default defineConfig({
       path: '<rootDir>/docs/.vitepress/i18n/locales/{locale}/docs',
       include: [
         '<rootDir>/docs/index.md',
-        '<rootDir>/docs/guide',
-        '<rootDir>/docs/overview',
-        '<rootDir>/docs/reference',
-        '<rootDir>/docs/recipes',
+        ...sourceDirectories.map((dir) => `<rootDir>/docs/${dir}`),
       ],
     },
     {

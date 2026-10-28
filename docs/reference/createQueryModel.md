@@ -2,7 +2,7 @@
 
 Expose server data to atom workflows through independent projections. Use this adapter when atoms or models need reactive Query results; a React-only consumer can keep native Query hooks.
 
-Read the [TanStack Query overview](/overview/tanstack-query) for the complete workflow and live examples.
+Read the [TanStack Query overview](/topics/tanstack-models) for the complete workflow and live examples.
 
 ## Installation
 

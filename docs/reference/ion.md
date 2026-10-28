@@ -2,7 +2,7 @@
 
 Calculate one value from several atoms. In the cart below, quantity and discount determine the total.
 
-Read the [Jotai operators overview](/overview/jotai-operators) for the complete workflow and live examples.
+Read the [Jotai operators overview](/topics/atoms-and-models) for the complete workflow and live examples.
 
 <<< @/../examples/documentation.tsx#ion
 

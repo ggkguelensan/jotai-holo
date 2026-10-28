@@ -701,3 +701,18 @@
     border-top: 1px solid var(--vp-c-divider);
   }
 }
+
+/* File navigation stays with the example; all source blocks remain visible. */
+.example-files {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  padding: 12px 18px;
+  background: var(--vp-c-bg-soft);
+}
+.example-files ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.example-files a {
+  overflow-wrap: anywhere;
+}

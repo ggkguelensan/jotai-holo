@@ -2,7 +2,7 @@
 
 Require every condition to pass. For example, enable ordering only when a delivery method is available and the terms are accepted.
 
-Read the [Jotai operators overview](/overview/jotai-operators) for the complete workflow and live examples.
+Read the [Jotai operators overview](/topics/atoms-and-models) for the complete workflow and live examples.
 
 ## Usage
 

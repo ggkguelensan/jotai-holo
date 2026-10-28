@@ -1,23 +1,31 @@
-# Examples
+# Recipes
 
-Complete projects show how models, Views and integrations work together. Each article includes executable examples and links to their source.
+Choose the task first. Each recipe explains the smallest useful combination of tools, the data flow and the decisions the application must make.
 
-## [Server data, forms and saving](/recipes/server-data)
+## State and instances
 
-A sales team edits the seat count and customer comment of a proposal. These five recipes use the same request factories and Views. QueryClient owns server data; a model owns the user's draft. The examples expect your application to provide GET and PUT `/api/proposals/:id`; they do not install a demo backend.
+- [I need to share a value or select an independent instance](/topics/atoms-and-models#choose-by-the-task).
+- [I need a model to own a subscription](/recipes/integrations).
+- [I need a View to react to a model event](/topics/holo#imperative-view-methods).
 
-## [Profile: creation and editing](/recipes/profile-composition)
+## Server data and saving
 
-A profile model owns the username, avatar, biography and interests. It can derive an avatar color from the username. It does not know whether its input came from a wizard, an existing model, the server or local storage. Query models fetch data, mutation models save it, and application composition connects their results to the business model.
+- [I need server data in the atom/model system](/recipes/server-data#a-model-working-with-server-data).
+- [I need independent editors sharing server cache](/recipes/server-data#a-registry-model-working-with-server-data).
+- [I need to use existing data before loading](/recipes/profile-composition#use-existing-data-before-loading).
+- [I need to save a draft through a mutation](/recipes/server-data#a-model-saving-through-a-mutation).
+- [I need to keep edits made during a save](/recipes/profile-composition#editing-form).
+- [I need a local draft to survive reload](/recipes/server-data#a-model-saving-locally).
 
-## [Profile: command → fact → reaction](/recipes/profile)
+## Forms
 
-A user edits a draft and presses Save. A command validates input and persists it through an API. Only the successful response produces the fact `profileSaved`. A notification module reacts to that fact without controlling persistence.
+- [I need server defaults without overwriting edits](/recipes/server-data#a-form-initialized-from-server-data).
+- [I need a multi-step creation form](/recipes/profile-composition#creation-wizard).
+- [I need two independent editing sessions](/recipes/profile-composition#editing-form).
 
-## [Effects and model lifetime](/recipes/integrations)
+## Facts and analytics
 
-Choose what owns a subscription before connecting it. A resource may belong to one displayed value, a shared model or the whole application. That choice determines when cleanup runs.
-
-## [Spreadsheet formulas](/recipes/spreadsheet)
-
-Estimate a website project with a small spreadsheet: hours × rate, a 10% reserve, and a running total. Edit a number or replace a formula; dependent cells update immediately.
+- [I need a command to publish a confirmed fact](/recipes/profile).
+- [I need several Views to share one analytics connection](/examples/catalog-analytics).
+- [I need to load analytics on demand](/topics/analytics#connect-analytics-to-a-model).
+- [I need another analytics engine](/recipes/analytics-adapter).

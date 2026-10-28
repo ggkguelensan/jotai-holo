@@ -2,7 +2,7 @@
 
 Load a saved draft and save edits when its last owner leaves.
 
-Read [Model composition](/guide/model-composition) for the complete workflow and live examples.
+Read [Model composition](/topics/model-composition) for the complete workflow and live examples.
 
 ```ts
 const $$profile = pipe(

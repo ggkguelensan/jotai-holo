@@ -2,7 +2,7 @@
 
 Store an editable value or derive a value from other atoms. A draft name is state; its character count is derived state.
 
-Read the [Jotai operators overview](/overview/jotai-operators) for the complete workflow and live examples.
+Read the [Jotai operators overview](/topics/atoms-and-models) for the complete workflow and live examples.
 
 <<< @/../examples/documentation.tsx#state
 

@@ -5,7 +5,7 @@ Connect models and atoms to a React component. Declare the connection once, outs
 <span id="atoms-without-models"></span>
 <span id="named-models"></span>
 
-Read the [holo overview](/overview/holo) for the complete workflow and live examples.
+Read the [holo overview](/topics/holo) for the complete workflow and live examples.
 
 Use holo when decomposing a screen into small Views and moving business workflows into models. Bind subscriptions near the View that needs them. See [Business logic and small Views](/guide/business-logic) for when to keep native Query and RHF hooks.
 
@@ -27,6 +27,12 @@ Use holo when decomposing a screen into small Views and moving business workflow
 Only `view` is required.
 
 `read`, `write`, `static` and `imperative` supply View props. Pass the remaining props from the parent. `input` forwards selected incoming props to atoms; these props still reach the View.
+
+## Input
+
+input maps incoming prop names to writable atoms. Targets receive the initial committed value and then changes compared with Object.is. Generated read, write and imperative props cannot be input sources. The input props remain public and reach the View. Async failures go to onError.
+
+StrictMode replay does not repeat initial input. Abandoned renders publish nothing. Input cannot initialize pending state that prevents its own first commit. For creation-only values, use the model selection's initial data.
 
 ## Rendering and types
 

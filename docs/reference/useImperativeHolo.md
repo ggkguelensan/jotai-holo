@@ -2,7 +2,7 @@
 
 Keep router, DOM and editor methods inside View. Connect model events to those methods through `holo.imperative`, without storing React functions in atoms.
 
-Read the [holo overview](/overview/holo) for the complete workflow and live examples.
+Read the [holo overview](/topics/holo) for the complete workflow and live examples.
 
 ## Contract
 

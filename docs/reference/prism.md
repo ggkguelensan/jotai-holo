@@ -2,7 +2,7 @@
 
 Select several fields from one atom. Each field becomes an independent read-only atom, so a role change can leave the name View unchanged.
 
-Read the [Jotai operators overview](/overview/jotai-operators) for the complete workflow and live examples.
+Read the [Jotai operators overview](/topics/atoms-and-models) for the complete workflow and live examples.
 
 <<< @/../examples/documentation.tsx#prism
 

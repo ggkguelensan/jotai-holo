@@ -6,7 +6,7 @@ Share a model between an editor and a toolbar using the same key and Jotai store
 <span id="what-the-registry-adds"></span>
 <span id="when-a-registry-is-unnecessary"></span>
 
-Read the [Models and registry overview](/overview/models-and-registry) for the complete workflow and live examples.
+Read the [Models and registry overview](/topics/models-and-registries) for the complete workflow and live examples.
 
 ## Usage
 

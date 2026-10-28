@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 20:44+0500\n"
+"POT-Creation-Date: 2026-10-28 23:39+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,13 +24,23 @@ msgstr "React-Bindungen"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Integrations"
-msgstr "Integrationen"
+msgid "Models"
+msgstr "Modelle"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Start here"
-msgstr "Einstieg"
+msgid "Analytics"
+msgstr "Analytik"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Persistence"
+msgstr "Persistenz"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Introduction"
+msgstr "Einführung"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -44,23 +54,13 @@ msgstr "Warum jotai-holo?"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Business logic and small Views"
-msgstr "Geschäftslogik und kleine Views"
+msgid "Architecture and stack"
+msgstr "Architektur und Stack"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Choosing a tool"
-msgstr "Werkzeug wählen"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Overviews"
-msgstr "Überblicke"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "All topics"
-msgstr "Alle Themen"
+msgid "Topics"
+msgstr "Themen"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -79,28 +79,13 @@ msgstr "Modellkomposition"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "holoMatch and holoList"
-msgstr "holoMatch und holoList"
+msgid "Recipes"
+msgstr "Rezepte"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Analytics"
-msgstr "Analytik"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Jotai operators"
-msgstr "Jotai-Operatoren"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Examples"
-msgstr "Beispiele"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "All examples"
-msgstr "Alle Beispiele"
+msgid "Choose by the task"
+msgstr "Nach Aufgabe wählen"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -124,48 +109,73 @@ msgstr "Effekte und Modelllebensdauer"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
+msgid "Add an analytics engine"
+msgstr "Eine Analytics-Engine ergänzen"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Examples"
+msgstr "Beispiele"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "All examples"
+msgstr "Alle Beispiele"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Workshop tickets"
+msgstr "Veranstaltungstickets"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Independent profile fields"
+msgstr "Unabhängige Profilfelder"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Small Views and committed inputs"
+msgstr "Kleine Views und bestätigte Eingaben"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Order confirmation"
+msgstr "Bestellbestätigung"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Independent proposal drafts"
+msgstr "Unabhängige Angebotsentwürfe"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Product catalog"
+msgstr "Produktkatalog"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Proposal discount"
+msgstr "Angebotsrabatt"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Isolated contact forms"
+msgstr "Isolierte Kontaktformulare"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Rows and screen states"
+msgstr "Zeilen und Bildschirmzustände"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Catalog analytics"
+msgstr "Kataloganalyse"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
 msgid "Spreadsheet formulas"
 msgstr "Tabelle mit Formeln"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Engineering notes (English)"
-msgstr "Technische Berichte (Englisch)"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Compatibility"
-msgstr "Kompatibilität"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Bundle measurements"
-msgstr "Bundle-Größe"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Aggregation"
-msgstr "Aggregation"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Laziness and isolation audit"
-msgstr "Prüfung von Bedarfsausführung und Isolation"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Detailed contracts"
-msgstr "Ausführliche Verträge"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Operator contracts"
-msgstr "Operatorverträge"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Hosting the docs"
-msgstr "Dokumentation bereitstellen"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts

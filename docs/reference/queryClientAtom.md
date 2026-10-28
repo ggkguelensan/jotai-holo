@@ -2,7 +2,7 @@
 
 Give Jotai bindings the same QueryClient as the rest of the application. This lets `createQueryModel` and native `useQuery` share one cache.
 
-Read the [TanStack Query overview](/overview/tanstack-query) for the complete workflow and live examples.
+Read the [TanStack Query overview](/topics/tanstack-models) for the complete workflow and live examples.
 
 ```ts
 import { QueryClient } from '@tanstack/react-query';

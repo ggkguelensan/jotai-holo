@@ -2,11 +2,25 @@
 
 Load feature analytics when its business model acquires a committed owner.
 
-Read the [Analytics overview](/overview/analytics) for the complete workflow and live examples.
+Read the [Analytics overview](/topics/analytics) for the complete workflow and live examples.
+
+## Usage
+
+```ts
+const $$search = pipe(
+  createSearchModel,
+  modelRegistry(),
+  modelAnalytics(() =>
+    import('./search.analytics').then(
+      (module) => module.createSearchAnalyticsModel,
+    ),
+  ),
+);
+```
 
 ## Contract
 
-Import from jotai-holo/analytics. The loader returns a synchronous factory receiving the selected business model. Its returned managed declarations activate together and roll back on setup failure. Ordinary returned atoms remain lazy. Repeated modifiers load independently. Two owners share one child; retained parents reuse it on return. Last release stops observation. Late imports never activate a released owner.
+Import from jotai-holo/analytics. modelAnalytics(load, { onError? }) returns a model-preserving modifier. Errors default to console.error. The loader returns a synchronous factory receiving the selected business model. Its returned managed declarations activate together and roll back on setup failure. Ordinary returned atoms remain lazy. Repeated modifiers load independently. Two owners share one child; retained parents reuse it on return. Last release stops observation. Late imports never activate a released owner.
 
 Observation begins when the factory is ready. Earlier facts are not replayed with later state. If the first fact is essential, use an eagerly defined analytics declaration or load the feature before producing that fact. Already mapped engine messages can drain after release without observing the source.
 

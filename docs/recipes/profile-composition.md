@@ -65,7 +65,7 @@ $$profile and $$editor select the same business record for the same key and stor
 
 Start a new profile instance with emptyProfile and a key for that creation session. No Query model is needed. Keep one RHF control across the identity, biography, interests and review steps. Step navigation validates the relevant fields using native RHF trigger; moving between steps should not recreate the form or discard values.
 
-The wizard owns an editable form draft. Use RHF directly unless the atom/model graph needs form values or events. When it does, the current createFormModel and holoForm adapters expose the same native control. The proposed modelForm modifier is not implemented yet. A successful creation uses its own create-mutation options factory; the edit example above demonstrates saving the existing current profile.
+The wizard owns an editable form draft. Use RHF directly unless the atom/model graph needs form values or events. When it does, the current createFormModel and holoForm adapters expose the same native control. A successful creation uses its own create-mutation options factory; the edit example above demonstrates saving the existing current profile.
 
 ## Editing form
 

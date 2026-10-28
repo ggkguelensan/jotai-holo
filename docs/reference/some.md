@@ -2,7 +2,7 @@
 
 Find whether any input matches a condition. Check several price atoms, or check the items of one array atom.
 
-Read the [Jotai operators overview](/overview/jotai-operators) for the complete workflow and live examples.
+Read the [Jotai operators overview](/topics/atoms-and-models) for the complete workflow and live examples.
 
 ## Usage
 

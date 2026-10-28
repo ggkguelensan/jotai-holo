@@ -149,7 +149,7 @@ An async action returns its original promise to the caller. There is no automati
 - [Complete interface and lifecycle contract](docs/api.md)
 - [Effects and model lifetime](docs/integrations.md)
 - [Compatibility and rendering evidence](docs/compatibility.md)
-- [Model composition and custom modifiers](docs/guide/model-composition.md)
+- [Model composition and custom modifiers](docs/topics/model-composition.md)
 - [Public API and documentation audit](docs/api-audit.md)
 - [Production bundle measurements](docs/bundle-size.md)
 - [Runnable examples](examples) and [contributing](CONTRIBUTING.md)

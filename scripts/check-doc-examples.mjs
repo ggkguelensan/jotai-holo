@@ -2,13 +2,14 @@ import assert from 'node:assert/strict';
 import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import ts from 'typescript';
+import { sourceDirectories } from '../docs/.vitepress/content.mjs';
 
 const root = process.cwd();
 const configFile = ts.readConfigFile(path.join(root, 'tsconfig.json'), ts.sys.readFile);
 const { options } = ts.parseJsonConfigFileContent(configFile.config, ts.sys, root);
 const context = path.join(root, 'tests/fixtures/docs-context.tsx');
 const files = ['README.md'];
-for (const directory of ['docs', 'docs/guide', 'docs/overview', 'docs/reference', 'docs/recipes']) {
+for (const directory of ['docs', ...sourceDirectories.map((dir) => `docs/${dir}`)]) {
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith('.md')) files.push(`${directory}/${entry.name}`);
   }
@@ -111,7 +112,7 @@ for (const file of files) {
           let { module, name: imported } = imports.get(name);
           if (
             name === 'CounterView' &&
-            ['docs/reference/holo.md', 'docs/overview/holo.md'].includes(file)
+            ['docs/reference/holo.md', 'docs/topics/holo.md'].includes(file)
           )
             imported = 'CounterIncrementView';
           if (name === 'CounterView' && file === 'docs/integrations.md')

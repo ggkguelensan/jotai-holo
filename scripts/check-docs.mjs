@@ -1,5 +1,6 @@
 import { readFile, readdir, access } from 'node:fs/promises';
 import path from 'node:path';
+import ts from 'typescript';
 import { createMarkdownRenderer } from 'vitepress';
 import assert from 'node:assert/strict';
 import { locales } from '../docs/.vitepress/i18n/locales.mjs';
@@ -56,7 +57,7 @@ for (const file of pages) {
     /\b(?:core|bindProps|cage)\s*:|^\s*(?:props|staticProps|inputProps)\s*:|ctx\.props|holo\.inputProps\b|\/reference\/(?:cage|inputProps)\b/m,
     `Retired holo syntax in ${file}`,
   );
-  if (file.includes('/reference/')) {
+  if (file.includes('/reference/') && !text.startsWith('---\nsearch: false')) {
     const translated = locales.some(
       (locale) => locale.prefix && file.startsWith(root + locale.prefix + path.sep),
     );
@@ -78,7 +79,7 @@ for (const file of pages) {
   if (
     file.includes('/reference/') ||
     file.includes('/guide/') ||
-    file.includes('/overview/') ||
+    file.includes('/topics/') ||
     file.includes('/recipes/')
   ) {
     assert.doesNotMatch(
@@ -140,18 +141,39 @@ for (const file of pages) {
   }
 }
 
-for (const entry of ['src/index.ts', 'src/model.ts', 'src/query.ts', 'src/rhf.ts']) {
-  const source = await readFile(entry, 'utf8');
-  const names = entry.endsWith('index.ts')
-    ? [...source.matchAll(/export \{ (\w+) \}/g)].map((match) => match[1])
-    : entry.endsWith('model.ts')
-      ? [...source.matchAll(/export \{ ([^}]+) \}/g)].flatMap((match) =>
-          match[1].split(',').map((name) => name.trim()),
-        )
-      : [...source.matchAll(/export (?:function|const) (\w+)/g)].map((match) => match[1]);
-  for (const name of names) await access(path.join(root, 'reference', `${name}.md`));
+// TypeScript resolves re-exports and distinguishes runtime utilities from types.
+// Derive entry points from the package manifest so optional integrations cannot drift.
+const manifest = JSON.parse(await readFile('package.json', 'utf8'));
+const entries = Object.values(manifest.exports)
+  .filter((entry) => typeof entry === 'object' && entry.import)
+  .map((entry) => entry.import.replace('./dist/', 'src/').replace(/\.js$/, '.ts'));
+const program = ts.createProgram(entries, {
+  module: ts.ModuleKind.NodeNext,
+  moduleResolution: ts.ModuleResolutionKind.NodeNext,
+});
+const checker = program.getTypeChecker();
+const exported = new Set();
+for (const entry of entries) {
+  const source = program.getSourceFile(entry);
+  for (let symbol of checker.getExportsOfModule(checker.getSymbolAtLocation(source))) {
+    const name = symbol.name;
+    if (symbol.flags & ts.SymbolFlags.Alias) symbol = checker.getAliasedSymbol(symbol);
+    if (!(symbol.flags & ts.SymbolFlags.Value)) continue;
+    exported.add(name);
+    await access(path.join(root, 'reference', `${name}.md`));
+  }
 }
+for (const file of localized.filter((file) => /^(?:topics|reference)\//.test(file))) {
+  const source = await readFile(path.join(root, file), 'utf8');
+  assert.doesNotMatch(source, /<Demo\b/, `Full applications belong in examples: ${file}`);
+}
+assert.equal(
+  (await readdir(path.join(root, 'topics'))).filter(
+    (file) => file.endsWith('.md') && file !== 'index.md',
+  ).length,
+  7,
+);
 
 console.log(
-  `Documentation: ${pages.length} pages, ${localized.length} public pages in ${locales.length} languages, ${snippets} source snippets checked.`,
+  `Documentation: ${pages.length} pages, ${localized.length} public pages in ${locales.length} languages, ${snippets} source snippets and ${exported.size} public utilities checked.`,
 );

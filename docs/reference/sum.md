@@ -2,7 +2,7 @@
 
 Add numeric atom values. For example, calculate an order total from goods and delivery charges.
 
-Read the [Jotai operators overview](/overview/jotai-operators) for the complete workflow and live examples.
+Read the [Jotai operators overview](/topics/atoms-and-models) for the complete workflow and live examples.
 
 ## Usage
 

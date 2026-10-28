@@ -2,7 +2,7 @@
 
 Connect a form model to an RHF View. Keep `register`, `Controller` and `useFormContext` in the View; let other widgets use the same model's atoms and actions.
 
-Read the [React Hook Form overview](/overview/react-hook-form) for the complete workflow and live examples.
+Read the [React Hook Form overview](/topics/rhf-models) for the complete workflow and live examples.
 
 ## Usage
 

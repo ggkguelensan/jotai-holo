@@ -2,7 +2,7 @@
 
 Connect a tracking feed while at least one widget owns a shipment model. Keep transport setup separate from atom construction.
 
-Read [Model composition](/guide/model-composition) for the complete workflow and live examples.
+Read [Model composition](/topics/model-composition) for the complete workflow and live examples.
 
 <<< @/../examples/model-composition.ts#modifier
 
@@ -14,7 +14,7 @@ Connections compose in declaration order, clean up in reverse order, and roll ba
 
 ## Why this API
 
-A custom modifier should reuse ownership and rollback without exposing registry internals. Return bonds directly from factories for atom-to-atom routing; use this helper for external subscriptions. See the [composition guide](/guide/model-composition) for modifier authoring and type preservation.
+A custom modifier should reuse ownership and rollback without exposing registry internals. Return bonds directly from factories for atom-to-atom routing; use this helper for external subscriptions. See the [composition guide](/topics/model-composition) for modifier authoring and type preservation.
 
 ## Analogies and reading
 
