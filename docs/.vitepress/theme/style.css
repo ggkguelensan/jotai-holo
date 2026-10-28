@@ -603,6 +603,10 @@
   padding: 24px;
   gap: 16px;
 }
+.demo-analytics-search {
+  display: grid;
+  gap: 16px;
+}
 .vp-doc ul.demo-analytics-products {
   display: grid;
   gap: 8px;

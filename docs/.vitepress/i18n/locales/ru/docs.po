@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 20:00+0500\n"
+"POT-Creation-Date: 2026-10-28 20:17+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2107,6 +2107,14 @@ msgstr "createAnalytics"
 #: docs/reference/createAnalytics.md
 msgid "Map business facts independently for each analytics engine. A search fact can go to two engines while a product-open fact goes only to a third."
 msgstr "Преобразуйте доменные факты отдельно для каждого движка аналитики. Факт завершения поиска может отправляться в два движка, а факт открытия товара — только в третий."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createAnalytics.md
+#: docs/reference/modelAnalytics.md
+msgid "The search form, product list and product details each connect to the same $$search model through their own holo. Each View subscribes only to the values it displays. Analytics is attached once to the model: additional View owners share the connection, so one fact produces one delivery per selected engine. Removing one View leaves observation active until the final owner releases it."
+msgstr "Форма поиска, список товаров и карточка товара подключаются к одной модели $$search через отдельные holo. Каждая View подписывается только на отображаемые значения. Аналитика подключена к модели один раз: дополнительные View совместно владеют подключением, поэтому один факт даёт одну отправку в каждый выбранный движок. Уход одной View не останавливает наблюдение, пока остаются другие владельцы."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

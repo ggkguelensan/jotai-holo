@@ -2,34 +2,32 @@ import { useLingui } from '@lingui/react/macro';
 import { holo } from 'jotai-holo';
 import {
   $deliveries,
-  $$recordedSearch,
+  $$recordedSearch as $$search,
   type Delivery,
 } from './analytics-recording.js';
 import type { Product } from '../analytics/search-model.js';
 
 // #region analytics
-function SearchAnalyticsView({
+function SearchFormView({
   query,
-  products,
-  selectedProduct,
   onTermChange,
   onSearch,
-  onProductOpen,
-  onProductClose,
 }: {
   initialTerm: string;
   query: string;
-  products: readonly Product[];
-  selectedProduct: Product | null;
-  onProductClose: () => void;
   onTermChange: (value: string) => void;
   onSearch: () => void;
-  onProductOpen: (fact: { productId: string; position: number }) => void;
 }) {
   const { t } = useLingui();
 
   return (
-    <div className="demo-form demo-analytics-catalog">
+    <form
+      className="demo-analytics-search"
+      onSubmit={(event) => {
+        event.preventDefault();
+        onSearch();
+      }}
+    >
       <span className="demo-eyebrow">{t`Product catalog`}</span>
       <label>
         {t`Search products`}
@@ -38,58 +36,100 @@ function SearchAnalyticsView({
           onChange={(event) => onTermChange(event.target.value)}
         />
       </label>
-      <button type="button" onClick={onSearch}>
-        {t`Search`}
-      </button>
-      <ul className="demo-analytics-products">
-        {products.map((product, position) => (
-          <li key={product.id}>
-            <button
-              onClick={() =>
-                onProductOpen({
-                  productId: product.id,
-                  position,
-                })
-              }
-            >
-              {product.name} · ${product.price}
-            </button>
-          </li>
-        ))}
-      </ul>
-      {selectedProduct && (
-        <article>
-          <h3>{t`Product details`}</h3>
-          <p>
-            {selectedProduct.name} · ${selectedProduct.price}
-          </p>
-          <button onClick={onProductClose}>{t`Close details`}</button>
-        </article>
-      )}
-    </div>
+      <button type="submit">{t`Search`}</button>
+    </form>
   );
 }
 
-const SearchAnalytics = holo({
-  models: { search: $$recordedSearch },
-  view: SearchAnalyticsView,
+const SearchForm = holo({
+  models: { search: $$search },
+  view: SearchFormView,
 
-  read: ({ search }) => ({
-    query: search.$query,
-    products: search.$products,
-    selectedProduct: search.$selectedProduct,
-  }),
+  read: ({ search: $$search }) => ({ query: $$search.$query }),
 
-  write: ({ search }) => ({
-    onTermChange: search.termChanged,
-    onSearch: search.search,
-    onProductOpen: search.openProduct,
-    onProductClose: search.closeProduct,
+  write: ({ search: $$search }) => ({
+    onTermChange: $$search.termChanged,
+    onSearch: $$search.search,
   }),
 
   static: { initialTerm: 'desk' },
-  input: ({ search }) => ({ initialTerm: search.termChanged }),
+  input: ({ search: $$search }) => ({
+    initialTerm: $$search.termChanged,
+  }),
 });
+
+function ProductListView({
+  products,
+  onProductOpen,
+}: {
+  products: readonly Product[];
+  onProductOpen: (fact: { productId: string; position: number }) => void;
+}) {
+  return (
+    <ul className="demo-analytics-products">
+      {products.map((product, position) => (
+        <li key={product.id}>
+          <button
+            onClick={() => onProductOpen({ productId: product.id, position })}
+          >
+            {product.name} · ${product.price}
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+const ProductList = holo({
+  models: { search: $$search },
+  view: ProductListView,
+
+  read: ({ search: $$search }) => ({ products: $$search.$products }),
+
+  write: ({ search: $$search }) => ({
+    onProductOpen: $$search.openProduct,
+  }),
+});
+
+function ProductDetailsView({
+  product,
+  onClose,
+}: {
+  product: Product | null;
+  onClose: () => void;
+}) {
+  const { t } = useLingui();
+  if (!product) return null;
+
+  return (
+    <article>
+      <h3>{t`Product details`}</h3>
+      <p>
+        {product.name} · ${product.price}
+      </p>
+      <button onClick={onClose}>{t`Close details`}</button>
+    </article>
+  );
+}
+
+const ProductDetails = holo({
+  models: { search: $$search },
+  view: ProductDetailsView,
+
+  read: ({ search: $$search }) => ({ product: $$search.$selectedProduct }),
+
+  write: ({ search: $$search }) => ({ onClose: $$search.closeProduct }),
+});
+
+function ProductCatalog() {
+  return (
+    <div className="demo-form demo-analytics-catalog">
+      <SearchForm />
+      <ProductList />
+      <ProductDetails />
+    </div>
+  );
+}
 // #endregion analytics
 
 function DeliveryConsoleView({
@@ -145,7 +185,7 @@ const DeliveryConsole = holo({
 export default function AnalyticsDemo() {
   return (
     <div className="demo-analytics">
-      <SearchAnalytics />
+      <ProductCatalog />
       <DeliveryConsole />
     </div>
   );

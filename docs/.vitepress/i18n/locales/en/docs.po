@@ -2109,6 +2109,14 @@ msgid "Map business facts independently for each analytics engine. A search fact
 msgstr "Map business facts independently for each analytics engine. A search fact can go to two engines while a product-open fact goes only to a third."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createAnalytics.md
+#: docs/reference/modelAnalytics.md
+msgid "The search form, product list and product details each connect to the same $$search model through their own holo. Each View subscribes only to the values it displays. Analytics is attached once to the model: additional View owners share the connection, so one fact produces one delivery per selected engine. Removing one View leaves observation active until the final owner releases it."
+msgstr "The search form, product list and product details each connect to the same $$search model through their own holo. Each View subscribes only to the values it displays. Analytics is attached once to the model: additional View owners share the connection, so one fact produces one delivery per selected engine. Removing one View leaves observation active until the final owner releases it."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createAnalytics.md
 msgid "Import from jotai-holo/analytics. Define engines once and reuse the declaration across feature models. Factories initialize on the first mapped message, independently per engine and store. event declares managed observation: trigger causes delivery, state supplies a snapshot, and each map entry prepares one engine message. State changes alone send nothing. Event atoms preserve repeated equal payloads; native atom triggers observe value changes."

@@ -3,11 +3,11 @@ import type { SearchModel } from './search-model.js';
 
 // #region search-analytics
 export function createSearchAnalyticsModel(
-  search: SearchModel,
+  $$search: SearchModel,
   analytics = $$analytics,
 ) {
   const searchCompleted = analytics.event({
-    trigger: search.searchCompleted,
+    trigger: $$search.searchCompleted,
 
     map: {
       amplitude: (fact) => ({
@@ -31,7 +31,7 @@ export function createSearchAnalyticsModel(
   });
 
   const productOpened = analytics.event({
-    trigger: search.productOpened,
+    trigger: $$search.productOpened,
 
     map: {
       posthog: (fact) => ({

@@ -2,6 +2,8 @@
 
 Map business facts independently for each analytics engine. A search fact can go to two engines while a product-open fact goes only to a third.
 
+The search form, product list and product details each connect to the same $$search model through their own holo. Each View subscribes only to the values it displays. Analytics is attached once to the model: additional View owners share the connection, so one fact produces one delivery per selected engine. Removing one View leaves observation active until the final owner releases it.
+
 <Demo kind="analytics">
 
 <<< @/../examples/docs/analytics.tsx#analytics

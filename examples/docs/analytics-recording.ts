@@ -18,7 +18,7 @@ export const $deliveries = stateAtom<readonly Delivery[]>([]);
 export const $$recordedSearch = pipe(
   createSearchModel,
   modelRegistry(),
-  modelConnection((search, { store }) => {
+  modelConnection(($$search, { store }) => {
     let sequence = store.get($deliveries).at(-1)?.id ?? 0;
     const analytics = createRecordingAnalytics((engine, message) => {
       store.set($deliveries, (entries) =>
@@ -29,8 +29,8 @@ export const $$recordedSearch = pipe(
       const { createSearchAnalyticsModel } = await import(
         '../analytics/search.analytics.js'
       );
-      return (model) => createSearchAnalyticsModel(model, analytics);
-    })(() => search);
+      return ($$model) => createSearchAnalyticsModel($$model, analytics);
+    })(() => $$search);
     const { release } = observation.acquire(store);
 
     return () => {

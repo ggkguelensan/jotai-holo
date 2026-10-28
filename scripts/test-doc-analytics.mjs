@@ -34,7 +34,9 @@ try {
     });
   });
   browser = await chromium.launch();
-  for (const locale of ['', 'ru/', 'de/', 'kk/']) {
+  for (const { locale, reference } of ['', 'ru/', 'de/', 'kk/'].flatMap((locale) =>
+    ['createAnalytics', 'modelAnalytics'].map((reference) => ({ locale, reference })),
+  )) {
     const page = await browser.newPage({
       viewport: { width: 1440, height: 1000 },
       colorScheme: 'dark',
@@ -42,7 +44,7 @@ try {
     });
     const errors = [];
     page.on('pageerror', (error) => errors.push(error.message));
-    await page.goto(`${origin}${base}${locale}reference/modelAnalytics`);
+    await page.goto(`${origin}${base}${locale}reference/${reference}`);
     const demo = page.locator('[data-demo="analytics"]');
     await demo.locator('input').waitFor();
     // Model analytics loads after commit; wait for that module before producing facts.
@@ -53,7 +55,8 @@ try {
     );
     const consolePane = demo.locator('.demo-analytics-console');
     const catalog = demo.locator('.demo-analytics-catalog');
-    await catalog.locator('button').first().click();
+    if (reference === 'createAnalytics') await catalog.locator('input').press('Enter');
+    else await catalog.locator('button').first().click();
     await consolePane.locator('li').nth(1).waitFor();
     assert.equal(await consolePane.locator('li').count(), 2);
     assert.match(await consolePane.innerText(), /amplitude/);
@@ -71,7 +74,7 @@ try {
     const left = await catalog.boundingBox();
     const right = await consolePane.boundingBox();
     assert.ok(right.x >= left.x + left.width - 1, 'Console must be to the right.');
-    if (locale === 'ru/') {
+    if (locale === 'ru/' && reference === 'createAnalytics') {
       await demo
         .locator('..')
         .screenshot({ path: '.vercel/analytics-desktop.png', animations: 'disabled' });
@@ -84,7 +87,7 @@ try {
       await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1),
       false,
     );
-    if (locale === 'ru/') {
+    if (locale === 'ru/' && reference === 'createAnalytics') {
       await demo
         .locator('..')
         .screenshot({ path: '.vercel/analytics-mobile.png', animations: 'disabled' });
@@ -100,7 +103,7 @@ try {
     await page.close();
   }
   console.log(
-    'Analytics console: deliveries, engine mapping, clearing and responsive layout passed in 4 locales.',
+    'Analytics console: deliveries, engine mapping, clearing and responsive layout passed on both analytics pages in 4 locales.',
   );
 } finally {
   await browser?.close();
