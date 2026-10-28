@@ -168,8 +168,24 @@ try {
     {},
     'Core runtime must use only declared peers.',
   );
-  assert.equal(packageManifest.exports['./bunshi'], undefined);
-  assert.equal(packageManifest.peerDependencies.bunshi, undefined);
+  assert.deepEqual(
+    Object.keys(packageManifest.exports).sort(),
+    [
+      '.',
+      './vanilla',
+      './model',
+      './query',
+      './rhf',
+      './persist',
+      './analytics',
+      './analytics/amplitude',
+      './package.json',
+    ].sort(),
+  );
+  assert.deepEqual(
+    Object.keys(packageManifest.peerDependencies).sort(),
+    ['react', 'jotai', 'react-hook-form', '@tanstack/query-core', '@types/react'].sort(),
+  );
   assert.equal(packageManifest.peerDependenciesMeta['@tanstack/query-core'].optional, true);
   assert.equal(packageManifest.peerDependenciesMeta['react-hook-form'].optional, true);
   const packed = `${fixture}/node_modules/jotai-holo/dist`;
@@ -180,7 +196,7 @@ try {
     const code = await readFile(file, 'utf8');
     assert.doesNotMatch(
       code,
-      /bunshi|holo-molecule|react-hook-form|@tanstack\/query-core|from\s+['"]\.\/(?:model|query|rhf)\.js['"]/,
+      /react-hook-form|@tanstack\/query-core|from\s+['"]\.\/(?:model|query|rhf)\.js['"]/,
     );
     for (const [, specifier] of code.matchAll(/from\s+['"]([^'"]+)['"]/g)) {
       if (!specifier.startsWith('.')) continue;
@@ -193,7 +209,7 @@ try {
   }
   assert.doesNotMatch(
     listing,
-    /package\/dist\/(?:bunshi|binding|holo-cage|model-binding|state-binding-atom)\./,
+    /package\/dist\/(?:binding|holo-cage|model-binding|state-binding-atom)\./,
   );
   for (const file of [
     'holo.js',

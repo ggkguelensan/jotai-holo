@@ -133,7 +133,7 @@ try {
   for (const result of Object.values(results))
     assert.ok(
       !result.modules.some((id) =>
-        /(?:bunshi|holo-cage|model-binding|state-binding-atom|\/binding\.js)/.test(id),
+        /(?:holo-cage|model-binding|state-binding-atom|\/binding\.js)/.test(id),
       ),
       'Retired runtime must not enter any fixture.',
     );

@@ -1,17 +1,8 @@
-import { useMemo, act, type ReactNode } from 'react';
-import { atom, createStore, Provider } from 'jotai';
+import { act, type ReactNode } from 'react';
+import { createStore, Provider } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
 import { atomEffect, observe, withAtomEffect } from 'jotai-effect';
 import { ScopeProvider as AtomScope } from 'jotai-scope';
-import {
-  createInjector,
-  createScope,
-  InjectorProvider,
-  molecule,
-  onMount,
-  useMolecule,
-  ScopeProvider,
-} from 'bunshi/react';
 import { expect, test } from 'vitest';
 import { holo, stateAtom, actionAtom } from '../src/index.js';
 import { createHarness } from './browser-harness.js';
@@ -130,118 +121,4 @@ test('jotai-scope isolates a bound primitive and its derived state', async () =>
     buttons[1]?.click();
   });
   expect([...buttons].map((b) => b.textContent)).toEqual(['0', '2']);
-});
-
-test('Bunshi composition shares same-scope models, isolates scopes and preserves binding identity', async () => {
-  const scope = createScope('default');
-  const mounts: string[] = [];
-  const stops: string[] = [];
-  let bindings = 0;
-  const Counter = molecule((_mol, getScope) => {
-    const id = getScope(scope);
-    const $count = stateAtom(0);
-    const increment = actionAtom((_get, set) => {
-      set($count, (n) => n + 1);
-    });
-    onMount(() => {
-      mounts.push(id);
-      return () => {
-        stops.push(id);
-      };
-    });
-    return { $count, increment };
-  });
-  function C() {
-    const model = useMolecule(Counter);
-    const Connected = useMemo(() => {
-      bindings++;
-      return holo({
-        view: Value,
-        read: { count: model.$count },
-        write: { increment: model.increment },
-      });
-    }, [model]);
-    return <Connected />;
-  }
-  const injector = createInjector();
-  const injectorValue = () => injector;
-  const store = createStore();
-  function Tree({ id, title }: { id: string; title: string }) {
-    return (
-      <InjectorProvider value={injectorValue}>
-        <Provider store={store}>
-          <i>{title}</i>
-          <ScopeProvider scope={scope} value="a">
-            <C />
-            <C />
-          </ScopeProvider>
-          <ScopeProvider scope={scope} value={id}>
-            <C />
-          </ScopeProvider>
-        </Provider>
-      </InjectorProvider>
-    );
-  }
-  const h = createHarness();
-  await h.render(<Tree id="b" title="first" />);
-  expect(bindings).toBe(3);
-  expect(mounts).toEqual(['a', 'b']);
-  await act(async () => {
-    h.container.querySelector('button')?.click();
-  });
-  expect([...h.container.querySelectorAll('button')].map((b) => b.textContent)).toEqual([
-    '1',
-    '1',
-    '0',
-  ]);
-  await h.render(<Tree id="b" title="second" />);
-  expect(bindings).toBe(3);
-  expect(stops).toEqual([]);
-  await h.render(<Tree id="c" title="third" />);
-  expect(bindings).toBe(4);
-  expect(stops).toEqual(['b']);
-  await h.unmount();
-  expect(stops.sort()).toEqual(['a', 'b', 'c']);
-});
-
-test('Bunshi model identity does not replace Jotai Provider isolation', async () => {
-  const injector = createInjector();
-  const value = () => injector;
-  const Counter = molecule(() => {
-    const $count = atom(0);
-    return {
-      $count,
-      increment: actionAtom((_get, set) => {
-        set($count, (n) => n + 1);
-      }),
-    };
-  });
-  function C() {
-    const model = useMolecule(Counter);
-    const Connected = useMemo(
-      () =>
-        holo({
-          view: Value,
-          read: { count: model.$count },
-          write: { increment: model.increment },
-        }),
-      [model],
-    );
-    return <Connected />;
-  }
-  const h = createHarness();
-  await h.render(
-    <InjectorProvider value={value}>
-      <Provider>
-        <C />
-      </Provider>
-      <Provider>
-        <C />
-      </Provider>
-    </InjectorProvider>,
-  );
-  await act(async () => {
-    h.container.querySelector('button')?.click();
-  });
-  expect([...h.container.querySelectorAll('button')].map((b) => b.textContent)).toEqual(['1', '0']);
 });

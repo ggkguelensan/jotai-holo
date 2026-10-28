@@ -18,7 +18,6 @@ export default defineConfig({
       'jotai',
       'jotai/utils',
       'jotai-effect',
-      'bunshi/react',
       'jotai-scope',
       'jotai/react',
     ],
