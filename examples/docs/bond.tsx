@@ -1,33 +1,30 @@
 import { useLingui } from '@lingui/react/macro';
-import { createModel } from 'jotai-holo/model';
+import { modelRegistry, pipe } from 'jotai-holo/model';
 import { actionAtom, bond, eventAtom, holo, stateAtom } from 'jotai-holo';
 
 // #region bond
-export const CheckoutModel = createModel({
-  create: () => {
-    const orderSubmitted = eventAtom<{ number: number }>();
+export const $$checkout = pipe(() => {
+  const orderSubmitted = eventAtom<{ number: number }>();
 
-    const $number = stateAtom(100);
-    const $enabled = stateAtom(true);
-    const $receipt = stateAtom<number | null>(null);
+  const $number = stateAtom(100);
+  const $enabled = stateAtom(true);
+  const $receipt = stateAtom<number | null>(null);
 
-    const submit = actionAtom((get, set) => {
-      const number = get($number);
-      set($number, number + 1); // Local demo checkout completes here.
-      set(orderSubmitted, { number });
-    });
+  const submit = actionAtom((get, set) => {
+    const number = get($number);
+    set($number, number + 1); // Local demo checkout completes here.
+    set(orderSubmitted, { number });
+  });
 
-    const receipt = bond({
-      trigger: orderSubmitted,
-      guard: $enabled,
-      map: (order) => [order.number],
-      yield: $receipt,
-    });
+  const receipt = bond({
+    trigger: orderSubmitted,
+    guard: $enabled,
+    map: (order) => [order.number],
+    yield: $receipt,
+  });
 
-    return { $enabled, $receipt, submit, receipt };
-  },
-  resources: (model) => [model.receipt],
-});
+  return { $enabled, $receipt, submit, receipt };
+}, modelRegistry());
 
 function CheckoutView({
   enabled,
@@ -69,7 +66,7 @@ function CheckoutView({
 }
 
 const Checkout = holo({
-  models: { model: CheckoutModel },
+  models: { model: $$checkout },
   view: CheckoutView,
   read: ({ model: model }) => ({
     enabled: model.$enabled,

@@ -21,6 +21,6 @@ export function holo<
 >(
   config: HoloConfig<View, Sources, ReadKeys, WriteKeys, StaticKeys>,
 ): HoloViewComponent<View, Sources, ReadKeys, WriteKeys, StaticKeys>;
-export function holo(config: ViewRuntimeConfig): unknown {
-  return connectView(config);
+export function holo(config: unknown): unknown {
+  return connectView(config as ViewRuntimeConfig);
 }

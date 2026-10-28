@@ -54,6 +54,14 @@
     "./persist": {
       "types": "./dist/persist.d.ts",
       "import": "./dist/persist.js"
+    },
+    "./analytics": {
+      "types": "./dist/analytics.d.ts",
+      "import": "./dist/analytics.js"
+    },
+    "./analytics/amplitude": {
+      "types": "./dist/analytics-amplitude.d.ts",
+      "import": "./dist/analytics-amplitude.js"
     }
   },
   "scripts": {
@@ -82,7 +90,9 @@
     "i18n:compile": "lingui compile --strict",
     "docs:prepare": "pnpm i18n:extract && pnpm i18n:compile && node scripts/localize-docs.mjs",
     "i18n:test": "node scripts/test-docs-i18n.mjs",
-    "test:mutation-memory": "pnpm build && node --expose-gc scripts/test-mutation-memory.mjs"
+    "test:mutation-memory": "pnpm build && node --expose-gc scripts/test-mutation-memory.mjs",
+    "test:analytics-adapter": "node scripts/test-analytics-adapter.mjs",
+    "test:composition-memory": "pnpm build && node --expose-gc scripts/test-model-composition-memory.mjs"
   },
   "peerDependencies": {
     "@tanstack/query-core": ">=5.104.5 <6",

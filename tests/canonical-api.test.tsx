@@ -5,7 +5,7 @@ import { createFormModel, holoForm } from '../src/rhf.js';
 
 const view = () => null;
 
-test.each(['core', 'state', 'actions', 'bindProps', 'cage', 'model'])(
+test.each(['core', 'state', 'actions', 'bindProps', 'cage', 'model', 'lifecycle', 'resources'])(
   'rejects retired holo field %s, including on the form adapter',
   (field) => {
     const config = { view, [field]: {} };
@@ -21,9 +21,7 @@ test('rejects retired model options rather than silently changing resource owner
     expect(() =>
       Reflect.apply(createModel, undefined, [{ create: () => ({}), [field]: 0 }]),
     ).toThrow('use retainTime and resources');
-  expect(() => Reflect.apply(createFormModel, undefined, [{ gcTime: 0 }])).toThrow(
-    'use retainTime',
-  );
+  expect(() => Reflect.apply(createFormModel, undefined, [{ gcTime: 0 }])).toThrow('modelRegistry');
 });
 
 function typeChecks() {

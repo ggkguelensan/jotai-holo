@@ -1,6 +1,6 @@
 # Interface
 
-The React configuration uses view, models, read, write, props, lifecycle, resources and imperative. Only view is required. There are no compatibility aliases.
+The React configuration uses view, models, read, write, props, input and imperative. Only view is required. There are no compatibility aliases.
 
 ## Atoms and operators
 
@@ -22,12 +22,14 @@ const Counter = holo({
 });
 ```
 
-createModel uses pure create, optional resources and retainTime. Model identity is definition + structural key + store. Resources connect after acquisition and disconnect after the last owner; retention preserves state separately. Lifecycle uses ctx.input and ctx.models. useImperativeHolo implements View methods without moving React capabilities into atoms.
+createModel uses pure create, optional resources and retainTime. Model identity is definition + structural key + store. Resources connect after acquisition and disconnect after the last owner; retention preserves state separately. Input maps committed props to writable atoms. useImperativeHolo implements View methods without moving React capabilities into atoms.
 
-See [holo](reference/holo.md), [createModel](reference/createModel.md), [lifecycle](reference/lifecycle.md), [useImperativeHolo](reference/useImperativeHolo.md) and the [runtime guide](runtime.md).
+See [holo](reference/holo.md), [createModel](reference/createModel.md), [input](reference/input.md), [useImperativeHolo](reference/useImperativeHolo.md) and the [runtime guide](runtime.md).
 
 ## Optional integrations
 
 Query and Mutation use the query entry. RHF uses named models and an explicit form selector. Persistence uses the persist entry and a library-independent codec. These modules are absent from ordinary holo imports.
 
 See [queryAtoms](reference/queryAtoms.md), [mutationAtoms](reference/mutationAtoms.md), [holoForm](reference/holoForm.md) and [persistence](runtime.md#persistence).
+
+Model modifiers: [modelRegistry](reference/modelRegistry.md), [modelLifecycle](reference/modelLifecycle.md), [modelAnalytics](reference/modelAnalytics.md). [createAnalytics](reference/createAnalytics.md) provides optional independent engine routing.

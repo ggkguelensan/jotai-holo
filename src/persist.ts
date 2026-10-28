@@ -1,5 +1,6 @@
 import { atom, type Atom, type WritableAtom } from 'jotai/vanilla';
 import type { Resource } from './resource.js';
+import { managedConnection, type ManagedConnection } from './model-managed.js';
 import type { Store } from './model-protocol.js';
 
 export interface PersistenceCodec<Value, Stored> {
@@ -10,13 +11,14 @@ export interface PersistenceStorage<Stored> {
   read(key: string, signal: AbortSignal): unknown | Promise<unknown>;
   write(key: string, value: Stored, signal: AbortSignal): void | Promise<void>;
 }
-export type Persistence<Value> = Resource & {
-  readonly $restoring: Atom<boolean>;
-  readonly $saving: Atom<boolean>;
-  readonly $dirty: Atom<boolean>;
-  readonly $error: Atom<unknown>;
-  readonly flush: WritableAtom<null, [], Promise<void>>;
-};
+export type Persistence<Value> = Resource &
+  ManagedConnection & {
+    readonly $restoring: Atom<boolean>;
+    readonly $saving: Atom<boolean>;
+    readonly $dirty: Atom<boolean>;
+    readonly $error: Atom<unknown>;
+    readonly flush: WritableAtom<null, [], Promise<void>>;
+  };
 
 /** Optional store-owned persistence. Local edits win over late restoration. */
 export function persist<Value, Stored = Value>(options: {
@@ -60,13 +62,13 @@ export function persist<Value, Stored = Value>(options: {
     applying: false,
   }));
   const flush = atom(null, (get) => get($runtime).flush?.() ?? Promise.resolve());
-  return {
+  const persistence = {
     $restoring,
     $saving,
     $dirty,
     $error,
     flush,
-    connect(store) {
+    connect(store: Store) {
       const runtime = store.get($runtime);
       if (runtime.active)
         throw new Error('persist: acquire through resource ownership instead of connecting twice.');
@@ -181,6 +183,7 @@ export function persist<Value, Stored = Value>(options: {
       };
     },
   };
+  return Object.assign(persistence, { [managedConnection]: persistence.connect });
 }
 
 async function bounded<Value>(

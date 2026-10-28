@@ -20,7 +20,8 @@ import {
   type FieldValues,
   type UseFormProps,
 } from 'react-hook-form';
-import { createModel, type ModelDefinition } from './model.js';
+import type { ModelFactory } from './model-composition.js';
+import { modelBlueprints } from './model-config.js';
 import type { ModelSource } from './holo-types.js';
 import type { BindingKeys } from './holo-types.js';
 import {
@@ -56,42 +57,40 @@ export function createFormModel<
     form: FormControl<Input, Context, Output>;
     initial: Initial;
   }) => Model & { then?: never };
-  retainTime?: number;
-}): ModelDefinition<Model & { form: FormControl<Input, Context, Output> }, Initial> {
-  if ('gcTime' in config) throw new TypeError('createFormModel: use retainTime.');
-  return createModel({
-    initial: config.initial,
-    ...(config.retainTime === undefined ? {} : { retainTime: config.retainTime }),
-    create: (initial) => {
-      const options = config.options(initial);
-      const defaultValues = options.defaultValues;
-      const owner: Owner = {
-        options: options as UseFormProps,
-        defaultsLoaded: typeof defaultValues !== 'function',
-      };
-      if (typeof defaultValues === 'function') {
-        let pending: Promise<Input> | undefined;
-        const load = () =>
-          (pending ??= Promise.resolve(defaultValues()).then((values) => {
-            owner.defaultsLoaded = true;
-            return values;
-          }));
-        owner.options = { ...options, defaultValues: load } as UseFormProps;
-      }
-      const form = Object.assign(
-        createFormControl(owner.options as UseFormProps<Input, Context, Output>),
-        {
-          [bridgeOwner]: owner,
-        },
-      );
-      const model = config.model?.({ form, initial }) ?? {};
-      if (typeof Reflect.get(model, 'then') === 'function')
-        throw new TypeError('createFormModel: model must return a synchronous object.');
-      if ('form' in model)
-        throw new Error('createFormModel: form is reserved for the native RHF control.');
-      return { ...model, form } as Model & { form: FormControl<Input, Context, Output> };
-    },
-  });
+}): ModelFactory<Model & { form: FormControl<Input, Context, Output> }, Initial> {
+  if ('gcTime' in config || 'retainTime' in config)
+    throw new TypeError('createFormModel: configure retainTime through modelRegistry.');
+  const create = (initial: Initial = config.initial) => {
+    const options = config.options(initial);
+    const defaultValues = options.defaultValues;
+    const owner: Owner = {
+      options: options as UseFormProps,
+      defaultsLoaded: typeof defaultValues !== 'function',
+    };
+    if (typeof defaultValues === 'function') {
+      let pending: Promise<Input> | undefined;
+      const load = () =>
+        (pending ??= Promise.resolve(defaultValues()).then((values) => {
+          owner.defaultsLoaded = true;
+          return values;
+        }));
+      owner.options = { ...options, defaultValues: load } as UseFormProps;
+    }
+    const form = Object.assign(
+      createFormControl(owner.options as UseFormProps<Input, Context, Output>),
+      {
+        [bridgeOwner]: owner,
+      },
+    );
+    const model = config.model?.({ form, initial }) ?? {};
+    if (typeof Reflect.get(model, 'then') === 'function')
+      throw new TypeError('createFormModel: model must return a synchronous object.');
+    if ('form' in model)
+      throw new Error('createFormModel: form is reserved for the native RHF control.');
+    return { ...model, form } as Model & { form: FormControl<Input, Context, Output> };
+  };
+  modelBlueprints.set(create, { create, initial: config.initial });
+  return create;
 }
 
 /** One native useForm/FormProvider root; select its control from named models. */

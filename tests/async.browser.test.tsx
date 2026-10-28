@@ -1,3 +1,4 @@
+import { modelLifetime } from './model-lifetime.js';
 import { atom, createStore, Provider } from 'jotai';
 import { expect, test } from 'vitest';
 import { act } from 'react';
@@ -19,18 +20,19 @@ test('pending bindings start together, wait for all values and open lifecycle on
     starts.push('second');
     return second.promise;
   });
+  const $$owner0 = modelLifetime({
+    onMount() {
+      events.push('mount');
+    },
+  });
   const C = holo({
+    models: { _lifetime: $$owner0 },
     view: ({ first, second }: { first: string; second: number }) => (
       <span>
         {first}:{second}
       </span>
     ),
     read: { first: $first, second: $second },
-    lifecycle: {
-      onMount() {
-        events.push('mount');
-      },
-    },
   });
   const h = createHarness();
   await h.render(suspense(<C />));
@@ -49,7 +51,16 @@ test('settled async state plus a sync update neither suspends nor reopens lifecy
   const store = createStore();
   const events: string[] = [];
   let renders = 0;
+  const $$owner1 = modelLifetime({
+    onMount() {
+      events.push('mount');
+    },
+    onUnmount() {
+      events.push('unmount');
+    },
+  });
   const C = holo({
+    models: { _lifetime: $$owner1 },
     view: ({ count, name }: { count: number; name: string }) => {
       renders++;
       return (
@@ -59,14 +70,6 @@ test('settled async state plus a sync update neither suspends nor reopens lifecy
       );
     },
     read: { count: $count, name: $name },
-    lifecycle: {
-      onMount() {
-        events.push('mount');
-      },
-      onUnmount() {
-        events.push('unmount');
-      },
-    },
   });
   const h = createHarness();
   await h.render(<Provider store={store}>{suspense(<C />)}</Provider>);
@@ -85,17 +88,18 @@ test('real pending replacement hides the core but keeps the model lifecycle open
   const $value = atom(Promise.resolve('first'));
   const store = createStore();
   const events: string[] = [];
+  const $$owner2 = modelLifetime({
+    onMount() {
+      events.push('mount');
+    },
+    onUnmount() {
+      events.push('unmount');
+    },
+  });
   const C = holo({
+    models: { _lifetime: $$owner2 },
     view: ({ value }: { value: string }) => <span>{value}</span>,
     read: { value: $value },
-    lifecycle: {
-      onMount() {
-        events.push('mount');
-      },
-      onUnmount() {
-        events.push('unmount');
-      },
-    },
   });
   const h = createHarness();
   await h.render(<Provider store={store}>{suspense(<C />)}</Provider>);
@@ -277,28 +281,4 @@ test('async action rejection reaches its caller without becoming a render error'
   await expect(callback()).rejects.toBe(error);
   expect(h.container.textContent).toBe('ready');
   expect(h.caught).toEqual([]);
-});
-
-test('abandoned transitional props never enter lifecycle snapshots', async () => {
-  const pending = new Promise<void>(() => undefined);
-  const events: string[] = [];
-  const C = holo({
-    view: ({ value }: { value: string }) => {
-      if (value === 'abandoned') throw pending;
-      return <span>{value}</span>;
-    },
-    lifecycle: {
-      onInputChange(_get, _set, ctx) {
-        events.push(ctx.input.value);
-      },
-      onUnmount(_get, _set, ctx) {
-        events.push(`close:${ctx.input.value}`);
-      },
-    },
-  });
-  const h = createHarness();
-  await h.render(suspense(<C value="committed" />));
-  await h.transition(suspense(<C value="abandoned" />));
-  await h.unmount();
-  expect(events).toEqual(['committed', 'close:committed']);
 });

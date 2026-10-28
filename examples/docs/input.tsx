@@ -2,9 +2,8 @@ import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
 
-// #region lifecycle
+// #region input
 const $query = stateAtom('');
-const $mounted = stateAtom(false);
 
 const changed = actionAtom((_get, set, query: string) => set($query, query));
 
@@ -20,36 +19,19 @@ function SearchView({ term }: { term: string }) {
 
 const Search = holo({
   view: SearchView,
-  lifecycle: {
-    onMount(_get, set) {
-      set($mounted, true);
-    },
-    onInputChange(_get, set, ctx) {
-      set(changed, ctx.input.term);
-    },
-    onUnmount(_get, set) {
-      set($mounted, false);
-      set(changed, '');
-    },
-  },
+  input: { term: changed },
 });
 
-function StatusView({ query, mounted }: { query: string; mounted: boolean }) {
-  const { t } = useLingui();
-
-  return (
-    <output aria-live="polite">
-      {mounted ? t`mounted` : t`unmounted`} · $query: {query || '∅'}
-    </output>
-  );
+function StatusView({ query }: { query: string }) {
+  return <output aria-live="polite">$query: {query || '∅'}</output>;
 }
 
 const Status = holo({
   view: StatusView,
-  read: { query: $query, mounted: $mounted },
+  read: { query: $query },
 });
 
-function LifecycleDemo() {
+function InputDemo() {
   const { t } = useLingui();
 
   const [term, setTerm] = useState('jotai');
@@ -74,6 +56,6 @@ function LifecycleDemo() {
     </div>
   );
 }
-// #endregion lifecycle
+// #endregion input
 
-export default LifecycleDemo;
+export default InputDemo;

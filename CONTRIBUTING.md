@@ -28,3 +28,7 @@ Run `pnpm test:react` after changing bindings or compatibility code. It tests th
 Write for a developer solving a concrete task. Start each page with that task and the resulting behavior, then show a runnable example. Explain the mechanism before its edge cases. Keep one idea per paragraph, name the actor, and use verbs instead of abstract nouns. Preserve constraints on ownership, async work, equality and cleanup. Link to alternatives where they help a decision; remove comparisons with retired designs. Keep English, Russian, German and Kazakh aligned through Lingui.
 
 This applies the reader focus and example-led explanations discussed in [«Пиши, сокращай»](https://sokratil.ru/) and [«Ясно, понятно»](https://mc.today/kak-ne-opozoritsya-v-perepiske-na-peregovorah-i-v-sotssetyah-sovety-maksima-ilyahova-v-novoj-knige-yasno-ponyatno/) (authorized excerpt). It is an editorial guide, not a rule to shorten necessary technical detail.
+
+## Model composition and analytics
+
+Model modifiers use one ownership protocol. Only explicitly managed declarations activate; returning an ordinary atom must not subscribe to it. Keep registry record identity when decorating an existing definition, and isolate engine clients by store. Run `pnpm test:composition-memory` after ownership changes. `pnpm test:analytics-adapter` checks the optional adapter against the SDK pinned in `design/analytics/validation.json` without executing SDK code or sending analytics. See [runtime contracts](docs/runtime.md) and the [adapter authoring prompt](docs/analytics-adapter-prompt.md).

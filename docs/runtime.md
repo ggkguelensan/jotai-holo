@@ -1,94 +1,93 @@
-# Named models, resources and imperative Views
+# Models, committed input and analytics
 
-The only React configuration uses view, named models, read, write, props, lifecycle, resources and imperative. No compatibility aliases or parallel binding runtime remain.
+Declare `holo({ view, models, read, write, props, input, imperative, onError })`
+outside React. Raw lifecycle/resources fields are rejected.
 
 ```text
-models: instance selections
-             ↓
-read: atom values ─────────→ View props
-write: writable atoms ←──── View callbacks
-imperative: events ────────→ View methods
-resources: acquired after commit, released after the last owner
+pure factory → pipe modifiers → selected instance → committed owner
+                    │                 │                  │
+              registry policy    store + key       managed activation
+                                                        │
+                                                 final-owner release
 ```
 
-## Read and write
+## Model composition
 
-Use `view`, `read`, `write` and `props` for ordinary atom bindings. Both sections accept native Jotai atoms; helpers are optional. Writable derived atoms can appear in both sections. Async reads resolve before reaching View; write callbacks preserve the original arguments and return value.
+Import `pipe`, `modelRegistry`, `modelLifecycle` from `jotai-holo/model` and
+`modelAnalytics` from `jotai-holo/analytics`. Modifiers flatten into one final
+definition. They do not nest registries or create extra business records.
+Separate registry applications are separate namespaces. Additional modifiers of an existing registry share its business records. Reads do no connection work.
 
-## Named instances
+Returned bonds, persistence declarations and analytics observations carry an
+explicit internal managed marker. Acquisition activates only those declarations;
+it does not subscribe to every returned atom. Setup rolls back in reverse order.
+Two owners share the same connection, and the final release stops it.
+The low-level createModel resource contract remains available for external adapters.
 
-```tsx
-const Search = holo({
-  models: {
-    search: (input: { workspaceId: string }) =>
-      $$search({ key: ['search', input.workspaceId] }),
-    session: $$session,
-  },
-  view: SearchView,
-  read: ({ search }) => ({ results: search.$results }),
-  write: ({ search }) => ({ onSearch: search.search }),
-  props: { title: 'Search' },
-});
-```
+Infinity retention preserves state without preserving active subscriptions.
+Finite retention starts after last release. Pure reads are weakly cached so
+abandoned renders do not permanently retain keyed entries. Explicit removal
+refuses active entries. Flush data before removal when persistence matters.
 
-Annotate selector input types: these become required public component props, including inputs the View does not consume. A definition chooses the default instance; a selection chooses a structural key. Identity is definition + key + store. Changing selected model values remounts the resolved binding and its View. Ordinary input changes do not remount it.
+## Data lifecycle
 
-State subscriptions are independent of model acquisition. An actions-only binding does not read unused model state. Model selections and native async model atoms resolve before binding factories execute.
+`load` starts on activation and is retried after interrupted/failed initialization.
+Successful initialization runs once per retained instance. `restore` is synchronous.
+`snapshot`, when provided, protects edits from late restoration and records dirty
+immutable values. Saves begin after final release and serialize revisions.
+`definition.flush(store, { key })` and `lease.flush()` await required saves without
+activating a cold instance. They reject failures; background work reports onError.
+The default operation deadline is 10 seconds. A transport must honor AbortSignal;
+cleanup cannot forcibly cancel a request already accepted by a server.
 
-## Lifecycle
+## React ownership
 
-```tsx
-lifecycle: {
-  input: input => ({ term: input.term }),
+Input forwards initial and changed selected props after commit using Object.is per
+field. It allocates no intermediary atom or proxy. Fixed props win, generated
+read/write/imperative props are excluded, and unrelated input changes do no work.
+Native writable atoms, commands and event atoms are valid targets.
 
-  onInputChange(_get, set, ctx) {
-    set(ctx.models.search.inputChanged, ctx.input.term);
-  },
-},
-```
+StrictMode replay is one logical owner. Initial Suspense and abandoned renders
+activate nothing. Temporary Suspense hiding preserves ownership while imperative
+handles are absent. On replacement, the old owner releases before the next one
+activates. Actual unmount releases in a microtask. A child effect can run before
+the parent's commit effect: do not promise observation of child mount emissions.
 
-Handlers accept inline synchronous functions or writable atoms receiving the context. Zero-argument action atoms also work. `ctx.input` contains committed caller props plus fixed props, excluding generated bindings. `ctx.models` contains resolved instances. The selector compares chosen fields shallowly; without it all input fields are compared. The first commit invokes onInputChange.
+## Analytics
 
-Resources connect before onMount and the initial onInputChange. On actual release, onUnmount runs before resources disconnect. Passive cleanup is deferred to a microtask so StrictMode cleanup/setup remains one logical owner. Temporary Suspense hiding keeps model/resource ownership but stops imperative delivery while the View handle is absent. Lifecycle errors are reported through onError; async lifecycle handlers are rejected at runtime. Start asynchronous work in an action and handle its promise explicitly.
+One shared createAnalytics declaration contains lazy engine factories. Engine
+clients and queues are independent per store. Feature-specific modelAnalytics
+factories observe the selected parent directly; no forwarding maps in holo.
+They load concurrently, cache successful child records by parent/store, reconnect
+on return, and never activate a released parent after a late import.
 
-## Resource ownership and retention
+Capture begins after the feature factory is ready. The infrastructure cannot
+sample unknown state projections before loading their declaration. Early facts
+are therefore not replayed. Use an eager managed declaration for essential
+initial facts: `modelAnalytics(() => createSearchAnalyticsModel)` installs it synchronously at acquisition. Dynamic loading limitations are covered by an executable regression test.
 
-```ts
-const $$draft = createModel({
-  create: () => createDraft(),
-  resources: (model) => [model.recording, model.persistence],
-  retainTime: Infinity,
-});
-```
+Each event map runs at occurrence time and produces a detached frozen JSON value.
+Each engine has an independent FIFO handoff worker. Defaults: 100 pending messages,
+30-second message/operation deadline, discard newest on overflow, no automatic
+retry after ambiguous send. Factory failures discard that engine's queued work;
+a later event can retry initialization. Healthy engines continue independently.
 
-A resource has `connect(store)` returning synchronous cleanup or undefined. The same resource object shares one connection per store. Last release disconnects it. Acquisition rolls back in reverse order; cleanup attempts every resource even if one fails. Keep declarations pure. Model resources use the same ownership contract as View resources.
+Final-owner release stops capture; already mapped messages may drain within their
+deadline. flush is a best-effort wait/handoff/SDK flush, not an ingestion guarantee.
+dispose aborts workers, empties queues and closes engines for that store. Future
+publications cannot reinitialize them. Late loaded adapters use genuine dispose
+when supplied. No payload histories are retained in diagnostic state.
 
-`retainTime` is the model retention setting; no alias is accepted. Units are milliseconds. Infinity is the default, zero schedules eviction for the next task, finite values start after the last release. Retention preserves the instance, not active subscriptions. Call remove for unbounded key spaces. createFormModel accepts retainTime too.
+## RHF, Query and persistence
 
-## Persistence
+createFormModel returns a pure factory. Apply modelRegistry explicitly, then use
+holoForm's named models and form selector. Native RHF markup, Controller, contexts,
+async defaults and transforming resolvers retain their semantics. Ordinary holo
+can connect a toolbar to the same selected form.
 
-Import `persist` and `localStorageAdapter` from `jotai-holo/persist`. This optional entry adds no storage code to ordinary holo imports.
+Query and Mutation keep the existing QueryClient cache. Their independently lazy
+projections and read-driven observer ownership are unchanged. Persistence records
+are managed declarations: returning one from a model activates it while owned.
 
-```ts
-const persistence = persist({
-  read: $draft,
-  restore: draftRestored,
-  storage: localStorageAdapter(),
-  key: 'proposal-draft',
-  codec: {
-    decode: (value) => z.parse(draftSchema, value),
-    encode: (value) => z.encode(draftSchema, value),
-  },
-  save: { debounce: 500 },
-});
-```
-
-The codec is library-independent; Zod Mini is one possible application dependency. Restore must apply the decoded value synchronously. Missing storage is represented by undefined. Local edits win over late restoration. Successful restoration runs once per resource/store; reconnecting a retained model does not replace it with an older snapshot. A failed restoration can retry after reacquisition.
-
-Writes are serialized, selected values are captured on change, and release attempts to flush the last captured edit without retaining a live subscription. Explicit flush waits for restoration and pending writes. $restoring, $saving, $dirty and $error are independent observable atoms. The default operation timeout is ten seconds; timeout aborts supported work and ignores late restoration. An external implementation that ignores cancellation can still finish its own side effects.
-
-Storage adapters implement read(key, signal) and write(key, value, signal). IndexedDB can implement this asynchronous interface; no built-in IndexedDB adapter is included yet. Codecs do not replace version migrations. Server conflict resolution belongs to Query/Mutation and business logic, not this persistence contract. Closing a tab does not guarantee async saving.
-
-## Remaining work
-
-The lazy multi-provider analytics runtime and a committed-input observer bridge remain design proposals, not exports. The event-only Amplitude candidate and adapter-authoring prompt are in design/analytics. Existing Query, Mutation and RHF entries remain available. This change does not implement a new analytics SDK or replace their protocols.
+Analytics, data lifecycle, RHF, Query and vendor adapters use separate entry points.
+The ordinary holo runtime imports none of their implementations.

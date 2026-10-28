@@ -1,3 +1,4 @@
+import { modelLifetime } from './model-lifetime.js';
 import { atom, createStore, Provider, useAtomValue } from 'jotai';
 import { act, createRef, forwardRef, useEffect } from 'react';
 import { createModel } from '../src/model.js';
@@ -168,20 +169,21 @@ test('prism async projection is lazy, and a new promise may suspend even with an
   let core = 0;
   let mounted = 0;
   let closed = 0;
+  const $$owner0 = modelLifetime({
+    onMount() {
+      mounted++;
+    },
+    onUnmount() {
+      closed++;
+    },
+  });
   const Name = holo({
+    models: { _lifetime: $$owner0 },
     view: ({ name }: { name: string }) => {
       core++;
       return <span data-name>{name}</span>;
     },
     read: { name: $name },
-    lifecycle: {
-      onMount() {
-        mounted++;
-      },
-      onUnmount() {
-        closed++;
-      },
-    },
   });
   expect(reads).toBe(0);
   const h = createHarness();

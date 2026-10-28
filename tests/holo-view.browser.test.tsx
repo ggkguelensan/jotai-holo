@@ -1,3 +1,4 @@
+import { modelLifetime } from './model-lifetime.js';
 import { atom, createStore, Provider } from 'jotai';
 import { act, StrictMode, Suspense, startTransition, useState } from 'react';
 import { expect, test, vi } from 'vitest';
@@ -136,19 +137,19 @@ test('events emitted during resource connection and lifecycle mount reach the re
     useImperativeHolo(imperative, { onCreated: received });
     return null;
   }
+  const $$owner1 = createModel({ create: () => ({}), resources: () => [resource] });
+  const $$owner0 = modelLifetime({
+    onMount(_get, set) {
+      set(created, { id: 'mount' });
+    },
+    onUnmount() {
+      active.push('unmount');
+    },
+  });
   const Connected = holo({
     view: View,
-    models: { checkout: $$model },
+    models: { checkout: $$model, _connections: $$owner1, _lifetime: $$owner0 },
     imperative: ({ checkout }) => ({ onCreated: checkout.created }),
-    resources: [resource],
-    lifecycle: {
-      onMount(_get, set) {
-        set(created, { id: 'mount' });
-      },
-      onUnmount() {
-        active.push('unmount');
-      },
-    },
   });
   const h = createHarness();
   await h.render(
@@ -160,48 +161,6 @@ test('events emitted during resource connection and lifecycle mount reach the re
   expect(active).toEqual(['connect']);
   await h.unmount();
   expect(active).toEqual(['connect', 'unmount', 'disconnect']);
-});
-
-test('selected input changes dispatch through a writable atom, with latest full input and resolved models', async () => {
-  const changed = vi.fn();
-  const mounted = vi.fn();
-  const unmounted = vi.fn();
-  const onInputChange = actionAtom(
-    (
-      _get,
-      _set,
-      ctx: { input: { term: string; extra: string }; models: { search: { id: string } } },
-    ) => {
-      changed(ctx.input.term, ctx.input.extra, ctx.models.search.id);
-    },
-  );
-  const $$search = createModel({ create: () => ({ id: 'model' }) });
-  const View = (_props: { term: string; extra: string }) => null;
-  const Connected = holo({
-    view: View,
-    models: { search: $$search },
-    lifecycle: {
-      input: (input) => ({ term: input.term }),
-      onMount: () => {
-        mounted();
-      },
-      onInputChange,
-      onUnmount(_get, _set, ctx) {
-        unmounted(ctx.input.term);
-      },
-    },
-  });
-  const h = createHarness();
-  await h.render(<Connected term="a" extra="1" />);
-  await h.render(<Connected term="a" extra="2" />);
-  await h.render(<Connected term="b" extra="3" />);
-  expect(changed.mock.calls).toEqual([
-    ['a', '1', 'model'],
-    ['b', '3', 'model'],
-  ]);
-  expect(mounted).toHaveBeenCalledTimes(1);
-  await h.unmount();
-  expect(unmounted).toHaveBeenCalledWith('b');
 });
 
 test('an abandoned suspended render publishes no handlers and acquires no resources', async () => {
@@ -218,10 +177,11 @@ test('an abandoned suspended render publishes no handlers and acquires no resour
     if (version === 'pending') throw pending;
     return <span>{version}</span>;
   }
+  const $$owner2 = createModel({ create: () => ({}), resources: () => [{ connect }] });
   const Connected = holo({
+    models: { _connections: $$owner2 },
     view: View,
     imperative: { onCreated: created },
-    resources: [{ connect }],
   });
   const h = createHarness();
   const store = createStore();
@@ -257,18 +217,18 @@ test('temporary Suspense hides imperative delivery without releasing model resou
       },
     ],
   });
+  const $$owner3 = modelLifetime({
+    onMount() {
+      mounted();
+    },
+    onUnmount() {
+      unmounted();
+    },
+  });
   const Connected = holo({
     view: ({ text }: { text: string }) => <span>{text}</span>,
-    models: { current: $$model },
+    models: { current: $$model, _lifetime: $$owner3 },
     read: ({ current }) => ({ text: current.$text }),
-    lifecycle: {
-      onMount() {
-        mounted();
-      },
-      onUnmount() {
-        unmounted();
-      },
-    },
   });
   const h = createHarness();
   const store = createStore();
@@ -341,99 +301,4 @@ test('the method table stays stable across commits and becomes inert after unmou
   expect(currentRef!.current).toBeNull();
   handle.onCreated({ id: 'late' });
   expect(received).toHaveBeenCalledTimes(1);
-});
-
-test('key replacement delivers old unmount input before disconnect and new input to the new model', async () => {
-  const events: string[] = [];
-  const $$model = createModel({
-    create: () => ({ id: Math.random() }),
-    resources: (model) => [
-      {
-        connect() {
-          events.push(`connect:${model.id}`);
-          return () => {
-            events.push(`disconnect:${model.id}`);
-          };
-        },
-      },
-    ],
-  });
-  const View = (_props: { term: string }) => null;
-  const Connected = holo({
-    view: View,
-    models: { selected: (input: { id: string }) => $$model({ key: [input.id] }) },
-    lifecycle: {
-      onMount(_get, _set, ctx) {
-        events.push(`mount:${ctx.models.selected.id}:${ctx.input.term}`);
-      },
-      onUnmount(_get, _set, ctx) {
-        events.push(`unmount:${ctx.models.selected.id}:${ctx.input.term}`);
-      },
-    },
-  });
-  const h = createHarness();
-  const store = createStore();
-  await h.render(
-    <Provider store={store}>
-      <Connected id="a" term="old" />
-    </Provider>,
-  );
-  const old = store.get($$model({ key: ['a'] })).id;
-  await h.render(
-    <Provider store={store}>
-      <Connected id="b" term="new" />
-    </Provider>,
-  );
-  const next = store.get($$model({ key: ['b'] })).id;
-  expect(events.indexOf(`unmount:${old}:old`)).toBeLessThan(events.indexOf(`disconnect:${old}`));
-  expect(events).toContain(`mount:${next}:new`);
-  await h.unmount();
-  expect(events).toContain(`unmount:${next}:new`);
-});
-
-test('different keys own different leases even when a factory returns the same model object', async () => {
-  const events: string[] = [];
-  const shared = { $value: atom(0) };
-  const Model = createModel({
-    create: () => shared,
-    resources: () => [
-      {
-        connect() {
-          events.push('connect');
-          return () => {
-            events.push('disconnect');
-          };
-        },
-      },
-    ],
-  });
-  const Connected = holo({
-    models: { selected: (input: { id: string }) => Model({ key: [input.id] }) },
-    view: () => null,
-    lifecycle: {
-      onMount(_get, _set, ctx) {
-        events.push(`mount:${ctx.input.id}`);
-      },
-      onUnmount(_get, _set, ctx) {
-        events.push(`unmount:${ctx.input.id}`);
-      },
-    },
-  });
-  const h = createHarness();
-  const store = createStore();
-  await h.render(
-    <Provider store={store}>
-      <Connected id="a" />
-    </Provider>,
-  );
-  await h.render(
-    <Provider store={store}>
-      <Connected id="b" />
-    </Provider>,
-  );
-  expect(events).toEqual(['connect', 'mount:a', 'unmount:a', 'disconnect', 'connect', 'mount:b']);
-  expect(Model.remove(store, { key: ['a'] })).toBe(true);
-  expect(Model.remove(store, { key: ['b'] })).toBe(false);
-  await h.unmount();
-  expect(events.slice(-2)).toEqual(['unmount:b', 'disconnect']);
 });

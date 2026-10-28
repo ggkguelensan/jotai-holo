@@ -81,7 +81,7 @@ const Counter = holo({
 <Counter />;
 ```
 
-Use `$` for state atoms and `$$` for model instances if these conventions help your project. Declare `holo` outside React render. Share an instance across widgets with [createModel](docs/reference/createModel.md): the same key and store select the same model.
+Use `$` for state atoms and `$$` for model instances if these conventions help your project. Declare `holo` outside React render. Share an instance across widgets with [modelRegistry](docs/reference/modelRegistry.md): the same definition, key and store select the same model.
 
 ## Public API
 
@@ -93,13 +93,13 @@ Use `$` for state atoms and `$$` for model instances if these conventions help y
 | `eventAtom<Payload>()`                      | Typed notification without a handler or retained state            |
 | `holo({ view, read, write, props })`        | Declarative React adapter; only `view` is required                |
 
-`eventAtom<Payload>()` declares a typed notification without a handler or retained state. Dispatch with `store.set(event, payload)`, use it in `bond.trigger`/`holo.write`, or attach an external listener with `subscribeEvent(store, event, listener)`. Subscriptions return a disposer; see [event contracts](docs/api.md#eventatom).
+`eventAtom<Payload>()` declares a typed notification without a handler or retained state. Dispatch with `store.set(event, payload)`, use it in `bond.trigger`/`holo.write`, or attach an external listener with `subscribeEvent(store, event, listener)`. Subscriptions return a disposer; see [event contracts](docs/reference/eventAtom.md).
 
 Numeric/boolean operators `eq`, `and`, `or`, `some`, and `sum` accept native atoms (arrays or records for multiple inputs) and return lazy read-only atoms.
 
 Model operators are available from the root and `jotai-holo/vanilla`: `ion(source, project?)` combines readable atoms, `prism(source, selectors)` splits projections, and `bond({ state, trigger, guard, map, yield })` connects store-owned actions. React also has `holoList` for keyed rows and `holoMatch` for conditional branches. See [operator contracts and examples](docs/operators.md).
 
-The new configuration uses `props` for fixed UI values and `lifecycle` with `ctx.input`. Named `models`, `resources`, `retainTime`, optional persistence and `useImperativeHolo` are described in the [runtime guide](docs/runtime.md). There is one binding runtime and no syntax aliases.
+Use `props` for fixed UI values and `input` to forward committed props to writable atoms. Named models own connections. Compose pure factories with `pipe`, `modelRegistry`, `modelLifecycle` and optional `modelAnalytics`. See the [runtime guide](docs/runtime.md).
 
 `stateAtom` is a direct alias of native `atom`, preserving writable derivations and async read options. No alternate state runtime is introduced.
 
@@ -124,11 +124,13 @@ const Counter = holo({
 
 ## Optional infrastructure
 
-| Entry              | Exports                                          | Ownership                                                                                |
-| ------------------ | ------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| `jotai-holo/model` | `createModel`                                    | Default/keyed instances per Jotai store; committed leases; Infinity retention by default |
-| `jotai-holo/query` | `queryAtoms`, `mutationAtoms`, `queryClientAtom` | Native Query/MutationObserver, shared QueryClient, independent prism selectors           |
-| `jotai-holo/rhf`   | `createFormModel`, `holoForm`, `formAtom`        | One native RHF control per model; ordinary RHF markup and resolvers                      |
+| Entry              | Exports                                                            | Ownership                                                                                |
+| ------------------ | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| `jotai-holo/model` | `pipe`, `modelRegistry`, `modelLifecycle`, low-level `createModel` | Default/keyed instances per Jotai store; committed leases; Infinity retention by default |
+| `jotai-holo/query` | `queryAtoms`, `mutationAtoms`, `queryClientAtom`                   | Native Query/MutationObserver, shared QueryClient, independent prism selectors           |
+| `jotai-holo/rhf`   | `createFormModel`, `holoForm`, `formAtom`                          | One native RHF control per model; ordinary RHF markup and resolvers                      |
+
+Optional analytics uses `jotai-holo/analytics` (`createAnalytics`, `modelAnalytics`). Vendor adapters have separate entries; `jotai-holo/analytics/amplitude` imports no SDK. `createFormModel` returns a pure factory; apply `modelRegistry()` explicitly.
 
 Declare `holo` outside React. Use named `models` for default or keyed instances; read/write factories receive those names. The registry and optional Query/RHF peers stay outside ordinary holo bundles. See [model contracts](docs/reference/createModel.md), [Query](docs/reference/queryAtoms.md) and [forms](docs/reference/holoForm.md).
 
@@ -138,15 +140,16 @@ Only bound state subscribes to the nearest Jotai store. An action-only binding d
 
 Promise-valued reads resolve before reaching View. Put async bindings under Suspense and an error boundary. A fixed chain of native raw atom hooks preserves Jotai continuation, while store-owned weak caches keep stable snapshots. Fulfilled async values stay synchronous beside ordinary updates. See [aggregation](docs/aggregation.md).
 
-An async action returns its original promise to the caller. There is no automatic cancellation, serialization or latest-wins policy. See [async and lifecycle contracts](docs/api.md#async-actions).
+An async action returns its original promise to the caller. There is no automatic cancellation, serialization or latest-wins policy. See [async and lifecycle contracts](docs/reference/actionAtom.md).
 
 ## Lifecycle and integrations
 
-`lifecycle` supplies synchronous onMount, onInputChange and onUnmount reactions through get, set, ctx.input and ctx.models. Input changes are selected explicitly; StrictMode replay represents one logical owner. Declare subscriptions in resources, and let actions own asynchronous policies. See [lifecycle](docs/reference/lifecycle.md).
+`input` forwards each selected committed prop independently. StrictMode replay represents one logical owner. Models activate managed bonds, persistence and analytics declarations; the last owner disconnects them. See [input](docs/reference/input.md) and [analytics](docs/reference/createAnalytics.md).
 
 - [Complete interface and lifecycle contract](docs/api.md)
 - [Effects and model lifetime](docs/integrations.md)
 - [Compatibility and rendering evidence](docs/compatibility.md)
+- [Model composition validation](docs/model-composition-validation.md)
 - [Production bundle measurements](docs/bundle-size.md)
 - [Runnable examples](examples) and [contributing](CONTRIBUTING.md)
 

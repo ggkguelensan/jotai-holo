@@ -1,3 +1,4 @@
+import { modelRegistry } from '../src/model.js';
 import { act, StrictMode } from 'react';
 import { atom, createStore, Provider } from 'jotai';
 import { useFieldArray, useFormContext, useFormState, type Resolver } from 'react-hook-form';
@@ -7,11 +8,13 @@ import { createFormModel, formAtom, holoForm } from '../src/rhf.js';
 import { createHarness, deferred, ErrorBoundary, suspense } from './browser-harness.js';
 
 test('keyed forms isolate values while ordinary holo panels share selected fields without subscription churn', async () => {
-  const Profile = createFormModel({
-    initial: { name: 'Ada', other: '' },
-    options: (initial) => ({ defaultValues: initial }),
-    model: ({ form }) => ({ $name: formAtom(form, 'name') }),
-  });
+  const Profile = modelRegistry()(
+    createFormModel({
+      initial: { name: 'Ada', other: '' },
+      options: (initial) => ({ defaultValues: initial }),
+      model: ({ form }) => ({ $name: formAtom(form, 'name') }),
+    }),
+  );
   let renders = 0;
   function View() {
     const form = useFormContext<{ name: string; other: string }>();
@@ -67,10 +70,12 @@ test('keyed forms isolate values while ordinary holo panels share selected field
 });
 
 test('formAtom is lazy, shares one subscription, preserves nested equality and detaches at last owner', async () => {
-  const Profile = createFormModel({
-    initial: { person: { name: 'Ada' }, other: '' },
-    options: (initial) => ({ defaultValues: initial }),
-  });
+  const Profile = modelRegistry()(
+    createFormModel({
+      initial: { person: { name: 'Ada' }, other: '' },
+      options: (initial) => ({ defaultValues: initial }),
+    }),
+  );
   const store = createStore();
   const { form } = store.get(Profile());
   const subscribe = vi.spyOn(form, 'subscribe');
@@ -106,10 +111,12 @@ test('native async resolvers preserve transformed outputs and submitting state t
     values: { age: Number(values.age) },
     errors: {},
   });
-  const Profile = createFormModel({
-    initial: { age: '42' },
-    options: (initial) => ({ defaultValues: initial, resolver }),
-  });
+  const Profile = modelRegistry()(
+    createFormModel({
+      initial: { age: '42' },
+      options: (initial) => ({ defaultValues: initial, resolver }),
+    }),
+  );
   function View() {
     const form = useFormContext<Input, undefined, Output>();
     const { isSubmitting } = useFormState({ control: form.control });
@@ -142,10 +149,12 @@ test('native async resolvers preserve transformed outputs and submitting state t
 });
 
 test('native field arrays retain row identity and reset under StrictMode form ownership', async () => {
-  const Profile = createFormModel({
-    initial: { users: [{ name: 'Ada' }, { name: 'Grace' }] },
-    options: (initial) => ({ defaultValues: initial }),
-  });
+  const Profile = modelRegistry()(
+    createFormModel({
+      initial: { users: [{ name: 'Ada' }, { name: 'Grace' }] },
+      options: (initial) => ({ defaultValues: initial }),
+    }),
+  );
   const store = createStore();
   let move!: (a: number, b: number) => void;
   function View() {
@@ -182,10 +191,12 @@ test('native field arrays retain row identity and reset under StrictMode form ow
 });
 
 test('validation, focus, dirty/touched state and defaults survive the native form bridge', async () => {
-  const Profile = createFormModel({
-    initial: { name: '' },
-    options: (initial) => ({ defaultValues: initial }),
-  });
+  const Profile = modelRegistry()(
+    createFormModel({
+      initial: { name: '' },
+      options: (initial) => ({ defaultValues: initial }),
+    }),
+  );
   const store = createStore();
   const saved = vi.fn();
   function View() {
@@ -241,7 +252,9 @@ test('validation, focus, dirty/touched state and defaults survive the native for
 test('async defaults load only after mount, preserve native loading state and never overwrite a retained draft on remount', async () => {
   const load = vi.fn(async () => ({ name: 'Loaded' }));
   const loading: boolean[] = [];
-  const Profile = createFormModel({ initial: undefined, options: () => ({ defaultValues: load }) });
+  const Profile = modelRegistry()(
+    createFormModel({ initial: undefined, options: () => ({ defaultValues: load }) }),
+  );
   const store = createStore();
   store.get(Profile());
   expect(load).not.toHaveBeenCalled();
@@ -278,11 +291,13 @@ test('async defaults load only after mount, preserve native loading state and ne
 
 test('an abandoned suspended form never starts async defaults or acquires another active root', async () => {
   const load = vi.fn(async () => ({ name: 'Loaded' }));
-  const Profile = createFormModel({
-    initial: undefined,
-    options: () => ({ defaultValues: load }),
-    model: () => ({ $pending: atom(new Promise<string>(() => {})) }),
-  });
+  const Profile = modelRegistry()(
+    createFormModel({
+      initial: undefined,
+      options: () => ({ defaultValues: load }),
+      model: () => ({ $pending: atom(new Promise<string>(() => {})) }),
+    }),
+  );
   const Pending = holoForm({
     form: ({ model }) => model.form,
     models: { model: () => Profile({ key: ['abandoned'] }) },
@@ -297,10 +312,12 @@ test('an abandoned suspended form never starts async defaults or acquires anothe
 });
 
 test('two roots for one control are rejected and the control can be mounted again after cleanup', async () => {
-  const Profile = createFormModel({
-    initial: { name: 'Ada' },
-    options: (initial) => ({ defaultValues: initial }),
-  });
+  const Profile = modelRegistry()(
+    createFormModel({
+      initial: { name: 'Ada' },
+      options: (initial) => ({ defaultValues: initial }),
+    }),
+  );
   const Form = holoForm({
     form: ({ model }) => model.form,
     models: { model: Profile },
@@ -330,11 +347,13 @@ test('two roots for one control are rejected and the control can be mounted agai
 
 test('form root ownership survives temporary Suspense hiding and allows sequential root replacement', async () => {
   const pending = deferred<string>();
-  const Profile = createFormModel({
-    initial: { name: 'Ada' },
-    options: (initial) => ({ defaultValues: initial }),
-    model: () => ({ $text: atom<string | Promise<string>>('ready') }),
-  });
+  const Profile = modelRegistry()(
+    createFormModel({
+      initial: { name: 'Ada' },
+      options: (initial) => ({ defaultValues: initial }),
+      model: () => ({ $text: atom<string | Promise<string>>('ready') }),
+    }),
+  );
   function View({ text = '' }: { text?: string }) {
     return (
       <>
@@ -383,14 +402,18 @@ test('form root ownership survives temporary Suspense hiding and allows sequenti
 });
 
 test('holoForm explicitly selects its control among multiple named models', async () => {
-  const First = createFormModel({
-    initial: { name: 'first' },
-    options: (initial) => ({ defaultValues: initial }),
-  });
-  const Second = createFormModel({
-    initial: { name: 'second' },
-    options: (initial) => ({ defaultValues: initial }),
-  });
+  const First = modelRegistry()(
+    createFormModel({
+      initial: { name: 'first' },
+      options: (initial) => ({ defaultValues: initial }),
+    }),
+  );
+  const Second = modelRegistry()(
+    createFormModel({
+      initial: { name: 'second' },
+      options: (initial) => ({ defaultValues: initial }),
+    }),
+  );
   const Connected = holoForm({
     models: { first: First, editor: Second },
     form: ({ editor }) => editor.form,

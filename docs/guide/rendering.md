@@ -22,7 +22,7 @@ React can render a component more than once, especially in development. Measure 
 
 Prefer native `atom(async (get, { signal }) => …)` for cancellation-aware reads. Holo accepts it directly. `ion` does not implicitly await its inputs. `prism` does not cancel a Promise selector already started.
 
-Initial Suspense delays commit: **lifecycle.onMount cannot initialize the state blocking the first render**. Initialize before rendering or start the load through the model. Later ordinary Suspense hiding does not dispose the passive lifecycle; real unmount does.
+Initial Suspense delays commit: **input cannot initialize the state blocking the first render**. Initialize before rendering or use native async atoms or Query. Later Suspense hiding preserves model ownership; real unmount releases it.
 
 ## Async actions
 

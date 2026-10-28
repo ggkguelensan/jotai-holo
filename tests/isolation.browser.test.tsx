@@ -5,74 +5,6 @@ import { expect, test, vi } from 'vitest';
 import { actionAtom, holo, holoList, holoMatch, prism } from '../src/index.js';
 import { createHarness } from './browser-harness.js';
 
-test('one holo definition isolates state, action callbacks, lifecycles and subscription ownership across stores', async () => {
-  const $count = atom(0);
-  let active = 0;
-  $count.onMount = () => {
-    active++;
-    return () => {
-      active--;
-    };
-  };
-  const increment = actionAtom((_get, set) => set($count, (n) => n + 1));
-  const changes: string[] = [];
-  const Counter = holo({
-    view: ({
-      count,
-      name,
-      onIncrement,
-    }: {
-      count: number;
-      name: string;
-      onIncrement: () => void;
-    }) => (
-      <button data-name={name} onClick={onIncrement}>
-        {count}
-      </button>
-    ),
-    read: { count: $count },
-    write: { onIncrement: increment },
-    lifecycle: {
-      onMount(get, _set, ctx) {
-        changes.push(`mount:${ctx.input.name}:${get($count)}`);
-      },
-      onUnmount(get, _set, ctx) {
-        changes.push(`unmount:${ctx.input.name}:${get($count)}`);
-      },
-    },
-  });
-  const a = createStore();
-  const b = createStore();
-  b.set($count, 10);
-  const h = createHarness();
-  const tree = (showA: boolean) => (
-    <>
-      {showA && (
-        <Provider store={a}>
-          <Counter name="a" />
-        </Provider>
-      )}
-      <Provider store={b}>
-        <Counter name="b" />
-      </Provider>
-    </>
-  );
-  expect(active).toBe(0);
-  await h.render(tree(true));
-  expect(active).toBe(2);
-  await act(async () => h.container.querySelector<HTMLButtonElement>('[data-name="a"]')!.click());
-  expect(h.container.querySelector('[data-name="a"]')?.textContent).toBe('1');
-  expect(h.container.querySelector('[data-name="b"]')?.textContent).toBe('10');
-  await h.render(tree(false));
-  expect(active).toBe(1);
-  await act(async () => h.container.querySelector<HTMLButtonElement>('[data-name="b"]')!.click());
-  expect(a.get($count)).toBe(1);
-  expect(b.get($count)).toBe(11);
-  await h.unmount();
-  expect(active).toBe(0);
-  expect(changes).toEqual(['mount:a:0', 'mount:b:10', 'unmount:a:1', 'unmount:b:11']);
-});
-
 test('holoList and holoMatch keep row identity and branch subscriptions separate across stores', async () => {
   const $mode = atom<'list' | 'hidden'>('list');
   const $items = atom<readonly { id: string }[]>([{ id: 'one' }, { id: 'two' }]);
@@ -164,4 +96,62 @@ test('a named model binding observes a synchronous write by its child mount effe
   );
   expect(store.get($count)).toBe(1);
   expect(h.container.querySelector('[data-count]')?.textContent).toBe('1');
+});
+
+test('one holo definition isolates state, action callbacks, lifecycles and subscription ownership across stores', async () => {
+  const $count = atom(0);
+  let active = 0;
+  $count.onMount = () => {
+    active++;
+    return () => {
+      active--;
+    };
+  };
+  const increment = actionAtom((_get, set) => set($count, (n) => n + 1));
+  const Counter = holo({
+    view: ({
+      count,
+      name,
+      onIncrement,
+    }: {
+      count: number;
+      name: string;
+      onIncrement: () => void;
+    }) => (
+      <button data-name={name} onClick={onIncrement}>
+        {count}
+      </button>
+    ),
+    read: { count: $count },
+    write: { onIncrement: increment },
+  });
+  const a = createStore();
+  const b = createStore();
+  b.set($count, 10);
+  const h = createHarness();
+  const tree = (showA: boolean) => (
+    <>
+      {showA && (
+        <Provider store={a}>
+          <Counter name="a" />
+        </Provider>
+      )}
+      <Provider store={b}>
+        <Counter name="b" />
+      </Provider>
+    </>
+  );
+  expect(active).toBe(0);
+  await h.render(tree(true));
+  expect(active).toBe(2);
+  await act(async () => h.container.querySelector<HTMLButtonElement>('[data-name="a"]')!.click());
+  expect(h.container.querySelector('[data-name="a"]')?.textContent).toBe('1');
+  expect(h.container.querySelector('[data-name="b"]')?.textContent).toBe('10');
+  await h.render(tree(false));
+  expect(active).toBe(1);
+  await act(async () => h.container.querySelector<HTMLButtonElement>('[data-name="b"]')!.click());
+  expect(a.get($count)).toBe(1);
+  expect(b.get($count)).toBe(11);
+  await h.unmount();
+  expect(active).toBe(0);
 });

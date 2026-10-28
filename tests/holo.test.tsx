@@ -138,47 +138,6 @@ describe('holo', () => {
     const Duplicate = holo(config);
     expect(() => renderToStaticMarkup(<Duplicate />)).toThrow(/count.*more than one section/);
   });
-
-  test('does not execute lifecycle callbacks during server rendering', () => {
-    const $count = atom(0);
-    const store = createStore();
-    const events: string[] = [];
-    function Core({ count }: { count: number; init: number; reactive: string }) {
-      return <span>{count}</span>;
-    }
-    const Connected = holo({
-      view: Core,
-      read: { count: $count },
-      props: { init: 5 },
-      lifecycle: {
-        onMount(_get, set, ctx) {
-          expectTypeOf(ctx.input.init).toEqualTypeOf<number>();
-          expectTypeOf(ctx.input.reactive).toEqualTypeOf<string>();
-          set($count, ctx.input.init * 2);
-          events.push('mount');
-        },
-        onInputChange() {
-          events.push('change');
-        },
-        onUnmount() {
-          events.push('unmount');
-        },
-      },
-    });
-
-    expectTypeOf<ComponentProps<typeof Connected>>().toEqualTypeOf<{
-      reactive: string;
-    }>();
-    expect(
-      renderToStaticMarkup(
-        <Provider store={store}>
-          <Connected reactive="input" />
-        </Provider>,
-      ),
-    ).toBe('<span>0</span>');
-    expect(events).toEqual([]);
-    expect(store.get($count)).toBe(0);
-  });
 });
 
 // These calls are checked by tsc, never executed. Invalid bindings must not widen ViewProps.
@@ -222,17 +181,6 @@ function _checkInvalidBindings() {
     view: View,
     read: { count },
     write: { onIncrement: increment },
-    lifecycle: {
-      onInputChange(_get, _set, ctx) {
-        expectTypeOf(ctx.input.title).toEqualTypeOf<string>();
-        // @ts-expect-error State bindings are outputs, not lifecycle inputs.
-        void ctx.input.count;
-        // @ts-expect-error Action bindings are outputs, not lifecycle inputs.
-        void ctx.input.onIncrement;
-        // @ts-expect-error Lifecycle snapshots cannot be mutated.
-        ctx.input.title = 'changed';
-      },
-    },
   });
   return [missing, overridden];
 }

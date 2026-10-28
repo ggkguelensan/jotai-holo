@@ -1,291 +1,345 @@
-import { createStore, Provider } from 'jotai';
-import { afterEach, beforeEach, describe, expect, test } from 'vitest';
+import { atom, createStore, Provider } from 'jotai';
+import { act, StrictMode, Suspense, startTransition, type ComponentProps } from 'react';
+import { expect, expectTypeOf, test, vi } from 'vitest';
+import {
+  holo,
+  eventAtom,
+  subscribeEvent,
+  useImperativeHolo,
+  type HoloImperative,
+} from '../src/index.js';
+import { createModel } from '../src/model.js';
+import { createHarness, deferred, suspense } from './browser-harness.js';
 
-import { act, startTransition, StrictMode, Suspense, type ReactNode } from 'react';
-import { createRoot } from 'react-dom/client';
-
-import { holo } from '../src/holo.js';
-import { stateAtom } from '../src/state-atom.js';
-
-const disposers: (() => Promise<void>)[] = [];
-
-beforeEach(() => {
-  Reflect.set(globalThis, 'IS_REACT_ACT_ENVIRONMENT', true);
+test('initial input and each changed field write after commit, without replay or unrelated updates', async () => {
+  const received: unknown[] = [];
+  const changed = atom(null, (_get, _set, value: string) => {
+    received.push(value);
+  });
+  const Connected = holo({
+    view: (_props: { term: string; other: number }) => null,
+    input: { term: changed },
+  });
+  const h = createHarness();
+  const tree = (term: string, other = 0) => (
+    <StrictMode>
+      <Connected term={term} other={other} />
+    </StrictMode>
+  );
+  await h.render(tree('a'));
+  expect(received).toEqual(['a']);
+  await h.render(tree('a', 1));
+  expect(received).toEqual(['a']);
+  await h.render(tree('b', 1));
+  expect(received).toEqual(['a', 'b']);
+  await h.unmount();
+  expect(received).toEqual(['a', 'b']);
 });
 
-afterEach(async () => {
-  for (const dispose of disposers.splice(0)) await dispose();
-  Reflect.deleteProperty(globalThis, 'IS_REACT_ACT_ENVIRONMENT');
+test('each input binding compares independently, and fixed props win', async () => {
+  const name = vi.fn(),
+    count = vi.fn();
+  const Connected = holo({
+    view: (_props: { name: string; count: number; fixed: string }) => null,
+    input: {
+      name: atom(null, (_g, _s, v: string) => name(v)),
+      count: atom(null, (_g, _s, v: number) => count(v)),
+      fixed: atom(null, (_g, _s, v: string) => name(v)),
+    },
+    props: { fixed: 'fixed' },
+  });
+  const h = createHarness();
+  await h.render(<Connected name="a" count={1} />);
+  await h.render(<Connected name="a" count={2} />);
+  expect(name.mock.calls).toEqual([['a'], ['fixed']]);
+  expect(count.mock.calls).toEqual([[1], [2]]);
 });
 
-function createHarness() {
-  const container = document.createElement('div');
-  document.body.appendChild(container);
-  const root = createRoot(container);
-  let mounted = true;
-  async function render(node: ReactNode) {
-    await act(() => Promise.resolve(root.render(node)));
+test('input subscriptions are absent and direct targets may be native writable state or event atoms', async () => {
+  const $term = atom('');
+  const mounted = vi.fn();
+  $term.onMount = mounted;
+  const changed = eventAtom<string>();
+  const received = vi.fn();
+  const store = createStore();
+  const stop = subscribeEvent(store, changed, received);
+  const Connected = holo({
+    view: (_props: { term: string; fact: string }) => null,
+    input: { term: $term, fact: changed },
+  });
+  const h = createHarness();
+  await h.render(
+    <Provider store={store}>
+      <Connected term="desk" fact="opened" />
+    </Provider>,
+  );
+  expect(store.get($term)).toBe('desk');
+  expect(mounted).not.toHaveBeenCalled();
+  expect(received).toHaveBeenCalledTimes(1);
+  stop();
+});
+
+test('two Views share one resource but preserve separate input values and release at last owner', async () => {
+  const connect = vi.fn(() => stop);
+  const stop = vi.fn();
+  const resource = { connect };
+  const received = vi.fn();
+  const changed = atom(null, (_g, _s, v: string) => received(v));
+  const $$owner0 = createModel({ create: () => ({}), resources: () => [resource] });
+  const Connected = holo({
+    models: { _connections: $$owner0 },
+    view: (_props: { term: string }) => null,
+    input: { term: changed },
+  });
+  const h = createHarness();
+  await h.render(
+    <StrictMode>
+      <Connected key="a" term="a" />
+      <Connected key="b" term="b" />
+    </StrictMode>,
+  );
+  expect(connect).toHaveBeenCalledTimes(1);
+  expect(received.mock.calls).toEqual([['a'], ['b']]);
+  await h.render(
+    <StrictMode>
+      <Connected key="b" term="b" />
+    </StrictMode>,
+  );
+  expect(stop).not.toHaveBeenCalled();
+  expect(received).toHaveBeenCalledTimes(2);
+  await h.unmount();
+  expect(stop).toHaveBeenCalledTimes(1);
+});
+
+test('pending state delays ownership and input writes; settled async state does not add renders on ordinary updates', async () => {
+  const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+  const pending = deferred<string>();
+  const $async = atom(pending.promise);
+  const $count = atom(0);
+  const write = vi.fn();
+  const connect = vi.fn(() => () => {});
+  const rendered = vi.fn();
+  const $$owner1 = createModel({ create: () => ({}), resources: () => [{ connect }] });
+  const Connected = holo({
+    models: { _connections: $$owner1 },
+    view: ({ text, count }: { text: string; count: number; term: string }) => {
+      rendered();
+      return (
+        <b>
+          {text}:{count}
+        </b>
+      );
+    },
+    read: { text: $async, count: $count },
+    input: { term: atom(null, (_g, _s, v: string) => write(v)) },
+  });
+  const h = createHarness();
+  const store = createStore();
+  await h.render(<Provider store={store}>{suspense(<Connected term="a" />)}</Provider>);
+  expect(connect).not.toHaveBeenCalled();
+  expect(write).not.toHaveBeenCalled();
+  await act(async () => pending.resolve('ready'));
+  expect(h.container.textContent).toBe('ready:0');
+  expect(write.mock.calls).toEqual([['a']]);
+  const before = rendered.mock.calls.length;
+  await act(async () => store.set($count, 1));
+  expect(h.container.textContent).toBe('ready:1');
+  expect(rendered).toHaveBeenCalledTimes(before + 1);
+  expect(connect).toHaveBeenCalledTimes(1);
+  const errors = consoleError.mock.calls;
+  consoleError.mockRestore();
+  expect(
+    errors.every((args) => String(args[0]).includes('This library called use() to suspend')),
+  ).toBe(true);
+});
+
+test('abandoned transition props do not reach input targets', async () => {
+  const never = new Promise(() => {});
+  const write = vi.fn();
+  function View({ term }: { term: string }) {
+    if (term === 'abandoned') throw never;
+    return <b>{term}</b>;
   }
-  async function transition(node: ReactNode) {
-    await act(() => Promise.resolve(startTransition(() => root.render(node))));
+  const Connected = holo({
+    view: View,
+    input: { term: atom(null, (_g, _s, v: string) => write(v)) },
+  });
+  const h = createHarness();
+  await h.render(suspense(<Connected term="first" />));
+  await h.transition(suspense(<Connected term="abandoned" />));
+  await h.render(suspense(<Connected term="last" />));
+  expect(write.mock.calls).toEqual([['first'], ['last']]);
+});
+
+test('temporary Suspense preserves resources and does not replay input, real unmount releases', async () => {
+  const pending = deferred<string>();
+  const $text = atom<string | Promise<string>>('ready');
+  const write = vi.fn(),
+    stop = vi.fn(),
+    connect = vi.fn(() => stop);
+  const $$owner2 = createModel({ create: () => ({}), resources: () => [{ connect }] });
+  const Connected = holo({
+    models: { _connections: $$owner2 },
+    view: ({ text }: { text: string; term: string }) => <b>{text}</b>,
+    read: { text: $text },
+    input: { term: atom(null, (_g, _s, v: string) => write(v)) },
+  });
+  const h = createHarness();
+  const store = createStore();
+  const tree = (
+    <StrictMode>
+      <Provider store={store}>{suspense(<Connected term="a" />)}</Provider>
+    </StrictMode>
+  );
+  await h.render(tree);
+  await act(async () => store.set($text, pending.promise));
+  expect(stop).not.toHaveBeenCalled();
+  await act(async () => pending.resolve('resolved'));
+  expect(connect).toHaveBeenCalledTimes(1);
+  expect(write).toHaveBeenCalledTimes(1);
+  await h.unmount();
+  expect(stop).toHaveBeenCalledTimes(1);
+});
+
+test('key and store replacement clean old resources before new input arrives', async () => {
+  const events: string[] = [];
+  const $$search = createModel({
+    initial: '',
+    create: (id) => ({
+      id,
+      changed: atom(null, (_g, _s, v: string) => {
+        events.push(`${id}:${v}`);
+      }),
+    }),
+    resources: (model) => [
+      {
+        connect() {
+          events.push(`connect:${model.id}`);
+          return () => {
+            events.push(`stop:${model.id}`);
+          };
+        },
+      },
+    ],
+  });
+  const Connected = holo({
+    models: { search: (input: { id: string }) => $$search({ key: [input.id], initial: input.id }) },
+    view: (_props: { term: string }) => null,
+    input: ({ search }) => ({ term: search.changed }),
+  });
+  const h = createHarness();
+  const first = createStore(),
+    second = createStore();
+  const tree = (id: string, store = first) => (
+    <Provider store={store}>
+      <Connected id={id} term="desk" />
+    </Provider>
+  );
+  await h.render(tree('a'));
+  await h.render(tree('b'));
+  await h.render(tree('b', second));
+  expect(events).toEqual([
+    'connect:a',
+    'a:desk',
+    'stop:a',
+    'connect:b',
+    'b:desk',
+    'stop:b',
+    'connect:b',
+    'b:desk',
+  ]);
+});
+
+test('input facts reach connected analytics resources and committed imperative methods', async () => {
+  const event = eventAtom<string>();
+  const tracked = vi.fn(),
+    called = vi.fn();
+  const store = createStore();
+  function View({
+    imperative,
+  }: {
+    term: string;
+    imperative: HoloImperative<{ onInput(value: string): void }>;
+  }) {
+    useImperativeHolo(imperative, { onInput: called });
+    return null;
   }
-  async function unmount() {
-    if (!mounted) return;
-    mounted = false;
-    await act(() => Promise.resolve(root.unmount()));
-    container.remove();
-  }
-  disposers.push(unmount);
-  return { container, render, transition, unmount };
+  const $$owner3 = createModel({
+    create: () => ({}),
+    resources: () => [{ connect: (store) => subscribeEvent(store, event, tracked) }],
+  });
+  const Connected = holo({
+    models: { _connections: $$owner3 },
+    view: View,
+    input: { term: event },
+    imperative: { onInput: event },
+  });
+  const h = createHarness();
+  await h.render(
+    <StrictMode>
+      <Provider store={store}>
+        <Connected term="a" />
+      </Provider>
+    </StrictMode>,
+  );
+  expect(called.mock.calls).toEqual([['a']]);
+  expect(tracked).toHaveBeenCalledTimes(1);
+  await h.unmount();
+  store.set(event, 'late');
+  expect(tracked).toHaveBeenCalledTimes(1);
+  expect(called).toHaveBeenCalledTimes(1);
+});
+
+test('input errors are isolated and async failures are reported', async () => {
+  const error = new Error('input failed');
+  const onError = vi.fn();
+  const other = vi.fn();
+  const Connected = holo({
+    view: (_props: { a: string; b: string; c: string }) => null,
+    onError,
+    input: {
+      a: atom(null, () => {
+        throw error;
+      }),
+      b: atom(null, (_g, _s, v: string) => other(v)),
+      c: atom(null, async () => {
+        throw error;
+      }),
+    },
+  });
+  const h = createHarness();
+  await h.render(<Connected a="a" b="b" c="c" />);
+  expect(other.mock.calls).toEqual([['b']]);
+  expect(onError.mock.calls).toEqual([[error], [error]]);
+});
+
+function typeChecks() {
+  const changed = atom(null, (_g, _s, v: string) => {});
+  const Connected = holo({ view: (_props: { term: string }) => null, input: { term: changed } });
+  expectTypeOf<ComponentProps<typeof Connected>>().toEqualTypeOf<{ term: string }>();
+  // @ts-expect-error Input bindings do not provide required View props.
+  const missing = <Connected />;
+  // @ts-expect-error Input payload must match the incoming prop.
+  holo({ view: (_props: { term: string }) => null, input: { term: atom(0) } });
+  // @ts-expect-error Unknown input prop.
+  holo({ view: (_props: { term: string }) => null, input: { missing: changed } });
+  holo({
+    view: (_props: { term: string }) => null,
+    read: { term: atom('') },
+    // @ts-expect-error Generated read props are not external inputs.
+    input: { term: changed },
+  });
+  void missing;
 }
+void typeChecks;
 
-describe('holo lifecycle', () => {
-  test('mounts before initial change, tracks input changes, and unmounts with the latest inputs', async () => {
-    const $count = stateAtom(0);
-    const $global = stateAtom('');
-    const store = createStore();
-    const events: string[] = [];
-    const inputs: object[] = [];
-    function Core({
-      count,
-      onChange,
-    }: {
-      count: number;
-      onChange: (count: number) => void;
-      init: number;
-      reactive: string;
-    }) {
-      return <button onClick={() => onChange(count + 1)}>{count}</button>;
-    }
-    const Counter = holo({
-      view: Core,
-      read: { count: $count },
-      write: { onChange: $count },
-      props: { init: 5 },
-      lifecycle: {
-        onMount(get, set, ctx) {
-          events.push(`mount:${get($count)}:${ctx.input.init}`);
-          set($count, ctx.input.init * 2);
-        },
-        onInputChange(get, set, ctx) {
-          events.push(`change:${get($count)}:${ctx.input.reactive}`);
-          inputs.push(ctx.input);
-          set($global, ctx.input.reactive);
-        },
-        onUnmount(_get, set, ctx) {
-          events.push(`unmount:${ctx.input.reactive}`);
-          set($count, 0);
-        },
-      },
-    });
-    const harness = createHarness();
-    const extra = { init: 99, count: -1 };
-    await harness.render(
-      <Provider store={store}>
-        <Counter {...extra} reactive="first" />
-      </Provider>,
-    );
-    expect(events).toEqual(['mount:0:5', 'change:10:first']);
-    expect(inputs).toEqual([{ init: 5, reactive: 'first' }]);
-    expect(harness.container.textContent).toBe('10');
-    expect(store.get($global)).toBe('first');
-
-    await harness.render(
-      <Provider store={store}>
-        <Counter reactive="first" />
-      </Provider>,
-    );
-    await act(() => Promise.resolve(store.set($count, 11)));
-    expect(events).toHaveLength(2);
-    expect(harness.container.textContent).toBe('11');
-
-    await harness.render(
-      <Provider store={store}>
-        <Counter reactive="second" />
-      </Provider>,
-    );
-    expect(events).toEqual(['mount:0:5', 'change:10:first', 'change:11:second']);
-    expect(store.get($global)).toBe('second');
-    await harness.unmount();
-    expect(events.at(-1)).toBe('unmount:second');
-    expect(store.get($count)).toBe(0);
+test('input prop names are checked against own bindings rather than Object.prototype', async () => {
+  const received = vi.fn();
+  const Connected = holo({
+    view: (_props: { toString: string }) => null,
+    input: { toString: atom(null, (_get, _set, value: string) => received(value)) },
   });
-
-  test('compares prop values shallowly without requiring a memoized props object', async () => {
-    const events: string[] = [];
-    function Core(_props: { data?: object; value: number }) {
-      return null;
-    }
-    const Connected = holo({
-      view: Core,
-      lifecycle: {
-        onInputChange: (_get, _set, ctx) => {
-          events.push(String(ctx.input.value));
-        },
-      },
-    });
-    const harness = createHarness();
-    const data = {};
-    await harness.render(<Connected data={data} value={NaN} />);
-    await harness.render(<Connected data={data} value={NaN} />);
-    expect(events).toHaveLength(1);
-    await harness.render(<Connected data={{}} value={NaN} />);
-    expect(events).toHaveLength(2);
-    await harness.render(<Connected value={NaN} />);
-    expect(events).toHaveLength(3);
-  });
-
-  test('binds lifecycle reads and writes to each nearest store and reopens on store replacement', async () => {
-    const $name = stateAtom('');
-    const $value = stateAtom('');
-    const first = createStore();
-    const second = createStore();
-    first.set($name, 'first');
-    second.set($name, 'second');
-    const events: string[] = [];
-    function Core(_props: { reactive: string }) {
-      return null;
-    }
-    const Connected = holo({
-      view: Core,
-      lifecycle: {
-        onMount(get, set, ctx) {
-          events.push(`mount:${get($name)}:${ctx.input.reactive}`);
-          set($value, ctx.input.reactive);
-        },
-        onInputChange(get, _set, ctx) {
-          events.push(`change:${get($name)}:${ctx.input.reactive}`);
-        },
-        onUnmount(get, set, ctx) {
-          events.push(`unmount:${get($name)}:${ctx.input.reactive}`);
-          set($value, 'closed');
-        },
-      },
-    });
-    const harness = createHarness();
-    await harness.render(
-      <Provider store={first}>
-        <Connected reactive="old" />
-      </Provider>,
-    );
-    await harness.render(
-      <Provider store={second}>
-        <Connected reactive="new" />
-      </Provider>,
-    );
-    expect(events).toEqual([
-      'mount:first:old',
-      'change:first:old',
-      'unmount:first:old',
-      'mount:second:new',
-      'change:second:new',
-    ]);
-    expect(first.get($value)).toBe('closed');
-    expect(second.get($value)).toBe('new');
-    await harness.unmount();
-    expect(events.at(-1)).toBe('unmount:second:new');
-    expect(second.get($value)).toBe('closed');
-  });
-
-  test('deduplicates StrictMode replay without entering an update loop', async () => {
-    const $count = stateAtom(0);
-    const store = createStore();
-    const events: string[] = [];
-    function Core(_props: { count: number }) {
-      return null;
-    }
-    const Connected = holo({
-      view: Core,
-      read: { count: $count },
-      lifecycle: {
-        onMount(_get, set) {
-          events.push('mount');
-          set($count, 10);
-        },
-        onInputChange() {
-          events.push('change');
-        },
-        onUnmount(_get, set) {
-          events.push('unmount');
-          set($count, 0);
-        },
-      },
-    });
-    const harness = createHarness();
-    await harness.render(
-      <StrictMode>
-        <Provider store={store}>
-          <Connected />
-        </Provider>
-      </StrictMode>,
-    );
-    expect(events).toEqual(['mount', 'change']);
-    expect(store.get($count)).toBe(10);
-    await harness.unmount();
-    expect(events.at(-1)).toBe('unmount');
-    expect(store.get($count)).toBe(0);
-  });
-
-  test('keeps lifecycle props separate for simultaneous component instances', async () => {
-    const events: string[] = [];
-    function Core(_props: { id: string }) {
-      return null;
-    }
-    const Connected = holo({
-      view: Core,
-      lifecycle: {
-        onMount: (_get, _set, ctx) => {
-          events.push(`mount:${ctx.input.id}`);
-        },
-        onUnmount: (_get, _set, ctx) => {
-          events.push(`unmount:${ctx.input.id}`);
-        },
-      },
-    });
-    const harness = createHarness();
-    await harness.render(
-      <>
-        <Connected key="a" id="a" />
-        <Connected key="b" id="b" />
-      </>,
-    );
-    await harness.render(<Connected key="b" id="b" />);
-    expect(events).toEqual(['mount:a', 'mount:b', 'unmount:a']);
-    await harness.unmount();
-    expect(events).toEqual(['mount:a', 'mount:b', 'unmount:a', 'unmount:b']);
-  });
-
-  test('does not expose props from an abandoned suspended render during unmount', async () => {
-    const events: string[] = [];
-    const never = new Promise<void>(() => undefined);
-    function Core({ value }: { value: string }) {
-      if (value === 'uncommitted') throw never;
-      return <span>{value}</span>;
-    }
-    const Connected = holo({
-      view: Core,
-      lifecycle: {
-        onInputChange: (_get, _set, ctx) => {
-          events.push(`change:${ctx.input.value}`);
-        },
-        onUnmount: (_get, _set, ctx) => {
-          events.push(`unmount:${ctx.input.value}`);
-        },
-      },
-    });
-    const harness = createHarness();
-    await harness.render(
-      <Suspense fallback="loading">
-        <Connected value="committed" />
-      </Suspense>,
-    );
-    await harness.transition(
-      <Suspense fallback="loading">
-        <Connected value="uncommitted" />
-      </Suspense>,
-    );
-    expect(harness.container.textContent).toBe('committed');
-    await harness.unmount();
-    expect(events).toEqual(['change:committed', 'unmount:committed']);
-  });
+  const h = createHarness();
+  await h.render(<Connected toString="value" />);
+  expect(received.mock.calls).toEqual([['value']]);
 });

@@ -21,5 +21,4 @@ export type { EventOptions } from './subscribe-event.js';
 
 export { useImperativeHolo } from './imperative.js';
 export type { HoloImperative } from './imperative.js';
-export type { HoloLifecycle, LifecycleContext, ResolvedModels } from './holo-view.js';
-export type { Resource } from './resource.js';
+export type { ResolvedModels } from './holo-view.js';

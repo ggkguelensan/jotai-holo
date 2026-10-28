@@ -24,7 +24,7 @@ Keep the View separate when you want to reuse it in stories, test it with props 
 
 A writable atom can supply both a value and a callback. A function might be a prop, a React component, or an action. Separate sections make the operation explicit without guessing from runtime object shapes. The same native atom can appear in `read` and `write` under different prop names.
 
-`view` names the React component. `props` means fixed View props. `ctx.input` means the inputs available to lifecycle handlers.
+`view` names the React component. `props` means fixed View props. `input` maps committed caller props to model actions.
 
 ## A small vocabulary, native semantics
 
@@ -34,7 +34,7 @@ A writable atom can supply both a value and a callback. A function might be a pr
 | Commands / facts               | actionAtom / eventAtom      | Explicit calls, no retained event payload             |
 | Combine / project              | ion / prism                 | Jotai dependencies and Object.is                      |
 | React to a domain notification | bond                        | Explicit store-owned connection                       |
-| Bind / repeat / choose Views   | holo / holoList / holoMatch | Ordinary React props and lifecycle                    |
+| Bind / repeat / choose Views   | holo / holoList / holoMatch | Ordinary React props and model ownership              |
 | Share a model between widgets  | createModel                 | Instance selected by definition, key and store        |
 
 The names use a playful molecular vocabulary. Holo recalls an assembled holoenzyme, and `Re` in the mark stands for React. This is an identity metaphor, not a chemistry model.

@@ -171,7 +171,7 @@ export const NameField = holo({
 // <NameField /> has no required public props.
 // #endregion holo
 
-// #region lifecycle
+// #region input
 
 const $query = atom('');
 
@@ -186,14 +186,10 @@ function SearchView({ query, term }: { query: string; term: string }) {
 export const Search = holo({
   view: SearchView,
   read: { query: $query },
-  lifecycle: {
-    onInputChange(_get, set, ctx) {
-      set(inputChanged, ctx.input.term);
-    },
-  },
+  input: { term: inputChanged },
 });
 // <Search term="jotai" />
-// #endregion lifecycle
+// #endregion input
 
 // #region list
 

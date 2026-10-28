@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-27 12:24+0500\n"
+"POT-Creation-Date: 2026-10-28 11:00+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -252,6 +252,35 @@ msgstr "перейти"
 msgid "to close"
 msgstr "закрыть"
 
+#: examples/docs/analytics.tsx
+#: examples/docs/query.tsx
+msgid "Product catalog"
+msgstr "Каталог товаров"
+
+#: examples/docs/analytics.tsx
+msgid "Search products"
+msgstr "Поиск товаров"
+
+#: examples/docs/analytics.tsx
+msgid "Search"
+msgstr "Найти"
+
+#: examples/docs/analytics.tsx
+msgid "Search → Amplitude + warehouse; product open → PostHog."
+msgstr "Поиск → Amplitude + warehouse; открытие товара → PostHog."
+
+#: examples/docs/analytics.tsx
+msgid "Product details"
+msgstr "Карточка товара"
+
+#: examples/docs/analytics.tsx
+msgid "Close details"
+msgstr "Закрыть карточку"
+
+#: examples/docs/analytics.tsx
+msgid "Recording adapters write to the console; no SDK or network."
+msgstr "Демо-адаптеры записывают в консоль; без SDK и сетевых запросов."
+
 #: examples/docs/bond.tsx
 msgid "A fact → a separate reaction"
 msgstr "Факт → независимая реакция"
@@ -292,6 +321,22 @@ msgstr "Увеличить"
 #: examples/docs/counter.tsx
 msgid "One model, ordinary props"
 msgstr "Одна модель, обычные пропсы"
+
+#: examples/docs/data-lifecycle.tsx
+msgid "Name"
+msgstr "Имя"
+
+#: examples/docs/data-lifecycle.tsx
+msgid "Profile draft"
+msgstr "Черновик профиля"
+
+#: examples/docs/data-lifecycle.tsx
+msgid "Mount editor"
+msgstr "Показать редактор"
+
+#: examples/docs/data-lifecycle.tsx
+msgid "Hiding the editor saves your draft in this tab."
+msgstr "Скрытие редактора сохраняет черновик в этой вкладке."
 
 #: examples/docs/event.tsx
 msgid "Simulated incoming message"
@@ -389,6 +434,18 @@ msgstr "Количество"
 msgid "Place order"
 msgstr "Оформить заказ"
 
+#: examples/docs/input.tsx
+msgid "Mounted search View receives"
+msgstr "Смонтированный Search View получает"
+
+#: examples/docs/input.tsx
+msgid "Input prop: term"
+msgstr "Входной пропс: term"
+
+#: examples/docs/input.tsx
+msgid "Mount Search"
+msgstr "Монтировать Search"
+
 #: examples/docs/ion.tsx
 msgid "Workshop tickets · $25 each"
 msgstr "Билеты на воркшоп · $25 каждый"
@@ -396,26 +453,6 @@ msgstr "Билеты на воркшоп · $25 каждый"
 #: examples/docs/ion.tsx
 msgid "Member discount · 20%"
 msgstr "Скидка участника · 20%"
-
-#: examples/docs/lifecycle.tsx
-msgid "Mounted search View receives"
-msgstr "Смонтированный Search View получает"
-
-#: examples/docs/lifecycle.tsx
-msgid "mounted"
-msgstr "смонтирован"
-
-#: examples/docs/lifecycle.tsx
-msgid "unmounted"
-msgstr "размонтирован"
-
-#: examples/docs/lifecycle.tsx
-msgid "Input prop: term"
-msgstr "Входной пропс: term"
-
-#: examples/docs/lifecycle.tsx
-msgid "Mount Search"
-msgstr "Монтировать Search"
 
 #: examples/docs/list.tsx
 msgid "Review proposal"
@@ -573,10 +610,6 @@ msgstr "Загрузка…"
 #: examples/docs/query.tsx
 msgid "Product not found."
 msgstr "Товар не найден."
-
-#: examples/docs/query.tsx
-msgid "Product catalog"
-msgstr "Каталог товаров"
 
 #: examples/docs/query.tsx
 msgid "Desk"

@@ -4,12 +4,14 @@ export type Store = ReturnType<typeof createStore>;
 export const modelDefinition = Symbol('holo.model.definition');
 export const modelIdentity = Symbol('holo.model.identity');
 export const modelAcquire = Symbol('holo.model.acquire');
+export const modelPeek = Symbol('holo.model.peek');
 
 export type ModelAtom<Model extends object> = Atom<Model> & {
   readonly [modelIdentity]: {
     readonly definition: object;
     readonly key: string;
     readonly entry: (get: Getter) => object;
+    readonly initial: (get: Getter) => unknown;
   };
   readonly [modelAcquire]: (store: Store) => () => void;
 };

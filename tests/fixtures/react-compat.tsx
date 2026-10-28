@@ -1,3 +1,4 @@
+import { modelRegistry } from 'jotai-holo/model';
 import { createRoot } from 'react-dom/client';
 import { createRef, Component, StrictMode, Suspense, useState, type ReactNode } from 'react';
 import { Provider, atom } from 'jotai';
@@ -81,16 +82,18 @@ const OwnCounter = holo({
   write: ({ counter }) => ({ onClick: counter.increment }),
   imperative: ({ counter }) => ({ onIncremented: counter.incremented }),
 });
-const FormModel = createFormModel({
-  initial: { name: 'Ada' },
-  options: (initial) => ({
-    defaultValues: initial,
-    resolver: async (values: { name: string }) => ({
-      values: { name: values.name.toUpperCase() },
-      errors: {},
+const FormModel = modelRegistry()(
+  createFormModel({
+    initial: { name: 'Ada' },
+    options: (initial) => ({
+      defaultValues: initial,
+      resolver: async (values: { name: string }) => ({
+        values: { name: values.name.toUpperCase() },
+        errors: {},
+      }),
     }),
   }),
-});
+);
 function FormView() {
   const form = useFormContext<{ name: string }>();
   const [saved, save] = useState('');
@@ -154,23 +157,31 @@ const Counter = holo({
   read: { count: $count, doubled: $double, parity: $parity },
   write: { onIncrement: increment },
   props: { title: 'counter' },
-  lifecycle: {
-    onMount() {
-      lifecycle.push('mount');
-    },
-    onInputChange() {
+  models: {
+    owner: createModel({
+      create: () => ({}),
+      resources: () => [
+        {
+          connect() {
+            lifecycle.push('mount');
+            return () => {
+              lifecycle.push('unmount');
+            };
+          },
+        },
+      ],
+    }),
+  },
+  input: {
+    title: atom(null, (_get, _set, _title: string) => {
       lifecycle.push('change');
-    },
-    onUnmount() {
-      lifecycle.push('unmount');
-    },
+    }),
   },
 });
 const inputRef = createRef<HTMLInputElement>();
 const Input = holo({
   view: 'input',
   props: { defaultValue: 'ref works' },
-  lifecycle: { onMount() {} },
 });
 const Match = holoMatch({ source: atom<'input'>('input'), cases: { input: Input } });
 const $items = atom<readonly number[]>([1, 2]);

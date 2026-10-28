@@ -1,6 +1,6 @@
 'use client';
 
-import { useStore, type Atom, type Getter, type Setter, type WritableAtom } from 'jotai';
+import { useStore, type Atom, type WritableAtom } from 'jotai';
 import {
   createElement,
   memo,
@@ -59,19 +59,8 @@ type InputProps<View extends ElementType, R extends PropertyKey, W extends Prope
   PropsOf<View>,
   R | W | 'imperative'
 >;
-export type LifecycleContext<Input, Model> = {
-  readonly input: Readonly<Input>;
-  readonly models: Readonly<Model>;
-};
-type LifecycleHandler<Input, Model> =
-  | ((get: Getter, set: Setter, context: LifecycleContext<Input, Model>) => undefined)
-  | WritableAtom<unknown, [LifecycleContext<Input, Model>], unknown>
-  | WritableAtom<unknown, [], unknown>;
-export type HoloLifecycle<Input, Model = {}> = {
-  input?: (input: Readonly<Input>) => Readonly<Record<string, unknown>>;
-  onMount?: LifecycleHandler<Input, Model>;
-  onInputChange?: LifecycleHandler<Input, Model>;
-  onUnmount?: LifecycleHandler<Input, Model>;
+type InputBindings<Input> = {
+  [Key in keyof Input]?: WritableAtom<unknown, [Input[Key]], unknown>;
 };
 
 export type HoloConfig<
@@ -103,11 +92,15 @@ export type HoloConfig<
       ? never
       : NoInfer<PropsOf<View>[Key]>;
   };
-  lifecycle?: HoloLifecycle<
-    InputProps<NoInfer<View>, ReadKeys, WriteKeys> & SourceInputs<Sources>,
-    ResolvedModels<Sources>
+  input?: Bindings<
+    InputBindings<
+      InputProps<NoInfer<View>, NoInfer<ReadKeys>, NoInfer<WriteKeys>> &
+        SourceInputs<NoInfer<Sources>>
+    > & {
+      [Key in NoInfer<ReadKeys | WriteKeys> | 'imperative']?: never;
+    },
+    Sources
   >;
-  resources?: Bindings<readonly Resource[], Sources>;
   onError?: (error: unknown) => void;
 } & (PropsOf<NoInfer<View>> extends { imperative: HoloImperative<object> }
   ? { imperative: Bindings<ImperativeMap<PropsOf<NoInfer<View>>>, Sources> }
@@ -132,8 +125,7 @@ export type ViewRuntimeConfig = {
   write?: RuntimeFactory<Record<string, WritableAtom<unknown, never[], unknown>>>;
   props?: RecordValue;
   imperative?: RuntimeFactory<Record<string, ActionSource<never[]>>>;
-  resources?: RuntimeFactory<readonly Resource[]>;
-  lifecycle?: HoloLifecycle<RecordValue, RecordValue>;
+  input?: RuntimeFactory<Record<string, WritableAtom<unknown, never[], unknown>>>;
   onError?: (error: unknown) => void;
 };
 const useCommitEffect = typeof document === 'undefined' ? useEffect : useLayoutEffect;
@@ -145,18 +137,24 @@ const resolveFactory = <Value>(
   typeof factory === 'function'
     ? (factory as (m: RecordValue) => Value)(models)
     : (factory ?? fallback);
-const sameInput = (a: Readonly<RecordValue>, b: Readonly<RecordValue>) =>
-  Object.keys(a).length === Object.keys(b).length &&
-  Object.keys(a).every((key) => Object.hasOwn(b, key) && Object.is(a[key], b[key]));
 
 export function connectView(
   config: ViewRuntimeConfig,
   wrap?: (models: RecordValue, view: ElementType) => ElementType,
 ) {
-  for (const field of ['core', 'state', 'actions', 'bindProps', 'cage', 'model'])
+  for (const field of [
+    'core',
+    'state',
+    'actions',
+    'bindProps',
+    'cage',
+    'model',
+    'lifecycle',
+    'resources',
+  ])
     if (field in config)
       throw new TypeError(
-        `holo: unsupported field "${field}". Use view/read/write/props/models/lifecycle.`,
+        `holo: unsupported field "${field}". Use view/read/write/props/models/input.`,
       );
   if (!config.view) throw new TypeError('holo: view is required.');
   const sources = Object.entries(config.models ?? {});
@@ -169,7 +167,6 @@ export function connectView(
       console.error(failure);
     }
   };
-  const lifecycle = config.lifecycle;
   const hasImperative = config.imperative !== undefined;
   const staticProps = { ...config.props };
   const useModels = createUseBindingState(sources.map(([key]) => key));
@@ -199,19 +196,21 @@ export function connectView(
         reads: Object.entries(read),
         write,
         imperative,
-        resources: resolveFactory(config.resources, models, []),
+        input: Object.entries(resolveFactory(config.input, models, {})),
       };
     })();
     const useValues = createUseBindingState(resolved.reads.map(([key]) => key));
-    const outputs = new Set([
-      ...resolved.reads.map(([key]) => key),
-      ...Object.keys(resolved.write),
-      'imperative',
-    ]);
+    for (const [name] of resolved.input)
+      if (
+        name === 'imperative' ||
+        resolved.reads.some(([key]) => key === name) ||
+        Object.hasOwn(resolved.write, name)
+      )
+        throw new Error(`holo.input: "${name}" is a generated prop.`);
     return memoWithRef(function HoloResolved({ ownProps, owner }: BoundInput) {
       const store = useStore();
-      const input = Object.fromEntries(
-        Object.entries({ ...ownProps, ...staticProps }).filter(([key]) => !outputs.has(key)),
+      const input = resolved.input.map(([name]) =>
+        Object.hasOwn(staticProps, name) ? staticProps[name] : ownProps[name],
       );
       const values = useValues(resolved.reads);
       const callbacks = useMemo(
@@ -225,25 +224,6 @@ export function connectView(
         [store, resolved],
       );
       const handle = useRef<Record<string, (...args: never[]) => unknown> | null>(null);
-      const committed = useMemo(() => ({ input, models }), [store, models, resolved]);
-      useCommitEffect(() => {
-        committed.input = input;
-      });
-      const callLifecycle = (phase: 'onMount' | 'onInputChange' | 'onUnmount') => {
-        const handler = lifecycle?.[phase];
-        if (!handler) return;
-        const context = committed;
-        const result: unknown =
-          typeof handler === 'function'
-            ? handler(store.get, store.set, context)
-            : Reflect.apply(store.set, store, [handler, context]);
-        if (result && typeof (result as PromiseLike<unknown>).then === 'function') {
-          void Promise.resolve(result).catch(report);
-          throw new TypeError(
-            `holo.lifecycle.${phase} must be synchronous; start async work in a handled action.`,
-          );
-        }
-      };
       const lease = useMemo(
         () => ({ release: undefined as (() => void) | undefined }),
         [store, models, resolved],
@@ -280,7 +260,7 @@ export function connectView(
             const modelResources: Resource[] = selections
               .filter((selection): selection is ModelAtom<object> => modelAcquire in selection)
               .map((selection) => ({ connect: () => selection[modelAcquire](store) }));
-            lease.release = acquireResources(store, [...modelResources, ...resolved.resources]);
+            lease.release = acquireResources(store, modelResources);
           }
           owner.current = { lease, close };
         } catch (error) {
@@ -293,10 +273,9 @@ export function connectView(
       }, [lease, store, resolved]);
       const lifetime = useMemo(
         () => ({
-          active: false,
           closed: false,
           revision: 0,
-          previous: undefined as Readonly<RecordValue> | undefined,
+          previous: undefined as readonly unknown[] | undefined,
         }),
         [lease],
       );
@@ -304,14 +283,6 @@ export function connectView(
         if (lifetime.closed) return;
         lifetime.closed = true;
         lifetime.revision++;
-        if (lifetime.active) {
-          lifetime.active = false;
-          try {
-            callLifecycle('onUnmount');
-          } catch (error) {
-            report(error);
-          }
-        }
         const release = lease.release;
         lease.release = undefined;
         try {
@@ -323,14 +294,6 @@ export function connectView(
       };
       useEffect(() => {
         lifetime.revision++;
-        if (!lifetime.active) {
-          lifetime.active = true;
-          try {
-            callLifecycle('onMount');
-          } catch (error) {
-            report(error);
-          }
-        }
         return () => {
           const revision = ++lifetime.revision;
           // StrictMode cleanup/setup is one logical owner; real cleanup closes it.
@@ -341,14 +304,18 @@ export function connectView(
         };
       }, [lifetime]);
       useEffect(() => {
-        const selected = lifecycle?.input?.(input) ?? input;
-        if (lifetime.previous && sameInput(lifetime.previous, selected)) return;
-        lifetime.previous = { ...selected };
-        try {
-          callLifecycle('onInputChange');
-        } catch (error) {
-          report(error);
-        }
+        const previous = lifetime.previous;
+        lifetime.previous = input;
+        resolved.input.forEach(([, target], index) => {
+          if (previous && Object.is(previous[index], input[index])) return;
+          try {
+            const result = Reflect.apply(store.set, store, [target, input[index]]);
+            if (result && typeof (result as PromiseLike<unknown>).then === 'function')
+              void Promise.resolve(result).catch(report);
+          } catch (error) {
+            report(error);
+          }
+        });
       });
       return createElement(RenderedView, {
         ...ownProps,

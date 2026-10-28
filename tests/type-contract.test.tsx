@@ -60,10 +60,8 @@ function _invalidAndValidConfigurations() {
   const invalidRef = <Input ref={createRef<HTMLButtonElement>()} />;
   holo({
     view: () => null,
-    lifecycle: {
-      // @ts-expect-error Async lifecycle callbacks are intentionally unsupported.
-      async onMount() {},
-    },
+    // @ts-expect-error Raw lifecycle is replaced by input and owned models.
+    lifecycle: { onMount() {} },
   });
   return [validA, validB, missing, mixed, validRef, invalidRef];
 }

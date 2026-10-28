@@ -30,7 +30,10 @@ try {
     import assert from 'node:assert/strict';
     import * as library from 'jotai-holo';
     import * as vanilla from 'jotai-holo/vanilla';
-    import { createModel } from 'jotai-holo/model';
+    import { createModel, modelRegistry, pipe } from 'jotai-holo/model';
+    import { createAnalytics, modelAnalytics } from 'jotai-holo/analytics';
+    import { createAmplitudeAdapter } from 'jotai-holo/analytics/amplitude';
+    assert.equal(typeof createAmplitudeAdapter, 'function');
     import { persist, localStorageAdapter } from 'jotai-holo/persist';
     assert.equal(typeof persist, 'function');
     assert.equal(typeof localStorageAdapter, 'function');
@@ -41,10 +44,28 @@ try {
     assert.equal(typeof mutationAtoms, 'function');
     assert.equal(typeof holoForm, 'function');
     const definition = createModel({create: () => ({value: 1})});
-    const forms = createFormModel({initial: {name: ''}, options: initial => ({defaultValues: initial})});
+    const forms = modelRegistry()(createFormModel({initial: {name: ''}, options: initial => ({defaultValues: initial})}));
     import { createStore } from 'jotai/vanilla';
     assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'or', 'prism', 'some', 'stateAtom', 'subscribeEvent', 'sum', 'useImperativeHolo']);
     assert.deepEqual(Object.keys(vanilla).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'ion', 'or', 'prism', 'some', 'stateAtom', 'subscribeEvent', 'sum']);
+
+    const analyticsStore = createStore();
+    let tracked = 0;
+    const analytics = createAnalytics({engines:{recording:()=>({send(){tracked++}})}});
+    const observed = pipe(
+      () => ({occurred: vanilla.eventAtom()}),
+      modelRegistry(),
+      modelAnalytics(async () => model => ({
+        observation: analytics.event({trigger:model.occurred,map:{recording:()=>({name:'occurred'})}}),
+      })),
+    );
+    const lease = observed.acquire(analyticsStore);
+    for(let i=0;i<20;i++) await Promise.resolve();
+    analyticsStore.set(lease.model.occurred);
+    await analytics.flush(analyticsStore);
+    assert.equal(tracked, 1);
+    lease.release();
+    await analytics.dispose(analyticsStore);
     const value = vanilla.stateAtom(1);
     const increment = vanilla.actionAtom((_get, set) => set(value, n => n + 1));
     const store = createStore();

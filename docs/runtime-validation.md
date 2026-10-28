@@ -1,5 +1,7 @@
 # Runtime implementation validation
 
+Historical validation of the previous binding interface. Current contracts and results are in [model composition validation](model-composition-validation.md).
+
 Checked on 2026-10-27. Migration baseline: 84002f0 (feat/holo-runtime).
 
 ## Implemented

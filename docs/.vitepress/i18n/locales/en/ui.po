@@ -252,6 +252,35 @@ msgstr "to navigate"
 msgid "to close"
 msgstr "to close"
 
+#: examples/docs/analytics.tsx
+#: examples/docs/query.tsx
+msgid "Product catalog"
+msgstr "Product catalog"
+
+#: examples/docs/analytics.tsx
+msgid "Search products"
+msgstr "Search products"
+
+#: examples/docs/analytics.tsx
+msgid "Search"
+msgstr "Search"
+
+#: examples/docs/analytics.tsx
+msgid "Search → Amplitude + warehouse; product open → PostHog."
+msgstr "Search → Amplitude + warehouse; product open → PostHog."
+
+#: examples/docs/analytics.tsx
+msgid "Product details"
+msgstr "Product details"
+
+#: examples/docs/analytics.tsx
+msgid "Close details"
+msgstr "Close details"
+
+#: examples/docs/analytics.tsx
+msgid "Recording adapters write to the console; no SDK or network."
+msgstr "Recording adapters write to the console; no SDK or network."
+
 #: examples/docs/bond.tsx
 msgid "A fact → a separate reaction"
 msgstr "A fact → a separate reaction"
@@ -292,6 +321,22 @@ msgstr "Increment"
 #: examples/docs/counter.tsx
 msgid "One model, ordinary props"
 msgstr "One model, ordinary props"
+
+#: examples/docs/data-lifecycle.tsx
+msgid "Name"
+msgstr "Name"
+
+#: examples/docs/data-lifecycle.tsx
+msgid "Profile draft"
+msgstr "Profile draft"
+
+#: examples/docs/data-lifecycle.tsx
+msgid "Mount editor"
+msgstr "Mount editor"
+
+#: examples/docs/data-lifecycle.tsx
+msgid "Hiding the editor saves your draft in this tab."
+msgstr "Hiding the editor saves your draft in this tab."
 
 #: examples/docs/event.tsx
 msgid "Simulated incoming message"
@@ -389,6 +434,18 @@ msgstr "Quantity"
 msgid "Place order"
 msgstr "Place order"
 
+#: examples/docs/input.tsx
+msgid "Mounted search View receives"
+msgstr "Mounted search View receives"
+
+#: examples/docs/input.tsx
+msgid "Input prop: term"
+msgstr "Input prop: term"
+
+#: examples/docs/input.tsx
+msgid "Mount Search"
+msgstr "Mount Search"
+
 #: examples/docs/ion.tsx
 msgid "Workshop tickets · $25 each"
 msgstr "Workshop tickets · $25 each"
@@ -396,26 +453,6 @@ msgstr "Workshop tickets · $25 each"
 #: examples/docs/ion.tsx
 msgid "Member discount · 20%"
 msgstr "Member discount · 20%"
-
-#: examples/docs/lifecycle.tsx
-msgid "Mounted search View receives"
-msgstr "Mounted search View receives"
-
-#: examples/docs/lifecycle.tsx
-msgid "mounted"
-msgstr "mounted"
-
-#: examples/docs/lifecycle.tsx
-msgid "unmounted"
-msgstr "unmounted"
-
-#: examples/docs/lifecycle.tsx
-msgid "Input prop: term"
-msgstr "Input prop: term"
-
-#: examples/docs/lifecycle.tsx
-msgid "Mount Search"
-msgstr "Mount Search"
 
 #: examples/docs/list.tsx
 msgid "Review proposal"
@@ -573,10 +610,6 @@ msgstr "Loading…"
 #: examples/docs/query.tsx
 msgid "Product not found."
 msgstr "Product not found."
-
-#: examples/docs/query.tsx
-msgid "Product catalog"
-msgstr "Product catalog"
 
 #: examples/docs/query.tsx
 msgid "Desk"

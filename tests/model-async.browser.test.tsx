@@ -1,3 +1,4 @@
+import { modelLifetime } from './model-lifetime.js';
 import { act, StrictMode, useEffect } from 'react';
 import { atom, createStore, Provider } from 'jotai';
 import { createModel } from '../src/model.js';
@@ -45,20 +46,20 @@ test('changing store updates callbacks and restarts lifecycle without changing m
   const first = createStore();
   const second = createStore();
   const events: string[] = [];
+  const $$owner0 = modelLifetime({
+    onMount(get) {
+      events.push(`mount:${get(m.$count)}`);
+    },
+    onUnmount(get) {
+      events.push(`unmount:${get(m.$count)}`);
+    },
+  });
   const C = holo({
-    models: { model: counter },
+    models: { model: counter, _lifetime: $$owner0 },
     view: Button,
     read: ({ model: m }) => ({ count: m.$count }),
     write: ({ model: m }) => ({ increment: m.increment }),
     props: { title: 'count' },
-    lifecycle: {
-      onMount(get) {
-        events.push(`mount:${get(m.$count)}`);
-      },
-      onUnmount(get) {
-        events.push(`unmount:${get(m.$count)}`);
-      },
-    },
   });
   second.set(m.$count, 10);
   const h = createHarness();
@@ -85,22 +86,22 @@ test('pending and rejected state follow Suspense/ErrorBoundary; resolved async s
   const m = { ...model(), $name: atom(pending.promise) };
   const counter = createModel({ create: () => m });
   const events: string[] = [];
+  const $$owner1 = modelLifetime({
+    onMount() {
+      events.push('mount');
+    },
+    onUnmount() {
+      events.push('unmount');
+    },
+  });
   const C = holo({
-    models: { model: counter },
+    models: { model: counter, _lifetime: $$owner1 },
     view: ({ count, name }: { count: number; name: string }) => (
       <b>
         {name}:{count}
       </b>
     ),
     read: ({ model: m }) => ({ count: m.$count, name: m.$name }),
-    lifecycle: {
-      onMount() {
-        events.push('mount');
-      },
-      onUnmount() {
-        events.push('unmount');
-      },
-    },
   });
   const store = createStore();
   const h = createHarness();
@@ -166,20 +167,20 @@ test('StrictMode and repeated mount/unmount leave no active model resources or a
     ],
   });
   const counter = Counter;
+  const $$owner2 = modelLifetime({
+    onMount() {
+      lifecycle++;
+    },
+    onUnmount() {
+      lifecycle--;
+    },
+  });
   const C = holo({
-    models: { model: counter },
+    models: { model: counter, _lifetime: $$owner2 },
     view: Button,
     read: ({ model: m }) => ({ count: m.$count }),
     write: ({ model: m }) => ({ increment: m.increment }),
     props: { title: 'count' },
-    lifecycle: {
-      onMount() {
-        lifecycle++;
-      },
-      onUnmount() {
-        lifecycle--;
-      },
-    },
   });
   const h = createHarness();
   for (let i = 0; i < 30; i++) {
@@ -194,73 +195,6 @@ test('StrictMode and repeated mount/unmount leave no active model resources or a
     await h.render(null);
     expect([resources, subscriptions, lifecycle]).toEqual([0, 0, 0]);
   }
-});
-
-test('changing public props rerenders View once without reselecting atoms or restarting lifecycle', async () => {
-  const runtime = model();
-  const counter = createModel({ create: () => runtime });
-  let selections = 0;
-  let renders = 0;
-  let mounts = 0;
-  let lifecycleMounts = 0;
-  const changes: string[] = [];
-  const callbacks = new Set<unknown>();
-  const C = holo({
-    models: { model: counter },
-    view: ({
-      count,
-      increment,
-      label,
-    }: {
-      count: number;
-      increment: (n?: number) => void;
-      label: string;
-    }) => {
-      renders++;
-      callbacks.add(increment);
-      useEffect(() => {
-        mounts++;
-      }, []);
-      return (
-        <b>
-          {label}:{count}
-        </b>
-      );
-    },
-    read: ({ model: m }) => ({
-      count: (() => {
-        selections++;
-        return m.$count;
-      })(),
-    }),
-    write: ({ model: m }) => ({ increment: m.increment }),
-    lifecycle: {
-      onMount() {
-        lifecycleMounts++;
-      },
-      onInputChange(_get, _set, ctx) {
-        changes.push(ctx.input.label);
-      },
-    },
-  });
-  const h = createHarness();
-  await h.render(
-    <Provider>
-      <C label="first" />
-    </Provider>,
-  );
-  const baseline = { renders, selections };
-  await h.render(
-    <Provider>
-      <C label="second" />
-    </Provider>,
-  );
-  expect(renders).toBe(baseline.renders + 1);
-  expect(selections).toBe(baseline.selections);
-  expect(mounts).toBe(1);
-  expect(lifecycleMounts).toBe(1);
-  expect(callbacks.size).toBe(1);
-  expect(changes).toEqual(['first', 'second']);
 });
 
 test('actions-only binding mounts the model but never subscribes to its atom', async () => {
@@ -382,4 +316,66 @@ test('keyed selectors keep the resolved View identity through initial Suspense r
   await act(async () => pending.resolve('ready'));
   expect(h.container.textContent).toBe('a:ready');
   expect(bindings).toBe(1);
+});
+
+test('changing public props rerenders View once without reselecting atoms or restarting lifecycle', async () => {
+  const runtime = model();
+  const counter = createModel({ create: () => runtime });
+  let selections = 0;
+  let renders = 0;
+  let mounts = 0;
+  const changes: string[] = [];
+  const callbacks = new Set<unknown>();
+  const C = holo({
+    models: { model: counter },
+    view: ({
+      count,
+      increment,
+      label,
+    }: {
+      count: number;
+      increment: (n?: number) => void;
+      label: string;
+    }) => {
+      renders++;
+      callbacks.add(increment);
+      useEffect(() => {
+        mounts++;
+      }, []);
+      return (
+        <b>
+          {label}:{count}
+        </b>
+      );
+    },
+    read: ({ model: m }) => ({
+      count: (() => {
+        selections++;
+        return m.$count;
+      })(),
+    }),
+    write: ({ model: m }) => ({ increment: m.increment }),
+    input: {
+      label: atom(null, (_get, _set, value: string) => {
+        changes.push(value);
+      }),
+    },
+  });
+  const h = createHarness();
+  await h.render(
+    <Provider>
+      <C label="first" />
+    </Provider>,
+  );
+  const baseline = { renders, selections };
+  await h.render(
+    <Provider>
+      <C label="second" />
+    </Provider>,
+  );
+  expect(renders).toBe(baseline.renders + 1);
+  expect(selections).toBe(baseline.selections);
+  expect(mounts).toBe(1);
+  expect(callbacks.size).toBe(1);
+  expect(changes).toEqual(['first', 'second']);
 });

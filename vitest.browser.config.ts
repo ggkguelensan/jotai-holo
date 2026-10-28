@@ -1,30 +1,9 @@
-import { fileURLToPath } from 'node:url';
+import { sourceAliases } from './scripts/source-aliases.js';
 import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vitest/config';
 export default defineConfig({
   resolve: {
-    alias: [
-      {
-        find: 'jotai-holo/model',
-        replacement: fileURLToPath(new URL('./src/model.ts', import.meta.url)),
-      },
-      {
-        find: 'jotai-holo/query',
-        replacement: fileURLToPath(new URL('./src/query.ts', import.meta.url)),
-      },
-      {
-        find: 'jotai-holo/rhf',
-        replacement: fileURLToPath(new URL('./src/rhf.ts', import.meta.url)),
-      },
-      {
-        find: 'jotai-holo/vanilla',
-        replacement: fileURLToPath(new URL('./src/vanilla.ts', import.meta.url)),
-      },
-      {
-        find: 'jotai-holo',
-        replacement: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
-      },
-    ],
+    alias: sourceAliases(),
   },
   optimizeDeps: {
     include: [

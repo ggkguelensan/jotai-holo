@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { atom, createStore } from 'jotai/vanilla';
-import { createModel } from '../dist/model.js';
+import { createModel, modelRegistry } from '../dist/model.js';
 import { createFormModel, formAtom } from '../dist/rhf.js';
 
 assert.equal(typeof global.gc, 'function', 'Run with node --expose-gc.');
@@ -68,15 +68,16 @@ await collect();
 assert.equal(counts(), 0, 'Registry and models must die with their store.');
 report.discardedStore = counts();
 refs = [];
-const forms = createFormModel({
-  initial: { name: '' },
-  retainTime: 0,
-  options: (initial) => ({ defaultValues: initial }),
-  model: ({ form }) => {
-    refs.push(new WeakRef(form));
-    return { $name: formAtom(form, 'name') };
-  },
-});
+const forms = modelRegistry({ retainTime: 0 })(
+  createFormModel({
+    initial: { name: '' },
+    options: (initial) => ({ defaultValues: initial }),
+    model: ({ form }) => {
+      refs.push(new WeakRef(form));
+      return { $name: formAtom(form, 'name') };
+    },
+  }),
+);
 function exerciseForms() {
   for (let i = 0; i < 300; i++) {
     const lease = forms.acquire(store, { key: [i] });

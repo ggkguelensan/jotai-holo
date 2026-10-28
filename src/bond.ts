@@ -8,6 +8,7 @@ import {
 } from './action-source.js';
 import { readSource, type AtomSource, type SourceValue } from './atom-source.js';
 import { ion } from './ion.js';
+import { managedConnection } from './model-managed.js';
 import { enqueueAction, subscribeAction } from './event-dispatch.js';
 
 type Store = ReturnType<typeof createStore>;
@@ -187,6 +188,7 @@ export function bond(config: {
       }
     };
   };
+  Object.assign(output, { [managedConnection]: output.connect });
   return output;
 }
 

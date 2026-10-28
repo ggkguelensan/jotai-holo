@@ -1,5 +1,5 @@
+import { sourceAliases } from '../../scripts/source-aliases.js';
 import { defineConfig, type DefaultTheme } from 'vitepress';
-import { fileURLToPath } from 'node:url';
 import { locales } from './i18n/locales.mjs';
 import { loadCatalog } from './i18n/catalog.mjs';
 import { linguiMacros } from './i18n/macros.mjs';
@@ -13,11 +13,16 @@ const groups = (t: (message: string) => string) => [
   { title: t('Commands & events'), names: ['actionAtom', 'eventAtom', 'subscribeEvent', 'bond'] },
   {
     title: t('React bindings'),
-    names: ['holo', 'useImperativeHolo', 'lifecycle', 'holoList', 'holoMatch'],
+    names: ['holo', 'useImperativeHolo', 'input', 'holoList', 'holoMatch'],
   },
   {
     title: t('Integrations'),
     names: [
+      'pipe',
+      'modelRegistry',
+      'modelLifecycle',
+      'modelAnalytics',
+      'createAnalytics',
       'createModel',
       'queryAtoms',
       'mutationAtoms',
@@ -143,28 +148,7 @@ export default defineConfig({
   vite: {
     plugins: [linguiMacros()],
     resolve: {
-      alias: [
-        {
-          find: 'jotai-holo/vanilla',
-          replacement: fileURLToPath(new URL('../../src/vanilla.ts', import.meta.url)),
-        },
-        {
-          find: 'jotai-holo/model',
-          replacement: fileURLToPath(new URL('../../src/model.ts', import.meta.url)),
-        },
-        {
-          find: 'jotai-holo/query',
-          replacement: fileURLToPath(new URL('../../src/query.ts', import.meta.url)),
-        },
-        {
-          find: 'jotai-holo/rhf',
-          replacement: fileURLToPath(new URL('../../src/rhf.ts', import.meta.url)),
-        },
-        {
-          find: 'jotai-holo',
-          replacement: fileURLToPath(new URL('../../src/index.ts', import.meta.url)),
-        },
-      ],
+      alias: sourceAliases(),
       dedupe: ['react', 'react-dom', 'jotai'],
     },
   },

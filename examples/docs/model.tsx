@@ -1,16 +1,14 @@
 import { useLingui } from '@lingui/react/macro';
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
-import { createModel } from 'jotai-holo/model';
+import { modelRegistry, pipe } from 'jotai-holo/model';
 
 // #region model
-const Proposal = createModel({
-  create: () => {
-    const $seats = stateAtom(5);
+const $$proposal = pipe(() => {
+  const $seats = stateAtom(5);
 
-    const addSeat = actionAtom((_get, set) => set($seats, (n) => n + 1));
-    return { $seats, addSeat };
-  },
-});
+  const addSeat = actionAtom((_get, set) => set($seats, (n) => n + 1));
+  return { $seats, addSeat };
+}, modelRegistry());
 // Both bindings select the same instance without a scope provider.
 
 function SeatsView({ count }: { count: number }) {
@@ -20,7 +18,7 @@ function SeatsView({ count }: { count: number }) {
 const Seats = holo({
   models: {
     model: (props: { proposalId: string }) =>
-      Proposal({ key: ['proposal', { id: props.proposalId }] }),
+      $$proposal({ key: ['proposal', { id: props.proposalId }] }),
   },
   view: SeatsView,
   read: ({ model: m }) => ({ count: m.$seats }),
@@ -35,7 +33,7 @@ function ToolbarView({ onAdd }: { onAdd: () => void }) {
 const Toolbar = holo({
   models: {
     model: (props: { proposalId: string }) =>
-      Proposal({ key: ['proposal', { id: props.proposalId }] }),
+      $$proposal({ key: ['proposal', { id: props.proposalId }] }),
   },
   view: ToolbarView,
   write: ({ model: m }) => ({ onAdd: m.addSeat }),

@@ -12,7 +12,7 @@ when one model needs another model's resources, not just its atom definitions.
 | Named shared and isolated instances      | Structural keys and definition identity               | `examples/models.tsx`, `tests/examples.browser.test.tsx`       |
 | Request or session isolation             | A separate Jotai store                                | `tests/model.test.ts`, `tests/model.browser.test.tsx`          |
 | First-owner setup and last-owner cleanup | `connect`, `acquire`, `release`                       | `examples/model-effect.tsx`, `tests/examples.browser.test.tsx` |
-| Commit-time ownership                    | `holo({ model, … })`                                  | `tests/model.browser.test.tsx`                                 |
+| Commit-time ownership                    | `holo({ models, … })`                                 | `tests/model.browser.test.tsx`                                 |
 | Retention and eviction                   | `retainTime`, `remove`                                | `tests/model.test.ts`                                          |
 | Explicit dependency ownership            | Acquire a dependency in `connect`, return its release | `tests/model-composition.test.ts`                              |
 
@@ -64,3 +64,7 @@ composition support. Existing keyed-model tests alone do not prove these cases.
 See [createModel](/reference/createModel),
 [resource lifetime](/recipes/integrations), and
 [compatibility evidence](/compatibility).
+
+## Managed analytic dependencies
+
+modelAnalytics now owns a lazy analytics child of the selected parent. It acquires only explicitly managed declarations, shares inherited activations across decorated definitions and rolls back failed setup. This is an explicit composition mechanism, not a general dependency resolver. See [modelAnalytics](reference/modelAnalytics.md).

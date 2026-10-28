@@ -1,3 +1,4 @@
+import { modelLifetime } from './model-lifetime.js';
 import { atom, createStore, Provider } from 'jotai';
 import { createRef, type ComponentProps } from 'react';
 import { renderToStaticMarkup, renderToReadableStream } from 'react-dom/server';
@@ -15,13 +16,13 @@ test('new bindings render on the server without acquiring any resources or handl
       {title}:{count}
     </b>
   );
+  const $$owner1 = createModel({ create: () => ({}), resources: () => [{ connect }] });
+  const $$owner0 = modelLifetime({ onMount });
   const Connected = holo({
     view: View,
-    models: { counter: $$model },
+    models: { counter: $$model, _lifetime: $$owner0, _connections: $$owner1 },
     read: ({ counter }) => ({ count: counter.$count }),
     props: { title: 'Count' },
-    lifecycle: { onMount },
-    resources: [{ connect }],
   });
   expect(renderToStaticMarkup(<Connected />)).toBe('<b>Count:2</b>');
   expect(connect).not.toHaveBeenCalled();

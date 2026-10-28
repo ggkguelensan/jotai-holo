@@ -1,3 +1,4 @@
+import { modelRegistry, pipe } from 'jotai-holo/model';
 import { useLingui } from '@lingui/react/macro';
 import { atom } from 'jotai/vanilla';
 import { useId } from 'react';
@@ -19,26 +20,30 @@ const schema = z.object({
 });
 type Values = z.infer<typeof schema>;
 
-const Contact = createFormModel({
-  initial: { email: '', channel: 'email' as const },
-  options: (initial) => ({
-    defaultValues: initial,
-    resolver: zodResolver(schema),
+const $$contact = pipe(
+  createFormModel({
+    initial: { email: '', channel: 'email' as const },
+    options: (initial) => ({
+      defaultValues: initial,
+      resolver: zodResolver(schema),
+    }),
+    model: ({ form }) => {
+      const $saved = stateAtom('');
+      return {
+        $email: formAtom(form, 'email'),
+        $control: atom(form.control),
+        $saved,
+        save: actionAtom((_get, set) =>
+          form.handleSubmit((values) => {
+            set($saved, values.email);
+          })(),
+        ),
+      };
+    },
   }),
-  model: ({ form }) => {
-    const $saved = stateAtom('');
-    return {
-      $email: formAtom(form, 'email'),
-      $control: atom(form.control),
-      $saved,
-      save: actionAtom((_get, set) =>
-        form.handleSubmit((values) => {
-          set($saved, values.email);
-        })(),
-      ),
-    };
-  },
-});
+
+  modelRegistry(),
+);
 
 function ContactView({ onSave }: { onSave: () => Promise<void> }) {
   const { t } = useLingui();
@@ -94,7 +99,7 @@ const Editor = holoForm({
   form: ({ model }) => model.form,
   models: {
     model: (props: { contactId: string }) =>
-      Contact({ key: [props.contactId] }),
+      $$contact({ key: [props.contactId] }),
   },
   view: ContactView,
   write: ({ model: m }) => ({ onSave: m.save }),
@@ -134,7 +139,7 @@ function SaveView({
 const SavePanel = holo({
   models: {
     model: (props: { contactId: string }) =>
-      Contact({ key: [props.contactId] }),
+      $$contact({ key: [props.contactId] }),
   },
   view: SaveView,
   read: ({ model: m }) => ({

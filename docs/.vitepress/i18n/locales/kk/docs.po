@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-27 13:07+0500\n"
+"POT-Creation-Date: 2026-10-28 10:36+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -22,23 +22,23 @@ msgstr "Алдымен міндетті анықтап, кейін құрал т
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/ecosystem.md
-msgid "| Task                                    | Start with                          | What holo adds                                                               |\n"
-"| --------------------------------------- | ----------------------------------- | ---------------------------------------------------------------------------- |\n"
-"| Local component state                   | useAtom / useAtomValue / useSetAtom | A declaration when repeated wiring deserves a separate binding               |\n"
-"| Conditional derived reads               | atom(get => …)                      | stateAtom preserves native overloads; ion names a fixed input shape          |\n"
-"| One selected value with custom equality | selectAtom                          | prism declares several independent projections, without custom equality      |\n"
-"| Per-item writable atoms                 | splitAtom                           | holoList renders keyed Views; it does not replace item atoms                 |\n"
-"| Reactive external resource              | jotai-effect                        | lifecycle bridges committed input props; it does not own arbitrary resources |\n"
-"| One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality             |\n"
-"| Async server cache                      | jotai-tanstack-query                | holo accepts its atoms; it adds no cache/retry engine                        |\n"
-"| Share one model across widgets          | createModel                         | Select a default or keyed instance in the current store                      |"
+msgid "| Task                                    | Start with                          | What holo adds                                                          |\n"
+"| --------------------------------------- | ----------------------------------- | ----------------------------------------------------------------------- |\n"
+"| Local component state                   | useAtom / useAtomValue / useSetAtom | A declaration when repeated wiring deserves a separate binding          |\n"
+"| Conditional derived reads               | atom(get => …)                      | stateAtom preserves native overloads; ion names a fixed input shape     |\n"
+"| One selected value with custom equality | selectAtom                          | prism declares several independent projections, without custom equality |\n"
+"| Per-item writable atoms                 | splitAtom                           | holoList renders keyed Views; it does not replace item atoms            |\n"
+"| Reactive external resource              | jotai-effect                        | input bridges committed props; models own managed connections           |\n"
+"| One call / a domain fact                | actionAtom / eventAtom              | Every invocation can trigger bond, independent of value equality        |\n"
+"| Async server cache                      | jotai-tanstack-query                | holo accepts its atoms; it adds no cache/retry engine                   |\n"
+"| Share one model across widgets          | createModel                         | Select a default or keyed instance in the current store                 |"
 msgstr "| Міндет | Неден бастау керек | holo не қосады |\n"
 "| --- | --- | --- |\n"
 "| Компоненттің жергілікті күйі | useAtom / useAtomValue / useSetAtom | Қайталанатын байланыстарға декларация |\n"
 "| Шартты туынды оқу | atom(get => …) | stateAtom стандартты overload-тарды сақтайды; ion бекітілген кіріс құрылымын атайды |\n"
 "| Өз салыстыруы бар бір проекция | selectAtom | prism жеке салыстырусыз тәуелсіз проекцияларды жариялайды |\n"
 "| Элементтердің жазылатын атомдары | splitAtom | holoList View-лерді кілтпен көрсетеді, элемент атомдарын алмастырмайды |\n"
-"| Реактивті сыртқы ресурс | jotai-effect | lifecycle commit-тен кейін кіріс props-ты байланыстырады; басқа ресурстар бөлек басқарылады |\n"
+"| Реактивті сыртқы ресурс | jotai-effect | input commit-тен кейін кіріс props-ты байланыстырады; басқа ресурстар бөлек басқарылады |\n"
 "| Бір шақыру немесе домен фактісі | actionAtom / eventAtom | Әр шақыру мәндер теңдігіне қарамай bond-ты іске қоса алады |\n"
 "| Сервер деректерінің кеші | jotai-tanstack-query | holo оның атомдарын қабылдайды, жеке кеш не қайталау қозғалтқышын қоспайды |\n"
 "| Бір модельді виджеттер арасында бөлісу | createModel | Ағымдағы store-да әдепкі не кілтпен таңдалған дана |"
@@ -304,8 +304,8 @@ msgstr "Жазылатын атом мәнді де, колбэкті де бе�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "`view` names the React component. `props` means fixed View props. `ctx.input` means the inputs available to lifecycle handlers."
-msgstr "`view` React компонентін көрсетеді. `props` — View-дің бекітілген props-ы. `ctx.input` lifecycle өңдегіштеріне берілетін кірістерді қамтиды."
+msgid "`view` names the React component. `props` means fixed View props. `input` maps committed caller props to model actions."
+msgstr "`view` React компонентін көрсетеді. `props` View үшін тұрақты пропстарды қамтиды. `input` commit аяқталған кіріс пропстарын модель әрекеттерімен байланыстырады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -322,7 +322,7 @@ msgid "| Need                           | Tool                        | Boundary
 "| Commands / facts               | actionAtom / eventAtom      | Explicit calls, no retained event payload             |\n"
 "| Combine / project              | ion / prism                 | Jotai dependencies and Object.is                      |\n"
 "| React to a domain notification | bond                        | Explicit store-owned connection                       |\n"
-"| Bind / repeat / choose Views   | holo / holoList / holoMatch | Ordinary React props and lifecycle                    |\n"
+"| Bind / repeat / choose Views   | holo / holoList / holoMatch | Ordinary React props and model ownership              |\n"
 "| Share a model between widgets  | createModel                 | Instance selected by definition, key and store        |"
 msgstr "| Міндет | Құрал | Жауапкершілік шекарасы |\n"
 "| --- | --- | --- |\n"
@@ -331,7 +331,7 @@ msgstr "| Міндет | Құрал | Жауапкершілік шекарас�
 "| Біріктіру және проекциялау | ion / prism | Jotai тәуелділіктері және Object.is |\n"
 "| Домен оқиғасына жауап беру | bond | Белгілі store-ға тиесілі анық байланыс |\n"
 "| View байланыстыру, қайталау, таңдау | holo / holoList / holoMatch | Кәдімгі React props және lifecycle |\n"
-"| Модельді виджеттер арасында бөлісу | createModel | Дана анықтама, кілт және store бойынша таңдалады |"
+"| Модельді виджеттер арасында бөлісу | modelRegistry | Дана анықтама, кілт және store бойынша таңдалады |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -424,8 +424,8 @@ msgstr "Болдырмауды қолдайтын оқу үшін нативті
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/rendering.md
-msgid "Initial Suspense delays commit: **lifecycle.onMount cannot initialize the state blocking the first render**. Initialize before rendering or start the load through the model. Later ordinary Suspense hiding does not dispose the passive lifecycle; real unmount does."
-msgstr "Бастапқы Suspense commit-ті кешіктіреді: **lifecycle.onMount алғашқы render-ді бөгейтін күйді инициализациялай алмайды**. Render-ден бұрын инициализациялаңыз немесе жүктеуді модель арқылы бастаңыз. Кейінгі қалыпты Suspense жасыруы passive lifecycle-ді босатпайды; нақты unmount босатады."
+msgid "Initial Suspense delays commit: **input cannot initialize the state blocking the first render**. Initialize before rendering or use native async atoms or Query. Later Suspense hiding preserves model ownership; real unmount releases it."
+msgstr "Алғашқы Suspense commit кезеңін кейінге қалдырады: **input алғашқы рендерді бөгейтін күйді инициализациялай алмайды**. Күйді алдын ала орнатыңыз немесе нативті async атомдарын не Query қолданыңыз. Suspense уақытша жасырғанда модельге иелік сақталады; unmount оны босатады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -622,14 +622,14 @@ msgstr "Иесін таңдау"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/integrations.md
-msgid "Use `lifecycle` for input props and component lifecycle, `jotai-effect` for reactive synchronization, and model `resources` for resources shared by widgets. For a calculated value, use a derived atom. Async actions need their own cancellation and error policy."
-msgstr "Кіріс props пен компонент lifecycle-ына `lifecycle`, реактивті синхрондауға `jotai-effect`, ортақ ресурстарға модельдің `connect` әдісін қолданыңыз. Есептелетін мәнге derived атом жеткілікті. Async әрекеттерге өз болдырмау және қате саясаты керек."
+msgid "Use `input` for committed props, `jotai-effect` for reactive synchronization, and model ownership for shared connections. For a calculated value, use a derived atom. Async actions need their own cancellation and error policy."
+msgstr "Commit аяқталған пропстар үшін `input`, реактивті синхрондау үшін `jotai-effect`, ал ортақ қосылымдар үшін модельге иелік қолданыңыз. Есептелетін мәнге туынды атом қолданыңыз. Async әрекеттерге тоқтату мен қателерді өңдеу саясаты қажет."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/integrations.md
-msgid "Read [Jotai effect](https://jotai.org/docs/extensions/effect), [createModel](/reference/createModel) and [lifecycle](/reference/lifecycle) for their contracts and examples."
-msgstr "Келісімдер мен мысалдар: [Jotai effect](https://jotai.org/docs/extensions/effect), [createModel](/reference/createModel), [lifecycle](/reference/lifecycle)."
+msgid "Read [Jotai effect](https://jotai.org/docs/extensions/effect), [createModel](/reference/createModel) and [input](/reference/input) for their contracts and examples."
+msgstr "Келісімдер мен мысалдарды [Jotai effect](https://jotai.org/docs/extensions/effect), [createModel](/reference/createModel) және [input](/reference/input) беттерінен қараңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -859,10 +859,16 @@ msgstr "Атомдарды оқитын не өзгертетін операци
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
 #: docs/reference/bond.md
+#: docs/reference/createAnalytics.md
 #: docs/reference/createFormModel.md
 #: docs/reference/createModel.md
 #: docs/reference/eq.md
@@ -872,10 +878,14 @@ msgstr "Атомдарды оқитын не өзгертетін операци
 #: docs/reference/holoForm.md
 #: docs/reference/holoList.md
 #: docs/reference/holoMatch.md
+#: docs/reference/input.md
 #: docs/reference/ion.md
-#: docs/reference/lifecycle.md
+#: docs/reference/modelAnalytics.md
+#: docs/reference/modelLifecycle.md
+#: docs/reference/modelRegistry.md
 #: docs/reference/mutationAtoms.md
 #: docs/reference/or.md
+#: docs/reference/pipe.md
 #: docs/reference/prism.md
 #: docs/reference/queryAtoms.md
 #: docs/reference/queryClientAtom.md
@@ -931,10 +941,16 @@ msgstr "useSetAtom(command)` oder `holo.write`.\n"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
 #: docs/reference/bond.md
+#: docs/reference/createAnalytics.md
 #: docs/reference/createFormModel.md
 #: docs/reference/createModel.md
 #: docs/reference/eq.md
@@ -944,10 +960,14 @@ msgstr "useSetAtom(command)` oder `holo.write`.\n"
 #: docs/reference/holoForm.md
 #: docs/reference/holoList.md
 #: docs/reference/holoMatch.md
+#: docs/reference/input.md
 #: docs/reference/ion.md
-#: docs/reference/lifecycle.md
+#: docs/reference/modelAnalytics.md
+#: docs/reference/modelLifecycle.md
+#: docs/reference/modelRegistry.md
 #: docs/reference/mutationAtoms.md
 #: docs/reference/or.md
+#: docs/reference/pipe.md
 #: docs/reference/prism.md
 #: docs/reference/queryAtoms.md
 #: docs/reference/queryClientAtom.md
@@ -989,10 +1009,16 @@ msgstr "Нативті `atom(null, write)` командаларды орында
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
 #: docs/reference/bond.md
+#: docs/reference/createAnalytics.md
 #: docs/reference/createFormModel.md
 #: docs/reference/createModel.md
 #: docs/reference/eq.md
@@ -1002,10 +1028,14 @@ msgstr "Нативті `atom(null, write)` командаларды орында
 #: docs/reference/holoForm.md
 #: docs/reference/holoList.md
 #: docs/reference/holoMatch.md
+#: docs/reference/input.md
 #: docs/reference/ion.md
-#: docs/reference/lifecycle.md
+#: docs/reference/modelAnalytics.md
+#: docs/reference/modelLifecycle.md
+#: docs/reference/modelRegistry.md
 #: docs/reference/mutationAtoms.md
 #: docs/reference/or.md
+#: docs/reference/pipe.md
 #: docs/reference/prism.md
 #: docs/reference/queryAtoms.md
 #: docs/reference/queryClientAtom.md
@@ -1231,6 +1261,44 @@ msgstr "- [Effector sample](https://effector.dev/en/api/effector/sample/) — н
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/reference/createAnalytics.md
+msgid "createAnalytics"
+msgstr "createAnalytics"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createAnalytics.md
+msgid "Map business facts independently for each analytics engine. A search fact can go to two engines while a product-open fact goes only to a third."
+msgstr "Домен фактілерін әр аналитика қозғалтқышы үшін бөлек түрлендіріңіз. Іздеу аяқталу фактісі екі қозғалтқышқа, ал тауарды ашу фактісі тек үшіншісіне жіберілуі мүмкін."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createAnalytics.md
+msgid "Import from jotai-holo/analytics. Define engines once and reuse the declaration across feature models. Factories initialize on the first mapped message, independently per engine and store. event declares managed observation: trigger causes delivery, state supplies a snapshot, and each map entry prepares one engine message. State changes alone send nothing. Event atoms preserve repeated equal payloads; native atom triggers observe value changes."
+msgstr "jotai-holo/analytics модулінен импорттаңыз. Қозғалтқыштарды бір рет анықтап, декларацияны әр функцияның аналитика моделінде қайта қолданыңыз. Фабрика бірінші хабарламада әр қозғалтқыш пен store үшін бөлек іске қосылады. event басқарылатын бақылауды анықтайды: trigger жеткізуді бастайды, state деректердің сол сәттегі көшірмесін береді, ал map жазбалары әр қозғалтқыштың хабарламасын дайындайды. state өзгерістері өздігінен хабарлама жібермейді. Оқиға атомдары бірдей payload қайталанса да оқиғаларды сақтайды; нативті атом триггерлері мән өзгерістерін бақылайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createAnalytics.md
+msgid "Messages are detached, frozen JSON-compatible values. Each engine preserves handoff order and has a bounded queue: 100 messages and a 30-second timeout by default. Overflow discards the newest message. Failures are reported independently through onError; ambiguous sends are not retried automatically. Release stops capture and permits bounded drain. flush is a best-effort handoff/SDK flush; dispose closes engines for that store. Neither guarantees server ingestion."
+msgstr "Хабарламалар көшіріліп, өзгертуге жабылады; тек JSON үйлесімді мәндер қабылданады. Әр қозғалтқыш беру ретін сақтайды және шектеулі кезекке ие: әдепкіде 100 хабарлама, тайм-аут 30 секунд. Кезек толса, жаңа хабарлама тасталады. Қателер onError арқылы бөлек беріледі; нәтижесі белгісіз жіберу автоматты қайталанбайды. Босату жинауды тоқтатады, ал дайын хабарламалар тайм-аут ішінде жеткізілуі мүмкін. flush беру мен SDK буферін босату әрекетін күтеді; dispose осы store қозғалтқыштарын жабады. Екеуі де сервердің қабылдауына кепіл бермейді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createAnalytics.md
+msgid "Provider-specific names, units and buckets stay in inline analytics mappings. Generic infrastructure owns concurrency, queues and errors. SDKs stay outside the core bundle. An optional event-only Amplitude adapter accepts an initialized client from jotai-holo/analytics/amplitude; application code owns initialization and identity policy."
+msgstr "Қозғалтқышқа тән атаулар, өлшем бірліктері және санаттар аналитиканың инлайн мапперлерінде қалады. Ортақ инфрақұрылым параллель орындауды, кезектерді және қателерді басқарады. SDK негізгі бандлға кірмейді. jotai-holo/analytics/amplitude модуліндегі қосымша оқиға адаптері инициализацияланған клиентті қабылдайды; инициализация мен пайдаланушыны сәйкестендіру саясаты қолданбада қалады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createAnalytics.md
+msgid "- [Amplitude Browser SDK 2](https://www.amplitude.com/docs/sdks/analytics/browser/browser-sdk-2) — initialization, receipts and batching.\n"
+"- [Adapter authoring prompt](/analytics-adapter-prompt) — implement another engine against the same contract."
+msgstr "- [Amplitude Browser SDK 2](https://www.amplitude.com/docs/sdks/analytics/browser/browser-sdk-2) — инициализация, растаулар және пакеттік жіберу.\n"
+"- [Адаптер авторына арналған промпт](/analytics-adapter-prompt) — басқа қозғалтқышты осы келісіммен іске асыру."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
 #: docs/reference/createFormModel.md
 msgid "createFormModel"
 msgstr "createFormModel"
@@ -1260,8 +1328,14 @@ msgstr "`jotai-holo/rhf` арқылы импорттаңыз. v7 аясында 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createFormModel.md
-msgid "`createFormModel({ initial, options, model?, retainTime? }) → ModelDefinition`"
-msgstr "`createFormModel({ initial, options, model?, retainTime? }) → ModelDefinition`"
+msgid "`createFormModel({ initial, options, model? }) → ModelFactory`"
+msgstr "`createFormModel({ initial, options, model? }) → ModelFactory`"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createFormModel.md
+msgid "Apply modelRegistry() to the factory before selecting it in holoForm. Retention belongs to that modifier."
+msgstr "holoForm ішінде таңдаудан бұрын фабрикаға modelRegistry() қолданыңыз. Экземплярды сақтау осы модификатор арқылы бапталады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1269,14 +1343,14 @@ msgstr "`createFormModel({ initial, options, model?, retainTime? }) → ModelDef
 msgid "- `options(initial)` returns native UseFormProps. It creates one createFormControl per model instance. `initial` is creation-only, never a reactive reset.\n"
 "- `model({ form, initial })` optionally returns your atoms and actions. The returned instance includes those fields and `form`. The name form is reserved.\n"
 "- Input, resolver context, and transformed output types are retained. Native zodResolver, yupResolver, valibotResolver, and other Resolver implementations pass through unchanged; no schema translation is performed. The executable demo uses Zod; the tests also exercise an asynchronous transforming resolver.\n"
-"- Control identity follows createModel: same definition/key/store shares a control; different keys/stores isolate forms. Default retainTime is Infinity. This retains drafts after unmount; remove them explicitly when no longer needed.\n"
+"- With modelRegistry, control identity is: same definition/key/store shares a control; different keys/stores isolate forms. Default retainTime is Infinity. This retains drafts after unmount; remove them explicitly when no longer needed.\n"
 "- The model exposes native register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control, and other createFormControl methods. It does not fabricate useForm's formState object. Use native useFormState for flags and errors.\n"
 "- Options are fixed at creation. Change values with reset/setValue and explicit model actions. This wrapper does not add reactive values/resolver prop rebinding to holo. Async defaultValues start when a holoForm root mounts, with native RHF loading state. The initial load is shared per model and is not reapplied after successful completion on later remounts. Use reset for an explicit reload.\n"
-"- The factory creates no subscriptions and runs no React hooks. Custom resources still need explicit ownership. Native RHF state can be shared intentionally across stores only if the application passes the same raw control itself; createFormModel does not do that."
+"- The factory creates no subscriptions and runs no React hooks. Custom resources still need explicit ownership. Native RHF state can be shared intentionally across stores only if the application passes the same raw control itself; each registry instance creates its own control."
 msgstr "- `options(initial)` нативті UseFormProps қайтарады. Әр модель экземплярына бір createFormControl жасалады. `initial` тек жасағанда қолданылады, реактивті reset емес.\n"
 "- `model({ form, initial })` өз атомдарыңыз бен action-дарыңызды қайтара алады. Экземплярда сол өрістер және `form` болады; form атауы резервтелген.\n"
 "- Кіріс, resolver контексті және түрленген шығыс типтері сақталады. zodResolver, yupResolver, valibotResolver және басқа Resolver-лер өзгеріссіз беріледі; схема аударылмайды. Демо Zod қолданады, тесттер async түрлендіретін resolver-ді де тексереді.\n"
-"- Control идентификациясы createModel ережесіне сай: бір definition/key/store бір control-ды бөліседі; басқа key/store формаларды оқшаулайды. Әдепкі retainTime — Infinity. Драфт unmount-тен кейін сақталады; қажет болмаса айқын жойыңыз.\n"
+"- Control идентификациясы modelRegistry ережесіне сай: бір definition/key/store бір control-ды бөліседі; басқа key/store формаларды оқшаулайды. Әдепкі retainTime — Infinity. Драфт unmount-тен кейін сақталады; қажет болмаса айқын жойыңыз.\n"
 "- Модель нативті register, handleSubmit, setValue, reset, setError, setFocus, subscribe, control және басқа createFormControl әдістерін береді. useForm formState объектісін қолдан жасамайды. Жалаушалар мен қателерге useFormState қолданыңыз.\n"
 "- Опциялар жасағанда бекітіледі. Мәндерді reset/setValue және модель action-дары арқылы өзгертіңіз. Holo-ға реактивті values/resolver қайта байланыстыру қосылмайды. Async defaultValues holoForm root mount кезінде нативті RHF loading күйімен басталады. Бастапқы жүктеу модельге ортақ, сәтті аяқталған соң remount кезінде қайталанбайды. Қайта жүктеуге reset қолданыңыз.\n"
 "- Фабрика жазылым жасамайды, React хуктарын орындамайды. Арнайы ресурстарға айқын ие қажет. Қолданба бір raw control-ды өзі берсе ғана RHF күйі store-лар арасында ортақ болады; createFormModel мұны жасамайды."
@@ -1516,26 +1590,24 @@ msgstr "React View-ді атом мәндерімен және командал�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "| Field      | Role                                    |\n"
-"| ---------- | --------------------------------------- |\n"
-"| view       | React View or element; required         |\n"
-"| models     | Named default or keyed model selections |\n"
-"| read       | Readable atoms mapped to value props    |\n"
-"| write      | Writable atoms mapped to callback props |\n"
-"| props      | Fixed View props                        |\n"
-"| lifecycle  | Committed input and lifecycle reactions |\n"
-"| resources  | Owned connections                       |\n"
-"| imperative | Event sources mapped to View methods    |"
+msgid "| Field      | Role                                     |\n"
+"| ---------- | ---------------------------------------- |\n"
+"| view       | React View or element; required          |\n"
+"| models     | Named default or keyed model selections  |\n"
+"| read       | Readable atoms mapped to value props     |\n"
+"| write      | Writable atoms mapped to callback props  |\n"
+"| props      | Fixed View props                         |\n"
+"| input      | Committed props mapped to writable atoms |\n"
+"| imperative | Event sources mapped to View methods     |"
 msgstr "| Өріс | Міндеті |\n"
 "| --- | --- |\n"
 "| view | React View не элемент; міндетті |\n"
-"| models | Әдепкі не кілтпен таңдалған атаулы модельдер |\n"
-"| read | Оқылатын атомдар → мән props-ы |\n"
-"| write | Жазылатын атомдар → callback props-ы |\n"
-"| props | View-дің бекітілген props-ы |\n"
-"| lifecycle | Commit пен кірістерге реакциялар |\n"
-"| resources | Иелігі басқарылатын байланыстар |\n"
-"| imperative | Оқиға көздері → View әдістері |"
+"| models | Атаулы default не кілтті модельдер |\n"
+"| read | Оқылатын атомдар → пропс мәндері |\n"
+"| write | Writable атомдары → callback пропстары |\n"
+"| props | View тұрақты пропстары |\n"
+"| input | Commit аяқталған пропстар → writable атомдары |\n"
+"| imperative | Оқиғалар → View әдістері |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1564,14 +1636,14 @@ msgstr "Анықтама ағымдағы store-дағы әдепкі данан
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Resources activate after commit. Lifecycle handlers receive ctx.input and ctx.models; imperative methods use useImperativeHolo. See [lifecycle](/reference/lifecycle), [useImperativeHolo](/reference/useImperativeHolo) and the [runtime guide](/runtime). On React 18, ordinary forwarded refs still need an intrinsic, class or forwardRef View; the imperative prop is a normal typed ref prop on both React versions."
-msgstr "Ресурстар commit-тен кейін іске қосылады. Lifecycle өңдегіштері ctx.input пен ctx.models алады; императивті әдістер useImperativeHolo қолданады. [lifecycle](/reference/lifecycle), [useImperativeHolo](/reference/useImperativeHolo) және [runtime нұсқаулығын](/runtime) қараңыз. React 18-де кәдімгі forwarded ref үшін intrinsic, class не forwardRef View қажет; imperative екі React нұсқасында да кәдімгі типтелген ref prop болып қалады."
+msgid "Selected models activate after commit and release after the last owner. Use [input](/reference/input) for prop synchronization and [useImperativeHolo](/reference/useImperativeHolo) for View methods. Raw lifecycle and resources fields are rejected. On React 18, ordinary forwarded refs need an intrinsic, class or forwardRef View."
+msgstr "Таңдалған модельдер commit аяқталған соң белсеніп, соңғы иесі кеткенде босатылады. Пропстарды синхрондау үшін [input](/reference/input), View әдістері үшін [useImperativeHolo](/reference/useImperativeHolo) қолданыңыз. lifecycle және resources өрістері қабылданбайды. React 18 ішінде кәдімгі ref нативті элементті, класты не forwardRef View-ді талап етеді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "read and write describe atom capabilities without classifying atoms as commands or state. Models choose instances; resources own connections. The same View remains directly usable in tests and stories."
-msgstr "read пен write атомдарды команда не күй деп бөлмей, олардың мүмкіндіктерін сипаттайды. Models даналарды таңдайды; resources байланыстарды иеленеді. Сол View-ді тесттер мен stories ішінде тікелей қолдануға болады."
+msgid "read and write describe atom capabilities without classifying atoms as commands or state. Models choose instances and own connections. The same View remains directly usable in tests and stories."
+msgstr "read және write атомдарды команда не күй деп жіктемей, олардың мүмкіндіктерін сипаттайды. Модельдер экземплярларды таңдап, қосылымдарға иелік етеді. View тесттер мен stories ішінде тікелей қолданылуын сақтайды."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1642,8 +1714,8 @@ msgstr "Массив атомының әр элементіне View көрсе�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holoList.md
-msgid "Requires source, view, getKey and mapItem. Supports the ordinary holo sections read/write/props/lifecycle plus optional empty View. Source may contain a Promise; use Suspense/error boundaries."
-msgstr "source, view, getKey және mapItem міндетті. Кәдімгі holo read/write/props/lifecycle бөлімдері және қосымша empty View қолданылады. Source ішінде Promise болуы мүмкін; Suspense пен қате шекараларын қолданыңыз."
+msgid "Requires source, view, getKey and mapItem. Supports the ordinary holo sections read/write/props/input plus optional empty View. Source may contain a Promise; use Suspense/error boundaries."
+msgstr "source, view, getKey және mapItem міндетті. holo-ның read/write/props/input бөлімдері мен бос тізімге арналған қосымша View қолдау табады. Source құрамында Promise болуы мүмкін; Suspense және қате шекараларын қолданыңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1654,8 +1726,8 @@ msgstr "MapItem атом байланысын емес, қарапайым жо�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holoList.md
-msgid "Stable unique keys preserve row identity on reorder. Duplicate stringified keys throw. A new source array runs mapping for all rows; rows whose props remain shallow-equal can skip View rendering. Each row has its own lifecycle and subscriptions; removing it disposes them. Shared state bindings can update every row."
-msgstr "Тұрақты бірегей кілттер қайта реттегенде жол идентификациясын сақтайды. Жолға айналдырғанда қайталанған кілт қате береді. Жаңа source массиві барлық жолды mapping жасайды; shallow тең props-ы бар жол View render-ін өткізе алады. Әр жолдың өз lifecycle-і мен жазылымы бар; жою оларды босатады. Ортақ state байланысы барлық жолды жаңарта алады."
+msgid "Stable unique keys preserve row identity on reorder. Duplicate stringified keys throw. A new source array runs mapping for all rows; rows whose props remain shallow-equal can skip View rendering. Each row has its own input synchronization and subscriptions; removing it disposes them. Shared state bindings can update every row."
+msgstr "Тұрақты бірегей кілттер орын ауыстырғанда жолдарды сақтайды. Мәтінге айналған кілттер қайталанса, қате туындайды. Жаңа массив барлық жолға mapItem іске қосады; пропстары үстірт тең View рендерді өткізе алады. Әр жолдың жеке кіріс байланыстары мен жазылымдары бар; жою оларды босатады. Ортақ атомдар барлық жолды жаңарта алады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1731,6 +1803,44 @@ msgstr "- [Reflect variant](https://reflect.effector.dev/docs/variant) — ша�
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "input"
+msgstr "input"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "Forward committed input props to model actions without a forwarding effect in each View."
+msgstr "Әр View ішіне қосымша эффект жазбай, commit аяқталған кіріс пропстарын модель әрекеттеріне беріңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "input maps prop names to writable atoms, directly or through a named-model callback. Each target receives its initial value after commit, then only changes compared with Object.is. Fixed props win. Generated read, write and imperative props cannot be input sources. Native writable atoms, actionAtom and eventAtom are accepted. Async results and synchronous failures reach holo.onError."
+msgstr "input пропс атауларын writable атомдарымен тікелей не атаулы модельдер callback-і арқылы байланыстырады. Әр қабылдаушы бастапқы мәнді commit аяқталған соң, кейін тек Object.is бойынша өзгерістерді алады. Тұрақты props басым болады. Жасалған read, write және imperative пропстары input көзі бола алмайды. Нативті writable атомдары, actionAtom және eventAtom жарамды. Қателер мен қабылданбаған Promise holo.onError ішіне түседі."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "StrictMode replay does not repeat initial input. Suspended or abandoned renders publish no input. Temporary Suspense hiding preserves model ownership; real unmount releases it. Input cannot initialize the pending state that prevents its own first commit."
+msgstr "StrictMode қайталауы бастапқы input мәнін қайталамайды. Тоқтатылған не тасталған рендерлер кіріс жарияламайды. Suspense уақытша жасырғанда модельге иелік сақталады; нақты unmount оны босатады. input алғашқы commit-ті бөгейтін pending күйді инициализациялай алмайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "Input synchronization and model ownership have separate responsibilities. Models own subscriptions and data lifecycles; holo forwards selected committed props without a proxy or an extra input atom."
+msgstr "Кірісті синхрондау мен модельге иелік ету — бөлек міндеттер. Модельдер жазылымдар мен деректердің өмірлік цикліне иелік етеді; holo таңдалған пропстарды commit аяқталған соң проксисіз және қосымша атомсыз береді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/input.md
+msgid "- [Effector useGate](https://effector.dev/en/api/effector-react/usegate/) — the input-to-model analogy.\n"
+"- [React effects](https://react.dev/reference/react/useEffect) — commit constraints."
+msgstr "- [Effector useGate](https://effector.dev/en/api/effector-react/usegate/) — пропстарды модельге беру ұқсастығы.\n"
+"- [React эффекттері](https://react.dev/reference/react/useEffect) — commit шектеулері."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
 #: docs/reference/ion.md
 msgid "ion"
 msgstr "ion"
@@ -1775,55 +1885,111 @@ msgstr "- [Effector combine](https://effector.dev/en/api/effector/combine/) — 
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/lifecycle.md
-msgid "lifecycle"
-msgstr "lifecycle"
+#: docs/reference/modelAnalytics.md
+msgid "modelAnalytics"
+msgstr "modelAnalytics"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/lifecycle.md
-msgid "React to committed input props without a forwarding effect in each View. For example, send a changed search term to a model action."
-msgstr "Әр View ішінде аралық effect жазбай, commit-тен кейін кіріс props-қа жауап беріңіз. Мысалы, өзгерген іздеу мәтінін модель әрекетіне беріңіз."
+#: docs/reference/modelAnalytics.md
+msgid "Load feature analytics when its business model acquires a committed owner."
+msgstr "Бизнес модель commit аяқталғаннан кейін иеленгенде, сол функцияның аналитикасын жүктеңіз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/lifecycle.md
-msgid "Handlers are synchronous inline functions or writable atoms. They receive get, set and a context with readonly input and resolved models. Async handler results and returned cleanup functions are unsupported; resources own cleanup."
-msgstr "Өңдегіштер — синхронды функциялар не жазылатын атомдар. Олар get, set және readonly input пен шешілген models бар контекст алады. Асинхронды нәтиже мен тазалау функциясын қайтаруға қолдау жоқ; тазалауды resources басқарады."
+#: docs/reference/modelAnalytics.md
+msgid "Import from jotai-holo/analytics. The loader returns a synchronous factory receiving the selected business model. Its returned managed declarations activate together and roll back on setup failure. Ordinary returned atoms remain lazy. Repeated modifiers load independently. Two owners share one child; retained parents reuse it on return. Last release stops observation. Late imports never activate a released owner."
+msgstr "jotai-holo/analytics модулінен импорттаңыз. Жүктеуші таңдалған бизнес модельді қабылдайтын синхронды фабриканы қайтарады. Оның басқарылатын декларациялары бірге белсенеді, қосылу қатесінде кері қайтарылады. Қарапайым атомдар жалқау күйінде қалады. Қайталанған модификаторлар тәуелсіз жүктеледі. Екі иеленуші бір еншілес модельді бөліседі; сақталған ата-ана оралғанда оны қайта қолданады. Соңғы босату бақылауды тоқтатады. Кеш импорт босатылған иеленушіні белсендірмейді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/lifecycle.md
-msgid "Resources connect before onMount and the initial onInputChange. An optional input selector compares chosen fields shallowly; without one all input props are compared. ctx.input contains the latest committed caller and fixed props, excluding generated read/write props. State changes alone do not trigger input reactions."
-msgstr "Ресурстар onMount пен алғашқы onInputChange алдында қосылады. Қосымша input селекторы таңдалған өрістерді үстірт салыстырады; онсыз барлық кіріс props салыстырылады. ctx.input соңғы commit растаған шақырушы және бекітілген props-ты қамтиды, жасалған read/write props кірмейді. Тек күйдің өзгеруі кіріс реакциясын іске қоспайды."
+#: docs/reference/modelAnalytics.md
+msgid "Observation begins when the factory is ready. Earlier facts are not replayed with later state. If the first fact is essential, use an eagerly defined analytics declaration or load the feature before producing that fact. Already mapped engine messages can drain after release without observing the source."
+msgstr "Бақылау фабрика дайын болғанда басталады. Ерте фактілер кейінгі күймен қайталанбайды. Бірінші факт міндетті болса, бақылауды алдын ала анықтаңыз немесе факт жариялаудан бұрын функцияны жүктеңіз. Дайын қозғалтқыш хабарламалары босатудан кейін көзді бақыламай-ақ жеткізілуі мүмкін."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/lifecycle.md
-msgid "StrictMode replay is one logical owner. Temporary Suspense hiding preserves ownership; initial Suspense and abandoned render do not activate it. On replacement, the previous lifecycle closes before the next resources and mount activate. Actual unmount invokes onUnmount before resource release in a microtask. Do not rely on a View imperative handle during teardown."
-msgstr "StrictMode қайталауы бір логикалық иесі болып саналады. Suspense уақытша жасырғанда иелік сақталады; бастапқы Suspense пен тасталған render оны қоспайды. Ауыстыруда бұрынғы lifecycle жаңа ресурстар мен mount-қа дейін жабылады. Нақты unmount кезінде микротапсырмада onUnmount ресурстар босатылмай тұрып шақырылады. Тазалау кезінде View-дің императивті handle-ына сүйенбеңіз."
+#: docs/reference/modelAnalytics.md
+msgid "Business factories publish domain facts without importing analytics. The application composition chooses which analytics factories to attach. There are no duplicate forwarding maps in holo."
+msgstr "Бизнес фабрикалар аналитиканы импорттамай домен фактілерін жариялайды. Қолданбаның жинақтау модулі аналитика фабрикаларын таңдайды. holo ішінде оқиғаны қайта жіберетін қайталанған карталар жоқ."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/lifecycle.md
-msgid "Initialize state before rendering if its pending read blocks the first commit. Lifecycle cannot initialize the value that prevents its own mount."
-msgstr "Күтіп тұрған оқу алғашқы commit-ті бөгесе, күйді render-ге дейін инициализациялаңыз. Lifecycle өзінің mount-ын бөгейтін мәнді инициализациялай алмайды."
+#: docs/reference/modelAnalytics.md
+msgid "- [Dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import) — module loading.\n"
+"- [Jotai stores](https://jotai.org/docs/core/store) — independent runtimes."
+msgstr "- [Dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import) — модульдерді жүктеу.\n"
+"- [Jotai stores](https://jotai.org/docs/core/store) — тәуелсіз runtime экземплярлары."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/lifecycle.md
-msgid "Use lifecycle for input-to-model reactions, resources for owned subscriptions and atom effects for reactive dependencies. These roles have different triggers and lifetimes. Errors are reported through holo.onError; asynchronous actions need their own handled promise and cancellation policy."
-msgstr "Кіріс → модель реакцияларына lifecycle, иелігі бар жазылымдарға resources, реактивті тәуелділіктерге атом effects қолданыңыз. Олардың триггерлері мен өмір мерзімдері бөлек. Қателер holo.onError-ға беріледі; асинхронды әрекеттерге жеке Promise өңдеуі мен тоқтату саясаты қажет."
+#: docs/reference/modelLifecycle.md
+msgid "modelLifecycle"
+msgstr "modelLifecycle"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/lifecycle.md
-msgid "- [Effector useGate](https://effector.dev/en/api/effector-react/usegate/) — the input-to-model analogy.\n"
-"- [React effects](https://react.dev/reference/react/useEffect) — commit and cleanup constraints.\n"
-"- [Jotai effect](https://jotai.org/docs/extensions/effect) — reactive synchronization."
-msgstr "- [Effector useGate](https://effector.dev/en/api/effector-react/usegate/) — кірістерді модельге беру ұқсастығы.\n"
-"- [React effects](https://react.dev/reference/react/useEffect) — commit пен тазалау шектеулері.\n"
-"- [Jotai effect](https://jotai.org/docs/extensions/effect) — реактивті синхрондау."
+#: docs/reference/modelLifecycle.md
+msgid "Load a saved draft and save edits when its last owner leaves."
+msgstr "Сақталған нобайды жүктеп, соңғы иесі кеткенде өзгерістерді сақтаңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelLifecycle.md
+msgid "Load starts on activation and runs once after successful initialization of a retained instance. Release aborts loading; a later owner can retry an interrupted or failed load. Restore is synchronous. When snapshot is supplied, local edits win over a late load. Snapshot values must be synchronous and immutable."
+msgstr "Жүктеу белсенгенде басталады және сақталған экземпляр сәтті инициализацияланған соң қайталанбайды. Босату жүктеуді тоқтатады; кейінгі иесі үзілген не сәтсіз әрекетті қайталай алады. Restore синхронды. snapshot берілсе, жергілікті өзгерістер кеш жүктеу нәтижесінен басым болады. Snapshot мәндері синхронды әрі өзгермейтін болуы тиіс."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelLifecycle.md
+msgid "Dirty snapshots save on last release. Writes are serialized per instance. Await definition.flush(store, { key }) or lease.flush() when completion matters; flush does not activate a cold model. Background failures reach onError; explicit flush rejects. Operations time out after 10 seconds by default. Cancellation requires the transport to honor AbortSignal."
+msgstr "Өзгерген көшірмелер соңғы босатуда сақталады. Бір экземплярдың жазулары кезекпен орындалады. Аяқталуын күту маңызды болса, definition.flush(store, { key }) немесе lease.flush() қолданыңыз; flush суық модельді белсендірмейді. Фондық қателер onError ішіне түседі, айқын flush Promise-ті қабылдамайды. Операцияның әдепкі тайм-ауты — 10 секунд. Тоқтату үшін транспорт AbortSignal қолдауы тиіс."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelLifecycle.md
+msgid "Data loading and persistence belong to the selected model instance. React cleanup cannot await a save; explicit flush makes that requirement visible. Use native Query or RHF defaults when they already own this lifecycle."
+msgstr "Деректерді жүктеу мен сақтау таңдалған модель экземплярына тиесілі. React cleanup сақтауды күте алмайды; айқын flush бұл талапты көрсетеді. Өмірлік циклді Query не RHF бастапқы мәндері басқарып тұрса, соларды қолданыңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelLifecycle.md
+msgid "- [Jotai async](https://jotai.org/docs/guides/async) — native asynchronous atoms.\n"
+"- [React effects](https://react.dev/reference/react/useEffect) — cleanup constraints."
+msgstr "- [Jotai async](https://jotai.org/docs/guides/async) — нативті асинхронды атомдар.\n"
+"- [React эффекттері](https://react.dev/reference/react/useEffect) — cleanup шектеулері."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "modelRegistry"
+msgstr "modelRegistry"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "Share a model between an editor and a toolbar using the same key and Jotai store."
+msgstr "Бірдей кілт пен Jotai store таңдап, модельді редактор мен құралдар панелі арасында бөлісіңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "Identity is definition + structural key + store. Without a key, select the default instance. Initial data is creation-only. Reading creates no subscriptions; acquisition activates managed declarations. The last release disconnects them. Infinity retains the instance, not its subscriptions. Use remove for unbounded key spaces; active entries cannot be removed."
+msgstr "Экземплярды анықтама, құрылымдық кілт және store айқындайды. Кілтсіз default экземпляры таңдалады. Бастапқы деректер тек жасау кезінде қолданылады. Оқу жазылым жасамайды; иелік алу басқарылатын декларацияларды белсендіреді. Соңғы босату оларды ажыратады. Infinity экземплярды сақтайды, жазылымдарды емес. Шексіз кілттер жиыны үшін remove қолданыңыз; белсенді жазбаны жоюға болмайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "Compose plain synchronous factories with pipe. Modifiers flatten into one definition instead of nesting registries. Reusing the final definition shares instances; separate registry applications define separate namespaces."
+msgstr "Қарапайым синхронды фабрикаларды pipe арқылы біріктіріңіз. Модификаторлар реестрлерді қабаттамай, бір анықтамаға бірігеді. Соңғы анықтаманы қайта қолдану экземплярларды бөліседі; реестрді бөлек қолдану бөлек атаулар кеңістігін жасайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelRegistry.md
+msgid "- [Jotai stores](https://jotai.org/docs/core/store) — state isolation.\n"
+"- [TanStack Query keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys) — structural identity analogy."
+msgstr "- [Jotai stores](https://jotai.org/docs/core/store) — күйді оқшаулау.\n"
+"- [TanStack Query кілттері](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys) — құрылымдық сәйкестік ұқсастығы."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1984,6 +2150,36 @@ msgstr "Кемінде бір boolean атом true екенін тексері�
 #: docs/reference/or.md
 msgid "Inputs are synchronous boolean atoms. Reading stops at the first true input. Empty input returns false. A branch change releases unused mounted dependencies."
 msgstr "Кірістер — синхронды boolean атомдар. Оқу алғашқы true-де тоқтайды. Бос кіріс false қайтарады. Тармақ ауысқанда қолданылмайтын mount тәуелділіктері босатылады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/pipe.md
+msgid "pipe"
+msgstr "pipe"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/pipe.md
+msgid "Compose model behavior in reading order: factory, registry policy, data lifecycle and analytics."
+msgstr "Модель әрекетін оқу ретімен біріктіріңіз: фабрика, реестр саясаты, деректердің өмірлік циклі және аналитика."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/pipe.md
+msgid "Import from jotai-holo/model. pipe applies each modifier to the previous result. Declaration runs no model subscriptions or SDK initialization. Reuse the final definition in connected Views."
+msgstr "jotai-holo/model модулінен импорттаңыз. pipe әр модификаторды алдыңғы нәтижеге қолданады. Декларация модель жазылымдарын не SDK инициализациясын іске қоспайды. Соңғы анықтаманы байланысқан View ішінде қайта қолданыңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/pipe.md
+msgid "Flat composition makes each model responsibility visible without nested calls. Modifiers retain type inference and native atoms remain available inside the factory."
+msgstr "Жазық композиция қабатталған шақыруларсыз модель міндеттерін көрсетеді. Модификаторлар тип шығаруды сақтайды; фабрика ішінде нативті атомдар қолжетімді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/pipe.md
+msgid "- [TypeScript generics](https://www.typescriptlang.org/docs/handbook/2/generics.html) — preserving types across composition."
+msgstr "- [TypeScript generics](https://www.typescriptlang.org/docs/handbook/2/generics.html) — композицияда типтерді сақтау."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2286,8 +2482,8 @@ msgstr "`holo.imperative` handle әдістерін eventAtom немесе actio
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useImperativeHolo.md
-msgid "Subscriptions are installed before holo acquires model/resources and runs its own mount lifecycle. Child layout effects are outside that startup ordering. Do not depend on a View handle during unmount. Synchronous throws and rejected handler promises go to `holo.onError`, or console.error when omitted. Publishers do not await View methods."
-msgstr "Жазылымдар holo модельдер мен ресурстарды иеленіп, өзінің mount lifecycle-ын іске қоспай тұрып орнатылады. Еншілес View-дің layout effects-і бұл ретке кірмейді. Unmount кезінде handle-ға сүйенбеңіз. Синхронды қателер мен қабылданбаған өңдегіш Promise-тері `holo.onError`-ға, ал ол болмаса console.error-ға беріледі. Жариялаушылар View әдістерін күтпейді."
+msgid "Subscriptions are installed before holo activates selected models. Child layout effects are outside that startup ordering. Do not depend on a View handle during unmount. Synchronous throws and rejected handler promises go to `holo.onError`, or console.error when omitted. Publishers do not await View methods."
+msgstr "Жазылымдар таңдалған модельдер белсенгенге дейін орнатылады. Еншілес компоненттердің layout эффекттері бұл іске қосу ретіне кірмейді. Unmount кезінде View императивті handle-ына сенуге болмайды. Синхронды қателер мен қабылданбаған Promise `holo.onError` ішіне, ол болмаса console.error ішіне түседі. Жариялаушы View әдістерін күтпейді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2298,8 +2494,8 @@ msgstr "Мысал тапсырыстың сәтті жасалуын имита
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useImperativeHolo.md
-msgid "Use imperative methods for behavior that cannot be expressed as state props. Keep ordinary modal visibility in read bindings. The model publishes facts; the View implements platform behavior. See the [runtime migration guide](/runtime) for named models, lifecycle and resources."
-msgstr "Күй props-ымен өрнектеуге болмайтын әрекеттерге императивті әдістерді қолданыңыз. Модаль терезенің кәдімгі көріну күйін read арқылы беріңіз. Модель фактілерді жариялайды; View платформа әрекетін іске асырады. Атаулы модельдер, lifecycle және ресурстар [runtime көшіру нұсқаулығында](/runtime) сипатталған."
+msgid "Use imperative methods for behavior that cannot be expressed as state props. Keep ordinary modal visibility in read bindings. The model publishes facts; the View implements platform behavior. See the [runtime migration guide](/runtime) for named models, committed input and ownership."
+msgstr "Күй пропстарымен өрнектеу мүмкін емес әрекеттерге императивті әдістерді қолданыңыз. Кәдімгі модал көрінуін read ішінде қалдырыңыз. Модель фактілерді жариялайды, View платформа әрекетін іске асырады. Атаулы модельдер, commit аяқталған кірістер және иелік туралы [runtime нұсқаулығынан](/runtime) оқыңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

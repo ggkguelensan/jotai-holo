@@ -2,7 +2,7 @@ import { createStore, Provider } from 'jotai';
 import { act, StrictMode } from 'react';
 import { expect, test, vi } from 'vitest';
 import IncomingMessages, { Messages } from '../examples/docs/event.js';
-import Checkout, { CheckoutModel } from '../examples/docs/bond.js';
+import Checkout, { $$checkout } from '../examples/docs/bond.js';
 import { createHarness } from './browser-harness.js';
 
 vi.mock('@lingui/react/macro', () => ({
@@ -58,7 +58,7 @@ test('holo owns one event listener across StrictMode, shared Views and reactive 
 
 test('the checkout bond connects once per model and stops after its last View leaves', async () => {
   const store = createStore();
-  const model = store.get(CheckoutModel());
+  const model = store.get($$checkout());
   const h = createHarness();
   await h.render(
     <Provider store={store}>

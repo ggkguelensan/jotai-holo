@@ -1,3 +1,4 @@
+import { modelLifetime } from './model-lifetime.js';
 import { atom, createStore, Provider } from 'jotai';
 import { act, StrictMode, useEffect } from 'react';
 import { expect, expectTypeOf, test, vi } from 'vitest';
@@ -70,57 +71,6 @@ test('default consumers share a model and resources; keyed consumers isolate in 
   expect(active).toBe(0);
 });
 
-test('key changes, return navigation and store replacement preserve the correct independent models', async () => {
-  const create = vi.fn(createCounter);
-  const connected: string[] = [];
-  const model = createModel({ create });
-  const Counter = holo({
-    models: { model: (props: { id: string }) => model({ key: [props.id] }) },
-    view: CounterView,
-    read: ({ model: m }) => ({ count: m.$count }),
-    write: ({ model: m }) => ({ onIncrement: m.increment }),
-    lifecycle: {
-      onMount(get, _set, ctx) {
-        connected.push(`mount:${get(ctx.models.model.$count)}`);
-      },
-      onUnmount(get, _set, ctx) {
-        connected.push(`unmount:${get(ctx.models.model.$count)}`);
-      },
-    },
-  });
-  const a = createStore();
-  const b = createStore();
-  const h = createHarness();
-  const tree = (id: string, store = a) => (
-    <Provider store={store}>
-      <Counter id={id} />
-    </Provider>
-  );
-  await h.render(tree('one'));
-  await act(async () => h.container.querySelector('button')!.click());
-  await h.render(tree('two'));
-  expect(h.container.textContent).toBe('0');
-  await h.render(tree('one'));
-  expect(h.container.textContent).toBe('1');
-  await h.render(tree('one', b));
-  expect(h.container.textContent).toBe('0');
-  await act(async () => h.container.querySelector('button')!.click());
-  expect(a.get(a.get(model({ key: ['one'] })).$count)).toBe(1);
-  expect(b.get(b.get(model({ key: ['one'] })).$count)).toBe(1);
-  expect(create).toHaveBeenCalledTimes(3);
-  await h.unmount();
-  expect(connected).toEqual([
-    'mount:0',
-    'unmount:1',
-    'mount:0',
-    'unmount:0',
-    'mount:1',
-    'unmount:1',
-    'mount:0',
-    'unmount:1',
-  ]);
-});
-
 test('StrictMode replays resource ownership without losing Infinity-retained state', async () => {
   const create = vi.fn(createCounter);
   let active = 0;
@@ -184,18 +134,18 @@ test('model resource connections exist before child lifecycle passive effects em
     },
     resources: (m) => [{ connect: (store) => m.link.connect(store) }],
   });
+  const $$owner0 = modelLifetime({
+    onMount(_get, set) {
+      set(requested, 5);
+    },
+    onUnmount(_get, set) {
+      set(requested, 9);
+    },
+  });
   const Counter = holo({
-    models: { model },
+    models: { model, _lifetime: $$owner0 },
     view: ({ count }: { count: number }) => <span>{count}</span>,
     read: ({ model: m }) => ({ count: m.$count }),
-    lifecycle: {
-      onMount(_get, set) {
-        set(requested, 5);
-      },
-      onUnmount(_get, set) {
-        set(requested, 9);
-      },
-    },
   });
   const h = createHarness();
   const store = createStore();
@@ -334,4 +284,59 @@ test('temporary Suspense hiding preserves the model lease and finite-retention s
   expect(h.container.textContent).toBe('1:resolved');
   await h.unmount();
   expect(active).toBe(0);
+});
+
+test('key changes, return navigation and store replacement preserve the correct independent models', async () => {
+  const create = vi.fn(createCounter);
+  const connected: string[] = [];
+  const model = createModel({
+    create,
+    resources: (m) => [
+      {
+        connect(store) {
+          connected.push('mount:' + store.get(m.$count));
+          return () => {
+            connected.push('unmount:' + store.get(m.$count));
+          };
+        },
+      },
+    ],
+  });
+  const Counter = holo({
+    models: { model: (props: { id: string }) => model({ key: [props.id] }) },
+    view: CounterView,
+    read: ({ model: m }) => ({ count: m.$count }),
+    write: ({ model: m }) => ({ onIncrement: m.increment }),
+  });
+  const a = createStore();
+  const b = createStore();
+  const h = createHarness();
+  const tree = (id: string, store = a) => (
+    <Provider store={store}>
+      <Counter id={id} />
+    </Provider>
+  );
+  await h.render(tree('one'));
+  await act(async () => h.container.querySelector('button')!.click());
+  await h.render(tree('two'));
+  expect(h.container.textContent).toBe('0');
+  await h.render(tree('one'));
+  expect(h.container.textContent).toBe('1');
+  await h.render(tree('one', b));
+  expect(h.container.textContent).toBe('0');
+  await act(async () => h.container.querySelector('button')!.click());
+  expect(a.get(a.get(model({ key: ['one'] })).$count)).toBe(1);
+  expect(b.get(b.get(model({ key: ['one'] })).$count)).toBe(1);
+  expect(create).toHaveBeenCalledTimes(3);
+  await h.unmount();
+  expect(connected).toEqual([
+    'mount:0',
+    'unmount:1',
+    'mount:0',
+    'unmount:0',
+    'mount:1',
+    'unmount:1',
+    'mount:0',
+    'unmount:1',
+  ]);
 });

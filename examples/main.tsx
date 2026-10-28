@@ -6,6 +6,7 @@ import { ModelCounters } from './models.js';
 import { ModelEffectCounter } from './model-effect.js';
 import { AsyncExample } from './async.js';
 import { OperatorsExample } from './operators.js';
+import { AnalyticsSearch } from './analytics/search.js';
 import './style.css';
 
 // For SSR, create a separate Jotai store per request.
@@ -21,6 +22,7 @@ createRoot(root).render(
       <EffectCounter />
       <ModelCounters />
       <ModelEffectCounter />
+      <AnalyticsSearch initialTerm="desk" />
       <AsyncExample />
     </main>
   </Provider>,
