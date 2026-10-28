@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 16:47+0500\n"
+"POT-Creation-Date: 2026-10-28 16:53+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -651,6 +651,12 @@ msgstr "Начните с чистой фабрики"
 #: docs/guide/model-composition.md
 msgid "The factory creates a record synchronously. It does not open sockets, read storage or run hooks. Use a plain factory without a registry when the caller already owns the instance. Use a derived atom for a calculation, an action for a command and an event for a fact with independent consumers."
 msgstr "Фабрика синхронно создаёт record. Она не открывает сокеты, не читает хранилище и не вызывает хуки. Если вызывающий код уже владеет экземпляром, достаточно фабрики без реестра. Для вычисления используйте производный атом, для команды — action, для факта с независимыми потребителями — event."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "A factory can optionally be declared with [defineModel](/reference/defineModel). It returns the same function and preserves its signature. It does not create an instance or add registry behavior; plain named functions remain valid."
+msgstr "Фабрику можно объявить через необязательный [defineModel](/reference/defineModel). Он возвращает ту же функцию и сохраняет её сигнатуру. Он не создаёт экземпляр и не добавляет реестр; обычные именованные функции остаются допустимыми."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1557,12 +1563,14 @@ msgstr "Опишите операцию, которая читает или из
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
 #: docs/reference/bond.md
 #: docs/reference/createAnalytics.md
 #: docs/reference/createFormModel.md
+#: docs/reference/defineModel.md
 #: docs/reference/eq.md
 #: docs/reference/eventAtom.md
 #: docs/reference/formAtom.md
@@ -1635,12 +1643,14 @@ msgstr "- `actionAtom((get, set, ...args) => result)` возвращает writa
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
 #: docs/reference/bond.md
 #: docs/reference/createAnalytics.md
 #: docs/reference/createFormModel.md
+#: docs/reference/defineModel.md
 #: docs/reference/eq.md
 #: docs/reference/eventAtom.md
 #: docs/reference/formAtom.md
@@ -1703,12 +1713,14 @@ msgstr "Нативный `atom(null, write)` уже подходит для ко
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/and.md
 #: docs/reference/bond.md
 #: docs/reference/createAnalytics.md
 #: docs/reference/createFormModel.md
+#: docs/reference/defineModel.md
 #: docs/reference/eq.md
 #: docs/reference/eventAtom.md
 #: docs/reference/formAtom.md
@@ -2063,6 +2075,48 @@ msgid "- [RHF createFormControl](https://react-hook-form.com/docs/createFormCont
 msgstr "- [RHF createFormControl](https://react-hook-form.com/docs/createFormControl) — нативный control вне React.\n"
 "- [RHF resolvers](https://github.com/react-hook-form/resolvers) — адаптеры валидации и типизация преобразований.\n"
 "- [RHF useForm](https://react-hook-form.com/docs/useform) — options и defaults."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/defineModel.md
+msgid "defineModel"
+msgstr "defineModel"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/defineModel.md
+msgid "Declare a model factory explicitly while keeping it an ordinary function. This optional identity helper preserves the original function, its creation arguments and its return type."
+msgstr "Явно объявите фабрику модели, сохранив её обычной функцией. Этот необязательный identity-хелпер сохраняет исходную функцию, аргументы создания и тип результата."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/defineModel.md
+msgid "Import defineModel from `jotai-holo/model`. It returns the same function without calling or wrapping it. Declaration creates no atoms, instances, subscriptions or registry. Each direct factory call creates the record described by your factory."
+msgstr "Импортируйте defineModel из `jotai-holo/model`. Он возвращает ту же функцию, не вызывая и не оборачивая её. Объявление не создаёт атомов, экземпляров, подписок или реестра. Каждый прямой вызов фабрики создаёт record, описанный вашей фабрикой."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/defineModel.md
+msgid "TypeScript requires a synchronous object result and rejects Promise results. The helper preserves optional parameters and generic signatures; it does not inspect the returned fields or enforce purity at runtime. Keep subscriptions, I/O and hooks outside the factory. For composition with model modifiers, pass creation data through one initial argument."
+msgstr "TypeScript требует синхронный результат-объект и отклоняет Promise. Хелпер сохраняет необязательные параметры и generic-сигнатуры; он не проверяет поля результата и не обеспечивает чистоту во время выполнения. Подписки, ввод-вывод и хуки оставляйте вне фабрики. Для композиции с модификаторами передавайте данные создания одним аргументом initial."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/defineModel.md
+msgid "Use defineModel to make a factory's role explicit without adding behavior. A plain named function works equally well. Add modelRegistry only when you need shared instance selection; apply other modifiers for their own responsibilities. This helper adds no lifetime management and does not change atom semantics."
+msgstr "Используйте defineModel, чтобы обозначить роль фабрики без добавления поведения. Обычная именованная функция работает так же. Добавляйте modelRegistry, только когда нужен выбор общих экземпляров; остальные модификаторы применяйте для их собственных задач. Хелпер не управляет временем жизни и не меняет семантику атомов."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/defineModel.md
+msgid "See [Model composition](/guide/model-composition) for the distinction between factories, definitions and selected instances."
+msgstr "Различия между фабриками, определениями и выбранными экземплярами описаны в статье [«Композиция моделей»](/guide/model-composition)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/defineModel.md
+msgid "- [TypeScript generic functions](https://www.typescriptlang.org/docs/handbook/2/generics.html) — preserving a function's input and output types."
+msgstr "- [Generic-функции TypeScript](https://www.typescriptlang.org/docs/handbook/2/generics.html) — сохранение типов входов и результата функции."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

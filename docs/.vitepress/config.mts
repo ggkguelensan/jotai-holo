@@ -18,6 +18,7 @@ const groups = (t: (message: string) => string) => [
   {
     title: t('Integrations'),
     names: [
+      'defineModel',
       'pipe',
       'modelRegistry',
       'modelLifecycle',

@@ -32,7 +32,7 @@ try {
     import * as vanilla from 'jotai-holo/vanilla';
     import * as modelApi from 'jotai-holo/model';
     import { modelRegistry, pipe, modelConnection } from 'jotai-holo/model';
-    assert.deepEqual(Object.keys(modelApi).sort(), ['modelConnection', 'modelLifecycle', 'modelRegistry', 'pipe']);
+    assert.deepEqual(Object.keys(modelApi).sort(), ['defineModel', 'modelConnection', 'modelLifecycle', 'modelRegistry', 'pipe']);
     import { createAnalytics, modelAnalytics } from 'jotai-holo/analytics';
     import { createAmplitudeAdapter } from 'jotai-holo/analytics/amplitude';
     assert.equal(typeof createAmplitudeAdapter, 'function');
@@ -45,7 +45,8 @@ try {
     assert.equal(typeof queryAtoms, 'function');
     assert.equal(typeof mutationAtoms, 'function');
     assert.equal(typeof holoForm, 'function');
-    const definition = pipe(() => ({value: 1}), modelRegistry());
+    const createValue = modelApi.defineModel(() => ({value: 1}));
+    const definition = pipe(createValue, modelRegistry());
     const forms = modelRegistry()(createFormModel({initial: {name: ''}, options: initial => ({defaultValues: initial})}));
     import { createStore } from 'jotai/vanilla';
     assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'or', 'prism', 'some', 'stateAtom', 'subscribeEvent', 'sum', 'useImperativeHolo']);

@@ -9,6 +9,7 @@ import { actionAtom } from '../src/action-atom.js';
 import { modelAnalytics } from '../src/analytics.js';
 import {
   pipe,
+  defineModel,
   modelRegistry,
   modelLifecycle,
   modelConnection,
@@ -73,6 +74,27 @@ test('connection modifiers roll back earlier setup when a later setup fails', ()
 
 // Compiled under strict; never run these deliberately invalid calls.
 function typeChecks() {
+  const defined = defineModel(createDraft);
+  expectTypeOf(defined).toEqualTypeOf<typeof createDraft>();
+  const $$defined = pipe(
+    defined,
+    modelRegistry(),
+    modelConnection(() => {}),
+  );
+  expectTypeOf($$defined).toEqualTypeOf<ModelDefinition<Draft, Initial>>();
+  // @ts-expect-error Required creation input is preserved.
+  defined();
+  // @ts-expect-error Creation input remains typed.
+  defined({ id: 42 });
+  // @ts-expect-error Models are synchronous records, not promises.
+  defineModel(async () => createDraft({ id: '42' }));
+  // @ts-expect-error A model factory must return an object.
+  defineModel(() => 42);
+  const generic = defineModel(<T extends string>(id: T) => ({ id }));
+  expectTypeOf(generic('draft')).toEqualTypeOf<{ id: 'draft' }>();
+  const optional = defineModel((initial: Initial = { id: 'default' }) => createDraft(initial));
+  expectTypeOf(optional).parameters.toEqualTypeOf<[initial?: Initial]>();
+
   const $$summary = pipe(
     createShipmentSummary,
     modelRegistry(),

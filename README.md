@@ -124,11 +124,11 @@ const Counter = holo({
 
 ## Optional infrastructure
 
-| Entry              | Exports                                                      | Ownership                                                                                |
-| ------------------ | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| `jotai-holo/model` | `pipe`, `modelRegistry`, `modelLifecycle`, `modelConnection` | Default/keyed instances per Jotai store; committed leases; Infinity retention by default |
-| `jotai-holo/query` | `queryAtoms`, `mutationAtoms`, `queryClientAtom`             | Native Query/MutationObserver, shared QueryClient, independent prism selectors           |
-| `jotai-holo/rhf`   | `createFormModel`, `holoForm`, `formAtom`                    | One native RHF control per model; ordinary RHF markup and resolvers                      |
+| Entry              | Exports                                                                     | Ownership                                                                                |
+| ------------------ | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `jotai-holo/model` | `defineModel`, `pipe`, `modelRegistry`, `modelLifecycle`, `modelConnection` | Default/keyed instances per Jotai store; committed leases; Infinity retention by default |
+| `jotai-holo/query` | `queryAtoms`, `mutationAtoms`, `queryClientAtom`                            | Native Query/MutationObserver, shared QueryClient, independent prism selectors           |
+| `jotai-holo/rhf`   | `createFormModel`, `holoForm`, `formAtom`                                   | One native RHF control per model; ordinary RHF markup and resolvers                      |
 
 Optional analytics uses `jotai-holo/analytics` (`createAnalytics`, `modelAnalytics`). Vendor adapters have separate entries; `jotai-holo/analytics/amplitude` imports no SDK. `createFormModel` returns a pure factory; apply `modelRegistry()` explicitly.
 

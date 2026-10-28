@@ -32,4 +32,4 @@ Query and Mutation use the query entry. RHF uses named models and an explicit fo
 
 See [queryAtoms](reference/queryAtoms.md), [mutationAtoms](reference/mutationAtoms.md), [holoForm](reference/holoForm.md) and [persistence](runtime.md#rhf-query-and-persistence).
 
-Model modifiers: [modelRegistry](reference/modelRegistry.md), [modelLifecycle](reference/modelLifecycle.md), [modelAnalytics](reference/modelAnalytics.md). [createAnalytics](reference/createAnalytics.md) provides optional independent engine routing.
+Optional factory declaration: [defineModel](reference/defineModel.md). Model modifiers: [modelRegistry](reference/modelRegistry.md), [modelLifecycle](reference/modelLifecycle.md), [modelAnalytics](reference/modelAnalytics.md). [createAnalytics](reference/createAnalytics.md) provides optional independent engine routing.

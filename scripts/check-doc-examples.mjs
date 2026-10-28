@@ -33,7 +33,7 @@ for (const [module, names] of Object.entries({
     'sum',
     'bond',
   ],
-  'jotai-holo/model': ['pipe', 'modelRegistry', 'modelLifecycle', 'modelConnection'],
+  'jotai-holo/model': ['defineModel', 'pipe', 'modelRegistry', 'modelLifecycle', 'modelConnection'],
   'jotai-holo/analytics': ['modelAnalytics'],
   'jotai-effect': ['withAtomEffect', 'atomEffect'],
 }))
