@@ -1,10 +1,11 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 19:00+0500\n"
+"POT-Creation-Date: 2026-10-28 20:44+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
+"Language: de\n"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -28,8 +29,8 @@ msgstr "Integrationen"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Guide"
-msgstr "Anleitung"
+msgid "Start here"
+msgstr "Einstieg"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -43,18 +44,33 @@ msgstr "Warum jotai-holo?"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
+msgid "Business logic and small Views"
+msgstr "Geschäftslogik und kleine Views"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
 msgid "Choosing a tool"
 msgstr "Werkzeug wählen"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Atoms or models?"
-msgstr "Atome oder Modelle?"
+msgid "Overviews"
+msgstr "Überblicke"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Business logic and small Views"
-msgstr "Geschäftslogik und kleine Views"
+msgid "All topics"
+msgstr "Alle Themen"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Atoms and models"
+msgstr "Atome und Modelle"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Models and registry"
+msgstr "Modelle und Registry"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -63,13 +79,28 @@ msgstr "Modellkomposition"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Rendering and async"
-msgstr "Rendering und Async"
+msgid "holoMatch and holoList"
+msgstr "holoMatch und holoList"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Recipes"
-msgstr "Rezepte"
+msgid "Analytics"
+msgstr "Analytik"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Jotai operators"
+msgstr "Jotai-Operatoren"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Examples"
+msgstr "Beispiele"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "All examples"
+msgstr "Alle Beispiele"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -95,11 +126,6 @@ msgstr "Effekte und Modelllebensdauer"
 #: docs/.vitepress/config.mts
 msgid "Spreadsheet formulas"
 msgstr "Tabelle mit Formeln"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Hosting the docs"
-msgstr "Dokumentation bereitstellen"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -135,6 +161,11 @@ msgstr "Ausführliche Verträge"
 #: docs/.vitepress/config.mts
 msgid "Operator contracts"
 msgstr "Operatorverträge"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Hosting the docs"
+msgstr "Dokumentation bereitstellen"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts

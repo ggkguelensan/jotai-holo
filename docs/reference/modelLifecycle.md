@@ -2,11 +2,7 @@
 
 Load a saved draft and save edits when its last owner leaves.
 
-<Demo kind="data-lifecycle">
-
-<<< @/../examples/docs/data-lifecycle.tsx#data-lifecycle
-
-</Demo>
+Read [Model composition](/guide/model-composition) for the complete workflow and live examples.
 
 ```ts
 const $$profile = pipe(

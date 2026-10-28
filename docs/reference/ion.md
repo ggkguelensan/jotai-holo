@@ -2,11 +2,7 @@
 
 Calculate one value from several atoms. In the cart below, quantity and discount determine the total.
 
-<Demo kind="ion">
-
-<<< @/../examples/docs/ion.tsx#ion
-
-</Demo>
+Read the [Jotai operators overview](/overview/jotai-operators) for the complete workflow and live examples.
 
 <<< @/../examples/documentation.tsx#ion
 

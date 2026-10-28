@@ -8,7 +8,7 @@ const configFile = ts.readConfigFile(path.join(root, 'tsconfig.json'), ts.sys.re
 const { options } = ts.parseJsonConfigFileContent(configFile.config, ts.sys, root);
 const context = path.join(root, 'tests/fixtures/docs-context.tsx');
 const files = ['README.md'];
-for (const directory of ['docs', 'docs/guide', 'docs/reference', 'docs/recipes']) {
+for (const directory of ['docs', 'docs/guide', 'docs/overview', 'docs/reference', 'docs/recipes']) {
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith('.md')) files.push(`${directory}/${entry.name}`);
   }
@@ -109,7 +109,10 @@ for (const file of files) {
         .filter((name) => !local.has(name) && imports.has(name))
         .map((name) => {
           let { module, name: imported } = imports.get(name);
-          if (name === 'CounterView' && file === 'docs/reference/holo.md')
+          if (
+            name === 'CounterView' &&
+            ['docs/reference/holo.md', 'docs/overview/holo.md'].includes(file)
+          )
             imported = 'CounterIncrementView';
           if (name === 'CounterView' && file === 'docs/integrations.md')
             imported = 'CounterReadView';

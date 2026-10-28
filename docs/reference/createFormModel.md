@@ -2,13 +2,9 @@
 
 Create a separate RHF form for each model key. An editor and an external Save panel can share that form without sharing it with another contact.
 
+Read the [React Hook Form overview](/overview/react-hook-form) for the complete workflow and live examples.
+
 Use this factory only when atoms or models need to react to form state or operations. A form contained in React can keep native useForm without a model.
-
-<Demo kind="form">
-
-<<< @/../examples/docs/form.tsx#form
-
-</Demo>
 
 ## Installation
 

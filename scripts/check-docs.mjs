@@ -75,7 +75,12 @@ for (const file of pages) {
     }
     assert.match(text, /\]\(https:\/\//, file);
   }
-  if (file.includes('/reference/') || file.includes('/guide/') || file.includes('/recipes/')) {
+  if (
+    file.includes('/reference/') ||
+    file.includes('/guide/') ||
+    file.includes('/overview/') ||
+    file.includes('/recipes/')
+  ) {
     assert.doesNotMatch(
       text,
       /\bcreateModel\b|\byield\s*:|\b(?:lifecycle|resources)\s*:/,

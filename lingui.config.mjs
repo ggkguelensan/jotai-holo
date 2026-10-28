@@ -15,6 +15,7 @@ export default defineConfig({
       include: [
         '<rootDir>/docs/index.md',
         '<rootDir>/docs/guide',
+        '<rootDir>/docs/overview',
         '<rootDir>/docs/reference',
         '<rootDir>/docs/recipes',
       ],

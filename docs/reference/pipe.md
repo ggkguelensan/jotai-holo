@@ -2,11 +2,7 @@
 
 Compose model behavior in reading order: factory, registry policy, data lifecycle and analytics.
 
-<Demo kind="model">
-
-<<< @/../examples/docs/model.tsx#model
-
-</Demo>
+Read [Model composition](/guide/model-composition) for the complete workflow and live examples.
 
 ```ts
 const $$search = pipe(

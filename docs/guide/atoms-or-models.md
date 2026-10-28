@@ -58,7 +58,7 @@ The examples use `pipe` from `jotai-holo/model`; a compatible helper from anothe
 
 The same definition, key and store select the same instance. Another catalog ID selects independent filters. The registry adds identity and retention; `models` lets holo select the instance and own its active connections.
 
-Use a registry when independently placed components must find one instance by a business key, or when the instance should survive those components unmounting. A factory alone creates records; the registry gives components a shared way to select and retain them. See [Why use a registry?](/reference/modelRegistry#why-use-a-registry).
+Use a registry when independently placed components must find one instance by a business key, or when the instance should survive those components unmounting. A factory alone creates records; the registry gives components a shared way to select and retain them. See [Why use a registry?](/overview/models-and-registry#why-use-a-registry).
 
 The View stays the same in both approaches:
 

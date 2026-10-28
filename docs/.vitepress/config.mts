@@ -41,30 +41,48 @@ async function localeConfig(code: string, label: string, prefix: string) {
   const link = (path: string) => `${prefix}${path}`;
   const sidebar: DefaultTheme.SidebarItem[] = [
     {
-      text: t('Guide'),
+      text: t('Start here'),
       items: [
         { text: t('Getting started'), link: link('/guide/getting-started') },
         { text: t('Why jotai-holo'), link: link('/guide/motivation') },
-        { text: t('Choosing a tool'), link: link('/guide/ecosystem') },
-        { text: t('Atoms or models?'), link: link('/guide/atoms-or-models') },
         { text: t('Business logic and small Views'), link: link('/guide/business-logic') },
-        { text: t('Model composition'), link: link('/guide/model-composition') },
-        { text: t('Rendering and async'), link: link('/guide/rendering') },
+        { text: t('Choosing a tool'), link: link('/guide/ecosystem') },
       ],
     },
-    ...groups(t).map(({ title, names }) => ({
-      text: title,
-      items: names.map((text) => ({ text, link: link(`/reference/${text}`) })),
-    })),
     {
-      text: t('Recipes'),
+      text: t('Overviews'),
       items: [
+        { text: t('All topics'), link: link('/overview/') },
+        { text: 'holo', link: link('/overview/holo') },
+        { text: t('Atoms and models'), link: link('/guide/atoms-or-models') },
+        { text: t('Models and registry'), link: link('/overview/models-and-registry') },
+        { text: t('Model composition'), link: link('/guide/model-composition') },
+        { text: t('holoMatch and holoList'), link: link('/overview/lists-and-branches') },
+        { text: t('Analytics'), link: link('/overview/analytics') },
+        { text: 'TanStack Query', link: link('/overview/tanstack-query') },
+        { text: 'React Hook Form', link: link('/overview/react-hook-form') },
+        { text: t('Jotai operators'), link: link('/overview/jotai-operators') },
+        { text: 'bond', link: link('/overview/bond') },
+      ],
+    },
+    {
+      text: 'API',
+      collapsed: true,
+      items: groups(t).map(({ title, names }) => ({
+        text: title,
+        collapsed: true,
+        items: names.map((text) => ({ text, link: link(`/reference/${text}`) })),
+      })),
+    },
+    {
+      text: t('Examples'),
+      items: [
+        { text: t('All examples'), link: link('/recipes/') },
         { text: t('Server data, forms and saving'), link: link('/recipes/server-data') },
         { text: t('Profile: creation and editing'), link: link('/recipes/profile-composition') },
         { text: t('Profile: command → fact → reaction'), link: link('/recipes/profile') },
         { text: t('Effects and model lifetime'), link: link('/recipes/integrations') },
         { text: t('Spreadsheet formulas'), link: link('/recipes/spreadsheet') },
-        { text: t('Hosting the docs'), link: link('/guide/hosting') },
       ],
     },
     {
@@ -77,6 +95,7 @@ async function localeConfig(code: string, label: string, prefix: string) {
         { text: t('Laziness and isolation audit'), link: '/laziness-isolation' },
         { text: t('Detailed contracts'), link: '/api' },
         { text: t('Operator contracts'), link: '/operators' },
+        { text: t('Hosting the docs'), link: link('/guide/hosting') },
       ],
     },
   ];
@@ -86,8 +105,10 @@ async function localeConfig(code: string, label: string, prefix: string) {
     description: t('Plain React views. Native Jotai models. Declarative connections.'),
     themeConfig: {
       nav: [
-        { text: t('Guide'), link: link('/guide/getting-started') },
+        { text: t('Start here'), link: link('/guide/getting-started') },
+        { text: t('Overviews'), link: link('/overview/') },
         { text: 'API', link: link('/reference/holo') },
+        { text: t('Examples'), link: link('/recipes/') },
       ],
       sidebar,
       docFooter: { prev: t('Previous page'), next: t('Next page') },

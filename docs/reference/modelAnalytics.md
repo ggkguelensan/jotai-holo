@@ -2,27 +2,7 @@
 
 Load feature analytics when its business model acquires a committed owner.
 
-The search form, product list and product details each connect to the same $$search model through their own holo. Each View subscribes only to the values it displays. Analytics is attached once to the model: additional View owners share the connection, so one fact produces one delivery per selected engine. Removing one View leaves observation active until the final owner releases it.
-
-<Demo kind="analytics">
-
-<<< @/../examples/docs/analytics.tsx#analytics
-
-</Demo>
-
-```ts
-const $$search = pipe(
-  createSearchModel,
-
-  modelRegistry({ retainTime: Infinity }),
-
-  modelAnalytics(() =>
-    import('./search.analytics').then(
-      (module) => module.createSearchAnalyticsModel,
-    ),
-  ),
-);
-```
+Read the [Analytics overview](/overview/analytics) for the complete workflow and live examples.
 
 ## Contract
 

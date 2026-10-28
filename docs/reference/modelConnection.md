@@ -2,6 +2,8 @@
 
 Connect a tracking feed while at least one widget owns a shipment model. Keep transport setup separate from atom construction.
 
+Read [Model composition](/guide/model-composition) for the complete workflow and live examples.
+
 <<< @/../examples/model-composition.ts#modifier
 
 ## Contract

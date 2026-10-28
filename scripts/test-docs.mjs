@@ -93,49 +93,68 @@ try {
       assert.match(await page.locator('h1').innerText(), new RegExp(file.slice(0, -3)));
       assert.equal(await page.locator('html').getAttribute('lang'), code);
       assert.ok(await page.locator('.vp-doc a[href^="https://"]').count());
-      if (await page.locator('.example-preview').count()) {
-        await page.locator('.example-preview :is(button, input)').first().waitFor();
-        assert.equal(await page.locator('.example-preview').count(), 1);
-        const sourceUrl = new URL(await page.locator('.example-file').getAttribute('href'));
-        const demo = await page.locator('.example-preview').getAttribute('data-demo');
-        assert.equal(sourceUrl.hostname, 'github.com');
-        assert.match(
-          sourceUrl.pathname,
-          new RegExp(`/blob/[a-f0-9]{40,64}/examples/docs/${demo}\\.tsx$`),
-        );
-
-        assert.ok((await page.locator('.example-source pre').count()) > 1);
-      } else {
-        assert.ok(await page.locator('.vp-doc pre').count(), page.url());
-      }
+      assert.equal(await page.locator('.example-preview').count(), 0);
+      assert.ok(await page.locator('#contract').count(), page.url());
+      assert.ok(
+        await page
+          .locator('.vp-doc a[href*="/overview/"], .vp-doc a[href$="/guide/model-composition"]')
+          .count(),
+        `API page links to a conceptual overview: ${page.url()}`,
+      );
       await checkCodeLayout();
       if (file === 'useImperativeHolo.md') {
+        await page.goto(`${origin}${prefix.slice(1)}${prefix ? '/' : ''}overview/holo`);
+        const demo = page.locator('[data-demo="imperative"]');
         const catalog = await loadCatalog(code, 'ui');
         const label = (text) => catalog._(generateMessageId(text));
-        await page.getByRole('spinbutton').fill('2');
-        await page.getByRole('button', { name: label('Place order'), exact: true }).click();
-        await page.getByRole('heading', { name: '#1001', exact: true }).waitFor();
-        assert.ok((await page.locator('.example-preview').innerText()).includes('$250.00'));
-        await page.getByRole('button', { name: label('Back to cart'), exact: true }).click();
-        assert.equal(await page.getByRole('spinbutton').inputValue(), '2');
+        await demo.getByRole('spinbutton').fill('2');
+        await demo.getByRole('button', { name: label('Place order'), exact: true }).click();
+        await demo.getByRole('heading', { name: '#1001', exact: true }).waitFor();
+        assert.ok((await demo.innerText()).includes('$250.00'));
+        await demo.getByRole('button', { name: label('Back to cart'), exact: true }).click();
+        assert.equal(await demo.getByRole('spinbutton').inputValue(), '2');
       }
       if (file === 'createMutationModel.md') {
+        await page.goto(`${origin}${prefix.slice(1)}${prefix ? '/' : ''}overview/tanstack-query`);
+        const demo = page.locator('[data-demo="mutation"]');
         const catalog = await loadCatalog(code, 'ui');
         const label = (text) => catalog._(generateMessageId(text));
-        const save = page.getByRole('button', { name: label('Save proposal'), exact: true });
-        await page.getByRole('spinbutton').fill('30');
+        const save = demo.getByRole('button', { name: label('Save proposal'), exact: true });
+        await demo.getByRole('spinbutton').fill('30');
         await save.click();
-        await page
+        await demo
           .getByRole('alert')
           .getByText(label('Discounts above 25% need approval.'))
           .waitFor();
-        await page.getByRole('spinbutton').fill('15');
+        await demo.getByRole('spinbutton').fill('15');
         await save.click();
-        await page.getByText(`${label('Saved discount')}: 15%`, { exact: true }).waitFor();
-        await page.getByRole('button', { name: label('Clear feedback'), exact: true }).click();
-        assert.equal(await page.locator('.example-preview output').innerText(), '');
+        await demo.getByText(`${label('Saved discount')}: 15%`, { exact: true }).waitFor();
+        await demo.getByRole('button', { name: label('Clear feedback'), exact: true }).click();
+        assert.equal(await demo.locator('output').innerText(), '');
       }
     }
+    for (const name of (await readdir('docs/overview')).filter((file) => file.endsWith('.md'))) {
+      await page.goto(
+        `${origin}${prefix.slice(1)}${prefix ? '/' : ''}overview/${name === 'index.md' ? '' : name.slice(0, -3)}`,
+      );
+      assert.equal(await page.locator('html').getAttribute('lang'), code);
+      await page.locator('h1').waitFor();
+      const kinds = [];
+      for (const preview of await page.locator('.example-preview').all()) {
+        await preview.locator(':is(button, input)').first().waitFor();
+        kinds.push(await preview.getAttribute('data-demo'));
+      }
+      assert.equal(kinds.length, new Set(kinds).size, `No repeated demo in ${page.url()}`);
+      for (const link of await page.locator('.example-file').all()) {
+        assert.match(
+          await link.getAttribute('href'),
+          /github\.com\/.+\/blob\/[a-f0-9]{40,64}\/examples\/docs\/.+\.tsx$/,
+        );
+      }
+      await checkCodeLayout();
+    }
+    await page.goto(`${origin}${prefix.slice(1)}${prefix ? '/' : ''}recipes/`);
+    assert.ok(await page.locator('.vp-doc a[href$="/recipes/spreadsheet"]').count());
     await page.goto(`${origin}${prefix.slice(1)}${prefix ? '/' : ''}recipes/spreadsheet`);
     const sheetUi = await loadCatalog(code, 'ui');
     const sheetLabel = (text) => sheetUi._(generateMessageId(text));
@@ -201,57 +220,73 @@ try {
     .getByRole('link', { name: reportUi._('Read the English report'), exact: true })
     .click();
   await page.waitForURL(`${origin}compatibility`);
-  // Exercise the actual library-backed controls, not just the Vue page shell.
-  await page.goto(`${origin}reference/ion`);
-  await page.getByRole('spinbutton', { name: 'Quantity' }).fill('4');
-  await page.getByRole('checkbox').check();
-  await page.getByText('$80.00', { exact: true }).waitFor();
-  await page.goto(`${origin}reference/input`);
-  await page.getByRole('textbox').fill('react');
-  await page.getByText('$query: react', { exact: true }).waitFor();
-  await page.getByRole('checkbox').uncheck();
-  await page.getByText('$query: react', { exact: true }).waitFor();
-  await page.getByRole('textbox').fill('ignored while hidden');
-  await page.getByText('$query: react', { exact: true }).waitFor();
-  await page.getByRole('checkbox').check();
-  await page.getByText('$query: ignored while hidden', { exact: true }).waitFor();
-  await page.goto(`${origin}reference/holoList`);
-  await page.getByRole('checkbox').first().check();
-  await page.getByRole('button', { name: 'Reverse rows' }).click();
-  assert.equal(await page.getByRole('checkbox').last().isChecked(), true);
-  await page.goto(`${origin}reference/bond`);
-  await page.getByRole('button', { name: 'Submit demo order' }).click();
-  await page.getByText('Receipt for order #100', { exact: true }).waitFor();
-  await page.getByRole('checkbox').uncheck();
-  await page.getByRole('button', { name: 'Submit demo order' }).click();
-  assert.match(await page.locator('.example-preview output').innerText(), /#100/);
-  await page.goto(`${origin}reference/modelRegistry`);
-  await page.getByRole('button', { name: 'Add a seat', exact: true }).first().click();
-  await page.locator('.example-preview output').first().getByText('6', { exact: true }).waitFor();
-  assert.equal(await page.locator('.example-preview output').last().innerText(), '5');
-  await page.goto(`${origin}reference/createQueryModel`);
-  await page.getByText('Oak desk · $240', { exact: true }).waitFor();
-  await page.getByRole('button', { name: 'Lamp', exact: true }).click();
-  await page.getByText('Desk lamp · $45', { exact: true }).waitFor();
-  await page.goto(`${origin}reference/holoForm`);
-  await page.getByRole('button', { name: 'Save contact', exact: true }).first().click();
-  await page.getByText('Enter a valid email', { exact: true }).waitFor();
-  await page.locator('.example-preview input').first().fill('ada@example.com');
-  await page.getByRole('button', { name: 'Save contact', exact: true }).first().click();
-  await page.getByText('Saved: ada@example.com', { exact: true }).waitFor();
-  await page.locator('.example-preview input').first().fill('ada@work.example');
-  await page.locator('.example-preview input').first().press('Enter');
-  await page.getByText('Saved: ada@work.example', { exact: true }).waitFor();
-  assert.equal(await page.locator('.example-preview input').last().inputValue(), '');
+  // Exercise actual model-backed controls on the shared overview pages.
+  const demoPages = {
+    ion: 'overview/jotai-operators',
+    input: 'overview/holo',
+    list: 'overview/lists-and-branches',
+    bond: 'overview/bond',
+    model: 'overview/models-and-registry',
+    query: 'overview/tanstack-query',
+    form: 'overview/react-hook-form',
+  };
+  async function openDemo(kind) {
+    await page.goto(`${origin}${demoPages[kind]}`);
+    const demo = page.locator(`[data-demo="${kind}"]`);
+    await demo.locator(':is(button, input)').first().waitFor();
+    return demo;
+  }
+  let live = await openDemo('ion');
+  await live.getByRole('spinbutton', { name: 'Quantity' }).fill('4');
+  await live.getByRole('checkbox').check();
+  await live.getByText('$80.00', { exact: true }).waitFor();
+  live = await openDemo('input');
+  await live.getByRole('textbox').fill('react');
+  await live.getByText('$query: react', { exact: true }).waitFor();
+  await live.getByRole('checkbox').uncheck();
+  await live.getByText('$query: react', { exact: true }).waitFor();
+  await live.getByRole('textbox').fill('ignored while hidden');
+  await live.getByText('$query: react', { exact: true }).waitFor();
+  await live.getByRole('checkbox').check();
+  await live.getByText('$query: ignored while hidden', { exact: true }).waitFor();
+  live = await openDemo('list');
+  await live.getByRole('checkbox').first().check();
+  await live.getByRole('button', { name: 'Reverse rows' }).click();
+  assert.equal(await live.getByRole('checkbox').last().isChecked(), true);
+  live = await openDemo('bond');
+  await live.getByRole('button', { name: 'Submit demo order' }).click();
+  await live.getByText('Receipt for order #100', { exact: true }).waitFor();
+  await live.getByRole('checkbox').uncheck();
+  await live.getByRole('button', { name: 'Submit demo order' }).click();
+  assert.match(await live.locator('output').innerText(), /#100/);
+  live = await openDemo('model');
+  await live.getByRole('button', { name: 'Add a seat', exact: true }).first().click();
+  await live.locator('output').first().getByText('6', { exact: true }).waitFor();
+  assert.equal(await live.locator('output').last().innerText(), '5');
+  live = await openDemo('query');
+  await live.getByText('Oak desk · $240', { exact: true }).waitFor();
+  await live.getByRole('button', { name: 'Lamp', exact: true }).click();
+  await live.getByText('Desk lamp · $45', { exact: true }).waitFor();
+  live = await openDemo('form');
+  await live.getByRole('button', { name: 'Save contact', exact: true }).first().click();
+  await live.getByText('Enter a valid email', { exact: true }).waitFor();
+  await live.locator('input').first().fill('ada@example.com');
+  await live.getByRole('button', { name: 'Save contact', exact: true }).first().click();
+  await live.getByText('Saved: ada@example.com', { exact: true }).waitFor();
+  await live.locator('input').first().fill('ada@work.example');
+  await live.locator('input').first().press('Enter');
+  await live.getByText('Saved: ada@work.example', { exact: true }).waitFor();
+  assert.equal(await live.locator('input').last().inputValue(), '');
   await page.screenshot({ path: '.vitest-attachments/docs-form-infrastructure.png' });
-  // Client navigation resets the demo store instead of retaining an abandoned root.
-  await page.goto(`${origin}reference/stateAtom`);
-  await page.getByRole('button', { name: 'Increment', exact: true }).click();
-  await page.locator('.example-preview output').getByText('1', { exact: true }).waitFor();
-  await page.locator('.VPSidebar a[href$="/reference/prism"]').click();
-  await page.locator('.example-preview input').waitFor();
-  await page.locator('.VPSidebar a[href$="/reference/stateAtom"]').click();
-  await page.locator('.example-preview output').getByText('0', { exact: true }).waitFor();
+  // Client navigation disposes demos even when the next topic has other demos.
+  await page.goto(`${origin}overview/holo`);
+  const counter = page.locator('[data-demo="counter"]');
+  await counter.getByRole('button', { name: 'Increment', exact: true }).click();
+  await counter.locator('output').getByText('1', { exact: true }).waitFor();
+  await page.locator('.VPSidebar a[href$="/overview/jotai-operators"]').click();
+  await page.locator('[data-demo="prism"] input').waitFor();
+  await page.locator('.VPSidebar a[href$="/overview/holo"]').click();
+  await page.locator('[data-demo="counter"] output').getByText('0', { exact: true }).waitFor();
   // Locale navigation preserves the corresponding article.
   await page.goto(`${origin}reference/prism`);
   await page.locator('.VPNavBarTranslations button').click();
@@ -289,11 +324,12 @@ try {
     const hits = await page.locator('.VPLocalSearchBox .result').first().getAttribute('href');
     assert.ok(
       hits?.includes(`${prefix}/recipes/profile`) ||
-        hits?.includes(`${prefix}/reference/eventAtom`),
+        hits?.includes(`${prefix}/reference/eventAtom`) ||
+        hits?.includes(`${prefix}/overview/jotai-operators`),
       `${code}: locale-specific search result: ${hits}`,
     );
     await page.keyboard.press('Escape');
-    await page.goto(`${origin}${prefix.slice(1)}${prefix ? '/' : ''}reference/holoForm`);
+    await page.goto(`${origin}${prefix.slice(1)}${prefix ? '/' : ''}overview/react-hook-form`);
     await page
       .getByRole('button', { name: t('Save contact'), exact: true })
       .first()
@@ -317,10 +353,10 @@ try {
   }
   // Capture the finished reference layout as a review artifact.
   await page.emulateMedia({ colorScheme: 'dark' });
-  await page.goto(`${origin}ru/reference/ion`);
-  await page.getByRole('spinbutton').fill('4');
-  await page.getByRole('checkbox').check();
-  await page.getByText('$80.00', { exact: true }).waitFor();
+  await page.goto(`${origin}ru/overview/jotai-operators`);
+  await page.locator('[data-demo="ion"]').getByRole('spinbutton').fill('4');
+  await page.locator('[data-demo="ion"]').getByRole('checkbox').check();
+  await page.locator('[data-demo="ion"]').getByText('$80.00', { exact: true }).waitFor();
   await page.screenshot({ path: '.vitest-attachments/docs-reactuse-inspired.png' });
   // Mobile navigation and content remain within the viewport.
   await page.setViewportSize({ width: 390, height: 844 });
@@ -328,14 +364,14 @@ try {
   assert.ok(await page.getByRole('button', { name: 'Меню', exact: true }).isVisible());
   await checkCodeLayout();
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-  await page.goto(`${origin}ru/reference/ion`);
-  await page.getByRole('spinbutton').waitFor();
+  await page.goto(`${origin}ru/overview/jotai-operators`);
+  await page.locator('[data-demo="ion"]').getByRole('spinbutton').waitFor();
   await checkCodeLayout();
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   await page.goto(`${origin}ru/recipes/spreadsheet`);
   await page.getByRole('textbox', { name: 'B1', exact: true }).waitFor();
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-  await page.goto(`${origin}ru/reference/holoForm`);
+  await page.goto(`${origin}ru/overview/react-hook-form`);
   await page.locator('.example-preview input').first().waitFor();
   await checkCodeLayout();
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));

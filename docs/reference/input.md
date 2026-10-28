@@ -2,11 +2,7 @@
 
 Forward committed input props to model actions without a forwarding effect in each View.
 
-<Demo kind="input">
-
-<<< @/../examples/docs/input.tsx#input
-
-</Demo>
+Read the [holo overview](/overview/holo) for the complete workflow and live examples.
 
 <<< @/../examples/documentation.tsx#input
 

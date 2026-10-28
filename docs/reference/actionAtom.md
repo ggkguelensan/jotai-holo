@@ -2,11 +2,7 @@
 
 Describe an operation that reads or updates atoms. For example, validate a draft and submit it to an API.
 
-<Demo kind="counter">
-
-<<< @/../examples/docs/counter.tsx#counter
-
-</Demo>
+Read the [Jotai operators overview](/overview/jotai-operators) for the complete workflow and live examples.
 
 <<< @/../examples/documentation.tsx#action
 

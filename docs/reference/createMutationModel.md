@@ -2,11 +2,7 @@
 
 Save a proposal from a Jotai action and display pending, success, and error states through separate atoms. This local simulation rejects discounts above 25%; no network request is sent.
 
-<Demo kind="mutation">
-
-<<< @/../examples/docs/mutation.tsx#mutation
-
-</Demo>
+Read the [TanStack Query overview](/overview/tanstack-query) for the complete workflow and live examples.
 
 ## Installation
 

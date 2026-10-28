@@ -8,7 +8,7 @@ import { markdownParts, translateMarkdown } from '../docs/.vitepress/i18n/markdo
 
 export async function sourcePages() {
   const files = ['index.md'];
-  for (const dir of ['guide', 'reference', 'recipes'])
+  for (const dir of ['guide', 'overview', 'reference', 'recipes'])
     for (const file of (await readdir(`docs/${dir}`)).sort())
       if (file.endsWith('.md')) files.push(`${dir}/${file}`);
   return files;

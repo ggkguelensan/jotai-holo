@@ -29,8 +29,8 @@ msgstr "Integrations"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Guide"
-msgstr "Guide"
+msgid "Start here"
+msgstr "Start here"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -44,18 +44,33 @@ msgstr "Why jotai-holo"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
+msgid "Business logic and small Views"
+msgstr "Business logic and small Views"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
 msgid "Choosing a tool"
 msgstr "Choosing a tool"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Atoms or models?"
-msgstr "Atoms or models?"
+msgid "Overviews"
+msgstr "Overviews"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Business logic and small Views"
-msgstr "Business logic and small Views"
+msgid "All topics"
+msgstr "All topics"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Atoms and models"
+msgstr "Atoms and models"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Models and registry"
+msgstr "Models and registry"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -64,13 +79,28 @@ msgstr "Model composition"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Rendering and async"
-msgstr "Rendering and async"
+msgid "holoMatch and holoList"
+msgstr "holoMatch and holoList"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Recipes"
-msgstr "Recipes"
+msgid "Analytics"
+msgstr "Analytics"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Jotai operators"
+msgstr "Jotai operators"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Examples"
+msgstr "Examples"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "All examples"
+msgstr "All examples"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -96,11 +126,6 @@ msgstr "Effects and model lifetime"
 #: docs/.vitepress/config.mts
 msgid "Spreadsheet formulas"
 msgstr "Spreadsheet formulas"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
-msgid "Hosting the docs"
-msgstr "Hosting the docs"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -136,6 +161,11 @@ msgstr "Detailed contracts"
 #: docs/.vitepress/config.mts
 msgid "Operator contracts"
 msgstr "Operator contracts"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Hosting the docs"
+msgstr "Hosting the docs"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts

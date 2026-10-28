@@ -1,10 +1,11 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 20:17+0500\n"
+"POT-Creation-Date: 2026-10-28 20:48+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
+"Language: kk\n"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -137,8 +138,8 @@ msgstr "Бірдей анықтама, кілт және store бір экзем
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/atoms-or-models.md
-msgid "Use a registry when independently placed components must find one instance by a business key, or when the instance should survive those components unmounting. A factory alone creates records; the registry gives components a shared way to select and retain them. See [Why use a registry?](/reference/modelRegistry#why-use-a-registry)."
-msgstr "Тәуелсіз компоненттер бір экземплярды бизнес кілтімен табуы керек болса немесе экземпляр олардың unmount кезеңінен кейін сақталуы керек болса, реестр қолданыңыз. Фабрика record жасайды, ал реестр экземплярларды ортақ таңдау мен сақтауды қамтамасыз етеді. Толығырақ: [Реестр не үшін керек?](/reference/modelRegistry#why-use-a-registry)."
+msgid "Use a registry when independently placed components must find one instance by a business key, or when the instance should survive those components unmounting. A factory alone creates records; the registry gives components a shared way to select and retain them. See [Why use a registry?](/overview/models-and-registry#why-use-a-registry)."
+msgstr "Тәуелсіз компоненттер бір экземплярды бизнес кілтімен табуы керек болса немесе экземпляр олардың unmount кезеңінен кейін сақталуы керек болса, реестр қолданыңыз. Фабрика record жасайды, ал реестр экземплярларды ортақ таңдау мен сақтауды қамтамасыз етеді. Толығырақ: [Реестр не үшін керек?](/overview/models-and-registry#why-use-a-registry)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -774,6 +775,60 @@ msgstr "Жеке келісімдер: [modelRegistry](/reference/modelRegistry)
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Loading and saving"
+msgstr "Жүктеу және сақтау"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+#: docs/reference/modelLifecycle.md
+msgid "Load a saved draft and save edits when its last owner leaves."
+msgstr "Сақталған нобайды жүктеп, соңғы иесі кеткенде өзгерістерді сақтаңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+#: docs/reference/modelLifecycle.md
+msgid "Data loading and persistence belong to the selected model instance. React cleanup cannot await a save; explicit flush makes that requirement visible. Use native Query or RHF defaults when they already own this lifecycle."
+msgstr "Деректерді жүктеу мен сақтау таңдалған модель экземплярына тиесілі. React cleanup сақтауды күте алмайды; айқын flush бұл талапты көрсетеді. Өмірлік циклді Query не RHF бастапқы мәндері басқарып тұрса, соларды қолданыңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+#: docs/overview/analytics.md
+#: docs/overview/bond.md
+#: docs/overview/holo.md
+#: docs/overview/jotai-operators.md
+#: docs/overview/lists-and-branches.md
+#: docs/overview/models-and-registry.md
+#: docs/overview/react-hook-form.md
+#: docs/overview/tanstack-query.md
+msgid "API reference"
+msgstr "API анықтамалығы"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "- [pipe](/reference/pipe)\n"
+"- [modelConnection](/reference/modelConnection)\n"
+"- [modelLifecycle](/reference/modelLifecycle)"
+msgstr "- [pipe](/reference/pipe)\n"
+"- [modelConnection](/reference/modelConnection)\n"
+"- [modelLifecycle](/reference/modelLifecycle)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
 #: docs/guide/motivation.md
 msgid "Why jotai-holo"
 msgstr "Неліктен jotai-holo?"
@@ -877,8 +932,12 @@ msgid "[Jotai's performance guide](https://jotai.org/docs/guides/performance) ex
 msgstr "[Jotai өнімділік нұсқаулығы](https://jotai.org/docs/guides/performance) шағын жазылым шекаралары мен арзан render-лердің маңызын түсіндіреді. Кітапхана қайталанатын байланыстыруды бір жерге жинайды; әдеттегі React рендерингі сақталады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/rendering.md
+#: docs/overview/holo.md
+#: docs/overview/lists-and-branches.md
 msgid "Rendering and async"
 msgstr "Рендеринг және async"
 
@@ -1063,11 +1122,11 @@ msgstr "Міндеттен бастау"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/index.md
-msgid "- [Bind a View](/reference/holo) without forwarding hooks.\n"
+msgid "- [Bind a View](/overview/holo) without forwarding hooks.\n"
 "- [Save a profile](/recipes/profile) and react to the confirmed fact.\n"
 "- [Choose existing ecosystem tools](/guide/ecosystem) before adding an abstraction.\n"
 "- [Understand lazy projections and rendering](/guide/rendering)."
-msgstr "- Forwarding-хуксыз [View-ді байланыстыру](/reference/holo).\n"
+msgstr "- Forwarding-хуксыз [View-ді байланыстыру](/overview/holo).\n"
 "- [Профильді сақтау](/recipes/profile) және расталған фактіге жауап беру.\n"
 "- Жаңа абстракция қоспас бұрын [экожүйе құралын таңдау](/guide/ecosystem).\n"
 "- [Проекциялардың сұраныс бойынша орындалуын және рендерингті түсіну](/guide/rendering)."
@@ -1086,15 +1145,961 @@ msgstr "Бұл сайт жарияланған npm релизін емес, ағ
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/overview/analytics.md
+msgid "Analytics"
+msgstr "Аналитика"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/analytics.md
+#: docs/reference/createAnalytics.md
+msgid "Map business facts independently for each analytics engine. A search fact can go to two engines while a product-open fact goes only to a third."
+msgstr "Домен фактілерін әр аналитика қозғалтқышы үшін бөлек түрлендіріңіз. Іздеу аяқталу фактісі екі қозғалтқышқа, ал тауарды ашу фактісі тек үшіншісіне жіберілуі мүмкін."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/analytics.md
+msgid "The search form, product list and product details each connect to the same $$search model through their own holo. Each View subscribes only to the values it displays. Analytics is attached once to the model: additional View owners share the connection, so one fact produces one delivery per selected engine. Removing one View leaves observation active until the final owner releases it."
+msgstr "Іздеу формасы, тауарлар тізімі және тауар карточкасы жеке holo арқылы бір $$search моделіне қосылады. Әр View тек көрсететін мәндеріне жазылады. Аналитика модельге бір рет қосылады: қосымша View осы қосылымды бірге иеленеді, сондықтан бір факт әр таңдалған жүйеге бір рет жіберіледі. Бір View кеткенде, басқа иелері бар болса, бақылау жалғасады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/analytics.md
+msgid "Connect analytics to a model"
+msgstr "Аналитиканы модельге қосу"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/analytics.md
+#: docs/reference/modelAnalytics.md
+msgid "Load feature analytics when its business model acquires a committed owner."
+msgstr "Бизнес модель commit аяқталғаннан кейін иеленгенде, сол функцияның аналитикасын жүктеңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/analytics.md
+#: docs/reference/modelAnalytics.md
+msgid "Business factories publish domain facts without importing analytics. The application composition chooses which analytics factories to attach. There are no duplicate forwarding maps in holo."
+msgstr "Бизнес фабрикалар аналитиканы импорттамай домен фактілерін жариялайды. Қолданбаның жинақтау модулі аналитика фабрикаларын таңдайды. holo ішінде оқиғаны қайта жіберетін қайталанған карталар жоқ."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/analytics.md
+msgid "Map facts to engines"
+msgstr "Фактілерді қозғалтқыштарға түрлендіру"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/analytics.md
+#: docs/reference/createAnalytics.md
+msgid "Provider-specific names, units and buckets stay in inline analytics mappings. Generic infrastructure owns concurrency, queues and errors. SDKs stay outside the core bundle. An optional event-only Amplitude adapter accepts an initialized client from jotai-holo/analytics/amplitude; application code owns initialization and identity policy."
+msgstr "Қозғалтқышқа тән атаулар, өлшем бірліктері және санаттар аналитиканың инлайн мапперлерінде қалады. Ортақ инфрақұрылым параллель орындауды, кезектерді және қателерді басқарады. SDK негізгі бандлға кірмейді. jotai-holo/analytics/amplitude модуліндегі қосымша оқиға адаптері инициализацияланған клиентті қабылдайды; инициализация мен пайдаланушыны сәйкестендіру саясаты қолданбада қалады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/analytics.md
+msgid "- [modelAnalytics](/reference/modelAnalytics)\n"
+"- [createAnalytics](/reference/createAnalytics)"
+msgstr "- [modelAnalytics](/reference/modelAnalytics)\n"
+"- [createAnalytics](/reference/createAnalytics)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/bond.md
+#: docs/reference/bond.md
+msgid "bond"
+msgstr "bond"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/bond.md
+#: docs/reference/bond.md
+msgid "Connect an event to a reaction. When an order is submitted, read the current settings, check a condition and send arguments to the receiving atom."
+msgstr "Оқиғаны реакциямен байланыстырыңыз. Тапсырыс берілгенде ағымдағы баптауды оқып, шартты тексеріп, алушы атомға аргументтерді жіберіңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/bond.md
+#: docs/reference/bond.md
+msgid "The API borrows the sampling vocabulary from Effector: state/source, trigger/clock, guard/filter, map/fn, write/target. Explicit connect gives a Jotai store an owner and disposer instead of installing permanent module-level effects. For state-driven reactive synchronization, jotai-effect.observe is usually simpler. For one direct command, calling set inside actionAtom is usually clearer."
+msgstr "API Effector ұғымдарын қолданады: state/source, trigger/clock, guard/filter, map/fn, write/target. Айқын connect тұрақты module әсерлерінің орнына байланысқа Jotai store, ие және disposer береді. Күйге негізделген синхрондау үшін jotai-effect.observe, бір тікелей команда үшін actionAtom ішіндегі set әдетте түсініктірек."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/bond.md
+msgid "- [bond](/reference/bond)"
+msgstr "- [bond](/reference/bond)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+#: docs/reference/holo.md
+msgid "holo"
+msgstr "holo"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+#: docs/reference/holo.md
+msgid "Connect models and atoms to a React component. Declare the connection once, outside React render. The View receives ordinary props."
+msgstr "Модельдер мен атомдарды React компонентіне қосыңыз. Байланысты React render сыртында бір рет жариялаңыз. View кәдімгі props алады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+#: docs/reference/holo.md
+msgid "Use holo when decomposing a screen into small Views and moving business workflows into models. Bind subscriptions near the View that needs them. See [Business logic and small Views](/guide/business-logic) for when to keep native Query and RHF hooks."
+msgstr "Экранды шағын View-ге бөліп, бизнес-процестерді модельдерге шығару үшін holo қолданыңыз. Жазылымдарды қажет ететін View-ге жақын қосыңыз. Query және RHF нативті хуктарын қашан қалдыру керегін [«Бизнес-логика және шағын View»](/guide/business-logic) мақаласы түсіндіреді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+msgid "Atoms without models"
+msgstr "Модельсіз атомдар"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+msgid "`models` is optional. Pass atoms directly to `read` and `write`: holo does not require a model factory, registry or model modifiers. Native `atom(...)`, `stateAtom`, `actionAtom` and `eventAtom` work according to their read and write capabilities."
+msgstr "`models` міндетті емес. Атомдарды тікелей `read` және `write` ішіне беріңіз: holo модель фабрикасын, реестрді немесе модификаторларды талап етпейді. Нативті `atom(...)`, `stateAtom`, `actionAtom` және `eventAtom` оқу не жазу мүмкіндігіне қарай қолданылады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+msgid "Here, `read` subscribes to the global theme atom. `write` supplies a theme setter and a callback that publishes `helpRequested`. The same View can use unrelated atoms; they do not need to belong to one model."
+msgstr "Мұнда `read` глобалды тақырып атомына жазылады. `write` тақырыпты өзгерту әдісін және `helpRequested` жариялайтын өңдегішті береді. Бір View байланысы жоқ атомдарды қолдана алады: олар бір модельге тиесілі болуы міндетті емес."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+msgid "Global means shared within the same Jotai store. A separate store has independent atom values and event delivery. See [Atoms or models?](/guide/atoms-or-models) for typical choices."
+msgstr "Глобалды дегеніміз — бір Jotai store ішінде ортақ. Басқа store ішіндегі атом мәндері мен оқиғаларды жеткізу тәуелсіз. Негізгі нұсқалар [Атомдар ма, модельдер ме?](/guide/atoms-or-models) мақаласында берілген."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+msgid "Named models"
+msgstr "Атаулы модельдер"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+msgid "- Pass a model definition to use its default instance in the current Jotai store.\n"
+"- Select a key to share that instance between components using the same model, key and store.\n"
+"- Use incoming props to choose the key. In this example, the parent passes `counterId`.\n"
+"- holo activates the selected models after commit and releases them on unmount. A shared model stays active while another owner uses it."
+msgstr "- Ағымдағы Jotai store ішіндегі default экземплярды пайдалану үшін модель анықтамасын беріңіз.\n"
+"- Бір модель, кілт және store пайдаланатын компоненттер арасында экземплярды бөлісу үшін кілт таңдаңыз.\n"
+"- Кілтті кіріс props арқылы таңдаңыз. Мысалда ата-ана компонент `counterId` береді.\n"
+"- holo таңдалған модельдерді commit аяқталған соң іске қосып, unmount кезінде босатады. Ортақ модель басқа иесі қолданып тұрғанша белсенді қалады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+msgid "See [modelRegistry](/reference/modelRegistry) for instance ownership, [input](/reference/input) for prop synchronization and [useImperativeHolo](/reference/useImperativeHolo) for View methods."
+msgstr "Толығырақ: [modelRegistry](/reference/modelRegistry) — модель экземплярлары, [input](/reference/input) — props мәндерін модельге беру, [useImperativeHolo](/reference/useImperativeHolo) — View әдістері."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+msgid "Input synchronization"
+msgstr "Кіріс деректерін синхрондау"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+#: docs/reference/input.md
+msgid "Forward committed input props to model actions without a forwarding effect in each View."
+msgstr "Әр View ішіне қосымша эффект жазбай, commit аяқталған кіріс пропстарын модель әрекеттеріне беріңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+msgid "Imperative View methods"
+msgstr "View императивті әдістері"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+#: docs/reference/useImperativeHolo.md
+msgid "Keep router, DOM and editor methods inside View. Connect model events to those methods through `holo.imperative`, without storing React functions in atoms."
+msgstr "Router, DOM және редактор әдістерін View ішінде қалдырыңыз. React функцияларын атомдарда сақтамай, модель оқиғаларын осы әдістермен `holo.imperative` арқылы байланыстырыңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+#: docs/overview/lists-and-branches.md
+msgid "Read [Rendering and async](/guide/rendering) for subscription boundaries, Suspense and model ownership."
+msgstr "Жазылым шекаралары, Suspense және модельге иелік ету [Рендеринг және асинхрондық](/guide/rendering) мақаласында сипатталған."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/holo.md
+msgid "- [holo](/reference/holo)\n"
+"- [input](/reference/input)\n"
+"- [useImperativeHolo](/reference/useImperativeHolo)"
+msgstr "- [holo](/reference/holo)\n"
+"- [input](/reference/input)\n"
+"- [useImperativeHolo](/reference/useImperativeHolo)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/index.md
+msgid "Overviews"
+msgstr "Шолу мақалалары"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/index.md
+msgid "Choose a topic to see how related APIs work together. Use the API reference for individual signatures and contracts."
+msgstr "Байланысты API қалай бірге жұмыс істейтінін көру үшін тақырыпты таңдаңыз. Жеке утилиталардың сигнатуралары мен келісімшарттары API анықтамалығында берілген."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/index.md
+msgid "- [holo](/overview/holo)"
+msgstr "- [holo](/overview/holo)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/index.md
+msgid "- [Atoms and models](/guide/atoms-or-models)"
+msgstr "- [Атомдар мен модельдер](/guide/atoms-or-models)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/index.md
+msgid "- [Models and registry](/overview/models-and-registry)"
+msgstr "- [Модельдер мен тізілім](/overview/models-and-registry)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/index.md
+msgid "- [Model composition](/guide/model-composition)"
+msgstr "- [Модельдерді композициялау](/guide/model-composition)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/index.md
+msgid "- [holoMatch and holoList](/overview/lists-and-branches)"
+msgstr "- [holoMatch және holoList](/overview/lists-and-branches)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/index.md
+msgid "- [Analytics](/overview/analytics)"
+msgstr "- [Аналитика](/overview/analytics)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/index.md
+msgid "- [TanStack Query](/overview/tanstack-query)"
+msgstr "- [TanStack Query](/overview/tanstack-query)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/index.md
+msgid "- [React Hook Form](/overview/react-hook-form)"
+msgstr "- [React Hook Form](/overview/react-hook-form)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/index.md
+msgid "- [Jotai operators](/overview/jotai-operators)"
+msgstr "- [Jotai операторлары](/overview/jotai-operators)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/index.md
+msgid "- [bond](/overview/bond)"
+msgstr "- [bond](/overview/bond)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+msgid "Jotai operators"
+msgstr "Jotai операторлары"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/stateAtom.md
+msgid "stateAtom"
+msgstr "stateAtom"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/stateAtom.md
+msgid "Store an editable value or derive a value from other atoms. A draft name is state; its character count is derived state."
+msgstr "Өңделетін мәнді сақтаңыз немесе басқа атомдардан мән есептеңіз. Жобадағы атау — күй; ондағы таңбалар саны — туынды күй."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/stateAtom.md
+msgid "Choose stateAtom to express state intent, including derived read/write state. Native atom remains equally supported."
+msgstr "Күйді, соның ішінде оқылатын және жазылатын туынды күйді белгілеу үшін stateAtom қолданыңыз. Кәдімгі atom да бірдей қолдау табады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/ion.md
+msgid "ion"
+msgstr "ion"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/ion.md
+msgid "Calculate one value from several atoms. In the cart below, quantity and discount determine the total."
+msgstr "Бірнеше атомнан бір мән есептеңіз. Төмендегі себетте сан мен жеңілдік жалпы соманы анықтайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/ion.md
+msgid "Use ion when you can list the inputs at declaration time. The result has Jotai's normal caching and equality rules. A projector that returns a new object changes the result's identity."
+msgstr "Кірістер жариялау кезінде белгілі болса ion қолданыңыз. Нәтиже Jotai кеші мен теңдік ережелеріне сай. Projector жаңа объект қайтарса, нәтиже сілтемесі өзгереді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/prism.md
+msgid "prism"
+msgstr "prism"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/prism.md
+msgid "Select several fields from one atom. Each field becomes an independent read-only atom, so a role change can leave the name View unchanged."
+msgstr "Бір атомның бірнеше өрісін таңдаңыз. Әр өріс жеке read-only атом болады: рөл өзгерісі тек атты көрсететін View-ді жаңартпайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/prism.md
+msgid "Use prism when several Views need different fields from the same source. Each output computes separately. Use selectAtom for custom equality, or optics for writable projections."
+msgstr "Әр View-ге бір source-тың бөлек өрістері қажет болса prism қолданыңыз. Әр шығыс бөлек есептеледі. Арнайы теңдікке selectAtom, жазылатын проекцияға optics бар."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+msgid "Conditions and calculations"
+msgstr "Шарттар мен есептеулер"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/eq.md
+msgid "eq"
+msgstr "eq"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/eq.md
+msgid "Compare an atom with a value or another atom. Use `eq($deliveryMethod, 'courier')` to check whether an order uses courier delivery."
+msgstr "Атомды мәнмен не басқа атоммен салыстырыңыз. `eq($deliveryMethod, 'courier')` курьерлік жеткізу таңдалған ба екенін тексереді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/and.md
+msgid "and"
+msgstr "and"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/and.md
+msgid "Require every condition to pass. For example, enable ordering only when a delivery method is available and the terms are accepted."
+msgstr "Барлық шарттың орындалуын тексеріңіз. Мысалы, жеткізу қолжетімді әрі шарттар қабылданғанда ғана тапсырыс беруге рұқсат етіңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/or.md
+msgid "or"
+msgstr "or"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/or.md
+msgid "Check whether any boolean atom is true. Use it when either of several delivery methods is enough to proceed."
+msgstr "Кемінде бір boolean атом true екенін тексеріңіз. Мысалы, жалғастыру үшін бірнеше жеткізу тәсілінің біреуі жеткілікті."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/some.md
+msgid "some"
+msgstr "some"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/some.md
+msgid "Find whether any input matches a condition. Check several price atoms, or check the items of one array atom."
+msgstr "Кемінде бір кіріс шартқа сай ма екенін тексеріңіз. Бірнеше баға атомын не тауарлар массиві бар бір атомды беруге болады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/sum.md
+msgid "sum"
+msgstr "sum"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/sum.md
+msgid "Add numeric atom values. For example, calculate an order total from goods and delivery charges."
+msgstr "Атомдардың сан мәндерін қосыңыз. Мысалы, тауар мен жеткізу құнынан тапсырыс сомасын есептеңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/and.md
+#: docs/reference/eq.md
+#: docs/reference/or.md
+#: docs/reference/some.md
+#: docs/reference/sum.md
+msgid "Use a named helper for a condition you want to recognize at a glance. Use `ion` for an arbitrary calculation over fixed inputs, or `atom(get => …)` for conditional dependencies."
+msgstr "Шарт бірден түсінікті болуы үшін атаулы утилитаны қолданыңыз. Тұрақты кірістерден еркін есептеуге `ion`, шартты тәуелділікке `atom(get => …)` бар."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+msgid "Commands and facts"
+msgstr "Командалар мен фактілер"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/actionAtom.md
+msgid "Describe an operation that reads or updates atoms. For example, validate a draft and submit it to an API."
+msgstr "Атомдарды оқитын не өзгертетін операцияны сипаттаңыз. Мысалы, драфтты тексеріп, API-ге жіберіңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+#: docs/reference/eventAtom.md
+msgid "Announce that something happened. Emit `profileSaved` after the API confirms a save, then let notifications or analytics react to that fact."
+msgstr "Болған оқиғаны хабарлаңыз. API сақтауды растағанда `profileSaved` жіберіп, хабарландыру не аналитиканы сол фактіге жауап ретінде қосыңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/jotai-operators.md
+msgid "- [stateAtom](/reference/stateAtom)\n"
+"- [ion](/reference/ion)\n"
+"- [prism](/reference/prism)\n"
+"- [eq](/reference/eq)\n"
+"- [and](/reference/and)\n"
+"- [or](/reference/or)\n"
+"- [some](/reference/some)\n"
+"- [sum](/reference/sum)\n"
+"- [actionAtom](/reference/actionAtom)\n"
+"- [eventAtom](/reference/eventAtom)"
+msgstr "- [stateAtom](/reference/stateAtom)\n"
+"- [ion](/reference/ion)\n"
+"- [prism](/reference/prism)\n"
+"- [eq](/reference/eq)\n"
+"- [and](/reference/and)\n"
+"- [or](/reference/or)\n"
+"- [some](/reference/some)\n"
+"- [sum](/reference/sum)\n"
+"- [actionAtom](/reference/actionAtom)\n"
+"- [eventAtom](/reference/eventAtom)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/lists-and-branches.md
+msgid "holoMatch and holoList"
+msgstr "holoMatch және holoList"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/lists-and-branches.md
+#: docs/reference/holoList.md
+msgid "holoList"
+msgstr "holoList"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/lists-and-branches.md
+#: docs/reference/holoList.md
+msgid "Render a View for each item in an array atom. Stable keys keep row state attached to the right item when the list is reordered."
+msgstr "Массив атомының әр элементіне View көрсетіңіз. Тұрақты кілттер қайта реттегенде күйді дұрыс жолда сақтайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/lists-and-branches.md
+#: docs/reference/holoList.md
+msgid "Reflect-like list binding is a UI composition helper. getKey is required because row identity should be deliberate. Jotai splitAtom solves a different problem: deriving item atoms, including writable per-item operations. Use splitAtom when that model is needed, then bind/render it explicitly."
+msgstr "Reflect тәрізді тізім байланысы UI композициясына арналған. Жол идентификациясы саналы болуы үшін getKey міндетті. Jotai splitAtom басқа міндетті — жазу операциялары бар элемент атомдарын шығаруды шешеді. Осы модель қажет болса splitAtom қолданып, оны айқын байланыстырып/рендерлеңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/lists-and-branches.md
+#: docs/reference/holoMatch.md
+msgid "holoMatch"
+msgstr "holoMatch"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/lists-and-branches.md
+#: docs/reference/holoMatch.md
+msgid "Choose a View from a status atom. For example, show loading, content or an error while keeping inactive branches unmounted."
+msgstr "Күй атомына сай View таңдаңыз: жүктеу, дерек не қате. Белсенді емес тармақтар mount болмайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/lists-and-branches.md
+#: docs/reference/holoMatch.md
+msgid "This turns state-to-View selection into a reusable declaration with explicit exhaustiveness. An ordinary switch or conditional JSX remains clearer for one local branch. ion can derive a compact status key; no separate match scheduler is needed."
+msgstr "Күйден View таңдауды толықтығы айқын қайта қолданылатын декларация етеді. Бір жергілікті тармаққа switch не шартты JSX түсініктірек. Ion ықшам status кілтін шығара алады; бөлек match scheduler қажет емес."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/lists-and-branches.md
+msgid "- [holoList](/reference/holoList)\n"
+"- [holoMatch](/reference/holoMatch)"
+msgstr "- [holoList](/reference/holoList)\n"
+"- [holoMatch](/reference/holoMatch)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+msgid "Models and registry"
+msgstr "Модельдер мен тізілім"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+#: docs/reference/modelRegistry.md
+msgid "Share a model between an editor and a toolbar using the same key and Jotai store."
+msgstr "Бірдей кілт пен Jotai store таңдап, модельді редактор мен құралдар панелі арасында бөлісіңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+msgid "Why use a registry?"
+msgstr "Реестр не үшін керек?"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+msgid "A proposal editor and its toolbar must use the same seat count. Another proposal needs an independent count. A factory creates the atoms; a registry lets both widgets select the right existing instance by proposal ID, without passing its atom record through their parents."
+msgstr "Ұсыныс редакторы мен оның әрекеттер панелі бір орын санын қолдануы керек. Басқа ұсынысқа тәуелсіз мән қажет. Фабрика атомдар жасайды, ал реестр екі виджетке ұсыныс ID-і бойынша керекті экземплярды таңдауға мүмкіндік береді; атомдары бар record мәнін ата-ана компоненттер арқылы берудің қажеті жоқ."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+msgid "In the example below, Seats and Toolbar select the Atlas instance. Adding a seat changes Atlas only. The Beacon widgets select another instance and keep their own count."
+msgstr "Төмендегі мысалда Seats пен Toolbar Atlas экземплярын таңдайды. Орын қосу тек Atlas мәнін өзгертеді. Beacon виджеттері басқа экземплярды таңдап, өз орын санын сақтайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+msgid "What the registry adds"
+msgstr "Реестр не береді"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+msgid "- Shared identity: components selecting the same definition, key and Jotai store use one model instance.\n"
+"- Independent instances: another key creates a different instance from the same factory.\n"
+"- Retention: returning to a previously used key can restore its retained in-memory state. `retainTime` defaults to `Infinity`; this is not persistence across a page reload.\n"
+"- Owner coordination: holo acquires the selected instance after commit and releases it on unmount. Its managed connections stop after the last owner releases it, even if the record remains retained."
+msgstr "- Ортақ экземпляр: анықтамасы, кілті және Jotai store бірдей компоненттер бір модельді қолданады.\n"
+"- Тәуелсіз экземплярлар: басқа кілт сол фабриканың басқа экземплярын жасайды.\n"
+"- Жадта сақтау: бұрынғы кілтке оралу сақталған күймен жұмысты жалғастыруға мүмкіндік береді. Әдепкі `retainTime` — `Infinity`; бұл күйді бет қайта жүктелгеннен кейін сақтамайды.\n"
+"- Иелерді есепке алу: holo экземплярды commit аяқталған соң алып, unmount кезінде босатады. Соңғы иесі босатқанда басқарылатын қосылымдар тоқтайды, тіпті record жадта қалса да."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+msgid "The registry selects and retains model records. [modelConnection](/reference/modelConnection), [modelLifecycle](/reference/modelLifecycle) and [modelAnalytics](/reference/modelAnalytics) define the work that runs while they are owned."
+msgstr "Реестр модель record мәндерін таңдап, сақтайды. Ал [modelConnection](/reference/modelConnection), [modelLifecycle](/reference/modelLifecycle) және [modelAnalytics](/reference/modelAnalytics) экземплярлардың иелері бар кезде орындалатын жұмысты анықтайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+msgid "When a registry is unnecessary"
+msgstr "Реестр қашан қажет емес"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+msgid "Use global atoms for shared application state. Use a plain factory when the application already creates and passes the required instance. Use QueryClient to share server query data by queryKey; a model registry is useful only if the surrounding feature also needs its own instances."
+msgstr "Қолданбаның ортақ күйі үшін глобалды атомдар қолданыңыз. Қолданба керекті экземплярды өзі жасап, беріп отырса, кәдімгі фабрика жеткілікті. queryKey бойынша сервер сұрауларының ортақ деректері үшін QueryClient қолданыңыз; модель реестрі функционалдың өз экземплярлары қажет болғанда ғана керек."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+msgid "A registry does not clone imported atoms or models. Atoms created inside the factory belong to each new instance; dependencies created outside keep their existing identity. See [Atoms or models?](/guide/atoms-or-models#what-belongs-to-an-instance) for an example."
+msgstr "Реестр импортталған атомдарды не модельдерді көшірмейді. Фабрика ішінде жасалған атомдар жаңа экземплярларға тиесілі; сыртта жасалған тәуелділіктер өз сәйкестігін сақтайды. Мысал: [Атомдар ма, модельдер ме?](/guide/atoms-or-models#what-belongs-to-an-instance)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+#: docs/reference/defineModel.md
+msgid "defineModel"
+msgstr "defineModel"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+#: docs/reference/defineModel.md
+msgid "Declare a model factory explicitly while keeping it an ordinary function. This optional identity helper preserves the original function, its creation arguments and its return type."
+msgstr "Модель фабрикасын кәдімгі функция ретінде сақтай отырып, айқын жариялаңыз. Бұл міндетті емес identity хелпері бастапқы функцияны, жасау аргументтерін және нәтиже типін сақтайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+#: docs/reference/defineModel.md
+msgid "Use defineModel to make a factory's role explicit without adding behavior. A plain named function works equally well. Add modelRegistry only when you need shared instance selection; apply other modifiers for their own responsibilities. This helper adds no lifetime management and does not change atom semantics."
+msgstr "Қосымша мінез-құлық қоспай, фабрика рөлін белгілеу үшін defineModel қолданыңыз. Кәдімгі атаулы функция да дәл солай жұмыс істейді. Ортақ экземплярларды таңдау керек болғанда ғана modelRegistry қосыңыз; басқа модификаторларды өз міндеттері үшін қолданыңыз. Хелпер өмірлік циклді басқармайды және атом семантикасын өзгертпейді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+#: docs/reference/defineModel.md
+msgid "See [Model composition](/guide/model-composition) for the distinction between factories, definitions and selected instances."
+msgstr "Фабрикалар, анықтамалар және таңдалған экземплярлар айырмашылығы [«Модель композициясы»](/guide/model-composition) мақаласында сипатталған."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/models-and-registry.md
+msgid "- [defineModel](/reference/defineModel)\n"
+"- [modelRegistry](/reference/modelRegistry)"
+msgstr "- [defineModel](/reference/defineModel)\n"
+"- [modelRegistry](/reference/modelRegistry)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/react-hook-form.md
+msgid "React Hook Form"
+msgstr "React Hook Form"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/react-hook-form.md
+#: docs/reference/createFormModel.md
+msgid "Create a separate RHF form for each model key. An editor and an external Save panel can share that form without sharing it with another contact."
+msgstr "Әр модель кілтіне жеке RHF формасын жасаңыз. Редактор мен сыртқы сақтау панелі бір форманы бөлісіп, басқа контактіні қозғамайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/react-hook-form.md
+#: docs/reference/createFormModel.md
+msgid "createFormModel"
+msgstr "createFormModel"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/react-hook-form.md
+#: docs/reference/createFormModel.md
+msgid "An RHF control already is the form engine. Creating another Jotai mirror of all form state would introduce timing and validation differences. A model owns the control; native components keep their markup and hooks. Use a plain useForm when a form does not need externally shared model state."
+msgstr "RHF control — дайын форма қозғалтқышы. Барлық форма күйін Jotai-де қайталау уақыт пен валидация айырмашылықтарын тудырады. Control модельге тиесілі; нативті компоненттер markup пен хуктарын сақтайды. Сыртқы ортақ модель күйі керек болмаса қарапайым useForm қолданыңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/react-hook-form.md
+#: docs/reference/holoForm.md
+msgid "holoForm"
+msgstr "holoForm"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/react-hook-form.md
+#: docs/reference/holoForm.md
+msgid "Connect a form model to an RHF View. Keep `register`, `Controller` and `useFormContext` in the View; let other widgets use the same model's atoms and actions."
+msgstr "Форма моделін RHF View-мен байланыстырыңыз. `register`, `Controller`, `useFormContext` View-де қалады; басқа виджеттер сол модельдің атомдары мен әрекеттерін қолданады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/react-hook-form.md
+#: docs/reference/holoForm.md
+msgid "Use holoForm only when the atom/model system needs to react to form values, validation, submission or other form state. A self-contained form should keep native useForm and FormProvider. When a model is needed, the editor keeps its RHF components and an external Save panel can bind to the same model with ordinary holo."
+msgstr "holoForm атомдар мен модельдер жүйесі форма мәндеріне, валидациясына, жіберілуіне не басқа күйіне реакция беруі керек болғанда ғана қажет. Дербес формаға нативті useForm және FormProvider жеткілікті. Модель керек болса, редактор өз RHF компоненттерін сақтайды, ал сыртқы сақтау панелі сол модельге кәдімгі holo арқылы қосыла алады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/react-hook-form.md
+#: docs/reference/formAtom.md
+msgid "formAtom"
+msgstr "formAtom"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/react-hook-form.md
+#: docs/reference/formAtom.md
+msgid "Read one RHF field through a Jotai atom. For example, display the email currently entered in a form inside an external Save panel."
+msgstr "RHF өрісін Jotai атомы арқылы оқыңыз. Мысалы, формаға енгізілген email-ды сыртқы сақтау панелінде көрсетіңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/react-hook-form.md
+#: docs/reference/formAtom.md
+msgid "A field projection is useful for model calculations and outside panels without subscribing every View to all form values. Native useWatch remains the simplest choice within RHF components. Flags remain native rather than inventing a second state engine or accessing RHF private fields."
+msgstr "Өріс проекциясы әр View-ді барлық форма мәніне жазбай-ақ модель есептеулері мен сыртқы панельдерге пайдалы. RHF компоненті ішінде нативті useWatch ең қарапайым шешім. Екінші күй қозғалтқышын жасап не RHF private өрістерін оқудың орнына жалаушалар нативті қалады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/react-hook-form.md
+msgid "- [createFormModel](/reference/createFormModel)\n"
+"- [holoForm](/reference/holoForm)\n"
+"- [formAtom](/reference/formAtom)"
+msgstr "- [createFormModel](/reference/createFormModel)\n"
+"- [holoForm](/reference/holoForm)\n"
+"- [formAtom](/reference/formAtom)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/tanstack-query.md
+msgid "TanStack Query"
+msgstr "TanStack Query"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/tanstack-query.md
+#: docs/reference/createQueryModel.md
+msgid "createQueryModel"
+msgstr "createQueryModel"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/tanstack-query.md
+#: docs/reference/createQueryModel.md
+msgid "Expose server data to atom workflows through independent projections. Use this adapter when atoms or models need reactive Query results; a React-only consumer can keep native Query hooks."
+msgstr "Сервер деректерін атом процестеріне тәуелсіз проекциялар арқылы беріңіз. Адаптер атомдарға не модельдерге реактивті Query нәтижелері қажет болғанда керек; тек React тұтынушысы нативті Query хуктарын қалдыра алады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/tanstack-query.md
+#: docs/reference/createQueryModel.md
+msgid "Prefer native useQuery or useSuspenseQuery with a local select when React alone consumes the data. This remains valid even when another model already uses createQueryModel with the same QueryClient. Use this adapter for atom-graph dependencies; binding its projections through holo is optional. Independent projections reuse prism. The adapter talks directly to QueryObserver without replacing Query's cache or network lifecycle."
+msgstr "Деректер тек React үшін болса, жергілікті select бар нативті useQuery немесе useSuspenseQuery таңдаңыз. Басқа модель сол QueryClient-пен createQueryModel қолданса да, бұл орынды. Адаптер атом графының тәуелділіктеріне арналған; проекцияларын holo арқылы қосу міндетті емес. Тәуелсіз проекциялар prism-ді қайта пайдаланады. Адаптер Query кеші мен желілік циклін алмастырмай, QueryObserver-мен тікелей жұмыс істейді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/tanstack-query.md
+#: docs/reference/createMutationModel.md
+msgid "createMutationModel"
+msgstr "createMutationModel"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/tanstack-query.md
+#: docs/reference/createMutationModel.md
+msgid "Save a proposal from a Jotai action and display pending, success, and error states through separate atoms. This local simulation rejects discounts above 25%; no network request is sent."
+msgstr "Ұсынысты Jotai әрекеті арқылы сақтап, орындалу күйін, нәтижені және қатені бөлек атомдар арқылы көрсетіңіз. Бұл жергілікті симуляция 25%-дан жоғары жеңілдіктерді қабылдамайды; желілік сұраулар жіберілмейді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/tanstack-query.md
+#: docs/reference/createMutationModel.md
+msgid "Use native useMutation when React owns the operation. Use createMutationModel only when the atom/model system needs to execute the mutation or react to its state. Several UI consumers alone do not require an atom adapter. Existing createMutationModel does not prevent native hooks elsewhere; shared mutation keys do not share an observer or execution state."
+msgstr "Операция React-ке тиесілі болса, нативті useMutation қолданыңыз. createMutationModel атомдар мен модельдер жүйесі мутацияны іске қосуы не күйіне реакция беруі керек болғанда ғана қажет. Бірнеше UI тұтынушының өзі атом адаптерін талап етпейді. createMutationModel болуы басқа жерде нативті хуктарға кедергі емес; бірдей мутация кілттері бақылаушыларды не орындалу күйлерін біріктірмейді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/tanstack-query.md
+#: docs/reference/createMutationModel.md
+msgid "atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.write and bond.write. Observing all mutations, including those launched by useMutation, is a separate cache-level task."
+msgstr "atomWithMutation Jotai мен TanStack жүйелерін біріктіреді. Біздің интерфейс mutate табу үшін нәтиже атомын оқуды талап етпей, жазылатын әрекетті және атаулы проекцияларды тікелей береді. Оны holo.write пен bond.write ішінде де қолдануға болады. useMutation арқылы іске қосылғандарды қоса, барлық мутацияларды бақылау — cache деңгейіндегі бөлек міндет."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/tanstack-query.md
+#: docs/reference/queryClientAtom.md
+msgid "queryClientAtom"
+msgstr "queryClientAtom"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/tanstack-query.md
+#: docs/reference/queryClientAtom.md
+msgid "Give Jotai bindings the same QueryClient as the rest of the application. This lets `createQueryModel` and native `useQuery` share one cache."
+msgstr "Jotai байланыстарына қолданбадағы QueryClient-ты беріңіз. Сонда `createQueryModel` пен нативті `useQuery` бір кешті бөліседі."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/tanstack-query.md
+#: docs/reference/queryClientAtom.md
+msgid "Explicit client ownership preserves hydration and cache sharing with native React Query. An explicit createQueryModel client is useful for a self-contained widget; this atom is useful for application-level configuration."
+msgstr "Client иелігін айқын көрсету hydration мен нативті React Query кешін бөлісуді сақтайды. Жеке виджетке айқын createQueryModel client, қолданба конфигурациясына осы атом ыңғайлы."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/overview/tanstack-query.md
+msgid "- [createQueryModel](/reference/createQueryModel)\n"
+"- [createMutationModel](/reference/createMutationModel)\n"
+"- [queryClientAtom](/reference/queryClientAtom)"
+msgstr "- [createQueryModel](/reference/createQueryModel)\n"
+"- [createMutationModel](/reference/createMutationModel)\n"
+"- [queryClientAtom](/reference/queryClientAtom)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/index.md
+msgid "Examples"
+msgstr "Мысалдар"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/index.md
+msgid "Complete projects show how models, Views and integrations work together. Each article includes executable examples and links to their source."
+msgstr "Толық жобалар модельдер, View және интеграциялардың бірге жұмыс істеуін көрсетеді. Әр мақалада жұмыс істейтін мысалдар мен бастапқы кодқа сілтемелер бар."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/index.md
+msgid "[Server data, forms and saving](/recipes/server-data)"
+msgstr "[Сервер деректері, пішіндер және сақтау](/recipes/server-data)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/index.md
+#: docs/recipes/server-data.md
+msgid "A sales team edits the seat count and customer comment of a proposal. These five recipes use the same request factories and Views. QueryClient owns server data; a model owns the user's draft. The examples expect your application to provide GET and PUT `/api/proposals/:id`; they do not install a demo backend."
+msgstr "Сату бөлімі коммерциялық ұсыныстағы орын саны мен клиент түсініктемесін өзгертеді. Бес рецептте ортақ сұрау фабрикалары мен View қолданылады. QueryClient сервер деректерін, модель пайдаланушы нобайын сақтайды. Қолданба GET және PUT `/api/proposals/:id` беруі керек; демонстрациялық backend орнатылмайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/index.md
+msgid "[Profile: creation and editing](/recipes/profile-composition)"
+msgstr "[Профиль: жасау және өңдеу](/recipes/profile-composition)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/index.md
+#: docs/recipes/profile-composition.md
+msgid "A profile model owns the username, avatar, biography and interests. It can derive an avatar color from the username. It does not know whether its input came from a wizard, an existing model, the server or local storage. Query models fetch data, mutation models save it, and application composition connects their results to the business model."
+msgstr "Профиль моделі username, аватар, сипаттама және қызығушылықтарды сақтайды. Ол username негізінде аватар түсін есептей алады. Модель деректердің wizard, басқа модель, сервер немесе жергілікті қоймадан келгенін білмейді. Query модельдері деректерді жүктейді, Mutation модельдері сақтайды, ал қолданбаны құрастыру нәтижелерді бизнес моделімен байланыстырады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/index.md
+msgid "[Profile: command → fact → reaction](/recipes/profile)"
+msgstr "[Профиль: команда → факт → реакция](/recipes/profile)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/index.md
+#: docs/recipes/profile.md
+msgid "A user edits a draft and presses Save. A command validates input and persists it through an API. Only the successful response produces the fact `profileSaved`. A notification module reacts to that fact without controlling persistence."
+msgstr "Пайдаланушы драфтты өңдеп, Сақтау басады. Команда кірісті тексеріп, API арқылы сақтайды. Тек сәтті жауап `profileSaved` фактісін тудырады. Хабарландыру модулі сақтауды басқармай, осы фактіге жауап береді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/index.md
+msgid "[Effects and model lifetime](/recipes/integrations)"
+msgstr "[Әсерлер және модельдің өмірлік циклі](/recipes/integrations)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/index.md
 #: docs/recipes/integrations.md
-msgid "Effects and model lifetime"
-msgstr "Әсерлер және модельдің өмірлік циклі"
+msgid "Choose what owns a subscription before connecting it. A resource may belong to one displayed value, a shared model or the whole application. That choice determines when cleanup runs."
+msgstr "Жазылымды қоспас бұрын иесін таңдаңыз: көрсетілетін мән, ортақ модель не бүкіл қолданба. Cleanup уақыты осыған байланысты."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/index.md
+msgid "[Spreadsheet formulas](/recipes/spreadsheet)"
+msgstr "[Формулалары бар кесте](/recipes/spreadsheet)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/index.md
+#: docs/recipes/spreadsheet.md
+msgid "Estimate a website project with a small spreadsheet: hours × rate, a 10% reserve, and a running total. Edit a number or replace a formula; dependent cells update immediately."
+msgstr "Шағын кестеде сайт жобасының құнын есептеңіз: сағат × тариф, 10% резерв және жалпы сома. Санды не формуланы өзгертіңіз — тәуелді ұяшықтар бірден жаңарады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/integrations.md
-msgid "Choose what owns a subscription before connecting it. A resource may belong to one displayed value, a shared model or the whole application. That choice determines when cleanup runs."
-msgstr "Жазылымды қоспас бұрын иесін таңдаңыз: көрсетілетін мән, ортақ модель не бүкіл қолданба. Cleanup уақыты осыған байланысты."
+msgid "Effects and model lifetime"
+msgstr "Әсерлер және модельдің өмірлік циклі"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1155,12 +2160,6 @@ msgstr "Келісімдер мен мысалдарды [Jotai effect](https://
 #: docs/recipes/profile-composition.md
 msgid "Profile: creation and editing"
 msgstr "Профиль: жасау және өңдеу"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/recipes/profile-composition.md
-msgid "A profile model owns the username, avatar, biography and interests. It can derive an avatar color from the username. It does not know whether its input came from a wizard, an existing model, the server or local storage. Query models fetch data, mutation models save it, and application composition connects their results to the business model."
-msgstr "Профиль моделі username, аватар, сипаттама және қызығушылықтарды сақтайды. Ол username негізінде аватар түсін есептей алады. Модель деректердің wizard, басқа модель, сервер немесе жергілікті қоймадан келгенін білмейді. Query модельдері деректерді жүктейді, Mutation модельдері сақтайды, ал қолданбаны құрастыру нәтижелерді бизнес моделімен байланыстырады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1303,12 +2302,6 @@ msgstr "Профиль: команда → факт → реакция"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "A user edits a draft and presses Save. A command validates input and persists it through an API. Only the successful response produces the fact `profileSaved`. A notification module reacts to that fact without controlling persistence."
-msgstr "Пайдаланушы драфтты өңдеп, Сақтау басады. Команда кірісті тексеріп, API арқылы сақтайды. Тек сәтті жауап `profileSaved` фактісін тудырады. Хабарландыру модулі сақтауды басқармай, осы фактіге жауап береді."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/recipes/profile.md
 msgid "Model and async policy"
 msgstr "Модель және async саясаты"
 
@@ -1397,12 +2390,6 @@ msgstr "[React: оқиғалар мен әсерлерді бөлу](https://rea
 #: docs/recipes/server-data.md
 msgid "Server data, forms and saving"
 msgstr "Сервер деректері, пішіндер және сақтау"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/recipes/server-data.md
-msgid "A sales team edits the seat count and customer comment of a proposal. These five recipes use the same request factories and Views. QueryClient owns server data; a model owns the user's draft. The examples expect your application to provide GET and PUT `/api/proposals/:id`; they do not install a demo backend."
-msgstr "Сату бөлімі коммерциялық ұсыныстағы орын саны мен клиент түсініктемесін өзгертеді. Бес рецептте ортақ сұрау фабрикалары мен View қолданылады. QueryClient сервер деректерін, модель пайдаланушы нобайын сақтайды. Қолданба GET және PUT `/api/proposals/:id` беруі керек; демонстрациялық backend орнатылмайды."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1579,12 +2566,6 @@ msgstr "Формулалары бар кесте"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/spreadsheet.md
-msgid "Estimate a website project with a small spreadsheet: hours × rate, a 10% reserve, and a running total. Edit a number or replace a formula; dependent cells update immediately."
-msgstr "Шағын кестеде сайт жобасының құнын есептеңіз: сағат × тариф, 10% резерв және жалпы сома. Санды не формуланы өзгертіңіз — тәуелді ұяшықтар бірден жаңарады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/recipes/spreadsheet.md
 msgid "Try it"
 msgstr "Байқап көріңіз"
 
@@ -1673,10 +2654,28 @@ msgid "actionAtom"
 msgstr "actionAtom"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
-msgid "Describe an operation that reads or updates atoms. For example, validate a draft and submit it to an API."
-msgstr "Атомдарды оқитын не өзгертетін операцияны сипаттаңыз. Мысалы, драфтты тексеріп, API-ге жіберіңіз."
+#: docs/reference/and.md
+#: docs/reference/eq.md
+#: docs/reference/eventAtom.md
+#: docs/reference/ion.md
+#: docs/reference/or.md
+#: docs/reference/prism.md
+#: docs/reference/some.md
+#: docs/reference/stateAtom.md
+#: docs/reference/sum.md
+msgid "Read the [Jotai operators overview](/overview/jotai-operators) for the complete workflow and live examples."
+msgstr "Толық сценарий мен интерактивті мысалдар [Jotai операторлары](/overview/jotai-operators) шолуында берілген."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -1909,17 +2908,6 @@ msgid "- [Jotai: Composing atoms](https://jotai.org/docs/guides/composing-atoms)
 msgstr "- [Jotai: Composing atoms](https://jotai.org/docs/guides/composing-atoms) — осы утилита сүйенетін нативті туынды/әрекет композициясын түсіндіреді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/and.md
-msgid "and"
-msgstr "and"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/and.md
-msgid "Require every condition to pass. For example, enable ordering only when a delivery method is available and the terms are accepted."
-msgstr "Барлық шарттың орындалуын тексеріңіз. Мысалы, жеткізу қолжетімді әрі шарттар қабылданғанда ғана тапсырыс беруге рұқсат етіңіз."
-
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -1932,6 +2920,7 @@ msgstr "Барлық шарттың орындалуын тексеріңіз. �
 #: docs/reference/eq.md
 #: docs/reference/formAtom.md
 #: docs/reference/holoForm.md
+#: docs/reference/modelRegistry.md
 #: docs/reference/or.md
 #: docs/reference/some.md
 #: docs/reference/sum.md
@@ -1969,20 +2958,6 @@ msgstr "Кірістер — синхронды boolean атомдар. Оқу �
 #: docs/reference/or.md
 #: docs/reference/some.md
 #: docs/reference/sum.md
-msgid "Use a named helper for a condition you want to recognize at a glance. Use `ion` for an arbitrary calculation over fixed inputs, or `atom(get => …)` for conditional dependencies."
-msgstr "Шарт бірден түсінікті болуы үшін атаулы утилитаны қолданыңыз. Тұрақты кірістерден еркін есептеуге `ion`, шартты тәуелділікке `atom(get => …)` бар."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/and.md
-#: docs/reference/eq.md
-#: docs/reference/or.md
-#: docs/reference/some.md
-#: docs/reference/sum.md
 msgid "- [Patronum operators](https://patronum.effector.dev/operators/) — named conditions and calculations for Effector; these helpers retain Jotai ownership.\n"
 "- [Jotai atom](https://jotai.org/docs/core/atom) — lazy derived values and dynamic get dependencies.\n"
 "- [Jotai performance](https://jotai.org/docs/guides/performance) — keep subscriptions close to the values used by the View."
@@ -1993,14 +2968,8 @@ msgstr "- [Patronum operators](https://patronum.effector.dev/operators/) — Eff
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/bond.md
-msgid "bond"
-msgstr "bond"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/bond.md
-msgid "Connect an event to a reaction. When an order is submitted, read the current settings, check a condition and send arguments to the receiving atom."
-msgstr "Оқиғаны реакциямен байланыстырыңыз. Тапсырыс берілгенде ағымдағы баптауды оқып, шартты тексеріп, алушы атомға аргументтерді жіберіңіз."
+msgid "Read the [bond overview](/overview/bond) for the complete workflow and live examples."
+msgstr "Толық сценарий мен интерактивті мысалдар [bond](/overview/bond) шолуында берілген."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2087,12 +3056,6 @@ msgstr "Жеткізу цикл шегі бар FIFO бойынша жүреді
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/bond.md
-msgid "The API borrows the sampling vocabulary from Effector: state/source, trigger/clock, guard/filter, map/fn, write/target. Explicit connect gives a Jotai store an owner and disposer instead of installing permanent module-level effects. For state-driven reactive synchronization, jotai-effect.observe is usually simpler. For one direct command, calling set inside actionAtom is usually clearer."
-msgstr "API Effector ұғымдарын қолданады: state/source, trigger/clock, guard/filter, map/fn, write/target. Айқын connect тұрақты module әсерлерінің орнына байланысқа Jotai store, ие және disposer береді. Күйге негізделген синхрондау үшін jotai-effect.observe, бір тікелей команда үшін actionAtom ішіндегі set әдетте түсініктірек."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/bond.md
 msgid "- [Effector sample](https://effector.dev/en/api/effector/sample/) — the main API analogy; its scheduler guarantees do not transfer to bond.\n"
 "- [Jotai effect](https://jotai.org/docs/extensions/effect) — the ready-made alternative for effects driven by dependencies.\n"
 "- [Separating Events from Effects](https://react.dev/learn/separating-events-from-effects) — a useful distinction between explicit interactions and reactive synchronization."
@@ -2107,18 +3070,12 @@ msgid "createAnalytics"
 msgstr "createAnalytics"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createAnalytics.md
-msgid "Map business facts independently for each analytics engine. A search fact can go to two engines while a product-open fact goes only to a third."
-msgstr "Домен фактілерін әр аналитика қозғалтқышы үшін бөлек түрлендіріңіз. Іздеу аяқталу фактісі екі қозғалтқышқа, ал тауарды ашу фактісі тек үшіншісіне жіберілуі мүмкін."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createAnalytics.md
 #: docs/reference/modelAnalytics.md
-msgid "The search form, product list and product details each connect to the same $$search model through their own holo. Each View subscribes only to the values it displays. Analytics is attached once to the model: additional View owners share the connection, so one fact produces one delivery per selected engine. Removing one View leaves observation active until the final owner releases it."
-msgstr "Іздеу формасы, тауарлар тізімі және тауар карточкасы жеке holo арқылы бір $$search моделіне қосылады. Әр View тек көрсететін мәндеріне жазылады. Аналитика модельге бір рет қосылады: қосымша View осы қосылымды бірге иеленеді, сондықтан бір факт әр таңдалған жүйеге бір рет жіберіледі. Бір View кеткенде, басқа иелері бар болса, бақылау жалғасады."
+msgid "Read the [Analytics overview](/overview/analytics) for the complete workflow and live examples."
+msgstr "Толық сценарий мен интерактивті мысалдар [Аналитика](/overview/analytics) шолуында берілген."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2135,28 +3092,20 @@ msgstr "Хабарламалар көшіріліп, өзгертуге жабы
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createAnalytics.md
-msgid "Provider-specific names, units and buckets stay in inline analytics mappings. Generic infrastructure owns concurrency, queues and errors. SDKs stay outside the core bundle. An optional event-only Amplitude adapter accepts an initialized client from jotai-holo/analytics/amplitude; application code owns initialization and identity policy."
-msgstr "Қозғалтқышқа тән атаулар, өлшем бірліктері және санаттар аналитиканың инлайн мапперлерінде қалады. Ортақ инфрақұрылым параллель орындауды, кезектерді және қателерді басқарады. SDK негізгі бандлға кірмейді. jotai-holo/analytics/amplitude модуліндегі қосымша оқиға адаптері инициализацияланған клиентті қабылдайды; инициализация мен пайдаланушыны сәйкестендіру саясаты қолданбада қалады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createAnalytics.md
 msgid "- [Amplitude Browser SDK 2](https://www.amplitude.com/docs/sdks/analytics/browser/browser-sdk-2) — initialization, receipts and batching.\n"
 "- [Adapter authoring prompt](/analytics-adapter-prompt) — implement another engine against the same contract."
 msgstr "- [Amplitude Browser SDK 2](https://www.amplitude.com/docs/sdks/analytics/browser/browser-sdk-2) — инициализация, растаулар және пакеттік жіберу.\n"
 "- [Адаптер авторына арналған промпт](/analytics-adapter-prompt) — басқа қозғалтқышты осы келісіммен іске асыру."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createFormModel.md
-msgid "createFormModel"
-msgstr "createFormModel"
-
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createFormModel.md
-msgid "Create a separate RHF form for each model key. An editor and an external Save panel can share that form without sharing it with another contact."
-msgstr "Әр модель кілтіне жеке RHF формасын жасаңыз. Редактор мен сыртқы сақтау панелі бір форманы бөлісіп, басқа контактіні қозғамайды."
+#: docs/reference/formAtom.md
+#: docs/reference/holoForm.md
+msgid "Read the [React Hook Form overview](/overview/react-hook-form) for the complete workflow and live examples."
+msgstr "Толық сценарий мен интерактивті мысалдар [React Hook Form](/overview/react-hook-form) шолуында берілген."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2213,12 +3162,6 @@ msgstr "- `options(initial)` нативті UseFormProps қайтарады. Ә�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createFormModel.md
-msgid "An RHF control already is the form engine. Creating another Jotai mirror of all form state would introduce timing and validation differences. A model owns the control; native components keep their markup and hooks. Use a plain useForm when a form does not need externally shared model state."
-msgstr "RHF control — дайын форма қозғалтқышы. Барлық форма күйін Jotai-де қайталау уақыт пен валидация айырмашылықтарын тудырады. Control модельге тиесілі; нативті компоненттер markup пен хуктарын сақтайды. Сыртқы ортақ модель күйі керек болмаса қарапайым useForm қолданыңыз."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createFormModel.md
 msgid "- [RHF createFormControl](https://react-hook-form.com/docs/createFormControl) — native control outside React.\n"
 "- [RHF resolvers](https://github.com/react-hook-form/resolvers) — validation adapters and transformed output inference.\n"
 "- [RHF useForm](https://react-hook-form.com/docs/useform) — native options and defaults."
@@ -2227,16 +3170,14 @@ msgstr "- [RHF createFormControl](https://react-hook-form.com/docs/createFormCon
 "- [RHF useForm](https://react-hook-form.com/docs/useform) — нативті опциялар мен әдепкі мәндер."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createMutationModel.md
-msgid "createMutationModel"
-msgstr "createMutationModel"
-
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createMutationModel.md
-msgid "Save a proposal from a Jotai action and display pending, success, and error states through separate atoms. This local simulation rejects discounts above 25%; no network request is sent."
-msgstr "Ұсынысты Jotai әрекеті арқылы сақтап, орындалу күйін, нәтижені және қатені бөлек атомдар арқылы көрсетіңіз. Бұл жергілікті симуляция 25%-дан жоғары жеңілдіктерді қабылдамайды; желілік сұраулар жіберілмейді."
+#: docs/reference/createQueryModel.md
+#: docs/reference/queryClientAtom.md
+msgid "Read the [TanStack Query overview](/overview/tanstack-query) for the complete workflow and live examples."
+msgstr "Толық сценарий мен интерактивті мысалдар [TanStack Query](/overview/tanstack-query) шолуында берілген."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2345,18 +3286,6 @@ msgstr "React-ке арналған throwOnError қолдау таппайды. 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createMutationModel.md
-msgid "Use native useMutation when React owns the operation. Use createMutationModel only when the atom/model system needs to execute the mutation or react to its state. Several UI consumers alone do not require an atom adapter. Existing createMutationModel does not prevent native hooks elsewhere; shared mutation keys do not share an observer or execution state."
-msgstr "Операция React-ке тиесілі болса, нативті useMutation қолданыңыз. createMutationModel атомдар мен модельдер жүйесі мутацияны іске қосуы не күйіне реакция беруі керек болғанда ғана қажет. Бірнеше UI тұтынушының өзі атом адаптерін талап етпейді. createMutationModel болуы басқа жерде нативті хуктарға кедергі емес; бірдей мутация кілттері бақылаушыларды не орындалу күйлерін біріктірмейді."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createMutationModel.md
-msgid "atomWithMutation already integrates Jotai with TanStack. Our interface exposes a writable action directly and named projections instead of requiring callers to read a result atom to find mutate. This also makes it usable in holo.write and bond.write. Observing all mutations, including those launched by useMutation, is a separate cache-level task."
-msgstr "atomWithMutation Jotai мен TanStack жүйелерін біріктіреді. Біздің интерфейс mutate табу үшін нәтиже атомын оқуды талап етпей, жазылатын әрекетті және атаулы проекцияларды тікелей береді. Оны holo.write пен bond.write ішінде де қолдануға болады. useMutation арқылы іске қосылғандарды қоса, барлық мутацияларды бақылау — cache деңгейіндегі бөлек міндет."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createMutationModel.md
 msgid "- [TanStack mutation options](https://tanstack.com/query/latest/docs/framework/react/reference/mutationOptions) — reuse native option factories.\n"
 "- [TanStack mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) — execution, callbacks, optimistic updates, and consecutive calls.\n"
 "- [MutationObserver](https://tanstack.com/query/latest/docs/framework/react/reference/classes/MutationObserver) — the underlying executor and observed state.\n"
@@ -2367,18 +3296,6 @@ msgstr "- [TanStack mutation options](https://tanstack.com/query/latest/docs/fra
 "- [MutationObserver](https://tanstack.com/query/latest/docs/framework/react/reference/classes/MutationObserver) — негізгі орындаушы және бақыланатын күй.\n"
 "- [useMutationState](https://tanstack.com/query/latest/docs/framework/react/reference/useMutationState) — бірнеше мутация cache жазбасын бақылау.\n"
 "- [Jotai Query](https://jotai.org/docs/extensions/query) — atomWithMutation және atomWithMutationState баламалары."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createQueryModel.md
-msgid "createQueryModel"
-msgstr "createQueryModel"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createQueryModel.md
-msgid "Expose server data to atom workflows through independent projections. Use this adapter when atoms or models need reactive Query results; a React-only consumer can keep native Query hooks."
-msgstr "Сервер деректерін атом процестеріне тәуелсіз проекциялар арқылы беріңіз. Адаптер атомдарға не модельдерге реактивті Query нәтижелері қажет болғанда керек; тек React тұтынушысы нативті Query хуктарын қалдыра алады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2439,12 +3356,6 @@ msgstr "createQueryModel-ді defineModel сыртында жариялаңыз.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createQueryModel.md
-msgid "Prefer native useQuery or useSuspenseQuery with a local select when React alone consumes the data. This remains valid even when another model already uses createQueryModel with the same QueryClient. Use this adapter for atom-graph dependencies; binding its projections through holo is optional. Independent projections reuse prism. The adapter talks directly to QueryObserver without replacing Query's cache or network lifecycle."
-msgstr "Деректер тек React үшін болса, жергілікті select бар нативті useQuery немесе useSuspenseQuery таңдаңыз. Басқа модель сол QueryClient-пен createQueryModel қолданса да, бұл орынды. Адаптер атом графының тәуелділіктеріне арналған; проекцияларын holo арқылы қосу міндетті емес. Тәуелсіз проекциялар prism-ді қайта пайдаланады. Адаптер Query кеші мен желілік циклін алмастырмай, QueryObserver-мен тікелей жұмыс істейді."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/createQueryModel.md
 msgid "- [Query Kit](https://github.com/ggkguelensan/tanstack-query-kit) — resource options factories reused without consumer key duplication.\n"
 "- [TanStack render optimizations](https://tanstack.com/query/latest/docs/framework/react/guides/render-optimizations) — structural sharing, select, and tracked properties in useQuery.\n"
 "- [Jotai Query integration](https://jotai.org/docs/extensions/query) — atomWithQuery is a good alternative when one result atom is sufficient.\n"
@@ -2455,16 +3366,12 @@ msgstr "- [Query Kit](https://github.com/ggkguelensan/tanstack-query-kit) — т
 "- [QueryObserver](https://tanstack.com/query/latest/docs/reference/QueryObserver) — нативті жазылым өмірлік циклі."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/defineModel.md
-msgid "defineModel"
-msgstr "defineModel"
-
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/defineModel.md
-msgid "Declare a model factory explicitly while keeping it an ordinary function. This optional identity helper preserves the original function, its creation arguments and its return type."
-msgstr "Модель фабрикасын кәдімгі функция ретінде сақтай отырып, айқын жариялаңыз. Бұл міндетті емес identity хелпері бастапқы функцияны, жасау аргументтерін және нәтиже типін сақтайды."
+#: docs/reference/modelRegistry.md
+msgid "Read the [Models and registry overview](/overview/models-and-registry) for the complete workflow and live examples."
+msgstr "Толық сценарий мен интерактивті мысалдар [Модельдер мен тізілім](/overview/models-and-registry) шолуында берілген."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2481,32 +3388,8 @@ msgstr "TypeScript синхронды объект нәтижесін талап
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/defineModel.md
-msgid "Use defineModel to make a factory's role explicit without adding behavior. A plain named function works equally well. Add modelRegistry only when you need shared instance selection; apply other modifiers for their own responsibilities. This helper adds no lifetime management and does not change atom semantics."
-msgstr "Қосымша мінез-құлық қоспай, фабрика рөлін белгілеу үшін defineModel қолданыңыз. Кәдімгі атаулы функция да дәл солай жұмыс істейді. Ортақ экземплярларды таңдау керек болғанда ғана modelRegistry қосыңыз; басқа модификаторларды өз міндеттері үшін қолданыңыз. Хелпер өмірлік циклді басқармайды және атом семантикасын өзгертпейді."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/defineModel.md
-msgid "See [Model composition](/guide/model-composition) for the distinction between factories, definitions and selected instances."
-msgstr "Фабрикалар, анықтамалар және таңдалған экземплярлар айырмашылығы [«Модель композициясы»](/guide/model-composition) мақаласында сипатталған."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/defineModel.md
 msgid "- [TypeScript generic functions](https://www.typescriptlang.org/docs/handbook/2/generics.html) — preserving a function's input and output types."
 msgstr "- [TypeScript generic функциялары](https://www.typescriptlang.org/docs/handbook/2/generics.html) — функцияның кіріс пен нәтиже типтерін сақтау."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/eq.md
-msgid "eq"
-msgstr "eq"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/eq.md
-msgid "Compare an atom with a value or another atom. Use `eq($deliveryMethod, 'courier')` to check whether an order uses courier delivery."
-msgstr "Атомды мәнмен не басқа атоммен салыстырыңыз. `eq($deliveryMethod, 'courier')` курьерлік жеткізу таңдалған ба екенін тексереді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2519,12 +3402,6 @@ msgstr "Object.is салыстыруы: NaN NaN-ға тең, −0 мен 0 бө�
 #: docs/reference/eventAtom.md
 msgid "eventAtom"
 msgstr "eventAtom"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/eventAtom.md
-msgid "Announce that something happened. Emit `profileSaved` after the API confirms a save, then let notifications or analytics react to that fact."
-msgstr "Болған оқиғаны хабарлаңыз. API сақтауды растағанда `profileSaved` жіберіп, хабарландыру не аналитиканы сол фактіге жауап ретінде қосыңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2567,18 +3444,6 @@ msgstr "- [Effector createEvent](https://effector.dev/en/api/effector/createeven
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/formAtom.md
-msgid "formAtom"
-msgstr "formAtom"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/formAtom.md
-msgid "Read one RHF field through a Jotai atom. For example, display the email currently entered in a form inside an external Save panel."
-msgstr "RHF өрісін Jotai атомы арқылы оқыңыз. Мысалы, формаға енгізілген email-ды сыртқы сақтау панелінде көрсетіңіз."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/formAtom.md
 msgid "`formAtom(formControl, fieldPath) → Atom<FieldPathValue>`"
 msgstr "`formAtom(formControl, fieldPath) → Atom<FieldPathValue>`"
 
@@ -2607,12 +3472,6 @@ msgstr "Imperative action-ға setValue-дан кейін дереу жаңа к
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/formAtom.md
-msgid "A field projection is useful for model calculations and outside panels without subscribing every View to all form values. Native useWatch remains the simplest choice within RHF components. Flags remain native rather than inventing a second state engine or accessing RHF private fields."
-msgstr "Өріс проекциясы әр View-ді барлық форма мәніне жазбай-ақ модель есептеулері мен сыртқы панельдерге пайдалы. RHF компоненті ішінде нативті useWatch ең қарапайым шешім. Екінші күй қозғалтқышын жасап не RHF private өрістерін оқудың орнына жалаушалар нативті қалады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/formAtom.md
 msgid "- [RHF subscribe](https://react-hook-form.com/docs/useform/subscribe) — filtered listeners and callback restrictions.\n"
 "- [RHF useWatch](https://react-hook-form.com/docs/usewatch) — native component-level value observation.\n"
 "- [RHF useFormState](https://react-hook-form.com/docs/useformstate) — native state flags and errors."
@@ -2623,20 +3482,20 @@ msgstr "- [RHF subscribe](https://react-hook-form.com/docs/useform/subscribe) �
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "holo"
-msgstr "holo"
+msgid "<span id=\"atoms-without-models\"></span>\n"
+"<span id=\"named-models\"></span>"
+msgstr "<span id=\"atoms-without-models\"></span>\n"
+"<span id=\"named-models\"></span>"
 
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "Connect models and atoms to a React component. Declare the connection once, outside React render. The View receives ordinary props."
-msgstr "Модельдер мен атомдарды React компонентіне қосыңыз. Байланысты React render сыртында бір рет жариялаңыз. View кәдімгі props алады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holo.md
-msgid "Use holo when decomposing a screen into small Views and moving business workflows into models. Bind subscriptions near the View that needs them. See [Business logic and small Views](/guide/business-logic) for when to keep native Query and RHF hooks."
-msgstr "Экранды шағын View-ге бөліп, бизнес-процестерді модельдерге шығару үшін holo қолданыңыз. Жазылымдарды қажет ететін View-ге жақын қосыңыз. Query және RHF нативті хуктарын қашан қалдыру керегін [«Бизнес-логика және шағын View»](/guide/business-logic) мақаласы түсіндіреді."
+#: docs/reference/input.md
+#: docs/reference/useImperativeHolo.md
+msgid "Read the [holo overview](/overview/holo) for the complete workflow and live examples."
+msgstr "Толық сценарий мен интерактивті мысалдар [holo](/overview/holo) шолуында берілген."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2673,54 +3532,6 @@ msgstr "Тек `view` өрісі міндетті."
 #: docs/reference/holo.md
 msgid "`read`, `write`, `static` and `imperative` supply View props. Pass the remaining props from the parent. `input` forwards selected incoming props to atoms; these props still reach the View."
 msgstr "`read`, `write`, `static` және `imperative` View үшін props береді. Қалған props мәндерін ата-ана компонент береді. `input` таңдалған кіріс props мәндерін атомдарға жібереді; бұл props View ішіне де беріледі."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holo.md
-msgid "Atoms without models"
-msgstr "Модельсіз атомдар"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holo.md
-msgid "`models` is optional. Pass atoms directly to `read` and `write`: holo does not require a model factory, registry or model modifiers. Native `atom(...)`, `stateAtom`, `actionAtom` and `eventAtom` work according to their read and write capabilities."
-msgstr "`models` міндетті емес. Атомдарды тікелей `read` және `write` ішіне беріңіз: holo модель фабрикасын, реестрді немесе модификаторларды талап етпейді. Нативті `atom(...)`, `stateAtom`, `actionAtom` және `eventAtom` оқу не жазу мүмкіндігіне қарай қолданылады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holo.md
-msgid "Here, `read` subscribes to the global theme atom. `write` supplies a theme setter and a callback that publishes `helpRequested`. The same View can use unrelated atoms; they do not need to belong to one model."
-msgstr "Мұнда `read` глобалды тақырып атомына жазылады. `write` тақырыпты өзгерту әдісін және `helpRequested` жариялайтын өңдегішті береді. Бір View байланысы жоқ атомдарды қолдана алады: олар бір модельге тиесілі болуы міндетті емес."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holo.md
-msgid "Global means shared within the same Jotai store. A separate store has independent atom values and event delivery. See [Atoms or models?](/guide/atoms-or-models) for typical choices."
-msgstr "Глобалды дегеніміз — бір Jotai store ішінде ортақ. Басқа store ішіндегі атом мәндері мен оқиғаларды жеткізу тәуелсіз. Негізгі нұсқалар [Атомдар ма, модельдер ме?](/guide/atoms-or-models) мақаласында берілген."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holo.md
-msgid "Named models"
-msgstr "Атаулы модельдер"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holo.md
-msgid "- Pass a model definition to use its default instance in the current Jotai store.\n"
-"- Select a key to share that instance between components using the same model, key and store.\n"
-"- Use incoming props to choose the key. In this example, the parent passes `counterId`.\n"
-"- holo activates the selected models after commit and releases them on unmount. A shared model stays active while another owner uses it."
-msgstr "- Ағымдағы Jotai store ішіндегі default экземплярды пайдалану үшін модель анықтамасын беріңіз.\n"
-"- Бір модель, кілт және store пайдаланатын компоненттер арасында экземплярды бөлісу үшін кілт таңдаңыз.\n"
-"- Кілтті кіріс props арқылы таңдаңыз. Мысалда ата-ана компонент `counterId` береді.\n"
-"- holo таңдалған модельдерді commit аяқталған соң іске қосып, unmount кезінде босатады. Ортақ модель басқа иесі қолданып тұрғанша белсенді қалады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holo.md
-msgid "See [modelRegistry](/reference/modelRegistry) for instance ownership, [input](/reference/input) for prop synchronization and [useImperativeHolo](/reference/useImperativeHolo) for View methods."
-msgstr "Толығырақ: [modelRegistry](/reference/modelRegistry) — модель экземплярлары, [input](/reference/input) — props мәндерін модельге беру, [useImperativeHolo](/reference/useImperativeHolo) — View әдістері."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2763,18 +3574,6 @@ msgstr "- [Reflect уәжі](https://reflect.effector.dev/learn/motivation) — 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holoForm.md
-msgid "holoForm"
-msgstr "holoForm"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holoForm.md
-msgid "Connect a form model to an RHF View. Keep `register`, `Controller` and `useFormContext` in the View; let other widgets use the same model's atoms and actions."
-msgstr "Форма моделін RHF View-мен байланыстырыңыз. `register`, `Controller`, `useFormContext` View-де қалады; басқа виджеттер сол модельдің атомдары мен әрекеттерін қолданады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holoForm.md
 msgid "- Accepts the named-model holo configuration plus an explicit form selector: `form: models => models.editor.form`. Bound props disappear from public props; selector inputs remain required.\n"
 "- The model must come from createFormModel. Native useForm and useFormState bridge its existing formControl to FormProvider so nested markup and useFormContext remain ordinary RHF.\n"
 "- Exactly one active holoForm root per control. A second root with the same model key throws; choose a different key for another independent form. External toolbars/panels use **ordinary holo** with that key, not another holoForm.\n"
@@ -2791,12 +3590,6 @@ msgstr "- Атаулы модельдері бар holo конфигурация
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holoForm.md
-msgid "Use holoForm only when the atom/model system needs to react to form values, validation, submission or other form state. A self-contained form should keep native useForm and FormProvider. When a model is needed, the editor keeps its RHF components and an external Save panel can bind to the same model with ordinary holo."
-msgstr "holoForm атомдар мен модельдер жүйесі форма мәндеріне, валидациясына, жіберілуіне не басқа күйіне реакция беруі керек болғанда ғана қажет. Дербес формаға нативті useForm және FormProvider жеткілікті. Модель керек болса, редактор өз RHF компоненттерін сақтайды, ал сыртқы сақтау панелі сол модельге кәдімгі holo арқылы қосыла алады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holoForm.md
 msgid "- [RHF FormProvider](https://react-hook-form.com/docs/formprovider) — native context for existing form components.\n"
 "- [RHF Controller](https://react-hook-form.com/docs/usecontroller/controller) — controlled UI integrations.\n"
 "- [shadcn forms](https://ui.shadcn.com/docs/forms/react-hook-form) — UI composition with RHF; preserve those native contracts."
@@ -2805,16 +3598,12 @@ msgstr "- [RHF FormProvider](https://react-hook-form.com/docs/formprovider) — 
 "- [shadcn forms](https://ui.shadcn.com/docs/forms/react-hook-form) — RHF-пен UI композициясы; нативті келісімдерді сақтаңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holoList.md
-msgid "holoList"
-msgstr "holoList"
-
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holoList.md
-msgid "Render a View for each item in an array atom. Stable keys keep row state attached to the right item when the list is reordered."
-msgstr "Массив атомының әр элементіне View көрсетіңіз. Тұрақты кілттер қайта реттегенде күйді дұрыс жолда сақтайды."
+#: docs/reference/holoMatch.md
+msgid "Read the [holoMatch and holoList overview](/overview/lists-and-branches) for the complete workflow and live examples."
+msgstr "Толық сценарий мен интерактивті мысалдар [holoMatch және holoList](/overview/lists-and-branches) шолуында берілген."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2843,30 +3632,12 @@ msgstr "Виртуализация, автоматты элемент атомд
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holoList.md
-msgid "Reflect-like list binding is a UI composition helper. getKey is required because row identity should be deliberate. Jotai splitAtom solves a different problem: deriving item atoms, including writable per-item operations. Use splitAtom when that model is needed, then bind/render it explicitly."
-msgstr "Reflect тәрізді тізім байланысы UI композициясына арналған. Жол идентификациясы саналы болуы үшін getKey міндетті. Jotai splitAtom басқа міндетті — жазу операциялары бар элемент атомдарын шығаруды шешеді. Осы модель қажет болса splitAtom қолданып, оны айқын байланыстырып/рендерлеңіз."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holoList.md
 msgid "- [Reflect list](https://reflect.effector.dev/docs/list) — the source-to-row binding analogy.\n"
 "- [Jotai splitAtom](https://jotai.org/docs/utilities/split) — item atom derivation rather than a rendering adapter.\n"
 "- [Jotai performance](https://jotai.org/docs/guides/performance) — why stable selections and small subscription boundaries matter."
 msgstr "- [Reflect list](https://reflect.effector.dev/docs/list) — source-тан жолға байланыс ұқсасы.\n"
 "- [Jotai splitAtom](https://jotai.org/docs/utilities/split) — рендер адаптері емес, элемент атомдарын шығару.\n"
 "- [Jotai performance](https://jotai.org/docs/guides/performance) — тұрақты таңдау мен шағын жазылым шекаралары."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holoMatch.md
-msgid "holoMatch"
-msgstr "holoMatch"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holoMatch.md
-msgid "Choose a View from a status atom. For example, show loading, content or an error while keeping inactive branches unmounted."
-msgstr "Күй атомына сай View таңдаңыз: жүктеу, дерек не қате. Белсенді емес тармақтар mount болмайды."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2895,12 +3666,6 @@ msgstr "Ашық props барлық мүмкін тармақтардың мін
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holoMatch.md
-msgid "This turns state-to-View selection into a reusable declaration with explicit exhaustiveness. An ordinary switch or conditional JSX remains clearer for one local branch. ion can derive a compact status key; no separate match scheduler is needed."
-msgstr "Күйден View таңдауды толықтығы айқын қайта қолданылатын декларация етеді. Бір жергілікті тармаққа switch не шартты JSX түсініктірек. Ion ықшам status кілтін шығара алады; бөлек match scheduler қажет емес."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/holoMatch.md
 msgid "- [Reflect variant](https://reflect.effector.dev/docs/variant) — the conditional View binding analogy.\n"
 "- [Jotai performance](https://jotai.org/docs/guides/performance) — why stable selections and small subscription boundaries matter."
 msgstr "- [Reflect variant](https://reflect.effector.dev/docs/variant) — шартты View байланысының ұқсасы.\n"
@@ -2911,12 +3676,6 @@ msgstr "- [Reflect variant](https://reflect.effector.dev/docs/variant) — ша�
 #: docs/reference/input.md
 msgid "input"
 msgstr "input"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/input.md
-msgid "Forward committed input props to model actions without a forwarding effect in each View."
-msgstr "Әр View ішіне қосымша эффект жазбай, commit аяқталған кіріс пропстарын модель әрекеттеріне беріңіз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2965,18 +3724,6 @@ msgstr "- [Effector useGate](https://effector.dev/en/api/effector-react/usegate/
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/ion.md
-msgid "ion"
-msgstr "ion"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/ion.md
-msgid "Calculate one value from several atoms. In the cart below, quantity and discount determine the total."
-msgstr "Бірнеше атомнан бір мән есептеңіз. Төмендегі себетте сан мен жеңілдік жалпы соманы анықтайды."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/ion.md
 msgid "`ion(atom | record | tuple, project?) → Atom`"
 msgstr "`ion(atom | record | tuple, project?) → Atom`"
 
@@ -2995,12 +3742,6 @@ msgstr "Әр қажетті қайта есептеуде барлық жари�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/ion.md
-msgid "Use ion when you can list the inputs at declaration time. The result has Jotai's normal caching and equality rules. A projector that returns a new object changes the result's identity."
-msgstr "Кірістер жариялау кезінде белгілі болса ion қолданыңыз. Нәтиже Jotai кеші мен теңдік ережелеріне сай. Projector жаңа объект қайтарса, нәтиже сілтемесі өзгереді."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/ion.md
 msgid "- [Effector combine](https://effector.dev/en/api/effector/combine/) — the shape-and-projector analogy; scheduling remains native Jotai.\n"
 "- [Jotai atom](https://jotai.org/docs/core/atom) — the underlying primitive/read-only/write-only contracts."
 msgstr "- [Effector combine](https://effector.dev/en/api/effector/combine/) — құрылым және projector ұқсасы; орындалу реті Jotai-ге тиесілі.\n"
@@ -3015,12 +3756,6 @@ msgstr "modelAnalytics"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/modelAnalytics.md
-msgid "Load feature analytics when its business model acquires a committed owner."
-msgstr "Бизнес модель commit аяқталғаннан кейін иеленгенде, сол функцияның аналитикасын жүктеңіз."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/modelAnalytics.md
 msgid "Import from jotai-holo/analytics. The loader returns a synchronous factory receiving the selected business model. Its returned managed declarations activate together and roll back on setup failure. Ordinary returned atoms remain lazy. Repeated modifiers load independently. Two owners share one child; retained parents reuse it on return. Last release stops observation. Late imports never activate a released owner."
 msgstr "jotai-holo/analytics модулінен импорттаңыз. Жүктеуші таңдалған бизнес модельді қабылдайтын синхронды фабриканы қайтарады. Оның басқарылатын декларациялары бірге белсенеді, қосылу қатесінде кері қайтарылады. Қарапайым атомдар жалқау күйінде қалады. Қайталанған модификаторлар тәуелсіз жүктеледі. Екі иеленуші бір еншілес модельді бөліседі; сақталған ата-ана оралғанда оны қайта қолданады. Соңғы босату бақылауды тоқтатады. Кеш импорт босатылған иеленушіні белсендірмейді."
 
@@ -3029,12 +3764,6 @@ msgstr "jotai-holo/analytics модулінен импорттаңыз. Жүкт
 #: docs/reference/modelAnalytics.md
 msgid "Observation begins when the factory is ready. Earlier facts are not replayed with later state. If the first fact is essential, use an eagerly defined analytics declaration or load the feature before producing that fact. Already mapped engine messages can drain after release without observing the source."
 msgstr "Бақылау фабрика дайын болғанда басталады. Ерте фактілер кейінгі күймен қайталанбайды. Бірінші факт міндетті болса, бақылауды алдын ала анықтаңыз немесе факт жариялаудан бұрын функцияны жүктеңіз. Дайын қозғалтқыш хабарламалары босатудан кейін көзді бақыламай-ақ жеткізілуі мүмкін."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/modelAnalytics.md
-msgid "Business factories publish domain facts without importing analytics. The application composition chooses which analytics factories to attach. There are no duplicate forwarding maps in holo."
-msgstr "Бизнес фабрикалар аналитиканы импорттамай домен фактілерін жариялайды. Қолданбаның жинақтау модулі аналитика фабрикаларын таңдайды. holo ішінде оқиғаны қайта жіберетін қайталанған карталар жоқ."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3055,6 +3784,16 @@ msgstr "modelConnection"
 #: docs/reference/modelConnection.md
 msgid "Connect a tracking feed while at least one widget owns a shipment model. Keep transport setup separate from atom construction."
 msgstr "Жеткізу моделіне кемінде бір виджет иелік еткенде жаңарту ағынын қосыңыз. Тасымалдауды баптауды атом жасаудан бөліңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelConnection.md
+#: docs/reference/modelLifecycle.md
+#: docs/reference/pipe.md
+msgid "Read [Model composition](/guide/model-composition) for the complete workflow and live examples."
+msgstr "Толық сценарий мен интерактивті мысалдар [Модельдер композициясы](/guide/model-composition) мақаласында берілген."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3091,12 +3830,6 @@ msgstr "modelLifecycle"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/modelLifecycle.md
-msgid "Load a saved draft and save edits when its last owner leaves."
-msgstr "Сақталған нобайды жүктеп, соңғы иесі кеткенде өзгерістерді сақтаңыз."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/modelLifecycle.md
 msgid "Load starts on activation and runs once after successful initialization of a retained instance. Release aborts loading; a later owner can retry an interrupted or failed load. Restore is synchronous. When snapshot is supplied, local edits win over a late load. Snapshot values must be synchronous and immutable."
 msgstr "Жүктеу белсенгенде басталады және сақталған экземпляр сәтті инициализацияланған соң қайталанбайды. Босату жүктеуді тоқтатады; кейінгі иесі үзілген не сәтсіз әрекетті қайталай алады. Restore синхронды. snapshot берілсе, жергілікті өзгерістер кеш жүктеу нәтижесінен басым болады. Snapshot мәндері синхронды әрі өзгермейтін болуы тиіс."
 
@@ -3105,12 +3838,6 @@ msgstr "Жүктеу белсенгенде басталады және сақт
 #: docs/reference/modelLifecycle.md
 msgid "Dirty snapshots save on last release. Writes are serialized per instance. Await definition.flush(store, { key }) or lease.flush() when completion matters; flush does not activate a cold model. Background failures reach onError; explicit flush rejects. Operations time out after 10 seconds by default. Cancellation requires the transport to honor AbortSignal."
 msgstr "Өзгерген көшірмелер соңғы босатуда сақталады. Бір экземплярдың жазулары кезекпен орындалады. Аяқталуын күту маңызды болса, definition.flush(store, { key }) немесе lease.flush() қолданыңыз; flush суық модельді белсендірмейді. Фондық қателер onError ішіне түседі, айқын flush Promise-ті қабылдамайды. Операцияның әдепкі тайм-ауты — 10 секунд. Тоқтату үшін транспорт AbortSignal қолдауы тиіс."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/modelLifecycle.md
-msgid "Data loading and persistence belong to the selected model instance. React cleanup cannot await a save; explicit flush makes that requirement visible. Use native Query or RHF defaults when they already own this lifecycle."
-msgstr "Деректерді жүктеу мен сақтау таңдалған модель экземплярына тиесілі. React cleanup сақтауды күте алмайды; айқын flush бұл талапты көрсетеді. Өмірлік циклді Query не RHF бастапқы мәндері басқарып тұрса, соларды қолданыңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3129,68 +3856,12 @@ msgstr "modelRegistry"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/modelRegistry.md
-msgid "Share a model between an editor and a toolbar using the same key and Jotai store."
-msgstr "Бірдей кілт пен Jotai store таңдап, модельді редактор мен құралдар панелі арасында бөлісіңіз."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/modelRegistry.md
-msgid "Why use a registry?"
-msgstr "Реестр не үшін керек?"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/modelRegistry.md
-msgid "A proposal editor and its toolbar must use the same seat count. Another proposal needs an independent count. A factory creates the atoms; a registry lets both widgets select the right existing instance by proposal ID, without passing its atom record through their parents."
-msgstr "Ұсыныс редакторы мен оның әрекеттер панелі бір орын санын қолдануы керек. Басқа ұсынысқа тәуелсіз мән қажет. Фабрика атомдар жасайды, ал реестр екі виджетке ұсыныс ID-і бойынша керекті экземплярды таңдауға мүмкіндік береді; атомдары бар record мәнін ата-ана компоненттер арқылы берудің қажеті жоқ."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/modelRegistry.md
-msgid "In the example below, Seats and Toolbar select the Atlas instance. Adding a seat changes Atlas only. The Beacon widgets select another instance and keep their own count."
-msgstr "Төмендегі мысалда Seats пен Toolbar Atlas экземплярын таңдайды. Орын қосу тек Atlas мәнін өзгертеді. Beacon виджеттері басқа экземплярды таңдап, өз орын санын сақтайды."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/modelRegistry.md
-msgid "What the registry adds"
-msgstr "Реестр не береді"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/modelRegistry.md
-msgid "- Shared identity: components selecting the same definition, key and Jotai store use one model instance.\n"
-"- Independent instances: another key creates a different instance from the same factory.\n"
-"- Retention: returning to a previously used key can restore its retained in-memory state. `retainTime` defaults to `Infinity`; this is not persistence across a page reload.\n"
-"- Owner coordination: holo acquires the selected instance after commit and releases it on unmount. Its managed connections stop after the last owner releases it, even if the record remains retained."
-msgstr "- Ортақ экземпляр: анықтамасы, кілті және Jotai store бірдей компоненттер бір модельді қолданады.\n"
-"- Тәуелсіз экземплярлар: басқа кілт сол фабриканың басқа экземплярын жасайды.\n"
-"- Жадта сақтау: бұрынғы кілтке оралу сақталған күймен жұмысты жалғастыруға мүмкіндік береді. Әдепкі `retainTime` — `Infinity`; бұл күйді бет қайта жүктелгеннен кейін сақтамайды.\n"
-"- Иелерді есепке алу: holo экземплярды commit аяқталған соң алып, unmount кезінде босатады. Соңғы иесі босатқанда басқарылатын қосылымдар тоқтайды, тіпті record жадта қалса да."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/modelRegistry.md
-msgid "The registry selects and retains model records. [modelConnection](/reference/modelConnection), [modelLifecycle](/reference/modelLifecycle) and [modelAnalytics](/reference/modelAnalytics) define the work that runs while they are owned."
-msgstr "Реестр модель record мәндерін таңдап, сақтайды. Ал [modelConnection](/reference/modelConnection), [modelLifecycle](/reference/modelLifecycle) және [modelAnalytics](/reference/modelAnalytics) экземплярлардың иелері бар кезде орындалатын жұмысты анықтайды."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/modelRegistry.md
-msgid "When a registry is unnecessary"
-msgstr "Реестр қашан қажет емес"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/modelRegistry.md
-msgid "Use global atoms for shared application state. Use a plain factory when the application already creates and passes the required instance. Use QueryClient to share server query data by queryKey; a model registry is useful only if the surrounding feature also needs its own instances."
-msgstr "Қолданбаның ортақ күйі үшін глобалды атомдар қолданыңыз. Қолданба керекті экземплярды өзі жасап, беріп отырса, кәдімгі фабрика жеткілікті. queryKey бойынша сервер сұрауларының ортақ деректері үшін QueryClient қолданыңыз; модель реестрі функционалдың өз экземплярлары қажет болғанда ғана керек."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/modelRegistry.md
-msgid "A registry does not clone imported atoms or models. Atoms created inside the factory belong to each new instance; dependencies created outside keep their existing identity. See [Atoms or models?](/guide/atoms-or-models#what-belongs-to-an-instance) for an example."
-msgstr "Реестр импортталған атомдарды не модельдерді көшірмейді. Фабрика ішінде жасалған атомдар жаңа экземплярларға тиесілі; сыртта жасалған тәуелділіктер өз сәйкестігін сақтайды. Мысал: [Атомдар ма, модельдер ме?](/guide/atoms-or-models#what-belongs-to-an-instance)."
+msgid "<span id=\"why-use-a-registry\"></span>\n"
+"<span id=\"what-the-registry-adds\"></span>\n"
+"<span id=\"when-a-registry-is-unnecessary\"></span>"
+msgstr "<span id=\"why-use-a-registry\"></span>\n"
+"<span id=\"what-the-registry-adds\"></span>\n"
+"<span id=\"when-a-registry-is-unnecessary\"></span>"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3211,18 +3882,6 @@ msgid "- [Jotai stores](https://jotai.org/docs/core/store) — state isolation.\
 "- [TanStack Query keys](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys) — structural identity analogy."
 msgstr "- [Jotai stores](https://jotai.org/docs/core/store) — күйді оқшаулау.\n"
 "- [TanStack Query кілттері](https://tanstack.com/query/latest/docs/framework/react/guides/query-keys) — құрылымдық сәйкестік ұқсастығы."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/or.md
-msgid "or"
-msgstr "or"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/or.md
-msgid "Check whether any boolean atom is true. Use it when either of several delivery methods is enough to proceed."
-msgstr "Кемінде бір boolean атом true екенін тексеріңіз. Мысалы, жалғастыру үшін бірнеше жеткізу тәсілінің біреуі жеткілікті."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3276,18 +3935,6 @@ msgstr "- [TypeScript generics](https://www.typescriptlang.org/docs/handbook/2/g
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/prism.md
-msgid "prism"
-msgstr "prism"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/prism.md
-msgid "Select several fields from one atom. Each field becomes an independent read-only atom, so a role change can leave the name View unchanged."
-msgstr "Бір атомның бірнеше өрісін таңдаңыз. Әр өріс жеке read-only атом болады: рөл өзгерісі тек атты көрсететін View-ді жаңартпайды."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/prism.md
 msgid "`prism(sourceAtom, { outputName: selector, … }) → { outputName: Atom, … }`"
 msgstr "`prism(sourceAtom, { outputName: selector, … }) → { outputName: Atom, … }`"
 
@@ -3308,12 +3955,6 @@ msgstr "- Әр шығыс — жеке нативті derived атом; map жа
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/prism.md
-msgid "Use prism when several Views need different fields from the same source. Each output computes separately. Use selectAtom for custom equality, or optics for writable projections."
-msgstr "Әр View-ге бір source-тың бөлек өрістері қажет болса prism қолданыңыз. Әр шығыс бөлек есептеледі. Арнайы теңдікке selectAtom, жазылатын проекцияға optics бар."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/prism.md
 msgid "- [Patronum reshape](https://patronum.effector.dev/operators/reshape/) — the named one-to-many projection analogy. Prism keeps native undefined and Promise semantics.\n"
 "- [Jotai selectAtom](https://jotai.org/docs/utilities/select) — the alternative when comparison needs to be customized.\n"
 "- [Jotai performance](https://jotai.org/docs/guides/performance) — why stable selections and small subscription boundaries matter."
@@ -3324,26 +3965,8 @@ msgstr "- [Patronum reshape](https://patronum.effector.dev/operators/reshape/) �
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/queryClientAtom.md
-msgid "queryClientAtom"
-msgstr "queryClientAtom"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryClientAtom.md
-msgid "Give Jotai bindings the same QueryClient as the rest of the application. This lets `createQueryModel` and native `useQuery` share one cache."
-msgstr "Jotai байланыстарына қолданбадағы QueryClient-ты беріңіз. Сонда `createQueryModel` пен нативті `useQuery` бір кешті бөліседі."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryClientAtom.md
 msgid "A native writable `Atom<QueryClient | null>`, initially null. Query bindings without an explicit client throw a descriptive error if it is missing. Replacing it moves mounted query subscriptions. Create a fresh client/store pair per SSR request. Injection alone does not mount the client or fetch queries."
 msgstr "Бастапқы мәні null болатын нативті жазылатын `Atom<QueryClient | null>`. Айқын client берілмеген query байланысы ол жоқ болса түсінікті қате береді. Ауыстыру mount query жазылымдарын көшіреді. Әр SSR сұрауына жаңа client/store жұбын жасаңыз. Тек инъекция client mount не query fetch жасамайды."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/queryClientAtom.md
-msgid "Explicit client ownership preserves hydration and cache sharing with native React Query. An explicit createQueryModel client is useful for a self-contained widget; this atom is useful for application-level configuration."
-msgstr "Client иелігін айқын көрсету hydration мен нативті React Query кешін бөлісуді сақтайды. Жеке виджетке айқын createQueryModel client, қолданба конфигурациясына осы атом ыңғайлы."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3356,32 +3979,8 @@ msgstr "- [QueryClientProvider](https://tanstack.com/query/latest/docs/framework
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/some.md
-msgid "some"
-msgstr "some"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/some.md
-msgid "Find whether any input matches a condition. Check several price atoms, or check the items of one array atom."
-msgstr "Кемінде бір кіріс шартқа сай ма екенін тексеріңіз. Бірнеше баға атомын не тауарлар массиві бар бір атомды беруге болады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/some.md
 msgid "The predicate receives (value, index); record indexes follow Object.values order. Evaluation stops at the first match. Unread later atoms remain dormant. An array-valued atom is one dependency; this does not subscribe separately to its items. Empty input returns false. The predicate must be synchronous and pure."
 msgstr "Predicate (value, index) алады; record индекстері Object.values ретімен. Алғаш сәйкес келгенде есептеу тоқтайды. Оқылмаған кейінгі атомдар белсенбейді. Массив атомы — бір тәуелділік, әр элементке жеке жазылмайды. Бос кіріс false қайтарады. Predicate синхронды әрі таза болуы керек."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/stateAtom.md
-msgid "stateAtom"
-msgstr "stateAtom"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/stateAtom.md
-msgid "Store an editable value or derive a value from other atoms. A draft name is state; its character count is derived state."
-msgstr "Өңделетін мәнді сақтаңыз немесе басқа атомдардан мән есептеңіз. Жобадағы атау — күй; ондағы таңбалар саны — туынды күй."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3398,28 +3997,10 @@ msgstr "- `stateAtom(value)` кәдімгі примитив атомды қай
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/stateAtom.md
-msgid "Choose stateAtom to express state intent, including derived read/write state. Native atom remains equally supported."
-msgstr "Күйді, соның ішінде оқылатын және жазылатын туынды күйді белгілеу үшін stateAtom қолданыңыз. Кәдімгі atom да бірдей қолдау табады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/stateAtom.md
 msgid "- [Jotai atom](https://jotai.org/docs/core/atom) — the underlying primitive/read-only/write-only contracts.\n"
 "- [Jotai performance](https://jotai.org/docs/guides/performance) — why stable selections and small subscription boundaries matter."
 msgstr "- [Jotai atom](https://jotai.org/docs/core/atom) — негізгі primitive/read-only/write-only келісімдері.\n"
 "- [Jotai performance](https://jotai.org/docs/guides/performance) — тұрақты таңдау мен шағын жазылым шекаралары."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/sum.md
-msgid "sum"
-msgstr "sum"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/sum.md
-msgid "Add numeric atom values. For example, calculate an order total from goods and delivery charges."
-msgstr "Атомдардың сан мәндерін қосыңыз. Мысалы, тауар мен жеткізу құнынан тапсырыс сомасын есептеңіз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3432,12 +4013,6 @@ msgstr "Әр сан кірісін оқиды. Бір сан атомын не r
 #: docs/reference/useImperativeHolo.md
 msgid "useImperativeHolo"
 msgstr "useImperativeHolo"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
-msgid "Keep router, DOM and editor methods inside View. Connect model events to those methods through `holo.imperative`, without storing React functions in atoms."
-msgstr "Router, DOM және редактор әдістерін View ішінде қалдырыңыз. React функцияларын атомдарда сақтамай, модель оқиғаларын осы әдістермен `holo.imperative` арқылы байланыстырыңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

@@ -45,6 +45,9 @@ try {
     const errors = [];
     page.on('pageerror', (error) => errors.push(error.message));
     await page.goto(`${origin}${base}${locale}reference/${reference}`);
+    assert.equal(await page.locator('.example-preview').count(), 0);
+    await page.locator('.vp-doc a[href$="/overview/analytics"]').first().click();
+    await page.waitForURL(`${origin}${base}${locale}overview/analytics`);
     const demo = page.locator('[data-demo="analytics"]');
     await demo.locator('input').waitFor();
     // Model analytics loads after commit; wait for that module before producing facts.
@@ -103,7 +106,7 @@ try {
     await page.close();
   }
   console.log(
-    'Analytics console: deliveries, engine mapping, clearing and responsive layout passed on both analytics pages in 4 locales.',
+    'Analytics console: deliveries, engine mapping, clearing and responsive layout passed through both API links to one analytics overview in 4 locales.',
   );
 } finally {
   await browser?.close();

@@ -93,3 +93,21 @@ try {
 A store.get read alone creates no connection. retainTime defaults to Infinity: state survives release, subscriptions do not. Use finite retention or explicit remove for unbounded keys. Await flush before removal when saved data matters; React cleanup cannot wait for a save.
 
 See [modelRegistry](/reference/modelRegistry), [modelConnection](/reference/modelConnection), [modelLifecycle](/reference/modelLifecycle) and [modelAnalytics](/reference/modelAnalytics) for individual contracts.
+
+## Loading and saving
+
+Load a saved draft and save edits when its last owner leaves.
+
+<Demo kind="data-lifecycle">
+
+<<< @/../examples/docs/data-lifecycle.tsx#data-lifecycle
+
+</Demo>
+
+Data loading and persistence belong to the selected model instance. React cleanup cannot await a save; explicit flush makes that requirement visible. Use native Query or RHF defaults when they already own this lifecycle.
+
+## API reference
+
+- [pipe](/reference/pipe)
+- [modelConnection](/reference/modelConnection)
+- [modelLifecycle](/reference/modelLifecycle)
