@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 15:28+0500\n"
+"POT-Creation-Date: 2026-10-28 15:34+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -115,6 +115,12 @@ msgstr "ID бойынша ортақ экземплярлар: реестр қо
 #: docs/guide/atoms-or-models.md
 msgid "A catalog page and its toolbar need the same filters for the selected catalog. Components choose the instance by `catalogId` instead of passing an atom record between them."
 msgstr "Каталог беті мен оның панеліне таңдалған каталог үшін бірдей сүзгілер қажет. Компоненттер атомдары бар record берудің орнына экземплярды `catalogId` арқылы таңдайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "The examples use `pipe` from `jotai-holo/model`; a compatible helper from another functional library also works. See [Choose a pipe](/guide/model-composition#choose-a-pipe) for alternatives and the Effect pipeline article."
+msgstr "Мысалдарда `jotai-holo/model` ішіндегі `pipe` қолданылады; басқа функционалды кітапхананың үйлесімді утилитасы да жарайды. Баламалар мен Effect мақаласы [Қай pipe утилитасын таңдау керек](/guide/model-composition#choose-a-pipe) бөлімінде берілген."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -445,6 +451,24 @@ msgstr "Қолданбаны баптағанда createShipmentDefinition фу�
 #: docs/guide/model-composition.md
 msgid "Two widgets selecting the same key in one store share atoms and one feed subscription. The first committed owner connects; the last release disconnects. Another key or store gets another instance. initial seeds creation only; changing input on an existing instance requires an explicit action or holo.input."
 msgstr "Бір store ішінде бір кілтті таңдаған екі виджет атомдар мен бір жазылымды бөліседі. Алғашқы расталған иесі оны қосады, соңғысы босатады. Басқа кілт немесе store бөлек дана алады. initial тек жасауға қолданылады; бар дананы өзгертуге айқын action немесе holo.input керек."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Choose a pipe"
+msgstr "Қай pipe утилитасын таңдау керек"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "The examples use `pipe` from `jotai-holo/model`. You can also use a compatible `pipe` from Effect or another functional library: each modifier receives the previous result and returns the next model definition. Keep left-to-right order and model type inference."
+msgstr "Мысалдарда `jotai-holo/model` ішіндегі `pipe` қолданылады. Effect не басқа функционалды кітапхананың үйлесімді `pipe` утилитасы да жарайды: әр модификатор алдыңғы нәтижені алып, келесі модель анықтамасын қайтарады. Солдан оңға орындалу ретін және модель типтерінің шығарылуын сақтаңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "[Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) explains this style of function composition. Effect is optional; these model modifiers do not require its runtime."
+msgstr "[Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) мақаласы функцияларды осылай біріктіруді түсіндіреді. Effect міндетті емес: модель модификаторларына оның runtime-ы қажет емес."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2465,14 +2489,27 @@ msgstr "Модель әрекетін оқу ретімен біріктірің
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/pipe.md
-msgid "Import from jotai-holo/model. pipe applies each modifier to the previous result. Declaration runs no model subscriptions or SDK initialization. Reuse the final definition in connected Views."
-msgstr "jotai-holo/model модулінен импорттаңыз. pipe әр модификаторды алдыңғы нәтижеге қолданады. Декларация модель жазылымдарын не SDK инициализациясын іске қоспайды. Соңғы анықтаманы байланысқан View ішінде қайта қолданыңыз."
+msgid "Our `pipe` is exported from `jotai-holo/model`. It applies each modifier to the previous result. Declaration runs no model subscriptions or SDK initialization. Reuse the final definition in connected Views."
+msgstr "Біздің `pipe` утилитасы `jotai-holo/model` ішінен экспортталады. Ол алдыңғы модификатор нәтижесін келесісіне береді. Жариялау модель жазылымдарын не SDK инициализациясын іске қоспайды. Дайын анықтаманы қосылған View ішінде қайта қолданыңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/pipe.md
+msgid "Use our `pipe` or a compatible `pipe` from another functional library, such as Effect. Model modifiers are ordinary synchronous functions; they do not depend on our `pipe`. Choose a helper that applies modifiers from left to right and preserves their TypeScript types."
+msgstr "Біздің `pipe` не басқа функционалды кітапхананың, мысалы Effect-тің, үйлесімді `pipe` утилитасын қолданыңыз. Модель модификаторлары — кәдімгі синхронды функциялар, олар біздің `pipe` утилитасына тәуелді емес. Модификаторларды солдан оңға қолданып, TypeScript типтерін сақтайтын утилитаны таңдаңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/pipe.md
 msgid "Flat composition makes each model responsibility visible without nested calls. Modifiers retain type inference and native atoms remain available inside the factory. See the [composition guide](/guide/model-composition) for modifier order, custom connections and type preservation."
 msgstr "Жазық композиция кірістірілген шақыруларсыз модель міндеттерін көрсетеді. Модификаторлар тип шығаруды сақтайды, фабрикада нативті атомдар қолжетімді. Реті, өз қосылымдарыңыз және типтерді сақтау [композиция нұсқаулығында](/guide/model-composition) түсіндірілген."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/pipe.md
+msgid "- [Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) — composing functions from left to right with `pipe`."
+msgstr "- [Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) — `pipe` арқылы функцияларды солдан оңға біріктіру.\n"
+"- [TypeScript generics](https://www.typescriptlang.org/docs/handbook/2/generics.html) — композицияда типтерді сақтау."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

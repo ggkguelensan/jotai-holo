@@ -52,6 +52,8 @@ A catalog page and its toolbar need the same filters for the selected catalog. C
 
 <<< @/../examples/atoms-or-models.tsx#usage
 
+The examples use `pipe` from `jotai-holo/model`; a compatible helper from another functional library also works. See [Choose a pipe](/guide/model-composition#choose-a-pipe) for alternatives and the Effect pipeline article.
+
 The same definition, key and store select the same instance. Another catalog ID selects independent filters. The registry adds identity and retention; `models` lets holo select the instance and own its active connections.
 
 The View stays the same in both approaches:

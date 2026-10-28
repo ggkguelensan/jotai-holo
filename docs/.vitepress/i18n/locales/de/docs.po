@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2026-10-28 15:28+0500\n"
+"POT-Creation-Date: 2026-10-28 15:34+0500\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -115,6 +115,12 @@ msgstr "Geteilte Instanzen per ID: eine Registry ergänzen"
 #: docs/guide/atoms-or-models.md
 msgid "A catalog page and its toolbar need the same filters for the selected catalog. Components choose the instance by `catalogId` instead of passing an atom record between them."
 msgstr "Die Katalogseite und ihre Werkzeugleiste brauchen dieselben Filter für den gewählten Katalog. Komponenten wählen die Instanz per `catalogId`, statt einen Atom-Record weiterzureichen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/atoms-or-models.md
+msgid "The examples use `pipe` from `jotai-holo/model`; a compatible helper from another functional library also works. See [Choose a pipe](/guide/model-composition#choose-a-pipe) for alternatives and the Effect pipeline article."
+msgstr "Die Beispiele verwenden `pipe` aus `jotai-holo/model`; eine kompatible Funktion aus einer anderen funktionalen Bibliothek funktioniert ebenfalls. Alternativen und den Effect-Artikel findest du unter [Einen pipe auswählen](/guide/model-composition#choose-a-pipe)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -445,6 +451,24 @@ msgstr "Rufe createShipmentDefinition bei der Anwendungseinrichtung einmal mit d
 #: docs/guide/model-composition.md
 msgid "Two widgets selecting the same key in one store share atoms and one feed subscription. The first committed owner connects; the last release disconnects. Another key or store gets another instance. initial seeds creation only; changing input on an existing instance requires an explicit action or holo.input."
 msgstr "Zwei Widgets mit demselben Schlüssel im selben Store teilen Atome und ein Feed-Abonnement. Der erste bestätigte Besitzer verbindet es, der letzte gibt es frei. Andere Schlüssel oder Stores erhalten eigene Instanzen. initial dient nur der Erstellung; Änderungen bestehender Instanzen benötigen eine explizite Action oder holo.input."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "Choose a pipe"
+msgstr "Einen pipe auswählen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "The examples use `pipe` from `jotai-holo/model`. You can also use a compatible `pipe` from Effect or another functional library: each modifier receives the previous result and returns the next model definition. Keep left-to-right order and model type inference."
+msgstr "Die Beispiele verwenden `pipe` aus `jotai-holo/model`. Ein kompatibler `pipe` aus Effect oder einer anderen funktionalen Bibliothek ist ebenfalls möglich: Jeder Modifier erhält das vorherige Ergebnis und liefert die nächste Modelldefinition. Behalte die Reihenfolge von links nach rechts und die Modelltypinferenz bei."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/model-composition.md
+msgid "[Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) explains this style of function composition. Effect is optional; these model modifiers do not require its runtime."
+msgstr "[Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) erklärt diese Funktionskomposition. Effect ist optional; die Modellmodifier benötigen seine Runtime nicht."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2457,14 +2481,27 @@ msgstr "Kombinieren Sie Modellverhalten in Leserichtung: Fabrik, Registry-Regeln
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/pipe.md
-msgid "Import from jotai-holo/model. pipe applies each modifier to the previous result. Declaration runs no model subscriptions or SDK initialization. Reuse the final definition in connected Views."
-msgstr "Importieren Sie aus jotai-holo/model. pipe wendet jeden Modifikator auf das vorherige Ergebnis an. Die Deklaration startet weder Modellabonnements noch SDK-Initialisierung. Verwenden Sie die endgültige Definition in verbundenen Views erneut."
+msgid "Our `pipe` is exported from `jotai-holo/model`. It applies each modifier to the previous result. Declaration runs no model subscriptions or SDK initialization. Reuse the final definition in connected Views."
+msgstr "Unser `pipe` wird aus `jotai-holo/model` exportiert. Es übergibt das Ergebnis eines Modifiers an den nächsten. Die Deklaration startet keine Modellabonnements oder SDKs. Verwende die fertige Definition in verbundenen Views wieder."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/pipe.md
+msgid "Use our `pipe` or a compatible `pipe` from another functional library, such as Effect. Model modifiers are ordinary synchronous functions; they do not depend on our `pipe`. Choose a helper that applies modifiers from left to right and preserves their TypeScript types."
+msgstr "Verwende unseren `pipe` oder einen kompatiblen `pipe` aus einer anderen funktionalen Bibliothek wie Effect. Modellmodifier sind gewöhnliche synchrone Funktionen und hängen nicht von unserem `pipe` ab. Wähle eine Funktion, die Modifier von links nach rechts anwendet und ihre TypeScript-Typen erhält."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/pipe.md
 msgid "Flat composition makes each model responsibility visible without nested calls. Modifiers retain type inference and native atoms remain available inside the factory. See the [composition guide](/guide/model-composition) for modifier order, custom connections and type preservation."
 msgstr "Flache Komposition macht Modellverantwortlichkeiten ohne verschachtelte Aufrufe sichtbar. Modifikatoren bewahren die Typinferenz, native Atome bleiben in der Factory verfügbar. Die [Kompositionsanleitung](/guide/model-composition) erklärt Reihenfolge, eigene Verbindungen und Typbewahrung."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/pipe.md
+msgid "- [Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) — composing functions from left to right with `pipe`."
+msgstr "- [Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) — Funktionen mit `pipe` von links nach rechts zusammensetzen.\n"
+"- [TypeScript Generics](https://www.typescriptlang.org/docs/handbook/2/generics.html) — Typen über die Komposition hinweg erhalten."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

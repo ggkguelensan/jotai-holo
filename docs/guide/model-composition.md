@@ -32,6 +32,12 @@ const Shipment = holo({
 
 Two widgets selecting the same key in one store share atoms and one feed subscription. The first committed owner connects; the last release disconnects. Another key or store gets another instance. initial seeds creation only; changing input on an existing instance requires an explicit action or holo.input.
 
+## Choose a pipe
+
+The examples use `pipe` from `jotai-holo/model`. You can also use a compatible `pipe` from Effect or another functional library: each modifier receives the previous result and returns the next model definition. Keep left-to-right order and model type inference.
+
+[Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) explains this style of function composition. Effect is optional; these model modifiers do not require its runtime.
+
 ## Modifier order and identity
 
 modelRegistry establishes a registry namespace. Adding modelConnection, modelLifecycle or modelAnalytics to an existing definition preserves its records and shares inherited activations. Applying modelRegistry again establishes a separate namespace. Define the final pipeline once; rebuilding it creates different definitions.
