@@ -42,9 +42,13 @@ The form composes connected children and forwards submit. It has no `read` bindi
 
 Each field reads and writes its own writable derived atom. Editing the name does not pass a new draft object through the email View:
 
+<<< @/../examples/profile/field-views.tsx#field-contracts
+
 <<< @/../examples/profile/edit-view.tsx#edit-fields
 
 The error and Save button subscribe separately to mutation state. Pending updates the button; it does not make the fields read request state:
+
+<<< @/../examples/profile/field-views.tsx#feedback-contracts
 
 <<< @/../examples/profile/edit-view.tsx#edit-feedback
 

@@ -1,53 +1,18 @@
 import { holo } from 'jotai-holo';
+import {
+  NameView,
+  EmailView,
+  ErrorView,
+  SaveButtonView,
+} from './field-views.js';
 import { $$profile, $$profileMutation, save } from './edit-save.js';
 
 // #region edit-fields
-function NameView({
-  name,
-  onChange,
-}: {
-  name: string;
-  onChange: (name: string) => void;
-}) {
-  return (
-    <label>
-      Name
-      <input
-        required
-        pattern={'.*\\S.*'}
-        title="Enter a non-blank name"
-        value={name}
-        onChange={(event) => onChange(event.target.value)}
-      />
-    </label>
-  );
-}
-
 export const ProfileName = holo({
   view: NameView,
   read: { name: $$profile.$name },
   write: { onChange: $$profile.$name },
 });
-
-function EmailView({
-  email,
-  onChange,
-}: {
-  email: string;
-  onChange: (email: string) => void;
-}) {
-  return (
-    <label>
-      Email
-      <input
-        required
-        type="email"
-        value={email}
-        onChange={(event) => onChange(event.target.value)}
-      />
-    </label>
-  );
-}
 
 export const ProfileEmail = holo({
   view: EmailView,
@@ -57,22 +22,10 @@ export const ProfileEmail = holo({
 // #endregion edit-fields
 
 // #region edit-feedback
-function ErrorView({ error }: { error: Error | null }) {
-  return error && <p role="alert">{error.message}</p>;
-}
-
 export const ProfileSaveError = holo({
   view: ErrorView,
   read: { error: $$profileMutation.$error },
 });
-
-function SaveButtonView({ saving }: { saving: boolean }) {
-  return (
-    <button disabled={saving} type="submit">
-      {saving ? 'Saving…' : 'Save profile'}
-    </button>
-  );
-}
 
 export const ProfileSaveButton = holo({
   view: SaveButtonView,

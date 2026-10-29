@@ -25,6 +25,12 @@ Live documentation demos use real React/Jotai bindings from standalone modules i
 
 Run `pnpm test:react` after changing bindings or compatibility code. It tests the packed library with isolated React 18.0.0, 18.3.1 and 19.3.1 consumers in development/production, with SSR and per-major React typings. Use `REACT_VERSION=<version>` to select one. Keep React 19-specific APIs out of shared runtime imports.
 
+## Example code style
+
+Follow [the example conventions](design/example-conventions.md) for every article,
+source snippet and runnable demo. A before/after refactoring walkthrough may show
+the old approach when it explicitly labels it as the starting point.
+
 ## Editorial approach
 
 Write for a developer solving a concrete task. Start each page with that task and the resulting behavior, then show a runnable example. Explain the mechanism before its edge cases. Keep one idea per paragraph, name the actor, and use verbs instead of abstract nouns. Preserve constraints on ownership, async work, equality and cleanup. Link to alternatives where they help a decision; remove comparisons with retired designs. Keep English, Russian, German and Kazakh aligned through Lingui.

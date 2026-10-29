@@ -172,12 +172,14 @@ const Total = holo({
 });
 // #endregion spreadsheet
 
+function ResetView({ onReset }: { onReset: () => void }) {
+  const { t } = useLingui();
+  return <button onClick={onReset}>{t`Reset sheet`}</button>;
+}
+
 // Bind native writable atoms without adding a hook wrapper.
 const Reset = holo({
-  view: function ResetView({ onReset }: { onReset: () => void }) {
-    const { t } = useLingui();
-    return <button onClick={onReset}>{t`Reset sheet`}</button>;
-  },
+  view: ResetView,
   write: { onReset: $$sheet.reset },
 });
 
