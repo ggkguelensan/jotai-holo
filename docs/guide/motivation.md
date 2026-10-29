@@ -23,8 +23,12 @@ Plain Jotai also supports this separation. holo provides conventions for binding
 | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
 | Jotai                                                        | You want atom-based state and prefer to connect components with native hooks.                  |
 | Jotai + holo                                                 | You want atom-based business logic, separate Views and common conventions for connecting them. |
-| [Zustand](https://github.com/pmndrs/zustand)                 | You prefer to describe state as an object with actions and subscribe through selectors.        |
 | [Effector](https://effector.dev/en/introduction/motivation/) | You prefer to build workflows around events, stores and effects.                               |
+| [Reatom](https://reatom.dev/)                                | You want atoms, async operations and forms within one reactive ecosystem.                      |
+| [React Hook Form](https://react-hook-form.com/)              | You need field state, validation and form submission.                                          |
+| [Zag.js](https://zagjs.com/overview/introduction)            | You need ready-made state machines for accessible UI widgets, with your own markup and styles. |
+
+React Hook Form and Zag.js can be used together with holo. The [RHF integration](/topics/rhf-models) is useful when other atoms and models need access to form state.
 
 <span id="a-small-vocabulary-native-semantics"></span>
 

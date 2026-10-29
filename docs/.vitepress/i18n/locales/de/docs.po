@@ -1391,14 +1391,24 @@ msgid "| Choose                                                       | When    
 "| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |\n"
 "| Jotai                                                        | You want atom-based state and prefer to connect components with native hooks.                  |\n"
 "| Jotai + holo                                                 | You want atom-based business logic, separate Views and common conventions for connecting them. |\n"
-"| [Zustand](https://github.com/pmndrs/zustand)                 | You prefer to describe state as an object with actions and subscribe through selectors.        |\n"
-"| [Effector](https://effector.dev/en/introduction/motivation/) | You prefer to build workflows around events, stores and effects.                               |"
+"| [Effector](https://effector.dev/en/introduction/motivation/) | You prefer to build workflows around events, stores and effects.                               |\n"
+"| [Reatom](https://reatom.dev/)                                | You want atoms, async operations and forms within one reactive ecosystem.                      |\n"
+"| [React Hook Form](https://react-hook-form.com/)              | You need field state, validation and form submission.                                          |\n"
+"| [Zag.js](https://zagjs.com/overview/introduction)            | You need ready-made state machines for accessible UI widgets, with your own markup and styles. |"
 msgstr "| Ansatz | Wann wählen? |\n"
 "| --- | --- |\n"
 "| Jotai | Du möchtest Zustand aus Atomen und verbindest Komponenten lieber mit nativen Hooks. |\n"
 "| Jotai + holo | Du möchtest Geschäftslogik aus Atomen, separate Views und gemeinsame Konventionen für ihre Verbindung. |\n"
-"| [Zustand](https://github.com/pmndrs/zustand) | Du beschreibst Zustand lieber als Objekt mit Aktionen und abonnierst ihn über Selektoren. |\n"
-"| [Effector](https://effector.dev/en/introduction/motivation/) | Du baust Abläufe lieber aus Events, Stores und Effects auf. |"
+"| [Effector](https://effector.dev/en/introduction/motivation/) | Du baust Abläufe lieber aus Events, Stores und Effects auf. |\n"
+"| [Reatom](https://reatom.dev/) | Du möchtest Atome, asynchrone Operationen und Formulare in einem reaktiven Ökosystem. |\n"
+"| [React Hook Form](https://react-hook-form.com/) | Du brauchst Feldzustand, Validierung und Formularübermittlung. |\n"
+"| [Zag.js](https://zagjs.com/overview/introduction) | Du brauchst fertige Zustandsmaschinen für barrierefreie UI-Komponenten mit eigenem Markup und Styling. |"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
+msgid "React Hook Form and Zag.js can be used together with holo. The [RHF integration](/topics/rhf-models) is useful when other atoms and models need access to form state."
+msgstr "React Hook Form und Zag.js lassen sich zusammen mit holo verwenden. Die [RHF-Integration](/topics/rhf-models) ist sinnvoll, wenn andere Atome und Modelle auf den Formularzustand zugreifen müssen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
