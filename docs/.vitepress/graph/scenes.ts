@@ -99,7 +99,7 @@ export const scenes: Readonly<Record<string, GraphScene>> = {
         id: 'parent',
         kind: 'react',
         label: 'ToolbarView',
-        refs: [ref('atoms', 'function ToolbarView'), ref('atoms', 'return <ToolbarView')],
+        refs: [ref('atoms', 'function ToolbarView')],
         position: [100, 340],
       },
     ],

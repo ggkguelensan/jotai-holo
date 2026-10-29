@@ -25,15 +25,6 @@ function HelpView({ onHelp }: { onHelp: () => void }) {
   return <button onClick={() => onHelp()}>Help</button>;
 }
 
-function ToolbarView({ title }: { title: string }) {
-  return (
-    <header>
-      <h2>{title}</h2>
-      <ThemeControl />
-      <Help />
-    </header>
-  );
-}
 // #endregion toolbar-view
 
 // #region global-atoms
@@ -53,6 +44,16 @@ const Help = holo({
   view: HelpView,
   write: { onHelp: helpRequested },
 });
+
+function ToolbarView({ title }: { title: string }) {
+  return (
+    <header>
+      <h2>{title}</h2>
+      <ThemeControl />
+      <Help />
+    </header>
+  );
+}
 
 export function Toolbar() {
   return <ToolbarView title="Player hub" />;

@@ -55,6 +55,20 @@ try {
         await wrapper.locator('.graph-source-selected').innerText(),
         new RegExp(source.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')),
       );
+      if (scene === 'shared-atoms') {
+        const composition = wrapper
+          .locator('[data-code-source] pre')
+          .filter({ hasText: 'function ToolbarView' });
+        assert.equal(await composition.count(), 1);
+        assert.match(await composition.innerText(), /<ThemeControl\s*\/>/);
+        assert.match(await composition.innerText(), /<Help\s*\/>/);
+        await wrapper.getByRole('button', { name: 'ToolbarView', exact: true }).focus();
+        assert.match(
+          await wrapper.locator('.graph-source-selected').innerText(),
+          /function ToolbarView/,
+        );
+        await circle.focus();
+      }
       await circle.press('Enter');
       const open = wrapper.locator('.graph-example-sticky>header>a');
       const url = new URL(await open.getAttribute('href'), origin);
