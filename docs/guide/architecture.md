@@ -1,111 +1,55 @@
-# Architecture and stack
+# Organizing code with holo
 
-A player profile editor has at least two kinds of data: the server's saved profile and
-the user's unsaved draft. A request cache owns the first. A business model can
-own the second. The View lets the user edit it.
+Keep data rules in atoms and models, UI behavior in Views, and the connection between them in holo bindings. This lets you change each part without collecting all the logic in a page component.
 
-Keeping those responsibilities separate lets you change how a profile is loaded
-without rewriting its editing rules.
-
-::: info Opinionated architecture
-These guides recommend Jotai for reactive business state, TanStack Query for
-server data, RHF for forms and holo for React bindings. This is an application
-architecture, not a requirement of React or Jotai. You can use holo with ordinary
-atoms and add integrations only when a task needs them.
+::: info Recommended stack
+These guides use Jotai for reactive state, TanStack Query for server data and React Hook Form for forms. The Query and RHF integrations are optional.
 :::
 
-## Follow one edit {#follow-the-data}
+<span id="follow-the-data"></span>
 
-Consider an editor with a name field and a save toolbar:
+## Separate responsibilities {#responsibilities}
 
-1. A Query operation obtains the saved profile.
-2. An application connection passes it to the profile model's input command.
-3. The model holds a draft and calculates whether it can be saved.
-4. Small holo bindings supply the field and toolbar with values and callbacks.
-5. The save command starts a mutation. A successful result can update the draft
-   and publish a fact for other consumers.
+| Code                                                       | Place it in             |
+| ---------------------------------------------------------- | ----------------------- |
+| Shared values, calculations and business rules             | Atoms or models         |
+| Markup, accessibility, DOM methods and UI hooks            | View                    |
+| Atom values and callbacks supplied to a View               | holo binding            |
+| Choosing model instances and connecting independent models | Application composition |
+| Request caching, retries and invalidation                  | TanStack Query          |
+| Form validation, touched and dirty state                   | React Hook Form         |
+| Translating facts into analytics messages                  | Analytics model         |
 
-```text
-Query cache ── connection ──► profile draft ── read ──► View
-                                  ▲                    │
-                                  └───── write ────────┘
-                                  │
-                            save command
-                                  │
-                               mutation
-                                  │
-                             saved fact ──► analytics
-```
+Connect each View to the values it displays. A parent component composes those connected Views; it does not need to subscribe to all their data and pass it down.
 
-The business model accepts profile data. It need not know whether that data came
-from Query, a local draft or a parent component. The application chooses and
-connects those sources.
+Choose data sources and integrations where you assemble the models. A business model can accept data through a command without importing the code that loads it. A View can receive values and callbacks without importing its business model.
 
-## Put each decision in one place {#responsibilities}
+## Add models when you need them {#start-small}
 
-| Question                                       | Where it belongs             |
-| ---------------------------------------------- | ---------------------------- |
-| Is this profile change allowed?                | Business model               |
-| Which saved response is cached?                | TanStack Query's QueryClient |
-| Is this form field touched or invalid?         | RHF                          |
-| Which editor instance does this screen use?    | Application composition      |
-| Which atom supplies the field's value?         | holo binding                 |
-| How is the field labelled and rendered?        | React View                   |
-| What message does an analytics engine receive? | Analytics model              |
+Start with ordinary atoms. Group related state and commands in a model. Use a factory for independent instances, and a registry when separate consumers need to select the same instance by key.
 
-The assembly code may import the participants to connect them. The business
-model and View do not need to import an analytics SDK. Analytics observes facts
-that remain meaningful without any analytics consumer.
+Declare atoms, model definitions and holo bindings outside React render. A registry keeps local model instances; QueryClient already owns the server cache.
 
-A successful save is one such fact. A click on Save is an interaction that might
-fail validation or fail on the server. Choose the event according to what the
-consumer needs to know, and include the data available at that moment.
+## Keep native tools where they fit
 
-## Start with the smallest useful arrangement {#start-small}
+Use native Query hooks when only React needs a request. Use native RHF when only the form needs its state. Add their model adapters when other atoms or commands need access to those values and operations.
 
-For a single name field, use an atom and holo. Group related atoms in a record
-when several commands work on them. Make that record a factory when you need
-independent drafts.
+The same rule applies to context: a value used only by React can stay in its provider. Sharing a value between components does not by itself require an atom.
 
-Add a registry when components must find the same instance by a key such as a
-profile ID. A registry retains local instances; QueryClient already owns the
-server cache. Exposing a Query result as an atom is not a reason to add another
-registry around it.
+## Give connections an owner
 
-Before adding any value to Jotai, ask who needs to react to it. A language used
-only by React components can stay in the localization provider. A request used
-only by a card can stay in a native Query hook. A form used only by its fields
-can stay in RHF. The adapters matter when the atom/model graph needs those
-values or operations.
+<span id="distinguish-retained-state-from-active-work"></span>
 
-## Distinguish retained state from active work
+Use `holo.models` when a model has managed connections. The first committed owner activates them; the last release disconnects them. Reading one of the model's atoms directly does not acquire this work.
 
-Two Views can own the same selected model. Its connections stay active until
-the last owner releases it. The registry may then retain the instance so the
-user can return to the same draft.
+A registry can retain state after the owners leave. `retainTime` keeps the instance, not its subscriptions. See [models and registries](/topics/models-and-registries) and [model composition](/topics/model-composition).
 
-Retaining a draft does not mean keeping its subscriptions running. Read
-[models and registries](/topics/models-and-registries) for ownership and
-retention, and [model composition](/topics/model-composition) for attaching work
-to a model.
+## Publish facts for independent consumers
 
-## Optional entry points
+A command expresses an action to perform. A completed operation can publish a fact. Consumers can react without becoming dependencies of the business model.
 
-Start with `jotai-holo` for React bindings. Model-only code can import atom
-helpers from `jotai-holo/vanilla` without importing React bindings.
+Keep analytics outside business models and Views. Include the data that describes the occurrence in the fact; a delayed consumer must not reconstruct it from newer state. Analytics-specific names and formats belong in its mappers.
 
-Other entry points correspond to specific tasks:
+<span id="optional-entry-points"></span>
 
-| Task                                   | Import                           |
-| -------------------------------------- | -------------------------------- |
-| Compose model factories and modifiers  | `jotai-holo/model`               |
-| Use Query operations in the atom graph | `jotai-holo/query`               |
-| Expose native RHF state to models      | `jotai-holo/rhf`                 |
-| Connect analytics engines              | `jotai-holo/analytics`           |
-| Add the Amplitude adapter              | `jotai-holo/analytics/amplitude` |
-| Restore and save snapshots             | `jotai-holo/persist`             |
-
-For a concrete next step, read [atoms and models](/topics/atoms-and-models) or
-[the server-data recipes](/recipes/server-data). Supported versions and measured
-costs live in the [compatibility matrix](/compatibility) and
-[bundle measurements](/bundle-size).
+Continue with [atoms and models](/topics/atoms-and-models) for choosing state scope, [integrations](/guide/ecosystem) for the optional tools, or [recipes](/recipes/) for complete workflows.

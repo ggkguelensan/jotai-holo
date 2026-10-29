@@ -614,221 +614,144 @@ msgstr "[Мысалға өтіңіз](/examples/gift-copies)."
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Architecture and stack"
-msgstr "Архитектура және стек"
+msgid "Organizing code with holo"
+msgstr "Кодты holo-мен ұйымдастыру"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "A player profile editor has at least two kinds of data: the server's saved profile and\n"
-"the user's unsaved draft. A request cache owns the first. A business model can\n"
-"own the second. The View lets the user edit it."
-msgstr "Ойыншы профилінің редакторында кемінде екі түрлі дерек бар: серверде сақталған профиль және пайдаланушының сақталмаған нобайы. Біріншісін сұраулар кеші басқарады. Екіншісін бизнес-модель басқара алады. View пайдаланушыға оларды өңдеуге мүмкіндік береді."
+msgid "Keep data rules in atoms and models, UI behavior in Views, and the connection between them in holo bindings. This lets you change each part without collecting all the logic in a page component."
+msgstr "Деректер ережелерін атомдар мен модельдерде, UI әрекеттерін View-де, ал олардың байланысын holo байланыстарында ұстаңыз. Сонда бүкіл логиканы бет компонентіне жинамай, әр бөлікті бөлек өзгертуге болады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Keeping those responsibilities separate lets you change how a profile is loaded\n"
-"without rewriting its editing rules."
-msgstr "Осы міндеттерді бөлу профильді жүктеу тәсілін өңдеу ережелерін қайта жазбай өзгертуге мүмкіндік береді."
+msgid "Recommended stack"
+msgstr "Ұсынылатын стек"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Opinionated architecture"
-msgstr "Ұсынылатын архитектура"
+msgid "These guides use Jotai for reactive state, TanStack Query for server data and React Hook Form for forms. The Query and RHF integrations are optional."
+msgstr "Бұл нұсқаулықтарда реактивті күй үшін Jotai, сервер деректері үшін TanStack Query және формалар үшін React Hook Form қолданылады. Query мен RHF интеграциялары міндетті емес."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "These guides recommend Jotai for reactive business state, TanStack Query for\n"
-"server data, RHF for forms and holo for React bindings. This is an application\n"
-"architecture, not a requirement of React or Jotai. You can use holo with ordinary\n"
-"atoms and add integrations only when a task needs them."
-msgstr "Бұл нұсқаулықтар реактивті бизнес-күй үшін Jotai, сервер деректері үшін TanStack Query, формалар үшін RHF және React-пен байланыстыру үшін holo қолдануды ұсынады. Бұл — қолданба архитектурасы, React не Jotai талабы емес. holo-ны кәдімгі атомдармен қолданып, интеграцияларды қажет болғанда ғана қосуға болады."
+msgid "Separate responsibilities"
+msgstr "Жауапкершіліктерді бөліңіз"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Follow one edit"
-msgstr "Бір өзгерістің жолы"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/architecture.md
-msgid "Consider an editor with a name field and a save toolbar:"
-msgstr "Атау өрісі мен сақтау панелі бар редакторды қарастырайық:"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/architecture.md
-msgid "1. A Query operation obtains the saved profile.\n"
-"2. An application connection passes it to the profile model's input command.\n"
-"3. The model holds a draft and calculates whether it can be saved.\n"
-"4. Small holo bindings supply the field and toolbar with values and callbacks.\n"
-"5. The save command starts a mutation. A successful result can update the draft\n"
-"   and publish a fact for other consumers."
-msgstr "1. Query операциясы сақталған профильді алады.\n"
-"2. Қолданба байланысы оны профиль моделінің кіріс командасына береді.\n"
-"3. Модель нобайды сақтап, оны сақтауға болатынын есептейді.\n"
-"4. Шағын holo байланыстары өріс пен панельге мәндер және callback береді.\n"
-"5. Сақтау командасы мутацияны бастайды. Сәтті жауап нобайды жаңартып, басқа тұтынушыларға факт жариялай алады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/architecture.md
-msgid "The business model accepts profile data. It need not know whether that data came\n"
-"from Query, a local draft or a parent component. The application chooses and\n"
-"connects those sources."
-msgstr "Бизнес-модель профиль деректерін қабылдайды. Олардың Query-ден, жергілікті нобайдан не ата-аналық компоненттен келгенін білуі міндетті емес. Дереккөздерді қолданба таңдап, байланыстырады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/architecture.md
-msgid "Put each decision in one place"
-msgstr "Әр шешімнің өз орны"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/architecture.md
-msgid "| Question                                       | Where it belongs             |\n"
-"| ---------------------------------------------- | ---------------------------- |\n"
-"| Is this profile change allowed?                | Business model               |\n"
-"| Which saved response is cached?                | TanStack Query's QueryClient |\n"
-"| Is this form field touched or invalid?         | RHF                          |\n"
-"| Which editor instance does this screen use?    | Application composition      |\n"
-"| Which atom supplies the field's value?         | holo binding                 |\n"
-"| How is the field labelled and rendered?        | React View                   |\n"
-"| What message does an analytics engine receive? | Analytics model              |"
-msgstr "| Сұрақ | Жауапты бөлік |\n"
+msgid "| Code                                                       | Place it in             |\n"
+"| ---------------------------------------------------------- | ----------------------- |\n"
+"| Shared values, calculations and business rules             | Atoms or models         |\n"
+"| Markup, accessibility, DOM methods and UI hooks            | View                    |\n"
+"| Atom values and callbacks supplied to a View               | holo binding            |\n"
+"| Choosing model instances and connecting independent models | Application composition |\n"
+"| Request caching, retries and invalidation                  | TanStack Query          |\n"
+"| Form validation, touched and dirty state                   | React Hook Form         |\n"
+"| Translating facts into analytics messages                  | Analytics model         |"
+msgstr "| Міндет | Қайда орналастыру керек |\n"
 "| --- | --- |\n"
-"| Профильді бұлай өзгертуге бола ма? | Бизнес-модель |\n"
-"| Қай сақталған жауап кеште болады? | TanStack Query QueryClient |\n"
-"| Форма өрісі өзгертілген бе, жарамды ма? | RHF |\n"
-"| Экран редактордың қай данасын қолданады? | Қолданбаны құрастыру коды |\n"
-"| Өріске мәнді қай атом береді? | holo байланысы |\n"
-"| Өріс қалай аталып, көрсетіледі? | React View |\n"
-"| Аналитика жүйесіне қандай хабар жіберіледі? | Аналитикалық модель |"
+"| Ортақ мәндер, есептеулер және бизнес ережелері | Атомдар не модельдер |\n"
+"| Разметка, қолжетімділік, DOM әдістері және UI хуктар | View |\n"
+"| View-ге берілетін атом мәндері мен callback | holo байланысы |\n"
+"| Даналарды таңдау және тәуелсіз модельдерді қосу | Қолданбаны құрастыру коды |\n"
+"| Сұрауларды кештеу, қайталау және инвалидация | TanStack Query |\n"
+"| Форма валидациясы, touched және dirty күйі | React Hook Form |\n"
+"| Фактілерді аналитика хабарларына түрлендіру | Аналитика моделі |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "The assembly code may import the participants to connect them. The business\n"
-"model and View do not need to import an analytics SDK. Analytics observes facts\n"
-"that remain meaningful without any analytics consumer."
-msgstr "Құрастыру коды қатысушыларды байланыстыру үшін импорттай алады. Бизнес-модель мен View аналитика SDK-сын импорттауға міндетті емес. Аналитика ешбір аналитикалық тұтынушы болмаса да мағынасын сақтайтын фактілерді бақылайды."
+msgid "Connect each View to the values it displays. A parent component composes those connected Views; it does not need to subscribe to all their data and pass it down."
+msgstr "Әр View-ді өзі көрсететін мәндерге қосыңыз. Ата-ана компонент олардың барлық деректеріне жазылып, төменге берудің орнына, байланыстырылған View-лерді біріктіреді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "A successful save is one such fact. A click on Save is an interaction that might\n"
-"fail validation or fail on the server. Choose the event according to what the\n"
-"consumer needs to know, and include the data available at that moment."
-msgstr "Сәтті сақтау — сондай факт. Save батырмасын басу валидациядан не серверден қате алуы мүмкін әрекет қана. Оқиғаны тұтынушы білуі тиіс нәрсеге қарай таңдап, сол сәттегі қажетті деректерді қосыңыз."
+msgid "Choose data sources and integrations where you assemble the models. A business model can accept data through a command without importing the code that loads it. A View can receive values and callbacks without importing its business model."
+msgstr "Дереккөздер мен интеграцияларды модельдерді біріктіретін жерде таңдаңыз. Бизнес-модель жүктеу кодын импорттамай, деректерді команда арқылы қабылдай алады. View бизнес-модельді импорттамай, мәндер мен callback ала алады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Start with the smallest useful arrangement"
-msgstr "Жеткілікті қарапайым құрылымнан бастаңыз"
+msgid "Add models when you need them"
+msgstr "Модельдерді қажет болғанда қосыңыз"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "For a single name field, use an atom and holo. Group related atoms in a record\n"
-"when several commands work on them. Make that record a factory when you need\n"
-"independent drafts."
-msgstr "Бір атау өрісіне атом мен holo жеткілікті. Бірнеше команда ортақ атомдармен жұмыс істесе, оларды record-қа біріктіріңіз. Тәуелсіз нобайлар керек болса, оны фабрикаға айналдырыңыз."
+msgid "Start with ordinary atoms. Group related state and commands in a model. Use a factory for independent instances, and a registry when separate consumers need to select the same instance by key."
+msgstr "Кәдімгі атомдардан бастаңыз. Байланысты күй мен командаларды модельге біріктіріңіз. Тәуелсіз даналар үшін фабриканы, ал әртүрлі тұтынушыларға бір дананы кілтпен таңдау керек болса, registry қолданыңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Add a registry when components must find the same instance by a key such as a\n"
-"profile ID. A registry retains local instances; QueryClient already owns the\n"
-"server cache. Exposing a Query result as an atom is not a reason to add another\n"
-"registry around it."
-msgstr "Компоненттер профиль ID-і сияқты кілт арқылы бір дананы табуы керек болса, registry қосыңыз. Registry жергілікті даналарды сақтайды; сервер кешін QueryClient онсыз да басқарады. Query нәтижесін атом ретінде беру оның айналасына тағы registry қосуды талап етпейді."
+msgid "Declare atoms, model definitions and holo bindings outside React render. A registry keeps local model instances; QueryClient already owns the server cache."
+msgstr "Атомдарды, модель анықтамаларын және holo байланыстарын React render сыртында жариялаңыз. Registry жергілікті модель даналарын сақтайды; сервер деректерінің кеші QueryClient-ке тиесілі."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Before adding any value to Jotai, ask who needs to react to it. A language used\n"
-"only by React components can stay in the localization provider. A request used\n"
-"only by a card can stay in a native Query hook. A form used only by its fields\n"
-"can stay in RHF. The adapters matter when the atom/model graph needs those\n"
-"values or operations."
-msgstr "Мәнді Jotai-ға қоспас бұрын, кім оған реакция беруі керегін сұраңыз. Тек React компоненттері қолданатын тіл локализация провайдерінде қала алады. Тек карточкаға қажет сұрау нативті Query хугында қала алады. Өрістеріне ғана қажет форма RHF ішінде қала алады. Адаптер атомдар мен модельдер графына осы мәндер не операциялар қажет болғанда керек."
+msgid "Keep native tools where they fit"
+msgstr "Нативті құралдарды қолданыңыз"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Distinguish retained state from active work"
-msgstr "Сақталған күй мен белсенді жұмысты ажыратыңыз"
+msgid "Use native Query hooks when only React needs a request. Use native RHF when only the form needs its state. Add their model adapters when other atoms or commands need access to those values and operations."
+msgstr "Сұрау тек React-ке қажет болса, нативті Query хуктарын қолданыңыз. Форма күйі тек форманың өзіне қажет болса, нативті RHF пайдаланыңыз. Бұл мәндер мен операциялар басқа атомдарға не командаларға қажет болғанда модель адаптерлерін қосыңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Two Views can own the same selected model. Its connections stay active until\n"
-"the last owner releases it. The registry may then retain the instance so the\n"
-"user can return to the same draft."
-msgstr "Екі View бір таңдалған модельді иелене алады. Оның байланыстары соңғы иесі босатқанша белсенді болады. Registry кейін де дананы сақтап, пайдаланушыға сол нобайға оралуға мүмкіндік береді."
+msgid "The same rule applies to context: a value used only by React can stay in its provider. Sharing a value between components does not by itself require an atom."
+msgstr "Бұл ереже контекске де қатысты: тек React қолданатын мән өз провайдерінде қала алады. Бір мәнді бірнеше компоненттің пайдалануы өздігінен атомды қажет етпейді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Retaining a draft does not mean keeping its subscriptions running. Read\n"
-"[models and registries](/topics/models-and-registries) for ownership and\n"
-"retention, and [model composition](/topics/model-composition) for attaching work\n"
-"to a model."
-msgstr "Нобайды сақтау оның жазылымдарын жұмыс істетіп ұстауды білдірмейді. Иелену мен сақтау туралы [модельдер мен registry](/topics/models-and-registries), ал жұмыс қосуды [модельдер композициясы](/topics/model-composition) мақаласынан оқыңыз."
+msgid "Give connections an owner"
+msgstr "Қосылымдардың иесін анықтаңыз"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Optional entry points"
-msgstr "Бөлек импорттар"
+msgid "Use `holo.models` when a model has managed connections. The first committed owner activates them; the last release disconnects them. Reading one of the model's atoms directly does not acquire this work."
+msgstr "Модельде басқарылатын қосылымдар болса, `holo.models` қолданыңыз. Алғашқы иесі commit-тен кейін оларды іске қосады; соңғы иесі кеткенде олар ажыратылады. Модельдің жеке атомын тікелей оқу бұл қосылымдарды іске қоспайды."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Start with `jotai-holo` for React bindings. Model-only code can import atom\n"
-"helpers from `jotai-holo/vanilla` without importing React bindings."
-msgstr "React байланыстары үшін `jotai-holo` импортынан бастаңыз. Тек модельдермен жұмыс істейтін код атом helper-лерін React байланыстарын қоспай, `jotai-holo/vanilla` арқылы импорттай алады."
+msgid "A registry can retain state after the owners leave. `retainTime` keeps the instance, not its subscriptions. See [models and registries](/topics/models-and-registries) and [model composition](/topics/model-composition)."
+msgstr "Registry иелері кеткеннен кейін күйді сақтай алады. `retainTime` жазылымдарды емес, дананы сақтайды. [Модельдер мен registry](/topics/models-and-registries) және [модельдер композициясы](/topics/model-composition) мақалаларын қараңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Other entry points correspond to specific tasks:"
-msgstr "Басқа кіру нүктелері нақты міндеттерге арналған:"
+msgid "Publish facts for independent consumers"
+msgstr "Тәуелсіз тұтынушыларға фактілерді жариялаңыз"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "| Task                                   | Import                           |\n"
-"| -------------------------------------- | -------------------------------- |\n"
-"| Compose model factories and modifiers  | `jotai-holo/model`               |\n"
-"| Use Query operations in the atom graph | `jotai-holo/query`               |\n"
-"| Expose native RHF state to models      | `jotai-holo/rhf`                 |\n"
-"| Connect analytics engines              | `jotai-holo/analytics`           |\n"
-"| Add the Amplitude adapter              | `jotai-holo/analytics/amplitude` |\n"
-"| Restore and save snapshots             | `jotai-holo/persist`             |"
-msgstr "| Міндет | Импорт |\n"
-"| --- | --- |\n"
-"| Модель фабрикалары мен модификаторларын біріктіру | `jotai-holo/model` |\n"
-"| Query операцияларын атомдар графында қолдану | `jotai-holo/query` |\n"
-"| Нативті RHF күйін модельдерге беру | `jotai-holo/rhf` |\n"
-"| Аналитика жүйелерін қосу | `jotai-holo/analytics` |\n"
-"| Amplitude адаптерін қосу | `jotai-holo/analytics/amplitude` |\n"
-"| Күй суреттерін қалпына келтіріп сақтау | `jotai-holo/persist` |"
+msgid "A command expresses an action to perform. A completed operation can publish a fact. Consumers can react without becoming dependencies of the business model."
+msgstr "Команда орындалуы керек әрекетті сипаттайды. Аяқталған операция факт жариялай алады. Тұтынушылар бизнес-модельдің тәуелділіктеріне айналмай, оған жауап бере алады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "For a concrete next step, read [atoms and models](/topics/atoms-and-models) or\n"
-"[the server-data recipes](/recipes/server-data). Supported versions and measured\n"
-"costs live in the [compatibility matrix](/compatibility) and\n"
-"[bundle measurements](/bundle-size)."
-msgstr "Келесі қадам үшін [атомдар мен модельдер](/topics/atoms-and-models) не [сервер деректері рецептерін](/recipes/server-data) оқыңыз. Қолдау көрсетілетін нұсқалар [үйлесімділік кестесінде](/compatibility), өлшенген көлемдер [bundle өлшемдерінде](/bundle-size) берілген."
+msgid "Keep analytics outside business models and Views. Include the data that describes the occurrence in the fact; a delayed consumer must not reconstruct it from newer state. Analytics-specific names and formats belong in its mappers."
+msgstr "Аналитиканы бизнес-модельдер мен View-ден бөлек қосыңыз. Фактіге оқиға болған сәттегі деректерді енгізіңіз: кешігіп қосылған тұтынушы оларды жаңа күйден қалпына келтірмеуі керек. Аналитика қозғалтқышына тән атаулар мен пішімдерді оның мапперлерінде беріңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/architecture.md
+msgid "Continue with [atoms and models](/topics/atoms-and-models) for choosing state scope, [integrations](/guide/ecosystem) for the optional tools, or [recipes](/recipes/) for complete workflows."
+msgstr "Күй ауқымын таңдау үшін [атомдар мен модельдер](/topics/atoms-and-models), қосымша құралдар үшін [интеграциялар](/guide/ecosystem), ал толық сценарийлер үшін [рецепттер](/recipes/) бөлімін қараңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
