@@ -15,6 +15,7 @@ const demos: Record<string, () => Promise<DemoModule>> = {
   imperative: () => import('../../../examples/docs/imperative'),
   'imperative-focus': () => import('../../../examples/docs/imperative-focus'),
   'imperative-animation': () => import('../../../examples/docs/imperative-animation'),
+  'imperative-purchase': () => import('../../../examples/docs/imperative-purchase'),
   'imperative-share': () => import('../../../examples/docs/imperative-share'),
   ion: () => import('../../../examples/docs/ion'),
   prism: () => import('../../../examples/docs/prism'),

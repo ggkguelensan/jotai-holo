@@ -29,23 +29,32 @@ keeps the animation implementation out of the atom graph.
 
 <<< @/../examples/docs/imperative-animation.tsx#animation
 
-## Call a method returned by a React hook
+## React after a purchase succeeds
 
-Reactuse's [useShare](https://reactuse.org/functions/hooks/useShare.html) stays
-inside View. The request reaches the latest committed `share.trigger`, using
-the View's current title and URL. Reactuse is an optional application dependency;
-these hooks are not bundled into holo.
+A purchase command awaits its TanStack mutation and publishes `orderCreated`
+after success. The receipt View receives its data through `read`. Its imperative
+handler opens the native dialog and calls Motion's `animate` method; it does not
+copy the receipt into local state.
+
+<<< @/../examples/docs/imperative-purchase.tsx#purchase
+<<< @/../examples/docs/imperative-purchase-views.tsx#receipt-handle
+
+The View receipt button calls `openReceipt` directly. The same View method can
+respond to the external fact without making local interactions depend on events.
+Try the [purchase example](/examples/view-methods#call-a-method-returned-by-a-react-hook).
+
+## Keep local hook calls local
+
+A standalone share button needs only Reactuse's
+[useShare](https://reactuse.org/functions/hooks/useShare.html), without holo or an
+event round trip. Reactuse is an optional application dependency.
 
 <<< @/../examples/docs/imperative-share.tsx#share
 
-The button is disabled when sharing is unavailable. Closing the native dialog
-is not an application failure: the handler ignores `AbortError`. Other failures
-reach `holo.onError` through the returned promise.
-
 [Web Share requires user activation](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share#security).
-Keep the click → event → View call synchronous until `share.trigger()` is called.
-Do not launch sharing after a network response, lazy import or queued delivery;
-`useImperativeHolo` cannot restore an expired browser activation.
+Call it directly from a click. Do not automatically share after the purchase
+mutation: the browser activation may have expired. Instead, offer a Share button
+in the receipt. Closing the share dialog is ignored; other errors stay in View.
 
 ## Why this API
 

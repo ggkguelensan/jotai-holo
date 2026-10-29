@@ -464,6 +464,34 @@ msgstr "Highlight cart"
 msgid "Go to game search"
 msgstr "Go to game search"
 
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Completing purchase…"
+msgstr "Completing purchase…"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Buy Starfall · $25"
+msgstr "Buy Starfall · $25"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Purchase failed. Try again."
+msgstr "Purchase failed. Try again."
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "View receipt"
+msgstr "View receipt"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Receipt"
+msgstr "Receipt"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Purchase complete"
+msgstr "Purchase complete"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Close receipt"
+msgstr "Close receipt"
+
 #: examples/docs/imperative-share.tsx
 msgid "Share game"
 msgstr "Share game"
@@ -471,6 +499,10 @@ msgstr "Share game"
 #: examples/docs/imperative-share.tsx
 msgid "Sharing is unavailable"
 msgstr "Sharing is unavailable"
+
+#: examples/docs/imperative-share.tsx
+msgid "Could not share. Try again."
+msgstr "Could not share. Try again."
 
 #: examples/docs/imperative-views.tsx
 #: examples/docs/ion-views.tsx

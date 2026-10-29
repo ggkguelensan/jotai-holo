@@ -732,3 +732,16 @@
 .example-files a {
   overflow-wrap: anywhere;
 }
+
+.demo-receipt {
+  margin: auto;
+  padding: 24px;
+  max-width: min(420px, calc(100vw - 32px));
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+}
+.demo-receipt::backdrop {
+  background: rgb(0 0 0 / 40%);
+}

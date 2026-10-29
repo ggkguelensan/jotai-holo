@@ -546,10 +546,12 @@ msgstr "View әдістері"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/view-methods.md
-msgid "Focus game search, highlight the cart and share a game link. Each small View owns\n"
-"its DOM or hook method; holo connects the request event to that method."
-msgstr "Ойын іздеуге фокус беріңіз, себетті ерекшелендіріңіз және ойын сілтемесімен бөлісіңіз.\n"
-"Әр шағын View өз DOM немесе хук әдісіне ие; holo сұрау оқиғасын сол әдіспен байланыстырады."
+msgid "A View can call its own DOM and hook methods from a local button. Use\n"
+"useImperativeHolo when an external business process also needs that behavior: a\n"
+"successful purchase opens the receipt, while its button can reopen it directly."
+msgstr "View өзінің DOM және хук әдістерін жергілікті батырмадан шақыра алады.\n"
+"Осы әрекет сыртқы бизнес-процеске де қажет болса, useImperativeHolo қолданыңыз:\n"
+"сәтті сатып алу чекті ашады, ал батырма оны тікелей қайта аша алады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -568,12 +570,34 @@ msgid "Restart a cart animation"
 msgstr "Себет анимациясын қайта іске қосу"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-methods.md
+msgid "React to a successful purchase"
+msgstr "Сәтті сатып алуға жауап беру"
+
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/view-methods.md
-#: docs/reference/useImperativeHolo.md
-msgid "Call a method returned by a React hook"
-msgstr "React хук әдісін шақыру"
+msgid "The purchase command awaits the mutation, stores its result and publishes\n"
+"`orderCreated` only after success. Receipt data comes through `read`; the fact\n"
+"opens the dialog through `imperative`. A failed purchase does not open it."
+msgstr "Сатып алу командасы мутацияны күтеді, нәтижесін сақтайды және тек сәтті\n"
+"аяқталғаннан кейін `orderCreated` жариялайды. Чек деректері `read` арқылы келеді;\n"
+"факт диалогты `imperative` арқылы ашады. Сәтсіз сатып алу оны ашпайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-methods.md
+msgid "Close the receipt and reopen it with View receipt. That button calls the View's\n"
+"own method directly; it does not publish an event just to call itself."
+msgstr "Чекті жауып, «Чекті қарау» батырмасымен қайта ашыңыз. Батырма өзіне қайта оралатын\n"
+"оқиғаны жарияламай, View әдісін тікелей шақырады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-methods.md
+msgid "Keep a local button local"
+msgstr "Жергілікті батырма тікелей жұмыс істейді"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4678,36 +4702,58 @@ msgstr "Интерфейс сұрауы себетті ерекшелейді. �
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useImperativeHolo.md
-msgid "Reactuse's [useShare](https://reactuse.org/functions/hooks/useShare.html) stays\n"
-"inside View. The request reaches the latest committed `share.trigger`, using\n"
-"the View's current title and URL. Reactuse is an optional application dependency;\n"
-"these hooks are not bundled into holo."
-msgstr "Reactuse кітапханасының [useShare](https://reactuse.org/functions/hooks/useShare.html)\n"
-"хугы View ішінде қалады. Сұрау View-дің ағымдағы атауы мен URL мәнін қолданып,\n"
-"соңғы commit-тегі `share.trigger` әдісін шақырады. Reactuse — қолданбаның қосымша\n"
-"тәуелділігі; бұл хуктар holo бандлына кірмейді."
+msgid "React after a purchase succeeds"
+msgstr "Сатып алу сәтті аяқталғаннан кейін жауап беру"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useImperativeHolo.md
-msgid "The button is disabled when sharing is unavailable. Closing the native dialog\n"
-"is not an application failure: the handler ignores `AbortError`. Other failures\n"
-"reach `holo.onError` through the returned promise."
-msgstr "Бөлісу қолжетімсіз болса, батырма өшіріледі. Жүйелік диалогты жабу қолданба қатесі\n"
-"емес: өңдегіш `AbortError` қатесін елемейді. Басқа қателер қайтарылған promise\n"
-"арқылы `holo.onError` өңдегішіне беріледі."
+msgid "A purchase command awaits its TanStack mutation and publishes `orderCreated`\n"
+"after success. The receipt View receives its data through `read`. Its imperative\n"
+"handler opens the native dialog and calls Motion's `animate` method; it does not\n"
+"copy the receipt into local state."
+msgstr "Сатып алу командасы TanStack мутациясын күтеді және сәтті аяқталғаннан кейін\n"
+"`orderCreated` жариялайды. Чек View-і деректерді `read` арқылы алады. Императивті\n"
+"өңдегіш жүйелік диалогты ашып, Motion `animate` әдісін шақырады; чекті жергілікті\n"
+"күйге көшірмейді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "The View receipt button calls `openReceipt` directly. The same View method can\n"
+"respond to the external fact without making local interactions depend on events.\n"
+"Try the [purchase example](/examples/view-methods#call-a-method-returned-by-a-react-hook)."
+msgstr "«Чекті қарау» батырмасы `openReceipt` әдісін тікелей шақырады. Сол View әдісі\n"
+"жергілікті әрекеттерді оқиғаларға тәуелді етпей, сыртқы фактіге жауап бере алады.\n"
+"[Сатып алу мысалын](/examples/view-methods#call-a-method-returned-by-a-react-hook) байқап көріңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "Keep local hook calls local"
+msgstr "Жергілікті хук шақырулары жергілікті қалады"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "A standalone share button needs only Reactuse's\n"
+"[useShare](https://reactuse.org/functions/hooks/useShare.html), without holo or an\n"
+"event round trip. Reactuse is an optional application dependency."
+msgstr "Дербес бөлісу батырмасына Reactuse кітапханасының\n"
+"[useShare](https://reactuse.org/functions/hooks/useShare.html) хугы жеткілікті; holo\n"
+"немесе өзіне оралатын оқиға қажет емес. Reactuse — қолданбаның қосымша тәуелділігі."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useImperativeHolo.md
 msgid "[Web Share requires user activation](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share#security).\n"
-"Keep the click → event → View call synchronous until `share.trigger()` is called.\n"
-"Do not launch sharing after a network response, lazy import or queued delivery;\n"
-"`useImperativeHolo` cannot restore an expired browser activation."
+"Call it directly from a click. Do not automatically share after the purchase\n"
+"mutation: the browser activation may have expired. Instead, offer a Share button\n"
+"in the receipt. Closing the share dialog is ignored; other errors stay in View."
 msgstr "[Web Share пайдаланушы белсендіруін талап етеді](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share#security).\n"
-"`share.trigger()` шақырылғанға дейін басу → оқиға → View тізбегін синхронды сақтаңыз.\n"
-"Желі жауабынан, динамикалық импорттан немесе кезектен жеткізуден кейін бөлісуді\n"
-"бастамаңыз: `useImperativeHolo` мерзімі өткен белсендіруді қалпына келтіре алмайды."
+"Оны басу әрекетінен тікелей шақырыңыз. Сатып алу мутациясынан кейін бөлісуді автоматты\n"
+"бастамаңыз: браузер белсендіруінің мерзімі өтуі мүмкін. Оның орнына чекте «Бөлісу»\n"
+"батырмасын ұсыныңыз. Диалогтан бас тарту еленбейді; басқа қателер View ішінде қалады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

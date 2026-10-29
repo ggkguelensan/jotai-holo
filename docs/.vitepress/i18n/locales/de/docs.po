@@ -546,11 +546,12 @@ msgstr "View-Methoden"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/view-methods.md
-msgid "Focus game search, highlight the cart and share a game link. Each small View owns\n"
-"its DOM or hook method; holo connects the request event to that method."
-msgstr "Fokussiere die Spielesuche, hebe den Warenkorb hervor und teile einen Spiellink.\n"
-"Jede kleine View besitzt ihre DOM- oder Hook-Methode; holo verbindet das\n"
-"Anfrageereignis mit dieser Methode."
+msgid "A View can call its own DOM and hook methods from a local button. Use\n"
+"useImperativeHolo when an external business process also needs that behavior: a\n"
+"successful purchase opens the receipt, while its button can reopen it directly."
+msgstr "Eine View kann ihre DOM- und Hook-Methoden über eine lokale Schaltfläche aufrufen.\n"
+"Nutze useImperativeHolo, wenn ein externer Geschäftsprozess dasselbe Verhalten benötigt:\n"
+"Ein erfolgreicher Kauf öffnet den Beleg, und die Schaltfläche kann ihn direkt erneut öffnen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -569,12 +570,34 @@ msgid "Restart a cart animation"
 msgstr "Eine Warenkorb-Animation neu starten"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-methods.md
+msgid "React to a successful purchase"
+msgstr "Auf einen erfolgreichen Kauf reagieren"
+
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/view-methods.md
-#: docs/reference/useImperativeHolo.md
-msgid "Call a method returned by a React hook"
-msgstr "Eine Methode eines React-Hooks aufrufen"
+msgid "The purchase command awaits the mutation, stores its result and publishes\n"
+"`orderCreated` only after success. Receipt data comes through `read`; the fact\n"
+"opens the dialog through `imperative`. A failed purchase does not open it."
+msgstr "Der Kaufbefehl wartet auf die Mutation, speichert das Ergebnis und veröffentlicht\n"
+"`orderCreated` erst nach Erfolg. Belegdaten kommen über `read`; der Fakt öffnet\n"
+"den Dialog über `imperative`. Ein fehlgeschlagener Kauf öffnet ihn nicht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-methods.md
+msgid "Close the receipt and reopen it with View receipt. That button calls the View's\n"
+"own method directly; it does not publish an event just to call itself."
+msgstr "Schließe den Beleg und öffne ihn über „Beleg ansehen“ erneut. Die Schaltfläche ruft\n"
+"die Methode der View direkt auf, ohne ein Ereignis nur für den eigenen Aufruf zu veröffentlichen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-methods.md
+msgid "Keep a local button local"
+msgstr "Eine lokale Schaltfläche bleibt lokal"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4676,36 +4699,58 @@ msgstr "Eine UI-Anfrage hebt den Warenkorb hervor. Jedes Auftreten startet die A
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useImperativeHolo.md
-msgid "Reactuse's [useShare](https://reactuse.org/functions/hooks/useShare.html) stays\n"
-"inside View. The request reaches the latest committed `share.trigger`, using\n"
-"the View's current title and URL. Reactuse is an optional application dependency;\n"
-"these hooks are not bundled into holo."
-msgstr "Reactuses [useShare](https://reactuse.org/functions/hooks/useShare.html) bleibt\n"
-"in der View. Die Anfrage erreicht den zuletzt bestätigten `share.trigger` mit\n"
-"dem aktuellen Titel und der URL der View. Reactuse ist eine optionale Anwendungsabhängigkeit;\n"
-"diese Hooks gehören nicht zum holo-Bundle."
+msgid "React after a purchase succeeds"
+msgstr "Nach einem erfolgreichen Kauf reagieren"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useImperativeHolo.md
-msgid "The button is disabled when sharing is unavailable. Closing the native dialog\n"
-"is not an application failure: the handler ignores `AbortError`. Other failures\n"
-"reach `holo.onError` through the returned promise."
-msgstr "Die Schaltfläche ist deaktiviert, wenn Teilen nicht verfügbar ist. Das Schließen des\n"
-"nativen Dialogs ist kein Anwendungsfehler: Der Handler ignoriert `AbortError`. Andere\n"
-"Fehler erreichen `holo.onError` über das zurückgegebene Promise."
+msgid "A purchase command awaits its TanStack mutation and publishes `orderCreated`\n"
+"after success. The receipt View receives its data through `read`. Its imperative\n"
+"handler opens the native dialog and calls Motion's `animate` method; it does not\n"
+"copy the receipt into local state."
+msgstr "Ein Kaufbefehl wartet auf seine TanStack-Mutation und veröffentlicht `orderCreated`\n"
+"nach Erfolg. Die Beleg-View erhält Daten über `read`. Ihr imperativer Handler\n"
+"öffnet den nativen Dialog und ruft Motions `animate` auf; er kopiert den Beleg\n"
+"nicht in lokalen Zustand."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "The View receipt button calls `openReceipt` directly. The same View method can\n"
+"respond to the external fact without making local interactions depend on events.\n"
+"Try the [purchase example](/examples/view-methods#call-a-method-returned-by-a-react-hook)."
+msgstr "Die Schaltfläche „Beleg ansehen“ ruft `openReceipt` direkt auf. Dieselbe View-Methode\n"
+"kann auf den externen Fakt reagieren, ohne lokale Interaktionen von Ereignissen abhängig zu machen.\n"
+"Probiere das [Kaufbeispiel](/examples/view-methods#call-a-method-returned-by-a-react-hook)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "Keep local hook calls local"
+msgstr "Lokale Hook-Aufrufe bleiben lokal"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "A standalone share button needs only Reactuse's\n"
+"[useShare](https://reactuse.org/functions/hooks/useShare.html), without holo or an\n"
+"event round trip. Reactuse is an optional application dependency."
+msgstr "Eine eigenständige Teilen-Schaltfläche braucht nur Reactuses\n"
+"[useShare](https://reactuse.org/functions/hooks/useShare.html), ohne holo oder\n"
+"Ereignisumweg. Reactuse ist eine optionale Anwendungsabhängigkeit."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useImperativeHolo.md
 msgid "[Web Share requires user activation](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share#security).\n"
-"Keep the click → event → View call synchronous until `share.trigger()` is called.\n"
-"Do not launch sharing after a network response, lazy import or queued delivery;\n"
-"`useImperativeHolo` cannot restore an expired browser activation."
+"Call it directly from a click. Do not automatically share after the purchase\n"
+"mutation: the browser activation may have expired. Instead, offer a Share button\n"
+"in the receipt. Closing the share dialog is ignored; other errors stay in View."
 msgstr "[Web Share erfordert eine Nutzeraktivierung](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share#security).\n"
-"Halte die Kette Klick → Ereignis → View bis zum Aufruf von `share.trigger()` synchron.\n"
-"Starte das Teilen nicht nach einer Netzwerkantwort, einem dynamischen Import oder einer\n"
-"Warteschlangenzustellung; `useImperativeHolo` kann eine abgelaufene Aktivierung nicht erneuern."
+"Rufe es direkt beim Klick auf. Teile nicht automatisch nach der Kaufmutation:\n"
+"Die Browseraktivierung könnte abgelaufen sein. Biete stattdessen eine Teilen-Schaltfläche\n"
+"im Beleg an. Das Schließen des Dialogs wird ignoriert; andere Fehler bleiben in der View."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

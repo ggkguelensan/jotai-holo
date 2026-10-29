@@ -1,56 +1,32 @@
 import { useLingui } from '@lingui/react/macro';
 import { useShare } from '@siberiacancode/reactuse';
-import {
-  eventAtom,
-  holo,
-  useImperativeHolo,
-  type HoloImperative,
-} from 'jotai-holo';
+import { useState } from 'react';
 
 // #region share
-export const gameShareRequested = eventAtom<void>();
-
-type ShareHandle = { shareGame(): Promise<void> };
-
-function ShareGameView({
-  imperative,
-  title,
-  url,
-  onShare,
-}: {
-  imperative: HoloImperative<ShareHandle>;
-  title: string;
-  url: string;
-  onShare: () => void;
-}) {
+export function ShareGame({ title, url }: { title: string; url: string }) {
   const { t } = useLingui();
   const share = useShare({ title, url });
+  const [failed, setFailed] = useState(false);
 
-  useImperativeHolo(imperative, {
-    async shareGame() {
-      try {
-        await share.trigger();
-      } catch (error) {
-        if (error instanceof DOMException && error.name === 'AbortError') {
-          return;
-        }
-        throw error;
-      }
-    },
-  });
+  async function shareGame() {
+    setFailed(false);
+    try {
+      await share.trigger();
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') return;
+      setFailed(true);
+    }
+  }
 
   return (
-    <button disabled={!share.supported} onClick={onShare}>
-      {share.supported ? t`Share game` : t`Sharing is unavailable`}
-    </button>
+    <>
+      <button disabled={!share.supported} onClick={shareGame}>
+        {share.supported ? t`Share game` : t`Sharing is unavailable`}
+      </button>
+      {failed && <p role="alert">{t`Could not share. Try again.`}</p>}
+    </>
   );
 }
-
-export const ShareGame = holo({
-  view: ShareGameView,
-  write: { onShare: gameShareRequested },
-  imperative: { shareGame: gameShareRequested },
-});
 // #endregion share
 
 export default function ShareDemo() {

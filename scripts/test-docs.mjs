@@ -223,6 +223,16 @@ try {
   assert.equal(await live.locator('output').evaluate((node) => node.getAnimations().length), 1);
   await page.locator('[data-demo="imperative-share"] button').waitFor();
 
+  live = await openDemo('view-methods', 'imperative-purchase');
+  await live.getByRole('button', { name: 'Buy Starfall · $25', exact: true }).click();
+  await live.locator('dialog[open]').waitFor();
+  assert.match(await live.locator('dialog').innerText(), /DEMO-1001/);
+  await live.getByRole('button', { name: 'Close receipt', exact: true }).click();
+  assert.equal(await live.locator('dialog').evaluate((dialog) => dialog.open), false);
+  await live.getByRole('button', { name: 'View receipt', exact: true }).click();
+  assert.equal(await live.locator('dialog').evaluate((dialog) => dialog.open), true);
+  await live.getByRole('button', { name: 'Close receipt', exact: true }).click();
+
   live = await openDemo('model-instances', 'model');
   await live.getByRole('button', { name: 'Add a gift copy', exact: true }).first().click();
   await live.locator('output').first().getByText('6', { exact: true }).waitFor();

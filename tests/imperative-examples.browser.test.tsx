@@ -88,13 +88,14 @@ test('Reactuse share runs during the click and reads the latest committed props'
     url: 'https://example.com/games/moon-harbor',
   });
   share.mockRejectedValueOnce(new DOMException('Cancelled', 'AbortError'));
-  const report = vi.spyOn(console, 'error').mockImplementation(() => {});
   await act(async () => h.container.querySelector('button')!.click());
-  expect(report).not.toHaveBeenCalled();
+  expect(h.container.querySelector('[role=alert]')).toBeNull();
   const failure = new Error('Share rejected');
   share.mockRejectedValueOnce(failure);
   await act(async () => h.container.querySelector('button')!.click());
-  expect(report).toHaveBeenCalledWith(failure);
+  expect(h.container.querySelector('[role=alert]')?.textContent).toBe(
+    'Could not share. Try again.',
+  );
 });
 
 test('sharing is disabled on unsupported platforms', async () => {

@@ -464,6 +464,34 @@ msgstr "Себетті ерекшелеу"
 msgid "Go to game search"
 msgstr "Ойын іздеуге өту"
 
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Completing purchase…"
+msgstr "Сатып алу аяқталуда…"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Buy Starfall · $25"
+msgstr "Starfall сатып алу · $25"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Purchase failed. Try again."
+msgstr "Сатып алу сәтсіз болды. Қайта көріңіз."
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "View receipt"
+msgstr "Чекті қарау"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Receipt"
+msgstr "Чек"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Purchase complete"
+msgstr "Сатып алу аяқталды"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Close receipt"
+msgstr "Чекті жабу"
+
 #: examples/docs/imperative-share.tsx
 msgid "Share game"
 msgstr "Ойынмен бөлісу"
@@ -471,6 +499,10 @@ msgstr "Ойынмен бөлісу"
 #: examples/docs/imperative-share.tsx
 msgid "Sharing is unavailable"
 msgstr "Бөлісу қолжетімсіз"
+
+#: examples/docs/imperative-share.tsx
+msgid "Could not share. Try again."
+msgstr "Бөлісу мүмкін болмады. Қайта көріңіз."
 
 #: examples/docs/imperative-views.tsx
 #: examples/docs/ion-views.tsx
