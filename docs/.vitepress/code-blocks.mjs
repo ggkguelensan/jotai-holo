@@ -1,3 +1,4 @@
+import path from 'node:path';
 import ts from 'typescript';
 
 /** Split complete declarations, never blank lines inside a View or callback. */
@@ -53,17 +54,30 @@ export function logicalCodeBlocks(md) {
     // The original renderer resolves imported files and registers watch dependencies.
     const html = render(tokens, index, options, env, self);
     const language = token.info.trim();
+    const source = Array.isArray(token.src) ? token.src[0] : undefined;
+    const mark = (html) => {
+      if (!source) return html;
+      const relative = path
+        .relative(process.cwd(), source)
+        .split(path.sep)
+        .join('/')
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+      return html.replace('<div ', `<div data-code-source="${relative}" `);
+    };
     if (!token.src || !['ts', 'tsx'].includes(language) || /\[!code\b/.test(token.content))
-      return html;
+      return mark(html);
     const blocks = splitCode(token.content, language);
-    if (blocks.length < 2) return html;
+    if (blocks.length < 2) return mark(html);
     return blocks
       .map((content) => {
         const block = Object.assign(Object.create(Object.getPrototypeOf(token)), token, {
           src: undefined,
           content,
         });
-        return render([block], 0, options, env, self);
+        return mark(render([block], 0, options, env, self));
       })
       .join('\n');
   };

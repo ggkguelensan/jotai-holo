@@ -254,6 +254,91 @@ msgstr "Go to home"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
+msgid "Example graph"
+msgstr "Example graph"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Open full map"
+msgstr "Open full map"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Back to the article"
+msgstr "Back to the article"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Loading graph…"
+msgstr "Loading graph…"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "The graph is unavailable. The example code remains readable."
+msgstr "The graph is unavailable. The example code remains readable."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Select a node to inspect its source."
+msgstr "Select a node to inspect its source."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Clear selection"
+msgstr "Clear selection"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "External caller; its implementation is not part of this example."
+msgstr "External caller; its implementation is not part of this example."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Source code"
+msgstr "Source code"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Connections describe dependencies, not execution order."
+msgstr "Connections describe dependencies, not execution order."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Adapter deliveries highlight the corresponding branch."
+msgstr "Adapter deliveries highlight the corresponding branch."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Observation starts after the analytics factory loads; earlier facts are not replayed."
+msgstr "Observation starts after the analytics factory loads; earlier facts are not replayed."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Model"
+msgstr "Model"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "React component"
+msgstr "React component"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "holo binding"
+msgstr "holo binding"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Atom"
+msgstr "Atom"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Managed resource"
+msgstr "Managed resource"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
 msgid "Live example"
 msgstr "Live example"
 

@@ -177,6 +177,18 @@ msgstr "- [Как это работает](/topics/atoms-and-models)\n"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/examples/graph.md
+msgid "Example graph"
+msgstr "Граф примера"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/graph.md
+msgid "Select a node to inspect its source. The miniature and the full map share one scene. An interactive example appears below when that scene includes one."
+msgstr "Выбери узел, чтобы посмотреть его исходник. Миниатюра и полная карта показывают одну сцену. Если у сцены есть живой пример, он появится ниже."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
 #: docs/examples/index.md
 msgid "Examples"
 msgstr "Примеры"
@@ -5078,8 +5090,8 @@ msgstr "Подключите атомы напрямую"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "The [getting started example](/guide/getting-started) uses one writable atom:"
-msgstr "[Пример начала работы](/guide/getting-started) использует один атом, доступный для чтения и записи:"
+msgid "The writable atom shown above also appears in the [getting started example](/guide/getting-started)."
+msgstr "Показанный выше writable-атом также используется в [примере из начала работы](/guide/getting-started)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

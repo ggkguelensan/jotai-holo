@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watch, inject } from 'vue';
+import { graphActivityKey } from '../graph/context';
 import { useData } from 'vitepress';
 
+const graphActivity = inject(graphActivityKey, undefined);
 const props = defineProps<{ kind: string; files?: readonly string[] }>();
 const { lang, theme } = useData();
 const host = ref<HTMLElement>();
@@ -23,7 +25,8 @@ onMounted(() => {
           import('../i18n/runtime'),
         ]);
         const i18n = await loadI18n(lang.value);
-        if (current === generation && host.value) root = mountDemo(host.value, props.kind, i18n);
+        if (current === generation && host.value)
+          root = mountDemo(host.value, props.kind, i18n, graphActivity);
       } catch (error) {
         if (current === generation) failure.value = String(error);
       }

@@ -4,15 +4,12 @@
 
 holo is the binding layer between a parent React component and an inner View. The parent chooses what to compose and supplies context. The View handles rendering and interaction. holo connects that context to atoms and turns their values and writes into View props.
 
-```text
-Parent
-  │ props: IDs, descriptors
-  ▼
-holo ◄─ read/write ─► atoms
-  │ props: values, callbacks
-  ▼
-View (inner component)
-```
+<GraphExample scene="holo-basics">
+
+<<< @/../examples/quickstart.tsx#quickstart-state
+<<< @/../examples/quickstart.tsx#quickstart-binding
+
+</GraphExample>
 
 The parent usually passes identifiers, descriptors of the data to use, and presentation options. It can arrange connected components without reading all their business state.
 
@@ -35,10 +32,7 @@ The following sections explain those directions. For choosing state scope, see [
 
 ## Connect atoms directly {#atoms-without-models}
 
-The [getting started example](/guide/getting-started) uses one writable atom:
-
-<<< @/../examples/quickstart.tsx#quickstart-state
-<<< @/../examples/quickstart.tsx#quickstart-binding
+The writable atom shown above also appears in the [getting started example](/guide/getting-started).
 
 `read` supplies the current value as `name`. `write` supplies a callback as
 `onChange`: calling it with a string writes that string to `$name`. The same

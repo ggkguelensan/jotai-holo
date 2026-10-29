@@ -3,6 +3,7 @@ import { I18nProvider } from '@lingui/react';
 import { createStore, Provider } from 'jotai';
 import { lazy, Suspense, useState, type ComponentType, type ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
+import type { GraphActivity } from '../graph/contracts';
 import { MotionConfig } from 'motion/react';
 
 type DemoModule = {
@@ -61,13 +62,25 @@ function DemoMotion({ children }: { children: ReactNode }) {
   );
 }
 
-export function mountDemo(host: HTMLElement, kind: string, i18n: I18n) {
+export function mountDemo(
+  host: HTMLElement,
+  kind: string,
+  i18n: I18n,
+  onGraphActivity?: (event: GraphActivity) => void,
+) {
   const load = demos[kind];
   if (!load) throw new Error(`Unknown documentation demo: ${kind}`);
   const store = createStore();
+  let disposed = false;
+  let stopGraph: (() => void) | undefined;
   const Demo = lazy(async () => {
     const example = await load();
+    if (disposed) return { default: () => null };
     example.setup?.(store);
+    if (onGraphActivity && kind === 'analytics') {
+      const { observeAnalytics } = await import('../graph/observe-analytics');
+      if (!disposed) stopGraph = observeAnalytics(store, onGraphActivity);
+    }
     return example;
   });
   const root = createRoot(host);
@@ -82,5 +95,11 @@ export function mountDemo(host: HTMLElement, kind: string, i18n: I18n) {
       </Provider>
     </I18nProvider>,
   );
-  return root;
+  return {
+    unmount() {
+      disposed = true;
+      stopGraph?.();
+      root.unmount();
+    },
+  };
 }

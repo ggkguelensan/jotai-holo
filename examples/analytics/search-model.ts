@@ -23,10 +23,13 @@ export function createSearchModel() {
   }>();
   // #endregion search-fact
 
+  // #region game-fact
   const gameOpened = eventAtom<{
     gameId: string;
     position: number;
   }>();
+
+  // #endregion game-fact
 
   const termChanged = actionAtom((_get, set, query: string) => {
     set($query, query);

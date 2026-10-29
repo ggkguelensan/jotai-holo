@@ -1,0 +1,156 @@
+import assert from 'node:assert/strict';
+import { spawn } from 'node:child_process';
+import { chromium } from 'playwright';
+
+const origin = process.env.DOCS_GRAPH_ORIGIN ?? 'http://127.0.0.1:4189';
+const server = process.env.DOCS_GRAPH_ORIGIN
+  ? undefined
+  : spawn(
+      process.execPath,
+      [
+        'node_modules/vitepress/bin/vitepress.js',
+        'preview',
+        'docs',
+        '--host',
+        '127.0.0.1',
+        '--port',
+        '4189',
+      ],
+      { stdio: ['ignore', 'pipe', 'pipe'] },
+    );
+let browser;
+try {
+  if (server)
+    await new Promise((resolve, reject) => {
+      const timer = setTimeout(() => reject(new Error('Docs preview timeout')), 15000);
+      server.once('error', reject);
+      server.stdout.on('data', (chunk) => {
+        if (chunk.toString().includes('Built site served')) {
+          clearTimeout(timer);
+          resolve();
+        }
+      });
+    });
+  browser = await chromium.launch();
+  const errors = [];
+  const page = await browser.newPage({
+    viewport: { width: 1440, height: 1000 },
+    colorScheme: 'dark',
+    reducedMotion: 'reduce',
+  });
+  page.on('pageerror', (error) => errors.push(error.message));
+  for (const locale of ['', 'ru/', 'de/', 'kk/']) {
+    for (const [article, scene, node, source] of [
+      ['holo', 'holo-basics', '$name', 'export const $name'],
+      ['atoms-and-models', 'shared-atoms', '$theme', 'export const $theme'],
+      ['analytics', 'catalog-analytics', 'Warehouse', 'warehouse: (fact)'],
+    ]) {
+      await page.goto(`${origin}/${locale}topics/${article}`);
+      const wrapper = page.locator(`.graph-example[data-graph-scene="${scene}"]`);
+      await wrapper.scrollIntoViewIfNeeded();
+      const circle = wrapper.getByRole('button', { name: node, exact: true });
+      await circle.waitFor();
+      await circle.focus();
+      assert.match(
+        await wrapper.locator('.graph-source-selected').innerText(),
+        new RegExp(source.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')),
+      );
+      await circle.press('Enter');
+      const open = wrapper.locator('.graph-example-sticky>header>a');
+      const url = new URL(await open.getAttribute('href'), origin);
+      assert.equal(url.searchParams.get('scene'), scene);
+      assert.ok(url.searchParams.get('node'));
+      await open.click();
+      await page.locator('.graph-map').waitFor();
+      assert.equal(new URL(page.url()).searchParams.get('scene'), scene);
+      const selection = page.locator('.graph-map-source>header strong');
+      assert.equal(await selection.innerText(), node);
+      const mapped = page.locator(`.graph-map .mini-node[aria-label="${node}"]`);
+      await mapped.waitFor();
+      await mapped.dispatchEvent('click');
+      await selection.hover();
+      assert.equal(await selection.innerText(), node, 'Pointer selection must remain pinned');
+      const selectedLine = page.locator('.graph-source-lines .graph-source-selected');
+      assert.equal(await selectedLine.count(), 1);
+      const back = await page.locator('.graph-back').getAttribute('href');
+      assert.ok(back.includes(`/${locale}topics/`));
+      await page.setViewportSize({ width: 390, height: 844 });
+      assert.equal(
+        await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
+        false,
+      );
+      await page.setViewportSize({ width: 1440, height: 1000 });
+    }
+  }
+  // Code-to-node hovering must not scroll the code away from the pointer.
+  await page.goto(`${origin}/examples/graph?scene=shared-atoms&node=theme`);
+  await page.locator('.graph-source-lines [data-line]').first().waitFor();
+  const viewBinding = page
+    .locator('.graph-source-lines [data-line]')
+    .filter({ hasText: 'view: ThemeView' });
+  await viewBinding.scrollIntoViewIfNeeded();
+  const codeScroll = await page.locator('.graph-source-lines').evaluate((node) => node.scrollTop);
+  await viewBinding.hover();
+  assert.equal(await page.locator('.graph-map-source>header strong').innerText(), 'ThemeView');
+  assert.equal(
+    await page.locator('.graph-source-lines').evaluate((node) => node.scrollTop),
+    codeScroll,
+  );
+  await page.goto(`${origin}/examples/graph?scene=catalog-analytics&node=warehouse`);
+  await page.locator('[data-demo="analytics"] button[type="submit"]').waitFor();
+  await page.waitForFunction(() => document.querySelectorAll('.docs-graph-group').length === 3);
+  await page.evaluate(() => {
+    window.__graphDeliveries = [];
+    const root = document.querySelector('.graph-map-picture');
+    const observer = new MutationObserver(() => {
+      window.__graphDeliveries.push(
+        [...root.querySelectorAll('.graph-active')].map((node) => node.getAttribute('aria-label')),
+      );
+    });
+    observer.observe(root, { subtree: true, attributes: true, attributeFilter: ['class'] });
+    window.__graphObserver = observer;
+  });
+  await page.locator('[data-demo="analytics"] button[type="submit"]').click();
+  await page.waitForFunction(() =>
+    window.__graphDeliveries.some(
+      (nodes) => nodes.includes('Amplitude') && nodes.includes('Warehouse'),
+    ),
+  );
+  await page.evaluate(() => window.__graphObserver.disconnect());
+  // Locale navigation must retain the same scene and selected node.
+  await page.getByRole('button', { name: 'Warehouse', exact: true }).click();
+  await page.locator('.VPNavBarTranslations button').hover();
+  const ru = page.locator('.VPNavBarTranslations a[href^="/ru/examples/graph"]').first();
+  await ru.hover();
+  assert.equal(
+    new URL(await ru.getAttribute('href'), origin).searchParams.get('scene'),
+    'catalog-analytics',
+  );
+  await ru.click();
+  await page.locator('.graph-map').waitFor();
+  assert.equal(new URL(page.url()).searchParams.get('scene'), 'catalog-analytics');
+  assert.equal(new URL(page.url()).searchParams.get('node'), 'warehouse');
+  await page.goto(`${origin}/ru/topics/atoms-and-models`);
+  await page.locator('.graph-example').scrollIntoViewIfNeeded();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator('.mini-hit').first().waitFor();
+  const hit = await page.locator('.mini-hit').first().boundingBox();
+  assert.ok(hit && hit.width >= 44);
+  for (const scheme of ['light', 'dark']) {
+    await page.emulateMedia({ colorScheme: scheme });
+    assert.equal(
+      await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
+      false,
+    );
+  }
+  await page.goto(`${origin}/examples/graph?scene=missing`);
+  await page.getByText('The graph is unavailable. The example code remains readable.').waitFor();
+  assert.equal(await page.locator('.docs-graph').count(), 0);
+  assert.deepEqual(errors, []);
+  console.log(
+    'Documentation graphs: 3 scenes in 4 locales; source highlights, expansion, pinned inspection, mobile, theme, live deliveries and locale continuity passed.',
+  );
+} finally {
+  await browser?.close();
+  server?.kill();
+}
