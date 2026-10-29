@@ -638,6 +638,12 @@ msgstr "Diese Anleitungen verwenden Jotai für reaktiven Zustand, TanStack Query
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
+msgid "For the flow from parent props through a binding to View props, see the [mental model of holo](/topics/holo#mental-model)."
+msgstr "Den Weg von Eltern-Props über eine Bindung zu View-Props erklärt das [mentale Modell von holo](/topics/holo#mental-model)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/architecture.md
 msgid "Separate responsibilities"
 msgstr "Verantwortlichkeiten trennen"
 
@@ -1102,8 +1108,8 @@ msgstr "Zwei `NameField`-Komponenten im selben Jotai-Store teilen den Wert. Ein 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "This binding needs no model or registry. Continue with [atoms and models](/topics/atoms-and-models) when you need independent state or instances shared by ID."
-msgstr "Diese Bindung braucht weder Modell noch Registry. Lies [Atome und Modelle](/topics/atoms-and-models), wenn du unabhängigen Zustand oder per ID geteilte Instanzen brauchst."
+msgid "This binding needs no model or registry. Read the [mental model of holo](/topics/holo#mental-model) for the flow from parent to View, or [atoms and models](/topics/atoms-and-models) for independent state and instances shared by ID."
+msgstr "Diese Bindung braucht weder Modell noch Registry. Das [mentale Modell von holo](/topics/holo#mental-model) erklärt den Weg vom Elternteil zur View; [Atome und Modelle](/topics/atoms-and-models) erklärt unabhängigen Zustand und per ID geteilte Instanzen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4998,17 +5004,66 @@ msgstr "[Teste unabhängige Profilfelder](/examples/profile-fields). Die [Berech
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "holo connects atom values and commands to ordinary React props. A View receives\n"
-"a value such as `name` and a callback such as `onChange`; the binding chooses\n"
-"where they come from."
-msgstr "holo verbindet Atomwerte und Befehle mit gewöhnlichen React-Props. Eine View erhält einen Wert wie `name` und einen Callback wie `onChange`; das Binding wählt ihre Quellen."
+msgid "Between the parent and the View"
+msgstr "Zwischen Elternkomponente und View"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "This article explains the directions of that connection. For choosing between\n"
-"plain atoms and model instances, read [atoms and models](/topics/atoms-and-models)."
-msgstr "Dieser Artikel erklärt die Richtungen dieser Verbindung. Die Wahl zwischen einfachen Atomen und Modellinstanzen erklärt [Atome und Modelle](/topics/atoms-and-models)."
+msgid "holo is the binding layer between a parent React component and an inner View. The parent chooses what to compose and supplies context. The View handles rendering and interaction. holo connects that context to atoms and turns their values and writes into View props."
+msgstr "holo ist die Bindungsschicht zwischen einer React-Elternkomponente und einer inneren View. Der Elternteil wählt die Komposition und liefert Kontext. Die View übernimmt Darstellung und Interaktion. holo verbindet diesen Kontext mit Atomen und macht ihre Werte und Schreibzugriffe zu View-Props."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/holo.md
+msgid "The parent usually passes identifiers, descriptors of the data to use, and presentation options. It can arrange connected components without reading all their business state."
+msgstr "Der Elternteil übergibt meist IDs, Beschreibungen der benötigten Daten und Darstellungsoptionen. Er kann verbundene Komponenten anordnen, ohne ihren gesamten Geschäftszustand zu lesen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/holo.md
+msgid "The View owns markup, DOM methods, accessibility and local UI state. It receives ordinary props, so it can be rendered without its model. A \"pure View\" here can still use React hooks; the business model and its connections stay outside the View."
+msgstr "Die View ist für Markup, DOM-Methoden, Barrierefreiheit und lokalen UI-Zustand zuständig. Sie erhält gewöhnliche Props und lässt sich daher ohne ihr Modell rendern. Eine „reine View“ darf hier weiterhin React-Hooks verwenden; das Geschäftsmodell und seine Verbindungen bleiben außerhalb der View."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/holo.md
+msgid "Within holo, the directions are:"
+msgstr "Die Richtungen innerhalb von holo:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/holo.md
+msgid "| Binding  | Direction                                             |\n"
+"| -------- | ----------------------------------------------------- |\n"
+"| `models` | Parent props select model instances.                  |\n"
+"| `input`  | Selected committed parent props are written to atoms. |\n"
+"| `read`   | Atom values become View props.                        |\n"
+"| `write`  | View callback props write to atoms when called.       |"
+msgstr "| Bindung | Richtung |\n"
+"| --- | --- |\n"
+"| `models` | Eltern-Props wählen Modellinstanzen. |\n"
+"| `input` | Ausgewählte Eltern-Props werden nach dem Commit in Atome geschrieben. |\n"
+"| `read` | Atomwerte werden zu View-Props. |\n"
+"| `write` | Callback-Props der View schreiben beim Aufruf in Atome. |"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/holo.md
+msgid "The input to the connected component is the parent's props. The configuration field `input` has a narrower purpose: forwarding selected props into atom logic after commit. An ID used only to select a model needs no `input` binding."
+msgstr "Der Eingang der verbundenen Komponente sind die Eltern-Props. Das Konfigurationsfeld `input` hat eine engere Aufgabe: Es leitet ausgewählte Props nach dem Commit in die Atomlogik weiter. Eine ID, die nur zur Modellwahl dient, braucht keine `input`-Bindung."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/holo.md
+msgid "The output to the View is also props: values from `read`, callbacks from `write`, configured `static` props and any unbound parent props. `events` can additionally supply a handle for View event handlers. Business rules remain in atoms and models; holo describes their connection to React."
+msgstr "Der Ausgang zur View sind ebenfalls Props: Werte aus `read`, Callbacks aus `write`, konfigurierte `static`-Props und ungebundene Eltern-Props. `events` kann zusätzlich ein Handle für View-Ereignisbehandler liefern. Geschäftsregeln bleiben in Atomen und Modellen; holo beschreibt ihre Verbindung zu React."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/holo.md
+msgid "The following sections explain those directions. For choosing state scope, see [atoms and models](/topics/atoms-and-models)."
+msgstr "Die folgenden Abschnitte erklären diese Richtungen. Für den Zustandsbereich siehe [Atome und Modelle](/topics/atoms-and-models)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5067,8 +5122,8 @@ msgstr "Verwendet ein Binding Modelle, wählt `models` zuerst ihre Instanzen. Di
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "GameTerm and GameSale each select the filters record using `catalogId`. Their bindings map one field to a value and callback. GameFilters composes these controls and passes only the ID; it does not read the filter values. Each field View receives ordinary props."
-msgstr "GameTerm und GameSale wählen jeweils den Filter-Record mit `catalogId`. Ihre Bindings bilden ein Feld auf einen Wert und Callback ab. GameFilters setzt diese Bedienelemente zusammen und übergibt nur die ID; es liest die Filterwerte nicht. Jede Feld-View erhält gewöhnliche Props."
+msgid "Each field binding selects the model using the incoming `catalogId`. The parent composes the connected controls and passes the ID; each inner View receives its own value and callback."
+msgstr "Jede Feldbindung wählt das Modell über die eingehende `catalogId`. Der Elternteil setzt die verbundenen Steuerelemente zusammen und übergibt die ID; jede innere View erhält ihren Wert und Callback."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5103,10 +5158,8 @@ msgstr "Eine Instanz auszuwählen und ihr einen veränderlichen Wert zu übergeb
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "Rendering `<Search term=\"starfall\" />` first commits the caller's props. `input`\n"
-"then passes `term` to `inputChanged`, which writes `$query`. The View receives\n"
-"the ordinary `term` prop as well as the atom value `query`."
-msgstr "Das Rendern von `<Search term=\"starfall\" />` committet zunächst die Aufrufer-Props. Danach übergibt `input` den `term` an `inputChanged`, das `$query` schreibt. Die View erhält die gewöhnliche Prop `term` ebenso wie den Atomwert `query`."
+msgid "After the parent props commit, `input` passes `term` to `inputChanged`, which writes `$query`. The View receives the ordinary `term` prop as well as the atom value `query`."
+msgstr "Nach dem Commit der Eltern-Props leitet `input` den Wert `term` an `inputChanged` weiter, das `$query` schreibt. Die View erhält sowohl das gewöhnliche Prop `term` als auch den Atomwert `query`."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5133,10 +5186,9 @@ msgstr "UI-spezifische Methoden in der View halten"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "A toolbar button can request focus in game search. It publishes a request; only\n"
+msgid "A toolbar button can request focus in a search field. It publishes a request; only\n"
 "the search View knows the input element and calls its DOM method."
-msgstr "Eine Schaltfläche in der Werkzeugleiste kann den Fokus in der Spielesuche anfordern.\n"
-"Sie veröffentlicht eine Anfrage; nur die Such-View kennt das Eingabefeld und ruft dessen DOM-Methode auf."
+msgstr "Eine Schaltfläche kann den Fokus für ein Suchfeld anfordern. Sie veröffentlicht die Anfrage; nur die Such-View kennt das Eingabeelement und ruft dessen DOM-Methode auf."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5151,14 +5203,11 @@ msgstr "Verbinde den Callback der Schaltfläche über `write` mit `searchFocusRe
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "Use this bridge for focus, animation, router and hook methods. Ordinary receipt\n"
+msgid "Use this bridge for focus, animation, router and hook methods. Displayed\n"
 "data belongs in `read`; it does not need an imperative handler just to copy the\n"
 "payload into React state. See [the runnable examples](/reference/useHoloEvents)\n"
 "for animation and a Reactuse `useShare` integration."
-msgstr "Nutze diese Brücke für Fokus, Animation sowie Router- und Hook-Methoden. Normale\n"
-"Belegdaten gehören in `read`; ein imperativer Handler nur zum Kopieren des Payloads\n"
-"in React-State ist unnötig. Die [ausführbaren Beispiele](/reference/useHoloEvents)\n"
-"zeigen Animation und eine Integration mit Reactuses `useShare`."
+msgstr "Nutze diese Brücke für Fokus, Animationen sowie Router- und Hook-Methoden. Anzeigedaten gehören in `read`; ein imperativer Handler zum Kopieren des Payloads in React-State ist dafür unnötig. Die [ausführbaren Beispiele](/reference/useHoloEvents) zeigen Animation und Reactuse `useShare`."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

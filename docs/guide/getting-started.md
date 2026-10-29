@@ -50,4 +50,4 @@ Two `NameField` components in the same Jotai store share the value. A Jotai `Pro
 
 <span id="shared-models-and-external-resources"></span>
 
-This binding needs no model or registry. Continue with [atoms and models](/topics/atoms-and-models) when you need independent state or instances shared by ID.
+This binding needs no model or registry. Read the [mental model of holo](/topics/holo#mental-model) for the flow from parent to View, or [atoms and models](/topics/atoms-and-models) for independent state and instances shared by ID.

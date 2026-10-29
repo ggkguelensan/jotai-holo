@@ -8,6 +8,8 @@ These guides use Jotai for reactive state, TanStack Query for server data and Re
 
 <span id="follow-the-data"></span>
 
+For the flow from parent props through a binding to View props, see the [mental model of holo](/topics/holo#mental-model).
+
 ## Separate responsibilities {#responsibilities}
 
 | Code                                                       | Place it in             |
