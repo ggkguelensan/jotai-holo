@@ -16,32 +16,68 @@ export const $$counter = pipe(createCounterModel, modelRegistry());
 // #endregion input-model
 
 // #region input-view
-type CounterViewProps = {
-  counterId: string;
-  initial: number;
-  title: string;
-  count: number;
-  onChange: (count: number) => void;
-  onIncrement: () => void;
-};
-
-function CounterView({
+function CountView({
   title,
   count,
   onChange,
+}: {
+  counterId: string;
+  title: string;
+  count: number;
+  onChange: (count: number) => void;
+}) {
+  return (
+    <label>
+      {title}
+      <input
+        type="number"
+        value={count}
+        onChange={(event) => onChange(Number(event.target.value))}
+      />
+    </label>
+  );
+}
+
+const Count = holo({
+  models: {
+    counter: (props: { counterId: string }) =>
+      $$counter({ key: ['counter', props.counterId] }),
+  },
+  view: CountView,
+  read: ({ counter }) => ({ count: counter.$count }),
+  write: ({ counter }) => ({ onChange: counter.$count }),
+});
+
+function IncrementView({
   onIncrement,
-}: CounterViewProps) {
+}: {
+  counterId: string;
+  onIncrement: () => void;
+}) {
+  return <button onClick={onIncrement}>+</button>;
+}
+
+const Increment = holo({
+  models: {
+    counter: (props: { counterId: string }) =>
+      $$counter({ key: ['counter', props.counterId] }),
+  },
+  view: IncrementView,
+  write: ({ counter }) => ({ onIncrement: counter.increment }),
+});
+
+function CounterView({
+  counterId,
+  title,
+}: {
+  counterId: string;
+  initial: number;
+  title: string;
+}) {
   return (
     <section>
-      <label>
-        {title}
-        <input
-          type="number"
-          value={count}
-          onChange={(event) => onChange(Number(event.target.value))}
-        />
-      </label>
-      <button onClick={onIncrement}>+</button>
+      <Count counterId={counterId} title={title} />
+      <Increment counterId={counterId} />
     </section>
   );
 }
@@ -55,13 +91,6 @@ export const Counter = holo({
   },
 
   view: CounterView,
-
-  read: ({ counter }) => ({ count: counter.$count }),
-
-  write: ({ counter }) => ({
-    onChange: counter.$count,
-    onIncrement: counter.increment,
-  }),
 
   input: ({ counter }) => ({ initial: counter.$count }),
 

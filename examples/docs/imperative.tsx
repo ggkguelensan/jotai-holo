@@ -38,25 +38,75 @@ const $$checkout = pipe(createCheckoutModel, modelRegistry());
 type Receipt = { orderId: string; total: number };
 type CheckoutHandle = { onOrderCreated(receipt: Receipt): void };
 
-function CheckoutView({
+function QuantityView({
   quantity,
-  total,
   onQuantity,
-  onSubmit,
-  imperative,
 }: {
   quantity: number;
-  total: number;
   onQuantity: (quantity: number) => void;
-  onSubmit: () => void;
+}) {
+  const { t } = useLingui();
+
+  return (
+    <label>
+      {t`Quantity`}
+      <input
+        type="number"
+        min="1"
+        max="10"
+        value={quantity}
+        onChange={(event) =>
+          onQuantity(Math.max(1, Math.min(10, Number(event.target.value) || 1)))
+        }
+      />
+    </label>
+  );
+}
+
+const Quantity = holo({
+  models: { checkout: $$checkout },
+  view: QuantityView,
+  read: ({ checkout }) => ({ quantity: checkout.$quantity }),
+  write: ({ checkout }) => ({ onQuantity: checkout.$quantity }),
+});
+
+function TotalView({ total }: { total: number }) {
+  const { t } = useLingui();
+
+  return (
+    <p>
+      {t`Total`}: ${total.toFixed(2)}
+    </p>
+  );
+}
+
+const Total = holo({
+  models: { checkout: $$checkout },
+  view: TotalView,
+  read: ({ checkout }) => ({ total: checkout.$total }),
+});
+
+function SubmitView({ onSubmit }: { onSubmit: () => void }) {
+  const { t } = useLingui();
+
+  return <button onClick={onSubmit}>{t`Place order`}</button>;
+}
+
+const Submit = holo({
+  models: { checkout: $$checkout },
+  view: SubmitView,
+  write: ({ checkout }) => ({ onSubmit: checkout.submit }),
+});
+
+function CheckoutView({
+  imperative,
+}: {
   imperative: HoloImperative<CheckoutHandle>;
 }) {
   const { t } = useLingui();
   const [receipt, setReceipt] = useState<Receipt | null>(null);
 
-  useImperativeHolo(imperative, {
-    onOrderCreated: setReceipt,
-  });
+  useImperativeHolo(imperative, { onOrderCreated: setReceipt });
 
   // A local screen demonstrates navigation without a router dependency.
   if (receipt) {
@@ -76,24 +126,9 @@ function CheckoutView({
     <section className="demo-form">
       <span className="demo-eyebrow">{t`Checkout`}</span>
       <h3>{t`Oak desk`}</h3>
-      <label>
-        {t`Quantity`}
-        <input
-          type="number"
-          min="1"
-          max="10"
-          value={quantity}
-          onChange={(event) =>
-            onQuantity(
-              Math.max(1, Math.min(10, Number(event.target.value) || 1)),
-            )
-          }
-        />
-      </label>
-      <p>
-        {t`Total`}: ${total.toFixed(2)}
-      </p>
-      <button onClick={onSubmit}>{t`Place order`}</button>
+      <Quantity />
+      <Total />
+      <Submit />
     </section>
   );
 }
@@ -101,16 +136,6 @@ function CheckoutView({
 const Checkout = holo({
   models: { checkout: $$checkout },
   view: CheckoutView,
-
-  read: ({ checkout }) => ({
-    quantity: checkout.$quantity,
-    total: checkout.$total,
-  }),
-
-  write: ({ checkout }) => ({
-    onQuantity: checkout.$quantity,
-    onSubmit: checkout.submit,
-  }),
 
   imperative: ({ checkout }) => ({
     onOrderCreated: checkout.orderCreated,

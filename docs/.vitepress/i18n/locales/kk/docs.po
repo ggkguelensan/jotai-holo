@@ -699,6 +699,12 @@ msgstr "Бизнес шешімдері мен синхрондауды моде
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/business-logic.md
+msgid "A layout composes already connected fields, summaries and actions. It does not read an entire model to distribute values to children. Each small binding selects the values its View displays. The [profile recipe](/recipes/profile#bind-the-editor) shows independent name, email, error and submit Views."
+msgstr "Орналасу компоненті байланысқан өрістерді, қорытындылар мен әрекеттерді біріктіреді. Ол мәндерді еншілес компоненттерге тарату үшін бүкіл модельді оқымайды. Әр шағын байланыс өз View-і көрсететін мәндерді таңдайды. [Профиль рецепті](/recipes/profile#bind-the-editor) атау, email, қате және жіберу үшін тәуелсіз View көрсетеді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
 msgid "Start with a business workflow"
 msgstr "Бизнес-процестен бастаңыз"
 
@@ -2124,14 +2130,26 @@ msgstr "Редакторды байланыстыру"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "The View receives draft values, request state and callbacks. It does not import Query or duplicate its state:"
-msgstr "View нобай мәндерін, сұрау күйін және callback-терді алады. Ол Query импорттамайды және оның күйін қайталамайды:"
+msgid "The form composes connected children and forwards submit. It has no `read` binding:"
+msgstr "Форма байланысқан еншілес компоненттерді біріктіріп, submit әрекетін береді. Оның `read` байланысы жоқ:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "[The complete View source](https://github.com/ggkguelensan/jotai-holo/blob/main/examples/profile/edit-view.tsx) uses native required/email inputs for field feedback. A larger form can keep RHF and its resolver; [the server-data recipe](/recipes/server-data#a-form-initialized-from-server-data) shows that path."
-msgstr "[View-дің толық коды](https://github.com/ggkguelensan/jotai-holo/blob/main/examples/profile/edit-view.tsx) өріс қателерін көрсету үшін нативті required/email input қолданады. Үлкен форма RHF пен resolver-ін сақтай алады; бұл жол [сервер деректері рецептінде](/recipes/server-data#a-form-initialized-from-server-data) көрсетілген."
+msgid "Each field reads and writes its own writable derived atom. Editing the name does not pass a new draft object through the email View:"
+msgstr "Әр өріс өзінің writable derived атомын оқып, оған жазады. Атауды өзгерту email View-і арқылы жаңа нобай объектісін өткізбейді:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "The error and Save button subscribe separately to mutation state. Pending updates the button; it does not make the fields read request state:"
+msgstr "Қате мен Save батырмасы мутация күйіне бөлек жазылады. Pending батырманы жаңартады; ол өрістерді сұрау күйін оқуға мәжбүрлемейді:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "The fields use native required/email inputs for feedback. A larger form can keep RHF and its resolver; [the server-data recipe](/recipes/server-data#a-form-initialized-from-server-data) shows that path."
+msgstr "Өрістер қате көрсету үшін нативті required/email input қолданады. Үлкен форма RHF пен resolver-ін сақтай алады; бұл жол [сервер деректері рецептінде](/recipes/server-data#a-form-initialized-from-server-data) көрсетілген."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2148,8 +2166,8 @@ msgstr "Тексеру"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "The tests check pending state, single-flight, draft isolation, successful facts, failure state and notification cleanup. The browser test exercises the documented editor through pending, success and failure."
-msgstr "Тесттер күту күйін, бір уақытта бір сұрау орындалуын, нобай оқшаулануын, сәттілік фактілерін, қате күйін және хабарлама cleanup-ын тексереді. Браузер тесті құжатталған редакторды күту, сәттілік және қате арқылы өткізеді."
+msgid "The tests check pending state, single-flight, draft isolation, successful facts, failure state and notification cleanup. Browser tests exercise the editor and count commits: changing one field leaves the other field unchanged, and pending updates only the button."
+msgstr "Тесттер күту күйін, бір уақытта бір сұрау орындалуын, нобай оқшаулануын, сәттілік фактілерін, қате күйін және хабарлама cleanup-ын тексереді. Браузер тесттері редакторды қолданып, commit санын өлшейді: бір өрісті өзгерту екіншісін өзгертпейді, ал pending тек батырманы жаңартады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -4494,8 +4512,8 @@ msgstr "prism"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/prism.md
-msgid "Select several fields from one atom. Each field becomes an independent read-only atom, so a role change can leave the name View unchanged."
-msgstr "Бір атомның бірнеше өрісін таңдаңыз. Әр өріс жеке read-only атом болады: рөл өзгерісі тек атты көрсететін View-ді жаңартпайды."
+msgid "Select several fields from one atom. Each field becomes an independent read-only atom, so an email change can leave the name View unchanged."
+msgstr "Бір атомнан бірнеше өрісті таңдаңыз. Әр өріс жеке, тек оқылатын атом болады: email өзгергенде ат көрсететін View өзгермеуі мүмкін."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4947,8 +4965,8 @@ msgstr "`createFiltersModel()` екі рет шақырылса, екі бөле
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "The View can bind directly to the first record:"
-msgstr "View бірінші record-қа тікелей қосыла алады:"
+msgid "Each field can connect directly to the first record. CatalogFilters only composes those connected fields:"
+msgstr "Әр өріс бірінші record-қа тікелей қосыла алады. CatalogFilters тек осы байланысқан өрістерді біріктіреді:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4975,10 +4993,8 @@ msgstr "ID бойынша ортақ экземплярлар: реестр қо
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "Suppose the filter panel and toolbar are in different parts of the page. Both\n"
-"know the catalog ID and need to find its current filters. A registry gives them\n"
-"a shared way to select the instance:"
-msgstr "Сүзгі панелі мен құралдар панелі беттің әр жерінде тұр делік. Екеуі де каталог ID-ін біледі және оның ағымдағы сүзгілерін табуы керек. Registry оларға дананы таңдаудың ортақ тәсілін береді:"
+msgid "Suppose the term and stock controls sit in different parts of a catalog layout. Both know the catalog ID and need its filters. A registry lets each binding select that instance independently:"
+msgstr "Мәтін мен қоймадағы бар-жоқты басқару элементтері каталогтың әр жерінде тұр делік. Екеуі де каталог ID-ін біледі және оның сүзгілерін қажет етеді. Registry әр байланысқа сол дананы тәуелсіз таңдауға мүмкіндік береді:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5205,17 +5221,15 @@ msgstr "`NameView` кәдімгі props алады. Ол дереккөз ато
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "A binding can combine unrelated atoms. For example, the workspace toolbar reads\n"
-"the theme and publishes a help request:"
-msgstr "Байланыс бір-біріне қатысы жоқ атомдарды біріктіре алады. Мысалы, жұмыс панелі тақырыпты оқып, көмек сұрауын жариялайды:"
+msgid "A toolbar composes two connected controls. ThemeControl reads and writes the theme; Help only publishes a request:"
+msgstr "Панель екі байланысқан басқару элементін біріктіреді. ThemeControl тақырыпты оқып, жазады; Help тек сұрау жариялайды:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "Here `static` supplies the fixed title. The remaining unbound View props, if\n"
-"any, come from the parent. Supplied `read`, `write`, `static` and `imperative`\n"
+msgid "Toolbar supplies its fixed title through `static` and composes the controls. It does not read their atoms. The remaining unbound View props, if any, come from the parent. Supplied `read`, `write`, `static` and `imperative`\n"
 "props are not public inputs to the connected component."
-msgstr "Мұнда `static` бекітілген тақырыпты береді. Қалған байланыспаған View props-ы ата-анадан келеді. Берілген `read`, `write`, `static` және `imperative` props-ы байланысқан компоненттің жария кірістері емес."
+msgstr "Toolbar бекітілген тақырыбын `static` арқылы беріп, басқару элементтерін біріктіреді. Ол олардың атомдарын оқымайды. Қалған байланыспаған View props-ы ата-анадан келеді. Берілген `read`, `write`, `static` және `imperative` props-ы байланысқан компоненттің жария кірістері емес."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5234,10 +5248,8 @@ msgstr "Модельдер қолданылса, `models` алдымен ола�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "In this example, the incoming `catalogId` selects the filters record. The `read`\n"
-"callback maps its `$term` to the View's `term` prop; `write` maps the same atom\n"
-"to `onTermChange`. The View does not receive a model record or atom objects."
-msgstr "Мысалда кіріс `catalogId` сүзгі record-ын таңдайды. `read` callback-і оның `$term` атомын View-дің `term` prop-ына, `write` сол атомды `onTermChange` prop-ына сәйкестендіреді. View модель record-ын да, атом объектілерін де алмайды."
+msgid "ProductTerm and ProductStock each select the filters record using `catalogId`. Their bindings map one field to a value and callback. ProductFilters composes these controls and passes only the ID; it does not read the filter values. Each field View receives ordinary props."
+msgstr "ProductTerm мен ProductStock әрқайсысы `catalogId` арқылы сүзгі record-ын таңдайды. Олардың байланыстары бір өрісті мән мен callback-ке сәйкестендіреді. ProductFilters осы басқару элементтерін біріктіріп, тек ID береді; сүзгі мәндерін оқымайды. Әр өріс View-і кәдімгі props алады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5769,14 +5781,20 @@ msgstr "Редактордың RHF компоненттерін сақтаңыз
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/rhf-models.md
-msgid "`ContactView` still calls `useFormContext`, `register` and `Controller`. `holoForm` provides the selected control through RHF context:"
-msgstr "`ContactView` әлі де `useFormContext`, `register` және `Controller` шақырады. `holoForm` таңдалған control-ды RHF context арқылы береді:"
+msgid "ContactView composes EmailField and ChannelField. Those fields keep native `useFormContext`, `register` and `Controller`; field errors use a scoped `useFormState`. `holoForm` supplies their shared control:"
+msgstr "ContactView EmailField пен ChannelField компоненттерін біріктіреді. Өрістер нативті `useFormContext`, `register` және `Controller` қолданады; өріс қателеріне сол өріспен шектелген `useFormState` жазылады. `holoForm` ортақ control береді:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/rhf-models.md
-msgid "An external panel uses ordinary `holo` to select the same model by contact ID, read `$email` and invoke `save`:"
-msgstr "Сыртқы панель кәдімгі `holo` арқылы сол модельді контакт ID-імен таңдап, `$email` оқып, `save` шақырады:"
+msgid "SavePanel composes three connected children: EmailPreview reads `$email`, Submit invokes `save` and observes native `isSubmitting`, and SavedMessage displays the accepted email. Each selects the same contact key:"
+msgstr "SavePanel үш байланысқан компонентті біріктіреді: EmailPreview `$email` оқиды, Submit `save` шақырып, нативті `isSubmitting` бақылайды, SavedMessage қабылданған email көрсетеді. Әрқайсысы бір контакт кілтін таңдайды:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/rhf-models.md
+msgid "For example, the email preview subscribes only to its field projection:"
+msgstr "Мысалы, email көрсететін компонент тек өз өрісінің проекциясына жазылады:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

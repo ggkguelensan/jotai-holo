@@ -699,6 +699,12 @@ msgstr "Verlagere Geschäftsentscheidungen und Synchronisierung ins Modell. Form
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/business-logic.md
+msgid "A layout composes already connected fields, summaries and actions. It does not read an entire model to distribute values to children. Each small binding selects the values its View displays. The [profile recipe](/recipes/profile#bind-the-editor) shows independent name, email, error and submit Views."
+msgstr "Ein Layout setzt bereits verbundene Felder, Zusammenfassungen und Aktionen zusammen. Es liest nicht das gesamte Modell, um Werte an Kinder zu verteilen. Jedes kleine Binding wählt die Werte, die seine View anzeigt. Das [Profilrezept](/recipes/profile#bind-the-editor) zeigt unabhängige Views für Name, E-Mail, Fehler und Absenden."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
 msgid "Start with a business workflow"
 msgstr "Mit dem Geschäftsablauf beginnen"
 
@@ -2124,14 +2130,26 @@ msgstr "Den Editor verbinden"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "The View receives draft values, request state and callbacks. It does not import Query or duplicate its state:"
-msgstr "Die View erhält Entwurfswerte, Anfragezustand und Callbacks. Sie importiert Query nicht und dupliziert dessen Zustand nicht:"
+msgid "The form composes connected children and forwards submit. It has no `read` binding:"
+msgstr "Das Formular setzt verbundene Kinder zusammen und leitet das Absenden weiter. Es hat kein `read`-Binding:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "[The complete View source](https://github.com/ggkguelensan/jotai-holo/blob/main/examples/profile/edit-view.tsx) uses native required/email inputs for field feedback. A larger form can keep RHF and its resolver; [the server-data recipe](/recipes/server-data#a-form-initialized-from-server-data) shows that path."
-msgstr "Der [vollständige View-Quellcode](https://github.com/ggkguelensan/jotai-holo/blob/main/examples/profile/edit-view.tsx) verwendet native Pflicht- und E-Mail-Felder für Feldrückmeldungen. Ein größeres Formular kann RHF und seinen Resolver beibehalten; das [Serverdaten-Rezept](/recipes/server-data#a-form-initialized-from-server-data) zeigt diesen Weg."
+msgid "Each field reads and writes its own writable derived atom. Editing the name does not pass a new draft object through the email View:"
+msgstr "Jedes Feld liest und schreibt sein eigenes beschreibbares abgeleitetes Atom. Eine Namensänderung reicht kein neues Entwurfsobjekt durch die E-Mail-View:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "The error and Save button subscribe separately to mutation state. Pending updates the button; it does not make the fields read request state:"
+msgstr "Fehleranzeige und Speichern-Button abonnieren den Mutationszustand getrennt. Pending aktualisiert den Button; die Felder müssen den Anfragezustand nicht lesen:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "The fields use native required/email inputs for feedback. A larger form can keep RHF and its resolver; [the server-data recipe](/recipes/server-data#a-form-initialized-from-server-data) shows that path."
+msgstr "Die Felder nutzen native Pflicht- und E-Mail-Eingaben für Rückmeldungen. Ein größeres Formular kann RHF und seinen Resolver beibehalten; das [Serverdaten-Rezept](/recipes/server-data#a-form-initialized-from-server-data) zeigt diesen Weg."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2148,8 +2166,8 @@ msgstr "Überprüfung"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "The tests check pending state, single-flight, draft isolation, successful facts, failure state and notification cleanup. The browser test exercises the documented editor through pending, success and failure."
-msgstr "Die Tests prüfen Pending-Zustand, Single-Flight, Entwurfsisolation, Erfolgsfakten, Fehlerzustand und die Bereinigung von Benachrichtigungen. Der Browsertest prüft den dokumentierten Editor während der Anfrage sowie bei Erfolg und Fehler."
+msgid "The tests check pending state, single-flight, draft isolation, successful facts, failure state and notification cleanup. Browser tests exercise the editor and count commits: changing one field leaves the other field unchanged, and pending updates only the button."
+msgstr "Die Tests prüfen Pending-Zustand, Single-Flight, Entwurfsisolation, Erfolgsfakten, Fehlerzustand und die Bereinigung von Benachrichtigungen. Browsertests prüfen den Editor und zählen Commits: Eine Feldänderung lässt das andere Feld unverändert, und Pending aktualisiert nur den Button."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -4486,8 +4504,8 @@ msgstr "prism"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/prism.md
-msgid "Select several fields from one atom. Each field becomes an independent read-only atom, so a role change can leave the name View unchanged."
-msgstr "Wähle mehrere Felder eines Atoms. Jedes wird zu einem unabhängigen Read-only-Atom; eine Rollenänderung lässt die reine Namens-View unverändert."
+msgid "Select several fields from one atom. Each field becomes an independent read-only atom, so an email change can leave the name View unchanged."
+msgstr "Wählen Sie mehrere Felder eines Atoms aus. Jedes Feld wird zu einem eigenen schreibgeschützten Atom, sodass eine E-Mail-Änderung die Namens-View unverändert lassen kann."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4939,8 +4957,8 @@ msgstr "Zweimaliges Aufrufen von `createFiltersModel()` erstellt zwei unterschie
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "The View can bind directly to the first record:"
-msgstr "Die View kann direkt an den ersten Record gebunden werden:"
+msgid "Each field can connect directly to the first record. CatalogFilters only composes those connected fields:"
+msgstr "Jedes Feld kann direkt an den ersten Record angebunden werden. CatalogFilters setzt diese verbundenen Felder lediglich zusammen:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4967,10 +4985,8 @@ msgstr "Geteilte Instanzen per ID: eine Registry ergänzen"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "Suppose the filter panel and toolbar are in different parts of the page. Both\n"
-"know the catalog ID and need to find its current filters. A registry gives them\n"
-"a shared way to select the instance:"
-msgstr "Angenommen, Filterpanel und Werkzeugleiste stehen an verschiedenen Stellen der Seite. Beide kennen die Katalog-ID und müssen dessen aktuelle Filter finden. Eine Registry gibt ihnen einen gemeinsamen Weg zur Instanzauswahl:"
+msgid "Suppose the term and stock controls sit in different parts of a catalog layout. Both know the catalog ID and need its filters. A registry lets each binding select that instance independently:"
+msgstr "Angenommen, Suchbegriff und Lagerbestandsauswahl stehen an verschiedenen Stellen eines Kataloglayouts. Beide kennen die Katalog-ID und brauchen dessen Filter. Mit einer Registry kann jedes Binding diese Instanz unabhängig auswählen:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5197,17 +5213,15 @@ msgstr "`NameView` erhält gewöhnliche Props. Sie muss weder Quellatom noch Sto
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "A binding can combine unrelated atoms. For example, the workspace toolbar reads\n"
-"the theme and publishes a help request:"
-msgstr "Ein Binding kann unabhängige Atome kombinieren. Die Arbeitsbereich-Werkzeugleiste liest beispielsweise das Theme und veröffentlicht eine Hilfeanfrage:"
+msgid "A toolbar composes two connected controls. ThemeControl reads and writes the theme; Help only publishes a request:"
+msgstr "Eine Werkzeugleiste setzt zwei verbundene Bedienelemente zusammen. ThemeControl liest und schreibt das Theme; Help veröffentlicht nur eine Anfrage:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "Here `static` supplies the fixed title. The remaining unbound View props, if\n"
-"any, come from the parent. Supplied `read`, `write`, `static` and `imperative`\n"
+msgid "Toolbar supplies its fixed title through `static` and composes the controls. It does not read their atoms. The remaining unbound View props, if any, come from the parent. Supplied `read`, `write`, `static` and `imperative`\n"
 "props are not public inputs to the connected component."
-msgstr "Hier liefert `static` den festen Titel. Verbleibende ungebundene View-Props stammen gegebenenfalls vom Elternteil. Gelieferte `read`-, `write`-, `static`- und `imperative`-Props sind keine öffentlichen Eingaben der verbundenen Komponente."
+msgstr "Toolbar liefert seinen festen Titel über `static` und setzt die Bedienelemente zusammen. Es liest ihre Atome nicht. Verbleibende ungebundene View-Props stammen gegebenenfalls vom Elternteil. Gelieferte `read`-, `write`-, `static`- und `imperative`-Props sind keine öffentlichen Eingaben der verbundenen Komponente."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5226,10 +5240,8 @@ msgstr "Verwendet ein Binding Modelle, wählt `models` zuerst ihre Instanzen. Di
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "In this example, the incoming `catalogId` selects the filters record. The `read`\n"
-"callback maps its `$term` to the View's `term` prop; `write` maps the same atom\n"
-"to `onTermChange`. The View does not receive a model record or atom objects."
-msgstr "In diesem Beispiel wählt die eingehende `catalogId` den Filter-Record. Der `read`-Callback bildet dessen `$term` auf die View-Prop `term` ab; `write` bildet dasselbe Atom auf `onTermChange` ab. Die View erhält weder einen Modell-Record noch Atomobjekte."
+msgid "ProductTerm and ProductStock each select the filters record using `catalogId`. Their bindings map one field to a value and callback. ProductFilters composes these controls and passes only the ID; it does not read the filter values. Each field View receives ordinary props."
+msgstr "ProductTerm und ProductStock wählen jeweils den Filter-Record mit `catalogId`. Ihre Bindings bilden ein Feld auf einen Wert und Callback ab. ProductFilters setzt diese Bedienelemente zusammen und übergibt nur die ID; es liest die Filterwerte nicht. Jede Feld-View erhält gewöhnliche Props."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5761,14 +5773,20 @@ msgstr "Die RHF-Komponenten des Editors behalten"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/rhf-models.md
-msgid "`ContactView` still calls `useFormContext`, `register` and `Controller`. `holoForm` provides the selected control through RHF context:"
-msgstr "`ContactView` ruft weiterhin `useFormContext`, `register` und `Controller` auf. `holoForm` stellt den ausgewählten Control über RHF-Kontext bereit:"
+msgid "ContactView composes EmailField and ChannelField. Those fields keep native `useFormContext`, `register` and `Controller`; field errors use a scoped `useFormState`. `holoForm` supplies their shared control:"
+msgstr "ContactView setzt EmailField und ChannelField zusammen. Diese Felder behalten natives `useFormContext`, `register` und `Controller`; Feldfehler nutzen ein auf das Feld begrenztes `useFormState`. `holoForm` stellt ihren gemeinsamen Control bereit:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/rhf-models.md
-msgid "An external panel uses ordinary `holo` to select the same model by contact ID, read `$email` and invoke `save`:"
-msgstr "Ein externes Panel nutzt gewöhnliches `holo`, um dasselbe Modell per Kontakt-ID auszuwählen, `$email` zu lesen und `save` aufzurufen:"
+msgid "SavePanel composes three connected children: EmailPreview reads `$email`, Submit invokes `save` and observes native `isSubmitting`, and SavedMessage displays the accepted email. Each selects the same contact key:"
+msgstr "SavePanel setzt drei verbundene Kinder zusammen: EmailPreview liest `$email`, Submit ruft `save` auf und beobachtet natives `isSubmitting`, und SavedMessage zeigt die akzeptierte E-Mail-Adresse. Jedes wählt denselben Kontaktschlüssel:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/rhf-models.md
+msgid "For example, the email preview subscribes only to its field projection:"
+msgstr "Die E-Mail-Vorschau abonniert beispielsweise nur ihre Feldprojektion:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

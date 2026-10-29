@@ -1,6 +1,6 @@
 # prism
 
-Select several fields from one atom. Each field becomes an independent read-only atom, so a role change can leave the name View unchanged.
+Select several fields from one atom. Each field becomes an independent read-only atom, so an email change can leave the name View unchanged.
 
 <<< @/../examples/documentation.tsx#prism
 

@@ -1,4 +1,4 @@
-import { actionAtom, eventAtom, holo } from 'jotai-holo';
+import { actionAtom, eventAtom, holo, ion } from 'jotai-holo';
 import { modelRegistry, pipe } from 'jotai-holo/model';
 import { createMutationModel } from 'jotai-holo/query';
 import {
@@ -7,7 +7,16 @@ import {
   type ProposalInput,
 } from './proposal-api.js';
 import { createProposalModel } from './proposal-model.js';
-import { SaveProposalView } from './proposal-views.js';
+import {
+  CommentView,
+  ErrorView,
+  LoadingView,
+  ProposalView,
+  SeatsView,
+  TotalView,
+  SaveButtonView,
+  SaveProposalView,
+} from './proposal-views.js';
 
 // #region saving-model
 export function createSavingProposalModel(initial: ProposalInput) {
@@ -39,25 +48,82 @@ export function createSavingProposalModel(initial: ProposalInput) {
     }
   });
 
-  return { ...proposal, saving: $$proposalMutation, save, proposalSaved };
+  const $canSave = ion(
+    { draft: proposal.$draft, pending: $$proposalMutation.$pending },
+    ({ draft, pending }) => Boolean(draft) && !pending,
+  );
+
+  return {
+    ...proposal,
+    saving: $$proposalMutation,
+    $canSave,
+    save,
+    proposalSaved,
+  };
 }
 // #endregion saving-model
 
 // #region plain-saving
 const $$proposal = createSavingProposalModel({ proposalId: 'P-1042' });
 
-export const SaveProposal = holo({
-  view: SaveProposalView,
-  read: {
-    draft: $$proposal.$draft,
-    total: $$proposal.$total,
-    loading: $$proposal.$loading,
-    error: $$proposal.$error,
-    saving: $$proposal.saving.$pending,
-    saveError: $$proposal.saving.$error,
-  },
-  write: { onChange: $$proposal.$draft, onSave: $$proposal.save },
+const ProposalLayout = holo({
+  view: ProposalView,
+  read: { loading: $$proposal.$loading },
 });
+
+const Loading = holo({
+  view: LoadingView,
+  read: { showLoading: $$proposal.$showLoading },
+});
+
+const LoadError = holo({
+  view: ErrorView,
+  read: { error: $$proposal.$error },
+});
+
+const Seats = holo({
+  view: SeatsView,
+  read: { seats: $$proposal.$seats },
+  write: { onSeats: $$proposal.$seats },
+});
+
+const Comment = holo({
+  view: CommentView,
+  read: { comment: $$proposal.$comment },
+  write: { onComment: $$proposal.$comment },
+});
+
+const Total = holo({
+  view: TotalView,
+  read: { total: $$proposal.$displayTotal },
+});
+
+const SaveButton = holo({
+  view: SaveButtonView,
+  read: { saving: $$proposal.saving.$pending, canSave: $$proposal.$canSave },
+  write: { onSave: $$proposal.save },
+});
+
+const SaveError = holo({
+  view: ErrorView,
+  read: { error: $$proposal.saving.$error },
+});
+
+export function SaveProposal() {
+  return (
+    <SaveProposalView>
+      <ProposalLayout>
+        <Loading />
+        <LoadError />
+        <Seats />
+        <Comment />
+        <Total />
+      </ProposalLayout>
+      <SaveButton />
+      <SaveError />
+    </SaveProposalView>
+  );
+}
 // #endregion plain-saving
 
 // #region keyed-saving
@@ -66,26 +132,81 @@ export const $$savingProposals = pipe(
   modelRegistry(),
 );
 
-export const KeyedSaveProposal = holo({
-  models: {
-    proposal: (props: { proposalId: string }) =>
-      $$savingProposals({
-        key: ['saving-proposal', props.proposalId],
-        initial: { proposalId: props.proposalId },
-      }),
-  },
-  view: SaveProposalView,
-  read: ({ proposal }) => ({
-    draft: proposal.$draft,
-    total: proposal.$total,
-    loading: proposal.$loading,
-    error: proposal.$error,
-    saving: proposal.saving.$pending,
-    saveError: proposal.saving.$error,
-  }),
-  write: ({ proposal }) => ({
-    onChange: proposal.$draft,
-    onSave: proposal.save,
-  }),
+const models = {
+  proposal: (props: { proposalId: string }) =>
+    $$savingProposals({
+      key: ['saving-proposal', props.proposalId],
+      initial: { proposalId: props.proposalId },
+    }),
+};
+
+const KeyedProposalLayout = holo({
+  models,
+  view: ProposalView,
+  read: ({ proposal }) => ({ loading: proposal.$loading }),
 });
+
+const KeyedLoading = holo({
+  models,
+  view: LoadingView,
+  read: ({ proposal }) => ({ showLoading: proposal.$showLoading }),
+});
+
+const KeyedLoadError = holo({
+  models,
+  view: ErrorView,
+  read: ({ proposal }) => ({ error: proposal.$error }),
+});
+
+const KeyedSeats = holo({
+  models,
+  view: SeatsView,
+  read: ({ proposal }) => ({ seats: proposal.$seats }),
+  write: ({ proposal }) => ({ onSeats: proposal.$seats }),
+});
+
+const KeyedComment = holo({
+  models,
+  view: CommentView,
+  read: ({ proposal }) => ({ comment: proposal.$comment }),
+  write: ({ proposal }) => ({ onComment: proposal.$comment }),
+});
+
+const KeyedTotal = holo({
+  models,
+  view: TotalView,
+  read: ({ proposal }) => ({ total: proposal.$displayTotal }),
+});
+
+const KeyedSaveButton = holo({
+  models,
+  view: SaveButtonView,
+  read: ({ proposal }) => ({
+    saving: proposal.saving.$pending,
+    canSave: proposal.$canSave,
+  }),
+  write: ({ proposal }) => ({ onSave: proposal.save }),
+});
+
+const KeyedSaveError = holo({
+  models,
+  view: ErrorView,
+  read: ({ proposal }) => ({ error: proposal.saving.$error }),
+});
+
+export function KeyedSaveProposal({ proposalId }: { proposalId: string }) {
+  return (
+    <SaveProposalView>
+      <KeyedProposalLayout proposalId={proposalId}>
+        <KeyedLoading proposalId={proposalId} />
+        <KeyedLoadError proposalId={proposalId} />
+        <KeyedSeats proposalId={proposalId} />
+        <KeyedComment proposalId={proposalId} />
+        <KeyedTotal proposalId={proposalId} />
+      </KeyedProposalLayout>
+      <KeyedSaveButton proposalId={proposalId} />
+      <KeyedSaveError proposalId={proposalId} />
+    </SaveProposalView>
+  );
+}
 // #endregion keyed-saving

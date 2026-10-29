@@ -48,21 +48,14 @@ const $$contact = pipe(
 
 // #endregion contact-model
 
-function ContactView({ onSave }: { onSave: () => Promise<void> }) {
+function EmailField() {
   const { t } = useLingui();
   const errorId = useId();
   const { register, control } = useFormContext<Values>();
-  const { errors } = useFormState({ control });
+  const { errors } = useFormState({ control, name: 'email', exact: true });
 
   return (
-    <form
-      className="demo-form"
-      noValidate
-      onSubmit={(event) => {
-        event.preventDefault();
-        void onSave();
-      }}
-    >
+    <>
       <label>
         {t`Email`}
         <input
@@ -79,46 +72,83 @@ function ContactView({ onSave }: { onSave: () => Promise<void> }) {
           {t`Enter a valid email`}
         </small>
       )}
-      <Controller
-        name="channel"
-        control={control}
-        render={({ field }) => {
-          return (
-            <label>
-              {t`Contact channel`}
-              <select {...field}>
-                <option value="email">{t`Email`}</option>
-                <option value="phone">{t`Phone`}</option>
-              </select>
-            </label>
-          );
-        }}
-      />
+    </>
+  );
+}
+
+function ChannelField() {
+  const { t } = useLingui();
+  const { control } = useFormContext<Values>();
+
+  return (
+    <Controller
+      name="channel"
+      control={control}
+      render={({ field }) => (
+        <label>
+          {t`Contact channel`}
+          <select {...field}>
+            <option value="email">{t`Email`}</option>
+            <option value="phone">{t`Phone`}</option>
+          </select>
+        </label>
+      )}
+    />
+  );
+}
+
+function ContactView({ onSave }: { onSave: () => Promise<void> }) {
+  return (
+    <form
+      className="demo-form"
+      noValidate
+      onSubmit={(event) => {
+        event.preventDefault();
+        void onSave();
+      }}
+    >
+      <EmailField />
+      <ChannelField />
     </form>
   );
 }
 
 // #region contact-editor
 const Editor = holoForm({
-  form: ({ model }) => model.form,
+  form: ({ model: $$contact }) => $$contact.form,
   models: {
     model: (props: { contactId: string }) =>
       $$contact({ key: [props.contactId] }),
   },
   view: ContactView,
-  write: ({ model: m }) => ({ onSave: m.save }),
+  write: ({ model: $$contact }) => ({ onSave: $$contact.save }),
 });
 
 // #endregion contact-editor
 
-function SaveView({
-  email,
-  saved,
+// #region contact-save-panel
+// #region contact-email-preview
+function EmailPreviewView({ email }: { email: string }) {
+  const { t } = useLingui();
+
+  return <small>{email || t`No email yet`}</small>;
+}
+
+const EmailPreview = holo({
+  models: {
+    model: (props: { contactId: string }) =>
+      $$contact({ key: [props.contactId] }),
+  },
+  view: EmailPreviewView,
+  read: ({ model: $$contact }) => ({ email: $$contact.$email }),
+});
+
+// #endregion contact-email-preview
+
+function SubmitView({
   control,
   onSave,
 }: {
-  email: string;
-  saved: string;
   control: Control<Values>;
   onSave: () => Promise<void>;
 }) {
@@ -127,36 +157,58 @@ function SaveView({
   const { isSubmitting } = useFormState({ control });
 
   return (
-    <aside className="demo-form demo-save-panel">
-      <span className="demo-eyebrow">{t`External save panel`}</span>
-      <small>{email || t`No email yet`}</small>
-      <button disabled={isSubmitting} onClick={() => void onSave()}>
-        {t`Save contact`}
-      </button>
-      {saved && (
-        <output>
-          {t`Saved:`} {saved}
-        </output>
-      )}
-    </aside>
+    <button disabled={isSubmitting} onClick={() => void onSave()}>
+      {t`Save contact`}
+    </button>
   );
 }
 
-// #region contact-save-panel
-const SavePanel = holo({
+const Submit = holo({
   models: {
     model: (props: { contactId: string }) =>
       $$contact({ key: [props.contactId] }),
   },
-  view: SaveView,
-  read: ({ model: m }) => ({
-    email: m.$email,
-    saved: m.$saved,
-    control: m.$control,
+  view: SubmitView,
+  read: ({ model: $$contact }) => ({
+    control: $$contact.$control,
   }),
-  write: ({ model: m }) => ({ onSave: m.save }),
+  write: ({ model: $$contact }) => ({ onSave: $$contact.save }),
 });
 
+function SavedMessageView({ saved }: { saved: string }) {
+  const { t } = useLingui();
+
+  return saved ? (
+    <output>
+      {t`Saved:`} {saved}
+    </output>
+  ) : null;
+}
+
+const SavedMessage = holo({
+  models: {
+    model: (props: { contactId: string }) =>
+      $$contact({ key: [props.contactId] }),
+  },
+  view: SavedMessageView,
+  read: ({ model: $$contact }) => ({ saved: $$contact.$saved }),
+});
+
+// #region contact-save-layout
+function SavePanel({ contactId }: { contactId: string }) {
+  const { t } = useLingui();
+
+  return (
+    <aside className="demo-form demo-save-panel">
+      <span className="demo-eyebrow">{t`External save panel`}</span>
+      <EmailPreview contactId={contactId} />
+      <Submit contactId={contactId} />
+      <SavedMessage contactId={contactId} />
+    </aside>
+  );
+}
+
+// #endregion contact-save-layout
 // #endregion contact-save-panel
 
 function ContactsDemo() {

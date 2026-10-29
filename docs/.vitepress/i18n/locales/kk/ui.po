@@ -313,33 +313,25 @@ msgid "to close"
 msgstr "жабу"
 
 #: examples/docs/analytics.tsx
+msgid "Search products"
+msgstr "Тауарларды іздеу"
+
+#: examples/docs/analytics.tsx
 #: examples/docs/query.tsx
 msgid "Product catalog"
 msgstr "Тауарлар каталогы"
-
-#: examples/docs/analytics.tsx
-msgid "Search products"
-msgstr "Тауарларды іздеу"
 
 #: examples/docs/analytics.tsx
 msgid "Search"
 msgstr "Іздеу"
 
 #: examples/docs/analytics.tsx
-msgid "Product details"
-msgstr "Тауар мәліметтері"
-
-#: examples/docs/analytics.tsx
 msgid "Close details"
 msgstr "Мәліметтерді жабу"
 
 #: examples/docs/analytics.tsx
-msgid "Actual adapter deliveries · last 50 messages"
-msgstr "Адаптер жіберілімдері · соңғы 50 хабарлама"
-
-#: examples/docs/analytics.tsx
-msgid "Analytics console"
-msgstr "Аналитика консолі"
+msgid "Product details"
+msgstr "Тауар мәліметтері"
 
 #: examples/docs/analytics.tsx
 msgid "Clear logs"
@@ -350,12 +342,16 @@ msgid "Search for a product, then open it to see each engine's payload."
 msgstr "Тауарды тауып, ашыңыз: әр жүйеге жіберілген деректер осында көрінеді."
 
 #: examples/docs/analytics.tsx
+msgid "Actual adapter deliveries · last 50 messages"
+msgstr "Адаптер жіберілімдері · соңғы 50 хабарлама"
+
+#: examples/docs/analytics.tsx
+msgid "Analytics console"
+msgstr "Аналитика консолі"
+
+#: examples/docs/analytics.tsx
 msgid "Demo adapters only · no SDK or network requests"
 msgstr "Демо-адаптерлер · SDK және желілік сұрауларсыз"
-
-#: examples/docs/bond.tsx
-msgid "A fact → a separate reaction"
-msgstr "Факт → тәуелсіз реакция"
 
 #: examples/docs/bond.tsx
 msgid "Generate receipt"
@@ -374,8 +370,17 @@ msgid "Receipt for order"
 msgstr "Тапсырыс чегі"
 
 #: examples/docs/bond.tsx
+msgid "A fact → a separate reaction"
+msgstr "Факт → тәуелсіз реакция"
+
+#: examples/docs/bond.tsx
 msgid "Local simulation: no payment or network request."
 msgstr "Жергілікті имитация: төлем де, желі сұрауы да жасалмайды."
+
+#. js-lingui-explicit-id
+#: examples/docs/counter.tsx
+msgid "One model, ordinary props"
+msgstr "Бір модель, қарапайым props"
 
 #: examples/docs/counter.tsx
 msgid "Derived × 2"
@@ -388,11 +393,6 @@ msgstr "Азайту"
 #: examples/docs/counter.tsx
 msgid "Increment"
 msgstr "Арттыру"
-
-#. js-lingui-explicit-id
-#: examples/docs/counter.tsx
-msgid "One model, ordinary props"
-msgstr "Бір модель, қарапайым props"
 
 #: examples/docs/data-lifecycle.tsx
 msgid "Name"
@@ -427,10 +427,6 @@ msgid "Phone"
 msgstr "Телефон"
 
 #: examples/docs/form.tsx
-msgid "External save panel"
-msgstr "Сыртқы сақтау панелі"
-
-#: examples/docs/form.tsx
 msgid "No email yet"
 msgstr "Email әлі көрсетілмеген"
 
@@ -443,17 +439,31 @@ msgid "Saved:"
 msgstr "Сақталды:"
 
 #: examples/docs/form.tsx
+msgid "External save panel"
+msgstr "Сыртқы сақтау панелі"
+
+#: examples/docs/form.tsx
 msgid "Contact preferences"
 msgstr "Байланыс параметрлері"
 
 #: examples/docs/imperative.tsx
-msgid "Order confirmation"
-msgstr "Тапсырысты растау"
+#: examples/docs/ion.tsx
+msgid "Quantity"
+msgstr "Саны"
 
 #: examples/docs/imperative.tsx
 #: examples/docs/ion.tsx
 msgid "Total"
 msgstr "Барлығы"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/operators.tsx
+msgid "Place order"
+msgstr "Тапсырыс беру"
+
+#: examples/docs/imperative.tsx
+msgid "Order confirmation"
+msgstr "Тапсырысты растау"
 
 #: examples/docs/imperative.tsx
 msgid "Back to cart"
@@ -468,16 +478,6 @@ msgstr "Тапсырысты рәсімдеу"
 msgid "Oak desk"
 msgstr "Емен үстел"
 
-#: examples/docs/imperative.tsx
-#: examples/docs/ion.tsx
-msgid "Quantity"
-msgstr "Саны"
-
-#: examples/docs/imperative.tsx
-#: examples/docs/operators.tsx
-msgid "Place order"
-msgstr "Тапсырыс беру"
-
 #: examples/docs/input.tsx
 msgid "Mounted search View receives"
 msgstr "Қосылған іздеу View-і мынаны алады"
@@ -491,12 +491,12 @@ msgid "Mount Search"
 msgstr "Іздеуді қосу"
 
 #: examples/docs/ion.tsx
-msgid "Workshop tickets · $25 each"
-msgstr "Воркшоп билеттері · әрқайсысы $25"
-
-#: examples/docs/ion.tsx
 msgid "Member discount · 20%"
 msgstr "Қатысушы жеңілдігі · 20%"
+
+#: examples/docs/ion.tsx
+msgid "Workshop tickets · $25 each"
+msgstr "Воркшоп билеттері · әрқайсысы $25"
 
 #: examples/docs/list.tsx
 msgid "Review proposal"
@@ -560,20 +560,12 @@ msgid "Proposal"
 msgstr "Ұсыныс"
 
 #: examples/docs/mutation.tsx
-msgid "Proposal P-1042"
-msgstr "P-1042 ұсынысы"
-
-#: examples/docs/mutation.tsx
 msgid "Discount, %"
 msgstr "Жеңілдік, %"
 
 #: examples/docs/mutation.tsx
 msgid "Comment for the customer"
 msgstr "Клиентке түсініктеме"
-
-#: examples/docs/mutation.tsx
-msgid "Try a discount above 25% to see a server rejection."
-msgstr "Сервердің бас тартуын көру үшін 25%-дан жоғары жеңілдік енгізіңіз."
 
 #: examples/docs/mutation.tsx
 msgid "Saving proposal…"
@@ -595,13 +587,13 @@ msgstr "25%-дан жоғары жеңілдікке келісім қажет."
 msgid "Saved discount"
 msgstr "Сақталған жеңілдік"
 
-#: examples/docs/operators.tsx
-msgid "Order review · courier delivery"
-msgstr "Тапсырысты тексеру · курьерлік жеткізу"
+#: examples/docs/mutation.tsx
+msgid "Proposal P-1042"
+msgstr "P-1042 ұсынысы"
 
-#: examples/docs/operators.tsx
-msgid "Goods $80 + delivery $15"
-msgstr "Тауарлар $80 + жеткізу $15"
+#: examples/docs/mutation.tsx
+msgid "Try a discount above 25% to see a server rejection."
+msgstr "Сервердің бас тартуын көру үшін 25%-дан жоғары жеңілдік енгізіңіз."
 
 #: examples/docs/operators.tsx
 msgid "I accept the delivery terms"
@@ -614,6 +606,14 @@ msgstr "Қосымша ақы бар"
 #: examples/docs/operators.tsx
 msgid "No surcharge"
 msgstr "Қосымша ақы жоқ"
+
+#: examples/docs/operators.tsx
+msgid "Order review · courier delivery"
+msgstr "Тапсырысты тексеру · курьерлік жеткізу"
+
+#: examples/docs/operators.tsx
+msgid "Goods $80 + delivery $15"
+msgstr "Тауарлар $80 + жеткізу $15"
 
 #: examples/docs/prism.tsx
 msgid "Name projection"

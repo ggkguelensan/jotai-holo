@@ -13,58 +13,93 @@ const $total = ion(
 
 // #endregion calculation
 
-function CartView({
+function QuantityView({
   quantity,
-  discount,
-  total,
   onQuantity,
-  onDiscount,
 }: {
   quantity: number;
-  discount: boolean;
-  total: number;
   onQuantity: (value: number) => void;
+}) {
+  const { t } = useLingui();
+
+  return (
+    <label>
+      {t`Quantity`}
+      <input
+        aria-label={t`Quantity`}
+        type="number"
+        min="1"
+        max="10"
+        value={quantity}
+        onChange={(e) =>
+          onQuantity(Math.max(1, Math.min(10, Number(e.target.value) || 1)))
+        }
+      />
+    </label>
+  );
+}
+
+const Quantity = holo({
+  view: QuantityView,
+  read: { quantity: $quantity },
+  write: { onQuantity: $quantity },
+});
+
+function DiscountView({
+  discount,
+  onDiscount,
+}: {
+  discount: boolean;
   onDiscount: (value: boolean) => void;
 }) {
   const { t } = useLingui();
 
   return (
-    <div className="demo-form">
-      <span className="demo-eyebrow">{t`Workshop tickets · $25 each`}</span>
-      <label>
-        {t`Quantity`}
-        <input
-          aria-label={t`Quantity`}
-          type="number"
-          min="1"
-          max="10"
-          value={quantity}
-          onChange={(e) =>
-            onQuantity(Math.max(1, Math.min(10, Number(e.target.value) || 1)))
-          }
-        />
-      </label>
-      <label className="demo-checkbox">
-        <input
-          type="checkbox"
-          checked={discount}
-          onChange={(e) => onDiscount(e.target.checked)}
-        />
-        {t`Member discount · 20%`}
-      </label>
-      <div className="demo-total">
-        <span>{t`Total`}</span>
-        <output aria-live="polite">${total.toFixed(2)}</output>
-      </div>
+    <label className="demo-checkbox">
+      <input
+        type="checkbox"
+        checked={discount}
+        onChange={(e) => onDiscount(e.target.checked)}
+      />
+      {t`Member discount · 20%`}
+    </label>
+  );
+}
+
+const Discount = holo({
+  view: DiscountView,
+  read: { discount: $discount },
+  write: { onDiscount: $discount },
+});
+
+function TotalView({ total }: { total: number }) {
+  const { t } = useLingui();
+
+  return (
+    <div className="demo-total">
+      <span>{t`Total`}</span>
+      <output aria-live="polite">${total.toFixed(2)}</output>
     </div>
   );
 }
 
-const Cart = holo({
-  view: CartView,
-  read: { quantity: $quantity, discount: $discount, total: $total },
-  write: { onQuantity: $quantity, onDiscount: $discount },
+const Total = holo({
+  view: TotalView,
+  read: { total: $total },
 });
+
+function Cart() {
+  const { t } = useLingui();
+
+  return (
+    <div className="demo-form">
+      <span className="demo-eyebrow">{t`Workshop tickets · $25 each`}</span>
+      <Quantity />
+      <Discount />
+      <Total />
+    </div>
+  );
+}
 // #endregion ion
 
 export default Cart;

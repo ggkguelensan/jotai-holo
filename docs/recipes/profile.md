@@ -36,17 +36,25 @@ Give Jotai [the application's QueryClient](/topics/tanstack-models#queryclientat
 
 ## Bind the editor
 
-The View receives draft values, request state and callbacks. It does not import Query or duplicate its state:
+The form composes connected children and forwards submit. It has no `read` binding:
 
-<<< @/../examples/profile/edit-view.tsx#edit-binding
+<<< @/../examples/profile/edit-view.tsx#edit-view
 
-[The complete View source](https://github.com/ggkguelensan/jotai-holo/blob/main/examples/profile/edit-view.tsx) uses native required/email inputs for field feedback. A larger form can keep RHF and its resolver; [the server-data recipe](/recipes/server-data#a-form-initialized-from-server-data) shows that path.
+Each field reads and writes its own writable derived atom. Editing the name does not pass a new draft object through the email View:
+
+<<< @/../examples/profile/edit-view.tsx#edit-fields
+
+The error and Save button subscribe separately to mutation state. Pending updates the button; it does not make the fields read request state:
+
+<<< @/../examples/profile/edit-view.tsx#edit-feedback
+
+The fields use native required/email inputs for feedback. A larger form can keep RHF and its resolver; [the server-data recipe](/recipes/server-data#a-form-initialized-from-server-data) shows that path.
 
 This workflow uses `createMutationModel` because atoms and an independent reaction participate. If only React needs the request, prefer native `useMutation`. To initialize a business profile from a server, follow the [loading and editing workflow](/recipes/profile-composition).
 
 ## Verification
 
-The tests check pending state, single-flight, draft isolation, successful facts, failure state and notification cleanup. The browser test exercises the documented editor through pending, success and failure.
+The tests check pending state, single-flight, draft isolation, successful facts, failure state and notification cleanup. Browser tests exercise the editor and count commits: changing one field leaves the other field unchanged, and pending updates only the button.
 
 ## Reading
 

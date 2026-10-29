@@ -7,26 +7,30 @@ import { modelRegistry, pipe } from 'jotai-holo/model';
 // #endregion model-imports
 
 // #region toolbar-view
-function ToolbarView({
-  title,
+function ThemeView({
   theme,
   onThemeChange,
-  onHelp,
 }: {
-  title: string;
   theme: Theme;
   onThemeChange: (theme: Theme) => void;
-  onHelp: () => void;
 }) {
+  return (
+    <button onClick={() => onThemeChange(theme === 'dark' ? 'light' : 'dark')}>
+      Theme: {theme}
+    </button>
+  );
+}
+
+function HelpView({ onHelp }: { onHelp: () => void }) {
+  return <button onClick={() => onHelp()}>Help</button>;
+}
+
+function ToolbarView({ title }: { title: string }) {
   return (
     <header>
       <h2>{title}</h2>
-      <button
-        onClick={() => onThemeChange(theme === 'dark' ? 'light' : 'dark')}
-      >
-        Theme: {theme}
-      </button>
-      <button onClick={() => onHelp()}>Help</button>
+      <ThemeControl />
+      <Help />
     </header>
   );
 }
@@ -39,16 +43,19 @@ export const $theme = atom<Theme>('light');
 
 export const helpRequested = eventAtom();
 
+const ThemeControl = holo({
+  view: ThemeView,
+  read: { theme: $theme },
+  write: { onThemeChange: $theme },
+});
+
+const Help = holo({
+  view: HelpView,
+  write: { onHelp: helpRequested },
+});
+
 export const Toolbar = holo({
   view: ToolbarView,
-
-  read: { theme: $theme },
-
-  write: {
-    onThemeChange: $theme,
-    onHelp: helpRequested,
-  },
-
   static: { title: 'Workspace' },
 });
 // #endregion global-atoms
@@ -66,76 +73,98 @@ export const $$orderFilters = createFiltersModel();
 // #endregion factory
 
 // #region filters-view
-function FiltersView({
+function TermView({
   term,
-  inStockOnly,
   onTermChange,
-  onStockChange,
 }: {
   term: string;
-  inStockOnly: boolean;
   onTermChange: (term: string) => void;
+}) {
+  return (
+    <label>
+      Search
+      <input
+        value={term}
+        onChange={(event) => onTermChange(event.target.value)}
+      />
+    </label>
+  );
+}
+
+function StockView({
+  inStockOnly,
+  onStockChange,
+}: {
+  inStockOnly: boolean;
   onStockChange: (checked: boolean) => void;
 }) {
   return (
-    <section>
-      <label>
-        Search
-        <input
-          value={term}
-          onChange={(event) => onTermChange(event.target.value)}
-        />
-      </label>
-      <label>
-        <input
-          type="checkbox"
-          checked={inStockOnly}
-          onChange={(event) => onStockChange(event.target.checked)}
-        />
-        In stock only
-      </label>
-    </section>
+    <label>
+      <input
+        type="checkbox"
+        checked={inStockOnly}
+        onChange={(event) => onStockChange(event.target.checked)}
+      />
+      In stock only
+    </label>
   );
 }
 // #endregion filters-view
 
 // #region direct-model
-export const CatalogFilters = holo({
-  view: FiltersView,
-
-  read: {
-    term: $$catalogFilters.$term,
-    inStockOnly: $$catalogFilters.$inStockOnly,
-  },
-
-  write: {
-    onTermChange: $$catalogFilters.$term,
-    onStockChange: $$catalogFilters.$inStockOnly,
-  },
+const CatalogTerm = holo({
+  view: TermView,
+  read: { term: $$catalogFilters.$term },
+  write: { onTermChange: $$catalogFilters.$term },
 });
+
+const CatalogStock = holo({
+  view: StockView,
+  read: { inStockOnly: $$catalogFilters.$inStockOnly },
+  write: { onStockChange: $$catalogFilters.$inStockOnly },
+});
+
+export function CatalogFilters() {
+  return (
+    <section>
+      <CatalogTerm />
+      <CatalogStock />
+    </section>
+  );
+}
 // #endregion direct-model
 
 // #region keyed-model
 const $$filters = pipe(createFiltersModel, modelRegistry());
 
-export const ProductFilters = holo({
+const ProductTerm = holo({
   models: {
     filters: (props: { catalogId: string }) =>
       $$filters({ key: ['catalog', props.catalogId] }),
   },
-
-  view: FiltersView,
-
-  read: ({ filters }) => ({
-    term: filters.$term,
-    inStockOnly: filters.$inStockOnly,
-  }),
-
-  write: ({ filters }) => ({
-    onTermChange: filters.$term,
-    onStockChange: filters.$inStockOnly,
-  }),
+  view: TermView,
+  read: ({ filters }) => ({ term: filters.$term }),
+  write: ({ filters }) => ({ onTermChange: filters.$term }),
 });
+
+const ProductStock = holo({
+  models: {
+    filters: (props: { catalogId: string }) =>
+      $$filters({ key: ['catalog', props.catalogId] }),
+  },
+  view: StockView,
+  read: ({ filters }) => ({ inStockOnly: filters.$inStockOnly }),
+  write: ({ filters }) => ({ onStockChange: filters.$inStockOnly }),
+});
+
+export function ProductFilters({ catalogId }: { catalogId: string }) {
+  return (
+    <section>
+      <ProductTerm catalogId={catalogId} />
+      <ProductStock catalogId={catalogId} />
+    </section>
+  );
+}
 // #endregion keyed-model
 
 // #region usage

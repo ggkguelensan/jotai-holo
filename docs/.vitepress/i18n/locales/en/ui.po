@@ -313,33 +313,25 @@ msgid "to close"
 msgstr "to close"
 
 #: examples/docs/analytics.tsx
+msgid "Search products"
+msgstr "Search products"
+
+#: examples/docs/analytics.tsx
 #: examples/docs/query.tsx
 msgid "Product catalog"
 msgstr "Product catalog"
-
-#: examples/docs/analytics.tsx
-msgid "Search products"
-msgstr "Search products"
 
 #: examples/docs/analytics.tsx
 msgid "Search"
 msgstr "Search"
 
 #: examples/docs/analytics.tsx
-msgid "Product details"
-msgstr "Product details"
-
-#: examples/docs/analytics.tsx
 msgid "Close details"
 msgstr "Close details"
 
 #: examples/docs/analytics.tsx
-msgid "Actual adapter deliveries · last 50 messages"
-msgstr "Actual adapter deliveries · last 50 messages"
-
-#: examples/docs/analytics.tsx
-msgid "Analytics console"
-msgstr "Analytics console"
+msgid "Product details"
+msgstr "Product details"
 
 #: examples/docs/analytics.tsx
 msgid "Clear logs"
@@ -350,12 +342,16 @@ msgid "Search for a product, then open it to see each engine's payload."
 msgstr "Search for a product, then open it to see each engine's payload."
 
 #: examples/docs/analytics.tsx
+msgid "Actual adapter deliveries · last 50 messages"
+msgstr "Actual adapter deliveries · last 50 messages"
+
+#: examples/docs/analytics.tsx
+msgid "Analytics console"
+msgstr "Analytics console"
+
+#: examples/docs/analytics.tsx
 msgid "Demo adapters only · no SDK or network requests"
 msgstr "Demo adapters only · no SDK or network requests"
-
-#: examples/docs/bond.tsx
-msgid "A fact → a separate reaction"
-msgstr "A fact → a separate reaction"
 
 #: examples/docs/bond.tsx
 msgid "Generate receipt"
@@ -374,8 +370,17 @@ msgid "Receipt for order"
 msgstr "Receipt for order"
 
 #: examples/docs/bond.tsx
+msgid "A fact → a separate reaction"
+msgstr "A fact → a separate reaction"
+
+#: examples/docs/bond.tsx
 msgid "Local simulation: no payment or network request."
 msgstr "Local simulation: no payment or network request."
+
+#. js-lingui-explicit-id
+#: examples/docs/counter.tsx
+msgid "One model, ordinary props"
+msgstr "One model, ordinary props"
 
 #: examples/docs/counter.tsx
 msgid "Derived × 2"
@@ -388,11 +393,6 @@ msgstr "Decrement"
 #: examples/docs/counter.tsx
 msgid "Increment"
 msgstr "Increment"
-
-#. js-lingui-explicit-id
-#: examples/docs/counter.tsx
-msgid "One model, ordinary props"
-msgstr "One model, ordinary props"
 
 #: examples/docs/data-lifecycle.tsx
 msgid "Name"
@@ -427,10 +427,6 @@ msgid "Phone"
 msgstr "Phone"
 
 #: examples/docs/form.tsx
-msgid "External save panel"
-msgstr "External save panel"
-
-#: examples/docs/form.tsx
 msgid "No email yet"
 msgstr "No email yet"
 
@@ -443,17 +439,31 @@ msgid "Saved:"
 msgstr "Saved:"
 
 #: examples/docs/form.tsx
+msgid "External save panel"
+msgstr "External save panel"
+
+#: examples/docs/form.tsx
 msgid "Contact preferences"
 msgstr "Contact preferences"
 
 #: examples/docs/imperative.tsx
-msgid "Order confirmation"
-msgstr "Order confirmation"
+#: examples/docs/ion.tsx
+msgid "Quantity"
+msgstr "Quantity"
 
 #: examples/docs/imperative.tsx
 #: examples/docs/ion.tsx
 msgid "Total"
 msgstr "Total"
+
+#: examples/docs/imperative.tsx
+#: examples/docs/operators.tsx
+msgid "Place order"
+msgstr "Place order"
+
+#: examples/docs/imperative.tsx
+msgid "Order confirmation"
+msgstr "Order confirmation"
 
 #: examples/docs/imperative.tsx
 msgid "Back to cart"
@@ -468,16 +478,6 @@ msgstr "Checkout"
 msgid "Oak desk"
 msgstr "Oak desk"
 
-#: examples/docs/imperative.tsx
-#: examples/docs/ion.tsx
-msgid "Quantity"
-msgstr "Quantity"
-
-#: examples/docs/imperative.tsx
-#: examples/docs/operators.tsx
-msgid "Place order"
-msgstr "Place order"
-
 #: examples/docs/input.tsx
 msgid "Mounted search View receives"
 msgstr "Mounted search View receives"
@@ -491,12 +491,12 @@ msgid "Mount Search"
 msgstr "Mount Search"
 
 #: examples/docs/ion.tsx
-msgid "Workshop tickets · $25 each"
-msgstr "Workshop tickets · $25 each"
-
-#: examples/docs/ion.tsx
 msgid "Member discount · 20%"
 msgstr "Member discount · 20%"
+
+#: examples/docs/ion.tsx
+msgid "Workshop tickets · $25 each"
+msgstr "Workshop tickets · $25 each"
 
 #: examples/docs/list.tsx
 msgid "Review proposal"
@@ -560,20 +560,12 @@ msgid "Proposal"
 msgstr "Proposal"
 
 #: examples/docs/mutation.tsx
-msgid "Proposal P-1042"
-msgstr "Proposal P-1042"
-
-#: examples/docs/mutation.tsx
 msgid "Discount, %"
 msgstr "Discount, %"
 
 #: examples/docs/mutation.tsx
 msgid "Comment for the customer"
 msgstr "Comment for the customer"
-
-#: examples/docs/mutation.tsx
-msgid "Try a discount above 25% to see a server rejection."
-msgstr "Try a discount above 25% to see a server rejection."
 
 #: examples/docs/mutation.tsx
 msgid "Saving proposal…"
@@ -595,13 +587,13 @@ msgstr "Discounts above 25% need approval."
 msgid "Saved discount"
 msgstr "Saved discount"
 
-#: examples/docs/operators.tsx
-msgid "Order review · courier delivery"
-msgstr "Order review · courier delivery"
+#: examples/docs/mutation.tsx
+msgid "Proposal P-1042"
+msgstr "Proposal P-1042"
 
-#: examples/docs/operators.tsx
-msgid "Goods $80 + delivery $15"
-msgstr "Goods $80 + delivery $15"
+#: examples/docs/mutation.tsx
+msgid "Try a discount above 25% to see a server rejection."
+msgstr "Try a discount above 25% to see a server rejection."
 
 #: examples/docs/operators.tsx
 msgid "I accept the delivery terms"
@@ -614,6 +606,14 @@ msgstr "Surcharge applies"
 #: examples/docs/operators.tsx
 msgid "No surcharge"
 msgstr "No surcharge"
+
+#: examples/docs/operators.tsx
+msgid "Order review · courier delivery"
+msgstr "Order review · courier delivery"
+
+#: examples/docs/operators.tsx
+msgid "Goods $80 + delivery $15"
+msgstr "Goods $80 + delivery $15"
 
 #: examples/docs/prism.tsx
 msgid "Name projection"

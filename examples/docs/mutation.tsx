@@ -43,27 +43,121 @@ const save = actionAtom((get, set) =>
   }),
 );
 
-function ProposalView({
+function DiscountView({
   discount,
-  comment,
-  proposal,
-  pending,
-  error,
   onDiscount,
-  onComment,
-  onSave,
-  onReset,
 }: {
   discount: number;
-  comment: string;
-  proposal: ProposalInput | undefined;
-  pending: boolean;
-  error: Error | null;
   onDiscount: (value: number) => void;
+}) {
+  const { t } = useLingui();
+
+  return (
+    <label>
+      {t`Discount, %`}
+      <input
+        type="number"
+        min="0"
+        max="50"
+        value={discount}
+        onChange={(event) => onDiscount(Number(event.target.value))}
+      />
+    </label>
+  );
+}
+
+const Discount = holo({
+  view: DiscountView,
+  read: { discount: $discount },
+  write: { onDiscount: $discount },
+});
+
+function CommentView({
+  comment,
+  onComment,
+}: {
+  comment: string;
   onComment: (value: string) => void;
-  onSave: () => Promise<ProposalInput>;
+}) {
+  const { t } = useLingui();
+
+  return (
+    <label>
+      {t`Comment for the customer`}
+      <input
+        value={comment}
+        onChange={(event) => onComment(event.target.value)}
+      />
+    </label>
+  );
+}
+
+const Comment = holo({
+  view: CommentView,
+  read: { comment: $comment },
+  write: { onComment: $comment },
+});
+
+function SaveControlsView({
+  pending,
+  onReset,
+}: {
+  pending: boolean;
   onReset: () => void;
 }) {
+  const { t } = useLingui();
+
+  return (
+    <div className="demo-controls">
+      <button type="submit" disabled={pending}>
+        {pending ? t`Saving proposal…` : t`Save proposal`}
+      </button>
+      <button type="button" onClick={onReset}>
+        {t`Clear feedback`}
+      </button>
+    </div>
+  );
+}
+
+const SaveControls = holo({
+  view: SaveControlsView,
+  read: { pending: $$proposalMutation.$pending },
+  write: { onReset: $$proposalMutation.reset },
+});
+
+function SaveErrorView({ error }: { error: Error | null }) {
+  const { t } = useLingui();
+
+  return error ? (
+    <p role="alert">{t`Discounts above 25% need approval.`}</p>
+  ) : null;
+}
+
+const SaveError = holo({
+  view: SaveErrorView,
+  read: { error: $$proposalMutation.$error },
+});
+
+function SavedProposalView({
+  proposal,
+}: {
+  proposal: ProposalInput | undefined;
+}) {
+  const { t } = useLingui();
+
+  return (
+    <output aria-live="polite">
+      {proposal && `${t`Saved discount`}: ${proposal.discount}%`}
+    </output>
+  );
+}
+
+const SavedProposal = holo({
+  view: SavedProposalView,
+  read: { proposal: $$proposalMutation.$proposal },
+});
+
+function ProposalView({ onSave }: { onSave: () => Promise<ProposalInput> }) {
   const { t } = useLingui();
 
   return (
@@ -76,59 +170,21 @@ function ProposalView({
       }}
     >
       <span className="demo-eyebrow">{t`Proposal P-1042`}</span>
-      <label>
-        {t`Discount, %`}
-        <input
-          type="number"
-          min="0"
-          max="50"
-          value={discount}
-          onChange={(event) => onDiscount(Number(event.target.value))}
-        />
-      </label>
-      <label>
-        {t`Comment for the customer`}
-        <input
-          value={comment}
-          onChange={(event) => onComment(event.target.value)}
-        />
-      </label>
+      <Discount />
+      <Comment />
       <p className="demo-note">
         {t`Try a discount above 25% to see a server rejection.`}
       </p>
-      <div className="demo-controls">
-        <button type="submit" disabled={pending}>
-          {pending ? t`Saving proposal…` : t`Save proposal`}
-        </button>
-        <button type="button" onClick={onReset}>
-          {t`Clear feedback`}
-        </button>
-      </div>
-      {error && <p role="alert">{t`Discounts above 25% need approval.`}</p>}
-      <output aria-live="polite">
-        {proposal && `${t`Saved discount`}: ${proposal.discount}%`}
-      </output>
+      <SaveControls />
+      <SaveError />
+      <SavedProposal />
     </form>
   );
 }
 
 const Proposal = holo({
   view: ProposalView,
-
-  read: {
-    discount: $discount,
-    comment: $comment,
-    proposal: $$proposalMutation.$proposal,
-    pending: $$proposalMutation.$pending,
-    error: $$proposalMutation.$error,
-  },
-
-  write: {
-    onDiscount: $discount,
-    onComment: $comment,
-    onSave: save,
-    onReset: $$proposalMutation.reset,
-  },
+  write: { onSave: save },
 });
 // #endregion mutation
 

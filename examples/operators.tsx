@@ -49,23 +49,32 @@ const Content = holoMatch({
     ),
   },
 });
-const Controls = holo({
-  models: { model: $$users },
-  view: ({ count, onAdd }: { count: number; onAdd: () => void }) => (
-    <>
-      <output>Users: {count}</output>
-      <button onClick={() => onAdd()}>Add user</button>
-    </>
-  ),
+function UserCountView({ count }: { count: number }) {
+  return <output>Users: {count}</output>;
+}
+
+const UserCount = holo({
+  models: { users: $$users },
+  view: UserCountView,
   read: { count: $count },
-  write: ({ model }) => ({ onAdd: model.addUser }),
+});
+
+function AddUserView({ onAdd }: { onAdd: () => void }) {
+  return <button onClick={() => onAdd()}>Add user</button>;
+}
+
+const AddUser = holo({
+  models: { users: $$users },
+  view: AddUserView,
+  write: ({ users }) => ({ onAdd: users.addUser }),
 });
 
 export function OperatorsExample() {
   return (
     <section>
       <h2>Model operators</h2>
-      <Controls />
+      <UserCount />
+      <AddUser />
       <Content />
     </section>
   );

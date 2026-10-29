@@ -14,25 +14,40 @@ export function createObservedCounter() {
 }
 
 const $$counter = createObservedCounter();
-export const EffectCounter = holo({
-  view: function EffectView({
-    count,
-    message,
-    onIncrement,
-  }: {
-    count: number;
-    message: string;
-    onIncrement: () => void;
-  }) {
-    return (
-      <section>
-        <h2>jotai-effect</h2>
-        <output>{count}</output>
-        <p>{message}</p>
-        <button onClick={onIncrement}>Increment observed state</button>
-      </section>
-    );
-  },
-  read: { count: $$counter.$observedCount, message: $$counter.$message },
+function ObservedCountView({ count }: { count: number }) {
+  return <output>{count}</output>;
+}
+
+const ObservedCount = holo({
+  view: ObservedCountView,
+  read: { count: $$counter.$observedCount },
+});
+
+function ObservationMessageView({ message }: { message: string }) {
+  return <p>{message}</p>;
+}
+
+const ObservationMessage = holo({
+  view: ObservationMessageView,
+  read: { message: $$counter.$message },
+});
+
+function IncrementView({ onIncrement }: { onIncrement: () => void }) {
+  return <button onClick={onIncrement}>Increment observed state</button>;
+}
+
+const Increment = holo({
+  view: IncrementView,
   write: { onIncrement: $$counter.increment },
 });
+
+export function EffectCounter() {
+  return (
+    <section>
+      <h2>jotai-effect</h2>
+      <ObservedCount />
+      <ObservationMessage />
+      <Increment />
+    </section>
+  );
+}

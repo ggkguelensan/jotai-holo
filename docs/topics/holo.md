@@ -21,13 +21,11 @@ writable atom can serve both directions.
 `NameView` receives ordinary props. It does not need to know the source atom or
 store. Native Jotai atoms work too; no model declaration is required.
 
-A binding can combine unrelated atoms. For example, the workspace toolbar reads
-the theme and publishes a help request:
+A toolbar composes two connected controls. ThemeControl reads and writes the theme; Help only publishes a request:
 
 <<< @/../examples/atoms-or-models.tsx#global-atoms
 
-Here `static` supplies the fixed title. The remaining unbound View props, if
-any, come from the parent. Supplied `read`, `write`, `static` and `imperative`
+Toolbar supplies its fixed title through `static` and composes the controls. It does not read their atoms. The remaining unbound View props, if any, come from the parent. Supplied `read`, `write`, `static` and `imperative`
 props are not public inputs to the connected component.
 
 ## Map a selected model's fields to props {#named-models}
@@ -38,9 +36,7 @@ excerpt uses the filter factory introduced in [atoms and models](/topics/atoms-a
 
 <<< @/../examples/atoms-or-models.tsx#keyed-model
 
-In this example, the incoming `catalogId` selects the filters record. The `read`
-callback maps its `$term` to the View's `term` prop; `write` maps the same atom
-to `onTermChange`. The View does not receive a model record or atom objects.
+ProductTerm and ProductStock each select the filters record using `catalogId`. Their bindings map one field to a value and callback. ProductFilters composes these controls and passes only the ID; it does not read the filter values. Each field View receives ordinary props.
 
 These callbacks choose references. They do not subscribe to atom values or
 re-run a calculation whenever a value changes. Put calculations in a derived

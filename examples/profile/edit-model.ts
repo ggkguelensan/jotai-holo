@@ -8,6 +8,15 @@ export function createProfileModel() {
   const $draft = stateAtom<ProfileDraft>({ name: '', email: '' });
   const $profile = stateAtom<Profile | null>(null);
 
+  const $name = stateAtom(
+    (get) => get($draft).name,
+    (get, set, name: string) => set($draft, { ...get($draft), name }),
+  );
+  const $email = stateAtom(
+    (get) => get($draft).email,
+    (get, set, email: string) => set($draft, { ...get($draft), email }),
+  );
+
   const $validationError = stateAtom((get) => {
     const draft = get($draft);
     return !draft.name.trim() || !draft.email.includes('@')
@@ -22,6 +31,14 @@ export function createProfileModel() {
     set(profileSaved, profile);
   });
 
-  return { $draft, $profile, $validationError, profileSaved, acceptSaved };
+  return {
+    $draft,
+    $name,
+    $email,
+    $profile,
+    $validationError,
+    profileSaved,
+    acceptSaved,
+  };
 }
 // #endregion edit-model
