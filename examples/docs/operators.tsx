@@ -4,7 +4,7 @@ import {
   TotalView,
   TermsView,
   ExpensiveItemView,
-  OrderButtonView,
+  OrderAvailabilityView,
   PaymentMethodView,
 } from './operators-views.js';
 
@@ -52,8 +52,8 @@ const ExpensiveItem = holo({
   read: { hasExpensiveItem: $hasExpensiveItem },
 });
 
-const OrderButton = holo({
-  view: OrderButtonView,
+const OrderAvailability = holo({
+  view: OrderAvailabilityView,
   read: { canOrder: $canOrder },
 });
 
@@ -68,7 +68,7 @@ function OrderReview() {
       <PaymentMethod />
       <Terms />
       <ExpensiveItem />
-      <OrderButton />
+      <OrderAvailability />
     </div>
   );
 }

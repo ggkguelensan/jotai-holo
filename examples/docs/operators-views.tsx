@@ -15,7 +15,7 @@ export function TermsView({
   const { t } = useLingui();
 
   return (
-    <label>
+    <label className="demo-checkbox">
       <input
         type="checkbox"
         checked={accepted}
@@ -42,10 +42,16 @@ export function ExpensiveItemView({
   );
 }
 
-export function OrderButtonView({ canOrder }: { canOrder: boolean }) {
+export function OrderAvailabilityView({ canOrder }: { canOrder: boolean }) {
   const { t } = useLingui();
 
-  return <button disabled={!canOrder}>{t`Place order`}</button>;
+  return (
+    <output role="status">
+      {canOrder
+        ? t`Ready to place your order.`
+        : t`Choose payment and accept the terms to continue.`}
+    </output>
+  );
 }
 
 export function PaymentMethodView({

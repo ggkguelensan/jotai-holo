@@ -1,4 +1,3 @@
-import { motion } from 'motion/react';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import type { WishlistedGame } from './list.js';
@@ -9,7 +8,7 @@ export function WishlistGameView({ game }: { game: WishlistedGame }) {
   const [selectedForGift, setSelectedForGift] = useState(false);
 
   return (
-    <motion.li layout="position" initial={false}>
+    <li>
       <label className="demo-checkbox">
         <input
           type="checkbox"
@@ -23,13 +22,9 @@ export function WishlistGameView({ game }: { game: WishlistedGame }) {
         />
         <span>{game.title === 'Starfall' ? t`Starfall` : t`Moon Harbor`}</span>
         <code>#{game.id}</code>
-        {selectedForGift && (
-          <motion.small initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            {t`Selected for gift`}
-          </motion.small>
-        )}
+        {selectedForGift && <small>{t`Selected for gift`}</small>}
       </label>
-    </motion.li>
+    </li>
   );
 }
 
@@ -40,9 +35,13 @@ export function EmptyWishlistView() {
 }
 
 export function WishlistControlsView({
+  empty,
   onReverse,
   onClear,
+  onRestore,
 }: {
+  empty: boolean;
+  onRestore: () => void;
   onReverse: () => void;
   onClear: () => void;
 }) {
@@ -50,12 +49,17 @@ export function WishlistControlsView({
 
   return (
     <div className="demo-controls">
-      <button type="button" onClick={() => onReverse()}>
+      <button type="button" disabled={empty} onClick={onReverse}>
         {t`Reverse wishlist`}
       </button>
-      <button type="button" onClick={() => onClear()}>
+      <button type="button" disabled={empty} onClick={onClear}>
         {t`Clear wishlist`}
       </button>
+      {empty && (
+        <button type="button" onClick={onRestore}>
+          {t`Restore wishlist`}
+        </button>
+      )}
     </div>
   );
 }

@@ -34,11 +34,7 @@ export function GameRowView({
   onGameOpen: (fact: { gameId: string; position: number }) => void;
 }) {
   return (
-    <motion.li
-      layout="position"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
+    <motion.li initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <button onClick={() => onGameOpen({ gameId: game.id, position })}>
         {game.name} · ${game.price}
       </button>
@@ -111,8 +107,8 @@ export function GameDetailsView({
   return (
     <motion.article
       key={game.id}
-      initial={{ opacity: 0, transform: 'translateY(6px)' }}
-      animate={{ opacity: 1, transform: 'translateY(0px)' }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
     >
       <h3>{t`Game details`}</h3>
       <p>

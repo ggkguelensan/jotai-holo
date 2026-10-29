@@ -46,7 +46,10 @@ example with fake View declarations or placeholder bodies.
 
 Keep Motion in the View implementation. The documentation renderer supplies
 MotionConfig with reducedMotion="user" and a short ease-out transition.
-Animate changes with a purpose: reordered rows, entering results and feedback.
+Animate changes with a purpose: entering results and completion feedback.
+Keyboard interactions update immediately. Respect reduced motion explicitly for
+raw transform strings and useAnimate; MotionConfig cannot disable those for you.
+Repeated requests must continue from the current visual state.
 Do not delay input, computation or model ownership for animation. Keep branch
 and model disposal immediate; a visual exit must not retain subscriptions.
 
@@ -82,6 +85,19 @@ Keep displayed code within 80 columns. Separate different atom/operator groups,
 View declarations and holo bindings with blank lines. Use real typed contracts,
 not any-based placeholders. Read Lingui translations inside Views. Keep prose
 annotations outside code when they explain intent rather than implementation.
+
+## Interactive behavior
+
+Every enabled control must produce an observable result. Use an availability
+indicator when the example only demonstrates a predicate. Destructive demo
+controls must offer a way to repeat the scenario without reloading the page.
+Expose selected options and meaningful empty, loading, error and success states.
+
+Give fields visible labels, keyboard controls visible focus, and primary controls
+at least 44px touch targets. A checkbox may use its full label as the target.
+Keep small text readable in both themes. Check 390px and desktop layouts, including
+expanded content and validation errors. Wide spreadsheets scroll inside their
+own container; ordinary examples must fit without horizontal page scrolling.
 
 ## Review and verification
 

@@ -38,7 +38,11 @@ export function PurchaseStatusView({
 
   useHoloEvents(events, {
     onOrderCreated() {
-      if (!panel.current) return;
+      if (
+        !panel.current ||
+        panel.current.closest('[data-demo-input="keyboard"]')
+      )
+        return;
       void animate(panel.current, { opacity: [0.4, 1] }, { duration: 0.24 });
     },
   });

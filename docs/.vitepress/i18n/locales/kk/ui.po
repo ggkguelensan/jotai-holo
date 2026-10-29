@@ -519,7 +519,6 @@ msgid "Total"
 msgstr "Барлығы"
 
 #: examples/docs/imperative-views.tsx
-#: examples/docs/operators-views.tsx
 msgid "Place order"
 msgstr "Тапсырыс беру"
 
@@ -583,6 +582,10 @@ msgstr "Тізім ретін кері бұру"
 #: examples/docs/list-views.tsx
 msgid "Clear wishlist"
 msgstr "Тізімді тазалау"
+
+#: examples/docs/list-views.tsx
+msgid "Restore wishlist"
+msgstr "Тілектер тізімін қалпына келтіру"
 
 #: examples/docs/list.tsx
 msgid "Choose gifts from your wishlist"
@@ -674,6 +677,14 @@ msgid "All items are $70 or less"
 msgstr "Барлық тауар бағасы $70 немесе одан төмен"
 
 #: examples/docs/operators-views.tsx
+msgid "Ready to place your order."
+msgstr "Тапсырыс беруге дайын."
+
+#: examples/docs/operators-views.tsx
+msgid "Choose payment and accept the terms to continue."
+msgstr "Төлем әдісін таңдап, сатып алу шарттарын қабылдаңыз."
+
+#: examples/docs/operators-views.tsx
 msgid "Payment method"
 msgstr "Төлем тәсілі"
 
@@ -732,6 +743,14 @@ msgstr "Жүктелуде…"
 #: examples/docs/query-views.tsx
 msgid "Game not found."
 msgstr "Ойын табылмады."
+
+#: examples/docs/query-views.tsx
+msgid "Not found"
+msgstr "Табылмады"
+
+#: examples/docs/query-views.tsx
+msgid "Server error"
+msgstr "Сервер қатесі"
 
 #: examples/docs/spreadsheet.tsx
 msgid "Check the formula and its references."

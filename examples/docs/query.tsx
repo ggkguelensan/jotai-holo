@@ -32,6 +32,7 @@ export const gameDetailQO = ({ gameId }: { gameId: string }) =>
           { once: true },
         );
       });
+      if (gameId === 'unavailable') throw new Error('Catalog unavailable');
       if (gameId !== 'starfall' && gameId !== 'moon-harbor') return null;
       return {
         id: gameId,
@@ -92,6 +93,7 @@ function CatalogView() {
 
 const Switch = holo({
   view: SwitchView,
+  read: { gameId: $gameId },
   write: { onChange: $gameId },
 });
 

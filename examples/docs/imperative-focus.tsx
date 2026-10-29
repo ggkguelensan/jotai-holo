@@ -17,7 +17,12 @@ function SearchView({ events }: { events: HoloEvents<SearchEvents> }) {
     },
   });
 
-  return <input ref={input} aria-label={t`Search games`} type="search" />;
+  return (
+    <label>
+      {t`Search games`}
+      <input ref={input} type="search" />
+    </label>
+  );
 }
 
 const Search = holo({

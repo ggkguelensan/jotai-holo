@@ -519,7 +519,6 @@ msgid "Total"
 msgstr "Итого"
 
 #: examples/docs/imperative-views.tsx
-#: examples/docs/operators-views.tsx
 msgid "Place order"
 msgstr "Оформить заказ"
 
@@ -583,6 +582,10 @@ msgstr "Развернуть список"
 #: examples/docs/list-views.tsx
 msgid "Clear wishlist"
 msgstr "Очистить список"
+
+#: examples/docs/list-views.tsx
+msgid "Restore wishlist"
+msgstr "Восстановить список"
 
 #: examples/docs/list.tsx
 msgid "Choose gifts from your wishlist"
@@ -674,6 +677,14 @@ msgid "All items are $70 or less"
 msgstr "Все позиции стоят не больше $70"
 
 #: examples/docs/operators-views.tsx
+msgid "Ready to place your order."
+msgstr "Можно оформить заказ."
+
+#: examples/docs/operators-views.tsx
+msgid "Choose payment and accept the terms to continue."
+msgstr "Выберите способ оплаты и примите условия покупки."
+
+#: examples/docs/operators-views.tsx
 msgid "Payment method"
 msgstr "Способ оплаты"
 
@@ -732,6 +743,14 @@ msgstr "Загрузка…"
 #: examples/docs/query-views.tsx
 msgid "Game not found."
 msgstr "Игра не найдена."
+
+#: examples/docs/query-views.tsx
+msgid "Not found"
+msgstr "Не найдено"
+
+#: examples/docs/query-views.tsx
+msgid "Server error"
+msgstr "Ошибка сервера"
 
 #: examples/docs/spreadsheet.tsx
 msgid "Check the formula and its references."

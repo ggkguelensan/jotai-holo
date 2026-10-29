@@ -47,22 +47,39 @@ export function ErrorView({ error }: { error: Error | null }) {
 
   return (
     <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} role="alert">
-      {error?.message ?? t`Could not load. Try again.`}
+      {error?.message && error.message !== 'Catalog unavailable'
+        ? error.message
+        : t`Could not load. Try again.`}
     </motion.p>
   );
 }
 
 export function SwitchView({
+  gameId,
   onChange,
 }: {
+  gameId: string;
   onChange: (value: string) => void;
 }) {
   const { t } = useLingui();
 
   return (
     <div className="demo-controls">
-      <button onClick={() => onChange('starfall')}>{t`Starfall`}</button>
-      <button onClick={() => onChange('moon-harbor')}>{t`Moon Harbor`}</button>
+      {[
+        ['starfall', t`Starfall`],
+        ['moon-harbor', t`Moon Harbor`],
+        ['missing', t`Not found`],
+        ['unavailable', t`Server error`],
+      ].map(([id, label]) => (
+        <button
+          key={id}
+          type="button"
+          aria-pressed={gameId === id}
+          onClick={() => onChange(id!)}
+        >
+          {label}
+        </button>
+      ))}
     </div>
   );
 }

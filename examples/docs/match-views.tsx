@@ -10,6 +10,7 @@ export function LoadingView() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="demo-branch"
+      role="status"
     >
       ◌ {t`Loading your game library…`}
     </motion.div>
@@ -24,6 +25,7 @@ export function ReadyView() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="demo-branch"
+      role="status"
     >
       ✓ {t`Your game library is ready.`}
     </motion.div>

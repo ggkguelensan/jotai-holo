@@ -49,10 +49,10 @@ function GiftOrderDemo() {
   const { t } = useLingui();
 
   return (
-    <div className="demo-form">
+    <div className="demo-instances">
       {['Atlas', 'Beacon'].map((id) => {
         return (
-          <section key={id}>
+          <section key={id} className="demo-model-instance">
             <span className="demo-eyebrow">
               {t`Gift order`} {id}
             </span>

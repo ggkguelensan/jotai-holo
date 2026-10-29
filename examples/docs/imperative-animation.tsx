@@ -16,13 +16,18 @@ function CartView({ events }: { events: HoloEvents<CartEvents> }) {
   useHoloEvents(events, {
     highlightCart() {
       const node = cart.current;
-      if (!node || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (
+        !node ||
+        node.closest('[data-demo-input="keyboard"]') ||
+        matchMedia('(prefers-reduced-motion: reduce)').matches
+      ) {
         return;
       }
+      const current = getComputedStyle(node).transform;
       animation.current?.stop();
       animation.current = animate(
         node,
-        { transform: ['scale(1)', 'scale(1.08)', 'scale(1)'] },
+        { transform: [current, 'scale(1.08)', 'scale(1)'] },
         { duration: 0.24, ease: [0.23, 1, 0.32, 1] },
       );
     },

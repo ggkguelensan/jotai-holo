@@ -209,7 +209,7 @@
 }
 .holo-example :is(input:not([type='checkbox']), select) {
   width: 100%;
-  min-height: 36px;
+  min-height: 44px;
   background: var(--vp-c-bg);
   color: var(--vp-c-text-1);
   border: 1px solid var(--vp-c-divider);
@@ -227,6 +227,8 @@
   display: flex;
   align-items: center;
   gap: 9px;
+  min-height: 44px;
+  cursor: pointer;
 }
 .demo-controls {
   display: flex;
@@ -237,7 +239,7 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  min-height: 34px;
+  min-height: 44px;
   border: 1px solid var(--vp-c-divider);
   border-radius: 6px;
   background: var(--vp-c-bg-soft);
@@ -775,8 +777,8 @@
   right: 12px;
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   padding: 8px;
   border-color: transparent;
   background: transparent;
@@ -790,5 +792,32 @@
   .holo-example .demo-share-icon:not(:disabled):hover {
     background: var(--vp-c-bg-soft);
     color: var(--vp-c-text-1);
+  }
+}
+
+/* Keep secondary demo text legible on both white and soft surfaces. */
+.holo-example {
+  --vp-c-text-3: #6f6f6f;
+}
+.dark .holo-example {
+  --vp-c-text-3: #aaa;
+}
+.holo-example :is(button, input:not(.sheet-cell), select):focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 3px;
+}
+.holo-example button:not(:disabled):active {
+  background: var(--vp-c-bg-mute);
+}
+.demo-model-instance {
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+}
+@media (pointer: coarse) {
+  .holo-example :is(input:not([type='checkbox']), select) {
+    font-size: 16px;
   }
 }

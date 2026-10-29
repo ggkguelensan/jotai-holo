@@ -1,7 +1,7 @@
 import type { I18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { createStore, Provider } from 'jotai';
-import { lazy, Suspense, type ComponentType } from 'react';
+import { lazy, Suspense, useState, type ComponentType, type ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { MotionConfig } from 'motion/react';
 
@@ -33,6 +33,34 @@ const demos: Record<string, () => Promise<DemoModule>> = {
   form: () => import('../../../examples/docs/form'),
 };
 
+function DemoMotion({ children }: { children: ReactNode }) {
+  const [keyboard, setKeyboard] = useState(false);
+  return (
+    <div
+      style={{ display: 'contents' }}
+      data-demo-input={keyboard ? 'keyboard' : 'pointer'}
+      onKeyDownCapture={(event) => {
+        event.currentTarget.dataset.demoInput = 'keyboard';
+        setKeyboard(true);
+      }}
+      onPointerDownCapture={(event) => {
+        event.currentTarget.dataset.demoInput = 'pointer';
+        setKeyboard(false);
+      }}
+    >
+      <MotionConfig
+        reducedMotion="user"
+        transition={{
+          duration: keyboard ? 0 : 0.18,
+          ease: [0.23, 1, 0.32, 1],
+        }}
+      >
+        {children}
+      </MotionConfig>
+    </div>
+  );
+}
+
 export function mountDemo(host: HTMLElement, kind: string, i18n: I18n) {
   const load = demos[kind];
   if (!load) throw new Error(`Unknown documentation demo: ${kind}`);
@@ -47,12 +75,9 @@ export function mountDemo(host: HTMLElement, kind: string, i18n: I18n) {
     <I18nProvider i18n={i18n}>
       <Provider store={store}>
         <Suspense fallback={<span>…</span>}>
-          <MotionConfig
-            reducedMotion="user"
-            transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] }}
-          >
+          <DemoMotion>
             <Demo />
-          </MotionConfig>
+          </DemoMotion>
         </Suspense>
       </Provider>
     </I18nProvider>,

@@ -92,7 +92,9 @@ test('screen ignores background fetching and renders error, empty and recovered 
     await settle();
   });
   expect(store.get($$gameQuery.$screen)).toBe('error');
-  expect(h.container.querySelector('[role="alert"]')?.textContent).toBe('Catalog unavailable');
+  expect(h.container.querySelector('[role="alert"]')?.textContent).toBe(
+    'Could not load. Try again.',
+  );
   await act(async () => {
     client.setQueryData(options.queryKey, null);
     await settle();
@@ -109,5 +111,34 @@ test('screen ignores background fetching and renders error, empty and recovered 
   expect(
     client.getQueryCache().find({ queryKey: options.queryKey })?.getObserversCount() ?? 0,
   ).toBe(0);
+  client.clear();
+});
+
+test('catalog controls expose empty and error states and recover to a game', async () => {
+  const client = new QueryClient({
+    defaultOptions: { queries: { retry: false, gcTime: 0 } },
+  });
+  const store = createStore();
+  store.set(queryClientAtom, client);
+  const h = createHarness();
+  await h.render(
+    <Provider store={store}>
+      <CatalogDemo />
+    </Provider>,
+  );
+  for (const [index, expected] of [
+    [2, 'Game not found.'],
+    [3, 'Could not load. Try again.'],
+    [1, 'Moon Harbor · $15'],
+  ] as const) {
+    const button = h.container.querySelectorAll('button')[index]!;
+    await act(async () => button.click());
+    expect(button.getAttribute('aria-pressed')).toBe('true');
+    await act(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    });
+    expect(h.container.textContent).toContain(expected);
+  }
+  await h.unmount();
   client.clear();
 });
