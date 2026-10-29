@@ -32,16 +32,16 @@ keeps the animation implementation out of the atom graph.
 ## React after a purchase succeeds
 
 A purchase command awaits its TanStack mutation and publishes `orderCreated`
-after success. The receipt View receives its data through `read`. Its imperative
-handler opens the native dialog and calls Motion's `animate` method; it does not
-copy the receipt into local state.
+after success. The always-visible status panel receives idle, pending, error and
+receipt data through `read`. The imperative handler calls Motion's `animate`
+method to highlight success; it does not control visibility or copy state.
 
 <<< @/../examples/docs/imperative-purchase.tsx#purchase
 <<< @/../examples/docs/imperative-purchase-views.tsx#receipt-handle
 
-The View receipt button calls `openReceipt` directly. The same View method can
-respond to the external fact without making local interactions depend on events.
 Try the [purchase example](/examples/view-methods#call-a-method-returned-by-a-react-hook).
+The purchase button starts the business process; the status panel reacts to the
+result. Its Share button remains a direct local hook call.
 
 ## Keep local hook calls local
 

@@ -546,12 +546,10 @@ msgstr "View әдістері"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/view-methods.md
-msgid "A View can call its own DOM and hook methods from a local button. Use\n"
-"useImperativeHolo when an external business process also needs that behavior: a\n"
-"successful purchase opens the receipt, while its button can reopen it directly."
-msgstr "View өзінің DOM және хук әдістерін жергілікті батырмадан шақыра алады.\n"
-"Осы әрекет сыртқы бизнес-процеске де қажет болса, useImperativeHolo қолданыңыз:\n"
-"сәтті сатып алу чекті ашады, ал батырма оны тікелей қайта аша алады."
+msgid "A View displays purchase state through read bindings. When the purchase succeeds,\n"
+"useImperativeHolo connects the domain fact to a short success animation."
+msgstr "View сатып алу күйін read байланыстары арқылы көрсетеді. Сатып алу сәтті болса,\n"
+"useImperativeHolo домен фактісін қысқа аяқталу анимациясымен байланыстырады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -578,20 +576,20 @@ msgstr "Сәтті сатып алуға жауап беру"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/view-methods.md
-msgid "The purchase command awaits the mutation, stores its result and publishes\n"
-"`orderCreated` only after success. Receipt data comes through `read`; the fact\n"
-"opens the dialog through `imperative`. A failed purchase does not open it."
-msgstr "Сатып алу командасы мутацияны күтеді, нәтижесін сақтайды және тек сәтті\n"
-"аяқталғаннан кейін `orderCreated` жариялайды. Чек деректері `read` арқылы келеді;\n"
-"факт диалогты `imperative` арқылы ашады. Сәтсіз сатып алу оны ашпайды."
+msgid "The right panel is visible from the start: ready, pending, error or complete.\n"
+"Its data comes through `read`. The command publishes `orderCreated` only after\n"
+"the mutation succeeds; `imperative` uses that fact to highlight the result."
+msgstr "Оң жақ панель бірден көрінеді: дайындық, күту, қате немесе аяқталу.\n"
+"Деректер `read` арқылы келеді. Команда `orderCreated` оқиғасын тек мутация\n"
+"сәтті болғаннан кейін жариялайды; `imperative` осы факт арқылы нәтижені ерекшелейді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/view-methods.md
-msgid "Close the receipt and reopen it with View receipt. That button calls the View's\n"
-"own method directly; it does not publish an event just to call itself."
-msgstr "Чекті жауып, «Чекті қарау» батырмасымен қайта ашыңыз. Батырма өзіне қайта оралатын\n"
-"оқиғаны жарияламай, View әдісін тікелей шақырады."
+msgid "Purchase state determines the panel content. The success event starts only the\n"
+"animation; it does not control visibility or copy data into React state."
+msgstr "Сатып алу күйі панель мазмұнын анықтайды. Сәттілік оқиғасы тек анимацияны\n"
+"іске қосады; ол көрінуді басқармайды және деректерді React state-ке көшірмейді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4709,23 +4707,23 @@ msgstr "Сатып алу сәтті аяқталғаннан кейін жау�
 #. js-lingui-explicit-id
 #: docs/reference/useImperativeHolo.md
 msgid "A purchase command awaits its TanStack mutation and publishes `orderCreated`\n"
-"after success. The receipt View receives its data through `read`. Its imperative\n"
-"handler opens the native dialog and calls Motion's `animate` method; it does not\n"
-"copy the receipt into local state."
-msgstr "Сатып алу командасы TanStack мутациясын күтеді және сәтті аяқталғаннан кейін\n"
-"`orderCreated` жариялайды. Чек View-і деректерді `read` арқылы алады. Императивті\n"
-"өңдегіш жүйелік диалогты ашып, Motion `animate` әдісін шақырады; чекті жергілікті\n"
-"күйге көшірмейді."
+"after success. The always-visible status panel receives idle, pending, error and\n"
+"receipt data through `read`. The imperative handler calls Motion's `animate`\n"
+"method to highlight success; it does not control visibility or copy state."
+msgstr "Сатып алу командасы TanStack мутациясын күтіп, сәтті аяқталса `orderCreated`\n"
+"жариялайды. Үнемі көрінетін күй панелі бастапқы күйді, күтуді, қатені және чек\n"
+"деректерін `read` арқылы алады. Императивті өңдегіш сәттілікті ерекшелеу үшін\n"
+"Motion `animate` әдісін шақырады; ол көрінуді басқармайды және күйді көшірмейді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useImperativeHolo.md
-msgid "The View receipt button calls `openReceipt` directly. The same View method can\n"
-"respond to the external fact without making local interactions depend on events.\n"
-"Try the [purchase example](/examples/view-methods#call-a-method-returned-by-a-react-hook)."
-msgstr "«Чекті қарау» батырмасы `openReceipt` әдісін тікелей шақырады. Сол View әдісі\n"
-"жергілікті әрекеттерді оқиғаларға тәуелді етпей, сыртқы фактіге жауап бере алады.\n"
-"[Сатып алу мысалын](/examples/view-methods#call-a-method-returned-by-a-react-hook) байқап көріңіз."
+msgid "Try the [purchase example](/examples/view-methods#call-a-method-returned-by-a-react-hook).\n"
+"The purchase button starts the business process; the status panel reacts to the\n"
+"result. Its Share button remains a direct local hook call."
+msgstr "[Сатып алу мысалын](/examples/view-methods#call-a-method-returned-by-a-react-hook) байқап көріңіз.\n"
+"Сатып алу батырмасы бизнес-процесті бастайды; күй панелі нәтижеге жауап береді.\n"
+"Оның «Бөлісу» батырмасы жергілікті хукты тікелей шақырады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

@@ -4,8 +4,7 @@ import { actionAtom, eventAtom, holo, stateAtom } from 'jotai-holo';
 import { createMutationModel, queryClientAtom } from 'jotai-holo/query';
 import {
   PurchaseButtonView,
-  PurchaseErrorView,
-  ReceiptView,
+  PurchaseStatusView,
 } from './imperative-purchase-views.js';
 
 // #region purchase
@@ -49,23 +48,24 @@ const PurchaseButton = holo({
   write: { onBuy: buy },
 });
 
-const PurchaseError = holo({
-  view: PurchaseErrorView,
-  read: { error: $$purchaseMutation.$error },
-});
-
-const Receipt = holo({
-  view: ReceiptView,
-  read: { receipt: $receipt },
+const PurchaseStatus = holo({
+  view: PurchaseStatusView,
+  read: {
+    receipt: $receipt,
+    pending: $$purchaseMutation.$pending,
+    error: $$purchaseMutation.$error,
+  },
   imperative: { onOrderCreated: orderCreated },
 });
 
 export default function PurchaseDemo() {
   return (
-    <Receipt>
-      <PurchaseButton />
-      <PurchaseError />
-    </Receipt>
+    <div className="demo-purchase">
+      <div className="demo-form demo-purchase-actions">
+        <PurchaseButton />
+      </div>
+      <PurchaseStatus />
+    </div>
   );
 }
 // #endregion purchase

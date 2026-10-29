@@ -473,24 +473,27 @@ msgid "Buy Starfall · $25"
 msgstr "Buy Starfall · $25"
 
 #: examples/docs/imperative-purchase-views.tsx
+msgid "Purchase status"
+msgstr "Purchase status"
+
+#: examples/docs/imperative-purchase-views.tsx
 msgid "Purchase failed. Try again."
 msgstr "Purchase failed. Try again."
 
 #: examples/docs/imperative-purchase-views.tsx
-msgid "View receipt"
-msgstr "View receipt"
+msgid "Ready to purchase"
+msgstr "Ready to purchase"
 
 #: examples/docs/imperative-purchase-views.tsx
-msgid "Receipt"
-msgstr "Receipt"
+#: examples/docs/imperative.tsx
+#: examples/docs/list-views.tsx
+#: examples/docs/query-views.tsx
+msgid "Starfall"
+msgstr "Starfall"
 
 #: examples/docs/imperative-purchase-views.tsx
 msgid "Purchase complete"
 msgstr "Purchase complete"
-
-#: examples/docs/imperative-purchase-views.tsx
-msgid "Close receipt"
-msgstr "Close receipt"
 
 #: examples/docs/imperative-share.tsx
 msgid "Share game"
@@ -531,12 +534,6 @@ msgstr "Back to cart"
 #: examples/docs/imperative.tsx
 msgid "Checkout"
 msgstr "Checkout"
-
-#: examples/docs/imperative.tsx
-#: examples/docs/list-views.tsx
-#: examples/docs/query-views.tsx
-msgid "Starfall"
-msgstr "Starfall"
 
 #: examples/docs/input-views.tsx
 msgid "Mounted search View receives"

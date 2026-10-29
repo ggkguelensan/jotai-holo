@@ -1,8 +1,7 @@
 # View methods
 
-A View can call its own DOM and hook methods from a local button. Use
-useImperativeHolo when an external business process also needs that behavior: a
-successful purchase opens the receipt, while its button can reopen it directly.
+A View displays purchase state through read bindings. When the purchase succeeds,
+useImperativeHolo connects the domain fact to a short success animation.
 
 ## Focus a search field
 
@@ -22,9 +21,9 @@ successful purchase opens the receipt, while its button can reopen it directly.
 
 ## React to a successful purchase {#call-a-method-returned-by-a-react-hook}
 
-The purchase command awaits the mutation, stores its result and publishes
-`orderCreated` only after success. Receipt data comes through `read`; the fact
-opens the dialog through `imperative`. A failed purchase does not open it.
+The right panel is visible from the start: ready, pending, error or complete.
+Its data comes through `read`. The command publishes `orderCreated` only after
+the mutation succeeds; `imperative` uses that fact to highlight the result.
 
 <Demo kind="imperative-purchase" :files="['imperative-purchase-views.tsx']">
 
@@ -33,8 +32,8 @@ opens the dialog through `imperative`. A failed purchase does not open it.
 
 </Demo>
 
-Close the receipt and reopen it with View receipt. That button calls the View's
-own method directly; it does not publish an event just to call itself.
+Purchase state determines the panel content. The success event starts only the
+animation; it does not control visibility or copy data into React state.
 
 ## Keep a local button local
 

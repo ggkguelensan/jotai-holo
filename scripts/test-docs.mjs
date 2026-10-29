@@ -225,19 +225,13 @@ try {
 
   live = await openDemo('view-methods', 'imperative-purchase');
   await live.getByRole('button', { name: 'Buy Starfall · $25', exact: true }).click();
-  await live.locator('dialog[open]').waitFor();
-  assert.match(await live.locator('dialog').innerText(), /DEMO-1001/);
+  await live.locator('.demo-receipt').getByText('Purchase complete', { exact: true }).waitFor();
+  assert.match(await live.locator('.demo-receipt').innerText(), /DEMO-1001/);
   const actionsBox = await live.locator('.demo-purchase-actions').boundingBox();
-  const receiptBox = await live.locator('dialog').boundingBox();
+  const receiptBox = await live.locator('.demo-receipt').boundingBox();
   const exampleBox = await live.boundingBox();
   assert.ok(receiptBox.x >= actionsBox.x + actionsBox.width);
   assert.ok(receiptBox.x + receiptBox.width <= exampleBox.x + exampleBox.width);
-  assert.equal(await live.locator('dialog').evaluate((dialog) => dialog.matches(':modal')), false);
-  await live.getByRole('button', { name: 'Close receipt', exact: true }).click();
-  assert.equal(await live.locator('dialog').evaluate((dialog) => dialog.open), false);
-  await live.getByRole('button', { name: 'View receipt', exact: true }).click();
-  assert.equal(await live.locator('dialog').evaluate((dialog) => dialog.open), true);
-  await live.getByRole('button', { name: 'Close receipt', exact: true }).click();
 
   live = await openDemo('model-instances', 'model');
   await live.getByRole('button', { name: 'Add a gift copy', exact: true }).first().click();

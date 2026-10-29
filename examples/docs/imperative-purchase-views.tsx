@@ -1,6 +1,5 @@
 import { useLingui } from '@lingui/react/macro';
 import { useAnimate } from 'motion/react';
-import type { ReactNode, Ref } from 'react';
 import { useImperativeHolo, type HoloImperative } from 'jotai-holo';
 import type { Receipt } from './imperative-purchase.js';
 import { ShareGame } from './imperative-share.js';
@@ -20,73 +19,78 @@ export function PurchaseButtonView({
   );
 }
 
-export function PurchaseErrorView({ error }: { error: Error | null }) {
-  const { t } = useLingui();
-  return error ? <p role="alert">{t`Purchase failed. Try again.`}</p> : null;
-}
-
 // #region receipt-handle
 type ReceiptHandle = { onOrderCreated(receipt: Receipt): void };
 
-export function ReceiptView({
+export function PurchaseStatusView({
   imperative,
   receipt,
-  children,
+  pending,
+  error,
 }: {
   imperative: HoloImperative<ReceiptHandle>;
   receipt: Receipt | null;
-  children: ReactNode;
+  pending: boolean;
+  error: Error | null;
 }) {
   const { t } = useLingui();
-  const [dialog, animate] = useAnimate<HTMLDialogElement>();
+  const [panel, animate] = useAnimate<HTMLElement>();
 
-  function openReceipt() {
-    if (!dialog.current) return;
-    dialog.current.show();
-    void animate(dialog.current, { opacity: [0, 1] }, { duration: 0.18 });
-  }
-
-  useImperativeHolo(imperative, { onOrderCreated: openReceipt });
+  useImperativeHolo(imperative, {
+    onOrderCreated() {
+      if (!panel.current) return;
+      void animate(panel.current, { opacity: [0.4, 1] }, { duration: 0.24 });
+    },
+  });
 
   return (
-    <div className="demo-purchase">
-      <div className="demo-form demo-purchase-actions">
-        {children}
-        <button disabled={!receipt} onClick={openReceipt}>
-          {t`View receipt`}
-        </button>
-      </div>
-      <ReceiptDialogView dialog={dialog} receipt={receipt} />
-    </div>
+    <section
+      ref={panel}
+      className="demo-receipt"
+      aria-label={t`Purchase status`}
+      aria-live="polite"
+      aria-busy={pending}
+    >
+      <PurchaseStatusContentView
+        receipt={receipt}
+        pending={pending}
+        error={error}
+      />
+    </section>
   );
 }
 // #endregion receipt-handle
 
-function ReceiptDialogView({
-  dialog,
+function PurchaseStatusContentView({
   receipt,
+  pending,
+  error,
 }: {
-  dialog: Ref<HTMLDialogElement>;
   receipt: Receipt | null;
+  pending: boolean;
+  error: Error | null;
 }) {
   const { t } = useLingui();
+  if (pending) return <p role="status">{t`Completing purchase…`}</p>;
+  if (error) return <p role="alert">{t`Purchase failed. Try again.`}</p>;
+  if (!receipt)
+    return (
+      <>
+        <h3>{t`Ready to purchase`}</h3>
+        <p>{t`Starfall`} · $25</p>
+      </>
+    );
+
   return (
-    <dialog ref={dialog} className="demo-receipt" aria-label={t`Receipt`}>
+    <>
       <h3>{t`Purchase complete`}</h3>
-      {receipt && (
-        <p>
-          {receipt.title} · ${receipt.total} · #{receipt.orderId}
-        </p>
-      )}
-      {receipt && (
-        <ShareGame
-          title={receipt.title}
-          url="https://example.com/games/starfall"
-        />
-      )}
-      <form method="dialog">
-        <button>{t`Close receipt`}</button>
-      </form>
-    </dialog>
+      <p>
+        {receipt.title} · ${receipt.total} · #{receipt.orderId}
+      </p>
+      <ShareGame
+        title={receipt.title}
+        url="https://example.com/games/starfall"
+      />
+    </>
   );
 }

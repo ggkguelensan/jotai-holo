@@ -745,6 +745,10 @@
   width: 100%;
 }
 .demo-receipt {
+  display: grid;
+  align-content: start;
+  min-height: 240px;
+  gap: 12px;
   position: static;
   box-sizing: border-box;
   width: 100%;
@@ -756,10 +760,6 @@
   background: var(--vp-c-bg);
   color: var(--vp-c-text-1);
   overflow-wrap: anywhere;
-}
-.demo-receipt[open] {
-  display: grid;
-  gap: 12px;
 }
 @media (max-width: 640px) {
   .demo-purchase {
