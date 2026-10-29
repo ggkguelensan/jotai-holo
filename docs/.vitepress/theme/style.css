@@ -742,6 +742,10 @@
   background: var(--vp-c-bg);
   color: var(--vp-c-text-1);
 }
+.demo-receipt[open] {
+  display: grid;
+  gap: 12px;
+}
 .demo-receipt::backdrop {
   background: rgb(0 0 0 / 40%);
 }

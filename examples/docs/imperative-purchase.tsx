@@ -8,9 +8,8 @@ import {
   ReceiptView,
 } from './imperative-purchase-views.js';
 
-export type Receipt = { orderId: string; title: string; total: number };
-
 // #region purchase
+export type Receipt = { orderId: string; title: string; total: number };
 // Local transport simulation. A real options factory calls the purchase API.
 export const purchaseApi = {
   async create(): Promise<Receipt> {
