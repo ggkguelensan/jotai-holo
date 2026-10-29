@@ -1345,184 +1345,72 @@ msgstr "Неліктен jotai-holo?"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "Jotai + holo is a fit when several parts of a React application must work with the same business state: fields edit a draft, a summary calculates a price, and a toolbar saves the result. Choose it when you want to build that logic from reusable atoms while keeping each View a small component with ordinary props."
-msgstr "React қолданбасының бірнеше бөлігі бір бизнес-күймен жұмыс істесе, Jotai + holo қолайлы: өрістер шимайды өзгертеді, қорытынды бағаны есептейді, ал панель нәтижені сақтайды. Осы логиканы қайта пайдаланылатын атомдардан құрап, әр View-ді кәдімгі props алатын шағын компонент ретінде қалдырғыңыз келсе, осы стекті таңдаңыз."
+msgid "Choose Jotai + holo when you want to change business rules without rewriting your React Views. Keep rules in atoms and models; connect small Views through ordinary props."
+msgstr "Бизнес ережелерін React View-ді қайта жазбай өзгерткіңіз келсе, Jotai + holo таңдаңыз. Ережелерді атомдар мен модельдерде сақтап, шағын View-лерді кәдімгі props арқылы байланыстырыңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "Jotai supplies dependency tracking between atoms. holo adds declarative View bindings and a way to share model instances and own their connections. This combination is the reason to choose the stack; selective subscriptions and separating logic from markup are also possible with the alternatives below."
-msgstr "Jotai атомдар арасындағы тәуелділіктерді қадағалайды. holo декларативті View байланыстарын, модель даналарын ортақ пайдалануды және олардың байланыстарын басқаруды қосады. Стекті таңдаудың себебі — осы үйлесім; нысаналы жазылымдар мен логиканы белгілеуден бөлу төмендегі баламаларда да бар."
+msgid "Why Jotai?"
+msgstr "Неліктен Jotai?"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "The goal of holo"
-msgstr "holo мақсаты"
+msgid "[Jotai](https://jotai.org/docs/basics/comparison) lets you compose state and calculations from atoms. A calculation can use another calculation without depending on a React component. This makes the same business logic available across the application."
+msgstr "[Jotai](https://jotai.org/docs/basics/comparison) күй мен есептеулерді атомдардан құрастыруға мүмкіндік береді. Есептеу React компонентіне тәуелді болмай, басқа есептеудің нәтижесін пайдалана алады. Сондықтан бір бизнес логиканы қолданбаның әртүрлі бөлігінде қолдануға болады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "holo aims to let you change business logic and screen composition independently. Business rules live in atoms and models; small Views receive ordinary props. A binding declares how those two sides communicate."
-msgstr "holo мақсаты — бизнес-логика мен экран композициясын бір-біріне тәуелсіз өзгертуге мүмкіндік беру. Бизнес-ережелер атомдар мен модельдерде орналасады; шағын View кәдімгі props алады. Байланыс осы екі жақтың қалай әрекеттесетінін сипаттайды."
+msgid "What does holo add?"
+msgstr "holo не қосады?"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "A View owns markup, accessibility and UI-specific hooks. An atom or model owns shared state, calculations and commands. The page composes connected children instead of collecting their data and passing it down. This keeps subscriptions near their consumers and lets you test or display a View without starting its business model."
-msgstr "View белгілеуге, қолжетімділікке және UI-ге тән хуктерге жауап береді. Атом не модель ортақ күйге, есептеулерге және командаларға жауап береді. Бет барлық деректі өзі оқып, төменге таратудың орнына байланыстырылған еншілес компоненттерді құрастырады. Осылайша жазылымдар тұтынушыларына жақын қалады, ал View-ді бизнес-моделін іске қоспай тексеруге немесе бөлек көрсетуге болады."
+msgid "holo describes the connection between a View and its atoms in one place. The View receives values and callbacks; the page composes connected components. Moving a component does not require forwarding its model's data through every parent."
+msgstr "holo View мен оның атомдары арасындағы байланысты бір жерде сипаттайды. View мәндер мен callback алады, ал бет байланыстырылған компоненттерден құралады. Компонентті басқа жерге көшіргенде, модель деректерін барлық ата-ана компоненттер арқылы өткізу қажет емес."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "The model utilities serve the same goal: several Views can share one instance, while managed connections start and stop with their owners. This moves subscription setup and prop forwarding out of handwritten effects in Views. Side effects still exist; their ownership becomes explicit. You can start with plain atoms and add model machinery only when the feature needs it."
-msgstr "Модель утилиталары да осы мақсатқа қызмет етеді: бірнеше View бір дананы ортақ қолдана алады, ал басқарылатын байланыстар иелерімен бірге іске қосылып, тоқтайды. Бұл View ішіндегі жазылымдарды баптау және props мәндерін атомдарға жеткізу үшін қолмен жазылатын әсерлерді алып тастайды. Жанама әсерлер сақталады; олардың иелері айқын болады. Кәдімгі атомдардан бастап, модель тетіктерін қажет кезде ғана қосуға болады."
+msgid "Plain Jotai also supports this separation. holo provides conventions for bindings, model sharing and subscription cleanup, so each feature does not need to invent its own arrangement. Use it when you want the team to follow those conventions."
+msgstr "Кәдімгі Jotai да логика мен View-ді бөлуге мүмкіндік береді. holo байланыстарға, модельдерді бірге пайдалануға және жазылымдарды босатуға ортақ ережелер ұсынады. Команда осы ережелерді бүкіл қолданбада ұстансын десеңіз, holo таңдаңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "Why build on Jotai?"
-msgstr "Неліктен негіз ретінде Jotai таңдалған?"
+msgid "Which approach fits your project?"
+msgstr "Қай тәсілді таңдау керек?"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "Jotai lets you build state from small pieces. A derived atom reads other atoms; Jotai tracks those dependencies. Calculations can be reused by another calculation, a command or a View without turning them into React hooks."
-msgstr "Jotai күйді шағын бөліктерден құрауға мүмкіндік береді. Туынды атом басқа атомдарды оқиды; Jotai олардың тәуелділіктерін қадағалайды. Есептеуді React хукіне айналдырмай-ақ басқа есептеуде, командада немесе View ішінде қайта пайдалануға болады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "This suits applications where several features combine the same data differently: a draft feeds field editors, validation, a price summary and a save command. Each consumer can read its own projection. Atoms can be declared at module scope or created by a factory for an independent editor; their values belong to a Jotai store."
-msgstr "Бұл қолданбаның бірнеше бөлігі бір деректі әртүрлі қолданғанда ыңғайлы: шимай өріс редакторларына, валидацияға, баға есебіне және сақтау командасына керек. Әр тұтынушы өз проекциясын оқи алады. Атомдарды модульде жариялауға немесе тәуелсіз редактор үшін фабрикамен жасауға болады; олардың мәндері Jotai store ішінде сақталады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "These properties come from [Jotai](https://jotai.org/docs/basics/comparison). holo keeps native atoms usable rather than introducing a second state engine."
-msgstr "Бұл мүмкіндіктерді [Jotai](https://jotai.org/docs/basics/comparison) береді. holo екінші күй қозғалтқышын қоспай, нативті атомдарды қолдануға мүмкіндік береді."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "What does holo add to ordinary Jotai?"
-msgstr "holo кәдімгі Jotai үстіне не қосады?"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "With plain Jotai you can already place useAtomValue and useSetAtom in small components, write model factories and manage subscriptions. Choose holo when you want a shared way to express those decisions throughout the application:"
-msgstr "Кәдімгі Jotai арқылы да шағын компоненттерде useAtomValue және useSetAtom қолдануға, модель фабрикаларын жазуға және жазылымдарды басқаруға болады. Осы шешімдерді бүкіл қолданбада біркелкі сипаттау қажет болса, holo таңдаңыз:"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "| Decision                                           | Convention supplied by holo                                                                          |\n"
-"| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |\n"
-"| Which data and commands does this View use?        | read and write bindings beside the View                                                              |\n"
-"| Which editor instance do several components share? | models selects an instance; modelRegistry shares it by key and store                                 |\n"
-"| Who starts and stops the model's connections?      | Managed model modifiers acquire work for committed owners and release it after the last owner leaves |"
-msgstr "| Шешім | holo ұсынатын ереже |\n"
+msgid "| Choose                                                       | When                                                                                           |\n"
+"| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |\n"
+"| Jotai                                                        | You want atom-based state and prefer to connect components with native hooks.                  |\n"
+"| Jotai + holo                                                 | You want atom-based business logic, separate Views and common conventions for connecting them. |\n"
+"| [Zustand](https://github.com/pmndrs/zustand)                 | You prefer to describe state as an object with actions and subscribe through selectors.        |\n"
+"| [Effector](https://effector.dev/en/introduction/motivation/) | You prefer to build workflows around events, stores and effects.                               |"
+msgstr "| Тәсіл | Қашан таңдау керек? |\n"
 "| --- | --- |\n"
-"| Бұл View қандай дерек пен командаларды қолданады? | View жанындағы read және write байланыстары |\n"
-"| Бірнеше компонент редактордың қай данасын ортақ қолданады? | models дананы таңдайды; modelRegistry оны кілт пен store бойынша ортақ етеді |\n"
-"| Модель байланыстарын кім іске қосып, тоқтатады? | Басқарылатын модель модификаторлары жұмысты иелер үшін commit-тен кейін қосып, соңғы иесі кеткенде тоқтатады |"
+"| Jotai | Күйді атомдардан құрып, компоненттерді нативті хуктармен байланыстыру ыңғайлы болса. |\n"
+"| Jotai + holo | Атомдардағы бизнес логика, бөлек View және оларды байланыстыратын ортақ ережелер қажет болса. |\n"
+"| [Zustand](https://github.com/pmndrs/zustand) | Күйді әрекеттері бар объект ретінде сипаттап, селекторлар арқылы жазылу ыңғайлы болса. |\n"
+"| [Effector](https://effector.dev/en/introduction/motivation/) | Логиканы оқиғалар, store және effect негізінде құру ыңғайлы болса. |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "A binding can start with ordinary global atoms. Neither a model nor a registry is required:"
-msgstr "Байланысты кәдімгі жаһандық атомдардан бастауға болады. Модель де, registry де міндетті емес:"
+msgid "The trade-off is another set of conventions for the team to learn and maintain. Start with ordinary atoms and introduce model instances when you need independent or shared state."
+msgstr "Команда тағы бір ережелер жиынтығын меңгеріп, ұстануы керек. Кәдімгі атомдардан бастаңыз. Тәуелсіз не ортақ күй қажет болғанда модель даналарын қосыңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "NameView receives only its own field props. A page composes NameField, an independently connected avatar and a save toolbar. The page does not collect their subscriptions. See [holo and small Views](/topics/holo)."
-msgstr "NameView тек өз өрісінің props мәндерін алады. Бет NameField, бөлек байланыстырылған аватар және сақтау панелінен құралады. Бет олардың жазылымдарын жинамайды. [holo және шағын View](/topics/holo) мақаласын қараңыз."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "holo does not make this faster than equally granular Jotai hooks. Subscription placement and the values selected still determine which Views update. Its benefit is making that structure explicit and repeatable. If your existing Jotai hooks and ownership conventions already work well, you do not need another layer."
-msgstr "holo бұл кодты дәл сондай ұсақ жазылымдары бар Jotai хуктерінен жылдамырақ етпейді. Қай View жаңаратыны жазылымның орны мен таңдалған мәндерге байланысты. Пайдасы — осы құрылымды айқын әрі қайталауға оңай ету. Қазіргі Jotai хуктері мен иелік ережелері командаға қолайлы болса, қосымша қабат қажет емес."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "Why not Zustand?"
-msgstr "Неліктен Zustand емес?"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "[Zustand](https://github.com/pmndrs/zustand) is a direct choice when you prefer a state object with actions and selector-based subscriptions. It also supports standalone stores and independent instances; small subscription boundaries are not exclusive to atoms."
-msgstr "Әрекеттері мен селектор арқылы жазылымдары бар күй объектісі ыңғайлы болса, [Zustand](https://github.com/pmndrs/zustand) қолайлы таңдау. Ол бөлек store мен тәуелсіз даналарды да қолдайды; шағын жазылым шекаралары тек атомдарға тән емес."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "Prefer Jotai + holo when you want derived values to be independently reusable nodes in an atom graph, and want View bindings and keyed model ownership to follow this library's conventions. That is a choice of composition model, not a claim that Zustand cannot implement the same business scenario."
-msgstr "Туынды мәндерді атом графының жеке қайта пайдаланылатын түйіндері ретінде қолданып, View байланыстары мен кілт бойынша модель иелігін осы кітапхананың ережелерімен сипаттағыңыз келсе, Jotai + holo таңдаңыз. Бұл — композиция тәсілін таңдау; Zustand сол бизнес-міндетті орындай алмайды деген сөз емес."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "If a store with a few actions and selectors already describes your application clearly, adopting atoms and model modifiers may add concepts without improving it."
-msgstr "Бірнеше әрекеті мен селекторы бар store қолданбаңызды түсінікті сипаттап тұрса, атомдар мен модель модификаторлары пайдасыз қосымша ұғымдар енгізуі мүмкін."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "Why not Effector?"
-msgstr "Неліктен Effector емес?"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "[Effector](https://effector.dev/en/introduction/motivation/) is a direct choice when you want events, stores and effects to be the application's primary language. Its sample operator connects units; fork creates isolated scopes. [Reflect](https://reflect.effector.dev/learn/motivation) already offers declarative React bindings and inspired holo."
-msgstr "Оқиғалар, store және әсерлер қолданбаның негізгі тілі болуы керек болса, [Effector](https://effector.dev/en/introduction/motivation/) қолайлы. Оның sample операторы юниттерді байланыстырады; fork оқшауланған scope жасайды. [Reflect](https://reflect.effector.dev/learn/motivation) декларативті React байланыстарын ұсынады және holo идеясына негіз болды."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "Choose Jotai + holo when you want to keep Jotai atoms and its ecosystem as the foundation, while adding explicit commands, facts and model composition where needed. eventAtom and bond support event-driven workflows, but bond does not reproduce Effector's scheduling or scope semantics. The [bond contract](/reference/bond) describes that boundary."
-msgstr "Jotai атомдары мен оның экожүйесін негіз етіп сақтап, айқын командаларды, фактілерді және модель композициясын қажет кезде қосқыңыз келсе, Jotai + holo таңдаңыз. eventAtom мен bond оқиғаға негізделген сценарийлерді қолдайды, бірақ bond Effector-дың есептеу ретін немесе scope семантикасын қайталамайды. Бұл шекара [bond келісімінде](/reference/bond) сипатталған."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "If Effector already gives your team the event graph, testing and isolation model it wants, View separation alone is not a reason to migrate."
-msgstr "Effector командаға қажетті оқиғалар графын, тестілеу және оқшаулау моделін беріп тұрса, тек View бөлінуі үшін басқа стекке көшу қажет емес."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "What does this choice commit you to?"
-msgstr "Бұл таңдау командаға қандай міндеттер жүктейді?"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "This stack asks the team to design small Views, choose useful atom projections and give connections an owner. A registry also introduces instance keys and retention decisions. The [architecture guide](/guide/architecture) explains those responsibilities; the [compatibility matrix](/compatibility) and [bundle report](/bundle-size) document tested support and measured costs."
-msgstr "Бұл стек шағын View жобалауды, атомдардың пайдалы проекцияларын таңдауды және байланыстарға ие тағайындауды талап етеді. Registry қосылса, дана кілттері мен сақтау мерзімін де шешу керек. Бұл міндеттер [архитектура нұсқаулығында](/guide/architecture), тексерілген қолдау мен өлшенген шығындар [үйлесімділік матрицасында](/compatibility) және [бандл есебінде](/bundle-size) берілген."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "You can adopt it incrementally: connect existing atoms first, introduce model factories for independent state, then add keyed sharing or managed connections when required. An ordinary model record needs no registry."
-msgstr "Біртіндеп енгізуге болады: алдымен бар атомдарды байланыстырып, кейін тәуелсіз күй үшін модель фабрикаларын қосыңыз. Кілт бойынша ортақ пайдалану мен басқарылатын байланыстарды қажет кезде енгізіңіз. Кәдімгі модель объектісіне registry қажет емес."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "Keep native TanStack Query hooks for UI-only server data and native RHF for UI-only forms. Use their model integrations when the reactive business system needs their state or commands. holo's value is the boundary between those systems and small Views; it does not require moving every value into Jotai."
-msgstr "Тек UI қажет ететін сервер деректері үшін нативті TanStack Query хуктерін, тек UI қажет ететін формалар үшін нативті RHF қалдырыңыз. Реактивті бизнес-жүйеге олардың күйі не командалары қажет болса, модель интеграцияларын қолданыңыз. holo құндылығы — осы жүйелер мен шағын View арасындағы шекара; әр мәнді Jotai ішіне көшіру міндетті емес."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "Continue with [getting started](/guide/getting-started) for a first binding, or [atoms or models?](/guide/atoms-or-models) to choose how much structure a feature needs."
-msgstr "Алғашқы байланыс үшін [жұмысты бастау](/guide/getting-started) мақаласына, мүмкіндікке қажетті құрылымды таңдау үшін [«Атомдар ма, модельдер ме?»](/guide/atoms-or-models) мақаласына өтіңіз."
+msgid "[Getting started](/guide/getting-started) shows the first binding. [Architecture](/guide/architecture) explains where business logic, server data and forms belong."
+msgstr "[Жұмысты бастау](/guide/getting-started) алғашқы байланысты көрсетеді. [Архитектура](/guide/architecture) бизнес логиканың, сервер деректерінің және формалардың орнын түсіндіреді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
