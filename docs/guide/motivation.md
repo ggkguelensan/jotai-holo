@@ -1,18 +1,28 @@
 # Why jotai-holo
 
-A name field needs a value and a change callback. A profile editor also needs
-validation, saving and perhaps an independently placed save toolbar. As these
-responsibilities grow, it becomes harder to see which code draws the screen and
-which code decides how the profile works.
+Jotai + holo is a fit when several parts of a React application must work with the same business state: fields edit a draft, a summary calculates a price, and a toolbar saves the result. Choose it when you want to build that logic from reusable atoms while keeping each View a small component with ordinary props.
 
-holo gives the React View ordinary props while keeping its atom subscriptions
-and commands in a declaration next to the View.
+Jotai supplies dependency tracking between atoms. holo adds declarative View bindings and a way to share model instances and own their connections. This combination is the reason to choose the stack; selective subscriptions and separating logic from markup are also possible with the alternatives below.
 
-## Move the binding out of the View {#from-hooks-to-a-binding}
+## Why build on Jotai?
 
-A component can read the name with `useAtomValue` and obtain a change callback
-with `useSetAtom`. That is a valid Jotai binding. With holo, the same choice of
-sources is visible in one place:
+Jotai lets you build state from small pieces. A derived atom reads other atoms; Jotai tracks those dependencies. Calculations can be reused by another calculation, a command or a View without turning them into React hooks.
+
+This suits applications where several features combine the same data differently: a draft feeds field editors, validation, a price summary and a save command. Each consumer can read its own projection. Atoms can be declared at module scope or created by a factory for an independent editor; their values belong to a Jotai store.
+
+These properties come from [Jotai](https://jotai.org/docs/basics/comparison). holo keeps native atoms usable rather than introducing a second state engine.
+
+## What does holo add to ordinary Jotai? {#from-hooks-to-a-binding}
+
+With plain Jotai you can already place useAtomValue and useSetAtom in small components, write model factories and manage subscriptions. Choose holo when you want a shared way to express those decisions throughout the application:
+
+| Decision                                           | Convention supplied by holo                                                                          |
+| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Which data and commands does this View use?        | read and write bindings beside the View                                                              |
+| Which editor instance do several components share? | models selects an instance; modelRegistry shares it by key and store                                 |
+| Who starts and stops the model's connections?      | Managed model modifiers acquire work for committed owners and release it after the last owner leaves |
+
+A binding can start with ordinary global atoms. Neither a model nor a registry is required:
 
 ```tsx
 export const NameField = holo({
@@ -23,77 +33,32 @@ export const NameField = holo({
 });
 ```
 
-This declaration comes from the
-[profile example](https://github.com/ggkguelensan/jotai-holo/blob/main/examples/documentation.tsx).
-`NameView` receives a string, a callback and a title. It can be rendered in a
-story without creating a store. The binding chooses the atoms; the View chooses
-the markup.
+NameView receives only its own field props. A page composes NameField, an independently connected avatar and a save toolbar. The page does not collect their subscriptions. See [holo and small Views](/topics/holo).
 
-You do not need repeated wiring to justify this separation. It is useful whenever
-a piece of the screen deserves a small View with a clear input contract.
+holo does not make this faster than equally granular Jotai hooks. Subscription placement and the values selected still determine which Views update. Its benefit is making that structure explicit and repeatable. If your existing Jotai hooks and ownership conventions already work well, you do not need another layer.
 
-## Keep subscriptions near the fields that need them
+## Why not Zustand? {#why-separate-read-write-and-static}
 
-Suppose a profile page has a name field, an avatar and a save toolbar. A parent
-that reads the whole draft must pass values and callbacks through the page.
-Instead, each small View can connect to the atoms it needs. The page can remain
-a layout component.
+[Zustand](https://github.com/pmndrs/zustand) is a direct choice when you prefer a state object with actions and selector-based subscriptions. It also supports standalone stores and independent instances; small subscription boundaries are not exclusive to atoms.
 
-The name field reads the name. The toolbar reads whether saving is allowed.
-They can use the same state without making the layout subscribe to it.
-Unrelated changes need not render every connected View.
+Prefer Jotai + holo when you want derived values to be independently reusable nodes in an atom graph, and want View bindings and keyed model ownership to follow this library's conventions. That is a choice of composition model, not a claim that Zustand cannot implement the same business scenario.
 
-This still requires choosing suitable atoms. If every field reads an atom that
-returns the whole draft object, changing that object changes every field's input.
-Use separate derived atoms or `prism` when consumers need independent values.
+If a store with a few actions and selectors already describes your application clearly, adopting atoms and model modifiers may add concepts without improving it.
 
-## Make the direction of each connection visible {#why-separate-read-write-and-static}
+## Why not Effector?
 
-The sections in the binding describe different directions:
+[Effector](https://effector.dev/en/introduction/motivation/) is a direct choice when you want events, stores and effects to be the application's primary language. Its sample operator connects units; fork creates isolated scopes. [Reflect](https://reflect.effector.dev/learn/motivation) already offers declarative React bindings and inspired holo.
 
-- `read`: an atom's value goes to a View prop.
-- `write`: a View callback writes to an atom.
-- `static`: a fixed value goes to a View prop.
-- `input`: a parent prop is forwarded to an atom after React commits it.
-- `imperative`: an external event reaches a method implemented inside the View.
+Choose Jotai + holo when you want to keep Jotai atoms and its ecosystem as the foundation, while adding explicit commands, facts and model composition where needed. eventAtom and bond support event-driven workflows, but bond does not reproduce Effector's scheduling or scope semantics. The [bond contract](/reference/bond) describes that boundary.
 
-A writable atom can appear in both `read` and `write`. The field names say how
-holo uses it; its runtime shape does not have to imply that choice.
+If Effector already gives your team the event graph, testing and isolation model it wants, View separation alone is not a reason to migrate.
 
-See [holo and small Views](/topics/holo) for the complete workflow.
+## What does this choice commit you to? {#a-small-vocabulary-native-semantics}
 
-## Introduce models when the business needs them {#a-small-vocabulary-native-semantics}
+This stack asks the team to design small Views, choose useful atom projections and give connections an owner. A registry also introduces instance keys and retention decisions. The [architecture guide](/guide/architecture) explains those responsibilities; the [compatibility matrix](/compatibility) and [bundle report](/bundle-size) document tested support and measured costs.
 
-A model can begin as a record of related atoms and commands. A profile model
-might hold the draft, calculate whether it is valid and expose a save command.
-The name field and toolbar can then use that same record.
+You can adopt it incrementally: connect existing atoms first, introduce model factories for independent state, then add keyed sharing or managed connections when required. An ordinary model record needs no registry.
 
-A model does not need a registry just to group atoms. Add a factory when you
-need to create independent records, and a registry when components need to
-select shared instances by key. See [atoms and models](/topics/atoms-and-models).
+Keep native TanStack Query hooks for UI-only server data and native RHF for UI-only forms. Use their model integrations when the reactive business system needs their state or commands. holo's value is the boundary between those systems and small Views; it does not require moving every value into Jotai.
 
-holo also does not require every value to enter Jotai. Keep local interaction in
-React when no model needs it. Use native TanStack Query hooks for UI-only server
-data and native RHF for UI-only form state. Add their atom integrations when
-business calculations or commands need to participate.
-
-## What changes in application code
-
-Business commands decide which changes are valid. Connections synchronize
-models or subscribe to external sources. Views keep markup, accessibility and
-UI-specific hooks. holo connects the two sides.
-
-That separation removes many forwarding effects from Views, but it does not
-remove side effects from the application. Their lifetime and error handling
-still need an owner. The [architecture article](/guide/architecture) explains
-where that work belongs.
-
-## Prior art and reading
-
-[Reflect's motivation](https://reflect.effector.dev/learn/motivation) inspired
-bindings declared outside components. holo uses that idea with Jotai atoms.
-
-[Jotai's performance guide](https://jotai.org/docs/guides/performance) explains
-small subscription boundaries.
-[React's events and effects guide](https://react.dev/learn/separating-events-from-effects)
-helps distinguish a command from synchronization that follows changing state.
+Continue with [getting started](/guide/getting-started) for a first binding, or [atoms or models?](/guide/atoms-or-models) to choose how much structure a feature needs.
