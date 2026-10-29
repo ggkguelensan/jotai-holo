@@ -377,22 +377,22 @@ msgstr "A fact → a separate reaction"
 msgid "Local simulation: no payment or network request."
 msgstr "Local simulation: no payment or network request."
 
+#: examples/docs/counter-views.tsx
+msgid "Bonus points × 2"
+msgstr "Bonus points × 2"
+
+#: examples/docs/counter-views.tsx
+msgid "Decrement"
+msgstr "Decrement"
+
+#: examples/docs/counter-views.tsx
+msgid "Increment"
+msgstr "Increment"
+
 #. js-lingui-explicit-id
 #: examples/docs/counter.tsx
 msgid "Reward tokens"
 msgstr "Reward tokens"
-
-#: examples/docs/counter.tsx
-msgid "Bonus points × 2"
-msgstr "Bonus points × 2"
-
-#: examples/docs/counter.tsx
-msgid "Decrement"
-msgstr "Decrement"
-
-#: examples/docs/counter.tsx
-msgid "Increment"
-msgstr "Increment"
 
 #: examples/docs/data-lifecycle.tsx
 msgid "Name"
@@ -479,15 +479,15 @@ msgstr "Checkout"
 msgid "Starfall"
 msgstr "Starfall"
 
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Mounted search View receives"
 msgstr "Mounted search View receives"
 
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Input prop: term"
 msgstr "Input prop: term"
 
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Mount Search"
 msgstr "Mount Search"
 

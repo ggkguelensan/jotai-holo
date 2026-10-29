@@ -377,22 +377,22 @@ msgstr "Ein Ereignis → eine unabhängige Reaktion"
 msgid "Local simulation: no payment or network request."
 msgstr "Lokale Simulation: keine Zahlung oder Netzwerkanfrage."
 
+#: examples/docs/counter-views.tsx
+msgid "Bonus points × 2"
+msgstr "Bonuspunkte × 2"
+
+#: examples/docs/counter-views.tsx
+msgid "Decrement"
+msgstr "Verringern"
+
+#: examples/docs/counter-views.tsx
+msgid "Increment"
+msgstr "Erhöhen"
+
 #. js-lingui-explicit-id
 #: examples/docs/counter.tsx
 msgid "Reward tokens"
 msgstr "Belohnungsmarken"
-
-#: examples/docs/counter.tsx
-msgid "Bonus points × 2"
-msgstr "Bonuspunkte × 2"
-
-#: examples/docs/counter.tsx
-msgid "Decrement"
-msgstr "Verringern"
-
-#: examples/docs/counter.tsx
-msgid "Increment"
-msgstr "Erhöhen"
 
 #: examples/docs/data-lifecycle.tsx
 msgid "Name"
@@ -479,15 +479,15 @@ msgstr "Bestellabschluss"
 msgid "Starfall"
 msgstr "Starfall"
 
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Mounted search View receives"
 msgstr "Die eingebundene Such-View erhält"
 
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Input prop: term"
 msgstr "Eingabe-Prop: term"
 
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Mount Search"
 msgstr "Suche einbinden"
 

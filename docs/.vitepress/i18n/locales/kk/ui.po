@@ -377,22 +377,22 @@ msgstr "Факт → тәуелсіз реакция"
 msgid "Local simulation: no payment or network request."
 msgstr "Жергілікті имитация: төлем де, желі сұрауы да жасалмайды."
 
+#: examples/docs/counter-views.tsx
+msgid "Bonus points × 2"
+msgstr "Бонустық ұпайлар × 2"
+
+#: examples/docs/counter-views.tsx
+msgid "Decrement"
+msgstr "Азайту"
+
+#: examples/docs/counter-views.tsx
+msgid "Increment"
+msgstr "Арттыру"
+
 #. js-lingui-explicit-id
 #: examples/docs/counter.tsx
 msgid "Reward tokens"
 msgstr "Сыйақы жетондары"
-
-#: examples/docs/counter.tsx
-msgid "Bonus points × 2"
-msgstr "Бонустық ұпайлар × 2"
-
-#: examples/docs/counter.tsx
-msgid "Decrement"
-msgstr "Азайту"
-
-#: examples/docs/counter.tsx
-msgid "Increment"
-msgstr "Арттыру"
 
 #: examples/docs/data-lifecycle.tsx
 msgid "Name"
@@ -479,15 +479,15 @@ msgstr "Тапсырысты рәсімдеу"
 msgid "Starfall"
 msgstr "Starfall"
 
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Mounted search View receives"
 msgstr "Қосылған іздеу View-і мынаны алады"
 
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Input prop: term"
 msgstr "Кіріс prop: term"
 
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Mount Search"
 msgstr "Іздеуді қосу"
 

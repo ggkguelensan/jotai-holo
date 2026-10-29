@@ -454,8 +454,68 @@ msgstr "Шағын View және бекітілген кіріс деректе�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/view-bindings.md
-msgid "The reward-token counter separates atom values from callback props. The input demo then shows a parent-provided search term entering a model after commit."
-msgstr "Марапат жетондарының санауышы атом мәндерін callback props-тан бөледі. Кейінгі кіріс демосы ата-ана берген іздеу сұрауының commit-тен кейін модельге қалай өтетінін көрсетеді."
+msgid "Compose the connected children"
+msgstr "Байланыстырылған еншілес компоненттерді құрастырыңыз"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-bindings.md
+msgid "The reward panel is a layout. It does not read atoms or forward their values: Count, Doubled and CounterControls each have their own binding."
+msgstr "Марапат панелі орналасуға жауап береді. Ол атомдарды оқымайды және олардың мәндерін таратпайды: Count, Doubled және CounterControls әрқайсысының өз байланысы бар."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-bindings.md
+msgid "Read only what the View displays"
+msgstr "View көрсететін мәндерді ғана оқыңыз"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-bindings.md
+msgid "CountView receives the balance; DoubledView receives the calculated bonus. Their markup is ordinary React. These are their complete input contracts:"
+msgstr "CountView балансты, ал DoubledView есептелген бонусты алады. Олардың белгілеуі — кәдімгі React. Кірістерінің толық келісімдері мынадай:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-bindings.md
+msgid "Bind commands at the controls"
+msgstr "Командаларды басқару элементтерінің жанында байланыстырыңыз"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-bindings.md
+msgid "The controls receive one callback and subscribe to no state. They do not receive the balance just because the neighboring display needs it."
+msgstr "Басқару элементтері бір callback алады және күйге жазылмайды. Баланс көрші компонентке керек болғаны үшін оларға берілмейді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-bindings.md
+msgid "The shared atoms hold the balance and bonus calculation. The command keeps the balance nonnegative:"
+msgstr "Ортақ атомдар балансты және бонус есебін сақтайды. Команда баланстың теріс болуына жол бермейді:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-bindings.md
+msgid "Forward a committed parent input"
+msgstr "Ата-ананың расталған кірісін жеткізіңіз"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-bindings.md
+msgid "The parent keeps its local search term and visibility in React. Small field Views edit those props. Search forwards the term to an atom after commit; Status independently reads that atom. Hiding Search stops forwarding new inputs without removing the last committed query."
+msgstr "Ата-ана жергілікті іздеу сұрауы мен көрінуді React ішінде сақтайды. Өрістердің шағын View компоненттері осы props мәндерін өзгертеді. Search сұрауды commit-тен кейін атомға жібереді; Status атомды тәуелсіз оқиды. Search жасырылғанда жаңа кірістер берілмейді, бірақ соңғы расталған сұрау сақталады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-bindings.md
+msgid "The connected Views need only these props:"
+msgstr "Байланыстырылған View компоненттеріне тек мына props қажет:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-bindings.md
+msgid "Change the term, hide Search, then edit the term again. The parent field changes, but the atom-backed output keeps its previous value. Show Search again to forward the latest committed term. The full source includes the small native field Views; they need no holo binding for parent-owned React state."
+msgstr "Сұрауды өзгертіңіз, Search компонентін жасырып, сұрауды қайта өзгертіңіз. Ата-ананың өрісі өзгереді, ал атомға негізделген нәтиже бұрынғы мәнін сақтайды. Соңғы расталған сұрауды жіберу үшін Search компонентін қайта көрсетіңіз. Толық бастапқы кодта өрістердің шағын нативті View компоненттері бар; ата-ана иелік ететін React күйі үшін оларға holo байланысы қажет емес."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

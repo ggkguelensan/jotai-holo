@@ -377,22 +377,22 @@ msgstr "Факт → независимая реакция"
 msgid "Local simulation: no payment or network request."
 msgstr "Локальная имитация: без оплаты и сетевых запросов."
 
+#: examples/docs/counter-views.tsx
+msgid "Bonus points × 2"
+msgstr "Бонусные очки × 2"
+
+#: examples/docs/counter-views.tsx
+msgid "Decrement"
+msgstr "Уменьшить"
+
+#: examples/docs/counter-views.tsx
+msgid "Increment"
+msgstr "Увеличить"
+
 #. js-lingui-explicit-id
 #: examples/docs/counter.tsx
 msgid "Reward tokens"
 msgstr "Жетоны награды"
-
-#: examples/docs/counter.tsx
-msgid "Bonus points × 2"
-msgstr "Бонусные очки × 2"
-
-#: examples/docs/counter.tsx
-msgid "Decrement"
-msgstr "Уменьшить"
-
-#: examples/docs/counter.tsx
-msgid "Increment"
-msgstr "Увеличить"
 
 #: examples/docs/data-lifecycle.tsx
 msgid "Name"
@@ -479,15 +479,15 @@ msgstr "Оформление заказа"
 msgid "Starfall"
 msgstr "Starfall"
 
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Mounted search View receives"
 msgstr "Смонтированный Search View получает"
 
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Input prop: term"
 msgstr "Входной пропс: term"
 
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Mount Search"
 msgstr "Монтировать Search"
 

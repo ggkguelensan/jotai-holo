@@ -2,7 +2,7 @@
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 import { useData } from 'vitepress';
 
-const props = defineProps<{ kind: string }>();
+const props = defineProps<{ kind: string; files?: readonly string[] }>();
 const { lang, theme } = useData();
 const host = ref<HTMLElement>();
 const failure = ref('');
@@ -53,6 +53,13 @@ onBeforeUnmount(() => {
       <slot />
       <a class="example-file" :href="`${theme.sourceBase}/examples/docs/${kind}.tsx`"
         >{{ theme.docsUi.fullSource }} ↗</a
+      >
+      <a
+        v-for="file in files"
+        :key="file"
+        class="example-file"
+        :href="`${theme.sourceBase}/examples/docs/${file}`"
+        >{{ file }} ↗</a
       >
     </div>
   </div>
