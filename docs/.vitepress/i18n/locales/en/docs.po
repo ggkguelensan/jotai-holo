@@ -164,8 +164,8 @@ msgstr "Gift copies"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/gift-copies.md
-msgid "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo combines known boolean and numeric operations without custom mapping functions."
-msgstr "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo combines known boolean and numeric operations without custom mapping functions."
+msgid "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo uses ion to calculate the order total and enable checkout after the buyer selects a payment method and accepts the terms."
+msgstr "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo uses ion to calculate the order total and enable checkout after the buyer selects a payment method and accepts the terms."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2575,14 +2575,8 @@ msgstr "Describe an operation that reads or updates atoms, such as changing a pl
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
-#: docs/reference/and.md
 #: docs/reference/bond.md
 #: docs/reference/createAmplitudeAdapter.md
 #: docs/reference/createAnalytics.md
@@ -2590,7 +2584,6 @@ msgstr "Describe an operation that reads or updates atoms, such as changing a pl
 #: docs/reference/createMutationModel.md
 #: docs/reference/createQueryModel.md
 #: docs/reference/defineModel.md
-#: docs/reference/eq.md
 #: docs/reference/eventAtom.md
 #: docs/reference/formAtom.md
 #: docs/reference/holo.md
@@ -2603,14 +2596,11 @@ msgstr "Describe an operation that reads or updates atoms, such as changing a pl
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
 #: docs/reference/modelRegistry.md
-#: docs/reference/or.md
 #: docs/reference/persist.md
 #: docs/reference/pipe.md
 #: docs/reference/prism.md
 #: docs/reference/queryClientAtom.md
-#: docs/reference/some.md
 #: docs/reference/stateAtom.md
-#: docs/reference/sum.md
 #: docs/reference/useImperativeHolo.md
 msgid "Contract"
 msgstr "Contract"
@@ -2657,14 +2647,8 @@ msgstr "- `actionAtom((get, set, ...args) => result)` returns a writable atom wh
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
-#: docs/reference/and.md
 #: docs/reference/bond.md
 #: docs/reference/createAmplitudeAdapter.md
 #: docs/reference/createAnalytics.md
@@ -2672,7 +2656,6 @@ msgstr "- `actionAtom((get, set, ...args) => result)` returns a writable atom wh
 #: docs/reference/createMutationModel.md
 #: docs/reference/createQueryModel.md
 #: docs/reference/defineModel.md
-#: docs/reference/eq.md
 #: docs/reference/eventAtom.md
 #: docs/reference/formAtom.md
 #: docs/reference/holo.md
@@ -2685,14 +2668,11 @@ msgstr "- `actionAtom((get, set, ...args) => result)` returns a writable atom wh
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
 #: docs/reference/modelRegistry.md
-#: docs/reference/or.md
 #: docs/reference/persist.md
 #: docs/reference/pipe.md
 #: docs/reference/prism.md
 #: docs/reference/queryClientAtom.md
-#: docs/reference/some.md
 #: docs/reference/stateAtom.md
-#: docs/reference/sum.md
 #: docs/reference/useImperativeHolo.md
 msgid "Why this API"
 msgstr "Why this API"
@@ -2729,14 +2709,8 @@ msgstr "Native `atom(null, write)` already handles commands. This helper adds a 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
-#: docs/reference/and.md
 #: docs/reference/bond.md
 #: docs/reference/createAmplitudeAdapter.md
 #: docs/reference/createAnalytics.md
@@ -2744,7 +2718,6 @@ msgstr "Native `atom(null, write)` already handles commands. This helper adds a 
 #: docs/reference/createMutationModel.md
 #: docs/reference/createQueryModel.md
 #: docs/reference/defineModel.md
-#: docs/reference/eq.md
 #: docs/reference/eventAtom.md
 #: docs/reference/formAtom.md
 #: docs/reference/holo.md
@@ -2757,14 +2730,11 @@ msgstr "Native `atom(null, write)` already handles commands. This helper adds a 
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
 #: docs/reference/modelRegistry.md
-#: docs/reference/or.md
 #: docs/reference/persist.md
 #: docs/reference/pipe.md
 #: docs/reference/prism.md
 #: docs/reference/queryClientAtom.md
-#: docs/reference/some.md
 #: docs/reference/stateAtom.md
-#: docs/reference/sum.md
 #: docs/reference/useImperativeHolo.md
 msgid "Analogies and reading"
 msgstr "Analogies and reading"
@@ -2786,106 +2756,6 @@ msgstr "- [Jotai atom](https://jotai.org/docs/core/atom) — the underlying prim
 #: docs/reference/stateAtom.md
 msgid "- [Jotai: Composing atoms](https://jotai.org/docs/guides/composing-atoms) — explains the native derived/action composition patterns this small helper builds on."
 msgstr "- [Jotai: Composing atoms](https://jotai.org/docs/guides/composing-atoms) — explains the native derived/action composition patterns this small helper builds on."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/and.md
-msgid "and"
-msgstr "and"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/and.md
-msgid "Require every condition to pass. For example, enable a game purchase only when a payment method is supported and the terms are accepted."
-msgstr "Require every condition to pass. For example, enable a game purchase only when a payment method is supported and the terms are accepted."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/and.md
-#: docs/reference/createAmplitudeAdapter.md
-#: docs/reference/createAnalytics.md
-#: docs/reference/createMutationModel.md
-#: docs/reference/createQueryModel.md
-#: docs/reference/eq.md
-#: docs/reference/formAtom.md
-#: docs/reference/holoForm.md
-#: docs/reference/localStorageAdapter.md
-#: docs/reference/modelAnalytics.md
-#: docs/reference/modelConnection.md
-#: docs/reference/modelRegistry.md
-#: docs/reference/or.md
-#: docs/reference/persist.md
-#: docs/reference/some.md
-#: docs/reference/sum.md
-msgid "Usage"
-msgstr "Usage"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/and.md
-#: docs/reference/eq.md
-#: docs/reference/or.md
-#: docs/reference/some.md
-#: docs/reference/sum.md
-msgid "Returns a native read-only atom. Declaration evaluates no input. Computation and cache belong to the current Jotai store; unchanged results do not notify React. Inputs keep native error propagation. These helpers do not implicitly await async atoms; use an async derived atom for that."
-msgstr "Returns a native read-only atom. Declaration evaluates no input. Computation and cache belong to the current Jotai store; unchanged results do not notify React. Inputs keep native error propagation. These helpers do not implicitly await async atoms; use an async derived atom for that."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/and.md
-msgid "Inputs are synchronous boolean atoms. Reading stops at the first false input; later atoms are not dependencies until needed. Empty input returns true."
-msgstr "Inputs are synchronous boolean atoms. Reading stops at the first false input; later atoms are not dependencies until needed. Empty input returns true."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/and.md
-#: docs/reference/eq.md
-#: docs/reference/or.md
-#: docs/reference/some.md
-#: docs/reference/sum.md
-msgid "Use a named helper for a condition you want to recognize at a glance. Use `ion` for an arbitrary calculation over fixed inputs, or `atom(get => …)` for conditional dependencies."
-msgstr "Use a named helper for a condition you want to recognize at a glance. Use `ion` for an arbitrary calculation over fixed inputs, or `atom(get => …)` for conditional dependencies."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/and.md
-#: docs/reference/eq.md
-#: docs/reference/or.md
-#: docs/reference/some.md
-#: docs/reference/sum.md
-msgid "- [Patronum operators](https://patronum.effector.dev/operators/) — named conditions and calculations for Effector; these helpers retain Jotai ownership.\n"
-"- [Jotai atom](https://jotai.org/docs/core/atom) — lazy derived values and dynamic get dependencies.\n"
-"- [Jotai performance](https://jotai.org/docs/guides/performance) — keep subscriptions close to the values used by the View."
-msgstr "- [Patronum operators](https://patronum.effector.dev/operators/) — named conditions and calculations for Effector; these helpers retain Jotai ownership.\n"
-"- [Jotai atom](https://jotai.org/docs/core/atom) — lazy derived values and dynamic get dependencies.\n"
-"- [Jotai performance](https://jotai.org/docs/guides/performance) — keep subscriptions close to the values used by the View."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3014,6 +2884,32 @@ msgstr "Deliver mapped analytics messages through an initialized Amplitude Brows
 #: docs/reference/createAmplitudeAdapter.md
 msgid "Read [Analytics](/topics/analytics) for engine mappings and [Add an analytics engine](/recipes/analytics-adapter) for another provider."
 msgstr "Read [Analytics](/topics/analytics) for engine mappings and [Add an analytics engine](/recipes/analytics-adapter) for another provider."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/createAmplitudeAdapter.md
+#: docs/reference/createAnalytics.md
+#: docs/reference/createMutationModel.md
+#: docs/reference/createQueryModel.md
+#: docs/reference/formAtom.md
+#: docs/reference/holoForm.md
+#: docs/reference/localStorageAdapter.md
+#: docs/reference/modelAnalytics.md
+#: docs/reference/modelConnection.md
+#: docs/reference/modelRegistry.md
+#: docs/reference/persist.md
+msgid "Usage"
+msgstr "Usage"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3648,24 +3544,6 @@ msgstr "See [Model composition](/topics/model-composition) for the distinction b
 #: docs/reference/defineModel.md
 msgid "- [TypeScript generic functions](https://www.typescriptlang.org/docs/handbook/2/generics.html) — preserving a function's input and output types."
 msgstr "- [TypeScript generic functions](https://www.typescriptlang.org/docs/handbook/2/generics.html) — preserving a function's input and output types."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/eq.md
-msgid "eq"
-msgstr "eq"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/eq.md
-msgid "Compare an atom with a value or another atom. Use `eq($paymentMethod, 'wallet')` to check whether a game order uses the wallet."
-msgstr "Compare an atom with a value or another atom. Use `eq($paymentMethod, 'wallet')` to check whether a game order uses the wallet."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/eq.md
-msgid "Object.is comparison: NaN equals NaN; −0 differs from 0. Objects compare by reference. Both declared atoms are read when the result is read."
-msgstr "Object.is comparison: NaN equals NaN; −0 differs from 0. Objects compare by reference. Both declared atoms are read when the result is read."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4591,24 +4469,6 @@ msgstr "- [Jotai stores](https://jotai.org/docs/core/store) — state isolation.
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/or.md
-msgid "or"
-msgstr "or"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/or.md
-msgid "Check whether any boolean atom is true. Use it when either wallet or card payment is enough to proceed."
-msgstr "Check whether any boolean atom is true. Use it when either wallet or card payment is enough to proceed."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/or.md
-msgid "Inputs are synchronous boolean atoms. Reading stops at the first true input. Empty input returns false. A branch change releases unused mounted dependencies."
-msgstr "Inputs are synchronous boolean atoms. Reading stops at the first true input. Empty input returns false. A branch change releases unused mounted dependencies."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
 #: docs/reference/persist.md
 msgid "persist"
 msgstr "persist"
@@ -4783,24 +4643,6 @@ msgstr "- [QueryClientProvider](https://tanstack.com/query/latest/docs/framework
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/some.md
-msgid "some"
-msgstr "some"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/some.md
-msgid "Find whether any input matches a condition. Check several game-price atoms, or check the games in one array atom."
-msgstr "Find whether any input matches a condition. Check several game-price atoms, or check the games in one array atom."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/some.md
-msgid "The predicate receives (value, index); record indexes follow Object.values order. Evaluation stops at the first match. Unread later atoms remain dormant. An array-valued atom is one dependency; this does not subscribe separately to its items. Empty input returns false. The predicate must be synchronous and pure."
-msgstr "The predicate receives (value, index); record indexes follow Object.values order. Evaluation stops at the first match. Unread later atoms remain dormant. An array-valued atom is one dependency; this does not subscribe separately to its items. Empty input returns false. The predicate must be synchronous and pure."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
 #: docs/reference/stateAtom.md
 msgid "stateAtom"
 msgstr "stateAtom"
@@ -4836,24 +4678,6 @@ msgid "- [Jotai atom](https://jotai.org/docs/core/atom) — the underlying primi
 "- [Jotai performance](https://jotai.org/docs/guides/performance) — why stable selections and small subscription boundaries matter."
 msgstr "- [Jotai atom](https://jotai.org/docs/core/atom) — the underlying primitive/read-only/write-only contracts.\n"
 "- [Jotai performance](https://jotai.org/docs/guides/performance) — why stable selections and small subscription boundaries matter."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/sum.md
-msgid "sum"
-msgstr "sum"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/sum.md
-msgid "Add numeric atom values. For example, calculate a bundle total from the base game and DLC prices."
-msgstr "Add numeric atom values. For example, calculate a bundle total from the base game and DLC prices."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/reference/sum.md
-msgid "Reads every numeric input. Also accepts one numeric atom or an atom of readonly number[]. Empty input returns 0. Uses ordinary JavaScript addition, with its floating-point precision; represent money in minor units. Strings and promises are rejected by TypeScript."
-msgstr "Reads every numeric input. Also accepts one numeric atom or an atom of readonly number[]. Empty input returns 0. Uses ordinary JavaScript addition, with its floating-point precision; represent money in minor units. Strings and promises are rejected by TypeScript."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

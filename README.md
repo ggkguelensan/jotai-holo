@@ -95,8 +95,6 @@ Use `$` for state atoms and `$$` for model instances if these conventions help y
 
 `eventAtom<Payload>()` declares a typed notification without a handler or retained state. Publish with `store.set(event, payload)` or `holo.write`. Connect reactions through `bond` under explicit ownership; see [event contracts](docs/reference/eventAtom.md).
 
-Numeric/boolean operators `eq`, `and`, `or`, `some`, and `sum` accept native atoms (arrays or records for multiple inputs) and return lazy read-only atoms.
-
 Model operators are available from the root and `jotai-holo/vanilla`: `ion(source, project?)` combines readable atoms, `prism(source, selectors)` splits projections, and `bond({ state, trigger, guard, map, write })` connects store-owned actions. React also has `holoList` for keyed rows and `holoMatch` for conditional branches. See [operator contracts and examples](docs/operators.md).
 
 Use `static` for fixed UI values and `input` to forward committed props to writable atoms. Named models own connections. Compose pure factories with `pipe`, `modelRegistry`, `modelLifecycle` and optional `modelAnalytics`. See the [runtime guide](docs/runtime.md).

@@ -9,7 +9,7 @@ import { sourceLinks } from './source-links.mjs';
 const sources = sourceLinks();
 
 const groups = (t: (message: string) => string) => [
-  { title: t('State'), names: ['stateAtom', 'ion', 'prism', 'eq', 'and', 'or', 'some', 'sum'] },
+  { title: t('State'), names: ['stateAtom', 'ion', 'prism'] },
   { title: t('Commands & events'), names: ['actionAtom', 'eventAtom', 'bond'] },
   { title: t('React bindings'), names: ['holo', 'useImperativeHolo', 'holoList', 'holoMatch'] },
   {

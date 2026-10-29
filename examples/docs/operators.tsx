@@ -1,5 +1,5 @@
 import { useLingui } from '@lingui/react/macro';
-import { and, eq, holo, or, some, stateAtom, sum } from 'jotai-holo';
+import { holo, ion, stateAtom } from 'jotai-holo';
 
 // #region operators
 type PaymentMethod = '' | 'wallet' | 'card';
@@ -9,15 +9,19 @@ const $dlcPrice = stateAtom(15);
 const $paymentMethod = stateAtom<PaymentMethod>('');
 const $accepted = stateAtom(false);
 
-const $total = sum({ games: $gamePrice, dlc: $dlcPrice });
+const $total = ion(
+  { game: $gamePrice, dlc: $dlcPrice },
+  ({ game, dlc }) => game + dlc,
+);
 
-const $usesWallet = eq($paymentMethod, 'wallet');
+const $canOrder = ion(
+  { method: $paymentMethod, accepted: $accepted },
+  ({ method, accepted }) => method !== '' && accepted,
+);
 
-const $hasPaymentMethod = or([$usesWallet, eq($paymentMethod, 'card')]);
-
-const $canOrder = and([$hasPaymentMethod, $accepted]);
-
-const $hasExpensiveItem = some([$gamePrice, $dlcPrice], (price) => price > 70);
+const $hasExpensiveItem = ion([$gamePrice, $dlcPrice], (prices) =>
+  prices.some((price) => price > 70),
+);
 
 function TotalView({ total }: { total: number }) {
   return <output className="demo-number">${total}</output>;

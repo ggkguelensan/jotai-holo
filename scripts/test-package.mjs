@@ -51,8 +51,8 @@ try {
     const definition = pipe(createValue, modelRegistry());
     const forms = modelRegistry()(createFormModel({initial: {name: ''}, options: initial => ({defaultValues: initial})}));
     import { createStore } from 'jotai/vanilla';
-    assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'or', 'prism', 'some', 'stateAtom', 'sum', 'useImperativeHolo']);
-    assert.deepEqual(Object.keys(vanilla).sort(), ['actionAtom', 'and', 'bond', 'eq', 'eventAtom', 'ion', 'or', 'prism', 'some', 'stateAtom', 'sum']);
+    assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'bond', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'prism', 'stateAtom', 'useImperativeHolo']);
+    assert.deepEqual(Object.keys(vanilla).sort(), ['actionAtom', 'bond', 'eventAtom', 'ion', 'prism', 'stateAtom']);
 
     const analyticsStore = createStore();
     let tracked = 0;

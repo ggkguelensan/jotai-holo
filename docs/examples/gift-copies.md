@@ -1,6 +1,6 @@
 # Gift copies
 
-Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo combines known boolean and numeric operations without custom mapping functions.
+Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo uses ion to calculate the order total and enable checkout after the buyer selects a payment method and accepts the terms.
 
 <Demo kind="ion">
 

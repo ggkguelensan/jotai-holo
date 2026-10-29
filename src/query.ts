@@ -9,7 +9,7 @@ import {
 } from '@tanstack/query-core';
 import { atom, type Atom } from 'jotai/vanilla';
 import { readSource, type AtomSource, type SourceValue } from './atom-source.js';
-import { isAtom } from './operator-source.js';
+import { isAtom } from './is-atom.js';
 import { prism } from './prism.js';
 import { queryClientAtom } from './query-client-atom.js';
 
