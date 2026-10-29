@@ -2,8 +2,6 @@
 
 Compare an atom with a value or another atom. Use `eq($deliveryMethod, 'courier')` to check whether an order uses courier delivery.
 
-Read the [Jotai operators overview](/topics/atoms-and-models) for the complete workflow and live examples.
-
 ## Usage
 
 ```ts

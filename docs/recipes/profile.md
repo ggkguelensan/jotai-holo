@@ -14,7 +14,7 @@ This policy belongs to the example, not to actionAtom. Latest-wins, cancellation
 
 <<< @/../examples/documentation.tsx#bond
 
-The fact has already happened; the notification is a consequence. Disabling notifications does not undo persistence. There is no `nameChanged` fact that itself changes the name: command and fact have separate roles.
+save performs persistence. profileSaved reports the accepted result, and the notification reacts to it. Disabling notifications does not undo the save.
 
 ## Connection ownership
 
@@ -36,4 +36,4 @@ The example source is included in TypeScript checking. `tests/documentation.test
 
 ## Reading
 
-[React: separating events from effects](https://react.dev/learn/separating-events-from-effects) helps separate explicit operations from synchronization. [Effector sample](https://effector.dev/en/api/effector/sample/) is the declarative connection analogy. This illustrates API design; it is not a server transaction, audit system, or event-sourcing engine.
+[React: separating events from effects](https://react.dev/learn/separating-events-from-effects) helps separate explicit operations from synchronization. [Effector sample](https://effector.dev/en/api/effector/sample/) is the declarative connection analogy. The example demonstrates a command followed by an independent reaction. Durable audit logs and transactional delivery require their own storage and acknowledgement policy.

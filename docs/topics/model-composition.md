@@ -1,26 +1,28 @@
 # Model composition
 
-A shipment page and its status badge need the same live status. A factory defines the atoms; modifiers decide how long the instance lives and when its tracking feed connects. The View receives ordinary props.
-
-[Try loading and saving a retained draft](/examples/model-instances).
+A shipment badge needs live tracking updates while its page is open. The shipment's business model should also work in a test without a tracking service. Keep the atoms in a factory and add the subscription with a modifier.
 
 ## Start with a pure factory
 
 <<< @/../examples/model-composition.ts#factory
 
-The factory creates a record synchronously. It does not open sockets, read storage or run hooks. Use a plain factory without a registry when the caller already owns the instance. Use a derived atom for a calculation, an action for a command and an event for a fact with independent consumers.
-
-A factory can optionally be declared with [defineModel](/reference/defineModel). It returns the same function and preserves its signature. It does not create an instance or add registry behavior; plain named functions remain valid.
+The factory creates its record synchronously. It does not open a connection. `statusReceived` accepts updates from any source, so the factory does not import a transport or analytics client.
 
 ## Compose responsibilities
 
-<<< @/../examples/model-composition.ts#composition
+Declare the final definition once at module scope. `pipe` applies each modifier from left to right.
 
-Call createShipmentDefinition once during application setup with your tracking adapter. Reuse the returned $$shipment definition outside React. pipe applies modifiers from left to right; it does not create a model until an instance is selected and read.
+```ts
+const $$shipment = pipe(
+  createShipmentModel,
+  modelRegistry(),
+  modelTrackingFeed(trackingFeed),
+);
+```
+
+`modelRegistry` selects instances by key. Our application-specific `modelTrackingFeed` attaches tracking to the selected shipment. It does not add fields to its record.
 
 ```tsx
-const $$shipment = createShipmentDefinition(trackingFeed);
-
 const Shipment = holo({
   models: {
     shipment: (props: { shipmentId: string }) =>
@@ -34,56 +36,52 @@ const Shipment = holo({
 });
 ```
 
-Two widgets selecting the same key in one store share atoms and one feed subscription. The first committed owner connects; the last release disconnects. Another key or store gets another instance. initial seeds creation only; changing input on an existing instance requires an explicit action or holo.input.
+Two widgets selecting the same instance share one subscription. The first committed owner connects; the last release disconnects. `initial` seeds creation only: a new value for an existing key does not recreate the model. To change an existing instance, call an action or bind a committed prop through `holo.input`.
 
 ## Choose a pipe
 
-The examples use `pipe` from `jotai-holo/model`. You can also use a compatible `pipe` from Effect or another functional library: each modifier receives the previous result and returns the next model definition. Keep left-to-right order and model type inference.
-
-[Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) explains this style of function composition. Effect is optional; these model modifiers do not require its runtime.
+Use `pipe` from `jotai-holo/model`, or a compatible implementation from another functional library. [Effect: Building Pipelines](https://effect.website/docs/v3/getting-started/building-pipelines) explains the same left-to-right composition. Effect is optional.
 
 ## Modifier order and identity
 
-modelRegistry establishes a registry namespace. Adding modelConnection, modelLifecycle or modelAnalytics to an existing definition preserves its records and shares inherited activations. Applying modelRegistry again establishes a separate namespace. Define the final pipeline once; rebuilding it creates different definitions.
+A connection modifier applied to an existing definition preserves its records and inherited connections. An explicit `modelRegistry()` starts a new registry identity. Declare the completed pipeline once; rebuilding it creates a new definition.
 
 ```ts
 const $$base = pipe(createShipmentModel, modelRegistry());
 const $$tracked = pipe($$base, modelTrackingFeed(trackingFeed));
-
-// Same record for the same key and store; only $$tracked owns the feed.
-// A new explicit registry creates independent records.
 const $$independent = pipe($$tracked, modelRegistry());
 ```
 
-Connections activate in declaration order and release in reverse order. If a later connection fails, earlier connections roll back. Keep dependencies explicit: reading another model does not acquire its connections, and keys do not propagate to dependencies automatically.
+`$$base` and `$$tracked` select the same record for a key and store; only an owner of `$$tracked` activates its added feed. `$$independent` selects separate records. Connections start in declaration order and release in reverse order. If a later setup throws, already connected steps roll back.
 
 ## Write a custom modifier
 
+Here is the implementation of `modelTrackingFeed`. It receives a transport adapter, so tests can provide a fake feed.
+
 <<< @/../examples/model-composition.ts#modifier
 
-A modifier is an ordinary function from ModelSource to ModelDefinition. ModelSource accepts either a pure factory or an existing definition. modelConnection preserves the record and initial types, gives setup the selected store and creation input, and owns its synchronous disposer. It also shares setup across owners and handles rollback between modifiers.
+`modelConnection` receives the selected record, store and creation input. The subscription returns a synchronous disposer. Setup must clean up any partial work before throwing; after disposal, the adapter must stop delivering callbacks.
 
-The tracking adapter supplies the transport; the model never imports a socket singleton. Tests can pass a fake feed. The callback receives updates only while the connection is active. The adapter must unsubscribe and ignore late callbacks after cleanup. Setup must undo any partial work before throwing; a cleanup cannot undo work that failed before it was returned.
-
-Use modelLifecycle inside a custom modifier when the task is loading and saving snapshots. Use modelAnalytics for a lazy analytic child. modelConnection is for subscriptions or external handles with synchronous setup and cleanup. Do not use it for values that ion or a derived atom can calculate.
+Use this pattern for external subscriptions and handles. Use `modelLifecycle` for loading and saving snapshots, and `modelAnalytics` for lazy analytics. Calculations belong in derived atoms instead of connections.
 
 ## Type preservation
 
-Built-in modifiers preserve the model record, writable arguments, action results and initial input. pipe checks adjacent steps, including long chains of model-preserving modifiers. Give reusable custom modifiers an explicit ModelSource<Model, Initial> parameter so inference does not widen their input to object or any.
+The generic `ModelSource<Model, Initial>` accepts either a factory or an existing definition. Keeping both types in a reusable modifier preserves additional record fields and the factory's input through `pipe`. Built-in modifiers also preserve writable arguments and action results.
 
-A connection modifier cannot add fields to the record. Add atoms in the factory, or compose pure factory functions before applying modelRegistry. A cast to ModelDefinition does not install ownership behavior. Public helpers avoid depending on internal symbols or registry maps.
+To add fields, extend a factory before applying managed modifiers:
 
 <<< @/../examples/model-composition.ts#extend
+
+Casting a function to `ModelDefinition` does not install ownership behavior. Build custom modifiers from public helpers rather than copying internal symbols or registry maps.
 
 ## Select and own outside React
 
 ```ts
 const store = createStore();
-const selection = {
+const lease = $$shipment.acquire(store, {
   key: ['shipment', '42'],
   initial: { shipmentId: '42' },
-};
-const lease = $$shipment.acquire(store, selection);
+});
 
 try {
   const status = store.get(lease.model.$status);
@@ -92,15 +90,11 @@ try {
 }
 ```
 
-A store.get read alone creates no connection. retainTime defaults to Infinity: state survives release, subscriptions do not. Use finite retention or explicit remove for unbounded keys. Await flush before removal when saved data matters; React cleanup cannot wait for a save.
-
-See [modelRegistry](/reference/modelRegistry), [modelConnection](/reference/modelConnection), [modelLifecycle](/reference/modelLifecycle) and [modelAnalytics](/reference/modelAnalytics) for individual contracts.
+A `store.get` read alone does not acquire connections. Retention keeps the record after release, not its subscriptions.
 
 ## Loading and saving
 
-Load a saved draft and save edits when its last owner leaves.
-
-Data loading and persistence belong to the selected model instance. React cleanup cannot await a save; explicit flush makes that requirement visible. Use native Query or RHF defaults when they already own this lifecycle.
+When work must be saved before leaving a workflow, await `flush` explicitly. React cleanup cannot wait for a save. The [persistence recipe](/recipes/server-data#a-model-saving-locally) covers loading, saving and retained drafts.
 
 ## API reference
 

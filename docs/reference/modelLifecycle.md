@@ -2,8 +2,6 @@
 
 Load a saved draft and save edits when its last owner leaves.
 
-Read [Model composition](/topics/model-composition) for the complete workflow and live examples.
-
 ```ts
 const $$profile = pipe(
   createProfileModel,

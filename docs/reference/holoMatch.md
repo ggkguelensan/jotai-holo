@@ -2,8 +2,6 @@
 
 Choose a View from a status atom. For example, show loading, content or an error while keeping inactive branches unmounted.
 
-Read the [holoMatch and holoList overview](/topics/holo#lists-and-branches) for the complete workflow and live examples.
-
 <<< @/../examples/documentation.tsx#match
 
 ## Contract

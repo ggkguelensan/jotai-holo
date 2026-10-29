@@ -2,8 +2,6 @@
 
 Read one RHF field through a Jotai atom. For example, display the email currently entered in a form inside an external Save panel.
 
-Read the [React Hook Form overview](/topics/rhf-models) for the complete workflow and live examples.
-
 ## Usage
 
 ```ts

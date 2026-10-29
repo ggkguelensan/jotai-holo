@@ -32,19 +32,13 @@ In domain modelling, an event commonly already means a fact that occurred. Here 
 
 The search fact carries the query, category, result count and duration. Capture request context before await in a real asynchronous search. If ordering or correlation matters, also define an operation ID, occurrence time or revision. Keep payloads immutable and limited to the permitted business data; do not copy an entire model or personal data just in case.
 
-<<< @/../examples/analytics/search-model.ts#search-model
+<<< @/../examples/analytics/search-model.ts#search-fact
 
-Provider names, field renaming and unit conversions belong in analytics mappings. The business factory and View do not import analytics. Each engine receives only its own mapping; engines absent from a mapping receive nothing:
-
-<<< @/../examples/analytics/search.analytics.ts#search-analytics
+<<< @/../examples/analytics/search-model.ts#search-command
 
 ## Loading analytics and keeping messages
 
-Attach modelAnalytics in the application assembly, not inside the business factory. It follows committed model ownership. Currently a lazily imported analytics factory starts observing only after it loads: facts emitted earlier are not replayed. Do not rely on this form to preserve the first interaction.
-
-For essential early facts, provide an eagerly available analytics factory and defer SDK initialization through createAnalytics engine factories. The managed observer must be connected before the fact is emitted. Its per-engine queue retains already mapped, detached messages while the engine loads; it is bounded and has a timeout. See [modelAnalytics](/reference/modelAnalytics) and [createAnalytics](/reference/createAnalytics) for the exact guarantees.
-
-This queue is delivery infrastructure, not event sourcing. It is neither a persistent domain journal nor a mechanism for rebuilding state. Surviving reloads or guaranteeing delivery needs a separate durable outbox, identifiers, retries and an acknowledgement policy. A domain-fact buffer before a lazy analytics factory is ready is not implemented in the current API.
+Analytics translates facts into engine-specific messages. Keep provider names, field renaming and unit conversions in that consumer, so changing an engine does not change the business model. [The analytics topic](/topics/analytics) shows the mappings and explains when lazy observation begins, what its delivery queue preserves and which early facts it cannot capture.
 
 ## Keep Query and RHF native where possible
 

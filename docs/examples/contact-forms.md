@@ -1,5 +1,7 @@
 # Isolated contact forms
 
+Edit Ada’s email and watch her external Save panel. Grace keeps a separate draft. Submit an invalid email to see native RHF validation prevent the save.
+
 <Demo kind="form">
 
 <<< @/../examples/docs/form.tsx#form
@@ -9,4 +11,4 @@
 ## Continue reading
 
 - [How it works](/topics/rhf-models)
-- [API reference](/reference/holo)
+- [API reference](/reference/holoForm)

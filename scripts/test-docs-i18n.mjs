@@ -54,6 +54,16 @@ for (const { code, prefix } of locales) {
       shared(original),
       `${code}/${file}: code must remain shared`,
     );
+    for (const part of markdownParts(original)) {
+      if (part.type !== 'heading' || !part.anchor) continue;
+      assert.equal(
+        markdownParts(translated).filter(
+          (heading) => heading.type === 'heading' && heading.anchor === part.anchor,
+        ).length,
+        1,
+        `${code}/${file}: preserve explicit #${part.anchor} exactly once`,
+      );
+    }
     assert.doesNotMatch(translated, new RegExp(`${prefix}${prefix}/`));
   }
 }
@@ -80,6 +90,20 @@ const translated = translateMarkdown(
 assert.match(translated, /^---\n/);
 assert.match(translated, /# DE: Heading \{#heading\}/);
 assert.match(translated, /t\("not extracted"\)/);
+// Explicit anchors are syntax, not translatable prose. Preserve them exactly once.
+const anchored = '# New title {#old-title}\n\n[Jump](#old-title).\n<span id="legacy"></span>\n';
+assert.deepEqual(
+  markdownMessages(anchored).map(({ value }) => value),
+  ['New title', '[Jump](#old-title).'],
+);
+assert.equal(
+  translateMarkdown(
+    anchored,
+    (value) => 'DE: ' + value,
+    () => 'new-title',
+  ),
+  '# DE: New title {#old-title}\n\nDE: [Jump](#old-title).\n<span id="legacy"></span>\n',
+);
 const extracted = [];
 extractor.extract(
   'example.mts',

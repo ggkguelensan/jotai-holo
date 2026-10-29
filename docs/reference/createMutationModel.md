@@ -1,16 +1,68 @@
 # createMutationModel
 
-Save a proposal from a Jotai action and display pending, success, and error states through separate atoms. This local simulation rejects discounts above 25%; no network request is sent.
-
-Read the [TanStack Query overview](/topics/tanstack-models) for the complete workflow and live examples.
+Execute a TanStack mutation from an atom workflow and expose its result through independent atoms. The [proposal discount example](/examples/proposal-discount) shows a save that can succeed or fail.
 
 ## Installation
 
 Optional entry: `jotai-holo/query`. Requires `@tanstack/query-core` v5. Share your application's QueryClient through [queryClientAtom](/reference/queryClientAtom), or provide a client explicitly.
 
+## Usage
+
+The options factory defines the operation. Variables supply the values for each
+call; `mutate` is the writable atom used to execute it:
+
+```ts
+import { QueryClient, mutationOptions } from '@tanstack/react-query';
+import { createStore } from 'jotai/vanilla';
+import { createMutationModel } from 'jotai-holo/query';
+
+type DiscountInput = { proposalId: string; discount: number };
+
+const proposalDiscountMO = () =>
+  mutationOptions({
+    mutationFn: async (input: DiscountInput): Promise<void> => {
+      const response = await fetch('/api/proposal-discount', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(input),
+      });
+      if (!response.ok) throw new Error('Could not save the discount');
+    },
+  });
+
+const client = new QueryClient();
+
+const $$discountMutation = createMutationModel({
+  client,
+  mutation: proposalDiscountMO,
+  prism: {
+    $pending: (result) => result.isPending,
+    $error: (result) => result.error,
+  },
+});
+
+const store = createStore();
+
+try {
+  await store.set($$discountMutation.mutate, {
+    proposalId: 'P-1042',
+    discount: 10,
+  });
+} catch (error) {
+  console.error(error);
+}
+```
+
+Replace the endpoint with your API. In an application, reuse its QueryClient
+rather than creating another client for each operation. A model command can
+execute the same mutation through its `set` argument; no React subscriber is
+required.
+
 ## Contract
 
 `createMutationModel({ mutation, prism?, client? }) → { mutate, reset, ...projections }`
+
+### Options and returned atoms
 
 - `mutation` is a native mutation-options factory. It runs once per initialized store/client pair, not on every render or invocation. Variables carry changing business inputs; use actionAtom or bond to collect current atom values.
 - `mutate` is an actionAtom accepting the factory's variables and returning its native execution Promise. Void and optional variables can be omitted. Each invocation executes independently, including without React or mounted projections.

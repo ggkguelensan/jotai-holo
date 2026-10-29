@@ -1,12 +1,15 @@
 # Getting started
 
-Start with a View that accepts props and a Jotai model that changes data. `holo` connects them in one declaration. Existing Jotai atoms work directly.
+Connect a profile name field to Jotai. The field will receive a string and a
+callback, just as it would from a parent component. `holo` supplies those props
+from atoms.
+
+You do not need a model registry or a holo-specific Provider for this example.
 
 ## Availability and requirements
 
-This API is not yet published to npm. Clone the repository to try the examples.
-
-Use Node 22.12+, React 18 or 19, Jotai 3.0.1+ within v3, and TypeScript 5.9+ with `strict`. See the [tested compatibility matrix](/compatibility).
+The package is not yet published to npm. To run the examples, clone the
+repository:
 
 ```sh
 git clone https://github.com/ggkguelensan/jotai-holo.git
@@ -16,25 +19,61 @@ pnpm install --frozen-lockfile
 pnpm examples
 ```
 
-## Bind a View once
+Check the [tested compatibility matrix](/compatibility) for supported Node,
+React, Jotai and TypeScript versions.
 
-<<< @/../examples/documentation.tsx#state
-<<< @/../examples/documentation.tsx#action
-<<< @/../examples/documentation.tsx#prism
-<<< @/../examples/documentation.tsx#holo
+## Start with an ordinary View {#bind-a-view-once}
 
-Render `<NameField />`. Its View receives a name, a title and a callback. `read` supplies values, `write` supplies callbacks, and `static` supplies fixed props. Declare `holo` outside React render; any unbound View props remain inputs to the connected component.
+The name field renders the value it receives. When the user types, it calls
+`onChange`. It does not import atoms or subscribe to a store.
 
-The snippets come from one TypeScript-checked example. Import helpers from `jotai-holo`, or use `jotai-holo/vanilla` for model code that does not need React.
+<<< @/../examples/quickstart.tsx#quickstart-view
 
-## Store ownership
+You can render this View directly in a test or story by passing a name and an
+`onChange` callback.
 
-Use Jotai's `<Provider store={store}>` to isolate a widget or application. Without a Provider, Jotai uses its default store. Create a separate store per SSR request; never reuse request data in a global server store. Atom definitions can be shared; their values belong to the store.
+## Give the field a value
 
-No Provider specific to holo is required. Basic bindings need no `connect`. Use [bond](/reference/bond) for event reactions. Its connections require explicit ownership and disposal.
+Create an atom outside React render. It holds the name that this field edits:
 
-Continue with [why this API](/guide/motivation), the [profile workflow](/recipes/profile), or [holo reference](/reference/holo).
+<<< @/../examples/quickstart.tsx#quickstart-state
 
-## Shared models and external resources
+Import `stateAtom` and `holo` from `jotai-holo`. `stateAtom` has the native Jotai
+`atom` API. Existing Jotai atoms work too; you do not need to replace them.
 
-Use [modelRegistry](/reference/modelRegistry) when several widgets need one model. The same definition, key and store select the same instance. Without a key, they select the default instance. Query and form bindings have separate entries, `jotai-holo/query` and `jotai-holo/rhf`.
+## Connect the props
+
+<<< @/../examples/quickstart.tsx#quickstart-binding
+
+The example app renders `<NameField />` under “Getting started”. Open the URL printed by `pnpm examples` and edit the `Ada` field:
+
+1. `read` supplies the atom's value, initially `Ada`, as the `name` prop.
+2. `write` supplies a callback as `onChange`.
+3. Typing calls that callback, writes the new name to the atom and updates the
+   displayed value.
+
+The same writable atom appears in both sections: `read` reads its value and
+`write` writes to it. No extra command is needed for this direct update.
+
+If a View prop is not supplied by the binding, the parent still passes it
+normally. Declare `NameField` outside React render so its component identity
+stays stable.
+
+## Choose which components share the value {#store-ownership}
+
+Two `NameField` components using the same Jotai store edit the same name. Jotai's
+`Provider` can give a subtree a separate store. Without one, Jotai uses its default
+store. holo needs no additional Provider.
+
+For SSR, create a separate store per request. The atom declarations can be shared
+between requests; user-specific values must not share one server store.
+
+## When you need another draft {#shared-models-and-external-resources}
+
+This example has one atom. If two editors need independent drafts, create
+their atoms in a factory. If independently placed components need to find the
+same draft by ID, add a registry. Neither is required for a simple binding.
+
+Continue with [why use holo](/guide/motivation), then
+[atoms and models](/topics/atoms-and-models). For an existing project, the
+[holo topic](/topics/holo) explains input props and external events.

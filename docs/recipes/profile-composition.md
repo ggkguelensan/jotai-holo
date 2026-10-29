@@ -1,10 +1,12 @@
 # Profile: creation and editing
 
-A profile model owns the username, avatar, biography and interests. It can derive an avatar color from the username. It does not know whether its input came from a wizard, an existing model, the server or local storage. Query models fetch data, mutation models save it, and application composition connects their results to the business model.
+A user opens their profile, edits it and saves. The editor should reuse a profile already in memory and load it otherwise. A separate RHF draft can keep unsaved edits while the accepted business profile updates.
+
+This recipe follows that sequence. The business model accepts profile values; a separate assembly module connects loading and saving. The example uses one current-user profile, not a registry of different accounts.
 
 ## The business model
 
-The model accepts values through receive and edits through change. Its profileChanged fact describes a local change; receiving server data does not pretend that the user edited a field. The username color is derived with ion and needs no effect.
+Start with the rules that hold regardless of where values come from. `receive` accepts a profile; `change` applies a local patch and publishes `profileChanged`. Receiving server data does not publish an edit fact. `ion` derives the avatar color from the username.
 
 <<< @/../examples/profile/profile-model.ts#profile-contract
 <CodeNotes>
@@ -31,44 +33,66 @@ The model accepts values through receive and edits through change. Its profileCh
 
 </CodeNotes>
 
-The factory imports no Query, RHF or analytics code. Tests can run the same rules in a Jotai store without a View or network request. Add domain rules here when the product needs them; provider field names and transport policies belong elsewhere.
+The factory creates atoms and commands without fetching data or creating a form. Its rules can run in a Jotai store without React or a network request.
 
 ## Independent Query and Mutation models
 
-Declare the Query model, mutation model and business model in a module. No application factory is needed. Module declarations describe the graph; each Jotai store holds its own values, and QueryClient holds the server cache. The business factory does not import this assembly module.
+Next, declare the loading and saving operations in the assembly module. Native TanStack options factories hold the request keys and network policy. The business factory does not import this module.
 
-Use the application's API client in native TanStack options factories. The example profileApi calls /api/profile; replace it with your endpoints. No backend is deployed with the documentation.
+Here `profileApi` calls `/api/profile`. Supply that endpoint or replace the client before running this recipe; the documentation does not deploy a backend.
 
 <<< @/../examples/profile/profile-composition.ts#profile-options
 
-createQueryModel and createMutationModel return records directly, conventionally named $$profileQuery and $$profileMutation. They do not need modelRegistry: QueryClient already owns the server cache.
+`createQueryModel` returns named projections of the request result. `createMutationModel` returns a writable `mutate` command and selected execution state. Both return ready-to-use records; neither needs a registry for this workflow. QueryClient shares query data by `queryKey`. A mutation has its own adapter execution state: matching mutation keys do not share that state.
 
 <<< @/../examples/profile/profile-composition.ts#profile-query
 
-The save command captures the submitted values and publishes profileSaved only after the mutation succeeds. Failure rejects the Promise and emits no success fact; the caller handles rejection. The UI can read the mutation's error projection.
-
-<<< @/../examples/profile/profile-composition.ts#profile-save
-
 ## Use existing data before loading
 
-Connect the participants through pipe. The observe connection reads Query only while the business profile is empty. An existing profile needs no request or Query subscription. The bond connection delivers successful saves to receive while the editor has an owner.
+The assembly also publishes `profileSaved` after a successful save. The binding below subscribes to that fact; its declaration and save command appear in [Save and accept the response](#save-and-accept-the-response).
+
+Now connect the source to the business model. `$$profile` defines the shared record. `$$editor` extends that definition and adds two owner-managed connections: initial loading and acceptance of successful saves.
 
 <<< @/../examples/profile/profile-composition.ts#profile-binding
 
-$initial is a derived atom: it reads Query only when the profile is empty. Once receive fills the profile, Jotai removes that dependency and releases the Query subscription. [observe from jotai-effect](https://jotai.org/docs/extensions/effect#observe) forwards the available value; modelConnection stops observation with the last owner. No manual subscription flags or unsubscribe bookkeeping are needed.
+The loading connection has three steps:
+
+1. `$initial` checks whether the business model already has a profile.
+2. Only an empty profile makes it read `$$profileQuery.$profile`.
+3. [observe](https://jotai.org/docs/extensions/effect#observe) forwards the available value to `receive`.
+
+Once `receive` fills the model, `$initial` stops reading Query. Jotai removes that dependency and releases the Query subscription. An existing profile therefore avoids this Query subscription entirely. `modelConnection` stops the observation when the last owner leaves.
 
 Background refetches cannot overwrite a populated profile. Another source that fills it during loading also takes priority. Explicitly clearing the profile allows initialization again; this is conditional initialization, not continuous server synchronization.
 
-$$profile and $$editor select the same business record for the same key and store. For multiple accounts, partition Query keys, model selections and connections by account; the fixed current-user key here assumes one account context.
+Select `$$editor` in `holo.models` to activate these connections after commit. Other components can select the same key in `$$profile` to use the record without adding another connection. Selecting either definition with that key in the same store reaches the same business instance.
+
+The save connection routes every `profileSaved` to each active editor using this assembly. This is appropriate for one current-user profile. Supporting multiple accounts requires account-specific Query keys and result routing as well as model keys; a registry does not add those rules.
+
+## Save and accept the response
+
+The save command copies the submitted values before awaiting `mutate`. It ignores another save while this mutation is pending. Only a successful response publishes `profileSaved`:
+
+<<< @/../examples/profile/profile-composition.ts#profile-save
+
+The `bond` in `$$editor` forwards that fact to `receive` while an editor owns the connection. The mutation's `onSuccess` callback also updates the Query cache, so native Query consumers see the accepted profile.
+
+Failure rejects the save Promise and publishes no success fact. The caller must handle that rejection; an error projection makes the failure readable but does not catch the Promise.
+
+Accepting the response replaces the business profile. If commands edited that same profile during the request, this example does not merge those edits. Keep a separate form draft, disable business edits while saving, or add a revision/merge policy. A separate RHF draft is not reset by this connection.
 
 ## Creation wizard
 
-Start a new profile instance with emptyProfile and a key for that creation session. No Query model is needed. Keep one RHF control across the identity, biography, interests and review steps. Step navigation validates the relevant fields using native RHF trigger; moving between steps should not recreate the form or discard values.
+The same separation can support a creation wizard. The steps below describe how to apply it; this recipe does not include an executable multi-step wizard.
 
-The wizard owns an editable form draft. Use RHF directly unless the atom/model graph needs form values or events. When it does, the current createFormModel and holoForm adapters expose the same native control. A successful creation uses its own create-mutation options factory; the edit example above demonstrates saving the existing current profile.
+Start a new profile instance with `emptyProfile` and a key for that creation session. No Query model is needed. Keep one RHF control across the identity, biography, interests and review steps. Step navigation validates the relevant fields using native RHF `trigger`; moving between steps should not recreate the form or discard values.
+
+Use native RHF unless other atoms or models need the form values or events. In that case, `createFormModel` and `holoForm` expose the same control. Creating a profile also needs create-specific mutation options; the save operation above updates an existing profile.
 
 ## Editing form
 
 Resolve the business profile first: use the existing record or let the source binding supply it. Then create the RHF form with a snapshot of those values. The form key identifies the editing session; include a tab ID when two editors must keep independent drafts. Do not create an empty editable form and later overwrite it with a delayed server response.
 
-Form keystrokes need not update the canonical profile. Submit a captured draft through the mutation; accept the server response into the business model after success. A later business update or background refetch must not reset the form automatically, especially if the user has made newer edits. Discard, reload and reset-after-save are explicit product decisions. See the [server-data recipes](/recipes/server-data#a-form-initialized-from-server-data) and [RHF contracts](/reference/holoForm).
+Keep the form draft separate from the accepted business profile. Submit a snapshot and await save so RHF can track submission. When the response arrives, retain any edits the user made after submission; a business-profile update must not reset the form automatically.
+
+Choose explicit actions for discard, reload and reset-after-save. The [server-defaults example](/recipes/server-data#a-form-initialized-from-server-data) shows mounting a keyed RHF form after loading. Read [holoForm](/reference/holoForm) for control ownership and [createMutationModel](/reference/createMutationModel#parallel-calls-and-reset) for concurrent saves.

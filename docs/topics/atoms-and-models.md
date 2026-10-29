@@ -1,99 +1,166 @@
 # Atoms or models?
 
-First decide whether the value needs to participate in the reactive system of atoms and models at all. Sharing a theme or language between React components is not enough reason to create an atom: an existing theme or localization provider may already solve the task. Add atoms when model calculations, commands or connections need to react to that value.
+A search filter can begin with two atoms: the search term and an “in stock”
+switch. Grouping them in a model does not change their reactivity. It gives the
+related atoms a name and, if needed, a factory that can create another set.
 
-Once the atom/model system needs the value, choose its scope. Use module-level atoms for shared state, a model factory for related state and actions, and a registry when components need to select and share instances by key. These are separate choices; holo does not require all three.
+Choose how much structure the task needs: an atom, a record of atoms, or shared
+instances selected by key. holo works with each arrangement.
 
-## Choose by the task
+## First ask who needs to react {#choose-by-the-task}
 
-| I need to…                                            | Use                            | Why                                                                                  |
-| ----------------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------ |
-| Share a theme or language with atom workflows         | Module-level atoms if needed   | First check whether models need it; React-only sharing can use the existing provider |
-| Publish a help request from a toolbar                 | `eventAtom` in `write`         | An event does not require a model                                                    |
-| Calculate a cart total                                | A derived atom or `ion`        | A calculation does not need an instance registry                                     |
-| Keep search text and stock filters together           | A plain model factory          | Group related atoms and create them together                                         |
-| Give two fixed editors independent drafts             | Call the factory twice         | Different atom records keep the drafts independent                                   |
-| Share a product editor with its toolbar by product ID | `modelRegistry` + `models`     | Both components select the same instance by key and store                            |
-| Subscribe to a shipment feed while its model is used  | `modelConnection`              | Model owners activate and release the subscription                                   |
-| Load and save a draft                                 | `modelLifecycle`               | Add loading and snapshot persistence to the factory                                  |
-| Share an RHF form with an external toolbar            | `createFormModel` + `holoForm` | The controls use one native RHF form instance                                        |
+A value does not need an atom just because several React components use it.
+A theme or language may already belong to a React provider. Add it to Jotai
+when atom calculations, commands or connections need to react to it.
 
-## Global state and events: just atoms
+Once that need exists, the scope is a separate decision:
 
-The workspace toolbar reads the theme, changes it and publishes help requests. There is no model to register.
+| Situation                                            | Start with             |
+| ---------------------------------------------------- | ---------------------- |
+| One shared value or event                            | Module-level atoms     |
+| Several related values and commands                  | A record of atoms      |
+| Two independent sets of the same state               | A factory called twice |
+| Separate components must find one set by an ID       | A registry             |
+| A model must listen to an external source while used | A managed connection   |
+
+The next sections show where each additional responsibility becomes useful.
+
+## Shared values and events: just atoms {#global-state-and-events-just-atoms}
+
+A workspace toolbar reads the theme and publishes a help request. If model
+workflows need these inputs, the application can expose them as atoms:
 
 <<< @/../examples/atoms-or-models.tsx#atom-imports
 <<< @/../examples/atoms-or-models.tsx#global-atoms
 
-The View receives ordinary values and callbacks. It does not need to know where they came from.
+The writable `$theme` supplies a value through `read` and a setter through
+`write`. The `helpRequested` event supplies a callback through `write`.
+No model registration is needed.
 
-<<< @/../examples/atoms-or-models.tsx#toolbar-view
+Publishing the help request does not open a window on its own. The application
+chooses a consumer separately. An event announces something; the connection to
+a reaction is another decision.
 
-`$theme` is a native writable atom, so it works in both `read` and `write`. `helpRequested` is a write-only event, so it belongs in `write`. Publishing it does not open a help window by itself: the application chooses a consumer separately.
+“Global” here means shared by consumers in one Jotai store. A separate store has
+independent values and event delivery, even though it uses the same atom
+declarations.
 
-Global atoms share values within one Jotai store. Separate stores isolate them; a module-level atom definition does not merge their state.
+## Related state: create a record {#related-state-a-plain-factory}
 
-## Related state: a plain factory
-
-Catalog filters and order filters both have a search term and a stock switch. They use the same factory but need independent values.
+Catalog filters and order filters have the same fields but must keep different
+values. A factory creates those fields together:
 
 <<< @/../examples/atoms-or-models.tsx#factory
 
-Each call creates new atoms. The application creates these instances once, outside React render. A plain model is just a record of related atoms; it does not need a registry.
+Calling `createFiltersModel()` twice creates two different atom records.
+`$$catalogFilters` is one model instance; `$$orderFilters` is another. Create
+these fixed instances outside React render.
+
+The View can bind directly to the first record:
 
 <<< @/../examples/atoms-or-models.tsx#direct-model
 
-This connection still has no `models` field. It reads and writes atoms from the explicitly created record. Connect `$$orderFilters` the same way for an independent instance.
+There is no `models` section here. Grouping atoms in a record does not require
+holo to manage that record's lifetime. Connect the second record in the same
+way for an independent filter.
+
+As rules grow, the record can also contain derived atoms and commands. A command
+can enforce an allowed change once, rather than requiring every View to enforce
+it. [Business logic and small Views](/guide/business-logic) develops that step.
 
 ## Shared instances by ID: add a registry
 
-A catalog page and its toolbar need the same filters for the selected catalog. Components choose the instance by `catalogId` instead of passing an atom record between them.
+Suppose the filter panel and toolbar are in different parts of the page. Both
+know the catalog ID and need to find its current filters. A registry gives them
+a shared way to select the instance:
 
 <<< @/../examples/atoms-or-models.tsx#model-imports
 <<< @/../examples/atoms-or-models.tsx#keyed-model
 
 <<< @/../examples/atoms-or-models.tsx#usage
 
-The examples use `pipe` from `jotai-holo/model`; a compatible helper from another functional library also works. See [Choose a pipe](/topics/model-composition#choose-a-pipe) for alternatives and the Effect pipeline article.
+These two rendered components use different catalog IDs, so they edit different
+filters. Rendering another component with `catalogId="hardware"` in the same
+store selects the existing hardware instance.
 
-The same definition, key and store select the same instance. Another catalog ID selects independent filters. The registry adds identity and retention; `models` lets holo select the instance and own its active connections.
+There are now three different things:
 
-Use a registry when independently placed components must find one instance by a business key, or when the instance should survive those components unmounting. A factory alone creates records; the registry gives components a shared way to select and retain them. See [Why use a registry?](/topics/models-and-registries#why-use-a-registry).
+- `createFiltersModel`: a factory that creates a record.
+- `$$filters`: a definition that selects records in a store.
+- The selected record: the atoms used by a particular catalog.
 
-The View stays the same in both approaches:
+`holo.models` selects that record and owns its active connections. The registry
+can retain the record after the last component leaves. Other managed modifiers
+also return definitions; an explicit registry adds its own sharing namespace and
+retention policy. [Models and registries](/topics/models-and-registries) explains
+how those definitions compose.
 
-<<< @/../examples/atoms-or-models.tsx#filters-view
+Use a registry when this selection or retention solves a task. A fixed instance
+that the application already passes explicitly does not need one. See
+[why use a registry?](/topics/models-and-registries#why-use-a-registry).
+
+The example uses `pipe` from `jotai-holo/model`. A compatible pipe from another
+functional library works too; [choose a pipe](/topics/model-composition#choose-a-pipe)
+explains the convention and links to the Effect pipeline guide.
 
 ## What belongs to an instance?
 
-The registry manages the records created by its factory. It does not copy everything those records depend on.
+A registry does not copy all dependencies of a model. Consider an order that
+uses a shared unit price:
 
 <<< @/../examples/registry-dependencies.ts#shared-dependency
 
-For two order keys in the same Jotai store, `$quantity` and `$total` are separate atoms. `$unitPrice` is shared because it was created outside the factory. Changing one quantity updates that order's total. Changing the shared price updates both totals.
+Each call to `createOrderModel` creates its own `$quantity` and `$total` atoms.
+`$unitPrice` was created outside the factory, so every order in the same store
+uses it.
 
-An existing global model works the same way: using its atoms inside a factory does not create another copy of that model. Calling its factory inside createOrderModel would create new atoms instead. Separate Jotai stores still isolate the values of shared atom definitions.
+For two order keys:
 
-## Connections and loading: add only the responsibility you need
+- Changing one quantity changes that order's total.
+- Changing the shared price changes both totals.
+- Selecting another store isolates all values, including the shared price.
 
-A group of atoms does not need lifecycle hooks just to hold state. Add [modelConnection](/reference/modelConnection) when it owns an external subscription, or [modelLifecycle](/reference/modelLifecycle) when it must load and save data. Add [modelAnalytics](/reference/modelAnalytics) when analytics should follow the model's usage.
+Using atoms from an existing global model inside a factory also keeps those
+atoms shared. Calling that model's factory would instead create new atoms.
+The placement of atom creation determines which records share them.
 
-Use the decorated definition in `holo.models` so holo activates and releases this work. Binding one of its atoms directly does not acquire the model.
+## Add active work when it has a lifetime {#connections-and-loading-add-only-the-responsibility-you-need}
 
-These modifiers manage work while an instance is owned. `modelRegistry` chooses how instances are shared and retained. Read [Model composition](/topics/model-composition) for combining these responsibilities.
+A record can hold state without running background work. Add a managed
+connection when the model must listen to a feed, connect another model or
+observe an external source while someone uses it.
 
-For React-only server data and forms, keep native TanStack Query and RHF hooks. Add [createQueryModel](/reference/createQueryModel), [createMutationModel](/reference/createMutationModel) or [holoForm](/reference/holoForm) when the atom/model graph needs those values or operations. You do not need to wrap unrelated global atoms in a model to bind them to a View.
+`modelConnection` adds that work to a factory. Use the resulting definition in
+`holo.models` to activate and release it. Binding one of its atoms directly does
+not acquire the model's managed work.
 
-## Connections
+The last owner releases connections. A retained draft can therefore have no
+active subscriptions. Read [model composition](/topics/model-composition) to
+attach connections, loading or analytics without adding those dependencies to
+the business factory.
 
-Use bond to connect a trigger to a reaction. Declare the connection outside render and give it an application or model owner. A connection does not become active because its declaration exists.
+## Separate a fact from its reaction {#connections}
 
-<<< @/../examples/documentation.tsx#bond
+A successful save can publish a `profileSaved` event. A notification model may
+react to it, but the profile model does not need to import the notification code.
+`bond` describes the connection between that event and a reaction.
 
-[Read the bond contract](/reference/bond) for trigger semantics, sampling, async results and ownership. [Try order confirmation](/examples/order-confirmation) to see a fact delivered to an independent consumer.
+The declaration itself does not subscribe. An application or model owner must
+activate it and release it afterwards. Use the [bond reference](/reference/bond)
+for trigger, state and ownership semantics. The
+[order confirmation example](/examples/order-confirmation) shows a completed
+order reaching a separate UI consumer.
 
-## Independent projections
+## Let consumers choose independent values {#independent-projections}
 
-prism takes a record of selectors. Each output remains a separate derived atom; unused selectors do not execute. Returning a new object changes the selected identity. For custom equality use selectAtom; for writable focused state consider optics.
+If a name field reads the entire profile object, changing the avatar also changes
+its input object. Use a derived atom for the name, or `prism` to declare several
+independent projections. Reading one projection does not execute unused
+selectors.
 
-[Try independent profile fields](/examples/profile-fields) and [workshop calculations](/examples/workshop-tickets).
+A selector that returns a new object also returns a new identity. Use native
+`selectAtom` when you need custom equality; use focused writable state when the
+application needs to edit a part of a larger value.
+
+[Try independent profile fields](/examples/profile-fields), then see
+[workshop calculations](/examples/workshop-tickets) for combining atom values.

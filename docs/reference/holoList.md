@@ -2,8 +2,6 @@
 
 Render a View for each item in an array atom. Stable keys keep row state attached to the right item when the list is reordered.
 
-Read the [holoMatch and holoList overview](/topics/holo#lists-and-branches) for the complete workflow and live examples.
-
 <<< @/../examples/documentation.tsx#list
 
 ## Contract

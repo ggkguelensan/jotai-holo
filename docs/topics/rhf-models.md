@@ -1,46 +1,48 @@
 # React Hook Form
 
-Create a separate RHF form for each model key. An editor and an external Save panel can share that form without sharing it with another contact.
+A contact editor and an external Save panel need the same field values, validation and submission. A second contact needs a separate form. Let a model own one native RHF control, then let both widgets select the same editing instance.
 
-[Try isolated contact forms](/examples/contact-forms).
+[Try the contact forms](/examples/contact-forms). Enter an email for Ada: her Save panel updates, while Grace's form stays unchanged.
 
-## createFormModel
+## Create one native form per instance {#createformmodel}
 
-An RHF control already is the form engine. Creating another Jotai mirror of all form state would introduce timing and validation differences. A model owns the control; native components keep their markup and hooks. Use a plain useForm when a form does not need externally shared model state.
+`createFormModel` creates the form and lets you expose selected atoms and commands. The resolver remains the native RHF resolver; there is no second validation engine.
 
-## holoForm
+<<< @/../examples/docs/form.tsx#contact-model
 
-Connect a form model to an RHF View. Keep `register`, `Controller` and `useFormContext` in the View; let other widgets use the same model's atoms and actions.
+Here `$email` projects a field for the external panel. `save` returns `handleSubmit`'s Promise, so RHF can keep submission state until the handler finishes. In a server-backed form, await the mutation inside that handler. A fire-and-forget event cannot represent completion of the save.
 
-```tsx
-import { holoForm } from 'jotai-holo/rhf';
-const ContactEditor = holoForm({
-  models: {
-    model: (props: { contactId: string }) =>
-      $$contact({ key: [props.contactId] }),
-  },
-  form: ({ model }) => model.form,
-  view: ContactView,
-});
-// ContactView uses ordinary useFormContext, Controller, register,
-// and useFieldArray.
-<ContactEditor contactId="ada" />;
-```
+## Keep the editor's RHF components {#holoform}
 
-Use holoForm only when the atom/model system needs to react to form values, validation, submission or other form state. A self-contained form should keep native useForm and FormProvider. When a model is needed, the editor keeps its RHF components and an external Save panel can bind to the same model with ordinary holo.
+`ContactView` still calls `useFormContext`, `register` and `Controller`. `holoForm` provides the selected control through RHF context:
 
-## formAtom
+<<< @/../examples/docs/form.tsx#contact-editor
 
-Read one RHF field through a Jotai atom. For example, display the email currently entered in a form inside an external Save panel.
+An external panel uses ordinary `holo` to select the same model by contact ID, read `$email` and invoke `save`:
+
+<<< @/../examples/docs/form.tsx#contact-save-panel
+
+The editor keeps its field markup and third-party RHF components. Another contact ID selects an independent form.
+
+## Project only what the model needs {#formatom}
 
 ```ts
 import { formAtom } from 'jotai-holo/rhf';
+
 const $email = formAtom(form, 'email');
-const $address = formAtom(form, 'address');
-// Write through native form.setValue / reset or your model's actionAtom.
 ```
 
-A field projection is useful for model calculations and outside panels without subscribing every View to all form values. Native useWatch remains the simplest choice within RHF components. Flags remain native rather than inventing a second state engine or accessing RHF private fields.
+Use `formAtom` when a calculation or another widget needs a field in the atom graph. Inside a field component, native `useWatch` is often enough. Write through `setValue`, `reset` or a model action; the field projection is read-only.
+
+The Save panel can also use native `useFormState` with the shared control. It does not need a Jotai mirror of every RHF flag.
+
+## Initialize an editing session
+
+For server data, decide when it becomes the draft. Opening a new editing session can seed defaults from an existing profile or await the server. Later background refetches should not silently replace what the user typed.
+
+Async defaults start when a `holoForm` root mounts. `defaultValues` initializes a form; use an explicit `reset` policy to replace values in an existing session. The [profile workflow](/recipes/profile-composition#editing-form) explains the separate draft and save boundary.
+
+Use native `useForm` and `FormProvider` for a self-contained form. Add a form model when the atom/model system needs its values or commands, or separate widgets need one editing instance.
 
 ## API reference
 
