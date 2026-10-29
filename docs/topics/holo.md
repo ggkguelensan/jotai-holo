@@ -6,10 +6,10 @@ holo is the binding layer between a parent React component and an inner View. Th
 
 ```text
 Parent
-  │ props: IDs, data descriptors, display options
+  │ props: IDs, descriptors
   ▼
-holo ◄── read / write ──► atoms and models
-  │ props: values, callbacks, display options
+holo ◄─ read/write ─► atoms
+  │ props: values, callbacks
   ▼
 View (inner component)
 ```
