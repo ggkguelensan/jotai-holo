@@ -1095,156 +1095,92 @@ msgstr "Начало работы"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Connect a player profile name field to Jotai. The field will receive a string and a\n"
-"callback, just as it would from a parent component. `holo` supplies those props\n"
-"from atoms."
-msgstr "Подключите поле имени профиля игрока к Jotai. Поле получит строку и callback, как получало бы от родителя. `holo` передаст эти пропсы из атомов."
+msgid "Connect an input to an atom. The View receives a value and an `onChange` callback; holo connects them to Jotai."
+msgstr "Подключим поле ввода к атому. View получает значение и колбэк `onChange`, а holo связывает их с Jotai."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "You do not need a model registry or a holo-specific Provider for this example."
-msgstr "В этом примере не нужны ни registry моделей, ни отдельный провайдер holo."
+msgid "Run the example"
+msgstr "Запустите пример"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Availability and requirements"
-msgstr "Доступность и требования"
+msgid "The package is not yet published to npm. Run the example from the repository:"
+msgstr "Пакет ещё не опубликован в npm. Запустите пример из репозитория:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "The package is not yet published to npm. To run the examples, clone the\n"
-"repository:"
-msgstr "Пакет пока не опубликован в npm. Чтобы запустить примеры, клонируйте репозиторий:"
+msgid "Open the URL printed in the terminal. The name field appears under “Getting started”. See [compatibility](/compatibility) for supported versions."
+msgstr "Откройте адрес из терминала. Поле имени находится в разделе «Getting started». Поддерживаемые версии указаны в [таблице совместимости](/compatibility)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Check the [tested compatibility matrix](/compatibility) for supported Node,\n"
-"React, Jotai and TypeScript versions."
-msgstr "Поддерживаемые версии Node, React, Jotai и TypeScript указаны в [проверенной матрице совместимости](/compatibility)."
+msgid "1. Define the View"
+msgstr "1. Опишите View"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Start with an ordinary View"
-msgstr "Начните с обычной View"
+msgid "The View renders its props and calls `onChange` when the user types. It does not need to know where the value is stored."
+msgstr "View показывает полученное значение и вызывает `onChange` при вводе. Ей не нужно знать, где хранится значение."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "The name field renders the value it receives. When the user types, it calls\n"
-"`onChange`. It does not import atoms or subscribe to a store."
-msgstr "Поле показывает переданное значение. Когда пользователь печатает, оно вызывает `onChange`. Оно не импортирует атомы и не подписывается на store."
+msgid "2. Create the state"
+msgstr "2. Создайте атом"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "You can render this View directly in a test or story by passing a name and an\n"
-"`onChange` callback."
-msgstr "Эту View можно отрисовать в тесте или Storybook: достаточно передать имя и callback `onChange`."
+msgid "Import `stateAtom` and `holo` from `jotai-holo`. Create the atom outside React render:"
+msgstr "Импортируйте `stateAtom` и `holo` из `jotai-holo`. Создайте атом вне React render:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Give the field a value"
-msgstr "Добавьте значение поля"
+msgid "`stateAtom` uses the native Jotai atom API. An existing Jotai atom works too."
+msgstr "У `stateAtom` тот же API, что у нативного атома Jotai. Можно использовать и уже существующий атом."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Create an atom outside React render. It holds the name that this field edits:"
-msgstr "Создайте атом вне React render. Он будет хранить редактируемое имя:"
+msgid "3. Connect the View"
+msgstr "3. Свяжите View с атомом"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Import `stateAtom` and `holo` from `jotai-holo`. `stateAtom` has the native Jotai\n"
-"`atom` API. Existing Jotai atoms work too; you do not need to replace them."
-msgstr "Импортируйте `stateAtom` и `holo` из `jotai-holo`. API `stateAtom` совпадает с Jotai `atom`. Уже существующие атомы Jotai тоже подходят — заменять их не нужно."
+msgid "`read` passes the atom's value as `name`. `write` creates the `onChange` callback that writes to the same atom. Type in the field: the atom changes and the View shows the new value."
+msgstr "`read` передаёт значение атома в проп `name`. `write` создаёт колбэк `onChange`, который записывает значение в тот же атом. Введите текст в поле: атом изменится, и View покажет новое значение."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Connect the props"
-msgstr "Свяжите пропсы с атомом"
+msgid "Declare `NameField` outside React render. Props not supplied by holo are passed by the parent as usual."
+msgstr "Объявляйте `NameField` вне React render. Остальные пропсы родитель передаёт как обычно."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "The example app renders `<NameField />` under “Getting started”. Open the URL printed by `pnpm examples` and edit the `Ada` field:"
-msgstr "В приложении примеров `<NameField />` находится в первом разделе — Getting started. Откройте адрес, который вывела команда `pnpm examples`, и измените поле `Ada`:"
+msgid "Sharing state"
+msgstr "Общее состояние"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "1. `read` supplies the atom's value, initially `Ada`, as the `name` prop.\n"
-"2. `write` supplies a callback as `onChange`.\n"
-"3. Typing calls that callback, writes the new name to the atom and updates the\n"
-"   displayed value."
-msgstr "1. `read` передаёт значение атома, изначально `Ada`, в проп `name`.\n"
-"2. `write` передаёт callback в проп `onChange`.\n"
-"3. При вводе callback записывает новое имя в атом, и поле показывает обновлённое значение."
+msgid "Two `NameField` components in the same Jotai store share the value. A Jotai `Provider` gives a subtree its own store; without it, Jotai uses the default store. holo needs no additional Provider. For SSR, use a separate store per request."
+msgstr "Два компонента `NameField` в одном Jotai store редактируют общее значение. `Provider` из Jotai создаёт отдельное хранилище для поддерева. Без него используется хранилище по умолчанию. Дополнительный Provider для holo не нужен. При SSR создавайте отдельный store для каждого запроса."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "The same writable atom appears in both sections: `read` reads its value and\n"
-"`write` writes to it. No extra command is needed for this direct update."
-msgstr "Один атом с возможностью записи участвует в обеих секциях: `read` читает его значение, а `write` записывает в него. Для такого прямого обновления отдельная команда не нужна."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/getting-started.md
-msgid "If a View prop is not supplied by the binding, the parent still passes it\n"
-"normally. Declare `NameField` outside React render so its component identity\n"
-"stays stable."
-msgstr "Если привязка не заполняет какой-то проп View, его по-прежнему передаёт родитель. Объявляйте `NameField` вне React render, чтобы компонент сохранял идентичность."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/getting-started.md
-msgid "Choose which components share the value"
-msgstr "Определите, какие компоненты используют общее значение"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/getting-started.md
-msgid "Two `NameField` components using the same Jotai store edit the same name. Jotai's\n"
-"`Provider` can give a subtree a separate store. Without one, Jotai uses its default\n"
-"store. holo needs no additional Provider."
-msgstr "Два компонента `NameField` в одном Jotai store редактируют одно имя. `Provider` из Jotai может выделить поддереву отдельный store. Без него Jotai использует store по умолчанию. Дополнительный провайдер holo не нужен."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/getting-started.md
-msgid "For SSR, create a separate store per request. The atom declarations can be shared\n"
-"between requests; user-specific values must not share one server store."
-msgstr "При SSR создавайте отдельный store для каждого запроса. Объявления атомов можно разделять между запросами, но значения разных пользователей не должны попадать в общий серверный store."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/getting-started.md
-msgid "When you need another draft"
-msgstr "Когда нужен ещё один черновик"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/getting-started.md
-msgid "This example has one atom. If two editors need independent drafts, create\n"
-"their atoms in a factory. If independently placed components need to find the\n"
-"same draft by ID, add a registry. Neither is required for a simple binding."
-msgstr "В этом примере один атом. Если двум редакторам нужны независимые черновики, создавайте их атомы фабрикой. Если удалённые друг от друга компоненты должны находить один черновик по ID, добавьте registry. Для простой привязки оба инструмента необязательны."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/getting-started.md
-msgid "Continue with [why use holo](/guide/motivation), then\n"
-"[atoms and models](/topics/atoms-and-models). For an existing project, the\n"
-"[holo topic](/topics/holo) explains input props and external events."
-msgstr "Продолжите со статьи [«Зачем holo»](/guide/motivation), затем прочитайте [«Атомы и модели»](/topics/atoms-and-models). Если вы подключаете существующий проект, [статья о holo](/topics/holo) объясняет работу с входящими пропсами и внешними событиями."
+msgid "This binding needs no model or registry. Continue with [atoms and models](/topics/atoms-and-models) when you need independent state or instances shared by ID."
+msgstr "Для этой привязки не нужны модель и registry. Перейдите к статье [«Атомы и модели»](/topics/atoms-and-models), когда понадобится независимое состояние или общий экземпляр по ID."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

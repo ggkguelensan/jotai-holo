@@ -2,22 +2,22 @@
 
 ## What an example should prove
 
-Choose one reader task and the smallest business scenario that demonstrates it.
+Choose one reader task and the smallest example that demonstrates it.
 Use the same production style in guides, recipes, API snippets and live demos.
 Label an intentionally inferior starting point in a refactoring walkthrough;
 do not let it read as the recommended implementation.
 
 ## Example domain
 
-Use one game-marketplace domain throughout the examples: game catalogs,
-wishlists, player profiles, gift orders, libraries, downloads and seller campaigns.
-Keep the technical task small. A seller sets campaign discounts; a buyer chooses
-an offered promotion. Multiple gift copies represent gifts for a group. Releasing
-a download-progress subscription does not cancel the launcher job.
+Use the game-marketplace domain only for example scenarios and their executable
+sources: catalogs, wishlists, player profiles, gift orders and downloads.
+Introductory guides, conceptual explanations and API contracts use neutral terms
+such as value, field, component, atom and model. Do not introduce a player or game
+just to explain a binding. Link to a domain example when readers need a workflow.
 
-Use consistent fictional game IDs, names and prices. Keep server identity,
-editing-session identity and a player's local draft separate. A domain change
-must update runnable sources, article copy, translations and behavioral fixtures.
+Within domain examples, keep fictional IDs, names and prices consistent. Keep
+server identity, editing-session identity and local drafts separate. Changes to a
+scenario must update its source, explanation, translations and behavioral checks.
 
 ## Views and bindings
 
