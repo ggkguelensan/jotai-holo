@@ -51,6 +51,11 @@ export function PurchaseStatusView({
       aria-live="polite"
       aria-busy={pending}
     >
+      <ShareGame
+        iconOnly
+        title={receipt?.title ?? 'Starfall'}
+        url="https://example.com/games/starfall"
+      />
       <PurchaseStatusContentView
         receipt={receipt}
         pending={pending}
@@ -87,10 +92,6 @@ function PurchaseStatusContentView({
       <p>
         {receipt.title} · ${receipt.total} · #{receipt.orderId}
       </p>
-      <ShareGame
-        title={receipt.title}
-        url="https://example.com/games/starfall"
-      />
     </>
   );
 }

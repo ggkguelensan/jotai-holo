@@ -70,10 +70,12 @@ test('Reactuse share runs during the click and reads the latest committed props'
   const render = (title: string) =>
     h.render(
       <Provider store={store}>
-        <ShareGame title={title} url={`https://example.com/games/${title}`} />
+        <ShareGame iconOnly title={title} url={`https://example.com/games/${title}`} />
       </Provider>,
     );
   await render('starfall');
+  expect(h.container.querySelector('button')!.getAttribute('aria-label')).toBe('Share game');
+  expect(h.container.querySelector('button')!.textContent).toBe('');
   await act(async () => {
     h.container.querySelector('button')!.click();
     expect(share).toHaveBeenCalledWith({

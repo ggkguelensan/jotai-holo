@@ -749,7 +749,7 @@
   align-content: start;
   min-height: 240px;
   gap: 12px;
-  position: static;
+  position: relative;
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
@@ -766,5 +766,29 @@
     grid-template-columns: minmax(0, 1fr);
     gap: 24px;
     min-height: 0;
+  }
+}
+
+.holo-example .demo-share-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border-color: transparent;
+  background: transparent;
+  color: var(--vp-c-text-2);
+}
+.holo-example .demo-share-icon:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .holo-example .demo-share-icon:not(:disabled):hover {
+    background: var(--vp-c-bg-soft);
+    color: var(--vp-c-text-1);
   }
 }

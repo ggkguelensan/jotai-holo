@@ -37,6 +37,8 @@ test('the visible status panel follows the purchase and animates only success', 
   const { buy, panel } = await renderPurchase();
   const animate = vi.spyOn(panel, 'animate');
   expect(panel.textContent).toContain('Ready to purchase');
+  expect(panel.querySelectorAll('button')).toHaveLength(1);
+  expect(panel.querySelector('button svg')).not.toBeNull();
   expect(animate).not.toHaveBeenCalled();
   await act(async () => buy.click());
   expect(buy.disabled).toBe(true);
@@ -45,6 +47,7 @@ test('the visible status panel follows the purchase and animates only success', 
   await act(async () => response.resolve(receipt));
   expect(panel.textContent).toContain('Purchase complete');
   expect(panel.textContent).toContain('P-42');
+  expect(panel.querySelectorAll('button')).toHaveLength(1);
   expect(animate).toHaveBeenCalledTimes(1);
   expect(transport).toHaveBeenCalledTimes(1);
 });
