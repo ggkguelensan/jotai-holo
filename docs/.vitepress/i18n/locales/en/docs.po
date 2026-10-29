@@ -1234,6 +1234,30 @@ msgstr "Jotai supplies dependency tracking between atoms. holo adds declarative 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
+msgid "The goal of holo"
+msgstr "The goal of holo"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
+msgid "holo aims to let you change business logic and screen composition independently. Business rules live in atoms and models; small Views receive ordinary props. A binding declares how those two sides communicate."
+msgstr "holo aims to let you change business logic and screen composition independently. Business rules live in atoms and models; small Views receive ordinary props. A binding declares how those two sides communicate."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
+msgid "A View owns markup, accessibility and UI-specific hooks. An atom or model owns shared state, calculations and commands. The page composes connected children instead of collecting their data and passing it down. This keeps subscriptions near their consumers and lets you test or display a View without starting its business model."
+msgstr "A View owns markup, accessibility and UI-specific hooks. An atom or model owns shared state, calculations and commands. The page composes connected children instead of collecting their data and passing it down. This keeps subscriptions near their consumers and lets you test or display a View without starting its business model."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
+msgid "The model utilities serve the same goal: several Views can share one instance, while managed connections start and stop with their owners. This moves subscription setup and prop forwarding out of handwritten effects in Views. Side effects still exist; their ownership becomes explicit. You can start with plain atoms and add model machinery only when the feature needs it."
+msgstr "The model utilities serve the same goal: several Views can share one instance, while managed connections start and stop with their owners. This moves subscription setup and prop forwarding out of handwritten effects in Views. Side effects still exist; their ownership becomes explicit. You can start with plain atoms and add model machinery only when the feature needs it."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
 msgid "Why build on Jotai?"
 msgstr "Why build on Jotai?"
 

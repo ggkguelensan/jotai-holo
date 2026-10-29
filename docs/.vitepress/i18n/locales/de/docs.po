@@ -1185,6 +1185,30 @@ msgstr "Jotai verfolgt die Abhängigkeiten zwischen Atomen. holo ergänzt deklar
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
+msgid "The goal of holo"
+msgstr "Das Ziel von holo"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
+msgid "holo aims to let you change business logic and screen composition independently. Business rules live in atoms and models; small Views receive ordinary props. A binding declares how those two sides communicate."
+msgstr "holo soll Änderungen an Geschäftslogik und Bildschirmkomposition unabhängig voneinander ermöglichen. Geschäftsregeln liegen in Atomen und Modellen; kleine Views erhalten normale Props. Ein Binding beschreibt, wie beide Seiten miteinander kommunizieren."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
+msgid "A View owns markup, accessibility and UI-specific hooks. An atom or model owns shared state, calculations and commands. The page composes connected children instead of collecting their data and passing it down. This keeps subscriptions near their consumers and lets you test or display a View without starting its business model."
+msgstr "Eine View verantwortet Markup, Barrierefreiheit und UI-spezifische Hooks. Ein Atom oder Modell verantwortet gemeinsamen Zustand, Berechnungen und Befehle. Die Seite setzt angebundene Kinder zusammen, statt deren Daten einzusammeln und weiterzureichen. So bleiben Abonnements bei ihren Verbrauchern, und eine View lässt sich testen oder anzeigen, ohne ihr Geschäftsmodell zu starten."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
+msgid "The model utilities serve the same goal: several Views can share one instance, while managed connections start and stop with their owners. This moves subscription setup and prop forwarding out of handwritten effects in Views. Side effects still exist; their ownership becomes explicit. You can start with plain atoms and add model machinery only when the feature needs it."
+msgstr "Die Modellwerkzeuge dienen demselben Ziel: Mehrere Views können eine Instanz teilen, während verwaltete Verbindungen mit ihren Besitzern starten und enden. Damit entfallen handgeschriebene Effekte in Views zum Einrichten von Abonnements und Weiterleiten von Props. Seiteneffekte bleiben bestehen; ihre Besitzer werden explizit. Beginnen Sie mit gewöhnlichen Atomen und ergänzen Sie Modellmechanismen nur bei Bedarf."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
 msgid "Why build on Jotai?"
 msgstr "Warum auf Jotai aufbauen?"
 

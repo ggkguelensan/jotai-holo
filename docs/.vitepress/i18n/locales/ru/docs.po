@@ -1185,6 +1185,30 @@ msgstr "Jotai отслеживает зависимости между атом�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
+msgid "The goal of holo"
+msgstr "Цель holo"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
+msgid "holo aims to let you change business logic and screen composition independently. Business rules live in atoms and models; small Views receive ordinary props. A binding declares how those two sides communicate."
+msgstr "Цель holo — дать возможность менять бизнес-логику и композицию экрана независимо друг от друга. Бизнес-правила живут в атомах и моделях; маленькие View получают обычные пропсы. Привязка описывает, как эти стороны взаимодействуют."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
+msgid "A View owns markup, accessibility and UI-specific hooks. An atom or model owns shared state, calculations and commands. The page composes connected children instead of collecting their data and passing it down. This keeps subscriptions near their consumers and lets you test or display a View without starting its business model."
+msgstr "View отвечает за разметку, доступность и UI-хуки. Атом или модель — за общее состояние, вычисления и команды. Страница собирает подключённые дочерние компоненты, а не читает все их данные и передаёт вниз. Так подписки остаются рядом с потребителями, а View можно тестировать или показывать отдельно, не запуская её бизнес-модель."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
+msgid "The model utilities serve the same goal: several Views can share one instance, while managed connections start and stop with their owners. This moves subscription setup and prop forwarding out of handwritten effects in Views. Side effects still exist; their ownership becomes explicit. You can start with plain atoms and add model machinery only when the feature needs it."
+msgstr "Утилиты моделей служат той же цели: несколько View могут использовать один экземпляр, а управляемые подключения запускаются и останавливаются вместе с владельцами. Это убирает настройку подписок и передачу пропсов в атомы из вручную написанных эффектов во View. Побочные эффекты остаются; их владельцы становятся явными. Можно начать с обычных атомов и добавлять механизмы моделей только по необходимости."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
 msgid "Why build on Jotai?"
 msgstr "Почему в основе Jotai?"
 

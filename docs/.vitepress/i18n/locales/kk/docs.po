@@ -1185,6 +1185,30 @@ msgstr "Jotai атомдар арасындағы тәуелділіктерді
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
+msgid "The goal of holo"
+msgstr "holo мақсаты"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
+msgid "holo aims to let you change business logic and screen composition independently. Business rules live in atoms and models; small Views receive ordinary props. A binding declares how those two sides communicate."
+msgstr "holo мақсаты — бизнес-логика мен экран композициясын бір-біріне тәуелсіз өзгертуге мүмкіндік беру. Бизнес-ережелер атомдар мен модельдерде орналасады; шағын View кәдімгі props алады. Байланыс осы екі жақтың қалай әрекеттесетінін сипаттайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
+msgid "A View owns markup, accessibility and UI-specific hooks. An atom or model owns shared state, calculations and commands. The page composes connected children instead of collecting their data and passing it down. This keeps subscriptions near their consumers and lets you test or display a View without starting its business model."
+msgstr "View белгілеуге, қолжетімділікке және UI-ге тән хуктерге жауап береді. Атом не модель ортақ күйге, есептеулерге және командаларға жауап береді. Бет барлық деректі өзі оқып, төменге таратудың орнына байланыстырылған еншілес компоненттерді құрастырады. Осылайша жазылымдар тұтынушыларына жақын қалады, ал View-ді бизнес-моделін іске қоспай тексеруге немесе бөлек көрсетуге болады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
+msgid "The model utilities serve the same goal: several Views can share one instance, while managed connections start and stop with their owners. This moves subscription setup and prop forwarding out of handwritten effects in Views. Side effects still exist; their ownership becomes explicit. You can start with plain atoms and add model machinery only when the feature needs it."
+msgstr "Модель утилиталары да осы мақсатқа қызмет етеді: бірнеше View бір дананы ортақ қолдана алады, ал басқарылатын байланыстар иелерімен бірге іске қосылып, тоқтайды. Бұл View ішіндегі жазылымдарды баптау және props мәндерін атомдарға жеткізу үшін қолмен жазылатын әсерлерді алып тастайды. Жанама әсерлер сақталады; олардың иелері айқын болады. Кәдімгі атомдардан бастап, модель тетіктерін қажет кезде ғана қосуға болады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/motivation.md
 msgid "Why build on Jotai?"
 msgstr "Неліктен негіз ретінде Jotai таңдалған?"
 
