@@ -2,7 +2,7 @@
 
 Calculate one value from several atoms. For example, derive a ticket total from quantity and discount.
 
-<<< @/../examples/documentation.tsx#ion
+<<< @/../examples/docs/ion.tsx#calculation
 
 ## Contract
 

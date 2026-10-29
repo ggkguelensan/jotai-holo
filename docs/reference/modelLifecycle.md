@@ -2,25 +2,11 @@
 
 Load a saved draft and save edits when its last owner leaves.
 
-```ts
-const $$profile = pipe(
-  createProfileModel,
+The example restores a draft from browser session storage and writes it back when the last editor leaves:
 
-  modelLifecycle({
-    load: ({ initial, signal }) => api.loadDraft(initial.profileId, { signal }),
+<<< @/../examples/docs/data-lifecycle.tsx#draft-lifecycle
 
-    restore: (profile) => profile.loaded,
-    snapshot: (profile) => profile.$draft,
-
-    save: ({ initial, snapshot, signal }) =>
-      api.saveDraft(initial.profileId, snapshot, { signal }),
-
-    onError: reportProfileError,
-  }),
-
-  modelRegistry({ retainTime: Infinity }),
-);
-```
+For server requests, use TanStack Query options and [Query/Mutation models](/topics/tanstack-models) when the atom graph needs them. Use native hooks for React-only requests. Do not duplicate request status, caching or retry policy in a lifecycle callback. A custom transport can still belong here when its ownership protocol requires it.
 
 ## Contract
 

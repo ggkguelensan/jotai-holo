@@ -1,6 +1,6 @@
 # bond
 
-Connect an event to a reaction. When an order is submitted, read the current settings, check a condition and send arguments to the receiving atom.
+Connect a fact to an independent reaction. After a profile save, read the current locale, check whether notifications are enabled and show a message.
 
 <<< @/../examples/documentation.tsx#bond
 

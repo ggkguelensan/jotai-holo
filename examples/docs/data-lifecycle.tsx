@@ -4,6 +4,7 @@ import { holo, stateAtom } from 'jotai-holo';
 import { modelLifecycle, modelRegistry, pipe } from 'jotai-holo/model';
 
 // #region data-lifecycle
+// #region draft-lifecycle
 function createDraftModel() {
   const $name = stateAtom('');
 
@@ -24,6 +25,8 @@ const $$draft = pipe(
 
   modelRegistry(),
 );
+
+// #endregion draft-lifecycle
 
 function DraftView({
   name,

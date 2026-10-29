@@ -1436,8 +1436,8 @@ msgstr "Асинхронные действия"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/rendering.md
-msgid "Actions return the original result and Promise. They do not cancel, serialize, roll back, or implement latest-wins. The [profile recipe](/recipes/profile) implements single-flight explicitly and catches failures in the model. `actionAtom` publishes call arguments when the synchronous handler returns, including when it returns a pending Promise. Publish a separate fact event after `await` if consumers need confirmed success."
-msgstr "Действия возвращают исходный результат и Promise. Они не отменяются, не сериализуются и не реализуют rollback или latest-wins. [Пример профиля](/recipes/profile) явно запрещает параллельное сохранение и обрабатывает ошибки в модели. `actionAtom` публикует аргументы после возврата синхронной части, в том числе pending Promise. Для подтверждённого успеха публикуйте отдельный факт после `await`."
+msgid "Actions return the original result and Promise. They do not cancel, serialize, roll back, or implement latest-wins. The [profile recipe](/recipes/profile) uses a TanStack mutation, with explicit single-flight and Promise handling in the save command. `actionAtom` publishes call arguments when the synchronous handler returns, including when it returns a pending Promise. Publish a separate fact event after `await` if consumers need confirmed success."
+msgstr "Действия возвращают исходный результат и Promise. Они не добавляют отмену, последовательное выполнение, откат или политику latest-wins. В [рецепте профиля](/recipes/profile) используется мутация TanStack, а запрет повторного сохранения и обработка Promise явно заданы командой сохранения. `actionAtom` публикует аргументы вызова после возврата синхронной части обработчика, в том числе когда тот возвращает незавершённый Promise. Если потребителям нужен подтверждённый успех, публикуйте отдельный факт после `await`."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2046,8 +2046,8 @@ msgstr "Модель профиля: команда → факт → реакц�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "A user edits a draft and presses Save. A command validates input and persists it through an API. Only the successful response produces the fact `profileSaved`. A notification module reacts to that fact without controlling persistence."
-msgstr "Пользователь меняет черновик и нажимает Save. Команда валидирует данные и сохраняет их через API. Только успешный ответ порождает факт `profileSaved`. Модуль уведомлений реагирует на этот факт, не управляя сохранением."
+msgid "A user edits a draft and presses Save. TanStack Query runs the mutation and owns its pending and error state. After success, the command publishes `profileSaved`; a notification reacts without controlling persistence."
+msgstr "Пользователь редактирует черновик и нажимает Save. TanStack Query выполняет мутацию и хранит состояние запроса и ошибку. После успеха команда публикует `profileSaved`; уведомление реагирует на факт, не управляя сохранением."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2058,14 +2058,26 @@ msgstr "Модель и async-политика"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "Repeated saves are ignored while one request is pending. The draft is captured before await, so later edits do not change the request. The response updates `$profile`; it does not overwrite the current draft and lose newer edits. Failures enter `$error`, emit no success fact, and clear `$saving` in finally."
-msgstr "Пока запрос выполняется, повторный save игнорируется. Входной draft снимается до await, поэтому дальнейшее редактирование не меняет отправленные данные. Ответ сохраняется в `$profile`; текущий draft не перезаписывается, так что новые правки не теряются. Ошибка попадает в `$error`, успех-событие не публикуется, `$saving` очищается в finally."
+msgid "Keep the draft and validation in the business model. It accepts a saved profile without replacing the current draft, so a response cannot erase edits made while saving:"
+msgstr "Оставьте черновик и валидацию в бизнес-модели. Она принимает сохранённый профиль, не заменяя текущий черновик: ответ не сотрёт изменения, сделанные во время запроса:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "This policy belongs to the example, not to actionAtom. Latest-wins, cancellation and retries need a different model policy or a suitable data-fetching tool."
-msgstr "Это явно выбранная политика примера, а не встроенное поведение actionAtom. Для latest-wins, отмены и повторов нужна другая политика модели или готовый data-fetching инструмент."
+msgid "Declare the mutation separately, at module scope. Its native options factory uses `profileApi.save`, which calls `PUT /api/profile`. Supply this endpoint in your application; the documentation does not deploy a backend."
+msgstr "Объявите мутацию отдельно, на уровне модуля. Её нативная фабрика опций использует `profileApi.save`, который вызывает `PUT /api/profile`. Этот endpoint должно предоставить приложение: документация не развёртывает сервер."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "The save command coordinates the workflow. It skips invalid drafts and duplicate saves, captures the submitted values and publishes the accepted result only after `mutate` resolves:"
+msgstr "Команда сохранения связывает шаги сценария. Она пропускает невалидные черновики и повторные сохранения, фиксирует отправляемые значения и публикует принятый результат только после успешного завершения `mutate`:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "There are no manually maintained request flags. `$saving` and `$error` project native mutation state. The catch handles the rejected Promise; it does not copy the error into another atom. Failed saves publish no success fact. Single-flight is a policy of this command, not a TanStack guarantee."
+msgstr "Ручных флагов запроса больше нет. `$saving` и `$error` — проекции нативного состояния мутации. Catch обрабатывает отклонённый Promise, не копируя ошибку в другой атом. При неудаче факт успеха не публикуется. Запрет повторного сохранения задаёт эта команда; TanStack сам по себе его не гарантирует."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2076,8 +2088,8 @@ msgstr "Независимая реакция"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "save performs persistence. profileSaved reports the accepted result, and the notification reacts to it. Disabling notifications does not undo the save."
-msgstr "save сохраняет данные. profileSaved сообщает о принятом результате, а уведомление реагирует на него. Отключение уведомлений не отменяет сохранение."
+msgid "`createNotifications($$profile)` connects the fact to a message. It does not import the API or mutation. Disabling notifications prevents the message, not the save."
+msgstr "`createNotifications($$profile)` связывает факт с сообщением. Модуль не импортирует API или мутацию. Отключение уведомлений отменяет показ сообщения, а не сохранение."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2088,14 +2100,20 @@ msgstr "Владение соединением"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "Create the runtime before rendering. Give the Provider `runtime.store`, bind `runtime.model` outside render, and call `runtime.dispose()` when the session ends. For SSR, create a runtime per request. To share keyed models between widgets, use [modelRegistry](/reference/modelRegistry)."
-msgstr "Создайте runtime до render. Передайте `runtime.store` в Provider, свяжите `runtime.model` вне render и вызовите `runtime.dispose()` в конце сессии. При SSR создавайте runtime для каждого запроса. Для общих моделей с ключами используйте [modelRegistry](/reference/modelRegistry)."
+msgid "The notification component owns that reaction through its model. Declaring the binding does not subscribe; mounting the component acquires it after commit."
+msgstr "Компонент уведомления владеет реакцией через свою модель. Объявление привязки не создаёт подписку: она подключается после commit при монтировании компонента."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "API failure is expected model state; the connection's onError handles failures in the reaction itself. This example catches API errors inside save rather than rejecting to the calling View."
-msgstr "Ошибка API — ожидаемое состояние модели; onError соединения предназначен для ошибок самой реакции. Этот пример обрабатывает API-ошибки внутри save и не пробрасывает их вызывающему View."
+msgid "Render `SaveNotice` while the editor is active. The last owner leaving stops the reaction. This ephemeral notification does not replay a save that completed while no owner was listening."
+msgstr "Показывайте `SaveNotice`, пока редактор активен. Когда уходит последний владелец, реакция отключается. Это временное уведомление не воспроизводит сохранение, завершившееся без слушателей."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "Give Jotai [the application's QueryClient](/topics/tanstack-models#queryclientatom). The editor and notice must use the same Jotai store. For SSR, use a separate store and QueryClient per request."
+msgstr "Передайте Jotai [QueryClient приложения](/topics/tanstack-models#queryclientatom). Редактор и уведомление должны использовать один Jotai store. При SSR создавайте отдельные store и QueryClient для каждого запроса."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2106,8 +2124,20 @@ msgstr "Привязка редактора"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "Call `const Editor = createProfileEditor(runtime.model)` once during application setup, then render `<Provider store={runtime.store}><Editor /></Provider>`. This factory creates a component definition; it must not run inside another component's render. The View does not import atoms or handle persistence errors itself."
-msgstr "Вызовите `const Editor = createProfileEditor(runtime.model)` один раз при создании приложения, затем отрисуйте `<Provider store={runtime.store}><Editor /></Provider>`. Фабрика создаёт определение компонента; её нельзя вызывать внутри render другого компонента. View не импортирует атомы и не обрабатывает ошибки сохранения самостоятельно."
+msgid "The View receives draft values, request state and callbacks. It does not import Query or duplicate its state:"
+msgstr "View получает значения черновика, состояние запроса и callbacks. Она не импортирует Query и не дублирует его состояние:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "[The complete View source](https://github.com/ggkguelensan/jotai-holo/blob/main/examples/profile/edit-view.tsx) uses native required/email inputs for field feedback. A larger form can keep RHF and its resolver; [the server-data recipe](/recipes/server-data#a-form-initialized-from-server-data) shows that path."
+msgstr "[Полный исходник View](https://github.com/ggkguelensan/jotai-holo/blob/main/examples/profile/edit-view.tsx) использует нативные required/email-поля для обратной связи при вводе. В более сложной форме можно оставить RHF и его resolver; этот путь показан в [рецепте серверных данных](/recipes/server-data#a-form-initialized-from-server-data)."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "This workflow uses `createMutationModel` because atoms and an independent reaction participate. If only React needs the request, prefer native `useMutation`. To initialize a business profile from a server, follow the [loading and editing workflow](/recipes/profile-composition)."
+msgstr "Здесь используется `createMutationModel`, потому что в сценарии участвуют атомы и независимая реакция. Если запрос нужен только React, выбирайте нативный `useMutation`. Инициализация бизнес-профиля с сервера разобрана в [сценарии загрузки и редактирования](/recipes/profile-composition)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2118,8 +2148,8 @@ msgstr "Проверка сценария"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "The example source is included in TypeScript checking. `tests/documentation.test.ts` checks that no fact occurs before API success, repeated saves make one request, successful facts are delivered, disposal stops reactions, API failure emits no success fact, and invalid input is rejected."
-msgstr "Исходник примера входит в TypeScript-проверку. Тесты `tests/documentation.test.ts` проверяют отсутствие факта до ответа API, один запрос при повторном save, доставку успешного факта, прекращение реакции после dispose, ошибку API и отклонение невалидного ввода."
+msgid "The tests check pending state, single-flight, draft isolation, successful facts, failure state and notification cleanup. The browser test exercises the documented editor through pending, success and failure."
+msgstr "Тесты проверяют состояние запроса, запрет повторного сохранения, изоляцию черновика, факты успеха, ошибку и отключение уведомлений. Браузерный тест проводит редактор через ожидание, успех и ошибку."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -2132,8 +2162,12 @@ msgstr "Материалы"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "[React: separating events from effects](https://react.dev/learn/separating-events-from-effects) helps separate explicit operations from synchronization. [Effector sample](https://effector.dev/en/api/effector/sample/) is the declarative connection analogy. The example demonstrates a command followed by an independent reaction. Durable audit logs and transactional delivery require their own storage and acknowledgement policy."
-msgstr "[React: события и эффекты](https://react.dev/learn/separating-events-from-effects) помогает отличить явные операции от синхронизации. [Effector sample](https://effector.dev/en/api/effector/sample/) — аналогия декларативной связи. Пример показывает команду и независимую реакцию после неё. Для долговечного журнала аудита и транзакционной доставки нужны собственные хранение и подтверждения."
+msgid "- [TanStack mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) — request lifecycle, native options and execution Promises.\n"
+"- [React: separating events from effects](https://react.dev/learn/separating-events-from-effects) — explicit operations and reactive synchronization.\n"
+"- [Effector sample](https://effector.dev/en/api/effector/sample/) — the declarative connection analogy."
+msgstr "- [Мутации TanStack](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) — жизненный цикл запроса, нативные опции и Promise выполнения.\n"
+"- [React: разделение событий и эффектов](https://react.dev/learn/separating-events-from-effects) — явные операции и реактивная синхронизация.\n"
+"- [Effector sample](https://effector.dev/en/api/effector/sample/) — аналогия декларативной связи."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2316,8 +2350,8 @@ msgstr "actionAtom"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
-msgid "Describe an operation that reads or updates atoms. For example, validate a draft and submit it to an API."
-msgstr "Опишите операцию, которая читает или изменяет атомы. Например, проверьте черновик и отправьте его в API."
+msgid "Describe an operation that reads or updates atoms, such as changing a profile name."
+msgstr "Опишите операцию, которая читает или обновляет атомы, например изменение имени профиля."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -2666,8 +2700,8 @@ msgstr "bond"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/bond.md
-msgid "Connect an event to a reaction. When an order is submitted, read the current settings, check a condition and send arguments to the receiving atom."
-msgstr "Свяжите событие с реакцией. После оформления заказа прочитайте текущие настройки, проверьте условие и передайте аргументы атому-получателю."
+msgid "Connect a fact to an independent reaction. After a profile save, read the current locale, check whether notifications are enabled and show a message."
+msgstr "Свяжите факт с независимой реакцией. После сохранения профиля прочитайте текущую локаль, проверьте, включены ли уведомления, и покажите сообщение."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3442,6 +3476,12 @@ msgstr "Сообщите о случившемся. Отправьте `profileS
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/eventAtom.md
+msgid "The [profile recipe](/recipes/profile) shows the mutation and publishes the fact only after its Promise resolves."
+msgstr "В [рецепте профиля](/recipes/profile) показана мутация и публикация факта только после успешного завершения её Promise."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/eventAtom.md
 msgid "- `eventAtom<Payload>()` accepts one payload; `eventAtom()` accepts no payload.\n"
 "- `store.set(event, payload)` publishes within that store. Repeated equal payloads are delivered every time.\n"
 "- The readable value stays `null`. No last payload, replay, persistence or cross-store broadcast.\n"
@@ -4132,6 +4172,18 @@ msgstr "modelLifecycle"
 #: docs/reference/modelLifecycle.md
 msgid "Load a saved draft and save edits when its last owner leaves."
 msgstr "Загрузите сохранённый черновик и сохраните изменения, когда уйдёт последний владелец."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelLifecycle.md
+msgid "The example restores a draft from browser session storage and writes it back when the last editor leaves:"
+msgstr "Пример восстанавливает черновик из session storage браузера и сохраняет его, когда уходит последний редактор:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelLifecycle.md
+msgid "For server requests, use TanStack Query options and [Query/Mutation models](/topics/tanstack-models) when the atom graph needs them. Use native hooks for React-only requests. Do not duplicate request status, caching or retry policy in a lifecycle callback. A custom transport can still belong here when its ownership protocol requires it."
+msgstr "Для серверных запросов используйте опции TanStack Query и [Query/Mutation-модели](/topics/tanstack-models), когда они нужны графу атомов. Для запросов только в React подходят нативные хуки. Не дублируйте состояние запроса, кеширование или политику повторных попыток в lifecycle callback. Особый транспорт всё же может принадлежать этому механизму, если того требует его протокол владения."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

@@ -2,6 +2,7 @@ import { useLingui } from '@lingui/react/macro';
 import { holo, ion, stateAtom } from 'jotai-holo';
 
 // #region ion
+// #region calculation
 const $quantity = stateAtom(2);
 const $discount = stateAtom(false);
 
@@ -9,6 +10,8 @@ const $total = ion(
   { quantity: $quantity, discount: $discount },
   ({ quantity, discount }) => quantity * 25 * (discount ? 0.8 : 1),
 );
+
+// #endregion calculation
 
 function CartView({
   quantity,

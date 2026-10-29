@@ -1,39 +1,55 @@
 # Profile: command → fact → reaction
 
-A user edits a draft and presses Save. A command validates input and persists it through an API. Only the successful response produces the fact `profileSaved`. A notification module reacts to that fact without controlling persistence.
+A user edits a draft and presses Save. TanStack Query runs the mutation and owns its pending and error state. After success, the command publishes `profileSaved`; a notification reacts without controlling persistence.
 
 ## Model and async policy
 
-<<< @/../examples/documentation.tsx#workflow
+Keep the draft and validation in the business model. It accepts a saved profile without replacing the current draft, so a response cannot erase edits made while saving:
 
-Repeated saves are ignored while one request is pending. The draft is captured before await, so later edits do not change the request. The response updates `$profile`; it does not overwrite the current draft and lose newer edits. Failures enter `$error`, emit no success fact, and clear `$saving` in finally.
+<<< @/../examples/profile/edit-model.ts#edit-model
 
-This policy belongs to the example, not to actionAtom. Latest-wins, cancellation and retries need a different model policy or a suitable data-fetching tool.
+Declare the mutation separately, at module scope. Its native options factory uses `profileApi.save`, which calls `PUT /api/profile`. Supply this endpoint in your application; the documentation does not deploy a backend.
+
+<<< @/../examples/profile/edit-save.ts#edit-mutation
+
+The save command coordinates the workflow. It skips invalid drafts and duplicate saves, captures the submitted values and publishes the accepted result only after `mutate` resolves:
+
+<<< @/../examples/profile/edit-save.ts#edit-save
+
+There are no manually maintained request flags. `$saving` and `$error` project native mutation state. The catch handles the rejected Promise; it does not copy the error into another atom. Failed saves publish no success fact. Single-flight is a policy of this command, not a TanStack guarantee.
 
 ## Independent reaction
 
 <<< @/../examples/documentation.tsx#bond
 
-save performs persistence. profileSaved reports the accepted result, and the notification reacts to it. Disabling notifications does not undo the save.
+`createNotifications($$profile)` connects the fact to a message. It does not import the API or mutation. Disabling notifications prevents the message, not the save.
 
 ## Connection ownership
 
-<<< @/../examples/documentation.tsx#runtime
+The notification component owns that reaction through its model. Declaring the binding does not subscribe; mounting the component acquires it after commit.
 
-Create the runtime before rendering. Give the Provider `runtime.store`, bind `runtime.model` outside render, and call `runtime.dispose()` when the session ends. For SSR, create a runtime per request. To share keyed models between widgets, use [modelRegistry](/reference/modelRegistry).
+<<< @/../examples/profile/edit-notifications.tsx#notification-binding
 
-API failure is expected model state; the connection's onError handles failures in the reaction itself. This example catches API errors inside save rather than rejecting to the calling View.
+Render `SaveNotice` while the editor is active. The last owner leaving stops the reaction. This ephemeral notification does not replay a save that completed while no owner was listening.
+
+Give Jotai [the application's QueryClient](/topics/tanstack-models#queryclientatom). The editor and notice must use the same Jotai store. For SSR, use a separate store and QueryClient per request.
 
 ## Bind the editor
 
-<<< @/../examples/documentation.tsx#profile-view
+The View receives draft values, request state and callbacks. It does not import Query or duplicate its state:
 
-Call `const Editor = createProfileEditor(runtime.model)` once during application setup, then render `<Provider store={runtime.store}><Editor /></Provider>`. This factory creates a component definition; it must not run inside another component's render. The View does not import atoms or handle persistence errors itself.
+<<< @/../examples/profile/edit-view.tsx#edit-binding
+
+[The complete View source](https://github.com/ggkguelensan/jotai-holo/blob/main/examples/profile/edit-view.tsx) uses native required/email inputs for field feedback. A larger form can keep RHF and its resolver; [the server-data recipe](/recipes/server-data#a-form-initialized-from-server-data) shows that path.
+
+This workflow uses `createMutationModel` because atoms and an independent reaction participate. If only React needs the request, prefer native `useMutation`. To initialize a business profile from a server, follow the [loading and editing workflow](/recipes/profile-composition).
 
 ## Verification
 
-The example source is included in TypeScript checking. `tests/documentation.test.ts` checks that no fact occurs before API success, repeated saves make one request, successful facts are delivered, disposal stops reactions, API failure emits no success fact, and invalid input is rejected.
+The tests check pending state, single-flight, draft isolation, successful facts, failure state and notification cleanup. The browser test exercises the documented editor through pending, success and failure.
 
 ## Reading
 
-[React: separating events from effects](https://react.dev/learn/separating-events-from-effects) helps separate explicit operations from synchronization. [Effector sample](https://effector.dev/en/api/effector/sample/) is the declarative connection analogy. The example demonstrates a command followed by an independent reaction. Durable audit logs and transactional delivery require their own storage and acknowledgement policy.
+- [TanStack mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) — request lifecycle, native options and execution Promises.
+- [React: separating events from effects](https://react.dev/learn/separating-events-from-effects) — explicit operations and reactive synchronization.
+- [Effector sample](https://effector.dev/en/api/effector/sample/) — the declarative connection analogy.
