@@ -144,8 +144,8 @@ msgstr "Game catalog"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/game-catalog.md
-msgid "Choose a game and watch loading change to its card. Inspect the code for the empty and error branches too. Query projections feed the atom graph; holoMatch chooses which View to display."
-msgstr "Choose a game and watch loading change to its card. Inspect the code for the empty and error branches too. Query projections feed the atom graph; holoMatch chooses which View to display."
+msgid "Choose a game and watch loading change to its card. Use Not found and Server error to try the empty and error states, then choose a game again to recover. Query projections feed the atom graph; holoMatch chooses which View to display."
+msgstr "Choose a game and watch loading change to its card. Use Not found and Server error to try the empty and error states, then choose a game again to recover. Query projections feed the atom graph; holoMatch chooses which View to display."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -164,8 +164,8 @@ msgstr "Gift copies"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/gift-copies.md
-msgid "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo uses ion to calculate the order total and enable checkout after the buyer selects a payment method and accepts the terms."
-msgstr "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo uses ion to calculate the order total and enable checkout after the buyer selects a payment method and accepts the terms."
+msgid "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo calculates the order total and shows whether the buyer has selected a payment method and accepted the purchase terms."
+msgstr "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo calculates the order total and shows whether the buyer has selected a payment method and accepted the purchase terms."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5096,19 +5096,19 @@ msgstr "Related state: create a record"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "Catalog filters and order filters have the same fields but must keep different\n"
+msgid "Catalog filters and wishlist filters have the same fields but must keep different\n"
 "values. A factory creates those fields together:"
-msgstr "Catalog filters and order filters have the same fields but must keep different\n"
+msgstr "Catalog filters and wishlist filters have the same fields but must keep different\n"
 "values. A factory creates those fields together:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
 msgid "Calling `createFiltersModel()` twice creates two different atom records.\n"
-"`$$catalogFilters` is one model instance; `$$orderFilters` is another. Create\n"
+"`$$catalogFilters` is one model instance; `$$wishlistFilters` is another. Create\n"
 "these fixed instances outside React render."
 msgstr "Calling `createFiltersModel()` twice creates two different atom records.\n"
-"`$$catalogFilters` is one model instance; `$$orderFilters` is another. Create\n"
+"`$$catalogFilters` is one model instance; `$$wishlistFilters` is another. Create\n"
 "these fixed instances outside React render."
 
 #. Markdown. Preserve links, inline code and table/list syntax.

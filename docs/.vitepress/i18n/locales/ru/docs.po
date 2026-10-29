@@ -144,8 +144,8 @@ msgstr "Каталог игр"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/game-catalog.md
-msgid "Choose a game and watch loading change to its card. Inspect the code for the empty and error branches too. Query projections feed the atom graph; holoMatch chooses which View to display."
-msgstr "Выберите игру и проследите, как загрузка сменяется её карточкой. Посмотрите в коде также ветки пустого результата и ошибки. Проекции Query передают данные в граф атомов; holoMatch выбирает отображаемую View."
+msgid "Choose a game and watch loading change to its card. Use Not found and Server error to try the empty and error states, then choose a game again to recover. Query projections feed the atom graph; holoMatch chooses which View to display."
+msgstr "Выберите игру и дождитесь её карточки. Кнопки «Не найдено» и «Ошибка сервера» показывают пустой результат и ошибку; повторный выбор игры возвращает карточку. Проекции Query передают данные в атомный граф, а holoMatch выбирает View для отображения."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -164,8 +164,8 @@ msgstr "Копии в подарок"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/gift-copies.md
-msgid "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo uses ion to calculate the order total and enable checkout after the buyer selects a payment method and accepts the terms."
-msgstr "Измените число подарочных копий игры и скидку: ion пересчитает итоговую сумму. Второй пример использует ion для расчёта стоимости заказа и разрешает оформление после выбора способа оплаты и принятия условий."
+msgid "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo calculates the order total and shows whether the buyer has selected a payment method and accepted the purchase terms."
+msgstr "Измените количество подарочных копий игры и скидку: ion пересчитает итог. Второй пример вычисляет сумму заказа и показывает, выбрал ли покупатель способ оплаты и принял ли условия покупки."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5011,17 +5011,20 @@ msgstr "Связанное состояние: объедините атомы �
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "Catalog filters and order filters have the same fields but must keep different\n"
+msgid "Catalog filters and wishlist filters have the same fields but must keep different\n"
 "values. A factory creates those fields together:"
-msgstr "Фильтры каталога и заказов содержат одинаковые поля, но должны хранить разные значения. Фабрика создаёт поля вместе:"
+msgstr "Фильтры каталога и списка желаемого имеют одинаковые поля, но должны хранить разные\n"
+"значения. Фабрика создаёт эти поля вместе:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
 msgid "Calling `createFiltersModel()` twice creates two different atom records.\n"
-"`$$catalogFilters` is one model instance; `$$orderFilters` is another. Create\n"
+"`$$catalogFilters` is one model instance; `$$wishlistFilters` is another. Create\n"
 "these fixed instances outside React render."
-msgstr "Два вызова `createFiltersModel()` создают два разных объекта атомов. `$$catalogFilters` — один экземпляр модели, `$$orderFilters` — другой. Создавайте такие фиксированные экземпляры вне React render."
+msgstr "Два вызова `createFiltersModel()` создают два разных набора атомов.\n"
+"`$$catalogFilters` — один экземпляр модели, `$$wishlistFilters` — другой.\n"
+"Создавайте эти фиксированные экземпляры вне React render."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

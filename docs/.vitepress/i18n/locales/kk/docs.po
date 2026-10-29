@@ -144,8 +144,8 @@ msgstr "Ойындар каталогы"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/game-catalog.md
-msgid "Choose a game and watch loading change to its card. Inspect the code for the empty and error branches too. Query projections feed the atom graph; holoMatch chooses which View to display."
-msgstr "Ойынды таңдаңыз: жүктелу күйі оның карточкасына ауысады. Кодтан бос нәтиже мен қате тармақтарын да қараңыз. Query проекциялары деректерді атомдар графына береді, ал holoMatch көрсетілетін View-ді таңдайды."
+msgid "Choose a game and watch loading change to its card. Use Not found and Server error to try the empty and error states, then choose a game again to recover. Query projections feed the atom graph; holoMatch chooses which View to display."
+msgstr "Ойынды таңдап, оның карточкасы жүктелгенін күтіңіз. «Табылмады» және «Сервер қатесі» батырмаларымен бос нәтиже мен қате күйлерін тексеріп, кейін ойынды қайта таңдаңыз. Query проекциялары атомдар графына деректерді береді, ал holoMatch көрсетілетін View-ді таңдайды."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -164,8 +164,8 @@ msgstr "Сыйлыққа арналған даналар"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/gift-copies.md
-msgid "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo uses ion to calculate the order total and enable checkout after the buyer selects a payment method and accepts the terms."
-msgstr "Сыйға берілетін ойын көшірмелерінің саны мен жеңілдікті өзгертіңіз: ion жалпы соманы қайта есептейді. Екінші мысал ion арқылы тапсырыс сомасын есептеп, төлем тәсілі таңдалып, шарттар қабылданғаннан кейін сатып алуға рұқсат береді."
+msgid "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo calculates the order total and shows whether the buyer has selected a payment method and accepted the purchase terms."
+msgstr "Сыйға берілетін ойын көшірмелерінің саны мен жеңілдікті өзгертіңіз: ion жалпы соманы қайта есептейді. Екінші мысал тапсырыс сомасын есептеп, сатып алушы төлем әдісін таңдағанын және сатып алу шарттарын қабылдағанын көрсетеді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5010,17 +5010,20 @@ msgstr "Байланысты күй: record жасау"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "Catalog filters and order filters have the same fields but must keep different\n"
+msgid "Catalog filters and wishlist filters have the same fields but must keep different\n"
 "values. A factory creates those fields together:"
-msgstr "Каталог сүзгісі мен тапсырыс сүзгісінің өрістері бірдей, бірақ мәндері бөлек болуы керек. Фабрика бұл өрістерді бірге жасайды:"
+msgstr "Каталог пен тілектер тізімінің сүзгілерінде бірдей өрістер бар, бірақ олардың мәндері бөлек\n"
+"сақталуы керек. Фабрика бұл өрістерді бірге жасайды:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
 msgid "Calling `createFiltersModel()` twice creates two different atom records.\n"
-"`$$catalogFilters` is one model instance; `$$orderFilters` is another. Create\n"
+"`$$catalogFilters` is one model instance; `$$wishlistFilters` is another. Create\n"
 "these fixed instances outside React render."
-msgstr "`createFiltersModel()` екі рет шақырылса, екі бөлек атом record-ы жасалады. `$$catalogFilters` — бір модель данасы, `$$orderFilters` — екіншісі. Осындай бекітілген даналарды React render-ден тыс жасаңыз."
+msgstr "`createFiltersModel()` функциясын екі рет шақыру екі бөлек атомдар жиынын жасайды.\n"
+"`$$catalogFilters` — бір модель данасы, `$$wishlistFilters` — екіншісі.\n"
+"Бұл тұрақты даналарды React render сыртында жасаңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

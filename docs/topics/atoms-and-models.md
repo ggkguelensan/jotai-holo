@@ -47,13 +47,13 @@ declarations.
 
 ## Related state: create a record {#related-state-a-plain-factory}
 
-Catalog filters and order filters have the same fields but must keep different
+Catalog filters and wishlist filters have the same fields but must keep different
 values. A factory creates those fields together:
 
 <<< @/../examples/atoms-or-models.tsx#factory
 
 Calling `createFiltersModel()` twice creates two different atom records.
-`$$catalogFilters` is one model instance; `$$orderFilters` is another. Create
+`$$catalogFilters` is one model instance; `$$wishlistFilters` is another. Create
 these fixed instances outside React render.
 
 Each field can connect directly to the first record. CatalogFilters only composes those connected fields:

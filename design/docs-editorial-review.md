@@ -35,7 +35,7 @@ Introduce factory, definition, selection atom, instance and owner at their first
 | Getting started     | React props and a Jotai atom | Run a View with a reactive value and callback                 |
 | Motivation          | One working binding          | Recognize where separating View and binding helps             |
 | Architecture        | Atoms and Views              | Assign rules, cache, form state and analytics to their owners |
-| Holo                | Jotai reads and writes       | Follow read, write, input, static and imperative directions   |
+| Holo                | Jotai reads and writes       | Follow read, write, input, static and events directions       |
 | Atoms and models    | Native atoms                 | Choose a module atom, factory or registry                     |
 | Models and registry | A model factory              | Predict identity, sharing, retention and last-owner cleanup   |
 | Model composition   | Instance and owner           | Compose and author type-preserving modifiers                  |

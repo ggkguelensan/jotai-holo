@@ -1,6 +1,6 @@
 # Gift copies
 
-Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo uses ion to calculate the order total and enable checkout after the buyer selects a payment method and accepts the terms.
+Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo calculates the order total and shows whether the buyer has selected a payment method and accepted the purchase terms.
 
 <Demo kind="ion" :files="['ion-views.tsx']">
 

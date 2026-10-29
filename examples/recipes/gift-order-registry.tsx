@@ -73,6 +73,12 @@ export function KeyedGiftOrderEditor({ giftOrderId }: { giftOrderId: string }) {
 // #endregion keyed-binding
 
 // #region keyed-usage
-export const atlas = <KeyedGiftOrderEditor giftOrderId="P-1042" />;
-export const beacon = <KeyedGiftOrderEditor giftOrderId="P-2048" />;
+export function GiftOrdersPage() {
+  return (
+    <>
+      <KeyedGiftOrderEditor giftOrderId="P-1042" />
+      <KeyedGiftOrderEditor giftOrderId="P-2048" />
+    </>
+  );
+}
 // #endregion keyed-usage

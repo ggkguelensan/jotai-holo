@@ -144,8 +144,8 @@ msgstr "Spielekatalog"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/game-catalog.md
-msgid "Choose a game and watch loading change to its card. Inspect the code for the empty and error branches too. Query projections feed the atom graph; holoMatch chooses which View to display."
-msgstr "Wähle ein Spiel und beobachte den Wechsel vom Laden zur Spielkarte. Untersuche im Code auch die Zweige für leere Ergebnisse und Fehler. Query-Projektionen versorgen den Atomgraphen; holoMatch wählt die angezeigte View."
+msgid "Choose a game and watch loading change to its card. Use Not found and Server error to try the empty and error states, then choose a game again to recover. Query projections feed the atom graph; holoMatch chooses which View to display."
+msgstr "Wähle ein Spiel und warte auf seine Karte. Mit „Nicht gefunden“ und „Serverfehler“ kannst du leere Ergebnisse und Fehler ausprobieren; wähle danach wieder ein Spiel. Query-Projektionen versorgen den Atomgraphen; holoMatch wählt die anzuzeigende View."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -164,8 +164,8 @@ msgstr "Geschenkkopien"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/gift-copies.md
-msgid "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo uses ion to calculate the order total and enable checkout after the buyer selects a payment method and accepts the terms."
-msgstr "Ändere die Anzahl der Spielkopien zum Verschenken und den Rabatt: ion berechnet den Gesamtpreis neu. Das zweite Beispiel berechnet mit ion die Bestellsumme und gibt den Kauf frei, sobald eine Zahlungsmethode gewählt und die Bedingungen akzeptiert wurden."
+msgid "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo calculates the order total and shows whether the buyer has selected a payment method and accepted the purchase terms."
+msgstr "Ändere die Anzahl der Spielkopien zum Verschenken und den Rabatt: ion berechnet die Summe neu. Das zweite Beispiel berechnet den Bestellwert und zeigt, ob der Käufer eine Zahlungsart gewählt und die Kaufbedingungen akzeptiert hat."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5007,17 +5007,20 @@ msgstr "Zusammengehöriger Zustand: einen Record erstellen"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "Catalog filters and order filters have the same fields but must keep different\n"
+msgid "Catalog filters and wishlist filters have the same fields but must keep different\n"
 "values. A factory creates those fields together:"
-msgstr "Katalog- und Bestellfilter haben dieselben Felder, müssen aber unterschiedliche Werte behalten. Eine Factory erstellt diese Felder gemeinsam:"
+msgstr "Katalogfilter und Wunschlistenfilter haben dieselben Felder, müssen aber unterschiedliche\n"
+"Werte behalten. Eine Factory erstellt diese Felder zusammen:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
 msgid "Calling `createFiltersModel()` twice creates two different atom records.\n"
-"`$$catalogFilters` is one model instance; `$$orderFilters` is another. Create\n"
+"`$$catalogFilters` is one model instance; `$$wishlistFilters` is another. Create\n"
 "these fixed instances outside React render."
-msgstr "Zweimaliges Aufrufen von `createFiltersModel()` erstellt zwei unterschiedliche Atom-Records. `$$catalogFilters` ist eine Modellinstanz; `$$orderFilters` eine andere. Erstelle diese festen Instanzen außerhalb des React-Renders."
+msgstr "Zwei Aufrufe von `createFiltersModel()` erstellen zwei unterschiedliche Atom-Records.\n"
+"`$$catalogFilters` ist eine Modellinstanz, `$$wishlistFilters` eine weitere.\n"
+"Erstelle diese festen Instanzen außerhalb des React-Renders."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
