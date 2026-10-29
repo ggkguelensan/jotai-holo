@@ -55,7 +55,7 @@ const PurchaseStatus = holo({
     pending: $$purchaseMutation.$pending,
     error: $$purchaseMutation.$error,
   },
-  imperative: { onOrderCreated: orderCreated },
+  events: { onOrderCreated: orderCreated },
 });
 
 export default function PurchaseDemo() {

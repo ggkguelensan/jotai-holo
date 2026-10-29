@@ -6,8 +6,8 @@ import {
   holo,
   ion,
   stateAtom,
-  useImperativeHolo,
-  type HoloImperative,
+  useHoloEvents,
+  type HoloEvents,
 } from 'jotai-holo';
 import { modelRegistry, pipe } from 'jotai-holo/model';
 import { QuantityView, TotalView, SubmitView } from './imperative-views.js';
@@ -37,7 +37,7 @@ function createCheckoutModel() {
 const $$checkout = pipe(createCheckoutModel, modelRegistry());
 
 type Receipt = { orderId: string; total: number };
-type CheckoutHandle = { onOrderCreated(receipt: Receipt): void };
+type CheckoutEvents = { onOrderCreated(receipt: Receipt): void };
 
 const Quantity = holo({
   models: { checkout: $$checkout },
@@ -58,15 +58,11 @@ const Submit = holo({
   write: ({ checkout }) => ({ onSubmit: checkout.submit }),
 });
 
-function CheckoutView({
-  imperative,
-}: {
-  imperative: HoloImperative<CheckoutHandle>;
-}) {
+function CheckoutView({ events }: { events: HoloEvents<CheckoutEvents> }) {
   const { t } = useLingui();
   const [receipt, setReceipt] = useState<Receipt | null>(null);
 
-  useImperativeHolo(imperative, { onOrderCreated: setReceipt });
+  useHoloEvents(events, { onOrderCreated: setReceipt });
 
   // A local screen demonstrates navigation without a router dependency.
   if (receipt) {
@@ -97,7 +93,7 @@ const Checkout = holo({
   models: { checkout: $$checkout },
   view: CheckoutView,
 
-  imperative: ({ checkout }) => ({
+  events: ({ checkout }) => ({
     onOrderCreated: checkout.orderCreated,
   }),
 });

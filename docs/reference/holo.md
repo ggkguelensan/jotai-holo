@@ -16,32 +16,32 @@ For a complete first binding with one writable atom, follow
 
 ## Contract
 
-| I need to…                                  | Use                                |
-| ------------------------------------------- | ---------------------------------- |
-| Choose the React component                  | `view`                             |
-| Connect models to the component             | `models`                           |
-| Use an atom value in the component          | `read`                             |
-| Send a component interaction to an atom     | `write`                            |
-| Make the component react to external events | `imperative` + `useImperativeHolo` |
-| Pass static values to the component         | `static`                           |
-| Forward incoming props to the model         | `input`                            |
-| Handle connection and delivery errors       | `onError`                          |
+| I need to…                                  | Use                        |
+| ------------------------------------------- | -------------------------- |
+| Choose the React component                  | `view`                     |
+| Connect models to the component             | `models`                   |
+| Use an atom value in the component          | `read`                     |
+| Send a component interaction to an atom     | `write`                    |
+| Make the component react to external events | `events` + `useHoloEvents` |
+| Pass static values to the component         | `static`                   |
+| Forward incoming props to the model         | `input`                    |
+| Handle connection and delivery errors       | `onError`                  |
 
 Only `view` is required. `models` is optional: pass native atoms directly to object-form `read` and `write` when no model ownership is needed. [Atoms without models](/topics/holo#atoms-without-models) shows this arrangement.
 
-`read`, `write`, `static` and `imperative` supply View props. Pass the remaining props from the parent. `input` forwards selected incoming props to atoms; these props still reach the View.
+`read`, `write`, `static` and `events` supply View props. Pass the remaining props from the parent. `input` forwards selected incoming props to atoms; these props still reach the View.
 
 ### Models and binding maps
 
 `models` maps names to model selections. A [model definition](/topics/models-and-registries) is the selectable value returned by model modifiers. Pass a definition for its default instance, a selected model atom for a fixed key, or a function of incoming props to choose the instance. Matching registry namespaces, keys and stores share a record. holo acquires managed models after commit and releases them on cleanup.
 
-`read`, `write`, `input` and `imperative` accept an object or a callback receiving the resolved model records. These callbacks choose atom references; they are not reactive selectors over the atoms' values. Use a derived atom or [ion](/reference/ion) for calculations.
+`read`, `write`, `input` and `events` accept an object or a callback receiving the resolved model records. These callbacks choose atom references; they are not reactive selectors over the atoms' values. Use a derived atom or [ion](/reference/ion) for calculations.
 
 `static` is an object of fixed View props. `onError` handles model-connection, input-delivery and imperative-handler errors; it does not replace React error boundaries or catch a Promise returned to the caller by a `write` callback.
 
 ## Input
 
-input maps incoming prop names to writable atoms. Targets receive the initial committed value and then changes compared with Object.is. Generated read, write and imperative props cannot be input sources. The input props remain public and reach the View. Async failures go to onError.
+input maps incoming prop names to writable atoms. Targets receive the initial committed value and then changes compared with Object.is. Generated read, write and events props cannot be input sources. The input props remain public and reach the View. Async failures go to onError.
 
 StrictMode replay does not repeat initial input. Abandoned renders publish nothing. Input cannot initialize pending state that prevents its own first commit. For creation-only values, use the model selection's initial data.
 
@@ -51,7 +51,7 @@ StrictMode replay does not repeat initial input. Abandoned renders publish nothi
 - Unchanged values and shallow-equal caller props skip View rendering. Write callbacks remain stable while the store and target atoms stay the same. Local state and React context update normally.
 - Changing the selected model instance remounts the View. Changing an ordinary prop does not.
 - Async atom values resolve before reaching the View; use React Suspense and error boundaries while they are pending or fail.
-- A prop cannot be supplied by several binding sections. Parents do not supply props already provided by `read`, `write`, `static` or `imperative`.
+- A prop cannot be supplied by several binding sections. Parents do not supply props already provided by `read`, `write`, `static` or `events`.
 - Specialize generic Views before binding them. On React 18, use `forwardRef` when the View needs a forwarded ref.
 
 ## Why this API

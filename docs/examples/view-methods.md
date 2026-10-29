@@ -1,7 +1,7 @@
 # View methods
 
 A View displays purchase state through read bindings. When the purchase succeeds,
-useImperativeHolo connects the domain fact to a short success animation.
+useHoloEvents connects the domain fact to a short success animation.
 
 ## Focus a search field
 
@@ -23,7 +23,7 @@ useImperativeHolo connects the domain fact to a short success animation.
 
 The right panel is visible from the start: ready, pending, error or complete.
 Its data comes through `read`. The command publishes `orderCreated` only after
-the mutation succeeds; `imperative` uses that fact to highlight the result.
+the mutation succeeds; `events` uses that fact to highlight the result.
 
 <Demo kind="imperative-purchase" :files="['imperative-purchase-views.tsx']">
 
@@ -43,5 +43,5 @@ animation; it does not control visibility or copy data into React state.
 
 </Demo>
 
-Read [useImperativeHolo](/reference/useImperativeHolo) for delivery, reduced motion
+Read [useHoloEvents](/reference/useHoloEvents) for delivery, reduced motion
 and browser activation requirements.

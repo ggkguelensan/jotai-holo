@@ -4,8 +4,8 @@ import { Provider, atom } from 'jotai';
 import { createStore } from 'jotai/vanilla';
 import {
   holo,
-  useImperativeHolo,
-  type HoloImperative,
+  useHoloEvents,
+  type HoloEvents,
   actionAtom,
   eventAtom,
   stateAtom,
@@ -51,14 +51,14 @@ function OwnCounterView({
   value,
   text,
   onClick,
-  imperative,
+  events,
 }: {
   value: number;
   text: string;
   onClick: () => void;
-  imperative: HoloImperative<{ onIncremented(value: number): void }>;
+  events: HoloEvents<{ onIncremented(value: number): void }>;
 }) {
-  useImperativeHolo(imperative, {
+  useHoloEvents(events, {
     onIncremented(value) {
       imperativeCalls.push(value);
     },
@@ -74,7 +74,7 @@ const OwnCounter = holo({
   view: OwnCounterView,
   read: ({ counter }) => ({ value: counter.$value, text: counter.$text }),
   write: ({ counter }) => ({ onClick: counter.increment }),
-  imperative: ({ counter }) => ({ onIncremented: counter.incremented }),
+  events: ({ counter }) => ({ onIncremented: counter.incremented }),
 });
 const FormModel = modelRegistry()(
   createFormModel({

@@ -11,7 +11,7 @@ const sources = sourceLinks();
 const groups = (t: (message: string) => string) => [
   { title: t('State'), names: ['stateAtom', 'ion', 'prism'] },
   { title: t('Commands & events'), names: ['actionAtom', 'eventAtom', 'bond'] },
-  { title: t('React bindings'), names: ['holo', 'useImperativeHolo', 'holoList', 'holoMatch'] },
+  { title: t('React bindings'), names: ['holo', 'useHoloEvents', 'holoList', 'holoMatch'] },
   {
     title: t('Models'),
     names: ['defineModel', 'pipe', 'modelRegistry', 'modelLifecycle', 'modelConnection'],

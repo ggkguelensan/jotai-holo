@@ -2,14 +2,14 @@
 
 import { useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef, type Ref } from 'react';
 
-export type HoloImperative<Handle extends object> = Ref<Handle>;
+export type HoloEvents<Handlers extends object> = Ref<Handlers>;
 const useCommitEffect = typeof document === 'undefined' ? useEffect : useLayoutEffect;
 
 /** A stable method table backed exclusively by committed handlers. No atom subscriptions. */
-export function useImperativeHolo<
-  Handle extends { [Key in keyof Handle]: (...args: never[]) => unknown },
->(imperative: HoloImperative<Handle>, handlers: Handle): void {
-  const committed = useRef<Handle | undefined>(undefined);
+export function useHoloEvents<
+  Handlers extends { [Key in keyof Handlers]: (...args: never[]) => unknown },
+>(events: HoloEvents<Handlers>, handlers: Handlers): void {
+  const committed = useRef<Handlers | undefined>(undefined);
   const handle = useMemo(
     () =>
       Object.fromEntries(
@@ -17,20 +17,20 @@ export function useImperativeHolo<
           key,
           (...args: unknown[]) => {
             const current = committed.current;
-            if (current) return Reflect.apply(current[key as keyof Handle], current, args);
+            if (current) return Reflect.apply(current[key as keyof Handlers], current, args);
             return undefined;
           },
         ]),
-      ) as unknown as Handle,
+      ) as unknown as Handlers,
     [],
   );
   if (
     Object.keys(handlers).length !== Object.keys(handle).length ||
     Object.keys(handlers).some((key) => !Object.hasOwn(handle, key))
   )
-    throw new TypeError('useImperativeHolo: method names must remain stable.');
+    throw new TypeError('useHoloEvents: method names must remain stable.');
   // No dependency array: refresh after every commit, including context-only updates.
-  useImperativeHandle(imperative, () => {
+  useImperativeHandle(events, () => {
     committed.current = handlers;
     return handle;
   });

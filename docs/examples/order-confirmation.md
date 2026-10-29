@@ -17,4 +17,4 @@ Place a demo game order to deliver a domain fact to a View method. The second de
 ## Continue reading
 
 - [How it works](/topics/holo)
-- [API reference](/reference/useImperativeHolo)
+- [API reference](/reference/useHoloEvents)

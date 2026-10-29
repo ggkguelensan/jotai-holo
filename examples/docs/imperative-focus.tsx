@@ -1,26 +1,17 @@
 import { useLingui } from '@lingui/react/macro';
 import { useRef } from 'react';
-import {
-  eventAtom,
-  holo,
-  useImperativeHolo,
-  type HoloImperative,
-} from 'jotai-holo';
+import { eventAtom, holo, useHoloEvents, type HoloEvents } from 'jotai-holo';
 
 // #region focus
 export const searchFocusRequested = eventAtom<void>();
 
-type SearchHandle = { focusSearch(): void };
+type SearchEvents = { focusSearch(): void };
 
-function SearchView({
-  imperative,
-}: {
-  imperative: HoloImperative<SearchHandle>;
-}) {
+function SearchView({ events }: { events: HoloEvents<SearchEvents> }) {
   const { t } = useLingui();
   const input = useRef<HTMLInputElement>(null);
 
-  useImperativeHolo(imperative, {
+  useHoloEvents(events, {
     focusSearch() {
       input.current?.focus();
     },
@@ -31,7 +22,7 @@ function SearchView({
 
 const Search = holo({
   view: SearchView,
-  imperative: { focusSearch: searchFocusRequested },
+  events: { focusSearch: searchFocusRequested },
 });
 // #endregion focus
 

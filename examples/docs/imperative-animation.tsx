@@ -1,24 +1,19 @@
 import { useLingui } from '@lingui/react/macro';
 import { useRef } from 'react';
 import { useAnimate } from 'motion/react';
-import {
-  eventAtom,
-  holo,
-  useImperativeHolo,
-  type HoloImperative,
-} from 'jotai-holo';
+import { eventAtom, holo, useHoloEvents, type HoloEvents } from 'jotai-holo';
 
 // #region animation
 export const cartAttentionRequested = eventAtom<void>();
 
-type CartHandle = { highlightCart(): void };
+type CartEvents = { highlightCart(): void };
 
-function CartView({ imperative }: { imperative: HoloImperative<CartHandle> }) {
+function CartView({ events }: { events: HoloEvents<CartEvents> }) {
   const { t } = useLingui();
   const [cart, animate] = useAnimate<HTMLOutputElement>();
   const animation = useRef<ReturnType<typeof animate> | null>(null);
 
-  useImperativeHolo(imperative, {
+  useHoloEvents(events, {
     highlightCart() {
       const node = cart.current;
       if (!node || matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -38,7 +33,7 @@ function CartView({ imperative }: { imperative: HoloImperative<CartHandle> }) {
 
 const Cart = holo({
   view: CartView,
-  imperative: { highlightCart: cartAttentionRequested },
+  events: { highlightCart: cartAttentionRequested },
 });
 // #endregion animation
 

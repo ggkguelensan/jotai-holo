@@ -1,6 +1,6 @@
 import { useLingui } from '@lingui/react/macro';
 import { useAnimate } from 'motion/react';
-import { useImperativeHolo, type HoloImperative } from 'jotai-holo';
+import { useHoloEvents, type HoloEvents } from 'jotai-holo';
 import type { Receipt } from './imperative-purchase.js';
 import { ShareGame } from './imperative-share.js';
 
@@ -20,15 +20,15 @@ export function PurchaseButtonView({
 }
 
 // #region receipt-handle
-type ReceiptHandle = { onOrderCreated(receipt: Receipt): void };
+type ReceiptEvents = { onOrderCreated(receipt: Receipt): void };
 
 export function PurchaseStatusView({
-  imperative,
+  events,
   receipt,
   pending,
   error,
 }: {
-  imperative: HoloImperative<ReceiptHandle>;
+  events: HoloEvents<ReceiptEvents>;
   receipt: Receipt | null;
   pending: boolean;
   error: Error | null;
@@ -36,7 +36,7 @@ export function PurchaseStatusView({
   const { t } = useLingui();
   const [panel, animate] = useAnimate<HTMLElement>();
 
-  useImperativeHolo(imperative, {
+  useHoloEvents(events, {
     onOrderCreated() {
       if (!panel.current) return;
       void animate(panel.current, { opacity: [0.4, 1] }, { duration: 0.24 });

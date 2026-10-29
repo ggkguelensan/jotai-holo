@@ -285,9 +285,9 @@ msgstr "Gib eine Demo-Spielbestellung auf, um einen Domänenfakt an eine View-Me
 #. js-lingui-explicit-id
 #: docs/examples/order-confirmation.md
 msgid "- [How it works](/topics/holo)\n"
-"- [API reference](/reference/useImperativeHolo)"
+"- [API reference](/reference/useHoloEvents)"
 msgstr "- [Funktionsweise](/topics/holo)\n"
-"- [API-Referenz](/reference/useImperativeHolo)"
+"- [API-Referenz](/reference/useHoloEvents)"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -547,15 +547,15 @@ msgstr "View-Methoden"
 #. js-lingui-explicit-id
 #: docs/examples/view-methods.md
 msgid "A View displays purchase state through read bindings. When the purchase succeeds,\n"
-"useImperativeHolo connects the domain fact to a short success animation."
+"useHoloEvents connects the domain fact to a short success animation."
 msgstr "Eine View zeigt den Kaufzustand über read-Bindungen an. Bei erfolgreichem Kauf\n"
-"verbindet useImperativeHolo den Domänenfakt mit einer kurzen Erfolgsanimation."
+"verbindet useHoloEvents den Domänenfakt mit einer kurzen Erfolgsanimation."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/view-methods.md
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "Focus a search field"
 msgstr "Den Fokus auf ein Suchfeld setzen"
 
@@ -563,7 +563,7 @@ msgstr "Den Fokus auf ein Suchfeld setzen"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/view-methods.md
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "Restart a cart animation"
 msgstr "Eine Warenkorb-Animation neu starten"
 
@@ -578,10 +578,10 @@ msgstr "Auf einen erfolgreichen Kauf reagieren"
 #: docs/examples/view-methods.md
 msgid "The right panel is visible from the start: ready, pending, error or complete.\n"
 "Its data comes through `read`. The command publishes `orderCreated` only after\n"
-"the mutation succeeds; `imperative` uses that fact to highlight the result."
+"the mutation succeeds; `events` uses that fact to highlight the result."
 msgstr "Die rechte Anzeige ist von Anfang an sichtbar: bereit, ausstehend, Fehler oder abgeschlossen.\n"
 "Ihre Daten kommen über `read`. Der Befehl veröffentlicht `orderCreated` erst nach\n"
-"erfolgreicher Mutation; `imperative` hebt mit diesem Fakt das Ergebnis hervor."
+"erfolgreicher Mutation; `events` hebt mit diesem Fakt das Ergebnis hervor."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -600,9 +600,9 @@ msgstr "Eine lokale Schaltfläche bleibt lokal"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/view-methods.md
-msgid "Read [useImperativeHolo](/reference/useImperativeHolo) for delivery, reduced motion\n"
+msgid "Read [useHoloEvents](/reference/useHoloEvents) for delivery, reduced motion\n"
 "and browser activation requirements."
-msgstr "Lies [useImperativeHolo](/reference/useImperativeHolo) für Zustellung, reduzierte Bewegung\n"
+msgstr "Lies [useHoloEvents](/reference/useHoloEvents) für Zustellung, reduzierte Bewegung\n"
 "und die Anforderungen an die Browseraktivierung."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -2584,7 +2584,7 @@ msgstr "Beschreibe eine Operation, die Atome liest oder aktualisiert, etwa die �
 #: docs/reference/prism.md
 #: docs/reference/queryClientAtom.md
 #: docs/reference/stateAtom.md
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "Contract"
 msgstr "Verhalten"
 
@@ -2652,7 +2652,7 @@ msgstr "- `actionAtom((get, set, ...args) => result)` liefert ein beschreibbares
 #: docs/reference/prism.md
 #: docs/reference/queryClientAtom.md
 #: docs/reference/stateAtom.md
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "Why this API"
 msgstr "Warum diese API?"
 
@@ -2714,7 +2714,7 @@ msgstr "Natives `atom(null, write)` verarbeitet bereits Befehle. Der Helfer erg�
 #: docs/reference/prism.md
 #: docs/reference/queryClientAtom.md
 #: docs/reference/stateAtom.md
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "Analogies and reading"
 msgstr "Vorbilder und weiterführende Literatur"
 
@@ -3658,23 +3658,23 @@ msgstr "Das Beispiel verbindet `$name` und `changeName` mit `NameView`. Ihre Def
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "| I need to…                                  | Use                                |\n"
-"| ------------------------------------------- | ---------------------------------- |\n"
-"| Choose the React component                  | `view`                             |\n"
-"| Connect models to the component             | `models`                           |\n"
-"| Use an atom value in the component          | `read`                             |\n"
-"| Send a component interaction to an atom     | `write`                            |\n"
-"| Make the component react to external events | `imperative` + `useImperativeHolo` |\n"
-"| Pass static values to the component         | `static`                           |\n"
-"| Forward incoming props to the model         | `input`                            |\n"
-"| Handle connection and delivery errors       | `onError`                          |"
+msgid "| I need to…                                  | Use                        |\n"
+"| ------------------------------------------- | -------------------------- |\n"
+"| Choose the React component                  | `view`                     |\n"
+"| Connect models to the component             | `models`                   |\n"
+"| Use an atom value in the component          | `read`                     |\n"
+"| Send a component interaction to an atom     | `write`                    |\n"
+"| Make the component react to external events | `events` + `useHoloEvents` |\n"
+"| Pass static values to the component         | `static`                   |\n"
+"| Forward incoming props to the model         | `input`                    |\n"
+"| Handle connection and delivery errors       | `onError`                  |"
 msgstr "| Ich brauche … | Verwende |\n"
 "| --- | --- |\n"
 "| Die React-Komponente auswählen | `view` |\n"
 "| Modelle mit der Komponente verbinden | `models` |\n"
 "| Einen Atomwert in der Komponente verwenden | `read` |\n"
 "| Eine Komponenteninteraktion an ein Atom senden | `write` |\n"
-"| Die Komponente auf externe Ereignisse reagieren lassen | `imperative` + `useImperativeHolo` |\n"
+"| Die Komponente auf externe Ereignisse reagieren lassen | `events` + `useHoloEvents` |\n"
 "| Statische Werte an die Komponente übergeben | `static` |\n"
 "| Eingehende Props an das Modell weiterleiten | `input` |\n"
 "| Verbindungs- und Zustellfehler behandeln | `onError` |"
@@ -3688,8 +3688,8 @@ msgstr "Nur `view` ist erforderlich. `models` ist optional: Übergib native Atom
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "`read`, `write`, `static` and `imperative` supply View props. Pass the remaining props from the parent. `input` forwards selected incoming props to atoms; these props still reach the View."
-msgstr "`read`, `write`, `static` und `imperative` liefern Props an die View. Die übrigen Props übergibt die Elternkomponente. `input` leitet ausgewählte eingehende Props an Atome weiter; diese Props erreichen weiterhin die View."
+msgid "`read`, `write`, `static` and `events` supply View props. Pass the remaining props from the parent. `input` forwards selected incoming props to atoms; these props still reach the View."
+msgstr "`read`, `write`, `static` und `events` liefern Props an die View. Die übrigen Props übergibt die Elternkomponente. `input` leitet ausgewählte eingehende Props an Atome weiter; diese Props erreichen weiterhin die View."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3706,8 +3706,8 @@ msgstr "`models` ordnet Namen Modellauswahlen zu. Eine [Modelldefinition](/topic
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "`read`, `write`, `input` and `imperative` accept an object or a callback receiving the resolved model records. These callbacks choose atom references; they are not reactive selectors over the atoms' values. Use a derived atom or [ion](/reference/ion) for calculations."
-msgstr "`read`, `write`, `input` und `imperative` akzeptieren ein Objekt oder einen Callback, der die aufgelösten Modell-Records erhält. Diese Callbacks wählen Atomreferenzen; sie sind keine reaktiven Selektoren über Atomwerte. Nutze ein abgeleitetes Atom oder [ion](/reference/ion) für Berechnungen."
+msgid "`read`, `write`, `input` and `events` accept an object or a callback receiving the resolved model records. These callbacks choose atom references; they are not reactive selectors over the atoms' values. Use a derived atom or [ion](/reference/ion) for calculations."
+msgstr "`read`, `write`, `input` und `events` akzeptieren ein Objekt oder einen Callback, der die aufgelösten Modell-Records erhält. Diese Callbacks wählen Atomreferenzen; sie sind keine reaktiven Selektoren über Atomwerte. Nutze ein abgeleitetes Atom oder [ion](/reference/ion) für Berechnungen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3724,8 +3724,8 @@ msgstr "Eingaben"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/holo.md
-msgid "input maps incoming prop names to writable atoms. Targets receive the initial committed value and then changes compared with Object.is. Generated read, write and imperative props cannot be input sources. The input props remain public and reach the View. Async failures go to onError."
-msgstr "input ordnet Namen eingehender Props beschreibbaren Atomen zu. Empfänger erhalten den ersten bestätigten Wert, danach Änderungen gemäß Object.is. Generierte read-, write- und imperative-Props können keine Eingabequellen sein. Eingabe-Props bleiben öffentlich und erreichen die View. Async-Fehler gehen an onError."
+msgid "input maps incoming prop names to writable atoms. Targets receive the initial committed value and then changes compared with Object.is. Generated read, write and events props cannot be input sources. The input props remain public and reach the View. Async failures go to onError."
+msgstr "input ordnet Namen eingehender Props beschreibbaren Atomen zu. Empfänger erhalten den ersten bestätigten Wert, danach Änderungen gemäß Object.is. Generierte read-, write- und events-Props können keine Eingabequellen sein. Eingabe-Props bleiben öffentlich und erreichen die View. Async-Fehler gehen an onError."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3746,13 +3746,13 @@ msgid "- `read` subscribes the View to displayed atom values. `write`, `static` 
 "- Unchanged values and shallow-equal caller props skip View rendering. Write callbacks remain stable while the store and target atoms stay the same. Local state and React context update normally.\n"
 "- Changing the selected model instance remounts the View. Changing an ordinary prop does not.\n"
 "- Async atom values resolve before reaching the View; use React Suspense and error boundaries while they are pending or fail.\n"
-"- A prop cannot be supplied by several binding sections. Parents do not supply props already provided by `read`, `write`, `static` or `imperative`.\n"
+"- A prop cannot be supplied by several binding sections. Parents do not supply props already provided by `read`, `write`, `static` or `events`.\n"
 "- Specialize generic Views before binding them. On React 18, use `forwardRef` when the View needs a forwarded ref."
 msgstr "- `read` abonniert die angezeigten Atomwerte für die View. `write`, `static` und `input` abonnieren ihre Zielatome nicht für die View. Modellauswahl und verwaltete Verbindungen haben eigene Abonnements. Dasselbe beschreibbare Atom kann in `read` und `write` stehen.\n"
 "- Unveränderte Werte und oberflächlich gleiche Aufrufer-Props überspringen das Rendern der View. Write-Callbacks bleiben bei gleichem Store und gleichen Zielatomen stabil. Lokaler Zustand und React-Kontext aktualisieren sich normal.\n"
 "- Ein Wechsel der ausgewählten Modellinstanz mountet die View neu. Eine gewöhnliche Prop-Änderung tut das nicht.\n"
 "- Asynchrone Atomwerte werden vor der Übergabe an die View aufgelöst; nutze React Suspense und Error Boundaries während des Wartens oder bei Fehlern.\n"
-"- Eine Prop darf nicht aus mehreren Binding-Abschnitten stammen. Eltern übergeben keine Props, die bereits durch `read`, `write`, `static` oder `imperative` geliefert werden.\n"
+"- Eine Prop darf nicht aus mehreren Binding-Abschnitten stammen. Eltern übergeben keine Props, die bereits durch `read`, `write`, `static` oder `events` geliefert werden.\n"
 "- Spezialisiere generische Views vor dem Binden. Nutze unter React 18 `forwardRef`, wenn die View eine weitergeleitete Ref braucht."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -4636,49 +4636,49 @@ msgstr "- [Jotai atom](https://jotai.org/docs/core/atom) — zugrunde liegende P
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
-msgid "useImperativeHolo"
-msgstr "useImperativeHolo"
+#: docs/reference/useHoloEvents.md
+msgid "useHoloEvents"
+msgstr "useHoloEvents"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
-msgid "Keep router, DOM and editor methods inside View. Connect model events to those methods through `holo.imperative`, without storing React functions in atoms."
-msgstr "Belasse Router, DOM und Editormethoden in der View. Verbinde Modellereignisse über `holo.imperative` mit diesen Methoden, ohne React-Funktionen in Atomen zu speichern."
+#: docs/reference/useHoloEvents.md
+msgid "Keep router, DOM and editor methods inside View. Connect model events to those methods through `holo.events`, without storing React functions in atoms."
+msgstr "Belasse Router, DOM und Editormethoden in der View. Verbinde Modellereignisse über `holo.events` mit diesen Methoden, ohne React-Funktionen in Atomen zu speichern."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
-msgid "`useImperativeHolo(imperative, handlers)` exposes a stable method table. Handlers update after commit, without a dependency array. Abandoned renders do not publish handlers. Method names must remain stable. The `imperative` prop is an ordinary typed React ref, supported on React 18 and 19. Each call uses the latest committed props and context, even when holo's own binding props have not changed."
-msgstr "`useImperativeHolo(imperative, handlers)` stellt eine stabile Methodentabelle bereit. Handler werden nach dem Commit ohne Abhängigkeitsarray aktualisiert. Verworfene Renderdurchläufe veröffentlichen keine Handler. Methodennamen müssen stabil bleiben. Das Prop `imperative` ist eine gewöhnliche typisierte React-Ref für React 18 und 19. Jeder Aufruf verwendet die zuletzt bestätigten Props und den aktuellen bestätigten Kontext, auch wenn sich holos eigene Bindungs-Props nicht geändert haben."
+#: docs/reference/useHoloEvents.md
+msgid "`useHoloEvents(events, handlers)` exposes a stable method table. Handlers update after commit, without a dependency array. Abandoned renders do not publish handlers. Method names must remain stable. The `events` prop is an ordinary typed React ref, supported on React 18 and 19. Each call uses the latest committed props and context, even when holo's own binding props have not changed."
+msgstr "`useHoloEvents(events, handlers)` stellt eine stabile Methodentabelle bereit. Handler werden nach dem Commit ohne Abhängigkeitsarray aktualisiert. Verworfene Renderdurchläufe veröffentlichen keine Handler. Methodennamen müssen stabil bleiben. Das Prop `events` ist eine gewöhnliche typisierte React-Ref für React 18 und 19. Jeder Aufruf verwendet die zuletzt bestätigten Props und den aktuellen bestätigten Kontext, auch wenn sich holos eigene Bindungs-Props nicht geändert haben."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
-msgid "`holo.imperative` maps handle methods to eventAtom or actionAtom sources. It does not observe arbitrary writable atoms. Delivery is per View instance, uses the current store and stops when the handle is unavailable. Events are not replayed after mount or Suspense reveal. Two Views observing one source both receive its events; choose one navigation owner deliberately."
-msgstr "`holo.imperative` ordnet Handle-Methoden eventAtom- oder actionAtom-Quellen zu. Beliebige beschreibbare Atome werden nicht beobachtet. Die Zustellung gehört zur jeweiligen View-Instanz, verwendet den aktuellen Store und stoppt bei fehlendem Handle. Nach Mount oder Suspense-Freigabe werden Ereignisse nicht wiederholt. Zwei Views derselben Quelle empfangen beide Ereignisse; wähle für Navigation bewusst einen Besitzer."
+#: docs/reference/useHoloEvents.md
+msgid "`holo.events` maps handle methods to eventAtom or actionAtom sources. It does not observe arbitrary writable atoms. Delivery is per View instance, uses the current store and stops when the handle is unavailable. Events are not replayed after mount or Suspense reveal. Two Views observing one source both receive its events; choose one navigation owner deliberately."
+msgstr "`holo.events` ordnet Handle-Methoden eventAtom- oder actionAtom-Quellen zu. Beliebige beschreibbare Atome werden nicht beobachtet. Die Zustellung gehört zur jeweiligen View-Instanz, verwendet den aktuellen Store und stoppt bei fehlendem Handle. Nach Mount oder Suspense-Freigabe werden Ereignisse nicht wiederholt. Zwei Views derselben Quelle empfangen beide Ereignisse; wähle für Navigation bewusst einen Besitzer."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "Subscriptions are installed before holo activates selected models. Child layout effects are outside that startup ordering. Do not depend on a View handle during unmount. Synchronous throws and rejected handler promises go to `holo.onError`, or console.error when omitted. Publishers do not await View methods."
 msgstr "Abonnements werden vor Aktivierung der gewählten Modelle installiert. Layout-Effekte von Kindern liegen außerhalb dieser Startreihenfolge. Verlassen Sie sich beim Unmount nicht auf einen View-Handle. Synchrone Fehler und abgelehnte Promises gehen an `holo.onError`, sonst an console.error. Herausgeber warten nicht auf View-Methoden."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "The demo simulates a successful order boundary. In an application, publish orderCreated after the server accepts the order; the View method can call its router instead of selecting a local confirmation screen."
 msgstr "Die Demo simuliert eine erfolgreiche Bestellung. Veröffentliche orderCreated erst nach Annahme durch den Server; die View-Methode kann ihren Router aufrufen, statt einen lokalen Bestätigungsbildschirm auszuwählen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "Try [focus, animation and native sharing](/examples/view-methods) in the browser."
 msgstr "Probiere [Fokus, Animation und natives Teilen](/examples/view-methods) im Browser aus."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "The toolbar publishes `searchFocusRequested`. Search owns its DOM ref and\n"
 "focuses the field on every request. No model stores an element or callback."
 msgstr "Die Werkzeugleiste veröffentlicht `searchFocusRequested`. Search verwaltet die DOM-Ref\n"
@@ -4686,7 +4686,7 @@ msgstr "Die Werkzeugleiste veröffentlicht `searchFocusRequested`. Search verwal
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "A UI request highlights the cart. Each occurrence restarts the animation;\n"
 "repeated requests need no state reset. The View respects reduced motion and\n"
 "keeps the animation implementation out of the atom graph."
@@ -4696,13 +4696,13 @@ msgstr "Eine UI-Anfrage hebt den Warenkorb hervor. Jedes Auftreten startet die A
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "React after a purchase succeeds"
 msgstr "Nach einem erfolgreichen Kauf reagieren"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "A purchase command awaits its TanStack mutation and publishes `orderCreated`\n"
 "after success. The always-visible status panel receives idle, pending, error and\n"
 "receipt data through `read`. The imperative handler calls Motion's `animate`\n"
@@ -4714,7 +4714,7 @@ msgstr "Ein Kaufbefehl wartet auf seine TanStack-Mutation und veröffentlicht `o
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "Try the [purchase example](/examples/view-methods#call-a-method-returned-by-a-react-hook).\n"
 "The purchase button starts the business process; the status panel reacts to the\n"
 "result. Its Share button remains a direct local hook call."
@@ -4724,13 +4724,13 @@ msgstr "Probiere das [Kaufbeispiel](/examples/view-methods#call-a-method-returne
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "Keep local hook calls local"
 msgstr "Lokale Hook-Aufrufe bleiben lokal"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "A standalone share button needs only Reactuse's\n"
 "[useShare](https://reactuse.org/functions/hooks/useShare.html), without holo or an\n"
 "event round trip. Reactuse is an optional application dependency."
@@ -4740,7 +4740,7 @@ msgstr "Eine eigenständige Teilen-Schaltfläche braucht nur Reactuses\n"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "[Web Share requires user activation](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share#security).\n"
 "Call it directly from a click. Do not automatically share after the purchase\n"
 "mutation: the browser activation may have expired. Instead, offer a Share button\n"
@@ -4752,13 +4752,13 @@ msgstr "[Web Share erfordert eine Nutzeraktivierung](https://developer.mozilla.o
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "Use imperative methods for behavior that cannot be expressed as state props. Keep ordinary modal visibility in read bindings. The model publishes facts; the View implements platform behavior. See the [runtime migration guide](/runtime) for named models, committed input and ownership."
 msgstr "Verwenden Sie imperative Methoden für Verhalten, das sich nicht durch Zustands-Props ausdrücken lässt. Gewöhnliche Modalsichtbarkeit bleibt in read. Das Modell veröffentlicht Fakten, die View implementiert Plattformverhalten. Benannte Modelle, bestätigte Eingaben und Besitz erklärt der [Runtime-Leitfaden](/runtime)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/reference/useImperativeHolo.md
+#: docs/reference/useHoloEvents.md
 msgid "- [React useImperativeHandle](https://react.dev/reference/react/useImperativeHandle) — the underlying committed handle mechanism.\n"
 "- [React purity](https://react.dev/reference/rules/components-and-hooks-must-be-pure) — why render cannot register callbacks or subscriptions."
 msgstr "- [React useImperativeHandle](https://react.dev/reference/react/useImperativeHandle) — der zugrunde liegende Mechanismus für committed Handles.\n"
@@ -5284,9 +5284,9 @@ msgstr "Eine Werkzeugleiste setzt zwei verbundene Bedienelemente zusammen. Theme
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "Toolbar supplies its fixed title through `static` and composes the controls. It does not read their atoms. The remaining unbound View props, if any, come from the parent. Supplied `read`, `write`, `static` and `imperative`\n"
+msgid "Toolbar supplies its fixed title through `static` and composes the controls. It does not read their atoms. The remaining unbound View props, if any, come from the parent. Supplied `read`, `write`, `static` and `events`\n"
 "props are not public inputs to the connected component."
-msgstr "Toolbar liefert seinen festen Titel über `static` und setzt die Bedienelemente zusammen. Es liest ihre Atome nicht. Verbleibende ungebundene View-Props stammen gegebenenfalls vom Elternteil. Gelieferte `read`-, `write`-, `static`- und `imperative`-Props sind keine öffentlichen Eingaben der verbundenen Komponente."
+msgstr "Toolbar liefert seinen festen Titel über `static` und setzt die Bedienelemente zusammen. Es liest ihre Atome nicht. Verbleibende ungebundene View-Props stammen gegebenenfalls vom Elternteil. Gelieferte `read`-, `write`-, `static`- und `events`-Props sind keine öffentlichen Eingaben der verbundenen Komponente."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5391,11 +5391,11 @@ msgstr "Verbinde den Callback der Schaltfläche über `write` mit `searchFocusRe
 #: docs/topics/holo.md
 msgid "Use this bridge for focus, animation, router and hook methods. Ordinary receipt\n"
 "data belongs in `read`; it does not need an imperative handler just to copy the\n"
-"payload into React state. See [the runnable examples](/reference/useImperativeHolo)\n"
+"payload into React state. See [the runnable examples](/reference/useHoloEvents)\n"
 "for animation and a Reactuse `useShare` integration."
 msgstr "Nutze diese Brücke für Fokus, Animation sowie Router- und Hook-Methoden. Normale\n"
 "Belegdaten gehören in `read`; ein imperativer Handler nur zum Kopieren des Payloads\n"
-"in React-State ist unnötig. Die [ausführbaren Beispiele](/reference/useImperativeHolo)\n"
+"in React-State ist unnötig. Die [ausführbaren Beispiele](/reference/useHoloEvents)\n"
 "zeigen Animation und eine Integration mit Reactuses `useShare`."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -5403,9 +5403,9 @@ msgstr "Nutze diese Brücke für Fokus, Animation sowie Router- und Hook-Methode
 #: docs/topics/holo.md
 msgid "The bridge calls the latest committed handler. Updating a React dependency must\n"
 "not leave an earlier navigation function captured inside a long-lived event\n"
-"subscription. See [useImperativeHolo](/reference/useImperativeHolo) for the handle\n"
+"subscription. See [useHoloEvents](/reference/useHoloEvents) for the handle\n"
 "and delivery contract."
-msgstr "Die Brücke ruft den zuletzt committeten Handler auf. Eine geänderte React-Abhängigkeit darf keine frühere Navigationsfunktion in einem langlebigen Ereignisabonnement festhalten. [useImperativeHolo](/reference/useImperativeHolo) erklärt Handle und Zustellung."
+msgstr "Die Brücke ruft den zuletzt committeten Handler auf. Eine geänderte React-Abhängigkeit darf keine frühere Navigationsfunktion in einem langlebigen Ereignisabonnement festhalten. [useHoloEvents](/reference/useHoloEvents) erklärt Handle und Zustellung."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5465,10 +5465,10 @@ msgstr "[Teste Zeilen und Bildschirmzustände](/examples/lists-and-branches) in 
 #: docs/topics/holo.md
 msgid "- [holo](/reference/holo): bindings, fixed props and model selection.\n"
 "- [input](/reference/input): delivery of committed parent props.\n"
-"- [useImperativeHolo](/reference/useImperativeHolo): event handlers inside View."
+"- [useHoloEvents](/reference/useHoloEvents): event handlers inside View."
 msgstr "- [holo](/reference/holo): Bindings, feste Props und Modellauswahl.\n"
 "- [input](/reference/input): Übergabe committeter Eltern-Props.\n"
-"- [useImperativeHolo](/reference/useImperativeHolo): Ereignishandler innerhalb der View."
+"- [useHoloEvents](/reference/useHoloEvents): Ereignishandler innerhalb der View."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

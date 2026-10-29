@@ -12,6 +12,6 @@ export type { ActionAtom } from './action-atom.js';
 export { eventAtom } from './event-atom.js';
 export type { EventAtom } from './event-atom.js';
 
-export { useImperativeHolo } from './imperative.js';
-export type { HoloImperative } from './imperative.js';
+export { useHoloEvents } from './holo-events.js';
+export type { HoloEvents } from './holo-events.js';
 export type { ResolvedModels } from './holo-view.js';

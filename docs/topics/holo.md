@@ -25,7 +25,7 @@ A toolbar composes two connected controls. ThemeControl reads and writes the the
 
 <<< @/../examples/atoms-or-models.tsx#global-atoms
 
-Toolbar supplies its fixed title through `static` and composes the controls. It does not read their atoms. The remaining unbound View props, if any, come from the parent. Supplied `read`, `write`, `static` and `imperative`
+Toolbar supplies its fixed title through `static` and composes the controls. It does not read their atoms. The remaining unbound View props, if any, come from the parent. Supplied `read`, `write`, `static` and `events`
 props are not public inputs to the connected component.
 
 ## Map a selected model's fields to props {#named-models}
@@ -79,12 +79,12 @@ focuses the input again without creating a boolean state or a reset action.
 
 Use this bridge for focus, animation, router and hook methods. Ordinary receipt
 data belongs in `read`; it does not need an imperative handler just to copy the
-payload into React state. See [the runnable examples](/reference/useImperativeHolo)
+payload into React state. See [the runnable examples](/reference/useHoloEvents)
 for animation and a Reactuse `useShare` integration.
 
 The bridge calls the latest committed handler. Updating a React dependency must
 not leave an earlier navigation function captured inside a long-lived event
-subscription. See [useImperativeHolo](/reference/useImperativeHolo) for the handle
+subscription. See [useHoloEvents](/reference/useHoloEvents) for the handle
 and delivery contract.
 
 ## Choose the subscription boundary {#rendering-and-async}
@@ -116,4 +116,4 @@ stable row keys. A local conditional can remain an ordinary React conditional.
 
 - [holo](/reference/holo): bindings, fixed props and model selection.
 - [input](/reference/input): delivery of committed parent props.
-- [useImperativeHolo](/reference/useImperativeHolo): event handlers inside View.
+- [useHoloEvents](/reference/useHoloEvents): event handlers inside View.

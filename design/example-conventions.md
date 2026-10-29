@@ -50,7 +50,7 @@ Animate changes with a purpose: reordered rows, entering results and feedback.
 Do not delay input, computation or model ownership for animation. Keep branch
 and model disposal immediate; a visual exit must not retain subscriptions.
 
-Use useAnimate with useImperativeHolo when the lesson is imperative animation;
+Use useAnimate with useHoloEvents when the lesson is imperative animation;
 its scope cleans up animations on unmount. Otherwise keep motion markup in
 \*-views.tsx and link that file from Demo instead of adding it to the article.
 

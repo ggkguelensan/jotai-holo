@@ -2,7 +2,7 @@ import { captureEvent } from './event-harness.js';
 import { atom, createStore, Provider } from 'jotai';
 import { act, StrictMode, Suspense, startTransition, type ComponentProps } from 'react';
 import { expect, expectTypeOf, test, vi } from 'vitest';
-import { holo, eventAtom, useImperativeHolo, type HoloImperative } from '../src/index.js';
+import { holo, eventAtom, useHoloEvents, type HoloEvents } from '../src/index.js';
 import { createModel } from '../src/model-registry.js';
 import { createHarness, deferred, suspense } from './browser-harness.js';
 
@@ -245,18 +245,18 @@ test('key and store replacement clean old resources before new input arrives', a
   ]);
 });
 
-test('input facts reach connected analytics resources and committed imperative methods', async () => {
+test('input facts reach connected analytics resources and committed events methods', async () => {
   const event = eventAtom<string>();
   const tracked = vi.fn(),
     called = vi.fn();
   const store = createStore();
   function View({
-    imperative,
+    events,
   }: {
     term: string;
-    imperative: HoloImperative<{ onInput(value: string): void }>;
+    events: HoloEvents<{ onInput(value: string): void }>;
   }) {
-    useImperativeHolo(imperative, { onInput: called });
+    useHoloEvents(events, { onInput: called });
     return null;
   }
   const $$owner3 = createModel({
@@ -267,7 +267,7 @@ test('input facts reach connected analytics resources and committed imperative m
     models: { _connections: $$owner3 },
     view: View,
     input: { term: event },
-    imperative: { onInput: event },
+    events: { onInput: event },
   });
   const h = createHarness();
   await h.render(
