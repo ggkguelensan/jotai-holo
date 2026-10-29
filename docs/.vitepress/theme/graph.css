@@ -10,12 +10,17 @@
 }
 .graph-example-source {
   min-width: 0;
+  grid-row: 2;
 }
 .graph-example-source > div[class*='language-']:first-child {
   margin-top: 0;
 }
 .graph-example-rail {
   min-width: 0;
+  grid-row: 1;
+}
+.vp-doc .holo-example:has(.graph-example) {
+  max-width: none;
 }
 .graph-example-sticky {
   max-width: 304px;

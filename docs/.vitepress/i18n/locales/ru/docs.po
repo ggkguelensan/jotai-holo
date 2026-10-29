@@ -5117,8 +5117,8 @@ msgstr "Панель собирает два подключённых элеме
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "Toolbar composes the connected controls and passes its title as an ordinary React prop. It does not need holo for a static title. Use holo when a View reads or writes atoms, selects managed models, or handles graph events."
-msgstr "Toolbar собирает подключённые элементы управления и передаёт заголовок обычным пропсом React. Для статического заголовка holo не нужен. Используйте holo, когда View читает или изменяет атомы, выбирает управляемые модели или обрабатывает события графа."
+msgid "ToolbarView composes the connected controls and receives its title as an ordinary React prop. It does not need holo for a static title. Use holo when a View reads or writes atoms, selects managed models, or handles graph events."
+msgstr "ToolbarView собирает подключённые элементы управления и получает заголовок обычным пропсом React. Для статического заголовка holo не нужен. Используйте holo, когда View читает или изменяет атомы, выбирает управляемые модели или обрабатывает события графа."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

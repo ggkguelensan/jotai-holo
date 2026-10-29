@@ -18,6 +18,7 @@ example-dist/
 
 docs/.vitepress/cache/
 docs/.vitepress/dist/
+docs/.vitepress/graph/.generated/
 
 .react-compat/
 

@@ -54,11 +54,10 @@ export function logicalCodeBlocks(md) {
     // The original renderer resolves imported files and registers watch dependencies.
     const html = render(tokens, index, options, env, self);
     const language = token.info.trim();
-    const source = Array.isArray(token.src) ? token.src[0] : undefined;
+    const source = Array.isArray(token.src) ? token.src[0] : token.graphSource;
     const mark = (html) => {
       if (!source) return html;
-      const relative = path
-        .relative(process.cwd(), source)
+      const relative = (token.graphSource ? source : path.relative(process.cwd(), source))
         .split(path.sep)
         .join('/')
         .replace(/&/g, '&amp;')

@@ -229,3 +229,12 @@ export function getScene(id: string): GraphScene {
   if (!scene) throw new Error(`Unknown graph scene: ${id}`);
   return scene;
 }
+
+/** Load generated source graphs only when their example becomes visible. */
+export async function loadScene(id: string): Promise<GraphScene> {
+  if (scenes[id]) return scenes[id];
+  const generated = import.meta.glob<{ default: GraphScene }>('./.generated/code-*.json');
+  const load = generated[`./.generated/${id}.json`] ?? generated[`.generated/${id}.json`];
+  if (!load) throw new Error(`Unknown graph scene: ${id}`);
+  return (await load()).default;
+}

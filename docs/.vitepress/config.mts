@@ -5,8 +5,10 @@ import { loadCatalog } from './i18n/catalog.mjs';
 import { linguiMacros } from './i18n/macros.mjs';
 import { logicalCodeBlocks } from './code-blocks.mjs';
 import { sourceLinks } from './source-links.mjs';
+import { documentGraphs, prepareDocumentGraphs } from './graph/document-graphs.mjs';
 
 const sources = sourceLinks();
+const graphDocuments = await prepareDocumentGraphs();
 
 const groups = (t: (message: string) => string) => [
   { title: t('State'), names: ['stateAtom', 'ion', 'prism'] },
@@ -228,6 +230,7 @@ export default defineConfig({
   },
   markdown: {
     config(md) {
+      documentGraphs(md, graphDocuments.plans);
       logicalCodeBlocks(md);
       // Keep repository file links useful both on GitHub and in the static site.
       const render = md.renderer.rules.link_open;

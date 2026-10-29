@@ -55,9 +55,6 @@ function ToolbarView({ title }: { title: string }) {
   );
 }
 
-export function Toolbar() {
-  return <ToolbarView title="Player hub" />;
-}
 // #endregion global-atoms
 
 // #region factory

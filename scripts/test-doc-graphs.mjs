@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
+import { readFile } from 'node:fs/promises';
 import { chromium } from 'playwright';
 
 const origin = process.env.DOCS_GRAPH_ORIGIN ?? 'http://127.0.0.1:4189';
@@ -47,7 +48,7 @@ try {
     ]) {
       await page.goto(`${origin}/${locale}topics/${article}`);
       const wrapper = page.locator(`.graph-example[data-graph-scene="${scene}"]`);
-      await wrapper.scrollIntoViewIfNeeded();
+      await wrapper.locator('.graph-example-rail').scrollIntoViewIfNeeded();
       const circle = wrapper.getByRole('button', { name: node, exact: true });
       await circle.waitFor();
       await circle.focus();
@@ -94,6 +95,93 @@ try {
         false,
       );
       await page.setViewportSize({ width: 1440, height: 1000 });
+    }
+  }
+  // Generated source graphs are lazy-loaded beside ordinary snippets and keep
+  // their exact displayed source when expanded into a full map.
+  for (const locale of ['', 'ru/', 'de/', 'kk/']) {
+    for (const article of ['guide/getting-started', 'reference/stateAtom']) {
+      await page.goto(`${origin}/${locale}${article}`);
+      const examples = page.locator('.graph-example[data-graph-scene^="code-"]');
+      assert.ok(await examples.count(), `${locale}${article}: missing generated graphs`);
+      for (const wrapper of await examples.all()) {
+        await wrapper.locator('.graph-example-rail').scrollIntoViewIfNeeded();
+        const circle = wrapper.locator('.mini-node').first();
+        await circle.waitFor();
+        await circle.focus();
+        assert.ok(
+          await wrapper.locator('.graph-source-selected').count(),
+          `${locale}${article}: generated selection must highlight displayed source`,
+        );
+      }
+      const wrapper = examples.first();
+      const scene = await wrapper.getAttribute('data-graph-scene');
+      const displayedCode = await wrapper.locator('pre').first().innerText();
+      await wrapper.locator('.graph-example-sticky>header>a').click();
+      await page.locator('.graph-map').waitFor();
+      assert.equal(new URL(page.url()).searchParams.get('scene'), scene);
+      const fullSource = await page.locator('.graph-source-lines').innerText();
+      const firstCodeLine = displayedCode.split('\n').find((line) => line.trim());
+      assert.ok(fullSource.includes(firstCodeLine));
+      assert.ok(
+        (await page.locator('.graph-back').getAttribute('href')).includes(`/${locale}${article}`),
+      );
+    }
+  }
+  for (const article of [
+    'examples/game-catalog',
+    'examples/player-notifications',
+    'examples/view-bindings',
+    'examples/view-methods',
+    'examples/model-instances',
+    'examples/profile-fields',
+    'examples/gift-copies',
+    'recipes/profile',
+  ]) {
+    await page.goto(`${origin}/${article}`);
+    await page.mouse.move(0, 0);
+    const examples = page.locator('.graph-example[data-graph-scene^="code-"]');
+    assert.ok(await examples.count(), `${article}: missing generated graphs`);
+    for (const wrapper of await examples.all()) {
+      await wrapper.locator('.graph-example-rail').scrollIntoViewIfNeeded();
+      await wrapper.locator('.mini-node').first().waitFor();
+      const sceneId = await wrapper.getAttribute('data-graph-scene');
+      const generated = JSON.parse(
+        await readFile(
+          new URL(`../docs/.vitepress/graph/.generated/${sceneId}.json`, import.meta.url),
+          'utf8',
+        ),
+      );
+      const circles = await wrapper.locator('.mini-node').all();
+      for (const [index, circle] of circles.entries()) {
+        await circle.focus();
+        await wrapper.locator('.graph-source-selected').first().waitFor();
+        assert.equal(
+          await wrapper.locator('.graph-source-selected').count(),
+          1,
+          `${article}/${await circle.getAttribute('aria-label')}: one exact source line`,
+        );
+        const ref = generated.nodes[index].refs[0];
+        await page
+          .waitForFunction(
+            ({ sceneId, file, anchor, occurrence }) => {
+              const root = document.querySelector(`[data-graph-scene="${sceneId}"]`);
+              const matches = [...root.querySelectorAll('[data-code-source] pre .line')].filter(
+                (line) =>
+                  line.closest('[data-code-source]').dataset.codeSource === file &&
+                  line.textContent.includes(anchor),
+              );
+              return matches[occurrence ?? 0]?.classList.contains('graph-source-selected');
+            },
+            { ...ref, sceneId, file: generated.sources[ref.source].file },
+          )
+          .catch(async (error) => {
+            throw new Error(
+              `${article}/${sceneId}/${generated.nodes[index].label}: expected ${JSON.stringify(ref)}, selected ${await wrapper.locator('.graph-source-selected').allTextContents()}`,
+              { cause: error },
+            );
+          });
+      }
     }
   }
   // Code-to-node hovering must not scroll the code away from the pointer.
@@ -145,7 +233,9 @@ try {
   assert.equal(new URL(page.url()).searchParams.get('scene'), 'catalog-analytics');
   assert.equal(new URL(page.url()).searchParams.get('node'), 'warehouse');
   await page.goto(`${origin}/ru/topics/atoms-and-models`);
-  await page.locator('.graph-example').scrollIntoViewIfNeeded();
+  await page
+    .locator('[data-graph-scene="shared-atoms"] .graph-example-rail')
+    .scrollIntoViewIfNeeded();
   await page.setViewportSize({ width: 390, height: 844 });
   await page.locator('.mini-hit').first().waitFor();
   const hit = await page.locator('.mini-hit').first().boundingBox();
@@ -162,7 +252,7 @@ try {
   assert.equal(await page.locator('.docs-graph').count(), 0);
   assert.deepEqual(errors, []);
   console.log(
-    'Documentation graphs: 3 scenes in 4 locales; source highlights, expansion, pinned inspection, mobile, theme, live deliveries and locale continuity passed.',
+    'Documentation graphs: authored and generated scenes in 4 locales; source highlights, expansion, pinned inspection, mobile, theme, live deliveries and locale continuity passed.',
   );
 } finally {
   await browser?.close();

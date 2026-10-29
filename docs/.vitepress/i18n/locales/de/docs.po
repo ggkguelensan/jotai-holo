@@ -5113,8 +5113,8 @@ msgstr "Eine Werkzeugleiste setzt zwei verbundene Bedienelemente zusammen. Theme
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "Toolbar composes the connected controls and passes its title as an ordinary React prop. It does not need holo for a static title. Use holo when a View reads or writes atoms, selects managed models, or handles graph events."
-msgstr "Toolbar setzt die verbundenen Bedienelemente zusammen und übergibt den Titel als gewöhnliches React-Prop. Für einen statischen Titel braucht es kein holo. Verwenden Sie holo, wenn eine View Atome liest oder beschreibt, verwaltete Modelle auswählt oder Ereignisse des Graphen verarbeitet."
+msgid "ToolbarView composes the connected controls and receives its title as an ordinary React prop. It does not need holo for a static title. Use holo when a View reads or writes atoms, selects managed models, or handles graph events."
+msgstr "ToolbarView setzt die verbundenen Bedienelemente zusammen und erhält den Titel als gewöhnliches React-Prop. Für einen statischen Titel braucht es kein holo. Verwenden Sie holo, wenn eine View Atome liest oder beschreibt, verwaltete Modelle auswählt oder Ereignisse des Graphen verarbeitet."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

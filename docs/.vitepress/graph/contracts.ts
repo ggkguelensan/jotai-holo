@@ -1,5 +1,5 @@
 export type GraphKind = 'react' | 'holo' | 'atom' | 'resource';
-export type SourceRef = { source: string; anchor: string };
+export type SourceRef = { source: string; anchor: string; occurrence?: number };
 export type GraphNode = {
   id: string;
   kind: GraphKind;

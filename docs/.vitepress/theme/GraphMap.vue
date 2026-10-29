@@ -14,7 +14,7 @@ import GraphCanvas from './GraphCanvas.vue';
 import Demo from './Demo.vue';
 import { preserveGraphLocaleLinks } from '../graph/locale-links';
 import { graphActivityKey } from '../graph/context';
-import type { GraphActivity, GraphScene, GraphUi } from '../graph/contracts';
+import type { GraphActivity, GraphScene, GraphUi, SourceRef } from '../graph/contracts';
 const { lang, theme } = useData();
 const route = useRoute();
 const ui = computed(() => theme.value.docsUi.graph as GraphUi);
@@ -35,13 +35,19 @@ const node = computed(
     scene.value?.nodes.find((node) => node.id === selected.value) ??
     scene.value?.groups.find((group) => group.id === selected.value),
 );
+function sourceLine(text: string, ref: SourceRef) {
+  const matches = text
+    .split('\n')
+    .flatMap((line, index) => (line.includes(ref.anchor) ? [index] : []));
+  return matches[ref.occurrence ?? 0] ?? -1;
+}
 const location = computed(() => {
   const target = node.value?.refs[0];
   if (!target || !scene.value) return undefined;
   const source = scene.value.sources[target.source]!;
   return {
     source,
-    line: source.text.split('\n').findIndex((line) => line.includes(target.anchor)),
+    line: sourceLine(source.text, target),
   };
 });
 const displaySource = computed(
@@ -77,11 +83,11 @@ function codeHover(event: Event) {
   const line =
     event.target instanceof Element ? event.target.closest<HTMLElement>('[data-line]') : null;
   if (!line || !displaySource.value || !scene.value) return;
-  const target = scene.value.nodes.find((node) =>
+  const target = [...scene.value.nodes, ...scene.value.groups].find((node) =>
     node.refs.some(
       (ref) =>
         scene.value!.sources[ref.source]?.file === displaySource.value!.file &&
-        line.textContent?.includes(ref.anchor),
+        sourceLine(displaySource.value!.text, ref) === Number(line.dataset.line) - 1,
     ),
   );
   if (target && target.id !== selected.value) {
@@ -108,11 +114,12 @@ provide(graphActivityKey, activity);
 async function load() {
   const current = ++generation;
   failure.value = false;
+  scene.value = undefined;
   try {
-    const { getScene } = await import('../graph/scenes');
-    if (disposed || current !== generation) return;
     const query = new URLSearchParams(window.location.search);
-    const next = getScene(query.get('scene') ?? 'holo-basics');
+    const { loadScene } = await import('../graph/scenes');
+    const next = await loadScene(query.get('scene') ?? 'holo-basics');
+    if (disposed || current !== generation) return;
     scene.value = next;
     branches.value = { analytics: false };
     active.value = [];
@@ -183,7 +190,11 @@ onBeforeUnmount(() => {
         </header>
         <div v-if="displaySource" class="graph-source-file">
           <span>{{ displaySource.file }}</span
-          ><a :href="`${theme.sourceBase}/${displaySource.file}`" :aria-label="ui.source">↗</a>
+          ><a
+            :href="`${theme.sourceBase}/${displaySource.file.split('#')[0]}`"
+            :aria-label="ui.source"
+            >↗</a
+          >
         </div>
         <pre
           v-if="displaySource"

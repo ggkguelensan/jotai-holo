@@ -2,7 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue';
 import { useData, withBase } from 'vitepress';
 import GraphCanvas from './GraphCanvas.vue';
-import type { GraphScene, GraphUi } from '../graph/contracts';
+import type { GraphScene, GraphUi, SourceRef } from '../graph/contracts';
 const props = defineProps<{ scene: string }>();
 const { lang, theme } = useData();
 const root = ref<HTMLElement>();
@@ -20,19 +20,25 @@ let observer: IntersectionObserver | undefined;
 let disposed = false;
 let generation = 0;
 let highlighted: HTMLElement[] = [];
+function lineForRef(ref: SourceRef) {
+  const file = scene.value?.sources[ref.source]?.file;
+  if (!file || !root.value) return undefined;
+  const matches = [
+    ...root.value.querySelectorAll<HTMLElement>('[data-code-source] pre .line'),
+  ].filter(
+    (line) =>
+      line.closest<HTMLElement>('[data-code-source]')?.dataset.codeSource === file &&
+      line.textContent?.includes(ref.anchor),
+  );
+  return matches[ref.occurrence ?? 0];
+}
 function linesForNode(id: string) {
-  const node = scene.value?.nodes.find((node) => node.id === id);
-  if (!node || !scene.value) return [];
-  for (const ref of node.refs) {
-    const file = scene.value.sources[ref.source]!.file;
-    const lines = [
-      ...root.value!.querySelectorAll<HTMLElement>('[data-code-source] pre .line'),
-    ].filter(
-      (line) =>
-        line.closest<HTMLElement>('[data-code-source]')?.dataset.codeSource === file &&
-        line.textContent?.includes(ref.anchor),
-    );
-    if (lines.length) return lines;
+  const node =
+    scene.value?.nodes.find((node) => node.id === id) ??
+    scene.value?.groups.find((group) => group.id === id);
+  for (const ref of node?.refs ?? []) {
+    const line = lineForRef(ref);
+    if (line) return [line];
   }
   return [];
 }
@@ -45,22 +51,21 @@ function codeHover(event: Event) {
   const target =
     event.target instanceof Element ? event.target.closest<HTMLElement>('pre .line') : null;
   if (!target) return;
-  const file = target.closest<HTMLElement>('[data-code-source]')?.dataset.codeSource;
-  const node = scene.value?.nodes.find((node) =>
-    node.refs.some(
-      (ref) =>
-        scene.value!.sources[ref.source]?.file === file && target.textContent?.includes(ref.anchor),
-    ),
+  const node = [...(scene.value?.nodes ?? []), ...(scene.value?.groups ?? [])].find((node) =>
+    node.refs.some((ref) => lineForRef(ref) === target),
   );
   if (node) selected.value = node.id;
 }
 async function load() {
   const current = ++generation;
   failure.value = false;
+  scene.value = undefined;
+  selected.value = null;
   try {
-    const { getScene } = await import('../graph/scenes');
+    const { loadScene } = await import('../graph/scenes');
+    const next = await loadScene(props.scene);
     if (disposed || current !== generation) return;
-    scene.value = getScene(props.scene);
+    scene.value = next;
     selected.value = null;
   } catch {
     if (!disposed && current === generation) failure.value = true;
