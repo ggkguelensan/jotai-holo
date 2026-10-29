@@ -54,10 +54,9 @@ const Help = holo({
   write: { onHelp: helpRequested },
 });
 
-export const Toolbar = holo({
-  view: ToolbarView,
-  static: { title: 'Player hub' },
-});
+export function Toolbar() {
+  return <ToolbarView title="Player hub" />;
+}
 // #endregion global-atoms
 
 // #region factory

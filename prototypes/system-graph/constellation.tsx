@@ -12,17 +12,19 @@ export function Constellation(props: VariantProps) {
         <span className="mini-note">Выбери область, чтобы увидеть её связи</span>
       </header>
       <div className="cluster-tabs" aria-label="Области графа">
-        {groups.map((group) => (
-          <button
-            key={group.id}
-            aria-pressed={props.selected.id === group.id}
-            onClick={() => props.onSelect(group)}
-          >
-            <i />
-            {group.name}
-            <small>{group.tag}</small>
-          </button>
-        ))}
+        {groups
+          .filter((group) => !group.lazy || props.analytics)
+          .map((group) => (
+            <button
+              key={group.id}
+              aria-pressed={props.selected.id === group.id}
+              onClick={() => props.onSelect(group)}
+            >
+              <i />
+              {group.name}
+              <small>{group.tag}</small>
+            </button>
+          ))}
       </div>
       <div className="workspace orbit-workspace">
         <Graph {...props} layout={constellation} />

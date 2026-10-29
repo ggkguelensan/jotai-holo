@@ -51,8 +51,7 @@ A toolbar composes two connected controls. ThemeControl reads and writes the the
 
 <<< @/../examples/atoms-or-models.tsx#global-atoms
 
-Toolbar supplies its fixed title through `static` and composes the controls. It does not read their atoms. The remaining unbound View props, if any, come from the parent. Supplied `read`, `write`, `static` and `events`
-props are not public inputs to the connected component.
+Toolbar composes the connected controls and passes its title as an ordinary React prop. It does not need holo for a static title. Use holo when a View reads or writes atoms, selects managed models, or handles graph events.
 
 ## Map a selected model's fields to props {#named-models}
 

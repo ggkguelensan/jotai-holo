@@ -1,14 +1,12 @@
 import { createRoot } from 'react-dom/client';
 import { useAtomValue } from 'jotai';
 import { MotionConfig } from 'motion/react';
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createScenario, type Scenario } from './runtime';
 import { initialSelection, Legend, type Selection } from './graph';
-import { Flow } from './flow';
 import { Constellation } from './constellation';
-import { Trace } from './trace';
+import { MiniPage } from './mini-page';
 import './style.css';
-import './picker.css';
 
 export type VariantProps = {
   selected: Selection;
@@ -16,115 +14,63 @@ export type VariantProps = {
   analytics: boolean;
   activity: string[];
   pulse: string;
-  phase: number;
 };
-const names = ['Поток', 'Созвездие', 'Трасса'];
-const variants = [Flow, Constellation, Trace];
 function App() {
-  const [variant, setVariant] = useState(() =>
-    Math.min(2, Math.max(0, (Number(new URLSearchParams(location.search).get('v')) || 1) - 1)),
+  const [mode, setMode] = useState(() =>
+    new URLSearchParams(location.search).get('mode') === 'mini' ? 'mini' : 'map',
   );
+  const [example, setExample] = useState(() => new URLSearchParams(location.search).get('example'));
   const [replay, setReplay] = useState(0);
-  const picker = useRef<HTMLElement>(null);
-  const highlight = useRef<HTMLSpanElement>(null);
-  const set = useCallback((index: number) => {
-    setVariant(index);
-    setReplay((n) => n + 1);
+  const changeMode = (next: string) => {
+    setMode(next);
+    setExample(null);
     const url = new URL(location.href);
-    url.searchParams.set('v', String(index + 1));
+    url.searchParams.delete('v');
+    url.searchParams.delete('example');
+    url.searchParams.set('mode', next);
     history.replaceState(null, '', url);
-  }, []);
-  useLayoutEffect(() => {
-    const measure = () => {
-      const button = picker.current?.querySelector<HTMLElement>('[data-active]');
-      if (button && highlight.current) {
-        highlight.current.style.width = `${button.offsetWidth}px`;
-        highlight.current.style.transform = `translateX(${button.offsetLeft}px)`;
-      }
-    };
-    measure();
-    window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
-  }, [variant]);
-  useEffect(() => {
-    let second = 0;
-    const first = requestAnimationFrame(() => {
-      second = requestAnimationFrame(() => picker.current?.setAttribute('data-ready', ''));
-    });
-    return () => {
-      cancelAnimationFrame(first);
-      cancelAnimationFrame(second);
-    };
-  }, []);
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      const target = event.target as HTMLElement;
-      if (
-        /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName) ||
-        target.isContentEditable ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.altKey ||
-        event.shiftKey
-      )
-        return;
-      // Arrow keys on graph nodes remain available to a future graph navigator.
-      if (event.target instanceof SVGElement && event.key.startsWith('Arrow')) return;
-      const number = Number(event.key);
-      if (number >= 1 && number <= 3) {
-        event.preventDefault();
-        set(number - 1);
-      } else if (event.key === 'ArrowRight') {
-        event.preventDefault();
-        set((variant + 1) % 3);
-      } else if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        set((variant + 2) % 3);
-      } else if (event.key.toLowerCase() === 'r') {
-        setReplay((n) => n + 1);
-      }
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [variant, set]);
+  };
   return (
     <MotionConfig reducedMotion="user" transition={{ duration: 0.23, ease: [0.23, 1, 0.32, 1] }}>
-      <Experience key={`${variant}-${replay}`} variant={variant} />
-      <nav className="proto-picker" aria-label="Prototype variants" ref={picker}>
-        <span className="proto-picker-highlight" aria-hidden="true" ref={highlight} />
-        {names.map((name, index) => (
-          <button
-            className="proto-picker-item"
-            key={name}
-            data-active={variant === index ? '' : undefined}
-            aria-current={variant === index ? 'true' : undefined}
-            onClick={() => set(index)}
-          >
-            {name}
-          </button>
-        ))}
-        <span className="proto-picker-divider" aria-hidden="true" />
+      <nav className="mode-nav" aria-label="Режим графа">
         <button
-          className="proto-picker-item proto-picker-replay"
-          aria-label="Replay animation (R)"
-          onClick={() => setReplay((n) => n + 1)}
+          aria-current={mode === 'map' ? 'page' : undefined}
+          onClick={() => changeMode('map')}
         >
+          Полная карта
+        </button>
+        <button
+          aria-current={mode === 'mini' ? 'page' : undefined}
+          onClick={() => changeMode('mini')}
+        >
+          Миниатюра
+        </button>
+        <button aria-label="Начать заново" onClick={() => setReplay((n) => n + 1)}>
           ↻
         </button>
       </nav>
+      {mode === 'map' ? (
+        example === 'atoms' ? (
+          <MiniPage key={`atoms-${replay}`} full />
+        ) : (
+          <Experience key={`map-${replay}`} />
+        )
+      ) : (
+        <MiniPage key={`mini-${replay}`} />
+      )}
     </MotionConfig>
   );
 }
-function Experience({ variant }: { variant: number }) {
+function Experience() {
   const [scenario] = useState(createScenario);
   useEffect(() => () => scenario.dispose(), [scenario]);
   return (
     <scenario.Scope>
-      <Scene scenario={scenario} variant={variant} />
+      <Scene scenario={scenario} />
     </scenario.Scope>
   );
 }
-function Scene({ scenario, variant }: { scenario: Scenario; variant: number }) {
+function Scene({ scenario }: { scenario: Scenario }) {
   const [selected, onSelect] = useState<Selection>(initialSelection);
   const [enabled, setEnabled] = useState(false);
   const ready = useAtomValue(scenario.$analyticsReady);
@@ -139,40 +85,36 @@ function Scene({ scenario, variant }: { scenario: Scenario; variant: number }) {
   // Prototype instrumentation observes changes; it is not business wiring.
   const previous = useRef({ copies, email, pending, receipt, game, logCount: logs.length });
   const [activity, setActivity] = useState<string[]>([]);
-  const [phase, setPhase] = useState(0);
   const [pulse, setPulse] = useState(0);
   useEffect(() => {
     const last = previous.current;
-    let next: { phase: number; ids: string[] } | undefined;
+    let next: { ids: string[] } | undefined;
     if (logs.length !== last.logCount)
-      next = { phase: 4, ids: ['fact', 'mapping', 'amplitude', 'warehouse'] };
+      next = { ids: ['fact', 'mapping', 'amplitude', 'warehouse'] };
     else if (receipt !== last.receipt)
-      next = { phase: 3, ids: ['mutate', 'complete', 'receipt', 'fact', 'hReceipt', 'vReceipt'] };
-    else if (pending && !last.pending)
-      next = { phase: 2, ids: ['vBuy', 'hBuy', 'buy', 'mutate', 'pending'] };
+      next = { ids: ['mutate', 'complete', 'receipt', 'fact', 'hReceipt', 'vReceipt'] };
+    else if (pending && !last.pending) next = { ids: ['vBuy', 'hBuy', 'buy', 'mutate', 'pending'] };
     else if (copies !== last.copies)
-      next = { phase: 1, ids: ['vCopies', 'hCopies', 'copies', 'total', 'hSummary', 'vSummary'] };
-    else if (email !== last.email)
-      next = { phase: 1, ids: ['vEmail', 'hForm', 'control', 'email'] };
+      next = { ids: ['vCopies', 'hCopies', 'copies', 'total', 'hSummary', 'vSummary'] };
+    else if (email !== last.email) next = { ids: ['vEmail', 'hForm', 'control', 'email'] };
     else if (game !== last.game)
-      next = { phase: 0, ids: ['query', 'data', 'game', 'total', 'hSummary', 'vSummary'] };
+      next = { ids: ['query', 'data', 'game', 'total', 'hSummary', 'vSummary'] };
     previous.current = { copies, email, pending, receipt, game, logCount: logs.length };
     if (next) {
-      setPhase(next.phase);
       setActivity(next.ids);
       setPulse((n) => n + 1);
     }
   }, [copies, email, pending, receipt, game, logs.length]);
   const analytics = enabled && ready;
-  const Variant = variants[variant]!;
+  const Variant = Constellation;
   return (
-    <main className={`prototype variant-${variant}`}>
+    <main className="prototype constellation-prototype">
       <header className="page-header">
         <a href="?v=1" className="wordmark">
           <span aria-hidden="true">◉</span> holo <small>/ laboratory</small>
         </a>
         <span className="prototype-label">
-          ИНТЕРАКТИВНЫЙ ПРОТОТИП <b>0{variant + 1} / 03</b>
+          СОЗВЕЗДИЕ <b>ПОЛНАЯ КАРТА</b>
         </span>
       </header>
       <section className="intro">
@@ -182,7 +124,7 @@ function Scene({ scenario, variant }: { scenario: Scenario; variant: number }) {
           <p>React собирает экран. holo связывает View с реактивным графом.</p>
         </div>
         <div className="intro-note">
-          <span>ОДИН СЦЕНАРИЙ · ТРИ ВЗГЛЯДА</span>
+          <span>ОДНА СИСТЕМА · ДВА МАСШТАБА</span>
           <p>
             Покупка подарка: данные, форма,
             <br />
@@ -236,7 +178,6 @@ function Scene({ scenario, variant }: { scenario: Scenario; variant: number }) {
         analytics={analytics}
         activity={activity}
         pulse={String(pulse)}
-        phase={phase}
       />
       {enabled && <scenario.AnalyticsOwner />}
       <section className="live-lab">
@@ -307,8 +248,7 @@ function Scene({ scenario, variant }: { scenario: Scenario; variant: number }) {
           воспроизводятся.
         </p>
         <span>
-          <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> варианты <b>·</b> <kbd>R</kbd> заново <b>·</b>{' '}
-          <kbd>Enter</kbd> закрепить <b>·</b> <kbd>Esc</kbd> открепить
+          <kbd>Tab</kbd> узлы <b>·</b> <kbd>Enter</kbd> закрепить <b>·</b> <kbd>Esc</kbd> открепить
         </span>
       </footer>
     </main>

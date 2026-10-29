@@ -1,13 +1,8 @@
-# System graph prototypes
+# Constellation graph: map and miniature
 
-Three isolated directions for a reusable documentation graph. No production
-routes or library API are changed. Choose a direction before integration.
-
-| Variant   | Primary question                                | Layout                                    |
-| --------- | ----------------------------------------------- | ----------------------------------------- |
-| Поток     | How does Parent → holo → View connect to atoms? | Directed layers, source inspector         |
-| Созвездие | Which atoms and consumers belong together?      | Spatial clusters, model navigation        |
-| Трасса    | What happens after an interaction?              | Step navigator, active path, source below |
+An isolated design iteration for a documentation graph. The selected direction
+is Constellation; earlier Flow/Trace variants and the comparison picker are removed.
+The actual documentation renderer is not modified yet.
 
 ```sh
 pnpm exec vite --config prototypes/system-graph/vite.config.ts --host 127.0.0.1 --port 5181
@@ -16,38 +11,42 @@ pnpm exec vite build --config prototypes/system-graph/vite.config.ts
 node prototypes/system-graph/check.mjs
 ```
 
-Open `http://127.0.0.1:5181/?v=1`. Keys 1–3 switch variants; R resets the
-scenario. Hover/focus previews a source location; click/Enter pins it; Escape
-unpins. On touch, tap a node. Narrow screens scroll the graph locally.
+- `/?mode=map`: full interactive gift checkout graph, source inspector and live UI.
+- `/?mode=mini`: article-layout mockup with real source and a compact force graph.
+- `/?mode=map&example=atoms`: expands that same seven-node graph with source.
 
-## What is real
+## Shared miniature contract
 
-The example runs Jotai, holo, modelRegistry, modelConnection, Query/Mutation
-models, an RHF model and modelAnalytics. Each replay creates a separate store,
-QueryClient and analytics provider. Multiple small holo bindings select the same
-registry key. Transports are local simulations; the analytics adapters only
-append to this instance's log. No purchase, network request or vendor SDK is used.
-The analytics model is a real dynamic import, with an explicit 600 ms demo delay.
-Observation starts after its factory loads: earlier purchase facts are not replayed.
+`MiniData` holds stable node IDs, semantic kinds, names, code anchors and edges.
+`Miniature` renders the same data compactly or expanded; expanding changes the
+presentation, not the meaning or graph membership. The compact version shows
+only circular nodes and undirected links; selection previews a name and source.
+React nodes are blue, holo green, Jotai white. The article imports executable
+source directly; it does not maintain a separate code illustration.
 
-`createScenario` is the prototype harness, not a recommended application factory.
-It isolates replayed scenarios and injects their simulated adapters.
+`force-layout.ts` applies pairwise repulsion, spring attraction, weak centering,
+velocity damping and bounds. Drag pins a node until release. The simulation
+sleeps after settling, stops outside the viewport or in a hidden tab, and cleans
+up on unmount. Reduced motion computes a settled layout synchronously rather
+than animating it. Pointer capture, keyboard selection and 44px hit targets are
+supported. The solver is deliberately small; it is not intended for thousands
+of nodes or automatic dependency extraction.
 
-## What is authored
+## Full business map
 
-`spec.ts` describes the example's graph, semantic edges, three layouts and source
-anchors. Source panes read the actual executable files via Vite raw imports.
-This is not runtime dependency extraction or an automatic devtools. Subscriptions
-in the preview controller are instrumentation for visible activity; they do not
-wire business rules. A highlighted edge is a semantic path, not an execution
-profiler. Registry retention and multiple different keys are not demonstrated.
+The gift example runs Jotai, holo, modelRegistry, modelConnection, Query/Mutation
+models, an RHF model and modelAnalytics. Each restart gets a separate store,
+QueryClient and adapter log. Data and purchase transports are local simulations;
+no purchase API or analytics vendor SDK is called. The analytics model uses a
+real dynamic import with an explicit 600 ms demo delay. Its branch only appears
+when connected; facts from before loading are not replayed.
 
-Filled circles: React blue, holo green, Jotai white. Hollow circles: RHF control
-and adapters. Purple boundaries group models. Double boundaries indicate
-registry-backed instances (business and form); Query/Mutation rely on QueryClient.
-Solid arrows carry data/props; dashed arrows are commands/facts; dotted arrows
-show control provisioning. Reverse arrows are offset rather than overprinted.
+`spec.ts` authors this example's graph and code anchors. Highlighted edges are
+semantic paths, not execution profiling. The compact article graph shows
+undirected dependencies; the detailed business map distinguishes data, commands
+and facts. Registry retention and different instance keys are not demonstrated.
 
-Before promotion: settle the graph format, compact embedding, code anchors,
-locale integration and theme support. These prototypes deliberately do not alter
-the documentation renderer or add a production dependency.
+Before integration: connect the miniature to the real documentation layout,
+settle per-example graph metadata and locale/theme support. The only production
+example change here replaces a static-only holo Toolbar wrapper with ordinary
+React composition, with corresponding translated explanation.

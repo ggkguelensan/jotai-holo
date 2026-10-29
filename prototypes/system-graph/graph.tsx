@@ -93,71 +93,73 @@ export function Graph({
             </marker>
           </defs>
           <rect width={layout.width} height={layout.height} fill={`url(#${prefix}-grid)`} />
-          {groups.map((group) => {
-            const [x, y, w, h] = layout.bounds[group.id]!;
-            const isActive = selected.id === group.id && !('kind' in selected);
-            const dormant = group.lazy && !analytics;
-            return (
-              <motion.g
-                key={`${group.id}-${dormant}`}
-                initial={group.lazy && !dormant ? { opacity: 0, y: reduced ? 0 : 8 } : false}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.23, ease: [0.23, 1, 0.32, 1] }}
-                className={`model-boundary ${dormant ? 'dormant' : ''} ${isActive ? 'selected' : ''}`}
-              >
-                {(group.tag === 'REGISTRY' || group.id === 'form') && (
+          {groups
+            .filter((group) => !group.lazy || analytics)
+            .map((group) => {
+              const [x, y, w, h] = layout.bounds[group.id]!;
+              const isActive = selected.id === group.id && !('kind' in selected);
+              const dormant = group.lazy && !analytics;
+              return (
+                <motion.g
+                  key={`${group.id}-${dormant}`}
+                  initial={group.lazy && !dormant ? { opacity: 0, y: reduced ? 0 : 8 } : false}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.23, ease: [0.23, 1, 0.32, 1] }}
+                  className={`model-boundary ${dormant ? 'dormant' : ''} ${isActive ? 'selected' : ''}`}
+                >
+                  {(group.tag === 'REGISTRY' || group.id === 'form') && (
+                    <rect
+                      x={x + 5}
+                      y={y + 5}
+                      width={w}
+                      height={h}
+                      rx="18"
+                      className="registry-copy"
+                    />
+                  )}
                   <rect
-                    x={x + 5}
-                    y={y + 5}
+                    x={x}
+                    y={y}
                     width={w}
                     height={h}
                     rx="18"
-                    className="registry-copy"
+                    tabIndex={0}
+                    role="button"
+                    aria-label={`${group.name}, ${group.tag}${dormant ? ', не подключена' : ''}`}
+                    aria-pressed={isActive}
+                    onMouseEnter={() => pick(group)}
+                    onFocus={() => pick(group)}
+                    onClick={() => pick(group, true)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        pick(group, true);
+                      }
+                    }}
                   />
-                )}
-                <rect
-                  x={x}
-                  y={y}
-                  width={w}
-                  height={h}
-                  rx="18"
-                  tabIndex={0}
-                  role="button"
-                  aria-label={`${group.name}, ${group.tag}${dormant ? ', не подключена' : ''}`}
-                  aria-pressed={isActive}
-                  onMouseEnter={() => pick(group)}
-                  onFocus={() => pick(group)}
-                  onClick={() => pick(group, true)}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault();
-                      pick(group, true);
-                    }
-                  }}
-                />
-                <text x={x + 16} y={y + 26} className="group-name">
-                  {group.name}
-                </text>
-                <text x={x + w - 16} y={y + 45} textAnchor="end" className="group-tag">
-                  {group.tag === 'REGISTRY' || group.id === 'form'
-                    ? 'KEY · gift / starfall'
-                    : dormant
-                      ? 'IMPORT НЕ ЗАПУЩЕН'
-                      : group.tag}
-                </text>
-                {dormant && (
-                  <text
-                    x={x + w / 2}
-                    y={y + h / 2 + 18}
-                    textAnchor="middle"
-                    className="dormant-label"
-                  >
-                    Наблюдение отключено
+                  <text x={x + 16} y={y + 26} className="group-name">
+                    {group.name}
                   </text>
-                )}
-              </motion.g>
-            );
-          })}
+                  <text x={x + w - 16} y={y + 45} textAnchor="end" className="group-tag">
+                    {group.tag === 'REGISTRY' || group.id === 'form'
+                      ? 'KEY · gift / starfall'
+                      : dormant
+                        ? 'IMPORT НЕ ЗАПУЩЕН'
+                        : group.tag}
+                  </text>
+                  {dormant && (
+                    <text
+                      x={x + w / 2}
+                      y={y + h / 2 + 18}
+                      textAnchor="middle"
+                      className="dormant-label"
+                    >
+                      Наблюдение отключено
+                    </text>
+                  )}
+                </motion.g>
+              );
+            })}
           <g className="graph-edges">
             {edges
               .filter((edge) => shown(edge.from) && shown(edge.to))
