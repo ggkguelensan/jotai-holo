@@ -6,11 +6,11 @@ import {
   holo,
   holoList,
   holoMatch,
-  ion,
   prism,
   stateAtom,
 } from 'jotai-holo';
 import { createStore } from 'jotai/vanilla';
+import type { createProfileModel, Profile } from './profile/edit-model.js';
 
 // #region state
 export const $draft = stateAtom({ name: '', email: '' });
@@ -28,16 +28,6 @@ export const changeName = actionAtom((_get, set, name: string) => {
 });
 // #endregion action
 
-// #region ion
-
-export const $saving = stateAtom(false);
-
-export const $canSave = ion(
-  { valid: $valid, saving: $saving },
-  ({ valid, saving }) => valid && !saving,
-);
-// #endregion ion
-
 // #region prism
 
 export const { $name, $email } = prism($draft, {
@@ -45,49 +35,6 @@ export const { $name, $email } = prism($draft, {
   $email: (draft) => draft.email,
 });
 // #endregion prism
-
-export type Profile = { id: string; name: string; email: string };
-export type ProfileApi = {
-  save: (draft: { name: string; email: string }) => Promise<Profile>;
-};
-
-// #region workflow
-export function createProfile(api: ProfileApi) {
-  const $draft = stateAtom({ name: '', email: '' });
-  const $profile = stateAtom<Profile | null>(null);
-  const $saving = stateAtom(false);
-  const $error = stateAtom<string | null>(null);
-
-  const profileSaved = eventAtom<Profile>();
-
-  const edit = actionAtom(
-    (_get, set, draft: { name: string; email: string }) => {
-      set($draft, draft);
-    },
-  );
-  const save = actionAtom(async (get, set) => {
-    if (get($saving)) return;
-    const draft = get($draft);
-    if (!draft.name.trim() || !draft.email.includes('@')) {
-      set($error, 'Enter a name and a valid email.');
-      return;
-    }
-    set($saving, true);
-    set($error, null);
-    try {
-      const profile = await api.save(draft);
-      set($profile, profile);
-      // A fact, published only after persistence succeeds.
-      set(profileSaved, profile);
-    } catch (error) {
-      set($error, error instanceof Error ? error.message : 'Save failed');
-    } finally {
-      set($saving, false);
-    }
-  });
-  return { $draft, $profile, $saving, $error, edit, save, profileSaved };
-}
-// #endregion workflow
 
 // #region event
 
@@ -102,7 +49,9 @@ export function publishSaved(
 // #endregion event
 
 // #region bond
-export function createNotifications(model: ReturnType<typeof createProfile>) {
+export function createNotifications(
+  model: ReturnType<typeof createProfileModel>,
+) {
   const $enabled = stateAtom(true);
   const $locale = stateAtom<'en' | 'ru'>('en');
   const $message = stateAtom('');
@@ -221,70 +170,3 @@ export const UsersPage = holoMatch({
   cases: { loading: LoadingView, ready: UsersView, error: ErrorView },
 });
 // #endregion match
-
-// #region runtime
-export function createProfileRuntime(
-  api: ProfileApi,
-  onError: (error: unknown) => void,
-) {
-  const store = createStore();
-  const model = createProfile(api);
-  const notifications = createNotifications(model);
-  const stop = notifications.notifying.connect(store, { onError });
-  return { store, model, notifications, dispose: stop };
-}
-// #endregion runtime
-
-// #region profile-view
-
-function ProfileView({
-  draft,
-  saving,
-  error,
-  onEdit,
-  onSave,
-}: {
-  draft: { name: string; email: string };
-  saving: boolean;
-  error: string | null;
-  onEdit: (draft: { name: string; email: string }) => void;
-  onSave: () => Promise<void>;
-}) {
-  return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault();
-        void onSave();
-      }}
-    >
-      <label>
-        Name
-        <input
-          value={draft.name}
-          onChange={(event) => onEdit({ ...draft, name: event.target.value })}
-        />
-      </label>
-      <label>
-        Email
-        <input
-          type="email"
-          value={draft.email}
-          onChange={(event) => onEdit({ ...draft, email: event.target.value })}
-        />
-      </label>
-      {error && <p role="alert">{error}</p>}
-      <button disabled={saving} type="submit">
-        {saving ? 'Saving…' : 'Save profile'}
-      </button>
-    </form>
-  );
-}
-export function createProfileEditor(model: ReturnType<typeof createProfile>) {
-  // Call this factory during application setup, outside React render.
-  return holo({
-    view: ProfileView,
-    read: { draft: model.$draft, saving: model.$saving, error: model.$error },
-    write: { onEdit: model.edit, onSave: model.save },
-  });
-}
-// #endregion profile-view

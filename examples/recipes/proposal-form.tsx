@@ -30,12 +30,12 @@ const $$proposalForms = pipe(createProposalFormModel, modelRegistry());
 // #endregion form-model
 
 // #region form-view
-function ProposalFormView() {
+function SeatsField() {
   const { register, control } = useFormContext<ProposalDraft>();
-  const { errors } = useFormState({ control });
+  const { errors } = useFormState({ control, name: 'seats', exact: true });
 
   return (
-    <form onSubmit={(event) => event.preventDefault()}>
+    <>
       <label>
         Seats
         <input
@@ -46,10 +46,26 @@ function ProposalFormView() {
         />
       </label>
       {errors.seats && <p role="alert">Enter at least one seat.</p>}
-      <label>
-        Customer comment
-        <textarea {...register('comment')} />
-      </label>
+    </>
+  );
+}
+
+function CommentField() {
+  const { register } = useFormContext<ProposalDraft>();
+
+  return (
+    <label>
+      Customer comment
+      <textarea {...register('comment')} />
+    </label>
+  );
+}
+
+function ProposalFormView() {
+  return (
+    <form onSubmit={(event) => event.preventDefault()}>
+      <SeatsField />
+      <CommentField />
     </form>
   );
 }

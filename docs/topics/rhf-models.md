@@ -14,13 +14,17 @@ Here `$email` projects a field for the external panel. `save` returns `handleSub
 
 ## Keep the editor's RHF components {#holoform}
 
-`ContactView` still calls `useFormContext`, `register` and `Controller`. `holoForm` provides the selected control through RHF context:
+ContactView composes EmailField and ChannelField. Those fields keep native `useFormContext`, `register` and `Controller`; field errors use a scoped `useFormState`. `holoForm` supplies their shared control:
 
 <<< @/../examples/docs/form.tsx#contact-editor
 
-An external panel uses ordinary `holo` to select the same model by contact ID, read `$email` and invoke `save`:
+SavePanel composes three connected children: EmailPreview reads `$email`, Submit invokes `save` and observes native `isSubmitting`, and SavedMessage displays the accepted email. Each selects the same contact key:
 
-<<< @/../examples/docs/form.tsx#contact-save-panel
+<<< @/../examples/docs/form.tsx#contact-save-layout
+
+For example, the email preview subscribes only to its field projection:
+
+<<< @/../examples/docs/form.tsx#contact-email-preview
 
 The editor keeps its field markup and third-party RHF components. Another contact ID selects an independent form.
 

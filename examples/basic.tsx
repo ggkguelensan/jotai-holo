@@ -2,39 +2,55 @@ import { holo } from 'jotai-holo';
 import { createCounter } from './counter-model.js';
 
 const $$counter = createCounter();
-export function CounterView({
-  title,
+
+export function CounterDisplayView({
   count,
   double,
+}: {
+  count: number;
+  double: number;
+}) {
+  return (
+    <output>
+      {count} × 2 = {double}
+    </output>
+  );
+}
+
+export function CounterControlsView({
   onIncrement,
   onDecrement,
 }: {
-  title: string;
-  count: number;
-  double: number;
   onIncrement: () => void;
   onDecrement: () => void;
 }) {
   return (
-    <section>
-      <h2>{title}</h2>
-      <output>
-        {count} × 2 = {double}
-      </output>
-      <div>
-        <button onClick={onDecrement}>−</button>
-        <button onClick={onIncrement}>+</button>
-      </div>
-    </section>
+    <div>
+      <button onClick={onDecrement}>−</button>
+      <button onClick={onIncrement}>+</button>
+    </div>
   );
 }
 
-export const BasicCounter = holo({
-  view: CounterView,
+const CounterDisplay = holo({
+  view: CounterDisplayView,
   read: { count: $$counter.$count, double: $$counter.$double },
+});
+
+const CounterControls = holo({
+  view: CounterControlsView,
   write: {
     onIncrement: $$counter.increment,
     onDecrement: $$counter.decrement,
   },
-  static: { title: 'State + actions' },
 });
+
+export function BasicCounter() {
+  return (
+    <section>
+      <h2>State + actions</h2>
+      <CounterDisplay />
+      <CounterControls />
+    </section>
+  );
+}

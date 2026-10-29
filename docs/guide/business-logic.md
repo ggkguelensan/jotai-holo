@@ -8,6 +8,8 @@ Use holo wherever decomposition gives a part of the screen its own responsibilit
 
 Move business decisions and synchronization into the model. Keep formatting, accessibility, local presentation state and native UI hooks in React. The aim is small Views and explicit workflows, not banning every React hook or effect. Declare holo outside render; no model registry is required for direct atom bindings.
 
+A layout composes already connected fields, summaries and actions. It does not read an entire model to distribute values to children. Each small binding selects the values its View displays. The [profile recipe](/recipes/profile#bind-the-editor) shows independent name, email, error and submit Views.
+
 ## Start with a business workflow
 
 Write the sequence in business terms: validate the draft, capture the submitted values, request a save, accept the response, publish that the proposal was saved. A command expresses an intention and can fail. A fact describes something that has already happened; publish it only after the relevant operation succeeds.

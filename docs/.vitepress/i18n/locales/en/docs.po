@@ -730,6 +730,12 @@ msgstr "Move business decisions and synchronization into the model. Keep formatt
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/business-logic.md
+msgid "A layout composes already connected fields, summaries and actions. It does not read an entire model to distribute values to children. Each small binding selects the values its View displays. The [profile recipe](/recipes/profile#bind-the-editor) shows independent name, email, error and submit Views."
+msgstr "A layout composes already connected fields, summaries and actions. It does not read an entire model to distribute values to children. Each small binding selects the values its View displays. The [profile recipe](/recipes/profile#bind-the-editor) shows independent name, email, error and submit Views."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/guide/business-logic.md
 msgid "Start with a business workflow"
 msgstr "Start with a business workflow"
 
@@ -1520,8 +1526,8 @@ msgstr "Async actions"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/rendering.md
-msgid "Actions return the original result and Promise. They do not cancel, serialize, roll back, or implement latest-wins. The [profile recipe](/recipes/profile) implements single-flight explicitly and catches failures in the model. `actionAtom` publishes call arguments when the synchronous handler returns, including when it returns a pending Promise. Publish a separate fact event after `await` if consumers need confirmed success."
-msgstr "Actions return the original result and Promise. They do not cancel, serialize, roll back, or implement latest-wins. The [profile recipe](/recipes/profile) implements single-flight explicitly and catches failures in the model. `actionAtom` publishes call arguments when the synchronous handler returns, including when it returns a pending Promise. Publish a separate fact event after `await` if consumers need confirmed success."
+msgid "Actions return the original result and Promise. They do not cancel, serialize, roll back, or implement latest-wins. The [profile recipe](/recipes/profile) uses a TanStack mutation, with explicit single-flight and Promise handling in the save command. `actionAtom` publishes call arguments when the synchronous handler returns, including when it returns a pending Promise. Publish a separate fact event after `await` if consumers need confirmed success."
+msgstr "Actions return the original result and Promise. They do not cancel, serialize, roll back, or implement latest-wins. The [profile recipe](/recipes/profile) uses a TanStack mutation, with explicit single-flight and Promise handling in the save command. `actionAtom` publishes call arguments when the synchronous handler returns, including when it returns a pending Promise. Publish a separate fact event after `await` if consumers need confirmed success."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2130,8 +2136,8 @@ msgstr "Profile: command → fact → reaction"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "A user edits a draft and presses Save. A command validates input and persists it through an API. Only the successful response produces the fact `profileSaved`. A notification module reacts to that fact without controlling persistence."
-msgstr "A user edits a draft and presses Save. A command validates input and persists it through an API. Only the successful response produces the fact `profileSaved`. A notification module reacts to that fact without controlling persistence."
+msgid "A user edits a draft and presses Save. TanStack Query runs the mutation and owns its pending and error state. After success, the command publishes `profileSaved`; a notification reacts without controlling persistence."
+msgstr "A user edits a draft and presses Save. TanStack Query runs the mutation and owns its pending and error state. After success, the command publishes `profileSaved`; a notification reacts without controlling persistence."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2142,14 +2148,26 @@ msgstr "Model and async policy"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "Repeated saves are ignored while one request is pending. The draft is captured before await, so later edits do not change the request. The response updates `$profile`; it does not overwrite the current draft and lose newer edits. Failures enter `$error`, emit no success fact, and clear `$saving` in finally."
-msgstr "Repeated saves are ignored while one request is pending. The draft is captured before await, so later edits do not change the request. The response updates `$profile`; it does not overwrite the current draft and lose newer edits. Failures enter `$error`, emit no success fact, and clear `$saving` in finally."
+msgid "Keep the draft and validation in the business model. It accepts a saved profile without replacing the current draft, so a response cannot erase edits made while saving:"
+msgstr "Keep the draft and validation in the business model. It accepts a saved profile without replacing the current draft, so a response cannot erase edits made while saving:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "This policy belongs to the example, not to actionAtom. Latest-wins, cancellation and retries need a different model policy or a suitable data-fetching tool."
-msgstr "This policy belongs to the example, not to actionAtom. Latest-wins, cancellation and retries need a different model policy or a suitable data-fetching tool."
+msgid "Declare the mutation separately, at module scope. Its native options factory uses `profileApi.save`, which calls `PUT /api/profile`. Supply this endpoint in your application; the documentation does not deploy a backend."
+msgstr "Declare the mutation separately, at module scope. Its native options factory uses `profileApi.save`, which calls `PUT /api/profile`. Supply this endpoint in your application; the documentation does not deploy a backend."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "The save command coordinates the workflow. It skips invalid drafts and duplicate saves, captures the submitted values and publishes the accepted result only after `mutate` resolves:"
+msgstr "The save command coordinates the workflow. It skips invalid drafts and duplicate saves, captures the submitted values and publishes the accepted result only after `mutate` resolves:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "There are no manually maintained request flags. `$saving` and `$error` project native mutation state. The catch handles the rejected Promise; it does not copy the error into another atom. Failed saves publish no success fact. Single-flight is a policy of this command, not a TanStack guarantee."
+msgstr "There are no manually maintained request flags. `$saving` and `$error` project native mutation state. The catch handles the rejected Promise; it does not copy the error into another atom. Failed saves publish no success fact. Single-flight is a policy of this command, not a TanStack guarantee."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2160,8 +2178,8 @@ msgstr "Independent reaction"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "save performs persistence. profileSaved reports the accepted result, and the notification reacts to it. Disabling notifications does not undo the save."
-msgstr "save performs persistence. profileSaved reports the accepted result, and the notification reacts to it. Disabling notifications does not undo the save."
+msgid "`createNotifications($$profile)` connects the fact to a message. It does not import the API or mutation. Disabling notifications prevents the message, not the save."
+msgstr "`createNotifications($$profile)` connects the fact to a message. It does not import the API or mutation. Disabling notifications prevents the message, not the save."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2172,14 +2190,20 @@ msgstr "Connection ownership"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "Create the runtime before rendering. Give the Provider `runtime.store`, bind `runtime.model` outside render, and call `runtime.dispose()` when the session ends. For SSR, create a runtime per request. To share keyed models between widgets, use [modelRegistry](/reference/modelRegistry)."
-msgstr "Create the runtime before rendering. Give the Provider `runtime.store`, bind `runtime.model` outside render, and call `runtime.dispose()` when the session ends. For SSR, create a runtime per request. To share keyed models between widgets, use [modelRegistry](/reference/modelRegistry)."
+msgid "The notification component owns that reaction through its model. Declaring the binding does not subscribe; mounting the component acquires it after commit."
+msgstr "The notification component owns that reaction through its model. Declaring the binding does not subscribe; mounting the component acquires it after commit."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "API failure is expected model state; the connection's onError handles failures in the reaction itself. This example catches API errors inside save rather than rejecting to the calling View."
-msgstr "API failure is expected model state; the connection's onError handles failures in the reaction itself. This example catches API errors inside save rather than rejecting to the calling View."
+msgid "Render `SaveNotice` while the editor is active. The last owner leaving stops the reaction. This ephemeral notification does not replay a save that completed while no owner was listening."
+msgstr "Render `SaveNotice` while the editor is active. The last owner leaving stops the reaction. This ephemeral notification does not replay a save that completed while no owner was listening."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "Give Jotai [the application's QueryClient](/topics/tanstack-models#queryclientatom). The editor and notice must use the same Jotai store. For SSR, use a separate store and QueryClient per request."
+msgstr "Give Jotai [the application's QueryClient](/topics/tanstack-models#queryclientatom). The editor and notice must use the same Jotai store. For SSR, use a separate store and QueryClient per request."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2190,8 +2214,32 @@ msgstr "Bind the editor"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "Call `const Editor = createProfileEditor(runtime.model)` once during application setup, then render `<Provider store={runtime.store}><Editor /></Provider>`. This factory creates a component definition; it must not run inside another component's render. The View does not import atoms or handle persistence errors itself."
-msgstr "Call `const Editor = createProfileEditor(runtime.model)` once during application setup, then render `<Provider store={runtime.store}><Editor /></Provider>`. This factory creates a component definition; it must not run inside another component's render. The View does not import atoms or handle persistence errors itself."
+msgid "The form composes connected children and forwards submit. It has no `read` binding:"
+msgstr "The form composes connected children and forwards submit. It has no `read` binding:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "Each field reads and writes its own writable derived atom. Editing the name does not pass a new draft object through the email View:"
+msgstr "Each field reads and writes its own writable derived atom. Editing the name does not pass a new draft object through the email View:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "The error and Save button subscribe separately to mutation state. Pending updates the button; it does not make the fields read request state:"
+msgstr "The error and Save button subscribe separately to mutation state. Pending updates the button; it does not make the fields read request state:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "The fields use native required/email inputs for feedback. A larger form can keep RHF and its resolver; [the server-data recipe](/recipes/server-data#a-form-initialized-from-server-data) shows that path."
+msgstr "The fields use native required/email inputs for feedback. A larger form can keep RHF and its resolver; [the server-data recipe](/recipes/server-data#a-form-initialized-from-server-data) shows that path."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/recipes/profile.md
+msgid "This workflow uses `createMutationModel` because atoms and an independent reaction participate. If only React needs the request, prefer native `useMutation`. To initialize a business profile from a server, follow the [loading and editing workflow](/recipes/profile-composition)."
+msgstr "This workflow uses `createMutationModel` because atoms and an independent reaction participate. If only React needs the request, prefer native `useMutation`. To initialize a business profile from a server, follow the [loading and editing workflow](/recipes/profile-composition)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2202,8 +2250,8 @@ msgstr "Verification"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "The example source is included in TypeScript checking. `tests/documentation.test.ts` checks that no fact occurs before API success, repeated saves make one request, successful facts are delivered, disposal stops reactions, API failure emits no success fact, and invalid input is rejected."
-msgstr "The example source is included in TypeScript checking. `tests/documentation.test.ts` checks that no fact occurs before API success, repeated saves make one request, successful facts are delivered, disposal stops reactions, API failure emits no success fact, and invalid input is rejected."
+msgid "The tests check pending state, single-flight, draft isolation, successful facts, failure state and notification cleanup. Browser tests exercise the editor and count commits: changing one field leaves the other field unchanged, and pending updates only the button."
+msgstr "The tests check pending state, single-flight, draft isolation, successful facts, failure state and notification cleanup. Browser tests exercise the editor and count commits: changing one field leaves the other field unchanged, and pending updates only the button."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -2216,8 +2264,12 @@ msgstr "Reading"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "[React: separating events from effects](https://react.dev/learn/separating-events-from-effects) helps separate explicit operations from synchronization. [Effector sample](https://effector.dev/en/api/effector/sample/) is the declarative connection analogy. The example demonstrates a command followed by an independent reaction. Durable audit logs and transactional delivery require their own storage and acknowledgement policy."
-msgstr "[React: separating events from effects](https://react.dev/learn/separating-events-from-effects) helps separate explicit operations from synchronization. [Effector sample](https://effector.dev/en/api/effector/sample/) is the declarative connection analogy. The example demonstrates a command followed by an independent reaction. Durable audit logs and transactional delivery require their own storage and acknowledgement policy."
+msgid "- [TanStack mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) — request lifecycle, native options and execution Promises.\n"
+"- [React: separating events from effects](https://react.dev/learn/separating-events-from-effects) — explicit operations and reactive synchronization.\n"
+"- [Effector sample](https://effector.dev/en/api/effector/sample/) — the declarative connection analogy."
+msgstr "- [TanStack mutations](https://tanstack.com/query/latest/docs/framework/react/guides/mutations) — request lifecycle, native options and execution Promises.\n"
+"- [React: separating events from effects](https://react.dev/learn/separating-events-from-effects) — explicit operations and reactive synchronization.\n"
+"- [Effector sample](https://effector.dev/en/api/effector/sample/) — the declarative connection analogy."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2400,8 +2452,8 @@ msgstr "actionAtom"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
-msgid "Describe an operation that reads or updates atoms. For example, validate a draft and submit it to an API."
-msgstr "Describe an operation that reads or updates atoms. For example, validate a draft and submit it to an API."
+msgid "Describe an operation that reads or updates atoms, such as changing a profile name."
+msgstr "Describe an operation that reads or updates atoms, such as changing a profile name."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -2750,8 +2802,8 @@ msgstr "bond"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/bond.md
-msgid "Connect an event to a reaction. When an order is submitted, read the current settings, check a condition and send arguments to the receiving atom."
-msgstr "Connect an event to a reaction. When an order is submitted, read the current settings, check a condition and send arguments to the receiving atom."
+msgid "Connect a fact to an independent reaction. After a profile save, read the current locale, check whether notifications are enabled and show a message."
+msgstr "Connect a fact to an independent reaction. After a profile save, read the current locale, check whether notifications are enabled and show a message."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3536,6 +3588,12 @@ msgstr "Announce that something happened. Emit `profileSaved` after the API conf
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/eventAtom.md
+msgid "The [profile recipe](/recipes/profile) shows the mutation and publishes the fact only after its Promise resolves."
+msgstr "The [profile recipe](/recipes/profile) shows the mutation and publishes the fact only after its Promise resolves."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/eventAtom.md
 msgid "- `eventAtom<Payload>()` accepts one payload; `eventAtom()` accepts no payload.\n"
 "- `store.set(event, payload)` publishes within that store. Repeated equal payloads are delivered every time.\n"
 "- The readable value stays `null`. No last payload, replay, persistence or cross-store broadcast.\n"
@@ -4240,6 +4298,18 @@ msgstr "Load a saved draft and save edits when its last owner leaves."
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/modelLifecycle.md
+msgid "The example restores a draft from browser session storage and writes it back when the last editor leaves:"
+msgstr "The example restores a draft from browser session storage and writes it back when the last editor leaves:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelLifecycle.md
+msgid "For server requests, use TanStack Query options and [Query/Mutation models](/topics/tanstack-models) when the atom graph needs them. Use native hooks for React-only requests. Do not duplicate request status, caching or retry policy in a lifecycle callback. A custom transport can still belong here when its ownership protocol requires it."
+msgstr "For server requests, use TanStack Query options and [Query/Mutation models](/topics/tanstack-models) when the atom graph needs them. Use native hooks for React-only requests. Do not duplicate request status, caching or retry policy in a lifecycle callback. A custom transport can still belong here when its ownership protocol requires it."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/modelLifecycle.md
 msgid "Load starts on activation and runs once after successful initialization of a retained instance. Release aborts loading; a later owner can retry an interrupted or failed load. Restore is synchronous. When snapshot is supplied, local edits win over a late load. Snapshot values must be synchronous and immutable."
 msgstr "Load starts on activation and runs once after successful initialization of a retained instance. Release aborts loading; a later owner can retry an interrupted or failed load. Restore is synchronous. When snapshot is supplied, local edits win over a late load. Snapshot values must be synchronous and immutable."
 
@@ -4546,8 +4616,8 @@ msgstr "prism"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/prism.md
-msgid "Select several fields from one atom. Each field becomes an independent read-only atom, so a role change can leave the name View unchanged."
-msgstr "Select several fields from one atom. Each field becomes an independent read-only atom, so a role change can leave the name View unchanged."
+msgid "Select several fields from one atom. Each field becomes an independent read-only atom, so an email change can leave the name View unchanged."
+msgstr "Select several fields from one atom. Each field becomes an independent read-only atom, so an email change can leave the name View unchanged."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5014,8 +5084,8 @@ msgstr "Calling `createFiltersModel()` twice creates two different atom records.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "The View can bind directly to the first record:"
-msgstr "The View can bind directly to the first record:"
+msgid "Each field can connect directly to the first record. CatalogFilters only composes those connected fields:"
+msgstr "Each field can connect directly to the first record. CatalogFilters only composes those connected fields:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5046,12 +5116,8 @@ msgstr "Shared instances by ID: add a registry"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "Suppose the filter panel and toolbar are in different parts of the page. Both\n"
-"know the catalog ID and need to find its current filters. A registry gives them\n"
-"a shared way to select the instance:"
-msgstr "Suppose the filter panel and toolbar are in different parts of the page. Both\n"
-"know the catalog ID and need to find its current filters. A registry gives them\n"
-"a shared way to select the instance:"
+msgid "Suppose the term and stock controls sit in different parts of a catalog layout. Both know the catalog ID and need its filters. A registry lets each binding select that instance independently:"
+msgstr "Suppose the term and stock controls sit in different parts of a catalog layout. Both know the catalog ID and need its filters. A registry lets each binding select that instance independently:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5318,19 +5384,15 @@ msgstr "`NameView` receives ordinary props. It does not need to know the source 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "A binding can combine unrelated atoms. For example, the workspace toolbar reads\n"
-"the theme and publishes a help request:"
-msgstr "A binding can combine unrelated atoms. For example, the workspace toolbar reads\n"
-"the theme and publishes a help request:"
+msgid "A toolbar composes two connected controls. ThemeControl reads and writes the theme; Help only publishes a request:"
+msgstr "A toolbar composes two connected controls. ThemeControl reads and writes the theme; Help only publishes a request:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "Here `static` supplies the fixed title. The remaining unbound View props, if\n"
-"any, come from the parent. Supplied `read`, `write`, `static` and `imperative`\n"
+msgid "Toolbar supplies its fixed title through `static` and composes the controls. It does not read their atoms. The remaining unbound View props, if any, come from the parent. Supplied `read`, `write`, `static` and `imperative`\n"
 "props are not public inputs to the connected component."
-msgstr "Here `static` supplies the fixed title. The remaining unbound View props, if\n"
-"any, come from the parent. Supplied `read`, `write`, `static` and `imperative`\n"
+msgstr "Toolbar supplies its fixed title through `static` and composes the controls. It does not read their atoms. The remaining unbound View props, if any, come from the parent. Supplied `read`, `write`, `static` and `imperative`\n"
 "props are not public inputs to the connected component."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -5352,12 +5414,8 @@ msgstr "When a binding uses models, `models` selects their instances first. The 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "In this example, the incoming `catalogId` selects the filters record. The `read`\n"
-"callback maps its `$term` to the View's `term` prop; `write` maps the same atom\n"
-"to `onTermChange`. The View does not receive a model record or atom objects."
-msgstr "In this example, the incoming `catalogId` selects the filters record. The `read`\n"
-"callback maps its `$term` to the View's `term` prop; `write` maps the same atom\n"
-"to `onTermChange`. The View does not receive a model record or atom objects."
+msgid "ProductTerm and ProductStock each select the filters record using `catalogId`. Their bindings map one field to a value and callback. ProductFilters composes these controls and passes only the ID; it does not read the filter values. Each field View receives ordinary props."
+msgstr "ProductTerm and ProductStock each select the filters record using `catalogId`. Their bindings map one field to a value and callback. ProductFilters composes these controls and passes only the ID; it does not read the filter values. Each field View receives ordinary props."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5922,14 +5980,20 @@ msgstr "Keep the editor's RHF components"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/rhf-models.md
-msgid "`ContactView` still calls `useFormContext`, `register` and `Controller`. `holoForm` provides the selected control through RHF context:"
-msgstr "`ContactView` still calls `useFormContext`, `register` and `Controller`. `holoForm` provides the selected control through RHF context:"
+msgid "ContactView composes EmailField and ChannelField. Those fields keep native `useFormContext`, `register` and `Controller`; field errors use a scoped `useFormState`. `holoForm` supplies their shared control:"
+msgstr "ContactView composes EmailField and ChannelField. Those fields keep native `useFormContext`, `register` and `Controller`; field errors use a scoped `useFormState`. `holoForm` supplies their shared control:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/rhf-models.md
-msgid "An external panel uses ordinary `holo` to select the same model by contact ID, read `$email` and invoke `save`:"
-msgstr "An external panel uses ordinary `holo` to select the same model by contact ID, read `$email` and invoke `save`:"
+msgid "SavePanel composes three connected children: EmailPreview reads `$email`, Submit invokes `save` and observes native `isSubmitting`, and SavedMessage displays the accepted email. Each selects the same contact key:"
+msgstr "SavePanel composes three connected children: EmailPreview reads `$email`, Submit invokes `save` and observes native `isSubmitting`, and SavedMessage displays the accepted email. Each selects the same contact key:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/rhf-models.md
+msgid "For example, the email preview subscribes only to its field projection:"
+msgstr "For example, the email preview subscribes only to its field projection:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

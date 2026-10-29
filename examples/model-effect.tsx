@@ -21,25 +21,32 @@ export const $$counterRuntime = pipe(
   ),
 );
 
-function ObservedCounterView({
-  message,
-  onIncrement,
-}: {
-  message: string;
-  onIncrement: () => void;
-}) {
+function ObservationMessageView({ message }: { message: string }) {
+  return <p>{message}</p>;
+}
+
+const ObservationMessage = holo({
+  models: { counter: $$counterRuntime },
+  view: ObservationMessageView,
+  read: ({ counter }) => ({ message: counter.$message }),
+});
+
+function IncrementView({ onIncrement }: { onIncrement: () => void }) {
+  return <button onClick={onIncrement}>Increment shared model</button>;
+}
+
+const Increment = holo({
+  models: { counter: $$counterRuntime },
+  view: IncrementView,
+  write: ({ counter }) => ({ onIncrement: counter.increment }),
+});
+
+export function ModelEffectCounter() {
   return (
     <section>
       <h2>Shared model + observe</h2>
-      <p>{message}</p>
-      <button onClick={onIncrement}>Increment shared model</button>
+      <ObservationMessage />
+      <Increment />
     </section>
   );
 }
-
-export const ModelEffectCounter = holo({
-  models: { model: $$counterRuntime },
-  view: ObservedCounterView,
-  read: ({ model: model }) => ({ message: model.$message }),
-  write: ({ model: model }) => ({ onIncrement: model.increment }),
-});

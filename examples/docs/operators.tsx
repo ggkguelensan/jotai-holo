@@ -17,50 +17,78 @@ const $canOrder = and([$hasDelivery, $accepted]);
 
 const $hasSurcharge = some([$goods, $delivery], (amount) => amount > 100);
 
-function OrderReviewView({
-  total,
+function TotalView({ total }: { total: number }) {
+  return <output className="demo-number">${total}</output>;
+}
+
+const Total = holo({
+  view: TotalView,
+  read: { total: $total },
+});
+
+function TermsView({
   accepted,
-  canOrder,
-  surcharge,
   onAccept,
 }: {
-  total: number;
   accepted: boolean;
-  canOrder: boolean;
-  surcharge: boolean;
   onAccept: (value: boolean) => void;
 }) {
+  const { t } = useLingui();
+
+  return (
+    <label>
+      <input
+        type="checkbox"
+        checked={accepted}
+        onChange={(e) => onAccept(e.target.checked)}
+      />{' '}
+      {t`I accept the delivery terms`}
+    </label>
+  );
+}
+
+const Terms = holo({
+  view: TermsView,
+  read: { accepted: $accepted },
+  write: { onAccept: $accepted },
+});
+
+function SurchargeView({ surcharge }: { surcharge: boolean }) {
+  const { t } = useLingui();
+
+  return <small>{surcharge ? t`Surcharge applies` : t`No surcharge`}</small>;
+}
+
+const Surcharge = holo({
+  view: SurchargeView,
+  read: { surcharge: $hasSurcharge },
+});
+
+function OrderButtonView({ canOrder }: { canOrder: boolean }) {
+  const { t } = useLingui();
+
+  return <button disabled={!canOrder}>{t`Place order`}</button>;
+}
+
+const OrderButton = holo({
+  view: OrderButtonView,
+  read: { canOrder: $canOrder },
+});
+
+function OrderReview() {
   const { t } = useLingui();
 
   return (
     <div className="demo-form">
       <span className="demo-eyebrow">{t`Order review · courier delivery`}</span>
       <p>{t`Goods $80 + delivery $15`}</p>
-      <output className="demo-number">${total}</output>
-      <label>
-        <input
-          type="checkbox"
-          checked={accepted}
-          onChange={(e) => onAccept(e.target.checked)}
-        />{' '}
-        {t`I accept the delivery terms`}
-      </label>
-      <small>{surcharge ? t`Surcharge applies` : t`No surcharge`}</small>
-      <button disabled={!canOrder}>{t`Place order`}</button>
+      <Total />
+      <Terms />
+      <Surcharge />
+      <OrderButton />
     </div>
   );
 }
-
-const OrderReview = holo({
-  view: OrderReviewView,
-  read: {
-    total: $total,
-    accepted: $accepted,
-    canOrder: $canOrder,
-    surcharge: $hasSurcharge,
-  },
-  write: { onAccept: $accepted },
-});
 // #endregion operators
 
 export default OrderReview;

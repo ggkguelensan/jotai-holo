@@ -10,6 +10,7 @@ import {
 } from 'jotai-holo';
 
 type User = { id: number; name: string };
+
 function createUsersModel() {
   const $users = stateAtom<readonly User[]>([]);
   const $nextId = stateAtom(1);
@@ -31,41 +32,62 @@ const { $count, $empty } = prism($users, {
   $count: (users) => users.length,
   $empty: (users) => users.length === 0,
 });
+
 const $status = ion($empty, (empty) => (empty ? 'idle' : 'ready'));
+
+function UserView({ user }: { user: User }) {
+  return <li>{user.name}</li>;
+}
+
 const Users = holoList({
   source: $users,
-  view: ({ user }: { user: User }) => <li>{user.name}</li>,
+  view: UserView,
   getKey: (user) => user.id,
   mapItem: (user) => ({ user }),
 });
+function EmptyView() {
+  return <p>No users yet.</p>;
+}
+
+function UsersView() {
+  return (
+    <ul>
+      <Users />
+    </ul>
+  );
+}
+
 const Content = holoMatch({
   source: $status,
-  cases: {
-    idle: () => <p>No users yet.</p>,
-    ready: () => (
-      <ul>
-        <Users />
-      </ul>
-    ),
-  },
+  cases: { idle: EmptyView, ready: UsersView },
 });
-const Controls = holo({
-  models: { model: $$users },
-  view: ({ count, onAdd }: { count: number; onAdd: () => void }) => (
-    <>
-      <output>Users: {count}</output>
-      <button onClick={() => onAdd()}>Add user</button>
-    </>
-  ),
+
+function UserCountView({ count }: { count: number }) {
+  return <output>Users: {count}</output>;
+}
+
+const UserCount = holo({
+  models: { users: $$users },
+  view: UserCountView,
   read: { count: $count },
-  write: ({ model }) => ({ onAdd: model.addUser }),
+});
+
+function AddUserView({ onAdd }: { onAdd: () => void }) {
+  return <button onClick={() => onAdd()}>Add user</button>;
+}
+
+const AddUser = holo({
+  models: { users: $$users },
+  view: AddUserView,
+  write: ({ users }) => ({ onAdd: users.addUser }),
 });
 
 export function OperatorsExample() {
   return (
     <section>
       <h2>Model operators</h2>
-      <Controls />
+      <UserCount />
+      <AddUser />
       <Content />
     </section>
   );

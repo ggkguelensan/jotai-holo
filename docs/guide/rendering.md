@@ -26,7 +26,7 @@ Initial Suspense delays commit: **input cannot initialize the state blocking the
 
 ## Async actions
 
-Actions return the original result and Promise. They do not cancel, serialize, roll back, or implement latest-wins. The [profile recipe](/recipes/profile) implements single-flight explicitly and catches failures in the model. `actionAtom` publishes call arguments when the synchronous handler returns, including when it returns a pending Promise. Publish a separate fact event after `await` if consumers need confirmed success.
+Actions return the original result and Promise. They do not cancel, serialize, roll back, or implement latest-wins. The [profile recipe](/recipes/profile) uses a TanStack mutation, with explicit single-flight and Promise handling in the save command. `actionAtom` publishes call arguments when the synchronous handler returns, including when it returns a pending Promise. Publish a separate fact event after `await` if consumers need confirmed success.
 
 ## Evidence and reading
 

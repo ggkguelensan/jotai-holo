@@ -140,14 +140,6 @@ export function createProfileModel(initial: { profileId: string }) {
   );
   return { $draft, loaded };
 }
-export declare const api: {
-  loadDraft(id: string, options: { signal: AbortSignal }): Promise<{ name: string; email: string }>;
-  saveDraft(
-    id: string,
-    draft: { name: string; email: string },
-    options: { signal: AbortSignal },
-  ): Promise<void>;
-};
 export declare const loadSearchAnalytics: () => Promise<
   typeof import('../../examples/analytics/search.analytics.js').createSearchAnalyticsModel
 >;

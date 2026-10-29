@@ -56,7 +56,7 @@ Calling `createFiltersModel()` twice creates two different atom records.
 `$$catalogFilters` is one model instance; `$$orderFilters` is another. Create
 these fixed instances outside React render.
 
-The View can bind directly to the first record:
+Each field can connect directly to the first record. CatalogFilters only composes those connected fields:
 
 <<< @/../examples/atoms-or-models.tsx#direct-model
 
@@ -70,9 +70,7 @@ it. [Business logic and small Views](/guide/business-logic) develops that step.
 
 ## Shared instances by ID: add a registry
 
-Suppose the filter panel and toolbar are in different parts of the page. Both
-know the catalog ID and need to find its current filters. A registry gives them
-a shared way to select the instance:
+Suppose the term and stock controls sit in different parts of a catalog layout. Both know the catalog ID and need its filters. A registry lets each binding select that instance independently:
 
 <<< @/../examples/atoms-or-models.tsx#model-imports
 <<< @/../examples/atoms-or-models.tsx#keyed-model

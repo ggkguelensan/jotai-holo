@@ -12,54 +12,85 @@ const increment = actionAtom((_get, set, amount: number) =>
   set($count, (count) => count + amount),
 );
 
-function CounterView({
-  count,
-  doubled,
+function CounterTitleView({ title }: { title: ReactNode }) {
+  return <span className="demo-eyebrow">{title}</span>;
+}
+
+const CounterTitle = holo({
+  view: CounterTitleView,
+  static: { title: <Trans id="One model, ordinary props" /> },
+});
+
+function CountView({ count }: { count: number }) {
+  return (
+    <output className="demo-number" aria-live="polite">
+      {count}
+    </output>
+  );
+}
+
+const Count = holo({
+  view: CountView,
+  read: { count: $count },
+});
+
+function DoubledView({ doubled }: { doubled: number }) {
+  const { t } = useLingui();
+
+  return (
+    <p>
+      {t`Derived × 2`}: <strong>{doubled}</strong>
+    </p>
+  );
+}
+
+const Doubled = holo({
+  view: DoubledView,
+  read: { doubled: $double },
+});
+
+function CounterControlsView({
   onIncrement,
-  title,
 }: {
-  count: number;
-  doubled: number;
   onIncrement: (amount: number) => void;
-  title: ReactNode;
 }) {
   const { t } = useLingui();
 
   return (
-    <div className="demo-counter">
-      <span className="demo-eyebrow">{title}</span>
-      <output className="demo-number" aria-live="polite">
-        {count}
-      </output>
-      <p>
-        {t`Derived × 2`}: <strong>{doubled}</strong>
-      </p>
-      <div className="demo-controls">
-        <button
-          type="button"
-          onClick={() => onIncrement(-1)}
-          aria-label={t`Decrement`}
-        >
-          −
-        </button>
-        <button
-          type="button"
-          onClick={() => onIncrement(1)}
-          aria-label={t`Increment`}
-        >
-          +
-        </button>
-      </div>
+    <div className="demo-controls">
+      <button
+        type="button"
+        onClick={() => onIncrement(-1)}
+        aria-label={t`Decrement`}
+      >
+        −
+      </button>
+      <button
+        type="button"
+        onClick={() => onIncrement(1)}
+        aria-label={t`Increment`}
+      >
+        +
+      </button>
     </div>
   );
 }
 
-const Counter = holo({
-  view: CounterView,
-  read: { count: $count, doubled: $double },
+const CounterControls = holo({
+  view: CounterControlsView,
   write: { onIncrement: increment },
-  static: { title: <Trans id="One model, ordinary props" /> },
 });
+
+function Counter() {
+  return (
+    <div className="demo-counter">
+      <CounterTitle />
+      <Count />
+      <Doubled />
+      <CounterControls />
+    </div>
+  );
+}
 // #endregion counter
 
 export default Counter;

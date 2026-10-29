@@ -1,6 +1,6 @@
 # actionAtom
 
-Describe an operation that reads or updates atoms. For example, validate a draft and submit it to an API.
+Describe an operation that reads or updates atoms, such as changing a profile name.
 
 <<< @/../examples/documentation.tsx#action
 

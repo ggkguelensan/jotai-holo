@@ -1,82 +1,110 @@
 import { captureEvent } from './event-harness.js';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createStore } from 'jotai/vanilla';
-import { createNotifications, createProfile, type Profile } from '../examples/documentation.js';
+import { QueryClient } from '@tanstack/query-core';
+import { createNotifications } from '../examples/documentation.js';
+import { $$profile, $$profileMutation, save } from '../examples/profile/edit-save.js';
+import { profileApi } from '../examples/profile/edit-api.js';
+import type { Profile } from '../examples/profile/edit-model.js';
+import { queryClientAtom } from '../src/query.js';
+
+vi.mock('../examples/profile/edit-api.js', () => ({ profileApi: { save: vi.fn() } }));
+
+const clients: QueryClient[] = [];
+function setup() {
+  const client = new QueryClient();
+  const store = createStore();
+  store.set(queryClientAtom, client);
+  clients.push(client);
+  return store;
+}
+afterEach(() => {
+  for (const client of clients.splice(0)) client.clear();
+  vi.clearAllMocks();
+});
 
 describe('documentation profile workflow', () => {
   const profile: Profile = { id: 'u1', name: 'Ada', email: 'ada@example.com' };
-  it('publishes a fact after persistence, not on request, and disposes reactions', async () => {
+  it('publishes after success, skips duplicate saves and preserves newer draft edits', async () => {
     let resolve!: (profile: Profile) => void;
-    const api = {
-      save: vi.fn(
-        () =>
-          new Promise<Profile>((done) => {
-            resolve = done;
-          }),
-      ),
-    };
-    const model = createProfile(api);
-    const notifications = createNotifications(model);
-    const store = createStore();
+    vi.mocked(profileApi.save).mockImplementation(
+      () =>
+        new Promise<Profile>((done) => {
+          resolve = done;
+        }),
+    );
+    const notifications = createNotifications($$profile);
+    const store = setup();
     const audit = vi.fn();
-    const stopAudit = captureEvent(store, model.profileSaved, audit);
+    const stopAudit = captureEvent(store, $$profile.profileSaved, audit);
     const stopNotifications = notifications.notifying.connect(store);
-    store.set(model.edit, { name: profile.name, email: profile.email });
-    const saving = store.set(model.save);
-    expect(store.get(model.$saving)).toBe(true);
+    store.set($$profile.$draft, { name: profile.name, email: profile.email });
+    const saving = store.set(save);
+    expect(store.get($$profileMutation.$saving)).toBe(true);
     expect(audit).not.toHaveBeenCalled();
     expect(store.get(notifications.$message)).toBe('');
-    await store.set(model.save); // Explicit single-flight policy, no second API call.
-    expect(api.save).toHaveBeenCalledTimes(1);
+    // Query invokes the mutation function asynchronously; allow it to start.
+    await vi.waitFor(() => expect(profileApi.save).toHaveBeenCalledTimes(1));
+    await store.set(save);
+    expect(profileApi.save).toHaveBeenCalledTimes(1);
+    store.set($$profile.$draft, { name: 'Grace', email: 'grace@example.com' });
+    expect(vi.mocked(profileApi.save).mock.calls[0]?.[0]).toEqual({
+      name: 'Ada',
+      email: 'ada@example.com',
+    });
     resolve(profile);
     await saving;
-    expect(store.get(model.$profile)).toEqual(profile);
-    expect(store.get(model.$saving)).toBe(false);
+    expect(store.get($$profile.$profile)).toEqual(profile);
+    expect(store.get($$profile.$draft).name).toBe('Grace');
+    expect(store.get($$profileMutation.$saving)).toBe(false);
     expect(audit).toHaveBeenCalledExactlyOnceWith(profile);
     expect(store.get(notifications.$message)).toBe('Saved Ada');
     stopAudit();
     stopNotifications();
-    store.set(model.profileSaved, { ...profile, name: 'Grace' });
+    store.set($$profile.profileSaved, { ...profile, name: 'Grace' });
     expect(audit).toHaveBeenCalledTimes(1);
     expect(store.get(notifications.$message)).toBe('Saved Ada');
   });
-  it('keeps failures in state and emits no success fact', async () => {
-    const model = createProfile({
-      save: async () => {
-        throw new Error('Offline');
-      },
-    });
-    const store = createStore();
+  it('keeps failures in mutation state and emits no success fact', async () => {
+    vi.mocked(profileApi.save).mockRejectedValue(new Error('Offline'));
+    const store = setup();
     const audit = vi.fn();
-    const stop = captureEvent(store, model.profileSaved, audit);
-    store.set(model.edit, { name: 'Ada', email: 'ada@example.com' });
-    await store.set(model.save);
-    expect(store.get(model.$error)).toBe('Offline');
-    expect(store.get(model.$saving)).toBe(false);
+    const stop = captureEvent(store, $$profile.profileSaved, audit);
+    store.set($$profile.$draft, { name: 'Ada', email: 'ada@example.com' });
+    await store.set(save);
+    expect(store.get($$profileMutation.$error)?.message).toBe('Offline');
+    expect(store.get($$profileMutation.$saving)).toBe(false);
     expect(audit).not.toHaveBeenCalled();
     stop();
   });
-  it('rejects invalid input before calling the API', async () => {
-    const api = { save: vi.fn(async () => profile) };
-    const model = createProfile(api);
-    const store = createStore();
-    await store.set(model.save);
-    expect(api.save).not.toHaveBeenCalled();
-    expect(store.get(model.$error)).toBe('Enter a name and a valid email.');
+  it('does not invoke the mutation for invalid input', async () => {
+    const store = setup();
+    await store.set(save);
+    expect(profileApi.save).not.toHaveBeenCalled();
+    expect(store.get($$profile.$validationError)).toBe('Enter a name and a valid email.');
+    expect(store.get($$profileMutation.$error)).toBeNull();
   });
   it('samples locale on the fact and respects the notification guard', () => {
-    const model = createProfile({ save: async () => profile });
-    const notifications = createNotifications(model);
-    const store = createStore();
+    const notifications = createNotifications($$profile);
+    const store = setup();
     const stop = notifications.notifying.connect(store);
     store.set(notifications.$locale, 'ru');
-    expect(store.get(notifications.$message)).toBe('');
-    store.set(model.profileSaved, profile);
+    store.set($$profile.profileSaved, profile);
     expect(store.get(notifications.$message)).toBe('Сохранён профиль Ada');
     store.set(notifications.$locale, 'en');
     store.set(notifications.$enabled, false);
-    store.set(model.profileSaved, { ...profile, name: 'Grace' });
+    store.set($$profile.profileSaved, { ...profile, name: 'Grace' });
     expect(store.get(notifications.$message)).toBe('Сохранён профиль Ada');
     stop();
+  });
+  it('isolates module-level drafts and mutation state between stores', async () => {
+    vi.mocked(profileApi.save).mockResolvedValue(profile);
+    const first = setup();
+    const second = setup();
+    first.set($$profile.$draft, { name: 'Ada', email: 'ada@example.com' });
+    await first.set(save);
+    expect(second.get($$profile.$draft).name).toBe('');
+    expect(second.get($$profileMutation.$error)).toBeNull();
+    expect(second.get($$profile.$profile)).toBeNull();
   });
 });

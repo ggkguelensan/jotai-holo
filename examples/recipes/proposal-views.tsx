@@ -1,115 +1,133 @@
-import type { ProposalDraft } from './proposal-api.js';
+import type { ReactNode } from 'react';
 
-function ProposalFields({
-  draft,
-  onChange,
+// #region view
+export function SeatsView({
+  seats,
+  onSeats,
 }: {
-  draft: ProposalDraft;
-  onChange: (draft: ProposalDraft) => void;
+  seats: number | null;
+  onSeats: (seats: number) => void;
 }) {
+  if (seats === null) return null;
+
   return (
-    <>
-      <label>
-        Seats
-        <input
-          type="number"
-          min="1"
-          value={draft.seats}
-          onChange={(event) =>
-            onChange({
-              ...draft,
-              seats: Math.max(1, Number(event.target.value) || 1),
-            })
-          }
-        />
-      </label>
-      <label>
-        Customer comment
-        <textarea
-          value={draft.comment}
-          onChange={(event) =>
-            onChange({ ...draft, comment: event.target.value })
-          }
-        />
-      </label>
-    </>
+    <label>
+      Seats
+      <input
+        type="number"
+        min="1"
+        value={seats}
+        onChange={(event) =>
+          onSeats(Math.max(1, Number(event.target.value) || 1))
+        }
+      />
+    </label>
   );
+}
+
+export function CommentView({
+  comment,
+  onComment,
+}: {
+  comment: string | null;
+  onComment: (comment: string) => void;
+}) {
+  if (comment === null) return null;
+
+  return (
+    <label>
+      Customer comment
+      <textarea
+        value={comment}
+        onChange={(event) => onComment(event.target.value)}
+      />
+    </label>
+  );
+}
+
+export function TotalView({ total }: { total: number | null }) {
+  return total === null ? null : <output>Total: ${total.toFixed(2)}</output>;
+}
+
+export function LoadingView({ showLoading }: { showLoading: boolean }) {
+  return showLoading ? <p role="status">Loading proposal…</p> : null;
+}
+
+export function ErrorView({ error }: { error: Error | null }) {
+  return error ? <p role="alert">{error.message}</p> : null;
 }
 
 export type ProposalViewProps = {
-  draft: ProposalDraft | null;
-  total: number;
   loading: boolean;
-  error: Error | null;
-  onChange: (draft: ProposalDraft) => void;
+  children: ReactNode;
 };
 
-// #region view
-export function ProposalView({
-  draft,
-  total,
-  loading,
-  error,
-  onChange,
-}: ProposalViewProps) {
-  return (
-    <section aria-busy={loading}>
-      {loading && !draft && <p role="status">Loading proposal…</p>}
-      {error && <p role="alert">{error.message}</p>}
-      {draft && <ProposalFields draft={draft} onChange={onChange} />}
-      {draft && <output>Total: ${total.toFixed(2)}</output>}
-    </section>
-  );
+export function ProposalView({ loading, children }: ProposalViewProps) {
+  return <section aria-busy={loading}>{children}</section>;
 }
 // #endregion view
 
-export function SaveProposalView({
+export function SaveButtonView({
   saving,
-  saveError,
+  canSave,
   onSave,
-  ...props
-}: ProposalViewProps & {
+}: {
   saving: boolean;
-  saveError: Error | null;
+  canSave: boolean;
   onSave: () => Promise<void>;
 }) {
   return (
-    <section>
-      <ProposalView {...props} />
-      <button disabled={!props.draft || saving} onClick={() => void onSave()}>
-        {saving ? 'Saving…' : 'Save proposal'}
-      </button>
-      {saveError && <p role="alert">{saveError.message}</p>}
-    </section>
+    <button disabled={!canSave} onClick={() => void onSave()}>
+      {saving ? 'Saving…' : 'Save proposal'}
+    </button>
   );
+}
+
+export function SaveProposalView({ children }: { children: ReactNode }) {
+  return <section>{children}</section>;
+}
+
+export function LocalStatusView({
+  restoring,
+  saving,
+}: {
+  restoring: boolean;
+  saving: boolean;
+}) {
+  return (
+    <p role="status">
+      {restoring ? 'Restoring local draft…' : saving ? 'Saving…' : ''}
+    </p>
+  );
+}
+
+export function FlushButtonView({ onFlush }: { onFlush: () => Promise<void> }) {
+  return (
+    <button onClick={() => void onFlush().catch(() => undefined)}>
+      Save locally now
+    </button>
+  );
+}
+
+export function LocalErrorView({ localError }: { localError: unknown }) {
+  return localError != null ? (
+    <p role="alert">Could not restore or save the local draft.</p>
+  ) : null;
 }
 
 export function LocalProposalView({
   restoring,
-  saving,
-  localError,
-  onFlush,
-  ...props
-}: ProposalViewProps & {
+  children,
+  feedback,
+}: {
   restoring: boolean;
-  saving: boolean;
-  localError: unknown;
-  onFlush: () => Promise<void>;
+  children: ReactNode;
+  feedback: ReactNode;
 }) {
   return (
     <section>
-      <fieldset disabled={restoring}>
-        <ProposalView {...props} />
-      </fieldset>
-      <p role="status">
-        {restoring ? 'Restoring local draft…' : saving ? 'Saving…' : ''}
-      </p>
-      <button onClick={() => void onFlush().catch(() => undefined)}>
-        Save locally now
-      </button>
-      {localError != null && (
-        <p role="alert">Could not restore or save the local draft.</p>
-      )}
+      <fieldset disabled={restoring}>{children}</fieldset>
+      {feedback}
     </section>
   );
 }

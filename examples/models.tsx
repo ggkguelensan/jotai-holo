@@ -1,23 +1,40 @@
 import { holo } from 'jotai-holo';
 import { modelRegistry, pipe } from 'jotai-holo/model';
-import { CounterView } from './basic.js';
+import { CounterControlsView, CounterDisplayView } from './basic.js';
 import { createCounter } from './counter-model.js';
 
 export const $$counter = pipe(createCounter, modelRegistry());
 
-export const KeyedCounter = holo({
+const CounterDisplay = holo({
   models: {
-    model: (props: { counterId: string }) =>
+    counter: (props: { counterId: string }) =>
       $$counter({ key: ['counter', props.counterId] }),
   },
-  view: CounterView,
-  read: ({ model: model }) => ({ count: model.$count, double: model.$double }),
-  write: ({ model: model }) => ({
-    onIncrement: model.increment,
-    onDecrement: model.decrement,
-  }),
-  static: { title: 'Shared by model key' },
+  view: CounterDisplayView,
+  read: ({ counter }) => ({ count: counter.$count, double: counter.$double }),
 });
+
+const CounterControls = holo({
+  models: {
+    counter: (props: { counterId: string }) =>
+      $$counter({ key: ['counter', props.counterId] }),
+  },
+  view: CounterControlsView,
+  write: ({ counter }) => ({
+    onIncrement: counter.increment,
+    onDecrement: counter.decrement,
+  }),
+});
+
+export function KeyedCounter({ counterId }: { counterId: string }) {
+  return (
+    <section>
+      <h2>Shared by model key</h2>
+      <CounterDisplay counterId={counterId} />
+      <CounterControls counterId={counterId} />
+    </section>
+  );
+}
 
 export function ModelCounters() {
   return (

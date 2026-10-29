@@ -2,7 +2,9 @@
 
 Announce that something happened. Emit `profileSaved` after the API confirms a save, then let notifications or analytics react to that fact.
 
-<<< @/../examples/documentation.tsx#workflow
+<<< @/../examples/documentation.tsx#event
+
+The [profile recipe](/recipes/profile) shows the mutation and publishes the fact only after its Promise resolves.
 
 ## Contract
 
