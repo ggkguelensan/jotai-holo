@@ -77,9 +77,9 @@ Suppose the search-term and sale controls sit in different parts of a catalog la
 
 <<< @/../examples/atoms-or-models.tsx#usage
 
-These two rendered components use different catalog IDs, so they edit different
-filters. Rendering another component with `catalogId="featured"` in the same
-store selects the existing featured-catalog instance.
+CatalogPage renders two filter groups. `featured` and `games` select independent
+model instances. Another GameFilters with `catalogId="featured"` in the same
+store shares the first group's instance.
 
 There are now three different things:
 

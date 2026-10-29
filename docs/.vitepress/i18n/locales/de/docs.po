@@ -5056,10 +5056,12 @@ msgstr "Angenommen, Suchbegriff und Angebotsfilter stehen an verschiedenen Stell
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "These two rendered components use different catalog IDs, so they edit different\n"
-"filters. Rendering another component with `catalogId=\"featured\"` in the same\n"
-"store selects the existing featured-catalog instance."
-msgstr "Diese beiden gerenderten Komponenten verwenden unterschiedliche Katalog-IDs und bearbeiten daher unterschiedliche Filter. Eine weitere Komponente mit `catalogId=\"featured\"` im selben Store wählt die vorhandene Instanz des empfohlenen Katalogs."
+msgid "CatalogPage renders two filter groups. `featured` and `games` select independent\n"
+"model instances. Another GameFilters with `catalogId=\"featured\"` in the same\n"
+"store shares the first group's instance."
+msgstr "CatalogPage rendert zwei Filtergruppen. `featured` und `games` wählen unabhängige\n"
+"Modellinstanzen. Ein weiterer GameFilters mit `catalogId=\"featured\"` im selben\n"
+"Store verwendet die Instanz der ersten Gruppe."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

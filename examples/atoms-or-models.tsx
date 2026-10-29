@@ -168,6 +168,12 @@ export function GameFilters({ catalogId }: { catalogId: string }) {
 // #endregion keyed-model
 
 // #region usage
-export const featuredFilters = <GameFilters catalogId="featured" />;
-export const gamesFilters = <GameFilters catalogId="games" />;
+export function CatalogPage() {
+  return (
+    <>
+      <GameFilters catalogId="featured" />
+      <GameFilters catalogId="games" />
+    </>
+  );
+}
 // #endregion usage

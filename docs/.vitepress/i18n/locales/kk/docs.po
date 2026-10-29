@@ -5059,10 +5059,12 @@ msgstr "Іздеу мәтіні мен жеңілдік басқару элем�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "These two rendered components use different catalog IDs, so they edit different\n"
-"filters. Rendering another component with `catalogId=\"featured\"` in the same\n"
-"store selects the existing featured-catalog instance."
-msgstr "Бұл екі компонент әртүрлі каталог ID-ін пайдаланып, әртүрлі сүзгілерді өңдейді. Сол store ішінде `catalogId=\"featured\"` бар тағы бір компонентті көрсету бар featured каталогының данасын таңдайды."
+msgid "CatalogPage renders two filter groups. `featured` and `games` select independent\n"
+"model instances. Another GameFilters with `catalogId=\"featured\"` in the same\n"
+"store shares the first group's instance."
+msgstr "CatalogPage екі сүзгі тобын көрсетеді. `featured` және `games` тәуелсіз модель\n"
+"даналарын таңдайды. Сол store ішіндегі `catalogId=\"featured\"` бар тағы бір\n"
+"GameFilters бірінші топтың данасын пайдаланады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
