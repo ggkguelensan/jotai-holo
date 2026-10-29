@@ -317,10 +317,26 @@ msgstr "жылжу"
 msgid "to close"
 msgstr "жабу"
 
-#: examples/docs/analytics.tsx
+#: examples/docs/analytics-views.tsx
 #: examples/docs/imperative-focus.tsx
 msgid "Search games"
 msgstr "Ойындарды іздеу"
+
+#: examples/docs/analytics-views.tsx
+msgid "Close details"
+msgstr "Мәліметтерді жабу"
+
+#: examples/docs/analytics-views.tsx
+msgid "Clear logs"
+msgstr "Тазалау"
+
+#: examples/docs/analytics-views.tsx
+msgid "Search for a game, then open it to see each engine's payload."
+msgstr "Әр қозғалтқыштың деректерін көру үшін ойын іздеп, оны ашыңыз."
+
+#: examples/docs/analytics-views.tsx
+msgid "Game details"
+msgstr "Ойын туралы мәліметтер"
 
 #: examples/docs/analytics.tsx
 #: examples/docs/query.tsx
@@ -330,22 +346,6 @@ msgstr "Ойындар каталогы"
 #: examples/docs/analytics.tsx
 msgid "Search"
 msgstr "Іздеу"
-
-#: examples/docs/analytics.tsx
-msgid "Close details"
-msgstr "Мәліметтерді жабу"
-
-#: examples/docs/analytics.tsx
-msgid "Game details"
-msgstr "Ойын туралы мәліметтер"
-
-#: examples/docs/analytics.tsx
-msgid "Clear logs"
-msgstr "Тазалау"
-
-#: examples/docs/analytics.tsx
-msgid "Search for a game, then open it to see each engine's payload."
-msgstr "Әр қозғалтқыштың деректерін көру үшін ойын іздеп, оны ашыңыз."
 
 #: examples/docs/analytics.tsx
 msgid "Actual adapter deliveries · last 50 messages"
@@ -359,19 +359,19 @@ msgstr "Аналитика консолі"
 msgid "Demo adapters only · no SDK or network requests"
 msgstr "Демо-адаптерлер · SDK және желілік сұрауларсыз"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "Generate receipt"
 msgstr "Чек жасау"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "Buy gift copies"
 msgstr "Сыйлық даналарын сатып алу"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "No receipts yet"
 msgstr "Әзірше чек жоқ"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "Receipt for order"
 msgstr "Тапсырыс чегі"
 
@@ -400,7 +400,7 @@ msgstr "Арттыру"
 msgid "Reward tokens"
 msgstr "Сыйақы жетондары"
 
-#: examples/docs/data-lifecycle.tsx
+#: examples/docs/data-lifecycle-views.tsx
 msgid "Name"
 msgstr "Аты"
 
@@ -415,6 +415,18 @@ msgstr "Редакторды көрсету"
 #: examples/docs/data-lifecycle.tsx
 msgid "Hiding the editor saves your draft in this tab."
 msgstr "Редакторды жасыру нобайды осы қойындыда сақтайды."
+
+#: examples/docs/form-views.tsx
+msgid "No email yet"
+msgstr "Email әлі көрсетілмеген"
+
+#: examples/docs/form-views.tsx
+msgid "Save preferences"
+msgstr "Баптауларды сақтау"
+
+#: examples/docs/form-views.tsx
+msgid "Saved:"
+msgstr "Сақталды:"
 
 #: examples/docs/form.tsx
 msgid "Email"
@@ -431,18 +443,6 @@ msgstr "Хабарландыру арнасы"
 #: examples/docs/form.tsx
 msgid "In-app"
 msgstr "Қолданба ішінде"
-
-#: examples/docs/form.tsx
-msgid "No email yet"
-msgstr "Email әлі көрсетілмеген"
-
-#: examples/docs/form.tsx
-msgid "Save preferences"
-msgstr "Баптауларды сақтау"
-
-#: examples/docs/form.tsx
-msgid "Saved:"
-msgstr "Сақталды:"
 
 #: examples/docs/form.tsx
 msgid "External save panel"
@@ -472,18 +472,19 @@ msgstr "Ойынмен бөлісу"
 msgid "Sharing is unavailable"
 msgstr "Бөлісу қолжетімсіз"
 
-#: examples/docs/imperative.tsx
-#: examples/docs/ion.tsx
+#: examples/docs/imperative-views.tsx
+#: examples/docs/ion-views.tsx
 msgid "Quantity"
 msgstr "Саны"
 
+#: examples/docs/imperative-views.tsx
 #: examples/docs/imperative.tsx
-#: examples/docs/ion.tsx
+#: examples/docs/ion-views.tsx
 msgid "Total"
 msgstr "Барлығы"
 
-#: examples/docs/imperative.tsx
-#: examples/docs/operators.tsx
+#: examples/docs/imperative-views.tsx
+#: examples/docs/operators-views.tsx
 msgid "Place order"
 msgstr "Тапсырыс беру"
 
@@ -500,8 +501,8 @@ msgid "Checkout"
 msgstr "Тапсырысты рәсімдеу"
 
 #: examples/docs/imperative.tsx
-#: examples/docs/list.tsx
-#: examples/docs/query.tsx
+#: examples/docs/list-views.tsx
+#: examples/docs/query-views.tsx
 msgid "Starfall"
 msgstr "Starfall"
 
@@ -517,7 +518,7 @@ msgstr "Кіріс prop: term"
 msgid "Mount Search"
 msgstr "Іздеуді қосу"
 
-#: examples/docs/ion.tsx
+#: examples/docs/ion-views.tsx
 msgid "Bundle discount · 20%"
 msgstr "Жиынтық жеңілдігі · 20%"
 
@@ -525,32 +526,32 @@ msgstr "Жиынтық жеңілдігі · 20%"
 msgid "Gift copies · $25 each"
 msgstr "Сыйлық даналары · әрқайсысы $25"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Select Starfall as a gift"
 msgstr "Starfall ойынын сыйлыққа таңдау"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Select Moon Harbor as a gift"
 msgstr "Moon Harbor ойынын сыйлыққа таңдау"
 
-#: examples/docs/list.tsx
-#: examples/docs/query.tsx
+#: examples/docs/list-views.tsx
+#: examples/docs/query-views.tsx
 msgid "Moon Harbor"
 msgstr "Moon Harbor"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Selected for gift"
 msgstr "Сыйлыққа таңдалды"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Your wishlist is empty."
 msgstr "Қалаулар тізімі бос."
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Reverse wishlist"
 msgstr "Тізім ретін кері бұру"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Clear wishlist"
 msgstr "Тізімді тазалау"
 
@@ -562,32 +563,32 @@ msgstr "Қалаулар тізімінен сыйлық таңдаңыз"
 msgid "Select a gift, then reverse the list. Selection follows the game."
 msgstr "Сыйлықты таңдап, тізім ретін кері бұрыңыз. Таңдау ойынмен қалады."
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Loading your game library…"
 msgstr "Ойындар кітапханасы жүктелуде…"
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Your game library is ready."
 msgstr "Ойындар кітапханасы дайын."
 
-#: examples/docs/match.tsx
-#: examples/docs/query.tsx
+#: examples/docs/match-views.tsx
+#: examples/docs/query-views.tsx
 msgid "Could not load. Try again."
 msgstr "Жүктеу мүмкін болмады. Қайталап көріңіз."
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Loading"
 msgstr "Жүктелуде"
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Ready"
 msgstr "Дайын"
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Error"
 msgstr "Қате"
 
-#: examples/docs/model.tsx
+#: examples/docs/model-views.tsx
 msgid "Add a gift copy"
 msgstr "Сыйлық данасын қосу"
 
@@ -595,31 +596,31 @@ msgstr "Сыйлық данасын қосу"
 msgid "Gift order"
 msgstr "Сыйлық тапсырысы"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Discount, %"
 msgstr "Жеңілдік, %"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Campaign note"
 msgstr "Науқан ескертпесі"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Saving campaign…"
 msgstr "Науқан сақталуда…"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Save campaign"
 msgstr "Науқанды сақтау"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Clear feedback"
 msgstr "Хабарларды тазарту"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Demo policy limits campaign discounts to 25%."
 msgstr "Мысал ережесі науқан жеңілдігін 25%-бен шектейді."
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Saved campaign discount"
 msgstr "Сақталған науқан жеңілдігі"
 
@@ -631,33 +632,33 @@ msgstr "Сатушы құралдары · Starfall жеңілдігі"
 msgid "Local demo: try more than 25% to see the campaign rejected."
 msgstr "Жергілікті мысал: науқанның қабылданбауын көру үшін 25%-дан асырыңыз."
 
-#: examples/docs/operators.tsx
-msgid "Payment method"
-msgstr "Төлем тәсілі"
-
-#: examples/docs/operators.tsx
-msgid "Choose a payment method"
-msgstr "Төлем тәсілін таңдаңыз"
-
-#: examples/docs/operators.tsx
-msgid "Payment card"
-msgstr "Төлем картасы"
-
-#: examples/docs/operators.tsx
-msgid "Wallet"
-msgstr "Әмиян"
-
-#: examples/docs/operators.tsx
+#: examples/docs/operators-views.tsx
 msgid "I accept the purchase terms"
 msgstr "Сатып алу шарттарын қабылдаймын"
 
-#: examples/docs/operators.tsx
+#: examples/docs/operators-views.tsx
 msgid "Contains an item over $70"
 msgstr "Бағасы $70-дан асатын тауар бар"
 
-#: examples/docs/operators.tsx
+#: examples/docs/operators-views.tsx
 msgid "All items are $70 or less"
 msgstr "Барлық тауар бағасы $70 немесе одан төмен"
+
+#: examples/docs/operators-views.tsx
+msgid "Payment method"
+msgstr "Төлем тәсілі"
+
+#: examples/docs/operators-views.tsx
+msgid "Choose a payment method"
+msgstr "Төлем тәсілін таңдаңыз"
+
+#: examples/docs/operators-views.tsx
+msgid "Payment card"
+msgstr "Төлем картасы"
+
+#: examples/docs/operators-views.tsx
+msgid "Wallet"
+msgstr "Әмиян"
 
 #: examples/docs/operators.tsx
 msgid "Review game purchase"
@@ -667,23 +668,23 @@ msgstr "Ойын сатып алу"
 msgid "Game $80 + DLC $15"
 msgstr "Ойын $80 + DLC $15"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Display name"
 msgstr "Көрсетілетін ат"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Profile visibility"
 msgstr "Профильдің көрінуі"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Public"
 msgstr "Барлығына ашық"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Friends only"
 msgstr "Тек достарға"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Private"
 msgstr "Тек өзіме"
 
@@ -695,11 +696,11 @@ msgstr "Ойыншы профилі"
 msgid "Changing profile visibility does not change the display name."
 msgstr "Профильдің көрінуін өзгерту көрсетілетін атты өзгертпейді."
 
-#: examples/docs/query.tsx
+#: examples/docs/query-views.tsx
 msgid "Loading…"
 msgstr "Жүктелуде…"
 
-#: examples/docs/query.tsx
+#: examples/docs/query-views.tsx
 msgid "Game not found."
 msgstr "Ойын табылмады."
 

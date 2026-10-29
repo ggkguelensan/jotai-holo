@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { holo, ion, stateAtom } from 'jotai-holo';
+import { QuantityView, DiscountView, TotalView } from './ion-views.js';
 
 // #region ion
 // #region calculation
@@ -14,81 +14,17 @@ const $total = ion(
 
 // #endregion calculation
 
-function QuantityView({
-  quantity,
-  onQuantity,
-}: {
-  quantity: number;
-  onQuantity: (value: number) => void;
-}) {
-  const [empty, setEmpty] = useState(false);
-  const { t } = useLingui();
-
-  return (
-    <label>
-      {t`Quantity`}
-      <input
-        aria-label={t`Quantity`}
-        type="number"
-        min="1"
-        max="10"
-        value={empty ? '' : quantity}
-        onChange={(e) => {
-          const value = e.target.value;
-          setEmpty(value === '');
-          if (value !== '') {
-            onQuantity(Math.max(1, Math.min(10, Number(value))));
-          }
-        }}
-        onBlur={() => setEmpty(false)}
-      />
-    </label>
-  );
-}
-
 const Quantity = holo({
   view: QuantityView,
   read: { quantity: $quantity },
   write: { onQuantity: $quantity },
 });
 
-function DiscountView({
-  discount,
-  onDiscount,
-}: {
-  discount: boolean;
-  onDiscount: (value: boolean) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <label className="demo-checkbox">
-      <input
-        type="checkbox"
-        checked={discount}
-        onChange={(e) => onDiscount(e.target.checked)}
-      />
-      {t`Bundle discount · 20%`}
-    </label>
-  );
-}
-
 const Discount = holo({
   view: DiscountView,
   read: { discount: $discount },
   write: { onDiscount: $discount },
 });
-
-function TotalView({ total }: { total: number }) {
-  const { t } = useLingui();
-
-  return (
-    <div className="demo-total">
-      <span>{t`Total`}</span>
-      <output aria-live="polite">${total.toFixed(2)}</output>
-    </div>
-  );
-}
 
 const Total = holo({
   view: TotalView,

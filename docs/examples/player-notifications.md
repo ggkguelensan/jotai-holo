@@ -2,7 +2,7 @@
 
 Edit player Nova’s notification email and watch her external Save panel. Pixel keeps a separate draft. Submit an invalid email to see native RHF validation prevent the save.
 
-<Demo kind="form">
+<Demo kind="form" :files="['form-views.tsx']">
 
 <<< @/../examples/docs/form.tsx#form
 

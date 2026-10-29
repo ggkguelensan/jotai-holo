@@ -42,6 +42,18 @@ navigation. Complete runnable Views stay in examples and remain typechecked.
 Extract contracts from those implementations instead of maintaining a second
 example with fake View declarations or placeholder bodies.
 
+## Motion in live previews
+
+Keep Motion in the View implementation. The documentation renderer supplies
+MotionConfig with reducedMotion="user" and a short ease-out transition.
+Animate changes with a purpose: reordered rows, entering results and feedback.
+Do not delay input, computation or model ownership for animation. Keep branch
+and model disposal immediate; a visual exit must not retain subscriptions.
+
+Use useAnimate with useImperativeHolo when the lesson is imperative animation;
+its scope cleans up animations on unmount. Otherwise keep motion markup in
+\*-views.tsx and link that file from Demo instead of adding it to the article.
+
 ## Requests and forms
 
 Use TanStack Query options factories for server queries and mutations. Use

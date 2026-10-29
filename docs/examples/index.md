@@ -2,6 +2,10 @@
 
 Run a small application, inspect its code and follow the responsibilities across files. Each example uses only the tools needed for its task. Some demonstrations use local transports; server recipes explicitly identify endpoints supplied by your application.
 
+Live previews use [Motion for React](https://motion.dev/docs/react) inside View.
+The code focuses on models, holo bindings and composition; the linked View files
+contain the markup and animation. Motion is a demo dependency, not part of holo.
+
 | Example                                                           | What to inspect                                  |
 | ----------------------------------------------------------------- | ------------------------------------------------ |
 | [Gift copies](/examples/gift-copies)                              | Derived totals and boolean conditions            |

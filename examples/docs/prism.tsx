@@ -1,8 +1,9 @@
 import { useLingui } from '@lingui/react/macro';
 import { actionAtom, holo, prism, stateAtom } from 'jotai-holo';
+import { DisplayNameView, ProfileVisibilityView } from './prism-views.js';
 
 // #region prism
-type ProfileVisibility = 'public' | 'friends' | 'private';
+export type ProfileVisibility = 'public' | 'friends' | 'private';
 
 const $profile = stateAtom({
   displayName: 'Nova',
@@ -22,57 +23,11 @@ const changeVisibility = actionAtom(
     set($profile, (profile) => ({ ...profile, visibility })),
 );
 
-function DisplayNameView({
-  displayName,
-  onDisplayName,
-}: {
-  displayName: string;
-  onDisplayName: (name: string) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <label>
-      {t`Display name`}
-      <input
-        value={displayName}
-        onChange={(event) => onDisplayName(event.target.value)}
-      />
-    </label>
-  );
-}
-
 const DisplayName = holo({
   view: DisplayNameView,
   read: { displayName: $displayName },
   write: { onDisplayName: rename },
 });
-
-function ProfileVisibilityView({
-  visibility,
-  onVisibility,
-}: {
-  visibility: ProfileVisibility;
-  onVisibility: (visibility: ProfileVisibility) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <label>
-      {t`Profile visibility`}
-      <select
-        value={visibility}
-        onChange={(event) =>
-          onVisibility(event.target.value as ProfileVisibility)
-        }
-      >
-        <option value="public">{t`Public`}</option>
-        <option value="friends">{t`Friends only`}</option>
-        <option value="private">{t`Private`}</option>
-      </select>
-    </label>
-  );
-}
 
 const ProfileVisibility = holo({
   view: ProfileVisibilityView,

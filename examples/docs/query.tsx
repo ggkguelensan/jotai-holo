@@ -5,6 +5,13 @@ import { QueryClient } from '@tanstack/react-query';
 import { holo, holoMatch, stateAtom } from 'jotai-holo';
 import { createQueryModel } from 'jotai-holo/query';
 import { queryOptions } from '@tanstack/react-query';
+import {
+  CardView,
+  LoadingView,
+  EmptyView,
+  ErrorView,
+  SwitchView,
+} from './query-views.js';
 
 // #region query
 const $gameId = stateAtom('starfall');
@@ -50,34 +57,7 @@ export const $$gameQuery = createQueryModel({
   },
 });
 
-type Game = { id: string; name: string; price: number };
-
-function CardView({ data }: { data: Game | null | undefined }) {
-  const { t } = useLingui();
-  // A separate screen atom does not narrow this atom's TypeScript type.
-  if (!data) return null;
-  const name = data.id === 'starfall' ? t`Starfall` : t`Moon Harbor`;
-
-  return <p role="status">{`${name} · $${data.price}`}</p>;
-}
-
-function LoadingView() {
-  const { t } = useLingui();
-
-  return <p role="status">{t`Loading…`}</p>;
-}
-
-function EmptyView() {
-  const { t } = useLingui();
-
-  return <p role="status">{t`Game not found.`}</p>;
-}
-
-function ErrorView({ error }: { error: Error | null }) {
-  const { t } = useLingui();
-
-  return <p role="alert">{error?.message ?? t`Could not load. Try again.`}</p>;
-}
+export type Game = { id: string; name: string; price: number };
 
 const Card = holo({
   view: CardView,
@@ -107,17 +87,6 @@ function CatalogView() {
       <span className="demo-eyebrow">{t`Game catalog`}</span>
       <GameContent />
     </section>
-  );
-}
-
-function SwitchView({ onChange }: { onChange: (value: string) => void }) {
-  const { t } = useLingui();
-
-  return (
-    <div className="demo-controls">
-      <button onClick={() => onChange('starfall')}>{t`Starfall`}</button>
-      <button onClick={() => onChange('moon-harbor')}>{t`Moon Harbor`}</button>
-    </div>
   );
 }
 

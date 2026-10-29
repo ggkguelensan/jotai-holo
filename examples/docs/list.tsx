@@ -1,9 +1,13 @@
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
 import { actionAtom, holo, holoList, stateAtom } from 'jotai-holo';
+import {
+  WishlistGameView,
+  EmptyWishlistView,
+  WishlistControlsView,
+} from './list-views.js';
 
 // #region list
-type WishlistedGame = { id: number; title: string };
+export type WishlistedGame = { id: number; title: string };
 const $wishlist = stateAtom<readonly WishlistedGame[]>([
   { id: 1, title: 'Starfall' },
   { id: 2, title: 'Moon Harbor' },
@@ -14,38 +18,6 @@ const reverseWishlist = actionAtom((_get, set) =>
 );
 const clearWishlist = actionAtom((_get, set) => set($wishlist, []));
 
-function WishlistGameView({ game }: { game: WishlistedGame }) {
-  const { t } = useLingui();
-
-  const [selectedForGift, setSelectedForGift] = useState(false);
-
-  return (
-    <li>
-      <label className="demo-checkbox">
-        <input
-          type="checkbox"
-          aria-label={
-            game.id === 1
-              ? t`Select Starfall as a gift`
-              : t`Select Moon Harbor as a gift`
-          }
-          checked={selectedForGift}
-          onChange={(event) => setSelectedForGift(event.target.checked)}
-        />
-        <span>{game.title === 'Starfall' ? t`Starfall` : t`Moon Harbor`}</span>
-        <code>#{game.id}</code>
-        {selectedForGift && <small>{t`Selected for gift`}</small>}
-      </label>
-    </li>
-  );
-}
-
-function EmptyWishlistView() {
-  const { t } = useLingui();
-
-  return <li className="demo-note">{t`Your wishlist is empty.`}</li>;
-}
-
 const Wishlist = holoList({
   source: $wishlist,
   view: WishlistGameView,
@@ -53,27 +25,6 @@ const Wishlist = holoList({
   mapItem: (game) => ({ game }),
   empty: EmptyWishlistView,
 });
-
-function WishlistControlsView({
-  onReverse,
-  onClear,
-}: {
-  onReverse: () => void;
-  onClear: () => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <div className="demo-controls">
-      <button type="button" onClick={() => onReverse()}>
-        {t`Reverse wishlist`}
-      </button>
-      <button type="button" onClick={() => onClear()}>
-        {t`Clear wishlist`}
-      </button>
-    </div>
-  );
-}
 
 const WishlistControls = holo({
   view: WishlistControlsView,

@@ -35,7 +35,12 @@ test('a connected toolbar focuses the search field on every request', async () =
 test('a cart request restarts its animation and respects reduced motion', async () => {
   const h = createHarness();
   let reduced = false;
-  vi.spyOn(window, 'matchMedia').mockImplementation(() => ({ matches: reduced }) as MediaQueryList);
+  const matchMedia = window.matchMedia.bind(window);
+  vi.spyOn(window, 'matchMedia').mockImplementation((query) => {
+    const media = matchMedia(query);
+    Object.defineProperty(media, 'matches', { get: () => reduced });
+    return media;
+  });
   await h.render(
     <Provider store={createStore()}>
       <AnimationDemo />
@@ -52,6 +57,9 @@ test('a cart request restarts its animation and respects reduced motion', async 
   reduced = true;
   await act(async () => button.click());
   expect(animate).toHaveBeenCalledTimes(2);
+  const current = animate.mock.results[1]!.value;
+  await h.unmount();
+  expect(current.playState).toBe('idle');
 });
 
 test('Reactuse share runs during the click and reads the latest committed props', async () => {

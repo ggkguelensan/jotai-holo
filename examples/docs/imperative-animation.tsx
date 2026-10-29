@@ -1,5 +1,6 @@
 import { useLingui } from '@lingui/react/macro';
 import { useRef } from 'react';
+import { useAnimate } from 'motion/react';
 import {
   eventAtom,
   holo,
@@ -14,7 +15,8 @@ type CartHandle = { highlightCart(): void };
 
 function CartView({ imperative }: { imperative: HoloImperative<CartHandle> }) {
   const { t } = useLingui();
-  const cart = useRef<HTMLOutputElement>(null);
+  const [cart, animate] = useAnimate<HTMLOutputElement>();
+  const animation = useRef<ReturnType<typeof animate> | null>(null);
 
   useImperativeHolo(imperative, {
     highlightCart() {
@@ -22,10 +24,11 @@ function CartView({ imperative }: { imperative: HoloImperative<CartHandle> }) {
       if (!node || matchMedia('(prefers-reduced-motion: reduce)').matches) {
         return;
       }
-      node.getAnimations().forEach((animation) => animation.cancel());
-      node.animate(
+      animation.current?.stop();
+      animation.current = animate(
+        node,
         { transform: ['scale(1)', 'scale(1.08)', 'scale(1)'] },
-        { duration: 300, easing: 'ease-out' },
+        { duration: 0.24, ease: [0.23, 1, 0.32, 1] },
       );
     },
   });

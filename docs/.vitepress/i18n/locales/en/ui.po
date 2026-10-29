@@ -317,10 +317,26 @@ msgstr "to navigate"
 msgid "to close"
 msgstr "to close"
 
-#: examples/docs/analytics.tsx
+#: examples/docs/analytics-views.tsx
 #: examples/docs/imperative-focus.tsx
 msgid "Search games"
 msgstr "Search games"
+
+#: examples/docs/analytics-views.tsx
+msgid "Close details"
+msgstr "Close details"
+
+#: examples/docs/analytics-views.tsx
+msgid "Clear logs"
+msgstr "Clear logs"
+
+#: examples/docs/analytics-views.tsx
+msgid "Search for a game, then open it to see each engine's payload."
+msgstr "Search for a game, then open it to see each engine's payload."
+
+#: examples/docs/analytics-views.tsx
+msgid "Game details"
+msgstr "Game details"
 
 #: examples/docs/analytics.tsx
 #: examples/docs/query.tsx
@@ -330,22 +346,6 @@ msgstr "Game catalog"
 #: examples/docs/analytics.tsx
 msgid "Search"
 msgstr "Search"
-
-#: examples/docs/analytics.tsx
-msgid "Close details"
-msgstr "Close details"
-
-#: examples/docs/analytics.tsx
-msgid "Game details"
-msgstr "Game details"
-
-#: examples/docs/analytics.tsx
-msgid "Clear logs"
-msgstr "Clear logs"
-
-#: examples/docs/analytics.tsx
-msgid "Search for a game, then open it to see each engine's payload."
-msgstr "Search for a game, then open it to see each engine's payload."
 
 #: examples/docs/analytics.tsx
 msgid "Actual adapter deliveries · last 50 messages"
@@ -359,19 +359,19 @@ msgstr "Analytics console"
 msgid "Demo adapters only · no SDK or network requests"
 msgstr "Demo adapters only · no SDK or network requests"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "Generate receipt"
 msgstr "Generate receipt"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "Buy gift copies"
 msgstr "Buy gift copies"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "No receipts yet"
 msgstr "No receipts yet"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "Receipt for order"
 msgstr "Receipt for order"
 
@@ -400,7 +400,7 @@ msgstr "Increment"
 msgid "Reward tokens"
 msgstr "Reward tokens"
 
-#: examples/docs/data-lifecycle.tsx
+#: examples/docs/data-lifecycle-views.tsx
 msgid "Name"
 msgstr "Name"
 
@@ -415,6 +415,18 @@ msgstr "Mount editor"
 #: examples/docs/data-lifecycle.tsx
 msgid "Hiding the editor saves your draft in this tab."
 msgstr "Hiding the editor saves your draft in this tab."
+
+#: examples/docs/form-views.tsx
+msgid "No email yet"
+msgstr "No email yet"
+
+#: examples/docs/form-views.tsx
+msgid "Save preferences"
+msgstr "Save preferences"
+
+#: examples/docs/form-views.tsx
+msgid "Saved:"
+msgstr "Saved:"
 
 #: examples/docs/form.tsx
 msgid "Email"
@@ -431,18 +443,6 @@ msgstr "Notification channel"
 #: examples/docs/form.tsx
 msgid "In-app"
 msgstr "In-app"
-
-#: examples/docs/form.tsx
-msgid "No email yet"
-msgstr "No email yet"
-
-#: examples/docs/form.tsx
-msgid "Save preferences"
-msgstr "Save preferences"
-
-#: examples/docs/form.tsx
-msgid "Saved:"
-msgstr "Saved:"
 
 #: examples/docs/form.tsx
 msgid "External save panel"
@@ -472,18 +472,19 @@ msgstr "Share game"
 msgid "Sharing is unavailable"
 msgstr "Sharing is unavailable"
 
-#: examples/docs/imperative.tsx
-#: examples/docs/ion.tsx
+#: examples/docs/imperative-views.tsx
+#: examples/docs/ion-views.tsx
 msgid "Quantity"
 msgstr "Quantity"
 
+#: examples/docs/imperative-views.tsx
 #: examples/docs/imperative.tsx
-#: examples/docs/ion.tsx
+#: examples/docs/ion-views.tsx
 msgid "Total"
 msgstr "Total"
 
-#: examples/docs/imperative.tsx
-#: examples/docs/operators.tsx
+#: examples/docs/imperative-views.tsx
+#: examples/docs/operators-views.tsx
 msgid "Place order"
 msgstr "Place order"
 
@@ -500,8 +501,8 @@ msgid "Checkout"
 msgstr "Checkout"
 
 #: examples/docs/imperative.tsx
-#: examples/docs/list.tsx
-#: examples/docs/query.tsx
+#: examples/docs/list-views.tsx
+#: examples/docs/query-views.tsx
 msgid "Starfall"
 msgstr "Starfall"
 
@@ -517,7 +518,7 @@ msgstr "Input prop: term"
 msgid "Mount Search"
 msgstr "Mount Search"
 
-#: examples/docs/ion.tsx
+#: examples/docs/ion-views.tsx
 msgid "Bundle discount · 20%"
 msgstr "Bundle discount · 20%"
 
@@ -525,32 +526,32 @@ msgstr "Bundle discount · 20%"
 msgid "Gift copies · $25 each"
 msgstr "Gift copies · $25 each"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Select Starfall as a gift"
 msgstr "Select Starfall as a gift"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Select Moon Harbor as a gift"
 msgstr "Select Moon Harbor as a gift"
 
-#: examples/docs/list.tsx
-#: examples/docs/query.tsx
+#: examples/docs/list-views.tsx
+#: examples/docs/query-views.tsx
 msgid "Moon Harbor"
 msgstr "Moon Harbor"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Selected for gift"
 msgstr "Selected for gift"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Your wishlist is empty."
 msgstr "Your wishlist is empty."
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Reverse wishlist"
 msgstr "Reverse wishlist"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Clear wishlist"
 msgstr "Clear wishlist"
 
@@ -562,32 +563,32 @@ msgstr "Choose gifts from your wishlist"
 msgid "Select a gift, then reverse the list. Selection follows the game."
 msgstr "Select a gift, then reverse the list. Selection follows the game."
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Loading your game library…"
 msgstr "Loading your game library…"
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Your game library is ready."
 msgstr "Your game library is ready."
 
-#: examples/docs/match.tsx
-#: examples/docs/query.tsx
+#: examples/docs/match-views.tsx
+#: examples/docs/query-views.tsx
 msgid "Could not load. Try again."
 msgstr "Could not load. Try again."
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Loading"
 msgstr "Loading"
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Ready"
 msgstr "Ready"
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Error"
 msgstr "Error"
 
-#: examples/docs/model.tsx
+#: examples/docs/model-views.tsx
 msgid "Add a gift copy"
 msgstr "Add a gift copy"
 
@@ -595,31 +596,31 @@ msgstr "Add a gift copy"
 msgid "Gift order"
 msgstr "Gift order"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Discount, %"
 msgstr "Discount, %"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Campaign note"
 msgstr "Campaign note"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Saving campaign…"
 msgstr "Saving campaign…"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Save campaign"
 msgstr "Save campaign"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Clear feedback"
 msgstr "Clear feedback"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Demo policy limits campaign discounts to 25%."
 msgstr "Demo policy limits campaign discounts to 25%."
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Saved campaign discount"
 msgstr "Saved campaign discount"
 
@@ -631,33 +632,33 @@ msgstr "Seller tools · Starfall sale"
 msgid "Local demo: try more than 25% to see the campaign rejected."
 msgstr "Local demo: try more than 25% to see the campaign rejected."
 
-#: examples/docs/operators.tsx
-msgid "Payment method"
-msgstr "Payment method"
-
-#: examples/docs/operators.tsx
-msgid "Choose a payment method"
-msgstr "Choose a payment method"
-
-#: examples/docs/operators.tsx
-msgid "Payment card"
-msgstr "Payment card"
-
-#: examples/docs/operators.tsx
-msgid "Wallet"
-msgstr "Wallet"
-
-#: examples/docs/operators.tsx
+#: examples/docs/operators-views.tsx
 msgid "I accept the purchase terms"
 msgstr "I accept the purchase terms"
 
-#: examples/docs/operators.tsx
+#: examples/docs/operators-views.tsx
 msgid "Contains an item over $70"
 msgstr "Contains an item over $70"
 
-#: examples/docs/operators.tsx
+#: examples/docs/operators-views.tsx
 msgid "All items are $70 or less"
 msgstr "All items are $70 or less"
+
+#: examples/docs/operators-views.tsx
+msgid "Payment method"
+msgstr "Payment method"
+
+#: examples/docs/operators-views.tsx
+msgid "Choose a payment method"
+msgstr "Choose a payment method"
+
+#: examples/docs/operators-views.tsx
+msgid "Payment card"
+msgstr "Payment card"
+
+#: examples/docs/operators-views.tsx
+msgid "Wallet"
+msgstr "Wallet"
 
 #: examples/docs/operators.tsx
 msgid "Review game purchase"
@@ -667,23 +668,23 @@ msgstr "Review game purchase"
 msgid "Game $80 + DLC $15"
 msgstr "Game $80 + DLC $15"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Display name"
 msgstr "Display name"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Profile visibility"
 msgstr "Profile visibility"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Public"
 msgstr "Public"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Friends only"
 msgstr "Friends only"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Private"
 msgstr "Private"
 
@@ -695,11 +696,11 @@ msgstr "Player profile"
 msgid "Changing profile visibility does not change the display name."
 msgstr "Changing profile visibility does not change the display name."
 
-#: examples/docs/query.tsx
+#: examples/docs/query-views.tsx
 msgid "Loading…"
 msgstr "Loading…"
 
-#: examples/docs/query.tsx
+#: examples/docs/query-views.tsx
 msgid "Game not found."
 msgstr "Game not found."
 

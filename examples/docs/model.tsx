@@ -1,6 +1,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
 import { modelRegistry, pipe } from 'jotai-holo/model';
+import { CopiesView, ToolbarView } from './model-views.js';
 
 // #region model
 // #region gift-order-factory
@@ -19,9 +20,6 @@ const $$giftOrder = pipe(createGiftOrderModel, modelRegistry());
 // Both bindings select the same instance without a scope provider.
 
 // #region gift-order-copies
-function CopiesView({ count }: { count: number }) {
-  return <output className="demo-number">{count}</output>;
-}
 
 const Copies = holo({
   models: {
@@ -35,11 +33,6 @@ const Copies = holo({
 // #endregion gift-order-copies
 
 // #region gift-order-toolbar
-function ToolbarView({ onAdd }: { onAdd: () => void }) {
-  const { t } = useLingui();
-
-  return <button onClick={onAdd}>{t`Add a gift copy`}</button>;
-}
 
 const Toolbar = holo({
   models: {

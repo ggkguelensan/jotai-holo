@@ -317,10 +317,26 @@ msgstr "navigieren"
 msgid "to close"
 msgstr "schließen"
 
-#: examples/docs/analytics.tsx
+#: examples/docs/analytics-views.tsx
 #: examples/docs/imperative-focus.tsx
 msgid "Search games"
 msgstr "Spiele suchen"
+
+#: examples/docs/analytics-views.tsx
+msgid "Close details"
+msgstr "Details schließen"
+
+#: examples/docs/analytics-views.tsx
+msgid "Clear logs"
+msgstr "Leeren"
+
+#: examples/docs/analytics-views.tsx
+msgid "Search for a game, then open it to see each engine's payload."
+msgstr "Suche ein Spiel und öffne es, um die Payload jeder Engine zu sehen."
+
+#: examples/docs/analytics-views.tsx
+msgid "Game details"
+msgstr "Spieldetails"
 
 #: examples/docs/analytics.tsx
 #: examples/docs/query.tsx
@@ -330,22 +346,6 @@ msgstr "Spielekatalog"
 #: examples/docs/analytics.tsx
 msgid "Search"
 msgstr "Suchen"
-
-#: examples/docs/analytics.tsx
-msgid "Close details"
-msgstr "Details schließen"
-
-#: examples/docs/analytics.tsx
-msgid "Game details"
-msgstr "Spieldetails"
-
-#: examples/docs/analytics.tsx
-msgid "Clear logs"
-msgstr "Leeren"
-
-#: examples/docs/analytics.tsx
-msgid "Search for a game, then open it to see each engine's payload."
-msgstr "Suche ein Spiel und öffne es, um die Payload jeder Engine zu sehen."
 
 #: examples/docs/analytics.tsx
 msgid "Actual adapter deliveries · last 50 messages"
@@ -359,19 +359,19 @@ msgstr "Analysekonsole"
 msgid "Demo adapters only · no SDK or network requests"
 msgstr "Demo-Adapter · ohne SDK und Netzwerkanfragen"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "Generate receipt"
 msgstr "Beleg erstellen"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "Buy gift copies"
 msgstr "Geschenkkopien kaufen"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "No receipts yet"
 msgstr "Noch keine Belege"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "Receipt for order"
 msgstr "Beleg für Bestellung"
 
@@ -400,7 +400,7 @@ msgstr "Erhöhen"
 msgid "Reward tokens"
 msgstr "Belohnungsmarken"
 
-#: examples/docs/data-lifecycle.tsx
+#: examples/docs/data-lifecycle-views.tsx
 msgid "Name"
 msgstr "Name"
 
@@ -415,6 +415,18 @@ msgstr "Editor einblenden"
 #: examples/docs/data-lifecycle.tsx
 msgid "Hiding the editor saves your draft in this tab."
 msgstr "Ausblenden des Editors speichert den Entwurf in diesem Tab."
+
+#: examples/docs/form-views.tsx
+msgid "No email yet"
+msgstr "Noch keine E-Mail-Adresse"
+
+#: examples/docs/form-views.tsx
+msgid "Save preferences"
+msgstr "Einstellungen speichern"
+
+#: examples/docs/form-views.tsx
+msgid "Saved:"
+msgstr "Gespeichert:"
 
 #: examples/docs/form.tsx
 msgid "Email"
@@ -431,18 +443,6 @@ msgstr "Benachrichtigungskanal"
 #: examples/docs/form.tsx
 msgid "In-app"
 msgstr "In der App"
-
-#: examples/docs/form.tsx
-msgid "No email yet"
-msgstr "Noch keine E-Mail-Adresse"
-
-#: examples/docs/form.tsx
-msgid "Save preferences"
-msgstr "Einstellungen speichern"
-
-#: examples/docs/form.tsx
-msgid "Saved:"
-msgstr "Gespeichert:"
 
 #: examples/docs/form.tsx
 msgid "External save panel"
@@ -472,18 +472,19 @@ msgstr "Spiel teilen"
 msgid "Sharing is unavailable"
 msgstr "Teilen nicht verfügbar"
 
-#: examples/docs/imperative.tsx
-#: examples/docs/ion.tsx
+#: examples/docs/imperative-views.tsx
+#: examples/docs/ion-views.tsx
 msgid "Quantity"
 msgstr "Anzahl"
 
+#: examples/docs/imperative-views.tsx
 #: examples/docs/imperative.tsx
-#: examples/docs/ion.tsx
+#: examples/docs/ion-views.tsx
 msgid "Total"
 msgstr "Gesamt"
 
-#: examples/docs/imperative.tsx
-#: examples/docs/operators.tsx
+#: examples/docs/imperative-views.tsx
+#: examples/docs/operators-views.tsx
 msgid "Place order"
 msgstr "Bestellen"
 
@@ -500,8 +501,8 @@ msgid "Checkout"
 msgstr "Bestellabschluss"
 
 #: examples/docs/imperative.tsx
-#: examples/docs/list.tsx
-#: examples/docs/query.tsx
+#: examples/docs/list-views.tsx
+#: examples/docs/query-views.tsx
 msgid "Starfall"
 msgstr "Starfall"
 
@@ -517,7 +518,7 @@ msgstr "Eingabe-Prop: term"
 msgid "Mount Search"
 msgstr "Suche einbinden"
 
-#: examples/docs/ion.tsx
+#: examples/docs/ion-views.tsx
 msgid "Bundle discount · 20%"
 msgstr "Paketrabatt · 20 %"
 
@@ -525,32 +526,32 @@ msgstr "Paketrabatt · 20 %"
 msgid "Gift copies · $25 each"
 msgstr "Geschenkkopien · je 25 $"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Select Starfall as a gift"
 msgstr "Starfall als Geschenk auswählen"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Select Moon Harbor as a gift"
 msgstr "Moon Harbor als Geschenk auswählen"
 
-#: examples/docs/list.tsx
-#: examples/docs/query.tsx
+#: examples/docs/list-views.tsx
+#: examples/docs/query-views.tsx
 msgid "Moon Harbor"
 msgstr "Moon Harbor"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Selected for gift"
 msgstr "Als Geschenk ausgewählt"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Your wishlist is empty."
 msgstr "Deine Wunschliste ist leer."
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Reverse wishlist"
 msgstr "Wunschliste umkehren"
 
-#: examples/docs/list.tsx
+#: examples/docs/list-views.tsx
 msgid "Clear wishlist"
 msgstr "Wunschliste leeren"
 
@@ -562,32 +563,32 @@ msgstr "Geschenke aus deiner Wunschliste auswählen"
 msgid "Select a gift, then reverse the list. Selection follows the game."
 msgstr "Wähle ein Geschenk und kehre die Liste um. Die Auswahl folgt dem Spiel."
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Loading your game library…"
 msgstr "Deine Spielebibliothek wird geladen…"
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Your game library is ready."
 msgstr "Deine Spielebibliothek ist bereit."
 
-#: examples/docs/match.tsx
-#: examples/docs/query.tsx
+#: examples/docs/match-views.tsx
+#: examples/docs/query-views.tsx
 msgid "Could not load. Try again."
 msgstr "Laden fehlgeschlagen. Bitte erneut versuchen."
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Loading"
 msgstr "Wird geladen"
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Ready"
 msgstr "Bereit"
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Error"
 msgstr "Fehler"
 
-#: examples/docs/model.tsx
+#: examples/docs/model-views.tsx
 msgid "Add a gift copy"
 msgstr "Eine Geschenkkopie hinzufügen"
 
@@ -595,31 +596,31 @@ msgstr "Eine Geschenkkopie hinzufügen"
 msgid "Gift order"
 msgstr "Geschenkbestellung"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Discount, %"
 msgstr "Rabatt, %"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Campaign note"
 msgstr "Anmerkung zur Aktion"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Saving campaign…"
 msgstr "Aktion wird gespeichert…"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Save campaign"
 msgstr "Aktion speichern"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Clear feedback"
 msgstr "Meldungen löschen"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Demo policy limits campaign discounts to 25%."
 msgstr "Die Demo-Regeln begrenzen Aktionsrabatte auf 25 %."
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Saved campaign discount"
 msgstr "Gespeicherter Aktionsrabatt"
 
@@ -631,33 +632,33 @@ msgstr "Anbieterwerkzeuge · Starfall-Aktion"
 msgid "Local demo: try more than 25% to see the campaign rejected."
 msgstr "Lokales Beispiel: Versuche mehr als 25 %, um die Ablehnung der Aktion zu sehen."
 
-#: examples/docs/operators.tsx
-msgid "Payment method"
-msgstr "Zahlungsmethode"
-
-#: examples/docs/operators.tsx
-msgid "Choose a payment method"
-msgstr "Zahlungsmethode auswählen"
-
-#: examples/docs/operators.tsx
-msgid "Payment card"
-msgstr "Zahlungskarte"
-
-#: examples/docs/operators.tsx
-msgid "Wallet"
-msgstr "Wallet"
-
-#: examples/docs/operators.tsx
+#: examples/docs/operators-views.tsx
 msgid "I accept the purchase terms"
 msgstr "Ich akzeptiere die Kaufbedingungen"
 
-#: examples/docs/operators.tsx
+#: examples/docs/operators-views.tsx
 msgid "Contains an item over $70"
 msgstr "Enthält einen Artikel über 70 $"
 
-#: examples/docs/operators.tsx
+#: examples/docs/operators-views.tsx
 msgid "All items are $70 or less"
 msgstr "Alle Artikel kosten höchstens 70 $"
+
+#: examples/docs/operators-views.tsx
+msgid "Payment method"
+msgstr "Zahlungsmethode"
+
+#: examples/docs/operators-views.tsx
+msgid "Choose a payment method"
+msgstr "Zahlungsmethode auswählen"
+
+#: examples/docs/operators-views.tsx
+msgid "Payment card"
+msgstr "Zahlungskarte"
+
+#: examples/docs/operators-views.tsx
+msgid "Wallet"
+msgstr "Wallet"
 
 #: examples/docs/operators.tsx
 msgid "Review game purchase"
@@ -667,23 +668,23 @@ msgstr "Spielekauf überprüfen"
 msgid "Game $80 + DLC $15"
 msgstr "Spiel 80 $ + DLC 15 $"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Display name"
 msgstr "Anzeigename"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Profile visibility"
 msgstr "Profilsichtbarkeit"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Public"
 msgstr "Öffentlich"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Friends only"
 msgstr "Nur Freunde"
 
-#: examples/docs/prism.tsx
+#: examples/docs/prism-views.tsx
 msgid "Private"
 msgstr "Privat"
 
@@ -695,11 +696,11 @@ msgstr "Spielerprofil"
 msgid "Changing profile visibility does not change the display name."
 msgstr "Eine geänderte Profilsichtbarkeit ändert den Anzeigenamen nicht."
 
-#: examples/docs/query.tsx
+#: examples/docs/query-views.tsx
 msgid "Loading…"
 msgstr "Wird geladen…"
 
-#: examples/docs/query.tsx
+#: examples/docs/query-views.tsx
 msgid "Game not found."
 msgstr "Spiel nicht gefunden."
 

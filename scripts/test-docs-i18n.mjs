@@ -115,8 +115,8 @@ assert.deepEqual(
   ['One {name}'],
 );
 // Macro compilation and catalog extraction must agree on the generated IDs.
-const example = await readFile('examples/docs/ion.tsx', 'utf8');
-const compiled = await transformMacros(example, process.cwd() + '/examples/docs/ion.tsx');
+const example = await readFile('examples/docs/ion-views.tsx', 'utf8');
+const compiled = await transformMacros(example, process.cwd() + '/examples/docs/ion-views.tsx');
 assert.doesNotMatch(compiled.code, /@lingui\/react\/macro/);
 const quantityId = generateMessageId('Quantity');
 assert.ok(compiled.code.includes(quantityId));

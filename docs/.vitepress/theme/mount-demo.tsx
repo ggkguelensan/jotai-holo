@@ -3,6 +3,7 @@ import { I18nProvider } from '@lingui/react';
 import { createStore, Provider } from 'jotai';
 import { lazy, Suspense, type ComponentType } from 'react';
 import { createRoot } from 'react-dom/client';
+import { MotionConfig } from 'motion/react';
 
 type DemoModule = {
   default: ComponentType;
@@ -45,7 +46,12 @@ export function mountDemo(host: HTMLElement, kind: string, i18n: I18n) {
     <I18nProvider i18n={i18n}>
       <Provider store={store}>
         <Suspense fallback={<span>…</span>}>
-          <Demo />
+          <MotionConfig
+            reducedMotion="user"
+            transition={{ duration: 0.18, ease: [0.23, 1, 0.32, 1] }}
+          >
+            <Demo />
+          </MotionConfig>
         </Suspense>
       </Provider>
     </I18nProvider>,

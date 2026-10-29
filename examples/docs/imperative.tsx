@@ -10,6 +10,7 @@ import {
   type HoloImperative,
 } from 'jotai-holo';
 import { modelRegistry, pipe } from 'jotai-holo/model';
+import { QuantityView, TotalView, SubmitView } from './imperative-views.js';
 
 // #region imperative
 function createCheckoutModel() {
@@ -38,37 +39,6 @@ const $$checkout = pipe(createCheckoutModel, modelRegistry());
 type Receipt = { orderId: string; total: number };
 type CheckoutHandle = { onOrderCreated(receipt: Receipt): void };
 
-function QuantityView({
-  quantity,
-  onQuantity,
-}: {
-  quantity: number;
-  onQuantity: (quantity: number) => void;
-}) {
-  const [empty, setEmpty] = useState(false);
-  const { t } = useLingui();
-
-  return (
-    <label>
-      {t`Quantity`}
-      <input
-        type="number"
-        min="1"
-        max="10"
-        value={empty ? '' : quantity}
-        onChange={(event) => {
-          const value = event.target.value;
-          setEmpty(value === '');
-          if (value !== '') {
-            onQuantity(Math.max(1, Math.min(10, Number(value))));
-          }
-        }}
-        onBlur={() => setEmpty(false)}
-      />
-    </label>
-  );
-}
-
 const Quantity = holo({
   models: { checkout: $$checkout },
   view: QuantityView,
@@ -76,27 +46,11 @@ const Quantity = holo({
   write: ({ checkout }) => ({ onQuantity: checkout.$quantity }),
 });
 
-function TotalView({ total }: { total: number }) {
-  const { t } = useLingui();
-
-  return (
-    <p>
-      {t`Total`}: ${total.toFixed(2)}
-    </p>
-  );
-}
-
 const Total = holo({
   models: { checkout: $$checkout },
   view: TotalView,
   read: ({ checkout }) => ({ total: checkout.$total }),
 });
-
-function SubmitView({ onSubmit }: { onSubmit: () => void }) {
-  const { t } = useLingui();
-
-  return <button onClick={onSubmit}>{t`Place order`}</button>;
-}
 
 const Submit = holo({
   models: { checkout: $$checkout },

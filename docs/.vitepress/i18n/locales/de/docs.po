@@ -190,6 +190,16 @@ msgstr "Starten Sie eine kleine Anwendung, lesen Sie den Code und verfolgen Sie 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/index.md
+msgid "Live previews use [Motion for React](https://motion.dev/docs/react) inside View.\n"
+"The code focuses on models, holo bindings and composition; the linked View files\n"
+"contain the markup and animation. Motion is a demo dependency, not part of holo."
+msgstr "Die Live-Beispiele verwenden [Motion for React](https://motion.dev/docs/react) in der View.\n"
+"Der Code zeigt Modelle, holo-Bindungen und Komposition; Markup und Animation stehen\n"
+"in den verlinkten View-Dateien. Motion ist eine Demo-Abhängigkeit und kein Teil von holo."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/index.md
 msgid "| Example                                                           | What to inspect                                  |\n"
 "| ----------------------------------------------------------------- | ------------------------------------------------ |\n"
 "| [Gift copies](/examples/gift-copies)                              | Derived totals and boolean conditions            |\n"

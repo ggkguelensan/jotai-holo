@@ -15,7 +15,7 @@ The search form, game list and game details each connect to the same $$search mo
 
 ## Connected Views
 
-<Demo kind="analytics">
+<Demo kind="analytics" :files="['analytics-views.tsx']">
 
 <<< @/../examples/docs/analytics.tsx#analytics
 

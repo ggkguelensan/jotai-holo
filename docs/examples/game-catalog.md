@@ -2,7 +2,7 @@
 
 Choose a game and watch loading change to its card. Inspect the code for the empty and error branches too. Query projections feed the atom graph; holoMatch chooses which View to display.
 
-<Demo kind="query">
+<Demo kind="query" :files="['query-views.tsx']">
 
 <<< @/../examples/docs/query.tsx#query
 

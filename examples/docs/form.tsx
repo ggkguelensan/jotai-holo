@@ -4,14 +4,14 @@ import { atom } from 'jotai/vanilla';
 import { useId } from 'react';
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
 import { createFormModel, formAtom, holoForm } from 'jotai-holo/rhf';
-import {
-  Controller,
-  useFormContext,
-  useFormState,
-  type Control,
-} from 'react-hook-form';
+import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import {
+  EmailPreviewView,
+  SubmitView,
+  SavedMessageView,
+} from './form-views.js';
 
 // #region form
 // #region notifications-model
@@ -19,7 +19,7 @@ const schema = z.object({
   email: z.email(),
   channel: z.enum(['email', 'in-app']),
 });
-type Values = z.infer<typeof schema>;
+export type Values = z.infer<typeof schema>;
 
 const $$notifications = pipe(
   createFormModel({
@@ -128,11 +128,6 @@ const Editor = holoForm({
 
 // #region notifications-save-panel
 // #region notifications-email-preview
-function EmailPreviewView({ email }: { email: string }) {
-  const { t } = useLingui();
-
-  return <small>{email || t`No email yet`}</small>;
-}
 
 const EmailPreview = holo({
   models: {
@@ -145,24 +140,6 @@ const EmailPreview = holo({
 
 // #endregion notifications-email-preview
 
-function SubmitView({
-  control,
-  onSave,
-}: {
-  control: Control<Values>;
-  onSave: () => Promise<void>;
-}) {
-  const { t } = useLingui();
-
-  const { isSubmitting } = useFormState({ control });
-
-  return (
-    <button disabled={isSubmitting} onClick={() => void onSave()}>
-      {t`Save preferences`}
-    </button>
-  );
-}
-
 const Submit = holo({
   models: {
     model: (props: { playerId: string }) =>
@@ -174,16 +151,6 @@ const Submit = holo({
   }),
   write: ({ model: $$notifications }) => ({ onSave: $$notifications.save }),
 });
-
-function SavedMessageView({ saved }: { saved: string }) {
-  const { t } = useLingui();
-
-  return saved ? (
-    <output>
-      {t`Saved:`} {saved}
-    </output>
-  ) : null;
-}
 
 const SavedMessage = holo({
   models: {

@@ -1,8 +1,15 @@
 import { useLingui } from '@lingui/react/macro';
 import { holo, ion, stateAtom } from 'jotai-holo';
+import {
+  TotalView,
+  TermsView,
+  ExpensiveItemView,
+  OrderButtonView,
+  PaymentMethodView,
+} from './operators-views.js';
 
 // #region operators
-type PaymentMethod = '' | 'wallet' | 'card';
+export type PaymentMethod = '' | 'wallet' | 'card';
 
 const $gamePrice = stateAtom(80);
 const $dlcPrice = stateAtom(15);
@@ -23,42 +30,10 @@ const $hasExpensiveItem = ion([$gamePrice, $dlcPrice], (prices) =>
   prices.some((price) => price > 70),
 );
 
-function TotalView({ total }: { total: number }) {
-  return <output className="demo-number">${total}</output>;
-}
-
 const Total = holo({
   view: TotalView,
   read: { total: $total },
 });
-
-function PaymentMethodView({
-  paymentMethod,
-  onPaymentMethod,
-}: {
-  paymentMethod: PaymentMethod;
-  onPaymentMethod: (method: PaymentMethod) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <label>
-      {t`Payment method`}
-      <select
-        value={paymentMethod}
-        onChange={(event) =>
-          onPaymentMethod(event.target.value as PaymentMethod)
-        }
-      >
-        <option value="" disabled>
-          {t`Choose a payment method`}
-        </option>
-        <option value="card">{t`Payment card`}</option>
-        <option value="wallet">{t`Wallet`}</option>
-      </select>
-    </label>
-  );
-}
 
 const PaymentMethod = holo({
   view: PaymentMethodView,
@@ -66,59 +41,16 @@ const PaymentMethod = holo({
   write: { onPaymentMethod: $paymentMethod },
 });
 
-function TermsView({
-  accepted,
-  onAccept,
-}: {
-  accepted: boolean;
-  onAccept: (value: boolean) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <label>
-      <input
-        type="checkbox"
-        checked={accepted}
-        onChange={(e) => onAccept(e.target.checked)}
-      />{' '}
-      {t`I accept the purchase terms`}
-    </label>
-  );
-}
-
 const Terms = holo({
   view: TermsView,
   read: { accepted: $accepted },
   write: { onAccept: $accepted },
 });
 
-function ExpensiveItemView({
-  hasExpensiveItem,
-}: {
-  hasExpensiveItem: boolean;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <small>
-      {hasExpensiveItem
-        ? t`Contains an item over $70`
-        : t`All items are $70 or less`}
-    </small>
-  );
-}
-
 const ExpensiveItem = holo({
   view: ExpensiveItemView,
   read: { hasExpensiveItem: $hasExpensiveItem },
 });
-
-function OrderButtonView({ canOrder }: { canOrder: boolean }) {
-  const { t } = useLingui();
-
-  return <button disabled={!canOrder}>{t`Place order`}</button>;
-}
 
 const OrderButton = holo({
   view: OrderButtonView,
