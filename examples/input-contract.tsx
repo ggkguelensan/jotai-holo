@@ -1,12 +1,17 @@
+import { useState } from 'react';
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
 import { modelRegistry, pipe } from 'jotai-holo/model';
 
 // #region input-model
 function createCounterModel() {
-  const $count = stateAtom(0);
+  const $balance = stateAtom(0);
+  const $count = stateAtom(
+    (get) => get($balance),
+    (_get, set, count: number) => set($balance, Math.max(0, count)),
+  );
 
-  const increment = actionAtom((_get, set) => {
-    set($count, (count) => count + 1);
+  const increment = actionAtom((get, set) => {
+    set($count, get($count) + 1);
   });
 
   return { $count, increment };
@@ -26,13 +31,23 @@ function CountView({
   count: number;
   onChange: (count: number) => void;
 }) {
+  const [empty, setEmpty] = useState(false);
+
   return (
     <label>
       {title}
       <input
         type="number"
-        value={count}
-        onChange={(event) => onChange(Number(event.target.value))}
+        min="0"
+        value={empty ? '' : count}
+        onChange={(event) => {
+          const value = event.target.value;
+          setEmpty(value === '');
+          if (value !== '') {
+            onChange(Number(value));
+          }
+        }}
+        onBlur={() => setEmpty(false)}
       />
     </label>
   );
@@ -94,12 +109,12 @@ export const Counter = holo({
 
   input: ({ counter }) => ({ initial: counter.$count }),
 
-  static: { title: 'Counter' },
+  static: { title: 'Reward tokens' },
 });
 // #endregion input-binding
 
 // #region input-usage
 export function Example() {
-  return <Counter counterId="users" initial={5} />;
+  return <Counter counterId="Nova" initial={5} />;
 }
 // #endregion input-usage

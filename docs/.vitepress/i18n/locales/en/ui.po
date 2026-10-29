@@ -124,8 +124,8 @@ msgstr "All examples"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Workshop tickets"
-msgstr "Workshop tickets"
+msgid "Gift copies"
+msgstr "Gift copies"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -144,23 +144,28 @@ msgstr "Order confirmation"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Independent proposal drafts"
-msgstr "Independent proposal drafts"
+msgid "View methods"
+msgstr "View methods"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Product catalog"
-msgstr "Product catalog"
+msgid "Independent gift drafts"
+msgstr "Independent gift drafts"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Proposal discount"
-msgstr "Proposal discount"
+msgid "Game catalog"
+msgstr "Game catalog"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Isolated contact forms"
-msgstr "Isolated contact forms"
+msgid "Sale campaign"
+msgstr "Sale campaign"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Player notification settings"
+msgstr "Player notification settings"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -312,34 +317,35 @@ msgstr "to navigate"
 msgid "to close"
 msgstr "to close"
 
-#: examples/docs/analytics.tsx
-msgid "Search products"
-msgstr "Search products"
+#: examples/docs/analytics-views.tsx
+#: examples/docs/imperative-focus.tsx
+msgid "Search games"
+msgstr "Search games"
+
+#: examples/docs/analytics-views.tsx
+msgid "Close details"
+msgstr "Close details"
+
+#: examples/docs/analytics-views.tsx
+msgid "Clear logs"
+msgstr "Clear logs"
+
+#: examples/docs/analytics-views.tsx
+msgid "Search for a game, then open it to see each engine's payload."
+msgstr "Search for a game, then open it to see each engine's payload."
+
+#: examples/docs/analytics-views.tsx
+msgid "Game details"
+msgstr "Game details"
 
 #: examples/docs/analytics.tsx
 #: examples/docs/query.tsx
-msgid "Product catalog"
-msgstr "Product catalog"
+msgid "Game catalog"
+msgstr "Game catalog"
 
 #: examples/docs/analytics.tsx
 msgid "Search"
 msgstr "Search"
-
-#: examples/docs/analytics.tsx
-msgid "Close details"
-msgstr "Close details"
-
-#: examples/docs/analytics.tsx
-msgid "Product details"
-msgstr "Product details"
-
-#: examples/docs/analytics.tsx
-msgid "Clear logs"
-msgstr "Clear logs"
-
-#: examples/docs/analytics.tsx
-msgid "Search for a product, then open it to see each engine's payload."
-msgstr "Search for a product, then open it to see each engine's payload."
 
 #: examples/docs/analytics.tsx
 msgid "Actual adapter deliveries · last 50 messages"
@@ -353,19 +359,19 @@ msgstr "Analytics console"
 msgid "Demo adapters only · no SDK or network requests"
 msgstr "Demo adapters only · no SDK or network requests"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "Generate receipt"
 msgstr "Generate receipt"
 
-#: examples/docs/bond.tsx
-msgid "Submit demo order"
-msgstr "Submit demo order"
+#: examples/docs/bond-views.tsx
+msgid "Buy gift copies"
+msgstr "Buy gift copies"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "No receipts yet"
 msgstr "No receipts yet"
 
-#: examples/docs/bond.tsx
+#: examples/docs/bond-views.tsx
 msgid "Receipt for order"
 msgstr "Receipt for order"
 
@@ -377,30 +383,30 @@ msgstr "A fact → a separate reaction"
 msgid "Local simulation: no payment or network request."
 msgstr "Local simulation: no payment or network request."
 
-#. js-lingui-explicit-id
-#: examples/docs/counter.tsx
-msgid "One model, ordinary props"
-msgstr "One model, ordinary props"
+#: examples/docs/counter-views.tsx
+msgid "Bonus points × 2"
+msgstr "Bonus points × 2"
 
-#: examples/docs/counter.tsx
-msgid "Derived × 2"
-msgstr "Derived × 2"
-
-#: examples/docs/counter.tsx
+#: examples/docs/counter-views.tsx
 msgid "Decrement"
 msgstr "Decrement"
 
-#: examples/docs/counter.tsx
+#: examples/docs/counter-views.tsx
 msgid "Increment"
 msgstr "Increment"
 
-#: examples/docs/data-lifecycle.tsx
+#. js-lingui-explicit-id
+#: examples/docs/counter.tsx
+msgid "Reward tokens"
+msgstr "Reward tokens"
+
+#: examples/docs/data-lifecycle-views.tsx
 msgid "Name"
 msgstr "Name"
 
 #: examples/docs/data-lifecycle.tsx
-msgid "Profile draft"
-msgstr "Profile draft"
+msgid "Player profile draft"
+msgstr "Player profile draft"
 
 #: examples/docs/data-lifecycle.tsx
 msgid "Mount editor"
@@ -409,6 +415,18 @@ msgstr "Mount editor"
 #: examples/docs/data-lifecycle.tsx
 msgid "Hiding the editor saves your draft in this tab."
 msgstr "Hiding the editor saves your draft in this tab."
+
+#: examples/docs/form-views.tsx
+msgid "No email yet"
+msgstr "No email yet"
+
+#: examples/docs/form-views.tsx
+msgid "Save preferences"
+msgstr "Save preferences"
+
+#: examples/docs/form-views.tsx
+msgid "Saved:"
+msgstr "Saved:"
 
 #: examples/docs/form.tsx
 msgid "Email"
@@ -419,45 +437,88 @@ msgid "Enter a valid email"
 msgstr "Enter a valid email"
 
 #: examples/docs/form.tsx
-msgid "Contact channel"
-msgstr "Contact channel"
+msgid "Notification channel"
+msgstr "Notification channel"
 
 #: examples/docs/form.tsx
-msgid "Phone"
-msgstr "Phone"
-
-#: examples/docs/form.tsx
-msgid "No email yet"
-msgstr "No email yet"
-
-#: examples/docs/form.tsx
-msgid "Save contact"
-msgstr "Save contact"
-
-#: examples/docs/form.tsx
-msgid "Saved:"
-msgstr "Saved:"
+msgid "In-app"
+msgstr "In-app"
 
 #: examples/docs/form.tsx
 msgid "External save panel"
 msgstr "External save panel"
 
 #: examples/docs/form.tsx
-msgid "Contact preferences"
-msgstr "Contact preferences"
+msgid "Player notifications"
+msgstr "Player notifications"
 
+#: examples/docs/imperative-animation.tsx
+msgid "Your cart · 2 games"
+msgstr "Your cart · 2 games"
+
+#: examples/docs/imperative-animation.tsx
+msgid "Highlight cart"
+msgstr "Highlight cart"
+
+#: examples/docs/imperative-focus.tsx
+msgid "Go to game search"
+msgstr "Go to game search"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Completing purchase…"
+msgstr "Completing purchase…"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Buy Starfall · $25"
+msgstr "Buy Starfall · $25"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Purchase status"
+msgstr "Purchase status"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Purchase failed. Try again."
+msgstr "Purchase failed. Try again."
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Ready to purchase"
+msgstr "Ready to purchase"
+
+#: examples/docs/imperative-purchase-views.tsx
 #: examples/docs/imperative.tsx
-#: examples/docs/ion.tsx
+#: examples/docs/list-views.tsx
+#: examples/docs/query-views.tsx
+msgid "Starfall"
+msgstr "Starfall"
+
+#: examples/docs/imperative-purchase-views.tsx
+msgid "Purchase complete"
+msgstr "Purchase complete"
+
+#: examples/docs/imperative-share.tsx
+msgid "Share game"
+msgstr "Share game"
+
+#: examples/docs/imperative-share.tsx
+msgid "Sharing is unavailable"
+msgstr "Sharing is unavailable"
+
+#: examples/docs/imperative-share.tsx
+msgid "Could not share. Try again."
+msgstr "Could not share. Try again."
+
+#: examples/docs/imperative-views.tsx
+#: examples/docs/ion-views.tsx
 msgid "Quantity"
 msgstr "Quantity"
 
+#: examples/docs/imperative-views.tsx
 #: examples/docs/imperative.tsx
-#: examples/docs/ion.tsx
+#: examples/docs/ion-views.tsx
 msgid "Total"
 msgstr "Total"
 
-#: examples/docs/imperative.tsx
-#: examples/docs/operators.tsx
+#: examples/docs/imperative-views.tsx
 msgid "Place order"
 msgstr "Place order"
 
@@ -473,195 +534,223 @@ msgstr "Back to cart"
 msgid "Checkout"
 msgstr "Checkout"
 
-#: examples/docs/imperative.tsx
-#: examples/docs/query.tsx
-msgid "Oak desk"
-msgstr "Oak desk"
-
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Mounted search View receives"
 msgstr "Mounted search View receives"
 
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Input prop: term"
 msgstr "Input prop: term"
 
-#: examples/docs/input.tsx
+#: examples/docs/input-views.tsx
 msgid "Mount Search"
 msgstr "Mount Search"
 
-#: examples/docs/ion.tsx
-msgid "Member discount · 20%"
-msgstr "Member discount · 20%"
+#: examples/docs/ion-views.tsx
+msgid "Bundle discount · 20%"
+msgstr "Bundle discount · 20%"
 
 #: examples/docs/ion.tsx
-msgid "Workshop tickets · $25 each"
-msgstr "Workshop tickets · $25 each"
+msgid "Gift copies · $25 each"
+msgstr "Gift copies · $25 each"
+
+#: examples/docs/list-views.tsx
+msgid "Select Starfall as a gift"
+msgstr "Select Starfall as a gift"
+
+#: examples/docs/list-views.tsx
+msgid "Select Moon Harbor as a gift"
+msgstr "Select Moon Harbor as a gift"
+
+#: examples/docs/list-views.tsx
+#: examples/docs/query-views.tsx
+msgid "Moon Harbor"
+msgstr "Moon Harbor"
+
+#: examples/docs/list-views.tsx
+msgid "Selected for gift"
+msgstr "Selected for gift"
+
+#: examples/docs/list-views.tsx
+msgid "Your wishlist is empty."
+msgstr "Your wishlist is empty."
+
+#: examples/docs/list-views.tsx
+msgid "Reverse wishlist"
+msgstr "Reverse wishlist"
+
+#: examples/docs/list-views.tsx
+msgid "Clear wishlist"
+msgstr "Clear wishlist"
+
+#: examples/docs/list-views.tsx
+msgid "Restore wishlist"
+msgstr "Restore wishlist"
 
 #: examples/docs/list.tsx
-msgid "Review proposal"
-msgstr "Review proposal"
+msgid "Choose gifts from your wishlist"
+msgstr "Choose gifts from your wishlist"
 
 #: examples/docs/list.tsx
-msgid "Ship documentation"
-msgstr "Ship documentation"
+msgid "Select a gift, then reverse the list. Selection follows the game."
+msgstr "Select a gift, then reverse the list. Selection follows the game."
 
-#: examples/docs/list.tsx
-msgid "All clear."
-msgstr "All clear."
+#: examples/docs/match-views.tsx
+msgid "Loading your game library…"
+msgstr "Loading your game library…"
 
-#: examples/docs/list.tsx
-msgid "Reverse rows"
-msgstr "Reverse rows"
+#: examples/docs/match-views.tsx
+msgid "Your game library is ready."
+msgstr "Your game library is ready."
 
-#: examples/docs/list.tsx
-msgid "Clear"
-msgstr "Clear"
-
-#: examples/docs/list.tsx
-msgid "Stable keys preserve row state"
-msgstr "Stable keys preserve row state"
-
-#: examples/docs/list.tsx
-msgid "Check a task, then reverse the rows."
-msgstr "Check a task, then reverse the rows."
-
-#: examples/docs/match.tsx
-msgid "Loading your workspace…"
-msgstr "Loading your workspace…"
-
-#: examples/docs/match.tsx
-msgid "Your workspace is ready."
-msgstr "Your workspace is ready."
-
-#: examples/docs/match.tsx
-#: examples/docs/query.tsx
+#: examples/docs/match-views.tsx
+#: examples/docs/query-views.tsx
 msgid "Could not load. Try again."
 msgstr "Could not load. Try again."
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Loading"
 msgstr "Loading"
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Ready"
 msgstr "Ready"
 
-#: examples/docs/match.tsx
+#: examples/docs/match-views.tsx
 msgid "Error"
 msgstr "Error"
 
-#: examples/docs/model.tsx
-msgid "Add a seat"
-msgstr "Add a seat"
+#: examples/docs/model-views.tsx
+msgid "Add a gift copy"
+msgstr "Add a gift copy"
 
 #: examples/docs/model.tsx
-msgid "Proposal"
-msgstr "Proposal"
+msgid "Gift order"
+msgstr "Gift order"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Discount, %"
 msgstr "Discount, %"
 
-#: examples/docs/mutation.tsx
-msgid "Comment for the customer"
-msgstr "Comment for the customer"
+#: examples/docs/mutation-views.tsx
+msgid "Campaign note"
+msgstr "Campaign note"
 
-#: examples/docs/mutation.tsx
-msgid "Saving proposal…"
-msgstr "Saving proposal…"
+#: examples/docs/mutation-views.tsx
+msgid "Saving campaign…"
+msgstr "Saving campaign…"
 
-#: examples/docs/mutation.tsx
-msgid "Save proposal"
-msgstr "Save proposal"
+#: examples/docs/mutation-views.tsx
+msgid "Save campaign"
+msgstr "Save campaign"
 
-#: examples/docs/mutation.tsx
+#: examples/docs/mutation-views.tsx
 msgid "Clear feedback"
 msgstr "Clear feedback"
 
-#: examples/docs/mutation.tsx
-msgid "Discounts above 25% need approval."
-msgstr "Discounts above 25% need approval."
+#: examples/docs/mutation-views.tsx
+msgid "Demo policy limits campaign discounts to 25%."
+msgstr "Demo policy limits campaign discounts to 25%."
+
+#: examples/docs/mutation-views.tsx
+msgid "Saved campaign discount"
+msgstr "Saved campaign discount"
 
 #: examples/docs/mutation.tsx
-msgid "Saved discount"
-msgstr "Saved discount"
+msgid "Seller tools · Starfall sale"
+msgstr "Seller tools · Starfall sale"
 
 #: examples/docs/mutation.tsx
-msgid "Proposal P-1042"
-msgstr "Proposal P-1042"
+msgid "Local demo: try more than 25% to see the campaign rejected."
+msgstr "Local demo: try more than 25% to see the campaign rejected."
 
-#: examples/docs/mutation.tsx
-msgid "Try a discount above 25% to see a server rejection."
-msgstr "Try a discount above 25% to see a server rejection."
+#: examples/docs/operators-views.tsx
+msgid "I accept the purchase terms"
+msgstr "I accept the purchase terms"
+
+#: examples/docs/operators-views.tsx
+msgid "Contains an item over $70"
+msgstr "Contains an item over $70"
+
+#: examples/docs/operators-views.tsx
+msgid "All items are $70 or less"
+msgstr "All items are $70 or less"
+
+#: examples/docs/operators-views.tsx
+msgid "Ready to place your order."
+msgstr "Ready to place your order."
+
+#: examples/docs/operators-views.tsx
+msgid "Choose payment and accept the terms to continue."
+msgstr "Choose payment and accept the terms to continue."
+
+#: examples/docs/operators-views.tsx
+msgid "Payment method"
+msgstr "Payment method"
+
+#: examples/docs/operators-views.tsx
+msgid "Choose a payment method"
+msgstr "Choose a payment method"
+
+#: examples/docs/operators-views.tsx
+msgid "Payment card"
+msgstr "Payment card"
+
+#: examples/docs/operators-views.tsx
+msgid "Wallet"
+msgstr "Wallet"
 
 #: examples/docs/operators.tsx
-msgid "I accept the delivery terms"
-msgstr "I accept the delivery terms"
+msgid "Review game purchase"
+msgstr "Review game purchase"
 
 #: examples/docs/operators.tsx
-msgid "Surcharge applies"
-msgstr "Surcharge applies"
+msgid "Game $80 + DLC $15"
+msgstr "Game $80 + DLC $15"
 
-#: examples/docs/operators.tsx
-msgid "No surcharge"
-msgstr "No surcharge"
+#: examples/docs/prism-views.tsx
+msgid "Display name"
+msgstr "Display name"
 
-#: examples/docs/operators.tsx
-msgid "Order review · courier delivery"
-msgstr "Order review · courier delivery"
+#: examples/docs/prism-views.tsx
+msgid "Profile visibility"
+msgstr "Profile visibility"
 
-#: examples/docs/operators.tsx
-msgid "Goods $80 + delivery $15"
-msgstr "Goods $80 + delivery $15"
+#: examples/docs/prism-views.tsx
+msgid "Public"
+msgstr "Public"
 
-#: examples/docs/prism.tsx
-msgid "Name projection"
-msgstr "Name projection"
+#: examples/docs/prism-views.tsx
+msgid "Friends only"
+msgstr "Friends only"
 
-#: examples/docs/prism.tsx
-msgid "Role projection"
-msgstr "Role projection"
-
-#: examples/docs/prism.tsx
-msgid "Editor"
-msgstr "Editor"
+#: examples/docs/prism-views.tsx
+msgid "Private"
+msgstr "Private"
 
 #: examples/docs/prism.tsx
-msgid "Viewer"
-msgstr "Viewer"
+msgid "Player profile"
+msgstr "Player profile"
 
 #: examples/docs/prism.tsx
-msgid "Admin"
-msgstr "Admin"
+msgid "Changing profile visibility does not change the display name."
+msgstr "Changing profile visibility does not change the display name."
 
-#: examples/docs/prism.tsx
-msgid "One source → two independent atoms"
-msgstr "One source → two independent atoms"
-
-#: examples/docs/prism.tsx
-msgid "Changing the role keeps the selected name unchanged."
-msgstr "Changing the role keeps the selected name unchanged."
-
-#: examples/docs/query.tsx
-msgid "Desk lamp"
-msgstr "Desk lamp"
-
-#: examples/docs/query.tsx
+#: examples/docs/query-views.tsx
 msgid "Loading…"
 msgstr "Loading…"
 
-#: examples/docs/query.tsx
-msgid "Product not found."
-msgstr "Product not found."
+#: examples/docs/query-views.tsx
+msgid "Game not found."
+msgstr "Game not found."
 
-#: examples/docs/query.tsx
-msgid "Desk"
-msgstr "Desk"
+#: examples/docs/query-views.tsx
+msgid "Not found"
+msgstr "Not found"
 
-#: examples/docs/query.tsx
-msgid "Lamp"
-msgstr "Lamp"
+#: examples/docs/query-views.tsx
+msgid "Server error"
+msgstr "Server error"
 
 #: examples/docs/spreadsheet.tsx
 msgid "Check the formula and its references."
@@ -672,48 +761,48 @@ msgid "Formula for the selected cell"
 msgstr "Formula for the selected cell"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Project estimate"
-msgstr "Project estimate"
+msgid "Bundle total"
+msgstr "Bundle total"
 
 #: examples/docs/spreadsheet.tsx
 msgid "Reset sheet"
 msgstr "Reset sheet"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Workstream"
-msgstr "Workstream"
+msgid "Game"
+msgstr "Game"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Hours / ratio"
-msgstr "Hours / ratio"
+msgid "Copies / rate"
+msgstr "Copies / rate"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Rate / base, €"
-msgstr "Rate / base, €"
+msgid "Price / base, €"
+msgstr "Price / base, €"
 
 #: examples/docs/spreadsheet.tsx
 msgid "Amount, €"
 msgstr "Amount, €"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Website launch · estimate"
-msgstr "Website launch · estimate"
+msgid "Game gift bundle · budget"
+msgstr "Game gift bundle · budget"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Change the hours. The estimate follows."
-msgstr "Change the hours. The estimate follows."
+msgid "Change the copies. The bundle total follows."
+msgstr "Change the copies. The bundle total follows."
 
 #: examples/docs/spreadsheet.tsx
-msgid "Project budget"
-msgstr "Project budget"
+msgid "Gift budget"
+msgstr "Gift budget"
 
 #: examples/docs/spreadsheet.tsx
 msgid "Row"
 msgstr "Row"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Rows 1–3: hours × rate. Row 4: 10% reserve. Row 5: total."
-msgstr "Rows 1–3: hours × rate. Row 4: 10% reserve. Row 5: total."
+msgid "Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total."
+msgstr "Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total."
 
 #: examples/docs/spreadsheet.tsx
 msgid "Select a cell to edit. Enter moves down; Tab moves across."

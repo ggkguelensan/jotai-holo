@@ -7,13 +7,13 @@ import {
 } from 'jotai-holo/model';
 
 // #region factory
-type ShipmentStatus = 'preparing' | 'in-transit' | 'delivered';
-type ShipmentInput = { shipmentId: string };
+type DownloadStatus = 'queued' | 'downloading' | 'installed';
+type DownloadInput = { downloadId: string };
 
-export function createShipmentModel(initial: ShipmentInput) {
-  const $status = stateAtom<ShipmentStatus>('preparing');
+export function createDownloadModel(initial: DownloadInput) {
+  const $status = stateAtom<DownloadStatus>('queued');
 
-  const statusReceived = actionAtom((_get, set, status: ShipmentStatus) =>
+  const statusReceived = actionAtom((_get, set, status: DownloadStatus) =>
     set($status, status),
   );
 
@@ -22,32 +22,34 @@ export function createShipmentModel(initial: ShipmentInput) {
 // #endregion factory
 
 // #region extend
-export function createShipmentSummary(initial: ShipmentInput) {
-  const $$shipment = createShipmentModel(initial);
+export function createDownloadSummary(initial: DownloadInput) {
+  const $$download = createDownloadModel(initial);
 
-  const $canCancel = stateAtom(
-    (get) => get($$shipment.$status) === 'preparing',
-  );
+  const $canCancel = stateAtom((get) => {
+    const status = get($$download.$status);
+    return status === 'queued' || status === 'downloading';
+  });
 
-  return { ...$$shipment, $canCancel };
+  return { ...$$download, $canCancel };
 }
 // #endregion extend
 
 // #region modifier
-type Shipment = ReturnType<typeof createShipmentModel>;
-type TrackingFeed = {
-  subscribe(id: string, receive: (status: ShipmentStatus) => void): () => void;
+type Download = ReturnType<typeof createDownloadModel>;
+type DownloadFeed = {
+  // The disposer stops observation; the download continues in its service.
+  subscribe(id: string, receive: (status: DownloadStatus) => void): () => void;
 };
 
-export function modelTrackingFeed(feed: TrackingFeed) {
-  return <Model extends Shipment, Initial extends ShipmentInput>(
+export function modelDownloadFeed(feed: DownloadFeed) {
+  return <Model extends Download, Initial extends DownloadInput>(
     source: ModelSource<Model, Initial>,
   ) =>
     pipe(
       source,
-      modelConnection((shipment, { store, initial }) =>
-        feed.subscribe(initial.shipmentId, (status) => {
-          store.set(shipment.statusReceived, status);
+      modelConnection(($$download, { store, initial }) =>
+        feed.subscribe(initial.downloadId, (status) => {
+          store.set($$download.statusReceived, status);
         }),
       ),
     );
@@ -55,7 +57,7 @@ export function modelTrackingFeed(feed: TrackingFeed) {
 // #endregion modifier
 
 // #region composition
-export function createShipmentDefinition(feed: TrackingFeed) {
-  return pipe(createShipmentModel, modelRegistry(), modelTrackingFeed(feed));
+export function createDownloadDefinition(feed: DownloadFeed) {
+  return pipe(createDownloadModel, modelRegistry(), modelDownloadFeed(feed));
 }
 // #endregion composition

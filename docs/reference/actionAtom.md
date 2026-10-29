@@ -1,6 +1,6 @@
 # actionAtom
 
-Describe an operation that reads or updates atoms, such as changing a profile name.
+Describe an operation that reads or updates atoms, such as changing a player profile name.
 
 <<< @/../examples/documentation.tsx#action
 

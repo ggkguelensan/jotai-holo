@@ -1,22 +1,22 @@
 # modelConnection
 
-Connect a tracking feed while at least one widget owns a shipment model. Keep transport setup separate from atom construction.
+Observe game-download progress while at least one widget owns a download model. Keep transport setup separate from atom construction.
 
 ## Usage
 
-Given the shipment factory and tracking adapter from the
+Given the download factory and tracking adapter from the
 [composition example](/topics/model-composition#start-with-a-pure-factory),
 connect the feed when the selected instance gets its first owner:
 
 ```ts
 import { modelConnection, modelRegistry, pipe } from 'jotai-holo/model';
 
-const $$shipment = pipe(
-  createShipmentModel,
+const $$download = pipe(
+  createDownloadModel,
 
-  modelConnection(($$shipment, { store, initial }) =>
-    trackingFeed.subscribe(initial.shipmentId, (status) => {
-      store.set($$shipment.statusReceived, status);
+  modelConnection(($$download, { store, initial }) =>
+    downloadFeed.subscribe(initial.downloadId, (status) => {
+      store.set($$download.statusReceived, status);
     }),
   ),
 
@@ -25,7 +25,7 @@ const $$shipment = pipe(
 ```
 
 `subscribe` returns the disposer. The last owner calls it to stop receiving
-updates. Use `$$shipment` in `holo.models`, or explicitly acquire it outside
+progress updates, not to cancel the download job. Use `$$download` in `holo.models`, or explicitly acquire it outside
 React with [acquire](/reference/modelRegistry#acquire-outside-react).
 
 ## Contract

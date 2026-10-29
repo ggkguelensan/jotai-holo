@@ -3,7 +3,7 @@ import { atom, createStore, Provider } from 'jotai';
 import { createRef, type ComponentProps } from 'react';
 import { renderToStaticMarkup, renderToReadableStream } from 'react-dom/server';
 import { expect, expectTypeOf, test, vi } from 'vitest';
-import { actionAtom, eventAtom, holo, type HoloImperative } from '../src/index.js';
+import { actionAtom, eventAtom, holo, type HoloEvents } from '../src/index.js';
 import { createModel } from '../src/model-registry.js';
 
 test('new bindings render on the server without acquiring any resources or handling events', () => {
@@ -40,7 +40,7 @@ test('native async models and async reads resolve before rendering the View', as
   expect(await new Response(stream).text()).toContain('Ada');
 });
 
-test('duplicate bindings and non-event imperative sources are rejected for JS callers too', () => {
+test('duplicate bindings and non-event events sources are rejected for JS callers too', () => {
   const View = (_props: { value: number }) => null;
   // @ts-expect-error Duplicate read/props bindings.
   const Duplicate = holo({ view: View, read: { value: atom(0) }, static: { value: 1 } });
@@ -59,7 +59,7 @@ function typeChecks() {
     count: number;
     title: string;
     onIncrement: (n: number) => number;
-    imperative: HoloImperative<Handle>;
+    events: HoloEvents<Handle>;
   }) {
     return null;
   }
@@ -70,7 +70,7 @@ function typeChecks() {
     read: ({ current }) => ({ count: current.$count }),
     write: ({ current }) => ({ onIncrement: current.increment }),
     static: { title: 'Title' },
-    imperative: ({ current }) => ({ onCreated: current.event }),
+    events: ({ current }) => ({ onCreated: current.event }),
   });
   expectTypeOf<ComponentProps<typeof Connected>>().toEqualTypeOf<{ id: string }>();
   const valid = <Connected id="a" />;
@@ -85,11 +85,11 @@ function typeChecks() {
   // @ts-expect-error Wrong write arguments.
   holo({ view: View, write: { onIncrement: actionAtom((_get, _set, value: string) => value) } });
   // @ts-expect-error Plain writable atoms are not event sources.
-  holo({ view: View, imperative: { onCreated: atom(null, () => {}) } });
-  // @ts-expect-error Wrong imperative payload.
-  holo({ view: View, imperative: { onCreated: eventAtom<number>() } });
-  // @ts-expect-error Unknown imperative method.
-  holo({ view: View, imperative: { unknown: event } });
+  holo({ view: View, events: { onCreated: atom(null, () => {}) } });
+  // @ts-expect-error Wrong events payload.
+  holo({ view: View, events: { onCreated: eventAtom<number>() } });
+  // @ts-expect-error Unknown events method.
+  holo({ view: View, events: { unknown: event } });
   // @ts-expect-error Duplicate write/props binding.
   holo({ view: View, write: { onIncrement: increment }, static: { onIncrement: () => 1 } });
   const Intrinsic = holo({ view: 'input', static: { type: 'text' } });

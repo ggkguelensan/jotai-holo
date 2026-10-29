@@ -10,11 +10,11 @@ test('the documented input binding updates only changed committed input', async 
   const render = (initial: number) =>
     h.render(
       <Provider store={store}>
-        <Counter counterId="users" initial={initial} />
+        <Counter counterId="Nova" initial={initial} />
       </Provider>,
     );
   await render(5);
-  const model = store.get($$counter({ key: ['counter', 'users'] }));
+  const model = store.get($$counter({ key: ['counter', 'Nova'] }));
   expect(store.get(model.$count)).toBe(5);
   await act(async () => {
     store.set(model.increment);
@@ -24,19 +24,21 @@ test('the documented input binding updates only changed committed input', async 
   expect(store.get(model.$count)).toBe(6);
   await render(8);
   expect(store.get(model.$count)).toBe(8);
+  await render(-2);
+  expect(store.get(model.$count)).toBe(0);
   await h.unmount();
 });
 
 function typeChecks() {
-  const valid = <Counter counterId="users" initial={5} />;
+  const valid = <Counter counterId="Nova" initial={5} />;
   // @ts-expect-error input binds initial to an atom but does not supply its public value.
-  const missingInput = <Counter counterId="users" />;
+  const missingInput = <Counter counterId="Nova" />;
   // @ts-expect-error Selector inputs remain public props.
   const missingKey = <Counter initial={5} />;
   // @ts-expect-error read props are supplied by holo.
-  const overriddenRead = <Counter counterId="users" initial={5} count={7} />;
+  const overriddenRead = <Counter counterId="Nova" initial={5} count={7} />;
   // @ts-expect-error Fixed props are supplied by holo.
-  const overriddenFixed = <Counter counterId="users" initial={5} title="Other" />;
+  const overriddenFixed = <Counter counterId="Nova" initial={5} title="Other" />;
   void [valid, missingInput, missingKey, overriddenRead, overriddenFixed];
 }
 void typeChecks;

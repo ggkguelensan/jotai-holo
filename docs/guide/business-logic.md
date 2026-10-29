@@ -1,6 +1,6 @@
 # Business logic and small Views
 
-A sales editor calculates a proposal, saves it and reports a successful save. These are related responsibilities, but they need different owners: domain functions define the rules, atoms coordinate the workflow, React renders the result, and analytics observes completed facts.
+A gift-order editor calculates the cost of game copies, saves the draft and reports a successful save. These are related responsibilities, but they need different owners: domain functions define the rules, atoms coordinate the workflow, React renders the result, and analytics observes completed facts.
 
 ## When to use holo
 
@@ -12,13 +12,13 @@ A layout composes already connected fields, summaries and actions. It does not r
 
 ## Start with a business workflow
 
-Write the sequence in business terms: validate the draft, capture the submitted values, request a save, accept the response, publish that the proposal was saved. A command expresses an intention and can fail. A fact describes something that has already happened; publish it only after the relevant operation succeeds.
+Write the sequence in business terms: validate the draft, capture the submitted values, request a save, accept the response, publish that the gift order was saved. A command expresses an intention and can fail. A fact describes something that has already happened; publish it only after the relevant operation succeeds.
 
 Keep calculations and validation in ordinary functions with explicit inputs and outputs. Use stateAtom for current values and derived state, actionAtom to coordinate reads, writes and asynchronous work, and eventAtom to publish notifications. Use bond for a separate reaction to a notification; a direct write inside a command is also appropriate when it belongs to the same workflow.
 
 The saving model captures the draft before await. Later edits do not change the submitted request, and a failed request produces no success fact:
 
-<<< @/../examples/recipes/proposal-mutation.tsx#saving-model
+<<< @/../examples/recipes/gift-order-mutation.tsx#saving-model
 
 Make failure, concurrency and ownership decisions explicit. Here one editor ignores duplicate Save while pending, keeps edits made during the request and shows the mutation error. Other workflows may need cancellation, serialization or a revision check instead. Do not infer these rules from a button's disabled appearance.
 

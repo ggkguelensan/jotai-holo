@@ -1,6 +1,6 @@
 # Profile: command → fact → reaction
 
-A user edits a draft and presses Save. TanStack Query runs the mutation and owns its pending and error state. After success, the command publishes `profileSaved`; a notification reacts without controlling persistence.
+A player edits their profile draft and presses Save. TanStack Query runs the mutation and owns its pending and error state. After success, the command publishes `profileSaved`; a notification reacts without controlling persistence.
 
 ## Model and async policy
 

@@ -1,25 +1,32 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 // #region view
-export function SeatsView({
-  seats,
-  onSeats,
+export function CopiesView({
+  copies,
+  onCopies,
 }: {
-  seats: number | null;
-  onSeats: (seats: number) => void;
+  copies: number | null;
+  onCopies: (copies: number) => void;
 }) {
-  if (seats === null) return null;
+  const [empty, setEmpty] = useState(false);
+
+  if (copies === null) return null;
 
   return (
     <label>
-      Seats
+      Gift copies
       <input
         type="number"
         min="1"
-        value={seats}
-        onChange={(event) =>
-          onSeats(Math.max(1, Number(event.target.value) || 1))
-        }
+        value={empty ? '' : copies}
+        onChange={(event) => {
+          const value = event.target.value;
+          setEmpty(value === '');
+          if (value !== '') {
+            onCopies(Math.max(1, Number(value)));
+          }
+        }}
+        onBlur={() => setEmpty(false)}
       />
     </label>
   );
@@ -36,7 +43,7 @@ export function CommentView({
 
   return (
     <label>
-      Customer comment
+      Gift message
       <textarea
         value={comment}
         onChange={(event) => onComment(event.target.value)}
@@ -50,19 +57,19 @@ export function TotalView({ total }: { total: number | null }) {
 }
 
 export function LoadingView({ showLoading }: { showLoading: boolean }) {
-  return showLoading ? <p role="status">Loading proposal…</p> : null;
+  return showLoading ? <p role="status">Loading gift order…</p> : null;
 }
 
 export function ErrorView({ error }: { error: Error | null }) {
   return error ? <p role="alert">{error.message}</p> : null;
 }
 
-export type ProposalViewProps = {
+export type GiftOrderViewProps = {
   loading: boolean;
   children: ReactNode;
 };
 
-export function ProposalView({ loading, children }: ProposalViewProps) {
+export function GiftOrderView({ loading, children }: GiftOrderViewProps) {
   return <section aria-busy={loading}>{children}</section>;
 }
 // #endregion view
@@ -78,12 +85,12 @@ export function SaveButtonView({
 }) {
   return (
     <button disabled={!canSave} onClick={() => void onSave()}>
-      {saving ? 'Saving…' : 'Save proposal'}
+      {saving ? 'Saving…' : 'Save gift order'}
     </button>
   );
 }
 
-export function SaveProposalView({ children }: { children: ReactNode }) {
+export function SaveGiftOrderView({ children }: { children: ReactNode }) {
   return <section>{children}</section>;
 }
 
@@ -115,7 +122,7 @@ export function LocalErrorView({ localError }: { localError: unknown }) {
   ) : null;
 }
 
-export function LocalProposalView({
+export function LocalGiftOrderView({
   restoring,
   children,
   feedback,

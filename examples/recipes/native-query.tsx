@@ -1,13 +1,13 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { proposalDetailQO } from './proposal-api.js';
+import { giftOrderDetailQO } from './gift-order-api.js';
 
 // #region native-query
-export function ProposalSeatCount({ proposalId }: { proposalId: string }) {
-  const { data: seats } = useSuspenseQuery({
-    ...proposalDetailQO({ proposalId }),
-    select: (proposal) => proposal.seats,
+export function GiftOrderCopyCount({ giftOrderId }: { giftOrderId: string }) {
+  const { data: copies } = useSuspenseQuery({
+    ...giftOrderDetailQO({ giftOrderId }),
+    select: (giftOrder) => giftOrder.copies,
   });
 
-  return <output>{seats} seats</output>;
+  return <output>{copies} copies</output>;
 }
 // #endregion native-query

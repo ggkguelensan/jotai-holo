@@ -7,6 +7,18 @@ Use the same production style in guides, recipes, API snippets and live demos.
 Label an intentionally inferior starting point in a refactoring walkthrough;
 do not let it read as the recommended implementation.
 
+## Example domain
+
+Use one game-marketplace domain throughout the examples: game catalogs,
+wishlists, player profiles, gift orders, libraries, downloads and seller campaigns.
+Keep the technical task small. A seller sets campaign discounts; a buyer chooses
+an offered promotion. Multiple gift copies represent gifts for a group. Releasing
+a download-progress subscription does not cancel the launcher job.
+
+Use consistent fictional game IDs, names and prices. Keep server identity,
+editing-session identity and a player's local draft separate. A domain change
+must update runnable sources, article copy, translations and behavioral fixtures.
+
 ## Views and bindings
 
 - Give each View one useful display or interaction responsibility. Declare a
@@ -29,6 +41,21 @@ mechanism, such as native form submission, scoped RHF errors or imperative
 navigation. Complete runnable Views stay in examples and remain typechecked.
 Extract contracts from those implementations instead of maintaining a second
 example with fake View declarations or placeholder bodies.
+
+## Motion in live previews
+
+Keep Motion in the View implementation. The documentation renderer supplies
+MotionConfig with reducedMotion="user" and a short ease-out transition.
+Animate changes with a purpose: entering results and completion feedback.
+Keyboard interactions update immediately. Respect reduced motion explicitly for
+raw transform strings and useAnimate; MotionConfig cannot disable those for you.
+Repeated requests must continue from the current visual state.
+Do not delay input, computation or model ownership for animation. Keep branch
+and model disposal immediate; a visual exit must not retain subscriptions.
+
+Use useAnimate with useHoloEvents when the lesson is imperative animation;
+its scope cleans up animations on unmount. Otherwise keep motion markup in
+\*-views.tsx and link that file from Demo instead of adding it to the article.
 
 ## Requests and forms
 
@@ -58,6 +85,19 @@ Keep displayed code within 80 columns. Separate different atom/operator groups,
 View declarations and holo bindings with blank lines. Use real typed contracts,
 not any-based placeholders. Read Lingui translations inside Views. Keep prose
 annotations outside code when they explain intent rather than implementation.
+
+## Interactive behavior
+
+Every enabled control must produce an observable result. Use an availability
+indicator when the example only demonstrates a predicate. Destructive demo
+controls must offer a way to repeat the scenario without reloading the page.
+Expose selected options and meaningful empty, loading, error and success states.
+
+Give fields visible labels, keyboard controls visible focus, and primary controls
+at least 44px touch targets. A checkbox may use its full label as the target.
+Keep small text readable in both themes. Check 390px and desktop layouts, including
+expanded content and validation errors. Wide spreadsheets scroll inside their
+own container; ordinary examples must fit without horizontal page scrolling.
 
 ## Review and verification
 

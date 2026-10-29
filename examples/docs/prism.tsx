@@ -1,69 +1,38 @@
 import { useLingui } from '@lingui/react/macro';
 import { actionAtom, holo, prism, stateAtom } from 'jotai-holo';
+import { DisplayNameView, ProfileVisibilityView } from './prism-views.js';
 
 // #region prism
-const $user = stateAtom({ name: 'Ada Lovelace', role: 'Editor' });
+export type ProfileVisibility = 'public' | 'friends' | 'private';
 
-const { $name, $role } = prism($user, {
-  $name: (user) => user.name,
-  $role: (user) => user.role,
+const $profile = stateAtom({
+  displayName: 'Nova',
+  visibility: 'friends' as ProfileVisibility,
 });
 
-const rename = actionAtom((_get, set, name: string) =>
-  set($user, (user) => ({ ...user, name })),
-);
-const changeRole = actionAtom((_get, set, role: string) =>
-  set($user, (user) => ({ ...user, role })),
-);
-
-function NameView({
-  name,
-  onName,
-}: {
-  name: string;
-  onName: (name: string) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <label>
-      {t`Name projection`}
-      <input value={name} onChange={(e) => onName(e.target.value)} />
-    </label>
-  );
-}
-
-const Name = holo({
-  view: NameView,
-  read: { name: $name },
-  write: { onName: rename },
+const { $displayName, $visibility } = prism($profile, {
+  $displayName: (profile) => profile.displayName,
+  $visibility: (profile) => profile.visibility,
 });
 
-function RoleView({
-  role,
-  onRole,
-}: {
-  role: string;
-  onRole: (role: string) => void;
-}) {
-  const { t } = useLingui();
+const rename = actionAtom((_get, set, displayName: string) =>
+  set($profile, (profile) => ({ ...profile, displayName })),
+);
+const changeVisibility = actionAtom(
+  (_get, set, visibility: ProfileVisibility) =>
+    set($profile, (profile) => ({ ...profile, visibility })),
+);
 
-  return (
-    <label>
-      {t`Role projection`}
-      <select value={role} onChange={(e) => onRole(e.target.value)}>
-        <option value="Editor">{t`Editor`}</option>
-        <option value="Viewer">{t`Viewer`}</option>
-        <option value="Admin">{t`Admin`}</option>
-      </select>
-    </label>
-  );
-}
+const DisplayName = holo({
+  view: DisplayNameView,
+  read: { displayName: $displayName },
+  write: { onDisplayName: rename },
+});
 
-const Role = holo({
-  view: RoleView,
-  read: { role: $role },
-  write: { onRole: changeRole },
+const ProfileVisibility = holo({
+  view: ProfileVisibilityView,
+  read: { visibility: $visibility },
+  write: { onVisibility: changeVisibility },
 });
 
 function ProfileProjections() {
@@ -71,13 +40,11 @@ function ProfileProjections() {
 
   return (
     <div className="demo-form">
-      <span className="demo-eyebrow">
-        {t`One source → two independent atoms`}
-      </span>
-      <Name />
-      <Role />
+      <span className="demo-eyebrow">{t`Player profile`}</span>
+      <DisplayName />
+      <ProfileVisibility />
       <p className="demo-note">
-        {t`Changing the role keeps the selected name unchanged.`}
+        {t`Changing profile visibility does not change the display name.`}
       </p>
     </div>
   );

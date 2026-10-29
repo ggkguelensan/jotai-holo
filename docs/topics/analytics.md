@@ -1,8 +1,8 @@
 # Analytics
 
-A completed search goes to Amplitude and a warehouse. Opening a product goes only to PostHog. The business model publishes facts about what happened; analytics translates each fact for its consumers. Neither the View nor the business factory imports an SDK.
+A completed game search goes to Amplitude and an analytics warehouse. Opening a game goes only to PostHog. The business model publishes facts about what happened; analytics translates each fact for its consumers. Neither the View nor the business factory imports an SDK.
 
-[Open the catalog example](/examples/catalog-analytics). Search for a product and open its details. The console beside the UI shows which engines received each message.
+[Open the catalog example](/examples/catalog-analytics). Search for a game and open its details. The console beside the UI shows which engines received each message.
 
 ## Publish a complete fact
 

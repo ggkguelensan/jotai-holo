@@ -1,14 +1,14 @@
 # Rows and screen states
 
-Check a task, then reverse the rows: its local checked state follows the task ID. Switch the selected screen in the second demo; only the active screen mounts.
+Select a wishlisted game as a gift, then reverse the rows: its local selection follows the game ID. Switch the library screen in the second demo; only the active screen mounts.
 
-<Demo kind="list">
+<Demo kind="list" :files="['list-views.tsx']">
 
 <<< @/../examples/docs/list.tsx#list
 
 </Demo>
 
-<Demo kind="match">
+<Demo kind="match" :files="['match-views.tsx']">
 
 <<< @/../examples/docs/match.tsx#match
 

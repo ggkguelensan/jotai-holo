@@ -28,14 +28,14 @@ the whole draft when it needs to perform its workflow.
 | Example group                           | Result                                                                                                                                                |
 | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Profile recipe                          | Independent field, error and pending bindings; write-only form shell                                                                                  |
-| Tickets and boolean operators           | Separate quantity, discount, total, terms and availability consumers                                                                                  |
+| Gift pricing and boolean operators      | Separate quantity, discount, total, terms and availability consumers                                                                                  |
 | Counter examples                        | Value/derived display separated from controls and layout                                                                                              |
 | Mutation demo                           | Separate field inputs, submit/reset, error and accepted result                                                                                        |
 | Bond demo                               | Receipt option, order submission and receipt are independently connected                                                                              |
 | Imperative checkout                     | Cart quantity, total and submit are separate; local receipt navigation remains in React                                                               |
 | Analytics, both implementations         | Term field separate from submit/input owner; row/close actions bind locally; logs and clear control separate; one analytics attachment remains shared |
 | Native RHF examples                     | Form shell composes native field components with field-scoped subscriptions; outside panel composes email, submit and saved-result bindings           |
-| Server proposal recipes                 | Independent writable field projections, query feedback, total, save and persistence controls in both plain and keyed variants                         |
+| Server gift order recipes               | Independent writable field projections, query feedback, total, save and persistence controls in both plain and keyed variants                         |
 | Filters and input contract              | Child bindings receive instance IDs, not whole model values; parent owns committed input forwarding                                                   |
 | Existing prism, query and list examples | Already coherent field/card/row consumers; preserve them                                                                                              |
 | Spreadsheet                             | One cell is a useful display/editor; do not split its input and result into unrelated bindings                                                        |

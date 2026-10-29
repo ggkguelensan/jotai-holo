@@ -9,85 +9,85 @@ import {
   stateAtom,
 } from 'jotai-holo';
 
-type User = { id: number; name: string };
+type Friend = { id: number; name: string };
 
-function createUsersModel() {
-  const $users = stateAtom<readonly User[]>([]);
+function createFriendsModel() {
+  const $friends = stateAtom<readonly Friend[]>([]);
   const $nextId = stateAtom(1);
 
-  const addUser = actionAtom((get, set) => {
+  const addFriend = actionAtom((get, set) => {
     const id = get($nextId);
-    set($users, (users) => [...users, { id, name: `User ${id}` }]);
+    set($friends, (friends) => [...friends, { id, name: `Player ${id}` }]);
     set($nextId, id + 1);
   });
 
-  return { $users, addUser };
+  return { $friends, addFriend };
 }
 
-const $$users = pipe(createUsersModel, modelRegistry());
+const $$friends = pipe(createFriendsModel, modelRegistry());
 
-const $users = stateAtom((get) => get(get($$users()).$users));
+const $friends = stateAtom((get) => get(get($$friends()).$friends));
 
-const { $count, $empty } = prism($users, {
-  $count: (users) => users.length,
-  $empty: (users) => users.length === 0,
+const { $count, $empty } = prism($friends, {
+  $count: (friends) => friends.length,
+  $empty: (friends) => friends.length === 0,
 });
 
 const $status = ion($empty, (empty) => (empty ? 'idle' : 'ready'));
 
-function UserView({ user }: { user: User }) {
-  return <li>{user.name}</li>;
+function FriendView({ friend }: { friend: Friend }) {
+  return <li>{friend.name}</li>;
 }
 
-const Users = holoList({
-  source: $users,
-  view: UserView,
-  getKey: (user) => user.id,
-  mapItem: (user) => ({ user }),
+const Friends = holoList({
+  source: $friends,
+  view: FriendView,
+  getKey: (friend) => friend.id,
+  mapItem: (friend) => ({ friend }),
 });
 function EmptyView() {
-  return <p>No users yet.</p>;
+  return <p>No friends yet.</p>;
 }
 
-function UsersView() {
+function FriendsView() {
   return (
     <ul>
-      <Users />
+      <Friends />
     </ul>
   );
 }
 
 const Content = holoMatch({
   source: $status,
-  cases: { idle: EmptyView, ready: UsersView },
+  cases: { idle: EmptyView, ready: FriendsView },
 });
 
-function UserCountView({ count }: { count: number }) {
-  return <output>Users: {count}</output>;
+function FriendCountView({ count }: { count: number }) {
+  return <output>Friends: {count}</output>;
 }
 
-const UserCount = holo({
-  models: { users: $$users },
-  view: UserCountView,
+const FriendCount = holo({
+  models: { friends: $$friends },
+  view: FriendCountView,
   read: { count: $count },
 });
 
-function AddUserView({ onAdd }: { onAdd: () => void }) {
-  return <button onClick={() => onAdd()}>Add user</button>;
+function AddFriendView({ onAdd }: { onAdd: () => void }) {
+  return <button onClick={() => onAdd()}>Add demo friend</button>;
 }
 
-const AddUser = holo({
-  models: { users: $$users },
-  view: AddUserView,
-  write: ({ users }) => ({ onAdd: users.addUser }),
+const AddFriend = holo({
+  models: { friends: $$friends },
+  view: AddFriendView,
+  write: ({ friends }) => ({ onAdd: friends.addFriend }),
 });
 
 export function OperatorsExample() {
   return (
     <section>
-      <h2>Model operators</h2>
-      <UserCount />
-      <AddUser />
+      <h2>Friends list</h2>
+      <FriendCount />
+      <AddFriend />
       <Content />
     </section>
   );

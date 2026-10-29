@@ -122,7 +122,7 @@ function TotalView({ value }: { value: CellValue }) {
 
   return (
     <div className="sheet-total">
-      <span>{t`Project estimate`}</span>
+      <span>{t`Bundle total`}</span>
       <output aria-live="polite">
         {typeof value === 'number'
           ? new Intl.NumberFormat(i18n.locale, {
@@ -185,26 +185,21 @@ const Reset = holo({
 
 function SheetView({ onSelect }: { onSelect: (address: string) => void }) {
   const { t } = useLingui();
-  const labels = [
-    t`Workstream`,
-    t`Hours / ratio`,
-    t`Rate / base, €`,
-    t`Amount, €`,
-  ];
+  const labels = [t`Game`, t`Copies / rate`, t`Price / base, €`, t`Amount, €`];
 
   return (
     <section className="sheet-demo">
       <header className="sheet-heading">
         <div>
-          <span className="demo-eyebrow">{t`Website launch · estimate`}</span>
-          <p>{t`Change the hours. The estimate follows.`}</p>
+          <span className="demo-eyebrow">{t`Game gift bundle · budget`}</span>
+          <p>{t`Change the copies. The bundle total follows.`}</p>
         </div>
         <Reset />
       </header>
       <FormulaBar />
       <div className="sheet-scroll">
         <table className="sheet-table">
-          <caption className="sheet-sr-only">{t`Project budget`}</caption>
+          <caption className="sheet-sr-only">{t`Gift budget`}</caption>
           <thead>
             <tr>
               <th aria-label={t`Row`} />
@@ -238,7 +233,7 @@ function SheetView({ onSelect }: { onSelect: (address: string) => void }) {
       </div>
       <Total />
       <p className="sheet-help">
-        {t`Rows 1–3: hours × rate. Row 4: 10% reserve. Row 5: total.`}
+        {t`Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total.`}
       </p>
       <p className="sheet-help">
         {t`Select a cell to edit. Enter moves down; Tab moves across.`}

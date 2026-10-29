@@ -2,7 +2,7 @@
 
 The current implementation lives in `src/analytics.ts` and the optional
 SDK-independent adapter in `src/analytics-amplitude.ts`. The previous protocol
-proposal has been replaced; do not implement against it.
+gift order has been replaced; do not implement against it.
 
 Contracts: [createAnalytics](../../docs/reference/createAnalytics.md),
 [modelAnalytics](../../docs/reference/modelAnalytics.md) and

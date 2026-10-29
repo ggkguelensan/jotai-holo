@@ -5,14 +5,21 @@ import { QueryClient } from '@tanstack/react-query';
 import { holo, holoMatch, stateAtom } from 'jotai-holo';
 import { createQueryModel } from 'jotai-holo/query';
 import { queryOptions } from '@tanstack/react-query';
+import {
+  CardView,
+  LoadingView,
+  EmptyView,
+  ErrorView,
+  SwitchView,
+} from './query-views.js';
 
 // #region query
-const $productId = stateAtom('desk');
+const $gameId = stateAtom('starfall');
 // Resource factory: consumers keep the options intact
 // and never reconstruct its query key.
-export const productDetailQO = ({ productId }: { productId: string }) =>
+export const gameDetailQO = ({ gameId }: { gameId: string }) =>
   queryOptions({
-    queryKey: ['products', 'detail', { productId }] as const,
+    queryKey: ['games', 'detail', { gameId }] as const,
     queryFn: async ({ signal }) => {
       await new Promise<void>((resolve, reject) => {
         const timer = setTimeout(resolve, 250);
@@ -25,20 +32,21 @@ export const productDetailQO = ({ productId }: { productId: string }) =>
           { once: true },
         );
       });
-      if (productId !== 'desk' && productId !== 'lamp') return null;
+      if (gameId === 'unavailable') throw new Error('Catalog unavailable');
+      if (gameId !== 'starfall' && gameId !== 'moon-harbor') return null;
       return {
-        id: productId,
-        name: productId === 'desk' ? 'Oak desk' : 'Desk lamp',
-        price: productId === 'desk' ? 240 : 45,
+        id: gameId,
+        name: gameId === 'starfall' ? 'Starfall' : 'Moon Harbor',
+        price: gameId === 'starfall' ? 25 : 15,
       };
     },
   });
 
-export const $$productQuery = createQueryModel({
-  state: { productId: $productId },
-  query: productDetailQO,
+export const $$gameQuery = createQueryModel({
+  state: { gameId: $gameId },
+  query: gameDetailQO,
   prism: {
-    $product: (result) => result.data,
+    $game: (result) => result.data,
     $screen: (result): 'loading' | 'error' | 'empty' | 'ready' => {
       if (result.isPending) return 'loading';
       if (result.isError) return 'error';
@@ -50,50 +58,23 @@ export const $$productQuery = createQueryModel({
   },
 });
 
-type Product = { id: string; name: string; price: number };
-
-function CardView({ data }: { data: Product | null | undefined }) {
-  const { t } = useLingui();
-  // A separate screen atom does not narrow this atom's TypeScript type.
-  if (!data) return null;
-  const name = data.id === 'desk' ? t`Oak desk` : t`Desk lamp`;
-
-  return <p role="status">{`${name} · $${data.price}`}</p>;
-}
-
-function LoadingView() {
-  const { t } = useLingui();
-
-  return <p role="status">{t`Loading…`}</p>;
-}
-
-function EmptyView() {
-  const { t } = useLingui();
-
-  return <p role="status">{t`Product not found.`}</p>;
-}
-
-function ErrorView({ error }: { error: Error | null }) {
-  const { t } = useLingui();
-
-  return <p role="alert">{error?.message ?? t`Could not load. Try again.`}</p>;
-}
+export type Game = { id: string; name: string; price: number };
 
 const Card = holo({
   view: CardView,
-  read: { data: $$productQuery.$product },
+  read: { data: $$gameQuery.$game },
 });
 
-const ProductError = holo({
+const GameError = holo({
   view: ErrorView,
-  read: { error: $$productQuery.$error },
+  read: { error: $$gameQuery.$error },
 });
 
-const ProductContent = holoMatch({
-  source: $$productQuery.$screen,
+const GameContent = holoMatch({
+  source: $$gameQuery.$screen,
   cases: {
     loading: LoadingView,
-    error: ProductError,
+    error: GameError,
     empty: EmptyView,
     ready: Card,
   },
@@ -104,26 +85,16 @@ function CatalogView() {
 
   return (
     <section>
-      <span className="demo-eyebrow">{t`Product catalog`}</span>
-      <ProductContent />
+      <span className="demo-eyebrow">{t`Game catalog`}</span>
+      <GameContent />
     </section>
-  );
-}
-
-function SwitchView({ onChange }: { onChange: (value: string) => void }) {
-  const { t } = useLingui();
-
-  return (
-    <div className="demo-controls">
-      <button onClick={() => onChange('desk')}>{t`Desk`}</button>
-      <button onClick={() => onChange('lamp')}>{t`Lamp`}</button>
-    </div>
   );
 }
 
 const Switch = holo({
   view: SwitchView,
-  write: { onChange: $productId },
+  read: { gameId: $gameId },
+  write: { onChange: $gameId },
 });
 
 function CatalogDemo() {

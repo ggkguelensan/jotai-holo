@@ -2,12 +2,13 @@ import { actionAtom, stateAtom } from 'jotai-holo/vanilla';
 import { defineModel, modelRegistry, pipe } from 'jotai-holo/model';
 
 // #region factory
+// Each instance holds one player’s reward-token balance.
 export const createCounterModel = defineModel(
   (initial: { count: number } = { count: 0 }) => {
-    const $count = stateAtom(initial.count);
+    const $count = stateAtom(Math.max(0, initial.count));
 
     const increment = actionAtom((_get, set, amount: number = 1) => {
-      set($count, (count) => count + amount);
+      set($count, (count) => Math.max(0, count + amount));
     });
 
     return { $count, increment };

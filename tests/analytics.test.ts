@@ -20,7 +20,7 @@ function deferred<T>() {
   return { promise, resolve, reject };
 }
 function createSearchModel() {
-  const $category = stateAtom('chairs');
+  const $category = stateAtom('rpg');
   const completed = eventAtom<{ query: string; results: number }>();
   return { $category, completed };
 }
@@ -75,12 +75,12 @@ test('managed facts route only to selected engines, with independent inline mapp
   const a = $$search.acquire(store);
   const b = $$search.acquire(store);
   await tick();
-  const fact = { query: 'desk', results: 2 };
+  const fact = { query: 'starfall', results: 2 };
   store.set(a.model.completed, fact);
   fact.query = 'mutated';
-  store.set(a.model.$category, 'tables');
+  store.set(a.model.$category, 'strategy');
   await analytics.flush(store);
-  expect(amplitude.mock.calls[0]![0]).toEqual({ category: 'chairs', query: 'desk' });
+  expect(amplitude.mock.calls[0]![0]).toEqual({ category: 'rpg', query: 'starfall' });
   expect(warehouse.mock.calls[0]![0]).toEqual({ count: 2 });
   expect(unused).not.toHaveBeenCalled();
   a.release();
@@ -154,7 +154,7 @@ test('slow and failed engines cannot block healthy engines or a business action'
   const store = createStore();
   const owner = $$search.acquire(store);
   await tick();
-  expect(() => store.set(owner.model.completed, { query: 'desk', results: 1 })).not.toThrow();
+  expect(() => store.set(owner.model.completed, { query: 'starfall', results: 1 })).not.toThrow();
   await tick();
   expect(send).toHaveBeenCalledTimes(1);
   expect(errors.mock.calls[0]![0]).toMatchObject({ engine: 'failed', phase: 'load' });

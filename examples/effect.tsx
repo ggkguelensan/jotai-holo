@@ -4,10 +4,10 @@ import { createCounter } from './counter-model.js';
 
 export function createObservedCounter() {
   const model = createCounter();
-  const $message = stateAtom('Waiting for subscription');
+  const $message = stateAtom('Waiting for token updates');
   const $observedCount = withAtomEffect(model.$count, (get, set) => {
     const count = get(model.$count);
-    set($message, `Observed count: ${count}`);
+    set($message, `Reward tokens: ${count}`);
     // Return a cleanup here when the effect owns an external resource.
   });
   return { ...model, $observedCount, $message };
@@ -33,7 +33,7 @@ const ObservationMessage = holo({
 });
 
 function IncrementView({ onIncrement }: { onIncrement: () => void }) {
-  return <button onClick={onIncrement}>Increment observed state</button>;
+  return <button onClick={onIncrement}>Add reward token</button>;
 }
 
 const Increment = holo({
@@ -44,7 +44,7 @@ const Increment = holo({
 export function EffectCounter() {
   return (
     <section>
-      <h2>jotai-effect</h2>
+      <h2>Reward tokens · jotai-effect</h2>
       <ObservedCount />
       <ObservationMessage />
       <Increment />

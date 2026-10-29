@@ -6,17 +6,18 @@ import {
   holo,
   ion,
   stateAtom,
-  useImperativeHolo,
-  type HoloImperative,
+  useHoloEvents,
+  type HoloEvents,
 } from 'jotai-holo';
 import { modelRegistry, pipe } from 'jotai-holo/model';
+import { QuantityView, TotalView, SubmitView } from './imperative-views.js';
 
 // #region imperative
 function createCheckoutModel() {
   const $quantity = stateAtom(1);
   const $orderNumber = stateAtom(1000);
 
-  const $total = ion($quantity, (quantity) => quantity * 125);
+  const $total = ion($quantity, (quantity) => quantity * 25);
 
   const orderCreated = eventAtom<{
     orderId: string;
@@ -36,32 +37,7 @@ function createCheckoutModel() {
 const $$checkout = pipe(createCheckoutModel, modelRegistry());
 
 type Receipt = { orderId: string; total: number };
-type CheckoutHandle = { onOrderCreated(receipt: Receipt): void };
-
-function QuantityView({
-  quantity,
-  onQuantity,
-}: {
-  quantity: number;
-  onQuantity: (quantity: number) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <label>
-      {t`Quantity`}
-      <input
-        type="number"
-        min="1"
-        max="10"
-        value={quantity}
-        onChange={(event) =>
-          onQuantity(Math.max(1, Math.min(10, Number(event.target.value) || 1)))
-        }
-      />
-    </label>
-  );
-}
+type CheckoutEvents = { onOrderCreated(receipt: Receipt): void };
 
 const Quantity = holo({
   models: { checkout: $$checkout },
@@ -70,27 +46,11 @@ const Quantity = holo({
   write: ({ checkout }) => ({ onQuantity: checkout.$quantity }),
 });
 
-function TotalView({ total }: { total: number }) {
-  const { t } = useLingui();
-
-  return (
-    <p>
-      {t`Total`}: ${total.toFixed(2)}
-    </p>
-  );
-}
-
 const Total = holo({
   models: { checkout: $$checkout },
   view: TotalView,
   read: ({ checkout }) => ({ total: checkout.$total }),
 });
-
-function SubmitView({ onSubmit }: { onSubmit: () => void }) {
-  const { t } = useLingui();
-
-  return <button onClick={onSubmit}>{t`Place order`}</button>;
-}
 
 const Submit = holo({
   models: { checkout: $$checkout },
@@ -98,15 +58,11 @@ const Submit = holo({
   write: ({ checkout }) => ({ onSubmit: checkout.submit }),
 });
 
-function CheckoutView({
-  imperative,
-}: {
-  imperative: HoloImperative<CheckoutHandle>;
-}) {
+function CheckoutView({ events }: { events: HoloEvents<CheckoutEvents> }) {
   const { t } = useLingui();
   const [receipt, setReceipt] = useState<Receipt | null>(null);
 
-  useImperativeHolo(imperative, { onOrderCreated: setReceipt });
+  useHoloEvents(events, { onOrderCreated: setReceipt });
 
   // A local screen demonstrates navigation without a router dependency.
   if (receipt) {
@@ -125,7 +81,7 @@ function CheckoutView({
   return (
     <section className="demo-form">
       <span className="demo-eyebrow">{t`Checkout`}</span>
-      <h3>{t`Oak desk`}</h3>
+      <h3>{t`Starfall`}</h3>
       <Quantity />
       <Total />
       <Submit />
@@ -137,7 +93,7 @@ const Checkout = holo({
   models: { checkout: $$checkout },
   view: CheckoutView,
 
-  imperative: ({ checkout }) => ({
+  events: ({ checkout }) => ({
     onOrderCreated: checkout.orderCreated,
   }),
 });

@@ -4,24 +4,24 @@ import { atom } from 'jotai/vanilla';
 import { useId } from 'react';
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
 import { createFormModel, formAtom, holoForm } from 'jotai-holo/rhf';
-import {
-  Controller,
-  useFormContext,
-  useFormState,
-  type Control,
-} from 'react-hook-form';
+import { Controller, useFormContext, useFormState } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import {
+  EmailPreviewView,
+  SubmitView,
+  SavedMessageView,
+} from './form-views.js';
 
 // #region form
-// #region contact-model
+// #region notifications-model
 const schema = z.object({
   email: z.email(),
-  channel: z.enum(['email', 'phone']),
+  channel: z.enum(['email', 'in-app']),
 });
-type Values = z.infer<typeof schema>;
+export type Values = z.infer<typeof schema>;
 
-const $$contact = pipe(
+const $$notifications = pipe(
   createFormModel({
     initial: { email: '', channel: 'email' as const },
     options: (initial) => ({
@@ -46,7 +46,7 @@ const $$contact = pipe(
   modelRegistry(),
 );
 
-// #endregion contact-model
+// #endregion notifications-model
 
 function EmailField() {
   const { t } = useLingui();
@@ -61,7 +61,7 @@ function EmailField() {
         <input
           type="email"
           autoComplete="email"
-          placeholder="name@company.com"
+          placeholder="player@example.com"
           aria-invalid={!!errors.email}
           aria-describedby={errors.email ? errorId : undefined}
           {...register('email')}
@@ -86,10 +86,10 @@ function ChannelField() {
       control={control}
       render={({ field }) => (
         <label>
-          {t`Contact channel`}
+          {t`Notification channel`}
           <select {...field}>
             <option value="email">{t`Email`}</option>
-            <option value="phone">{t`Phone`}</option>
+            <option value="in-app">{t`In-app`}</option>
           </select>
         </label>
       )}
@@ -97,7 +97,7 @@ function ChannelField() {
   );
 }
 
-function ContactView({ onSave }: { onSave: () => Promise<void> }) {
+function NotificationSettingsView({ onSave }: { onSave: () => Promise<void> }) {
   return (
     <form
       className="demo-form"
@@ -113,118 +113,85 @@ function ContactView({ onSave }: { onSave: () => Promise<void> }) {
   );
 }
 
-// #region contact-editor
+// #region notifications-editor
 const Editor = holoForm({
-  form: ({ model: $$contact }) => $$contact.form,
+  form: ({ model: $$notifications }) => $$notifications.form,
   models: {
-    model: (props: { contactId: string }) =>
-      $$contact({ key: [props.contactId] }),
+    model: (props: { playerId: string }) =>
+      $$notifications({ key: [props.playerId] }),
   },
-  view: ContactView,
-  write: ({ model: $$contact }) => ({ onSave: $$contact.save }),
+  view: NotificationSettingsView,
+  write: ({ model: $$notifications }) => ({ onSave: $$notifications.save }),
 });
 
-// #endregion contact-editor
+// #endregion notifications-editor
 
-// #region contact-save-panel
-// #region contact-email-preview
-function EmailPreviewView({ email }: { email: string }) {
-  const { t } = useLingui();
-
-  return <small>{email || t`No email yet`}</small>;
-}
+// #region notifications-save-panel
+// #region notifications-email-preview
 
 const EmailPreview = holo({
   models: {
-    model: (props: { contactId: string }) =>
-      $$contact({ key: [props.contactId] }),
+    model: (props: { playerId: string }) =>
+      $$notifications({ key: [props.playerId] }),
   },
   view: EmailPreviewView,
-  read: ({ model: $$contact }) => ({ email: $$contact.$email }),
+  read: ({ model: $$notifications }) => ({ email: $$notifications.$email }),
 });
 
-// #endregion contact-email-preview
-
-function SubmitView({
-  control,
-  onSave,
-}: {
-  control: Control<Values>;
-  onSave: () => Promise<void>;
-}) {
-  const { t } = useLingui();
-
-  const { isSubmitting } = useFormState({ control });
-
-  return (
-    <button disabled={isSubmitting} onClick={() => void onSave()}>
-      {t`Save contact`}
-    </button>
-  );
-}
+// #endregion notifications-email-preview
 
 const Submit = holo({
   models: {
-    model: (props: { contactId: string }) =>
-      $$contact({ key: [props.contactId] }),
+    model: (props: { playerId: string }) =>
+      $$notifications({ key: [props.playerId] }),
   },
   view: SubmitView,
-  read: ({ model: $$contact }) => ({
-    control: $$contact.$control,
+  read: ({ model: $$notifications }) => ({
+    control: $$notifications.$control,
   }),
-  write: ({ model: $$contact }) => ({ onSave: $$contact.save }),
+  write: ({ model: $$notifications }) => ({ onSave: $$notifications.save }),
 });
-
-function SavedMessageView({ saved }: { saved: string }) {
-  const { t } = useLingui();
-
-  return saved ? (
-    <output>
-      {t`Saved:`} {saved}
-    </output>
-  ) : null;
-}
 
 const SavedMessage = holo({
   models: {
-    model: (props: { contactId: string }) =>
-      $$contact({ key: [props.contactId] }),
+    model: (props: { playerId: string }) =>
+      $$notifications({ key: [props.playerId] }),
   },
   view: SavedMessageView,
-  read: ({ model: $$contact }) => ({ saved: $$contact.$saved }),
+  read: ({ model: $$notifications }) => ({ saved: $$notifications.$saved }),
 });
 
-// #region contact-save-layout
-function SavePanel({ contactId }: { contactId: string }) {
+// #region notifications-save-layout
+function SavePanel({ playerId }: { playerId: string }) {
   const { t } = useLingui();
 
   return (
     <aside className="demo-form demo-save-panel">
       <span className="demo-eyebrow">{t`External save panel`}</span>
-      <EmailPreview contactId={contactId} />
-      <Submit contactId={contactId} />
-      <SavedMessage contactId={contactId} />
+      <EmailPreview playerId={playerId} />
+      <Submit playerId={playerId} />
+      <SavedMessage playerId={playerId} />
     </aside>
   );
 }
 
-// #endregion contact-save-layout
-// #endregion contact-save-panel
+// #endregion notifications-save-layout
+// #endregion notifications-save-panel
 
-function ContactsDemo() {
+function NotificationSettingsDemo() {
   const { t } = useLingui();
 
   return (
     <div className="demo-instances">
-      {['Ada', 'Grace'].map((id) => {
+      {['Nova', 'Pixel'].map((id) => {
         return (
-          <section key={id} className="demo-contact-card">
+          <section key={id} className="demo-player-card">
             <header>
               <strong>{id}</strong>
-              <span className="demo-eyebrow">{t`Contact preferences`}</span>
+              <span className="demo-eyebrow">{t`Player notifications`}</span>
             </header>
-            <Editor contactId={id} />
-            <SavePanel contactId={id} />
+            <Editor playerId={id} />
+            <SavePanel playerId={id} />
           </section>
         );
       })}
@@ -233,4 +200,4 @@ function ContactsDemo() {
 }
 // #endregion form
 
-export default ContactsDemo;
+export default NotificationSettingsDemo;

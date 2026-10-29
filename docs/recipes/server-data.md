@@ -8,11 +8,11 @@ If only React needs the data, start with native Query and RHF hooks. Use their a
 
 Use the same QueryClient in TanStack's provider and the Jotai store. Native hooks and Query models then read the same server cache. Create the client and store per request in an SSR application.
 
-<<< @/../examples/recipes/proposal-setup.tsx#setup
+<<< @/../examples/recipes/gift-order-setup.tsx#setup
 
 ## A model working with server data
 
-A profile editor needs an initial profile, but background refetches must not erase its work. Give the business model an input command, then connect a Query projection only while the model is empty.
+A player profile editor needs an initial profile, but background refetches must not erase its work. Give the business model an input command, then connect a Query projection only while the model is empty.
 
 [Follow the profile workflow](/recipes/profile-composition#use-existing-data-before-loading). It shows how the first accepted value disconnects the Query dependency and how an existing profile avoids loading altogether.
 
@@ -33,17 +33,17 @@ Keep two identities separate:
 
 Wait for the initial data before creating an editable form. RHF receives a snapshot as defaultValues; later refetches do not replace the draft.
 
-The following proposal form uses a Zod resolver and includes editorId in its model key. Two tabs can share server data while keeping independent controls.
+The following group-gift form edits the planned copies and gift message. It uses a Zod resolver and includes editorId in its model key. Two tabs can share server data while keeping independent controls.
 
-<<< @/../examples/recipes/proposal-form.tsx#form-model
+<<< @/../examples/recipes/gift-order-form.tsx#form-model
 
-<<< @/../examples/recipes/proposal-form.tsx#form-view
+<<< @/../examples/recipes/gift-order-form.tsx#form-view
 
-<<< @/../examples/recipes/proposal-form.tsx#form-binding
+<<< @/../examples/recipes/gift-order-form.tsx#form-binding
 
 The loader mounts the form only after data is available:
 
-<<< @/../examples/recipes/proposal-form.tsx#form-loading
+<<< @/../examples/recipes/gift-order-form.tsx#form-loading
 
 Use native reset when the user explicitly discards edits or reloads values. Mount one holoForm root per control; an external toolbar uses ordinary holo with the same model selection. See [RHF forms](/topics/rhf-models) for sharing the control.
 

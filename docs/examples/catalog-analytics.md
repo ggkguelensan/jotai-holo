@@ -1,6 +1,6 @@
 # Catalog analytics
 
-The search form, product list and product details each connect to the same $$search model through their own holo. Each View subscribes only to the values it displays. Analytics is attached once to the model: additional View owners share the connection, so one fact produces one delivery per selected engine. Removing one View leaves observation active until the final owner releases it.
+The search form, game list and game details each connect to the same $$search model through their own holo. Each View subscribes only to the values it displays. Analytics is attached once to the model: additional View owners share the connection, so one fact produces one delivery per selected engine. Removing one View leaves observation active until the final owner releases it.
 
 ## Files
 
@@ -15,7 +15,7 @@ The search form, product list and product details each connect to the same $$sea
 
 ## Connected Views
 
-<Demo kind="analytics">
+<Demo kind="analytics" :files="['analytics-views.tsx']">
 
 <<< @/../examples/docs/analytics.tsx#analytics
 

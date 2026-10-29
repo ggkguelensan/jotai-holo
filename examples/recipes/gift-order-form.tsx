@@ -6,15 +6,15 @@ import { createFormModel, holoForm } from 'jotai-holo/rhf';
 import {
   draftSchema,
   toDraft,
-  type Proposal,
-  type ProposalDraft,
-} from './proposal-api.js';
-import { createProposalModel } from './proposal-model.js';
+  type GiftOrder,
+  type GiftOrderDraft,
+} from './gift-order-api.js';
+import { createGiftOrderModel } from './gift-order-model.js';
 
 // #region form-model
-function createProposalFormModel(proposal: Proposal) {
-  const defaults = toDraft(proposal);
-  const createForm = createFormModel<ProposalDraft>({
+function createGiftOrderFormModel(giftOrder: GiftOrder) {
+  const defaults = toDraft(giftOrder);
+  const createForm = createFormModel<GiftOrderDraft>({
     initial: defaults,
     options: (values) => ({
       defaultValues: values,
@@ -26,45 +26,45 @@ function createProposalFormModel(proposal: Proposal) {
   return createForm(defaults);
 }
 
-const $$proposalForms = pipe(createProposalFormModel, modelRegistry());
+const $$giftOrderForms = pipe(createGiftOrderFormModel, modelRegistry());
 // #endregion form-model
 
 // #region form-view
-function SeatsField() {
-  const { register, control } = useFormContext<ProposalDraft>();
-  const { errors } = useFormState({ control, name: 'seats', exact: true });
+function CopiesField() {
+  const { register, control } = useFormContext<GiftOrderDraft>();
+  const { errors } = useFormState({ control, name: 'copies', exact: true });
 
   return (
     <>
       <label>
-        Seats
+        Copies
         <input
           type="number"
-          {...register('seats', {
+          {...register('copies', {
             valueAsNumber: true,
           })}
         />
       </label>
-      {errors.seats && <p role="alert">Enter at least one seat.</p>}
+      {errors.copies && <p role="alert">Enter at least one copy.</p>}
     </>
   );
 }
 
 function CommentField() {
-  const { register } = useFormContext<ProposalDraft>();
+  const { register } = useFormContext<GiftOrderDraft>();
 
   return (
     <label>
-      Customer comment
+      Gift message
       <textarea {...register('comment')} />
     </label>
   );
 }
 
-function ProposalFormView() {
+function GiftOrderFormView() {
   return (
     <form onSubmit={(event) => event.preventDefault()}>
-      <SeatsField />
+      <CopiesField />
       <CommentField />
     </form>
   );
@@ -72,48 +72,48 @@ function ProposalFormView() {
 // #endregion form-view
 
 // #region form-binding
-const ProposalForm = holoForm({
+const GiftOrderForm = holoForm({
   models: {
-    editor: (props: { proposal: Proposal; editorId: string }) =>
-      $$proposalForms({
-        key: ['proposal-form', props.proposal.id, props.editorId],
-        initial: props.proposal,
+    editor: (props: { giftOrder: GiftOrder; editorId: string }) =>
+      $$giftOrderForms({
+        key: ['gift-order-form', props.giftOrder.id, props.editorId],
+        initial: props.giftOrder,
       }),
   },
   form: ({ editor }) => editor.form,
-  view: ProposalFormView,
+  view: GiftOrderFormView,
 });
 // #endregion form-binding
 
 // #region form-loading
 function FormLoaderView({
-  proposal,
+  giftOrder,
   error,
   editorId,
 }: {
-  proposal: Proposal | undefined;
+  giftOrder: GiftOrder | undefined;
   error: Error | null;
   editorId: string;
 }) {
-  if (!proposal) {
+  if (!giftOrder) {
     return (
       <p role={error ? 'alert' : 'status'}>
-        {error ? error.message : 'Loading proposal…'}
+        {error ? error.message : 'Loading gift order…'}
       </p>
     );
   }
   return (
     <>
       {error && <p role="alert">{error.message}</p>}
-      <ProposalForm proposal={proposal} editorId={editorId} />
+      <GiftOrderForm giftOrder={giftOrder} editorId={editorId} />
     </>
   );
 }
 
-const $$source = createProposalModel({ proposalId: 'P-1042' });
+const $$source = createGiftOrderModel({ giftOrderId: 'P-1042' });
 
-export const ServerProposalForm = holo({
+export const ServerGiftOrderForm = holo({
   view: FormLoaderView,
-  read: { proposal: $$source.$proposal, error: $$source.$error },
+  read: { giftOrder: $$source.$giftOrder, error: $$source.$error },
 });
 // #endregion form-loading

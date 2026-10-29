@@ -17,12 +17,14 @@ test('runnable basic and effect examples respond to their rendered controls', as
     </Provider>,
   );
   const buttons = h.container.querySelectorAll('button');
+  await act(async () => buttons[0]?.click());
+  expect(h.container.querySelector('output')?.textContent).toBe('0 × 2 = 0');
   await act(async () => {
     buttons[1]?.click();
     buttons[2]?.click();
   });
   expect(h.container.textContent).toContain('1 × 2 = 2');
-  expect(h.container.textContent).toContain('Observed count: 1');
+  expect(h.container.textContent).toContain('Reward tokens: 1');
 });
 
 test('keyed model example shares two Views and isolates the third', async () => {
@@ -57,16 +59,16 @@ test('shared model effect survives one owner and stops after the final owner', a
   await act(async () => {
     store.set(model.increment);
   });
-  expect(store.get(model.$message)).toBe('Observed count: 1');
+  expect(store.get(model.$message)).toBe('Reward tokens: 1');
   await render(false);
   await act(async () => {
     store.set(model.increment);
   });
-  expect(store.get(model.$message)).toBe('Observed count: 2');
+  expect(store.get(model.$message)).toBe('Reward tokens: 2');
   await h.unmount();
   store.set(model.increment);
   expect(store.get(model.$count)).toBe(3);
-  expect(store.get(model.$message)).toBe('Observed count: 2');
+  expect(store.get(model.$message)).toBe('Reward tokens: 2');
 });
 
 test('operator example connects events and updates projected list and branch state', async () => {
@@ -76,12 +78,12 @@ test('operator example connects events and updates projected list and branch sta
       <OperatorsExample />
     </Provider>,
   );
-  expect(h.container.textContent).toContain('No users yet.');
+  expect(h.container.textContent).toContain('No friends yet.');
   await act(async () => h.container.querySelector('button')!.click());
   await act(async () => h.container.querySelector('button')!.click());
-  expect(h.container.textContent).toContain('Users: 2');
+  expect(h.container.textContent).toContain('Friends: 2');
   expect([...h.container.querySelectorAll('li')].map((node) => node.textContent)).toEqual([
-    'User 1',
-    'User 2',
+    'Player 1',
+    'Player 2',
   ]);
 });

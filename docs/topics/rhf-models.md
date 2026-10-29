@@ -1,32 +1,32 @@
 # React Hook Form
 
-A contact editor and an external Save panel need the same field values, validation and submission. A second contact needs a separate form. Let a model own one native RHF control, then let both widgets select the same editing instance.
+A player notification-preferences editor and an external Save panel need the same field values, validation and submission. A second player needs a separate form. Let a model own one native RHF control, then let both widgets select the same editing instance.
 
-[Try the contact forms](/examples/contact-forms). Enter an email for Ada: her Save panel updates, while Grace's form stays unchanged.
+[Try the notification forms](/examples/player-notifications). Enter an email for Nova: her Save panel updates, while Pixel's form stays unchanged.
 
 ## Create one native form per instance {#createformmodel}
 
 `createFormModel` creates the form and lets you expose selected atoms and commands. The resolver remains the native RHF resolver; there is no second validation engine.
 
-<<< @/../examples/docs/form.tsx#contact-model
+<<< @/../examples/docs/form.tsx#notifications-model
 
 Here `$email` projects a field for the external panel. `save` returns `handleSubmit`'s Promise, so RHF can keep submission state until the handler finishes. In a server-backed form, await the mutation inside that handler. A fire-and-forget event cannot represent completion of the save.
 
 ## Keep the editor's RHF components {#holoform}
 
-ContactView composes EmailField and ChannelField. Those fields keep native `useFormContext`, `register` and `Controller`; field errors use a scoped `useFormState`. `holoForm` supplies their shared control:
+NotificationSettingsView composes EmailField and ChannelField. Those fields keep native `useFormContext`, `register` and `Controller`; field errors use a scoped `useFormState`. `holoForm` supplies their shared control:
 
-<<< @/../examples/docs/form.tsx#contact-editor
+<<< @/../examples/docs/form.tsx#notifications-editor
 
-SavePanel composes three connected children: EmailPreview reads `$email`, Submit invokes `save` and observes native `isSubmitting`, and SavedMessage displays the accepted email. Each selects the same contact key:
+SavePanel composes three connected children: EmailPreview reads `$email`, Submit invokes `save` and observes native `isSubmitting`, and SavedMessage displays the accepted email. Each selects the same player-preferences key:
 
-<<< @/../examples/docs/form.tsx#contact-save-layout
+<<< @/../examples/docs/form.tsx#notifications-save-layout
 
 For example, the email preview subscribes only to its field projection:
 
-<<< @/../examples/docs/form.tsx#contact-email-preview
+<<< @/../examples/docs/form.tsx#notifications-email-preview
 
-The editor keeps its field markup and third-party RHF components. Another contact ID selects an independent form.
+The editor keeps its field markup and third-party RHF components. Another player ID selects an independent form.
 
 ## Project only what the model needs {#formatom}
 

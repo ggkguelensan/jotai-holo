@@ -1,51 +1,45 @@
 import { useLingui } from '@lingui/react/macro';
-import { and, eq, holo, or, some, stateAtom, sum } from 'jotai-holo';
+import { holo, ion, stateAtom } from 'jotai-holo';
+import {
+  TotalView,
+  TermsView,
+  ExpensiveItemView,
+  OrderAvailabilityView,
+  PaymentMethodView,
+} from './operators-views.js';
 
 // #region operators
-const $goods = stateAtom(80);
-const $delivery = stateAtom(15);
-const $deliveryMethod = stateAtom('courier');
+export type PaymentMethod = '' | 'wallet' | 'card';
+
+const $gamePrice = stateAtom(80);
+const $dlcPrice = stateAtom(15);
+const $paymentMethod = stateAtom<PaymentMethod>('');
 const $accepted = stateAtom(false);
 
-const $total = sum({ goods: $goods, delivery: $delivery });
+const $total = ion(
+  { game: $gamePrice, dlc: $dlcPrice },
+  ({ game, dlc }) => game + dlc,
+);
 
-const $isCourier = eq($deliveryMethod, 'courier');
+const $canOrder = ion(
+  { method: $paymentMethod, accepted: $accepted },
+  ({ method, accepted }) => method !== '' && accepted,
+);
 
-const $hasDelivery = or([$isCourier, eq($deliveryMethod, 'pickup')]);
-
-const $canOrder = and([$hasDelivery, $accepted]);
-
-const $hasSurcharge = some([$goods, $delivery], (amount) => amount > 100);
-
-function TotalView({ total }: { total: number }) {
-  return <output className="demo-number">${total}</output>;
-}
+const $hasExpensiveItem = ion([$gamePrice, $dlcPrice], (prices) =>
+  prices.some((price) => price > 70),
+);
 
 const Total = holo({
   view: TotalView,
   read: { total: $total },
 });
 
-function TermsView({
-  accepted,
-  onAccept,
-}: {
-  accepted: boolean;
-  onAccept: (value: boolean) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <label>
-      <input
-        type="checkbox"
-        checked={accepted}
-        onChange={(e) => onAccept(e.target.checked)}
-      />{' '}
-      {t`I accept the delivery terms`}
-    </label>
-  );
-}
+const PaymentMethod = holo({
+  view: PaymentMethodView,
+  read: { paymentMethod: $paymentMethod },
+  write: { onPaymentMethod: $paymentMethod },
+});
 
 const Terms = holo({
   view: TermsView,
@@ -53,25 +47,13 @@ const Terms = holo({
   write: { onAccept: $accepted },
 });
 
-function SurchargeView({ surcharge }: { surcharge: boolean }) {
-  const { t } = useLingui();
-
-  return <small>{surcharge ? t`Surcharge applies` : t`No surcharge`}</small>;
-}
-
-const Surcharge = holo({
-  view: SurchargeView,
-  read: { surcharge: $hasSurcharge },
+const ExpensiveItem = holo({
+  view: ExpensiveItemView,
+  read: { hasExpensiveItem: $hasExpensiveItem },
 });
 
-function OrderButtonView({ canOrder }: { canOrder: boolean }) {
-  const { t } = useLingui();
-
-  return <button disabled={!canOrder}>{t`Place order`}</button>;
-}
-
-const OrderButton = holo({
-  view: OrderButtonView,
+const OrderAvailability = holo({
+  view: OrderAvailabilityView,
   read: { canOrder: $canOrder },
 });
 
@@ -80,12 +62,13 @@ function OrderReview() {
 
   return (
     <div className="demo-form">
-      <span className="demo-eyebrow">{t`Order review · courier delivery`}</span>
-      <p>{t`Goods $80 + delivery $15`}</p>
+      <span className="demo-eyebrow">{t`Review game purchase`}</span>
+      <p>{t`Game $80 + DLC $15`}</p>
       <Total />
+      <PaymentMethod />
       <Terms />
-      <Surcharge />
-      <OrderButton />
+      <ExpensiveItem />
+      <OrderAvailability />
     </div>
   );
 }

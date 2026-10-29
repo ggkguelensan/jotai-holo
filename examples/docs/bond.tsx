@@ -1,6 +1,11 @@
 import { useLingui } from '@lingui/react/macro';
 import { modelRegistry, pipe } from 'jotai-holo/model';
 import { actionAtom, bond, eventAtom, holo, stateAtom } from 'jotai-holo';
+import {
+  ReceiptOptionView,
+  SubmitOrderView,
+  ReceiptView,
+} from './bond-views.js';
 
 // #region bond
 function createCheckoutModel() {
@@ -28,27 +33,6 @@ function createCheckoutModel() {
 
 export const $$checkout = pipe(createCheckoutModel, modelRegistry());
 
-function ReceiptOptionView({
-  enabled,
-  onEnabled,
-}: {
-  enabled: boolean;
-  onEnabled: (value: boolean) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <label className="demo-checkbox">
-      <input
-        type="checkbox"
-        checked={enabled}
-        onChange={(e) => onEnabled(e.target.checked)}
-      />
-      {t`Generate receipt`}
-    </label>
-  );
-}
-
 const ReceiptOption = holo({
   models: { checkout: $$checkout },
   view: ReceiptOptionView,
@@ -56,33 +40,11 @@ const ReceiptOption = holo({
   write: ({ checkout }) => ({ onEnabled: checkout.$enabled }),
 });
 
-function SubmitOrderView({ onSubmit }: { onSubmit: () => void }) {
-  const { t } = useLingui();
-
-  return (
-    <button type="button" onClick={() => onSubmit()}>
-      {t`Submit demo order`}
-    </button>
-  );
-}
-
 const SubmitOrder = holo({
   models: { checkout: $$checkout },
   view: SubmitOrderView,
   write: ({ checkout }) => ({ onSubmit: checkout.submit }),
 });
-
-function ReceiptView({ message }: { message: number | null }) {
-  const { t } = useLingui();
-
-  return (
-    <output aria-live="polite">
-      {message === null
-        ? t`No receipts yet`
-        : `${t`Receipt for order`} #${message}`}
-    </output>
-  );
-}
 
 const Receipt = holo({
   models: { checkout: $$checkout },

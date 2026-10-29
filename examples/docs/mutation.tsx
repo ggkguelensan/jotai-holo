@@ -3,68 +3,52 @@ import { QueryClient, mutationOptions } from '@tanstack/react-query';
 import type { createStore } from 'jotai';
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
 import { createMutationModel, queryClientAtom } from 'jotai-holo/query';
+import {
+  DiscountView,
+  CampaignNoteView,
+  SaveControlsView,
+  SaveErrorView,
+  SavedCampaignView,
+} from './mutation-views.js';
 
 // #region mutation
 const $discount = stateAtom(10);
-const $comment = stateAtom('');
+const $campaignNote = stateAtom('');
 
-type ProposalInput = {
-  id: string;
+export type CampaignInput = {
+  gameId: string;
   discount: number;
-  comment: string;
+  note: string;
 };
 
-// Local server simulation. A real factory calls your API here.
-const saveProposalMO = () =>
+// Demo seller policy; a real options factory calls the campaign API.
+const saveCampaignMO = () =>
   mutationOptions({
-    mutationKey: ['proposals', 'save'],
-    mutationFn: async (input: ProposalInput) => {
+    mutationKey: ['seller', 'campaigns', 'save'],
+    mutationFn: async (input: CampaignInput) => {
       await new Promise((resolve) => setTimeout(resolve, 300));
-      if (input.discount > 25) throw new Error('approval-required');
+      if (input.discount > 25) throw new Error('campaign-discount-limit');
       return input;
     },
   });
 
-const $$proposalMutation = createMutationModel({
-  mutation: saveProposalMO,
+const $$campaignMutation = createMutationModel({
+  mutation: saveCampaignMO,
 
   prism: {
-    $proposal: (result) => result.data,
+    $campaign: (result) => result.data,
     $pending: (result) => result.isPending,
     $error: (result) => result.error,
   },
 });
 
 const save = actionAtom((get, set) =>
-  set($$proposalMutation.mutate, {
-    id: 'P-1042',
+  set($$campaignMutation.mutate, {
+    gameId: 'starfall',
     discount: get($discount),
-    comment: get($comment),
+    note: get($campaignNote),
   }),
 );
-
-function DiscountView({
-  discount,
-  onDiscount,
-}: {
-  discount: number;
-  onDiscount: (value: number) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <label>
-      {t`Discount, %`}
-      <input
-        type="number"
-        min="0"
-        max="50"
-        value={discount}
-        onChange={(event) => onDiscount(Number(event.target.value))}
-      />
-    </label>
-  );
-}
 
 const Discount = holo({
   view: DiscountView,
@@ -72,92 +56,29 @@ const Discount = holo({
   write: { onDiscount: $discount },
 });
 
-function CommentView({
-  comment,
-  onComment,
-}: {
-  comment: string;
-  onComment: (value: string) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <label>
-      {t`Comment for the customer`}
-      <input
-        value={comment}
-        onChange={(event) => onComment(event.target.value)}
-      />
-    </label>
-  );
-}
-
-const Comment = holo({
-  view: CommentView,
-  read: { comment: $comment },
-  write: { onComment: $comment },
+const CampaignNote = holo({
+  view: CampaignNoteView,
+  read: { note: $campaignNote },
+  write: { onNote: $campaignNote },
 });
-
-function SaveControlsView({
-  pending,
-  onReset,
-}: {
-  pending: boolean;
-  onReset: () => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <div className="demo-controls">
-      <button type="submit" disabled={pending}>
-        {pending ? t`Saving proposal…` : t`Save proposal`}
-      </button>
-      <button type="button" onClick={onReset}>
-        {t`Clear feedback`}
-      </button>
-    </div>
-  );
-}
 
 const SaveControls = holo({
   view: SaveControlsView,
-  read: { pending: $$proposalMutation.$pending },
-  write: { onReset: $$proposalMutation.reset },
+  read: { pending: $$campaignMutation.$pending },
+  write: { onReset: $$campaignMutation.reset },
 });
-
-function SaveErrorView({ error }: { error: Error | null }) {
-  const { t } = useLingui();
-
-  return error ? (
-    <p role="alert">{t`Discounts above 25% need approval.`}</p>
-  ) : null;
-}
 
 const SaveError = holo({
   view: SaveErrorView,
-  read: { error: $$proposalMutation.$error },
+  read: { error: $$campaignMutation.$error },
 });
 
-function SavedProposalView({
-  proposal,
-}: {
-  proposal: ProposalInput | undefined;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <output aria-live="polite">
-      {proposal && `${t`Saved discount`}: ${proposal.discount}%`}
-    </output>
-  );
-}
-
-const SavedProposal = holo({
-  view: SavedProposalView,
-  read: { proposal: $$proposalMutation.$proposal },
+const SavedCampaign = holo({
+  view: SavedCampaignView,
+  read: { campaign: $$campaignMutation.$campaign },
 });
 
-function ProposalView({ onSave }: { onSave: () => Promise<ProposalInput> }) {
+function CampaignView({ onSave }: { onSave: () => Promise<CampaignInput> }) {
   const { t } = useLingui();
 
   return (
@@ -169,26 +90,26 @@ function ProposalView({ onSave }: { onSave: () => Promise<ProposalInput> }) {
         void onSave().catch(() => undefined);
       }}
     >
-      <span className="demo-eyebrow">{t`Proposal P-1042`}</span>
+      <span className="demo-eyebrow">{t`Seller tools · Starfall sale`}</span>
       <Discount />
-      <Comment />
+      <CampaignNote />
       <p className="demo-note">
-        {t`Try a discount above 25% to see a server rejection.`}
+        {t`Local demo: try more than 25% to see the campaign rejected.`}
       </p>
       <SaveControls />
       <SaveError />
-      <SavedProposal />
+      <SavedCampaign />
     </form>
   );
 }
 
-const Proposal = holo({
-  view: ProposalView,
+const Campaign = holo({
+  view: CampaignView,
   write: { onSave: save },
 });
 // #endregion mutation
 
-export default Proposal;
+export default Campaign;
 
 export function setup(store: ReturnType<typeof createStore>) {
   store.set(

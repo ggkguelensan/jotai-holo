@@ -120,7 +120,7 @@ export const Search = holo({
   read: { query: $query },
   input: { term: inputChanged },
 });
-// <Search term="jotai" />
+// <Search term="starfall" />
 // #endregion input
 
 // #region list

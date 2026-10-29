@@ -1,8 +1,8 @@
 # TanStack Query
 
-A profile editor needs server values to seed its business model, then a mutation to save the draft. QueryClient owns the server cache. The business model owns editing decisions. Query and mutation models let the atom graph participate in that workflow.
+A player profile editor needs server values to seed its business model, then a mutation to save the draft. QueryClient owns the server cache. The business model owns editing decisions. Query and mutation models let the atom graph participate in that workflow.
 
-[Try the product catalog](/examples/product-catalog) or follow the complete [profile workflow](/recipes/profile-composition).
+[Try the game catalog](/examples/game-catalog) or follow the complete [profile workflow](/recipes/profile-composition).
 
 ## Read server data in the atom graph {#createquerymodel}
 

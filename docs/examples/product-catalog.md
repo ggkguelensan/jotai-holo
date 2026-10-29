@@ -1,14 +1,12 @@
-# Product catalog
+---
+search: false
+redirect: /examples/game-catalog
+---
 
-Choose a product and watch loading change to its card. Inspect the code for the empty and error branches too. Query projections feed the atom graph; holoMatch chooses which View to display.
+# Page moved
 
-<Demo kind="query">
+<PageMoved>
 
-<<< @/../examples/docs/query.tsx#query
+Continue with [the example](/examples/game-catalog).
 
-</Demo>
-
-## Continue reading
-
-- [How it works](/topics/tanstack-models)
-- [API reference](/reference/createQueryModel)
+</PageMoved>

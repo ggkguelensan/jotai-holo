@@ -19,7 +19,7 @@ import {createElement as h,useEffect,useMemo,Suspense} from 'react';
 import {createRoot} from 'react-dom/client';
 import {flushSync} from 'react-dom';
 import {atom,createStore,Provider,useAtomValue,useSetAtom,useStore} from 'jotai';
-import {holo,useImperativeHolo,eventAtom} from '../dist/index.js';
+import {holo,useHoloEvents,eventAtom} from '../dist/index.js';
 import {pipe,modelRegistry,modelConnection} from '../dist/model.js';
 const store=createStore();const $shared=atom('shared');let refs;let active=0;let subscriptions=0;
 function createRuntime(){
@@ -32,11 +32,11 @@ function createRuntime(){
 function definition(retainTime){return pipe(createRuntime,modelRegistry({retainTime}),modelConnection(()=>{active++;return()=>{active--}}))}
 const finite=definition(0),permanent=definition(Infinity);
 function View({count,increment}){useEffect(()=>{refs.callbacks.push(new WeakRef(increment))},[increment]);return h('button',{onClick:increment},count)}
-function ImperativeView({imperative,...props}){useImperativeHolo(imperative,{changed(){props.increment()}});useEffect(()=>{refs.handles.push(new WeakRef(imperative.current))},[imperative]);return h(View,props)}
-const Modern=holo({models:{counter:props=>finite({key:[props.instanceKey]})},view:ImperativeView,read:({counter})=>({shared:$shared,count:counter.$count}),write:({counter})=>({increment:counter.increment}),imperative:({counter})=>({changed:counter.changed})});
-const Pending=holo({models:{counter:props=>finite({key:[props.instanceKey]})},view:ImperativeView,read:({counter})=>({shared:$shared,count:counter.$pending}),write:({counter})=>({increment:counter.increment}),imperative:({counter})=>({changed:counter.changed})});
-const Default=holo({models:{counter:permanent},view:ImperativeView,read:({counter})=>({shared:$shared,count:counter.$count}),write:({counter})=>({increment:counter.increment}),imperative:({counter})=>({changed:counter.changed})});
-const DefaultPending=holo({models:{counter:permanent},view:ImperativeView,read:({counter})=>({shared:$shared,count:counter.$pending}),write:({counter})=>({increment:counter.increment}),imperative:({counter})=>({changed:counter.changed})});
+function ImperativeView({events,...props}){useHoloEvents(events,{changed(){props.increment()}});useEffect(()=>{refs.handles.push(new WeakRef(events.current))},[events]);return h(View,props)}
+const Modern=holo({models:{counter:props=>finite({key:[props.instanceKey]})},view:ImperativeView,read:({counter})=>({shared:$shared,count:counter.$count}),write:({counter})=>({increment:counter.increment}),events:({counter})=>({changed:counter.changed})});
+const Pending=holo({models:{counter:props=>finite({key:[props.instanceKey]})},view:ImperativeView,read:({counter})=>({shared:$shared,count:counter.$pending}),write:({counter})=>({increment:counter.increment}),events:({counter})=>({changed:counter.changed})});
+const Default=holo({models:{counter:permanent},view:ImperativeView,read:({counter})=>({shared:$shared,count:counter.$count}),write:({counter})=>({increment:counter.increment}),events:({counter})=>({changed:counter.changed})});
+const DefaultPending=holo({models:{counter:permanent},view:ImperativeView,read:({counter})=>({shared:$shared,count:counter.$pending}),write:({counter})=>({increment:counter.increment}),events:({counter})=>({changed:counter.changed})});
 function Native({pending,instanceKey}){const current=useStore();const selected=useMemo(()=>finite({key:[instanceKey]}),[instanceKey]);const model=useAtomValue(selected);const shared=useAtomValue($shared);const count=useAtomValue(pending?model.$pending:model.$count);const increment=useSetAtom(model.increment);useEffect(()=>finite.acquire(current,{key:[instanceKey]}).release,[current,instanceKey]);return h(View,{count,increment,shared})}
 const tick=()=>new Promise(r=>setTimeout(r,0));window.samples={};
 window.run=async(mode,cycles)=>{

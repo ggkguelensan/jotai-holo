@@ -27,7 +27,7 @@ import { acquireResources, type Resource } from './resource.js';
 import type { ActionSource } from './action-source.js';
 import { isActionSource, actionSource } from './action-source.js';
 import { subscribeAction, enqueueAction } from './event-dispatch.js';
-import type { HoloImperative } from './imperative.js';
+import type { HoloEvents } from './holo-events.js';
 import type { BindingKeys, OwnProps } from './holo-types.js';
 
 type PropsOf<View extends ElementType> = ComponentPropsWithRef<View>;
@@ -49,15 +49,15 @@ type Callable<Value> =
   NonNullable<Value> extends (...args: infer Args) => infer Result
     ? WritableAtom<unknown, Args, Result>
     : never;
-type HandleOf<Props> = Props extends { imperative: HoloImperative<infer Handle> } ? Handle : {};
-type ImperativeMap<Props> = {
+type HandleOf<Props> = Props extends { events: HoloEvents<infer Handle> } ? Handle : {};
+type EventsMap<Props> = {
   [Key in keyof HandleOf<Props>]: HandleOf<Props>[Key] extends (...args: infer Args) => unknown
     ? ActionSource<Args>
     : never;
 };
 type InputProps<View extends ElementType, R extends PropertyKey, W extends PropertyKey> = OwnProps<
   PropsOf<View>,
-  R | W | 'imperative'
+  R | W | 'events'
 >;
 type InputBindings<Input> = {
   [Key in keyof Input]?: WritableAtom<unknown, [Input[Key]], unknown>;
@@ -74,7 +74,7 @@ export type HoloConfig<
   models?: Sources;
   read?: Bindings<
     {
-      [Key in ReadKeys]: Key extends 'imperative'
+      [Key in ReadKeys]: Key extends 'events'
         ? never
         : Atom<
             | NoInfer<ResolvedProp<PropsOf<View>[Key]>>
@@ -88,7 +88,7 @@ export type HoloConfig<
     Sources
   >;
   static?: {
-    [Key in StaticKeys]: Key extends ReadKeys | WriteKeys | 'imperative'
+    [Key in StaticKeys]: Key extends ReadKeys | WriteKeys | 'events'
       ? never
       : NoInfer<PropsOf<View>[Key]>;
   };
@@ -97,14 +97,14 @@ export type HoloConfig<
       InputProps<NoInfer<View>, NoInfer<ReadKeys>, NoInfer<WriteKeys>> &
         SourceInputs<NoInfer<Sources>>
     > & {
-      [Key in NoInfer<ReadKeys | WriteKeys> | 'imperative']?: never;
+      [Key in NoInfer<ReadKeys | WriteKeys> | 'events']?: never;
     },
     Sources
   >;
   onError?: (error: unknown) => void;
-} & (PropsOf<NoInfer<View>> extends { imperative: HoloImperative<object> }
-  ? { imperative: Bindings<ImperativeMap<PropsOf<NoInfer<View>>>, Sources> }
-  : { imperative?: never });
+} & (PropsOf<NoInfer<View>> extends { events: HoloEvents<object> }
+  ? { events: Bindings<EventsMap<PropsOf<NoInfer<View>>>, Sources> }
+  : { events?: never });
 type Simplify<Value> = { [Key in keyof Value]: Value[Key] };
 export type HoloViewComponent<
   V extends ElementType,
@@ -112,9 +112,7 @@ export type HoloViewComponent<
   R extends PropertyKey,
   W extends PropertyKey,
   P extends PropertyKey,
-> = NamedExoticComponent<
-  Simplify<OwnProps<PropsOf<V>, R | W | P | 'imperative'> & SourceInputs<S>>
->;
+> = NamedExoticComponent<Simplify<OwnProps<PropsOf<V>, R | W | P | 'events'> & SourceInputs<S>>>;
 
 type RecordValue = Record<string, unknown>;
 type RuntimeFactory<Value> = Value | ((models: RecordValue) => Value);
@@ -124,7 +122,7 @@ export type ViewRuntimeConfig = {
   read?: RuntimeFactory<Record<string, Atom<unknown>>>;
   write?: RuntimeFactory<Record<string, WritableAtom<unknown, never[], unknown>>>;
   static?: RecordValue;
-  imperative?: RuntimeFactory<Record<string, ActionSource<never[]>>>;
+  events?: RuntimeFactory<Record<string, ActionSource<never[]>>>;
   input?: RuntimeFactory<Record<string, WritableAtom<unknown, never[], unknown>>>;
   onError?: (error: unknown) => void;
 };
@@ -170,7 +168,7 @@ export function connectView(
       console.error(failure);
     }
   };
-  const hasImperative = config.imperative !== undefined;
+  const hasEvents = config.events !== undefined;
   const staticProps = { ...config.static };
   const useModels = createUseBindingState(sources.map(([key]) => key));
   type Owner = { current?: { lease: object; close(): void } | undefined };
@@ -182,30 +180,30 @@ export function connectView(
     const resolved = (() => {
       const read = resolveFactory(config.read, models, {});
       const write = resolveFactory(config.write, models, {});
-      const imperative = resolveFactory(config.imperative, models, {});
+      const events = resolveFactory(config.events, models, {});
       const keys = new Set<string>();
       for (const section of [read, write, staticProps])
         for (const key of Object.keys(section)) {
-          if (key === 'imperative' || keys.has(key))
+          if (key === 'events' || keys.has(key))
             throw new Error(
               `holo: prop "${key}" is configured in more than one section or reserved.`,
             );
           keys.add(key);
         }
-      for (const source of Object.values(imperative))
+      for (const source of Object.values(events))
         if (!isActionSource(source))
-          throw new TypeError('holo.imperative requires an eventAtom or actionAtom event source.');
+          throw new TypeError('holo.events requires an eventAtom or actionAtom event source.');
       return {
         reads: Object.entries(read),
         write,
-        imperative,
+        events,
         input: Object.entries(resolveFactory(config.input, models, {})),
       };
     })();
     const useValues = createUseBindingState(resolved.reads.map(([key]) => key));
     for (const [name] of resolved.input)
       if (
-        name === 'imperative' ||
+        name === 'events' ||
         resolved.reads.some(([key]) => key === name) ||
         Object.hasOwn(resolved.write, name)
       )
@@ -235,7 +233,7 @@ export function connectView(
       // Install event delivery before model resource activation can publish events.
       useCommitEffect(() => {
         if (owner.current && owner.current.lease !== lease) owner.current.close();
-        const stops = Object.entries(resolved.imperative).map(([key, source]) =>
+        const stops = Object.entries(resolved.events).map(([key, source]) =>
           subscribeAction(store.get, source[actionSource], (args) =>
             enqueueAction(
               store.get,
@@ -243,7 +241,7 @@ export function connectView(
                 const method = handle.current?.[key];
                 if (!handle.current) return;
                 if (typeof method !== 'function') {
-                  report(new TypeError(`holo.imperative: View does not expose method "${key}".`));
+                  report(new TypeError(`holo.events: View does not expose method "${key}".`));
                   return;
                 }
                 try {
@@ -325,7 +323,7 @@ export function connectView(
         ...staticProps,
         ...values,
         ...callbacks,
-        ...(hasImperative ? { imperative: handle } : {}),
+        ...(hasEvents ? { events: handle } : {}),
       });
     });
   }

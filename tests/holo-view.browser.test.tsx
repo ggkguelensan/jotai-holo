@@ -10,13 +10,7 @@ import {
   useContext,
 } from 'react';
 import { expect, test, vi } from 'vitest';
-import {
-  actionAtom,
-  eventAtom,
-  holo,
-  useImperativeHolo,
-  type HoloImperative,
-} from '../src/index.js';
+import { actionAtom, eventAtom, holo, useHoloEvents, type HoloEvents } from '../src/index.js';
 import { createModel } from '../src/model-registry.js';
 import { createHarness, deferred, suspense } from './browser-harness.js';
 
@@ -87,20 +81,20 @@ test('native read/write bindings and two named keyed models isolate state withou
   expect(h.container.textContent).toBe('Counter:0:0:true');
 });
 
-test('imperative delivery uses current committed handlers, isolates stores, repeats payloads and stops on unmount', async () => {
+test('events delivery uses current committed handlers, isolates stores, repeats payloads and stops on unmount', async () => {
   const created = eventAtom<{ id: string }>();
   const handler = vi.fn();
   const renders = vi.fn();
-  function View({ imperative, prefix }: { imperative: HoloImperative<Handle>; prefix: string }) {
+  function View({ events, prefix }: { events: HoloEvents<Handle>; prefix: string }) {
     renders();
-    useImperativeHolo(imperative, {
+    useHoloEvents(events, {
       onCreated({ id }) {
         handler(`${prefix}:${id}`);
       },
     });
     return <span>{prefix}</span>;
   }
-  const Connected = holo({ view: View, imperative: { onCreated: created } });
+  const Connected = holo({ view: View, events: { onCreated: created } });
   const a = createStore();
   const b = createStore();
   const h = createHarness();
@@ -141,8 +135,8 @@ test('events emitted during resource connection and lifecycle mount reach the re
       };
     },
   };
-  function View({ imperative }: { imperative: HoloImperative<Handle> }) {
-    useImperativeHolo(imperative, { onCreated: received });
+  function View({ events }: { events: HoloEvents<Handle> }) {
+    useHoloEvents(events, { onCreated: received });
     return null;
   }
   const $$owner1 = createModel({ create: () => ({}), resources: () => [resource] });
@@ -157,7 +151,7 @@ test('events emitted during resource connection and lifecycle mount reach the re
   const Connected = holo({
     view: View,
     models: { checkout: $$model, _connections: $$owner1, _lifetime: $$owner0 },
-    imperative: ({ checkout }) => ({ onCreated: checkout.created }),
+    events: ({ checkout }) => ({ onCreated: checkout.created }),
   });
   const h = createHarness();
   await h.render(
@@ -171,7 +165,7 @@ test('events emitted during resource connection and lifecycle mount reach the re
   expect(active).toEqual(['connect', 'unmount', 'disconnect']);
 });
 
-test('imperative navigation follows committed router context and ignores suspended replacements', async () => {
+test('events navigation follows committed router context and ignores suspended replacements', async () => {
   const created = eventAtom<{ id: string }>();
   const first = vi.fn<(path: string) => void>();
   const second = vi.fn<(path: string) => void>();
@@ -181,17 +175,17 @@ test('imperative navigation follows committed router context and ignores suspend
     navigate: first,
     pending: false,
   });
-  function CheckoutView({ imperative }: { imperative: HoloImperative<Handle> }) {
+  function CheckoutView({ events }: { events: HoloEvents<Handle> }) {
     const router = useContext(Router);
-    useImperativeHolo(imperative, {
-      onCreated({ id }) {
+    useHoloEvents(events, {
+      onCreated: ({ id }: { id: string }) => {
         router.navigate(`/orders/${id}`);
       },
     });
     if (router.pending) throw pending;
     return null;
   }
-  const Checkout = holo({ view: CheckoutView, imperative: { onCreated: created } });
+  const Checkout = holo({ view: CheckoutView, events: { onCreated: created } });
   const store = createStore();
   const h = createHarness();
   const tree = (navigate: (path: string) => void, pending = false) => (
@@ -225,8 +219,8 @@ test('an abandoned suspended render publishes no handlers and acquires no resour
   const handler = vi.fn();
   const connect = vi.fn();
   const pending = new Promise<never>(() => {});
-  function View({ imperative, version }: { imperative: HoloImperative<Handle>; version: string }) {
-    useImperativeHolo(imperative, {
+  function View({ events, version }: { events: HoloEvents<Handle>; version: string }) {
+    useHoloEvents(events, {
       onCreated() {
         handler(version);
       },
@@ -238,7 +232,7 @@ test('an abandoned suspended render publishes no handlers and acquires no resour
   const Connected = holo({
     models: { _connections: $$owner2 },
     view: View,
-    imperative: { onCreated: created },
+    events: { onCreated: created },
   });
   const h = createHarness();
   const store = createStore();
@@ -255,7 +249,7 @@ test('an abandoned suspended render publishes no handlers and acquires no resour
   expect(connect).toHaveBeenCalledTimes(1);
 });
 
-test('temporary Suspense hides imperative delivery without releasing model resources or replaying lifecycle', async () => {
+test('temporary Suspense hides events delivery without releasing model resources or replaying lifecycle', async () => {
   const request = deferred<string>();
   const mounted = vi.fn();
   const unmounted = vi.fn();
@@ -304,13 +298,13 @@ test('temporary Suspense hides imperative delivery without releasing model resou
   expect(unmounted).toHaveBeenCalledTimes(1);
 });
 
-test('imperative sync throws and async failures are isolated from publishers', async () => {
+test('events sync throws and async failures are isolated from publishers', async () => {
   const created = eventAtom<{ id: string }>();
   const onError = vi.fn();
   const sync = new Error('sync');
   const async = new Error('async');
-  function View({ imperative }: { imperative: HoloImperative<Handle> }) {
-    useImperativeHolo(imperative, {
+  function View({ events }: { events: HoloEvents<Handle> }) {
+    useHoloEvents(events, {
       onCreated({ id }) {
         if (id === 'sync') throw sync;
         return Promise.reject(async);
@@ -318,7 +312,7 @@ test('imperative sync throws and async failures are isolated from publishers', a
     });
     return null;
   }
-  const Connected = holo({ view: View, imperative: { onCreated: created }, onError });
+  const Connected = holo({ view: View, events: { onCreated: created }, onError });
   const h = createHarness();
   const store = createStore();
   await h.render(
@@ -337,16 +331,16 @@ test('the method table stays stable across commits and becomes inert after unmou
   const event = eventAtom<{ id: string }>();
   const received = vi.fn();
   let currentRef: { current: Handle | null } | undefined;
-  function View({ imperative, label }: { imperative: HoloImperative<Handle>; label: string }) {
-    currentRef = imperative as { current: Handle | null };
-    useImperativeHolo(imperative, {
+  function View({ events, label }: { events: HoloEvents<Handle>; label: string }) {
+    currentRef = events as { current: Handle | null };
+    useHoloEvents(events, {
       onCreated({ id }) {
         received(label, id);
       },
     });
     return null;
   }
-  const Connected = holo({ view: View, imperative: { onCreated: event } });
+  const Connected = holo({ view: View, events: { onCreated: event } });
   const h = createHarness();
   await h.render(<Connected label="first" />);
   const handle = currentRef!.current!;

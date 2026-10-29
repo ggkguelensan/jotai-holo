@@ -6,17 +6,16 @@ Connect a form model to an RHF View. Keep `register`, `Controller` and `useFormC
 
 ```tsx
 import { holoForm } from 'jotai-holo/rhf';
-const ContactEditor = holoForm({
+const PlayerNotifications = holoForm({
   models: {
-    model: (props: { contactId: string }) =>
-      $$contact({ key: [props.contactId] }),
+    model: (props: { playerId: string }) =>
+      $$notifications({ key: [props.playerId] }),
   },
   form: ({ model }) => model.form,
-  view: ContactView,
+  view: NotificationSettingsView,
 });
-// Fields inside ContactView use useFormContext, Controller, register,
-// and useFieldArray.
-<ContactEditor contactId="ada" />;
+// Fields keep useFormContext, Controller, register and useFieldArray.
+<PlayerNotifications playerId="ada" />;
 ```
 
 ## Contract

@@ -209,7 +209,7 @@
 }
 .holo-example :is(input:not([type='checkbox']), select) {
   width: 100%;
-  min-height: 36px;
+  min-height: 44px;
   background: var(--vp-c-bg);
   color: var(--vp-c-text-1);
   border: 1px solid var(--vp-c-divider);
@@ -227,6 +227,8 @@
   display: flex;
   align-items: center;
   gap: 9px;
+  min-height: 44px;
+  cursor: pointer;
 }
 .demo-controls {
   display: flex;
@@ -237,7 +239,7 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  min-height: 34px;
+  min-height: 44px;
   border: 1px solid var(--vp-c-divider);
   border-radius: 6px;
   background: var(--vp-c-bg-soft);
@@ -281,14 +283,14 @@
   border-radius: 6px;
   padding: 14px;
 }
-.vp-doc ul.demo-task-list {
+.vp-doc ul.demo-wishlist {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
   gap: 14px;
 }
-.demo-task-list code {
+.demo-wishlist code {
   margin-left: auto;
 }
 @media (hover: hover) and (pointer: fine) {
@@ -325,7 +327,7 @@
   width: 100%;
   font-size: 13px;
 }
-.demo-contact-card {
+.demo-player-card {
   display: grid;
   align-content: start;
   gap: 20px;
@@ -335,11 +337,11 @@
   border-radius: 10px;
   background: var(--vp-c-bg);
 }
-.demo-contact-card header {
+.demo-player-card header {
   display: grid;
   gap: 3px;
 }
-.demo-contact-card .demo-form {
+.demo-player-card .demo-form {
   width: 100%;
   min-width: 0;
   gap: 12px;
@@ -598,7 +600,7 @@
   }
 }
 
-/* Keep the product UI and real adapter journal in the same live window. */
+/* Keep the game UI and real adapter journal in the same live window. */
 :is(.vp-doc, .vp-doc > div) > .holo-example-wide {
   max-width: none;
 }
@@ -623,17 +625,17 @@
   display: grid;
   gap: 16px;
 }
-.vp-doc ul.demo-analytics-products {
+.vp-doc ul.demo-analytics-games {
   display: grid;
   gap: 8px;
   list-style: none;
   padding: 0 !important;
   margin: 0 !important;
 }
-.demo-analytics-products li + li {
+.demo-analytics-games li + li {
   margin: 0;
 }
-.demo-analytics-products button {
+.demo-analytics-games button {
   width: 100%;
   text-align: left;
 }
@@ -731,4 +733,91 @@
 }
 .example-files a {
   overflow-wrap: anywhere;
+}
+
+.demo-purchase {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 32px;
+  width: min(100%, 760px);
+  min-height: 240px;
+}
+.demo-purchase-actions {
+  width: 100%;
+}
+.demo-receipt {
+  display: grid;
+  align-content: start;
+  min-height: 240px;
+  gap: 12px;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 24px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .demo-purchase {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    min-height: 0;
+  }
+}
+
+.holo-example .demo-share-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 8px;
+  border-color: transparent;
+  background: transparent;
+  color: var(--vp-c-text-2);
+}
+.holo-example .demo-share-icon:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .holo-example .demo-share-icon:not(:disabled):hover {
+    background: var(--vp-c-bg-soft);
+    color: var(--vp-c-text-1);
+  }
+}
+
+/* Keep secondary demo text legible on both white and soft surfaces. */
+.holo-example {
+  --vp-c-text-3: #6f6f6f;
+}
+.dark .holo-example {
+  --vp-c-text-3: #aaa;
+}
+.holo-example :is(button, input:not(.sheet-cell), select):focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 3px;
+}
+.holo-example button:not(:disabled):active {
+  background: var(--vp-c-bg-mute);
+}
+.demo-model-instance {
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+}
+@media (pointer: coarse) {
+  .holo-example :is(input:not([type='checkbox']), select) {
+    font-size: 16px;
+  }
 }

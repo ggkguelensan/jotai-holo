@@ -3,30 +3,18 @@ import { holo, ion } from 'jotai-holo';
 import {
   $deliveries,
   $$recordedSearch as $$search,
-  type Delivery,
 } from './analytics-recording.js';
-import type { Product } from '../analytics/search-model.js';
+import type { Game } from '../analytics/search-model.js';
+import {
+  SearchTermView,
+  GameRowView,
+  CloseGameView,
+  ClearLogsView,
+  DeliveryListView,
+  GameDetailsView,
+} from './analytics-views.js';
 
 // #region analytics
-function SearchTermView({
-  query,
-  onTermChange,
-}: {
-  query: string;
-  onTermChange: (value: string) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <label>
-      {t`Search products`}
-      <input
-        value={query}
-        onChange={(event) => onTermChange(event.target.value)}
-      />
-    </label>
-  );
-}
 
 const SearchTerm = holo({
   models: { search: $$search },
@@ -51,7 +39,7 @@ function SearchFormView({
         onSearch();
       }}
     >
-      <span className="demo-eyebrow">{t`Product catalog`}</span>
+      <span className="demo-eyebrow">{t`Game catalog`}</span>
       <SearchTerm />
       <button type="submit">{t`Search`}</button>
     </form>
@@ -63,94 +51,54 @@ const SearchForm = holo({
   view: SearchFormView,
 
   write: ({ search: $$search }) => ({ onSearch: $$search.search }),
-  static: { initialTerm: 'desk' },
+  static: { initialTerm: 'starfall' },
   input: ({ search: $$search }) => ({
     initialTerm: $$search.termChanged,
   }),
 });
 
-function ProductRowView({
-  product,
-  position,
-  onProductOpen,
-}: {
-  product: Product;
-  position: number;
-  onProductOpen: (fact: { productId: string; position: number }) => void;
-}) {
-  return (
-    <li>
-      <button
-        onClick={() => onProductOpen({ productId: product.id, position })}
-      >
-        {product.name} · ${product.price}
-      </button>
-    </li>
-  );
-}
-
-const ProductRow = holo({
+const GameRow = holo({
   models: { search: $$search },
-  view: ProductRowView,
-  write: ({ search: $$search }) => ({ onProductOpen: $$search.openProduct }),
+  view: GameRowView,
+  write: ({ search: $$search }) => ({ onGameOpen: $$search.openGame }),
 });
 
-function ProductListView({ products }: { products: readonly Product[] }) {
+function GameListView({ games }: { games: readonly Game[] }) {
   return (
-    <ul className="demo-analytics-products">
-      {products.map((product, position) => (
-        <ProductRow key={product.id} product={product} position={position} />
+    <ul className="demo-analytics-games">
+      {games.map((game, position) => (
+        <GameRow key={game.id} game={game} position={position} />
       ))}
     </ul>
   );
 }
 
-const ProductList = holo({
+const GameList = holo({
   models: { search: $$search },
-  view: ProductListView,
-  read: ({ search: $$search }) => ({ products: $$search.$products }),
+  view: GameListView,
+  read: ({ search: $$search }) => ({ games: $$search.$games }),
 });
 
-function CloseProductView({ onClose }: { onClose: () => void }) {
-  const { t } = useLingui();
-
-  return <button onClick={onClose}>{t`Close details`}</button>;
-}
-
-const CloseProduct = holo({
+const CloseGame = holo({
   models: { search: $$search },
-  view: CloseProductView,
-  write: ({ search: $$search }) => ({ onClose: $$search.closeProduct }),
+  view: CloseGameView,
+  write: ({ search: $$search }) => ({ onClose: $$search.closeGame }),
 });
 
-function ProductDetailsView({ product }: { product: Product | null }) {
-  const { t } = useLingui();
-  if (!product) return null;
-
-  return (
-    <article>
-      <h3>{t`Product details`}</h3>
-      <p>
-        {product.name} · ${product.price}
-      </p>
-      <CloseProduct />
-    </article>
-  );
-}
-
-const ProductDetails = holo({
+const GameDetails = holo({
   models: { search: $$search },
-  view: ProductDetailsView,
+  view: GameDetailsView,
+  static: { children: <CloseGame /> },
 
-  read: ({ search: $$search }) => ({ product: $$search.$selectedProduct }),
+  read: ({ search: $$search }) => ({ game: $$search.$selectedGame }),
 });
 
-function ProductCatalog() {
+function GameCatalog() {
   return (
     <div className="demo-form demo-analytics-catalog">
       <SearchForm />
-      <ProductList />
-      <ProductDetails />
+      <GameList />
+      <GameDetails />
     </div>
   );
 }
@@ -158,53 +106,11 @@ function ProductCatalog() {
 
 const $hasDeliveries = ion($deliveries, (deliveries) => deliveries.length > 0);
 
-function ClearLogsView({
-  enabled,
-  onClear,
-}: {
-  enabled: boolean;
-  onClear: (entries: readonly Delivery[]) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <button disabled={!enabled} onClick={() => onClear([])}>
-      {t`Clear logs`}
-    </button>
-  );
-}
-
 const ClearLogs = holo({
   view: ClearLogsView,
   read: { enabled: $hasDeliveries },
   write: { onClear: $deliveries },
 });
-
-function DeliveryListView({ deliveries }: { deliveries: readonly Delivery[] }) {
-  const { t } = useLingui();
-
-  return (
-    <>
-      <ol aria-live="polite" aria-relevant="additions">
-        {[...deliveries].reverse().map(({ id, engine, name, properties }) => (
-          <li key={id}>
-            <div>
-              <span>{engine}</span>
-              <code>#{id}</code>
-            </div>
-            <strong>{name}</strong>
-            <pre>{JSON.stringify(properties, null, 2)}</pre>
-          </li>
-        ))}
-      </ol>
-      {!deliveries.length && (
-        <p className="demo-analytics-empty">
-          {t`Search for a product, then open it to see each engine's payload.`}
-        </p>
-      )}
-    </>
-  );
-}
 
 const DeliveryList = holo({
   view: DeliveryListView,
@@ -234,7 +140,7 @@ function DeliveryConsole() {
 export default function AnalyticsDemo() {
   return (
     <div className="demo-analytics">
-      <ProductCatalog />
+      <GameCatalog />
       <DeliveryConsole />
     </div>
   );

@@ -2,6 +2,7 @@ import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { holo, stateAtom } from 'jotai-holo';
 import { modelLifecycle, modelRegistry, pipe } from 'jotai-holo/model';
+import { DraftView } from './data-lifecycle-views.js';
 
 // #region data-lifecycle
 // #region draft-lifecycle
@@ -15,11 +16,11 @@ const $$draft = pipe(
   createDraftModel,
 
   modelLifecycle({
-    load: () => sessionStorage.getItem('holo.docs.profile') ?? 'Ada Lovelace',
+    load: () => sessionStorage.getItem('holo.docs.player-profile.v1') ?? 'Nova',
     restore: (draft) => draft.$name,
     snapshot: (draft) => draft.$name,
     save: ({ snapshot }) => {
-      sessionStorage.setItem('holo.docs.profile', snapshot);
+      sessionStorage.setItem('holo.docs.player-profile.v1', snapshot);
     },
   }),
 
@@ -27,26 +28,6 @@ const $$draft = pipe(
 );
 
 // #endregion draft-lifecycle
-
-function DraftView({
-  name,
-  onNameChange,
-}: {
-  name: string;
-  onNameChange: (name: string) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <label>
-      {t`Name`}
-      <input
-        value={name}
-        onChange={(event) => onNameChange(event.target.value)}
-      />
-    </label>
-  );
-}
 
 const Draft = holo({
   models: { draft: $$draft },
@@ -61,7 +42,7 @@ function DataLifecycleDemo() {
 
   return (
     <div className="demo-form">
-      <span className="demo-eyebrow">{t`Profile draft`}</span>
+      <span className="demo-eyebrow">{t`Player profile draft`}</span>
       <label className="demo-checkbox">
         <input
           type="checkbox"

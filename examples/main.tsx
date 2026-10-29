@@ -27,7 +27,7 @@ createRoot(root).render(
       <EffectCounter />
       <ModelCounters />
       <ModelEffectCounter />
-      <AnalyticsSearch initialTerm="desk" />
+      <AnalyticsSearch initialTerm="starfall" />
       <AsyncExample />
     </main>
   </Provider>,

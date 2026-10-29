@@ -18,30 +18,24 @@ import {createRoot} from 'react-dom/client';
 import {atom,Provider,useAtomValue,useSetAtom} from 'jotai';
 function CounterView({count,double,onIncrement,title}){return h('button',{onClick:onIncrement},title+': '+count+'/'+double)}
 `;
-function app({
-  holo = false,
-  helpers = false,
-  input = false,
-  imperative = false,
-  model = false,
-} = {}) {
+function app({ holo = false, helpers = false, input = false, events = false, model = false } = {}) {
   return (
     common +
     `
-${holo || helpers || imperative ? "import {holo,stateAtom,actionAtom,eventAtom,useImperativeHolo} from '../dist/index.js';" : ''}
+${holo || helpers || events ? "import {holo,stateAtom,actionAtom,eventAtom,useHoloEvents} from '../dist/index.js';" : ''}
 ${model ? "import {modelRegistry,pipe} from '../dist/model.js';" : ''}
 const $count=${helpers ? 'stateAtom' : 'atom'}(0);
 const $double=${helpers ? 'stateAtom' : 'atom'}(get=>get($count)*2);
 const increment=${helpers ? 'actionAtom(' : 'atom(null,'}(_get,set)=>{set($count,n=>n+1)});
 ${model ? 'const $$counter=pipe(()=>({$count,$double,increment}),modelRegistry());' : ''}
-${imperative ? "const completed=eventAtom(); function ImperativeView({imperative,...props}){useImperativeHolo(imperative,{onCompleted(){console.log('completed')}});return h(CounterView,props)}" : ''}
+${events ? "const completed=eventAtom(); function ImperativeView({events,...props}){useHoloEvents(events,{onCompleted(){console.log('completed')}});return h(CounterView,props)}" : ''}
 ${
   holo
-    ? `const Counter=holo({view:${imperative ? 'ImperativeView' : 'CounterView'},
+    ? `const Counter=holo({view:${events ? 'ImperativeView' : 'CounterView'},
 ${model ? 'models:{counter:$$counter},read:({counter})=>({count:counter.$count,double:counter.$double}),write:({counter})=>({onIncrement:counter.increment}),' : 'read:{count:$count,double:$double},write:{onIncrement:increment},'}
 static:{title:'Counter'},
 ${input ? 'input:{title:atom(null,(_get,_set,title)=>console.log(title))},' : ''}
-${imperative ? 'imperative:{onCompleted:completed},' : ''}
+${events ? 'events:{onCompleted:completed},' : ''}
 });`
     : `function Counter(){const count=useAtomValue($count);const double=useAtomValue($double);const onIncrement=useSetAtom(increment);return h(CounterView,{count,double,onIncrement,title:'Counter'})}`
 }
@@ -75,7 +69,7 @@ try {
     ['holo', { holo: true }],
     ['holo-and-helpers', { holo: true, helpers: true }],
     ['holo-input', { holo: true, input: true }],
-    ['holo-imperative', { holo: true, imperative: true }],
+    ['holo-events', { holo: true, events: true }],
     ['holo-models', { holo: true, model: true }],
   ]) {
     await writeFile(`${fixture}/main.js`, app(options));
@@ -92,7 +86,7 @@ try {
     ['stateAtom', 'vanilla', ['stateAtom']],
     ['actionAtom', 'vanilla', ['actionAtom']],
     ['eventAtom', 'vanilla', ['eventAtom']],
-    ['imperative', 'index', ['useImperativeHolo']],
+    ['events', 'index', ['useHoloEvents']],
     ['model', 'model', ['pipe', 'modelRegistry']],
     ['modelLifecycle', 'model', ['modelLifecycle']],
     ['analytics', 'analytics', ['createAnalytics', 'modelAnalytics']],
@@ -123,7 +117,7 @@ try {
       }),
     );
   }
-  for (const name of ['holo', 'holo-input', 'holo-imperative'])
+  for (const name of ['holo', 'holo-input', 'holo-events'])
     assert.ok(
       !results[name].modules.some((id) =>
         /\/(?:model|model-composition|analytics|query|rhf|persist)\.js$/.test(id),

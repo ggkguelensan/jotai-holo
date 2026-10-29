@@ -1,6 +1,6 @@
 # Architecture and stack
 
-A profile editor has at least two kinds of data: the server's saved profile and
+A player profile editor has at least two kinds of data: the server's saved profile and
 the user's unsaved draft. A request cache owns the first. A business model can
 own the second. The View lets the user edit it.
 
