@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { QueryClient, mutationOptions } from '@tanstack/react-query';
 import type { createStore } from 'jotai';
@@ -50,6 +51,7 @@ function DiscountView({
   discount: number;
   onDiscount: (value: number) => void;
 }) {
+  const [empty, setEmpty] = useState(false);
   const { t } = useLingui();
 
   return (
@@ -59,8 +61,15 @@ function DiscountView({
         type="number"
         min="0"
         max="50"
-        value={discount}
-        onChange={(event) => onDiscount(Number(event.target.value))}
+        value={empty ? '' : discount}
+        onChange={(event) => {
+          const value = event.target.value;
+          setEmpty(value === '');
+          if (value !== '') {
+            onDiscount(Number(value));
+          }
+        }}
+        onBlur={() => setEmpty(false)}
       />
     </label>
   );

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { actionAtom, holo, stateAtom } from 'jotai-holo';
 import { modelRegistry, pipe } from 'jotai-holo/model';
 
@@ -30,14 +31,23 @@ function CountView({
   count: number;
   onChange: (count: number) => void;
 }) {
+  const [empty, setEmpty] = useState(false);
+
   return (
     <label>
       {title}
       <input
         type="number"
         min="0"
-        value={count}
-        onChange={(event) => onChange(Number(event.target.value))}
+        value={empty ? '' : count}
+        onChange={(event) => {
+          const value = event.target.value;
+          setEmpty(value === '');
+          if (value !== '') {
+            onChange(Number(value));
+          }
+        }}
+        onBlur={() => setEmpty(false)}
       />
     </label>
   );

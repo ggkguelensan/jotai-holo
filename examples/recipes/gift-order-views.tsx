@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 // #region view
 export function CopiesView({
@@ -8,6 +8,8 @@ export function CopiesView({
   copies: number | null;
   onCopies: (copies: number) => void;
 }) {
+  const [empty, setEmpty] = useState(false);
+
   if (copies === null) return null;
 
   return (
@@ -16,10 +18,15 @@ export function CopiesView({
       <input
         type="number"
         min="1"
-        value={copies}
-        onChange={(event) =>
-          onCopies(Math.max(1, Number(event.target.value) || 1))
-        }
+        value={empty ? '' : copies}
+        onChange={(event) => {
+          const value = event.target.value;
+          setEmpty(value === '');
+          if (value !== '') {
+            onCopies(Math.max(1, Number(value)));
+          }
+        }}
+        onBlur={() => setEmpty(false)}
       />
     </label>
   );

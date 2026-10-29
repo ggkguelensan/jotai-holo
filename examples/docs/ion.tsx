@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { holo, ion, stateAtom } from 'jotai-holo';
 
@@ -20,6 +21,7 @@ function QuantityView({
   quantity: number;
   onQuantity: (value: number) => void;
 }) {
+  const [empty, setEmpty] = useState(false);
   const { t } = useLingui();
 
   return (
@@ -30,10 +32,15 @@ function QuantityView({
         type="number"
         min="1"
         max="10"
-        value={quantity}
-        onChange={(e) =>
-          onQuantity(Math.max(1, Math.min(10, Number(e.target.value) || 1)))
-        }
+        value={empty ? '' : quantity}
+        onChange={(e) => {
+          const value = e.target.value;
+          setEmpty(value === '');
+          if (value !== '') {
+            onQuantity(Math.max(1, Math.min(10, Number(value))));
+          }
+        }}
+        onBlur={() => setEmpty(false)}
       />
     </label>
   );
