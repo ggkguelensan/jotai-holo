@@ -62,11 +62,10 @@ const Receipt = holo({
 
 export default function PurchaseDemo() {
   return (
-    <div className="demo-form">
+    <Receipt>
       <PurchaseButton />
       <PurchaseError />
-      <Receipt />
-    </div>
+    </Receipt>
   );
 }
 // #endregion purchase

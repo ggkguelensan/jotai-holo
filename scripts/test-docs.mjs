@@ -227,6 +227,12 @@ try {
   await live.getByRole('button', { name: 'Buy Starfall · $25', exact: true }).click();
   await live.locator('dialog[open]').waitFor();
   assert.match(await live.locator('dialog').innerText(), /DEMO-1001/);
+  const actionsBox = await live.locator('.demo-purchase-actions').boundingBox();
+  const receiptBox = await live.locator('dialog').boundingBox();
+  const exampleBox = await live.boundingBox();
+  assert.ok(receiptBox.x >= actionsBox.x + actionsBox.width);
+  assert.ok(receiptBox.x + receiptBox.width <= exampleBox.x + exampleBox.width);
+  assert.equal(await live.locator('dialog').evaluate((dialog) => dialog.matches(':modal')), false);
   await live.getByRole('button', { name: 'Close receipt', exact: true }).click();
   assert.equal(await live.locator('dialog').evaluate((dialog) => dialog.open), false);
   await live.getByRole('button', { name: 'View receipt', exact: true }).click();

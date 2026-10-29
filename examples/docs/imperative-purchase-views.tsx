@@ -1,6 +1,6 @@
 import { useLingui } from '@lingui/react/macro';
 import { useAnimate } from 'motion/react';
-import type { Ref } from 'react';
+import type { ReactNode, Ref } from 'react';
 import { useImperativeHolo, type HoloImperative } from 'jotai-holo';
 import type { Receipt } from './imperative-purchase.js';
 import { ShareGame } from './imperative-share.js';
@@ -31,28 +31,33 @@ type ReceiptHandle = { onOrderCreated(receipt: Receipt): void };
 export function ReceiptView({
   imperative,
   receipt,
+  children,
 }: {
   imperative: HoloImperative<ReceiptHandle>;
   receipt: Receipt | null;
+  children: ReactNode;
 }) {
   const { t } = useLingui();
   const [dialog, animate] = useAnimate<HTMLDialogElement>();
 
   function openReceipt() {
     if (!dialog.current) return;
-    dialog.current.showModal();
+    dialog.current.show();
     void animate(dialog.current, { opacity: [0, 1] }, { duration: 0.18 });
   }
 
   useImperativeHolo(imperative, { onOrderCreated: openReceipt });
 
   return (
-    <>
-      <button disabled={!receipt} onClick={openReceipt}>
-        {t`View receipt`}
-      </button>
+    <div className="demo-purchase">
+      <div className="demo-form demo-purchase-actions">
+        {children}
+        <button disabled={!receipt} onClick={openReceipt}>
+          {t`View receipt`}
+        </button>
+      </div>
       <ReceiptDialogView dialog={dialog} receipt={receipt} />
-    </>
+    </div>
   );
 }
 // #endregion receipt-handle

@@ -67,7 +67,7 @@ test('a purchase completing after unmount cannot call the departed View', async 
   const response = deferred<Receipt>();
   vi.spyOn(purchaseApi, 'create').mockReturnValue(response.promise);
   const { h, buy, dialog } = await renderPurchase();
-  const open = vi.spyOn(dialog, 'showModal');
+  const open = vi.spyOn(dialog, 'show');
   await act(async () => buy.click());
   await h.unmount();
   await act(async () => response.resolve(receipt));
