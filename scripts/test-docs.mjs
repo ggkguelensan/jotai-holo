@@ -204,7 +204,7 @@ try {
   await live.getByRole('button', { name: 'Buy gift copies', exact: true }).click();
   assert.match(await live.locator('output').innerText(), /#100/);
 
-  live = await openDemo('order-confirmation', 'events');
+  live = await openDemo('order-confirmation', 'imperative');
   await live.getByRole('spinbutton').fill('2');
   await live.getByRole('button', { name: 'Place order', exact: true }).click();
   await live.getByRole('heading', { name: '#1001', exact: true }).waitFor();
