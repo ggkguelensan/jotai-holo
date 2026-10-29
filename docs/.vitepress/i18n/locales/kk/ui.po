@@ -124,8 +124,8 @@ msgstr "Барлық мысалдар"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Workshop tickets"
-msgstr "Іс-шара билеттері"
+msgid "Gift copies"
+msgstr "Сыйлыққа арналған даналар"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -144,23 +144,23 @@ msgstr "Тапсырысты растау"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Independent proposal drafts"
-msgstr "Ұсыныстардың тәуелсіз нобайлары"
+msgid "Independent gift drafts"
+msgstr "Тәуелсіз сыйлық нобайлары"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Product catalog"
-msgstr "Тауарлар каталогы"
+msgid "Game catalog"
+msgstr "Ойындар каталогы"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Proposal discount"
-msgstr "Ұсыныстағы жеңілдік"
+msgid "Sale campaign"
+msgstr "Жеңілдік науқаны"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Isolated contact forms"
-msgstr "Оқшауланған байланыс формалары"
+msgid "Player notification settings"
+msgstr "Ойыншы хабарландыруларының баптаулары"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
@@ -313,13 +313,13 @@ msgid "to close"
 msgstr "жабу"
 
 #: examples/docs/analytics.tsx
-msgid "Search products"
-msgstr "Тауарларды іздеу"
+msgid "Search games"
+msgstr "Ойындарды іздеу"
 
 #: examples/docs/analytics.tsx
 #: examples/docs/query.tsx
-msgid "Product catalog"
-msgstr "Тауарлар каталогы"
+msgid "Game catalog"
+msgstr "Ойындар каталогы"
 
 #: examples/docs/analytics.tsx
 msgid "Search"
@@ -330,16 +330,16 @@ msgid "Close details"
 msgstr "Мәліметтерді жабу"
 
 #: examples/docs/analytics.tsx
-msgid "Product details"
-msgstr "Тауар мәліметтері"
+msgid "Game details"
+msgstr "Ойын туралы мәліметтер"
 
 #: examples/docs/analytics.tsx
 msgid "Clear logs"
 msgstr "Тазалау"
 
 #: examples/docs/analytics.tsx
-msgid "Search for a product, then open it to see each engine's payload."
-msgstr "Тауарды тауып, ашыңыз: әр жүйеге жіберілген деректер осында көрінеді."
+msgid "Search for a game, then open it to see each engine's payload."
+msgstr "Әр қозғалтқыштың деректерін көру үшін ойын іздеп, оны ашыңыз."
 
 #: examples/docs/analytics.tsx
 msgid "Actual adapter deliveries · last 50 messages"
@@ -358,8 +358,8 @@ msgid "Generate receipt"
 msgstr "Чек жасау"
 
 #: examples/docs/bond.tsx
-msgid "Submit demo order"
-msgstr "Демо тапсырысты жіберу"
+msgid "Buy gift copies"
+msgstr "Сыйлық даналарын сатып алу"
 
 #: examples/docs/bond.tsx
 msgid "No receipts yet"
@@ -379,12 +379,12 @@ msgstr "Жергілікті имитация: төлем де, желі сұр�
 
 #. js-lingui-explicit-id
 #: examples/docs/counter.tsx
-msgid "One model, ordinary props"
-msgstr "Бір модель, қарапайым props"
+msgid "Reward tokens"
+msgstr "Сыйақы жетондары"
 
 #: examples/docs/counter.tsx
-msgid "Derived × 2"
-msgstr "Туынды мән × 2"
+msgid "Bonus points × 2"
+msgstr "Бонустық ұпайлар × 2"
 
 #: examples/docs/counter.tsx
 msgid "Decrement"
@@ -399,8 +399,8 @@ msgid "Name"
 msgstr "Аты"
 
 #: examples/docs/data-lifecycle.tsx
-msgid "Profile draft"
-msgstr "Профиль нобайы"
+msgid "Player profile draft"
+msgstr "Ойыншы профилінің нобайы"
 
 #: examples/docs/data-lifecycle.tsx
 msgid "Mount editor"
@@ -419,20 +419,20 @@ msgid "Enter a valid email"
 msgstr "Дұрыс email мекенжайын енгізіңіз"
 
 #: examples/docs/form.tsx
-msgid "Contact channel"
-msgstr "Байланыс арнасы"
+msgid "Notification channel"
+msgstr "Хабарландыру арнасы"
 
 #: examples/docs/form.tsx
-msgid "Phone"
-msgstr "Телефон"
+msgid "In-app"
+msgstr "Қолданба ішінде"
 
 #: examples/docs/form.tsx
 msgid "No email yet"
 msgstr "Email әлі көрсетілмеген"
 
 #: examples/docs/form.tsx
-msgid "Save contact"
-msgstr "Контактіні сақтау"
+msgid "Save preferences"
+msgstr "Баптауларды сақтау"
 
 #: examples/docs/form.tsx
 msgid "Saved:"
@@ -443,8 +443,8 @@ msgid "External save panel"
 msgstr "Сыртқы сақтау панелі"
 
 #: examples/docs/form.tsx
-msgid "Contact preferences"
-msgstr "Байланыс параметрлері"
+msgid "Player notifications"
+msgstr "Ойыншы хабарландырулары"
 
 #: examples/docs/imperative.tsx
 #: examples/docs/ion.tsx
@@ -474,9 +474,10 @@ msgid "Checkout"
 msgstr "Тапсырысты рәсімдеу"
 
 #: examples/docs/imperative.tsx
+#: examples/docs/list.tsx
 #: examples/docs/query.tsx
-msgid "Oak desk"
-msgstr "Емен үстел"
+msgid "Starfall"
+msgstr "Starfall"
 
 #: examples/docs/input.tsx
 msgid "Mounted search View receives"
@@ -491,48 +492,57 @@ msgid "Mount Search"
 msgstr "Іздеуді қосу"
 
 #: examples/docs/ion.tsx
-msgid "Member discount · 20%"
-msgstr "Қатысушы жеңілдігі · 20%"
+msgid "Bundle discount · 20%"
+msgstr "Жиынтық жеңілдігі · 20%"
 
 #: examples/docs/ion.tsx
-msgid "Workshop tickets · $25 each"
-msgstr "Воркшоп билеттері · әрқайсысы $25"
+msgid "Gift copies · $25 each"
+msgstr "Сыйлық даналары · әрқайсысы $25"
 
 #: examples/docs/list.tsx
-msgid "Review proposal"
-msgstr "Ұсынысты тексеру"
+msgid "Select Starfall as a gift"
+msgstr "Starfall ойынын сыйлыққа таңдау"
 
 #: examples/docs/list.tsx
-msgid "Ship documentation"
-msgstr "Құжаттаманы жариялау"
+msgid "Select Moon Harbor as a gift"
+msgstr "Moon Harbor ойынын сыйлыққа таңдау"
 
 #: examples/docs/list.tsx
-msgid "All clear."
-msgstr "Тізім бос."
+#: examples/docs/query.tsx
+msgid "Moon Harbor"
+msgstr "Moon Harbor"
 
 #: examples/docs/list.tsx
-msgid "Reverse rows"
-msgstr "Жолдардың ретін кері бұру"
+msgid "Selected for gift"
+msgstr "Сыйлыққа таңдалды"
 
 #: examples/docs/list.tsx
-msgid "Clear"
-msgstr "Тазалау"
+msgid "Your wishlist is empty."
+msgstr "Қалаулар тізімі бос."
 
 #: examples/docs/list.tsx
-msgid "Stable keys preserve row state"
-msgstr "Тұрақты кілттер жол күйін сақтайды"
+msgid "Reverse wishlist"
+msgstr "Тізім ретін кері бұру"
 
 #: examples/docs/list.tsx
-msgid "Check a task, then reverse the rows."
-msgstr "Бір міндетті белгілеп, жолдардың ретін кері бұрыңыз."
+msgid "Clear wishlist"
+msgstr "Тізімді тазалау"
+
+#: examples/docs/list.tsx
+msgid "Choose gifts from your wishlist"
+msgstr "Қалаулар тізімінен сыйлық таңдаңыз"
+
+#: examples/docs/list.tsx
+msgid "Select a gift, then reverse the list. Selection follows the game."
+msgstr "Сыйлықты таңдап, тізім ретін кері бұрыңыз. Таңдау ойынмен қалады."
 
 #: examples/docs/match.tsx
-msgid "Loading your workspace…"
-msgstr "Жұмыс кеңістігі жүктелуде…"
+msgid "Loading your game library…"
+msgstr "Ойындар кітапханасы жүктелуде…"
 
 #: examples/docs/match.tsx
-msgid "Your workspace is ready."
-msgstr "Жұмыс кеңістігі дайын."
+msgid "Your game library is ready."
+msgstr "Ойындар кітапханасы дайын."
 
 #: examples/docs/match.tsx
 #: examples/docs/query.tsx
@@ -552,116 +562,120 @@ msgid "Error"
 msgstr "Қате"
 
 #: examples/docs/model.tsx
-msgid "Add a seat"
-msgstr "Орын қосу"
+msgid "Add a gift copy"
+msgstr "Сыйлық данасын қосу"
 
 #: examples/docs/model.tsx
-msgid "Proposal"
-msgstr "Ұсыныс"
+msgid "Gift order"
+msgstr "Сыйлық тапсырысы"
 
 #: examples/docs/mutation.tsx
 msgid "Discount, %"
 msgstr "Жеңілдік, %"
 
 #: examples/docs/mutation.tsx
-msgid "Comment for the customer"
-msgstr "Клиентке түсініктеме"
+msgid "Campaign note"
+msgstr "Науқан ескертпесі"
 
 #: examples/docs/mutation.tsx
-msgid "Saving proposal…"
-msgstr "Ұсыныс сақталып жатыр…"
+msgid "Saving campaign…"
+msgstr "Науқан сақталуда…"
 
 #: examples/docs/mutation.tsx
-msgid "Save proposal"
-msgstr "Ұсынысты сақтау"
+msgid "Save campaign"
+msgstr "Науқанды сақтау"
 
 #: examples/docs/mutation.tsx
 msgid "Clear feedback"
 msgstr "Хабарларды тазарту"
 
 #: examples/docs/mutation.tsx
-msgid "Discounts above 25% need approval."
-msgstr "25%-дан жоғары жеңілдікке келісім қажет."
+msgid "Demo policy limits campaign discounts to 25%."
+msgstr "Мысал ережесі науқан жеңілдігін 25%-бен шектейді."
 
 #: examples/docs/mutation.tsx
-msgid "Saved discount"
-msgstr "Сақталған жеңілдік"
+msgid "Saved campaign discount"
+msgstr "Сақталған науқан жеңілдігі"
 
 #: examples/docs/mutation.tsx
-msgid "Proposal P-1042"
-msgstr "P-1042 ұсынысы"
+msgid "Seller tools · Starfall sale"
+msgstr "Сатушы құралдары · Starfall жеңілдігі"
 
 #: examples/docs/mutation.tsx
-msgid "Try a discount above 25% to see a server rejection."
-msgstr "Сервердің бас тартуын көру үшін 25%-дан жоғары жеңілдік енгізіңіз."
+msgid "Local demo: try more than 25% to see the campaign rejected."
+msgstr "Жергілікті мысал: науқанның қабылданбауын көру үшін 25%-дан асырыңыз."
 
 #: examples/docs/operators.tsx
-msgid "I accept the delivery terms"
-msgstr "Жеткізу шарттарын қабылдаймын"
+msgid "Payment method"
+msgstr "Төлем тәсілі"
 
 #: examples/docs/operators.tsx
-msgid "Surcharge applies"
-msgstr "Қосымша ақы бар"
+msgid "Choose a payment method"
+msgstr "Төлем тәсілін таңдаңыз"
 
 #: examples/docs/operators.tsx
-msgid "No surcharge"
-msgstr "Қосымша ақы жоқ"
+msgid "Payment card"
+msgstr "Төлем картасы"
 
 #: examples/docs/operators.tsx
-msgid "Order review · courier delivery"
-msgstr "Тапсырысты тексеру · курьерлік жеткізу"
+msgid "Wallet"
+msgstr "Әмиян"
 
 #: examples/docs/operators.tsx
-msgid "Goods $80 + delivery $15"
-msgstr "Тауарлар $80 + жеткізу $15"
+msgid "I accept the purchase terms"
+msgstr "Сатып алу шарттарын қабылдаймын"
+
+#: examples/docs/operators.tsx
+msgid "Contains an item over $70"
+msgstr "Бағасы $70-дан асатын тауар бар"
+
+#: examples/docs/operators.tsx
+msgid "All items are $70 or less"
+msgstr "Барлық тауар бағасы $70 немесе одан төмен"
+
+#: examples/docs/operators.tsx
+msgid "Review game purchase"
+msgstr "Ойын сатып алу"
+
+#: examples/docs/operators.tsx
+msgid "Game $80 + DLC $15"
+msgstr "Ойын $80 + DLC $15"
 
 #: examples/docs/prism.tsx
-msgid "Name projection"
-msgstr "Атының проекциясы"
+msgid "Display name"
+msgstr "Көрсетілетін ат"
 
 #: examples/docs/prism.tsx
-msgid "Role projection"
-msgstr "Рөл проекциясы"
+msgid "Profile visibility"
+msgstr "Профильдің көрінуі"
 
 #: examples/docs/prism.tsx
-msgid "Editor"
-msgstr "Редактор"
+msgid "Public"
+msgstr "Барлығына ашық"
 
 #: examples/docs/prism.tsx
-msgid "Viewer"
-msgstr "Оқырман"
+msgid "Friends only"
+msgstr "Тек достарға"
 
 #: examples/docs/prism.tsx
-msgid "Admin"
-msgstr "Әкімші"
+msgid "Private"
+msgstr "Тек өзіме"
 
 #: examples/docs/prism.tsx
-msgid "One source → two independent atoms"
-msgstr "Бір дереккөз → екі тәуелсіз атом"
+msgid "Player profile"
+msgstr "Ойыншы профилі"
 
 #: examples/docs/prism.tsx
-msgid "Changing the role keeps the selected name unchanged."
-msgstr "Рөл өзгергенде таңдалған ат өзгермейді."
-
-#: examples/docs/query.tsx
-msgid "Desk lamp"
-msgstr "Үстел шамы"
+msgid "Changing profile visibility does not change the display name."
+msgstr "Профильдің көрінуін өзгерту көрсетілетін атты өзгертпейді."
 
 #: examples/docs/query.tsx
 msgid "Loading…"
 msgstr "Жүктелуде…"
 
 #: examples/docs/query.tsx
-msgid "Product not found."
-msgstr "Тауар табылмады."
-
-#: examples/docs/query.tsx
-msgid "Desk"
-msgstr "Үстел"
-
-#: examples/docs/query.tsx
-msgid "Lamp"
-msgstr "Шам"
+msgid "Game not found."
+msgstr "Ойын табылмады."
 
 #: examples/docs/spreadsheet.tsx
 msgid "Check the formula and its references."
@@ -672,48 +686,48 @@ msgid "Formula for the selected cell"
 msgstr "Таңдалған ұяшық формуласы"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Project estimate"
-msgstr "Жоба құны"
+msgid "Bundle total"
+msgstr "Жиынтықтың жалпы сомасы"
 
 #: examples/docs/spreadsheet.tsx
 msgid "Reset sheet"
 msgstr "Кестені қалпына келтіру"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Workstream"
-msgstr "Жұмыстар"
+msgid "Game"
+msgstr "Ойын"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Hours / ratio"
-msgstr "Сағат / үлес"
+msgid "Copies / rate"
+msgstr "Дана / мөлшерлеме"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Rate / base, €"
-msgstr "Тариф / негіз, €"
+msgid "Price / base, €"
+msgstr "Баға / негіз, €"
 
 #: examples/docs/spreadsheet.tsx
 msgid "Amount, €"
 msgstr "Сома, €"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Website launch · estimate"
-msgstr "Сайтты іске қосу · смета"
+msgid "Game gift bundle · budget"
+msgstr "Сыйлыққа арналған ойындар жиынтығы · бюджет"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Change the hours. The estimate follows."
-msgstr "Сағатты өзгертіңіз — смета қайта есептеледі."
+msgid "Change the copies. The bundle total follows."
+msgstr "Дана санын өзгертіңіз. Жиынтықтың жалпы сомасы қайта есептеледі."
 
 #: examples/docs/spreadsheet.tsx
-msgid "Project budget"
-msgstr "Жоба бюджеті"
+msgid "Gift budget"
+msgstr "Сыйлық бюджеті"
 
 #: examples/docs/spreadsheet.tsx
 msgid "Row"
 msgstr "Жол"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Rows 1–3: hours × rate. Row 4: 10% reserve. Row 5: total."
-msgstr "1–3-жол: сағат × тариф. 4-жол: 10% резерв. 5-жол: қорытынды."
+msgid "Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total."
+msgstr "1–3-жолдар: дана × баға. 4-жол: 10% салық. 5-жол: жалпы сома."
 
 #: examples/docs/spreadsheet.tsx
 msgid "Select a cell to edit. Enter moves down; Tab moves across."

@@ -4,8 +4,9 @@ import { holo, actionAtom, stateAtom } from 'jotai-holo';
 
 const $version = stateAtom(1);
 
-// This delay demonstrates native Promise cancellation, not a server request.
-// Use the native atom for Jotai's AbortSignal options.
+// A local delay simulates preparing a game-library preview.
+// Jotai aborts obsolete reads; the handler clears their timers and rejects.
+// The native atom exposes Jotai’s AbortSignal options.
 const $result = atom(async (get, { signal }) => {
   const version = get($version);
   await new Promise<void>((resolve, reject) => {
@@ -19,7 +20,7 @@ const $result = atom(async (get, { signal }) => {
       { once: true },
     );
   });
-  return `Loaded version ${version}`;
+  return `Library preview revision ${version}`;
 });
 
 const refresh = actionAtom((_get, set) => {
@@ -27,7 +28,7 @@ const refresh = actionAtom((_get, set) => {
 });
 
 function RefreshView({ onClick }: { onClick: () => void }) {
-  return <button onClick={onClick}>Refresh async state</button>;
+  return <button onClick={onClick}>Refresh library preview</button>;
 }
 
 function ResultView({ text }: { text: string }) {
@@ -47,7 +48,7 @@ const Result = holo({
 export function AsyncExample() {
   return (
     <section>
-      <h2>Async + Suspense</h2>
+      <h2>Game library preview · Suspense</h2>
       <Refresh />
       <Suspense fallback={<p>Loading…</p>}>
         <Result />

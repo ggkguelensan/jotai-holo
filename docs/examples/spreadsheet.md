@@ -1,6 +1,6 @@
 # Spreadsheet formulas
 
-Estimate a website project with a small spreadsheet: hours × rate, a 10% reserve, and a running total. Edit a number or replace a formula; dependent cells update immediately.
+Estimate a game gift bundle with a small spreadsheet: copies × price, a demo 10% tax, and a running total. Edit a number or replace a formula; dependent cells update immediately.
 
 <Demo kind="spreadsheet">
 
@@ -10,9 +10,9 @@ Estimate a website project with a small spreadsheet: hours × rate, a 10% reserv
 
 ## Try it
 
-Change B1 from 12 to 20: D1, the reserve, and the project total change. Select D1 to see `=B1*C1` in the formula bar. Change it to `=B2*C2`, then edit B1 again: D1 now follows row 2 instead. Enter `=D1` into D1 to see a cycle error, then restore the original formula.
+Change B1 from 12 to 20: D1, the tax, and the bundle total change. Select D1 to see `=B1*C1` in the formula bar. Change it to `=B2*C2`, then edit B1 again: D1 now follows row 2 instead. Enter `=D1` into D1 to see a cycle error, then restore the original formula.
 
-Enter moves down, Shift+Enter moves up, and Tab follows the inputs. Left/right arrows cross cells at the text boundary. Escape leaves the editor; edits are applied immediately. Reset restores the sample budget. Empty cells in rows 6–8 are a scratch area.
+Enter moves down, Shift+Enter moves up, and Tab follows the inputs. Left/right arrows cross cells at the text boundary. Escape leaves the editor; edits are applied immediately. Reset restores the sample gift budget. Empty cells in rows 6–8 are a scratch area.
 
 ## Model
 

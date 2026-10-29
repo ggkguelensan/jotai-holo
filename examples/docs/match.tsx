@@ -9,13 +9,13 @@ const $status = stateAtom<Status>('ready');
 function LoadingView() {
   const { t } = useLingui();
 
-  return <div className="demo-branch">◌ {t`Loading your workspace…`}</div>;
+  return <div className="demo-branch">◌ {t`Loading your game library…`}</div>;
 }
 
 function ReadyView() {
   const { t } = useLingui();
 
-  return <div className="demo-branch">✓ {t`Your workspace is ready.`}</div>;
+  return <div className="demo-branch">✓ {t`Your game library is ready.`}</div>;
 }
 
 function ErrorView() {

@@ -1,6 +1,6 @@
 # and
 
-Require every condition to pass. For example, enable ordering only when a delivery method is available and the terms are accepted.
+Require every condition to pass. For example, enable a game purchase only when a payment method is supported and the terms are accepted.
 
 ## Usage
 

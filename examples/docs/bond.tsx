@@ -61,7 +61,7 @@ function SubmitOrderView({ onSubmit }: { onSubmit: () => void }) {
 
   return (
     <button type="button" onClick={() => onSubmit()}>
-      {t`Submit demo order`}
+      {t`Buy gift copies`}
     </button>
   );
 }

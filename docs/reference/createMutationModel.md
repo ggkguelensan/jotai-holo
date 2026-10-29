@@ -1,6 +1,6 @@
 # createMutationModel
 
-Execute a TanStack mutation from an atom workflow and expose its result through independent atoms. The [proposal discount example](/examples/proposal-discount) shows a save that can succeed or fail.
+Execute a TanStack mutation from an atom workflow and expose its result through independent atoms. The [seller campaign example](/examples/sale-campaign) shows a save that can succeed or fail.
 
 ## Installation
 
@@ -8,7 +8,7 @@ Optional entry: `jotai-holo/query`. Requires `@tanstack/query-core` v5. Share yo
 
 ## Usage
 
-The options factory defines the operation. Variables supply the values for each
+The options factory defines a seller request to save a game sale campaign. The server validates the campaign discount against its policy. Variables supply the values for each
 call; `mutate` is the writable atom used to execute it:
 
 ```ts
@@ -16,25 +16,30 @@ import { QueryClient, mutationOptions } from '@tanstack/react-query';
 import { createStore } from 'jotai/vanilla';
 import { createMutationModel } from 'jotai-holo/query';
 
-type DiscountInput = { proposalId: string; discount: number };
+type CampaignInput = {
+  gameId: string;
+  discount: number;
+  note: string;
+};
 
-const proposalDiscountMO = () =>
+const saveCampaignMO = () =>
   mutationOptions({
-    mutationFn: async (input: DiscountInput): Promise<void> => {
-      const response = await fetch('/api/proposal-discount', {
+    mutationFn: async (input: CampaignInput): Promise<CampaignInput> => {
+      const response = await fetch('/api/seller/campaigns', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(input),
       });
-      if (!response.ok) throw new Error('Could not save the discount');
+      if (!response.ok) throw new Error('Could not save the campaign');
+      return response.json();
     },
   });
 
 const client = new QueryClient();
 
-const $$discountMutation = createMutationModel({
+const $$campaignMutation = createMutationModel({
   client,
-  mutation: proposalDiscountMO,
+  mutation: saveCampaignMO,
   prism: {
     $pending: (result) => result.isPending,
     $error: (result) => result.error,
@@ -44,9 +49,10 @@ const $$discountMutation = createMutationModel({
 const store = createStore();
 
 try {
-  await store.set($$discountMutation.mutate, {
-    proposalId: 'P-1042',
+  await store.set($$campaignMutation.mutate, {
+    gameId: 'starfall',
     discount: 10,
+    note: 'Weekend campaign',
   });
 } catch (error) {
   console.error(error);
@@ -75,11 +81,11 @@ required.
 Await the returned Promise to continue after this particular call. An error projection is a value for the UI; it does not handle a rejected Promise. After awaiting a call, unmounted reads see its completed state unless a newer call or reset superseded it.
 
 ```tsx
-const save = actionAtom(async (_get, set, input: ProposalInput) => {
-  const proposal = await set($$proposalMutation.mutate, input);
+const save = actionAtom(async (_get, set, input: CampaignInput) => {
+  const campaign = await set($$campaignMutation.mutate, input);
 
-  set(proposalSaved, proposal);
-  return proposal;
+  set(campaignSaved, campaign);
+  return campaign;
 });
 ```
 

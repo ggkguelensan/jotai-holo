@@ -3,54 +3,58 @@ import { useState } from 'react';
 import { actionAtom, holo, holoList, stateAtom } from 'jotai-holo';
 
 // #region list
-type Task = { id: number; text: string };
-const $tasks = stateAtom<readonly Task[]>([
-  { id: 1, text: 'review' },
-  { id: 2, text: 'ship' },
+type WishlistedGame = { id: number; title: string };
+const $wishlist = stateAtom<readonly WishlistedGame[]>([
+  { id: 1, title: 'Starfall' },
+  { id: 2, title: 'Moon Harbor' },
 ]);
 
-const reverse = actionAtom((_get, set) =>
-  set($tasks, (items) => [...items].reverse()),
+const reverseWishlist = actionAtom((_get, set) =>
+  set($wishlist, (games) => [...games].reverse()),
 );
-const reset = actionAtom((_get, set) => set($tasks, []));
+const clearWishlist = actionAtom((_get, set) => set($wishlist, []));
 
-function TaskView({ task }: { task: Task }) {
+function WishlistGameView({ game }: { game: WishlistedGame }) {
   const { t } = useLingui();
 
-  const [done, setDone] = useState(false);
+  const [selectedForGift, setSelectedForGift] = useState(false);
 
   return (
     <li>
       <label className="demo-checkbox">
         <input
           type="checkbox"
-          checked={done}
-          onChange={(e) => setDone(e.target.checked)}
+          aria-label={
+            game.id === 1
+              ? t`Select Starfall as a gift`
+              : t`Select Moon Harbor as a gift`
+          }
+          checked={selectedForGift}
+          onChange={(event) => setSelectedForGift(event.target.checked)}
         />
-        <span style={{ textDecoration: done ? 'line-through' : 'none' }}>
-          {task.text === 'review' ? t`Review proposal` : t`Ship documentation`}
-        </span>
-        <code>#{task.id}</code>
+        <span>{game.title === 'Starfall' ? t`Starfall` : t`Moon Harbor`}</span>
+        <code>#{game.id}</code>
+        {selectedForGift && <small>{t`Selected for gift`}</small>}
       </label>
     </li>
   );
 }
 
-function TasksEmptyView() {
+function EmptyWishlistView() {
   const { t } = useLingui();
 
-  return <li className="demo-note">{t`All clear.`}</li>;
+  return <li className="demo-note">{t`Your wishlist is empty.`}</li>;
 }
 
-const Tasks = holoList({
-  source: $tasks,
-  view: TaskView,
-  getKey: (task) => task.id,
-  mapItem: (task) => ({ task }),
-  empty: TasksEmptyView,
+const Wishlist = holoList({
+  source: $wishlist,
+  view: WishlistGameView,
+  getKey: (game) => game.id,
+  mapItem: (game) => ({ game }),
+  empty: EmptyWishlistView,
 });
 
-function ControlsView({
+function WishlistControlsView({
   onReverse,
   onClear,
 }: {
@@ -62,34 +66,36 @@ function ControlsView({
   return (
     <div className="demo-controls">
       <button type="button" onClick={() => onReverse()}>
-        {t`Reverse rows`}
+        {t`Reverse wishlist`}
       </button>
       <button type="button" onClick={() => onClear()}>
-        {t`Clear`}
+        {t`Clear wishlist`}
       </button>
     </div>
   );
 }
 
-const Controls = holo({
-  view: ControlsView,
-  write: { onReverse: reverse, onClear: reset },
+const WishlistControls = holo({
+  view: WishlistControlsView,
+  write: { onReverse: reverseWishlist, onClear: clearWishlist },
 });
 
-function ListDemo() {
+function WishlistDemo() {
   const { t } = useLingui();
 
   return (
     <div className="demo-form">
-      <span className="demo-eyebrow">{t`Stable keys preserve row state`}</span>
-      <ul className="demo-task-list">
-        <Tasks />
+      <span className="demo-eyebrow">{t`Choose gifts from your wishlist`}</span>
+      <ul className="demo-wishlist">
+        <Wishlist />
       </ul>
-      <Controls />
-      <p className="demo-note">{t`Check a task, then reverse the rows.`}</p>
+      <WishlistControls />
+      <p className="demo-note">
+        {t`Select a gift, then reverse the list. Selection follows the game.`}
+      </p>
     </div>
   );
 }
 // #endregion list
 
-export default ListDemo;
+export default WishlistDemo;

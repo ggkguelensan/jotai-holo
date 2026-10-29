@@ -7,14 +7,14 @@ import { createFormControl } from 'react-hook-form';
 import { actionAtom, eventAtom, stateAtom, bond } from '../../src/vanilla.js';
 import { modelRegistry, pipe } from '../../src/model.js';
 import { createMutationModel } from '../../src/query.js';
-import { createShipmentDefinition as defineShipment } from '../../examples/model-composition.js';
+import { createDownloadDefinition as defineDownload } from '../../examples/model-composition.js';
 import { createFormModel } from '../../src/rhf.js';
 export { createSearchModel } from '../../examples/analytics/search-model.js';
 export { createSearchAnalyticsModel } from '../../examples/analytics/search.analytics.js';
 export {
-  createShipmentModel,
-  createShipmentDefinition,
-  modelTrackingFeed,
+  createDownloadModel,
+  createDownloadDefinition,
+  modelDownloadFeed,
 } from '../../examples/model-composition.js';
 
 export type User = {
@@ -119,13 +119,13 @@ export function UsersError() {
 export function UsersList() {
   return null;
 }
-export function ShipmentView(_props: { status: 'preparing' | 'in-transit' | 'delivered' }) {
+export function DownloadView(_props: { status: 'queued' | 'downloading' | 'installed' }) {
   return null;
 }
-export declare const trackingFeed: Parameters<
-  typeof import('../../examples/model-composition.js').createShipmentDefinition
+export declare const downloadFeed: Parameters<
+  typeof import('../../examples/model-composition.js').createDownloadDefinition
 >[0];
-export const $$shipment = defineShipment(trackingFeed);
+export const $$download = defineDownload(downloadFeed);
 export const $$base = pipe(() => ({ $count }), modelRegistry());
 export const $$counter = pipe(
   () => ({ $count, increment: actionAtom((_get, set) => set($count, (n) => n + 1)) }),
@@ -143,22 +143,24 @@ export function createProfileModel(initial: { profileId: string }) {
 export declare const loadSearchAnalytics: () => Promise<
   typeof import('../../examples/analytics/search.analytics.js').createSearchAnalyticsModel
 >;
-export type ProposalInput = { proposalId: string; discount: number; comment: string };
-export type Proposal = ProposalInput & { approved: boolean };
-export const proposalSaved = eventAtom<Proposal>();
-export const $$proposalMutation = createMutationModel({
-  mutation: () => ({
-    mutationFn: async (input: ProposalInput): Promise<Proposal> => ({ ...input, approved: true }),
-  }),
-});
-
 export const form = createFormControl({
   defaultValues: { email: '', address: { city: '' } },
 });
-export const $$contact = pipe(
+export const $$notifications = pipe(
   createFormModel({ initial: { email: '' }, options: (initial) => ({ defaultValues: initial }) }),
   modelRegistry(),
 );
-export function ContactView() {
+export function NotificationSettingsView() {
   return null;
 }
+
+export const $gamePrice = atom(80);
+export const $dlcPrice = atom(15);
+export const $paymentMethod = atom<'wallet' | 'card'>('wallet');
+export const $usesWallet = atom(true);
+export const $hasPaymentMethod = atom(true);
+export type CampaignInput = { gameId: string; discount: number; note: string };
+export const campaignSaved = eventAtom<CampaignInput>();
+export const $$campaignMutation = createMutationModel({
+  mutation: () => ({ mutationFn: async (input: CampaignInput) => input }),
+});

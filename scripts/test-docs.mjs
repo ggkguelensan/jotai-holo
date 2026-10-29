@@ -114,32 +114,32 @@ try {
     await page.goto(url(prefix, 'overview/analytics'));
     await page.waitForURL(url(prefix, 'topics/analytics'));
 
-    await page.goto(url(prefix, 'examples/workshop-tickets'));
+    await page.goto(url(prefix, 'examples/gift-copies'));
     let demo = page.locator('[data-demo="ion"]');
     await demo.getByRole('spinbutton').fill('4');
     await demo.getByRole('checkbox').check();
     await demo.getByText('$80.00', { exact: true }).waitFor();
 
-    await page.goto(url(prefix, 'examples/contact-forms'));
+    await page.goto(url(prefix, 'examples/player-notifications'));
     demo = page.locator('[data-demo="form"]');
     await demo
-      .getByRole('button', { name: label('Save contact'), exact: true })
+      .getByRole('button', { name: label('Save preferences'), exact: true })
       .first()
       .click();
     await demo.getByText(label('Enter a valid email'), { exact: true }).waitFor();
     await demo.locator('input').first().fill('ada@example.com');
     await demo
-      .getByRole('button', { name: label('Save contact'), exact: true })
+      .getByRole('button', { name: label('Save preferences'), exact: true })
       .first()
       .click();
     await demo.getByText(`${label('Saved:')} ada@example.com`, { exact: true }).waitFor();
     assert.equal(await demo.locator('input').last().inputValue(), '');
 
-    await page.goto(url(prefix, 'examples/product-catalog'));
+    await page.goto(url(prefix, 'examples/game-catalog'));
     demo = page.locator('[data-demo="query"]');
-    await demo.getByText(`${label('Oak desk')} · $240`, { exact: true }).waitFor();
-    await demo.getByRole('button', { name: label('Lamp'), exact: true }).click();
-    await demo.getByText(`${label('Desk lamp')} · $45`, { exact: true }).waitFor();
+    await demo.getByText(`${label('Starfall')} · $25`, { exact: true }).waitFor();
+    await demo.getByRole('button', { name: label('Moon Harbor'), exact: true }).click();
+    await demo.getByText(`${label('Moon Harbor')} · $15`, { exact: true }).waitFor();
 
     // Client navigation tears down live examples; returning starts a fresh store.
     await page.goto(url(prefix, 'examples/view-bindings'));
@@ -194,36 +194,39 @@ try {
 
   live = await openDemo('lists-and-branches', 'list');
   await live.getByRole('checkbox').first().check();
-  await live.getByRole('button', { name: 'Reverse rows', exact: true }).click();
+  await live.getByRole('button', { name: 'Reverse wishlist', exact: true }).click();
   assert.equal(await live.getByRole('checkbox').last().isChecked(), true);
 
   live = await openDemo('order-confirmation', 'bond');
-  await live.getByRole('button', { name: 'Submit demo order', exact: true }).click();
+  await live.getByRole('button', { name: 'Buy gift copies', exact: true }).click();
   await live.getByText('Receipt for order #100', { exact: true }).waitFor();
   await live.getByRole('checkbox').uncheck();
-  await live.getByRole('button', { name: 'Submit demo order', exact: true }).click();
+  await live.getByRole('button', { name: 'Buy gift copies', exact: true }).click();
   assert.match(await live.locator('output').innerText(), /#100/);
 
   live = await openDemo('order-confirmation', 'imperative');
   await live.getByRole('spinbutton').fill('2');
   await live.getByRole('button', { name: 'Place order', exact: true }).click();
   await live.getByRole('heading', { name: '#1001', exact: true }).waitFor();
-  assert.ok((await live.innerText()).includes('$250.00'));
+  assert.ok((await live.innerText()).includes('$50.00'));
   await live.getByRole('button', { name: 'Back to cart', exact: true }).click();
   assert.equal(await live.getByRole('spinbutton').inputValue(), '2');
 
   live = await openDemo('model-instances', 'model');
-  await live.getByRole('button', { name: 'Add a seat', exact: true }).first().click();
+  await live.getByRole('button', { name: 'Add a gift copy', exact: true }).first().click();
   await live.locator('output').first().getByText('6', { exact: true }).waitFor();
   assert.equal(await live.locator('output').last().innerText(), '5');
 
-  live = await openDemo('proposal-discount', 'mutation');
+  live = await openDemo('sale-campaign', 'mutation');
   await live.getByRole('spinbutton').fill('30');
-  await live.getByRole('button', { name: 'Save proposal', exact: true }).click();
-  await live.getByRole('alert').getByText('Discounts above 25% need approval.').waitFor();
+  await live.getByRole('button', { name: 'Save campaign', exact: true }).click();
+  await live
+    .getByRole('alert')
+    .getByText('Demo policy limits campaign discounts to 25%.')
+    .waitFor();
   await live.getByRole('spinbutton').fill('15');
-  await live.getByRole('button', { name: 'Save proposal', exact: true }).click();
-  await live.getByText('Saved discount: 15%', { exact: true }).waitFor();
+  await live.getByRole('button', { name: 'Save campaign', exact: true }).click();
+  await live.getByText('Saved campaign discount: 15%', { exact: true }).waitFor();
   await live.getByRole('button', { name: 'Clear feedback', exact: true }).click();
   assert.equal(await live.locator('output').innerText(), '');
 

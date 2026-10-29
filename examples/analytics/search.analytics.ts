@@ -30,20 +30,20 @@ export function createSearchAnalyticsModel(
     },
   });
 
-  const productOpened = analytics.event({
-    trigger: $$search.productOpened,
+  const gameOpened = analytics.event({
+    trigger: $$search.gameOpened,
 
     map: {
       posthog: (fact) => ({
-        name: 'product_opened',
+        name: 'game_opened',
         properties: {
-          product_id: fact.productId,
+          game_id: fact.gameId,
           list_position: fact.position + 1,
         },
       }),
     },
   });
 
-  return { searchCompleted, productOpened };
+  return { searchCompleted, gameOpened };
 }
 // #endregion search-analytics

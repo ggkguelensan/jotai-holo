@@ -36,7 +36,7 @@ excerpt uses the filter factory introduced in [atoms and models](/topics/atoms-a
 
 <<< @/../examples/atoms-or-models.tsx#keyed-model
 
-ProductTerm and ProductStock each select the filters record using `catalogId`. Their bindings map one field to a value and callback. ProductFilters composes these controls and passes only the ID; it does not read the filter values. Each field View receives ordinary props.
+GameTerm and GameSale each select the filters record using `catalogId`. Their bindings map one field to a value and callback. GameFilters composes these controls and passes only the ID; it does not read the filter values. Each field View receives ordinary props.
 
 These callbacks choose references. They do not subscribe to atom values or
 re-run a calculation whenever a value changes. Put calculations in a derived
@@ -54,7 +54,7 @@ For example, the parent can supply a search term that the atom graph needs:
 
 <<< @/../examples/documentation.tsx#input
 
-Rendering `<Search term="jotai" />` first commits the caller's props. `input`
+Rendering `<Search term="starfall" />` first commits the caller's props. `input`
 then passes `term` to `inputChanged`, which writes `$query`. The View receives
 the ordinary `term` prop as well as the atom value `query`.
 
@@ -68,7 +68,7 @@ exist before the first commit. See [the input contract](/reference/input).
 
 ## Keep UI-specific methods in the View {#imperative-view-methods}
 
-An order-created fact may need to navigate to a receipt. The business model
+A game-order-created fact may need to navigate to a receipt. The business model
 should publish the order ID; it does not need to hold a router function.
 
 The two sides of the bridge are an event mapping in holo and a handler inside

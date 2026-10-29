@@ -7,6 +7,18 @@ Use the same production style in guides, recipes, API snippets and live demos.
 Label an intentionally inferior starting point in a refactoring walkthrough;
 do not let it read as the recommended implementation.
 
+## Example domain
+
+Use one game-marketplace domain throughout the examples: game catalogs,
+wishlists, player profiles, gift orders, libraries, downloads and seller campaigns.
+Keep the technical task small. A seller sets campaign discounts; a buyer chooses
+an offered promotion. Multiple gift copies represent gifts for a group. Releasing
+a download-progress subscription does not cancel the launcher job.
+
+Use consistent fictional game IDs, names and prices. Keep server identity,
+editing-session identity and a player's local draft separate. A domain change
+must update runnable sources, article copy, translations and behavioral fixtures.
+
 ## Views and bindings
 
 - Give each View one useful display or interaction responsibility. Declare a

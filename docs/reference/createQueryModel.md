@@ -15,25 +15,25 @@ only the fields needed by the atom graph:
 import { QueryClient, queryOptions } from '@tanstack/react-query';
 import { createQueryModel } from 'jotai-holo/query';
 
-type Product = { id: string; name: string };
+type Game = { id: string; name: string };
 
-const productDetailQO = (id: string) =>
+const gameDetailQO = (id: string) =>
   queryOptions({
-    queryKey: ['product', id],
-    queryFn: async ({ signal }): Promise<Product> => {
-      const response = await fetch(`/api/products/${id}`, { signal });
-      if (!response.ok) throw new Error('Could not load the product');
+    queryKey: ['game', id],
+    queryFn: async ({ signal }): Promise<Game> => {
+      const response = await fetch(`/api/games/${id}`, { signal });
+      if (!response.ok) throw new Error('Could not load the game');
       return response.json();
     },
   });
 
 const client = new QueryClient();
 
-const $$productQuery = createQueryModel({
+const $$gameQuery = createQueryModel({
   client,
-  query: () => productDetailQO('P-1042'),
+  query: () => gameDetailQO('P-1042'),
   prism: {
-    $product: (result) => result.data,
+    $game: (result) => result.data,
     $pending: (result) => result.isPending,
     $error: (result) => result.error,
   },
@@ -52,7 +52,7 @@ instead inject its existing client through [queryClientAtom](/reference/queryCli
 ### Options and projections
 
 - `state` accepts the same native atom, tuple, or record inputs as ion. All declared inputs are read when options are needed. The query factory receives their values.
-- `query` returns complete native QueryObserverOptions. Pass your `productDetailQO(params)` factory result unchanged. Keep keys, query functions, retries, and resource defaults in that factory. No Query Kit runtime is required.
+- `query` returns complete native QueryObserverOptions. Pass your `gameDetailQO(params)` factory result unchanged. Keep keys, query functions, retries, and resource defaults in that factory. No Query Kit runtime is required.
 - `prism` is an **object of independent selectors**. Unread selectors never execute. Equal selected results do not notify consumers, even if isFetching changes elsewhere in the result. A callback returning all fields is deliberately unsupported.
 - `client` is your QueryClient or an atom containing it. Otherwise initialize [queryClientAtom](/reference/queryClientAtom) in the application's store. There is no hidden client. Share it with QueryClientProvider for native useQuery interoperability, and manage its application mount/unmount there.
 
@@ -72,7 +72,7 @@ The adapter does not create Promises for Suspense. Use native `useSuspenseQuery`
 
 Explicit notifyOnChangeProps also limits native observer notifications. Avoid restrictive lists if your projections read other result fields.
 
-The [product catalog example](/examples/product-catalog) derives `$screen` in `prism` and selects a View with `holoMatch`. Initial loading uses `isPending`; background fetching keeps the ready branch visible. A successful `null` result selects the empty branch. The screen atom does not narrow a separate data atom's TypeScript type, so the data View still checks for missing data.
+The [game catalog example](/examples/game-catalog) derives `$screen` in `prism` and selects a View with `holoMatch`. Initial loading uses `isPending`; background fetching keeps the ready branch visible. A successful `null` result selects the empty branch. The screen atom does not narrow a separate data atom's TypeScript type, so the data View still checks for missing data.
 
 ## Independent models
 

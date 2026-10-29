@@ -1,6 +1,6 @@
 # ion
 
-Calculate one value from several atoms. For example, derive a ticket total from quantity and discount.
+Calculate one value from several atoms. For example, derive the total for gift copies from their quantity and discount.
 
 <<< @/../examples/docs/ion.tsx#calculation
 

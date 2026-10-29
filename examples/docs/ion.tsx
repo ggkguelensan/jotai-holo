@@ -61,7 +61,7 @@ function DiscountView({
         checked={discount}
         onChange={(e) => onDiscount(e.target.checked)}
       />
-      {t`Member discount · 20%`}
+      {t`Bundle discount · 20%`}
     </label>
   );
 }
@@ -93,7 +93,7 @@ function Cart() {
 
   return (
     <div className="demo-form">
-      <span className="demo-eyebrow">{t`Workshop tickets · $25 each`}</span>
+      <span className="demo-eyebrow">{t`Gift copies · $25 each`}</span>
       <Quantity />
       <Discount />
       <Total />

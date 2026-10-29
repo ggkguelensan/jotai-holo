@@ -1,6 +1,6 @@
 # Profile: creation and editing
 
-A user opens their profile, edits it and saves. The editor should reuse a profile already in memory and load it otherwise. A separate RHF draft can keep unsaved edits while the accepted business profile updates.
+A player opens their profile, edits it and saves. The editor should reuse a profile already in memory and load it otherwise. A separate RHF draft can keep unsaved edits while the accepted business profile updates.
 
 This recipe follows that sequence. The business model accepts profile values; a separate assembly module connects loading and saving. The example uses one current-user profile, not a registry of different accounts.
 

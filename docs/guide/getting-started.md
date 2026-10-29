@@ -1,6 +1,6 @@
 # Getting started
 
-Connect a profile name field to Jotai. The field will receive a string and a
+Connect a player profile name field to Jotai. The field will receive a string and a
 callback, just as it would from a parent component. `holo` supplies those props
 from atoms.
 

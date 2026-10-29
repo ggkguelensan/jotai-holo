@@ -16,8 +16,8 @@ msgstr "Аналитика каталога"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/catalog-analytics.md
-msgid "The search form, product list and product details each connect to the same $$search model through their own holo. Each View subscribes only to the values it displays. Analytics is attached once to the model: additional View owners share the connection, so one fact produces one delivery per selected engine. Removing one View leaves observation active until the final owner releases it."
-msgstr "Форма поиска, список товаров и карточка товара подключаются к одной модели $$search через отдельные holo. Каждая View подписывается только на отображаемые значения. Аналитика подключена к модели один раз: дополнительные View совместно владеют подключением, поэтому один факт даёт одну отправку в каждый выбранный движок. Уход одной View не останавливает наблюдение, пока остаются другие владельцы."
+msgid "The search form, game list and game details each connect to the same $$search model through their own holo. Each View subscribes only to the values it displays. Analytics is attached once to the model: additional View owners share the connection, so one fact produces one delivery per selected engine. Removing one View leaves observation active until the final owner releases it."
+msgstr "Форма поиска, список игр и карточка игры подключаются к одной модели $$search через собственные holo. Каждая View подписана только на отображаемые значения. Аналитика подключается к модели один раз: дополнительные владельцы View используют общее подключение, поэтому один факт доставляется каждому выбранному движку один раз. Удаление одной View сохраняет наблюдение до ухода последнего владельца."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -73,15 +73,15 @@ msgstr "Сборка приложения"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/catalog-analytics.md
-#: docs/examples/contact-forms.md
+#: docs/examples/game-catalog.md
+#: docs/examples/gift-copies.md
 #: docs/examples/lists-and-branches.md
 #: docs/examples/model-instances.md
 #: docs/examples/order-confirmation.md
-#: docs/examples/product-catalog.md
+#: docs/examples/player-notifications.md
 #: docs/examples/profile-fields.md
-#: docs/examples/proposal-discount.md
+#: docs/examples/sale-campaign.md
 #: docs/examples/view-bindings.md
-#: docs/examples/workshop-tickets.md
 msgid "Continue reading"
 msgstr "Что дальше"
 
@@ -94,24 +94,86 @@ msgstr "- [Как это работает](/topics/analytics)\n"
 "- [API-справочник](/reference/holo)"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/contact-forms.md
-msgid "Isolated contact forms"
-msgstr "Изолированные формы контактов"
+#: docs/examples/product-catalog.md
+#: docs/examples/proposal-discount.md
+#: docs/examples/workshop-tickets.md
+#: docs/guide/atoms-or-models.md
+#: docs/guide/model-composition.md
+#: docs/overview/analytics.md
+#: docs/overview/bond.md
+#: docs/overview/holo.md
+#: docs/overview/index.md
+#: docs/overview/jotai-operators.md
+#: docs/overview/lists-and-branches.md
+#: docs/overview/models-and-registry.md
+#: docs/overview/react-hook-form.md
+#: docs/overview/tanstack-query.md
+#: docs/recipes/spreadsheet.md
+msgid "Page moved"
+msgstr "Страница переехала"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/contact-forms.md
-msgid "Edit Ada’s email and watch her external Save panel. Grace keeps a separate draft. Submit an invalid email to see native RHF validation prevent the save."
-msgstr "Измените email Ады и посмотрите на её отдельную панель сохранения. У Грейс свой черновик. Введите некорректный email: штатная валидация RHF не даст отправить форму."
+msgid "Continue with [the example](/examples/player-notifications)."
+msgstr "Перейдите к [примеру](/examples/player-notifications)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/examples/contact-forms.md
-msgid "- [How it works](/topics/rhf-models)\n"
-"- [API reference](/reference/holoForm)"
-msgstr "- [Как это работает](/topics/rhf-models)\n"
-"- [Описание API](/reference/holoForm)"
+#: docs/examples/game-catalog.md
+msgid "Game catalog"
+msgstr "Каталог игр"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/game-catalog.md
+msgid "Choose a game and watch loading change to its card. Inspect the code for the empty and error branches too. Query projections feed the atom graph; holoMatch chooses which View to display."
+msgstr "Выберите игру и проследите, как загрузка сменяется её карточкой. Посмотрите в коде также ветки пустого результата и ошибки. Проекции Query передают данные в граф атомов; holoMatch выбирает отображаемую View."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/game-catalog.md
+msgid "- [How it works](/topics/tanstack-models)\n"
+"- [API reference](/reference/createQueryModel)"
+msgstr "- [Как это работает](/topics/tanstack-models)\n"
+"- [Описание API](/reference/createQueryModel)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/gift-copies.md
+msgid "Gift copies"
+msgstr "Копии в подарок"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/gift-copies.md
+msgid "Change the number of game copies to gift and the promotional discount: ion recalculates the total. The second demo combines known boolean and numeric operations without custom mapping functions."
+msgstr "Измените число подарочных копий игры и промоскидку: ion пересчитает итог. Второе демо сочетает готовые логические и числовые операции без собственных функций преобразования."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/gift-copies.md
+msgid "- [How it works](/topics/atoms-and-models)\n"
+"- [API reference](/reference/ion)"
+msgstr "- [Как это работает](/topics/atoms-and-models)\n"
+"- [Описание API](/reference/ion)"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -128,32 +190,32 @@ msgstr "Запустите небольшое приложение, изучит
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/index.md
-msgid "| Example                                                     | What to inspect                                  |\n"
-"| ----------------------------------------------------------- | ------------------------------------------------ |\n"
-"| [Workshop tickets](/examples/workshop-tickets)              | Derived totals and boolean conditions            |\n"
-"| [Independent profile fields](/examples/profile-fields)      | Lazy projections and small consumers             |\n"
-"| [Small Views and committed inputs](/examples/view-bindings) | Values, callbacks and parent input               |\n"
-"| [Order confirmation](/examples/order-confirmation)          | Facts and imperative View methods                |\n"
-"| [Independent proposal drafts](/examples/model-instances)    | Shared keys, independent instances and ownership |\n"
-"| [Product catalog](/examples/product-catalog)                | Query projections and screen states              |\n"
-"| [Proposal discount](/examples/proposal-discount)            | Async mutation, validation failure and reset     |\n"
-"| [Isolated contact forms](/examples/contact-forms)           | Native RHF controls and independent drafts       |\n"
-"| [Rows and screen states](/examples/lists-and-branches)      | Stable keys and inactive branches                |\n"
-"| [Catalog analytics](/examples/catalog-analytics)            | One model, several Views and engine mappings     |\n"
-"| [Spreadsheet formulas](/examples/spreadsheet)               | Dynamic dependencies and editable formulas       |"
-msgstr "| Пример | Что изучить |\n"
-"| ----------------------------------------------------------- | ------------------------------------------------ |\n"
-"|[Билеты на мероприятие](/examples/workshop-tickets)| Итоги и логические условия |\n"
-"|[Независимые поля профиля](/examples/profile-fields)| Ленивые проекции и небольшие View |\n"
-"|[Небольшие View и входящие props](/examples/view-bindings)| Значения, callbacks и входящие props |\n"
-"|[Подтверждение заказа](/examples/order-confirmation)| Факты и императивные методы View |\n"
-"|[Независимые черновики предложений](/examples/model-instances)| Общие ключи, экземпляры и владение |\n"
-"|[Каталог товаров](/examples/product-catalog)| Проекции Query и состояния экрана |\n"
-"|[Скидка в предложении](/examples/proposal-discount)| Async-мутация, ошибка проверки и reset |\n"
-"|[Изолированные формы контактов](/examples/contact-forms)| Нативные RHF control и черновики |\n"
-"|[Строки и состояния экрана](/examples/lists-and-branches)| Стабильные ключи и неактивные ветви |\n"
-"|[Аналитика каталога](/examples/catalog-analytics)| Одна модель, несколько View и маппинг |\n"
-"|[Формулы таблицы](/examples/spreadsheet)| Динамические зависимости и формулы |"
+msgid "| Example                                                           | What to inspect                                  |\n"
+"| ----------------------------------------------------------------- | ------------------------------------------------ |\n"
+"| [Gift copies](/examples/gift-copies)                              | Derived totals and boolean conditions            |\n"
+"| [Independent profile fields](/examples/profile-fields)            | Lazy projections and small consumers             |\n"
+"| [Small Views and committed inputs](/examples/view-bindings)       | Values, callbacks and parent input               |\n"
+"| [Order confirmation](/examples/order-confirmation)                | Facts and imperative View methods                |\n"
+"| [Independent gift order drafts](/examples/model-instances)        | Shared keys, independent instances and ownership |\n"
+"| [Game catalog](/examples/game-catalog)                            | Query projections and screen states              |\n"
+"| [Seller sale campaign](/examples/sale-campaign)                   | Async mutation, validation failure and reset     |\n"
+"| [Isolated notification forms](/examples/player-notifications)     | Native RHF controls and independent drafts       |\n"
+"| [Wishlist rows and library screens](/examples/lists-and-branches) | Stable keys and inactive branches                |\n"
+"| [Catalog analytics](/examples/catalog-analytics)                  | One model, several Views and engine mappings     |\n"
+"| [Spreadsheet formulas](/examples/spreadsheet)                     | Dynamic dependencies and editable formulas       |"
+msgstr "| Пример | Что проверить |\n"
+"| --- | --- |\n"
+"| [Копии в подарок](/examples/gift-copies) | Производные итоги и логические условия |\n"
+"| [Независимые поля профиля](/examples/profile-fields) | Ленивые проекции и небольшие потребители |\n"
+"| [Маленькие View и подтверждённые входы](/examples/view-bindings) | Значения, callbacks и входы от родителя |\n"
+"| [Подтверждение заказа](/examples/order-confirmation) | Факты и императивные методы View |\n"
+"| [Независимые черновики подарочных заказов](/examples/model-instances) | Общие ключи, независимые экземпляры и владение |\n"
+"| [Каталог игр](/examples/game-catalog) | Проекции Query и состояния экрана |\n"
+"| [Распродажа продавца](/examples/sale-campaign) | Асинхронная мутация, отказ проверки и сброс |\n"
+"| [Независимые формы уведомлений](/examples/player-notifications) | Нативные RHF control и отдельные черновики |\n"
+"| [Список желаемого и экраны библиотеки](/examples/lists-and-branches) | Стабильные ключи и неактивные ветки |\n"
+"| [Аналитика каталога](/examples/catalog-analytics) | Одна модель, несколько View и маппинг движков |\n"
+"| [Таблица с формулами](/examples/spreadsheet) | Динамические зависимости и редактирование формул |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -164,8 +226,8 @@ msgstr "Строки и состояния экрана"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/lists-and-branches.md
-msgid "Check a task, then reverse the rows: its local checked state follows the task ID. Switch the selected screen in the second demo; only the active screen mounts."
-msgstr "Отметьте задачу, затем переверните порядок строк: отметка останется у задачи с тем же ID. Во втором примере переключите экран — монтируется только выбранный."
+msgid "Select a wishlisted game as a gift, then reverse the rows: its local selection follows the game ID. Switch the library screen in the second demo; only the active screen mounts."
+msgstr "Выберите игру из списка желаемого в подарок, затем разверните строки: локальный выбор сохранится за ID игры. Переключите экран библиотеки во втором демо; монтируется только активный экран."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -178,14 +240,14 @@ msgstr "- [Как это работает](/topics/holo)\n"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/model-instances.md
-msgid "Independent proposal drafts"
-msgstr "Независимые черновики предложений"
+msgid "Independent gift order drafts"
+msgstr "Независимые черновики подарочных заказов"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/model-instances.md
-msgid "Add seats to Atlas, then to Beacon. Each proposal has its own draft; its counter and toolbar share that draft. The second demo shows loading and saving when model owners come and go."
-msgstr "Добавьте места сначала в Atlas, затем в Beacon. У каждого предложения свой черновик, а его счётчик и панель инструментов работают с общими данными. Второй пример показывает, когда запускаются загрузка и сохранение при появлении и уходе владельцев модели."
+msgid "Add gift copies to the Atlas draft, then to Beacon. Each recipient group has its own gift-order draft; its counter and toolbar share the planned copy count. The second demo shows loading and saving when model owners come and go."
+msgstr "Добавьте подарочные копии в черновик Atlas, затем в Beacon. У каждой группы получателей свой черновик подарочного заказа; счётчик и панель используют общее планируемое число копий. Второе демо показывает загрузку и сохранение при появлении и уходе владельцев модели."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -204,8 +266,8 @@ msgstr "Подтверждение заказа"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/order-confirmation.md
-msgid "Create an order to deliver a domain fact to a View method. The second demo routes an order fact to a receipt through bond. Disable receipt generation to see the guard reject the reaction without blocking order submission."
-msgstr "Создайте заказ: доменный факт вызовет метод View. Во втором примере bond передаёт факт о заказе обработчику квитанций. Отключите создание квитанций: guard отклонит реакцию, но заказ по-прежнему можно отправить."
+msgid "Place a demo game order to deliver a domain fact to a View method. The second demo routes an order fact to a receipt through bond. Disable receipt generation to see the guard reject the reaction without blocking order submission."
+msgstr "Оформите демозаказ игры, чтобы доставить доменный факт методу View. Второе демо направляет факт заказа в квитанцию через bond. Отключите создание квитанции: guard отклонит реакцию, но не помешает оформлению заказа."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -217,23 +279,29 @@ msgstr "- [Как это работает](/topics/holo)\n"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/examples/product-catalog.md
-msgid "Product catalog"
-msgstr "Каталог товаров"
+#: docs/examples/player-notifications.md
+msgid "Isolated notification forms"
+msgstr "Независимые формы уведомлений"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/player-notifications.md
+msgid "Edit player Nova’s notification email and watch her external Save panel. Pixel keeps a separate draft. Submit an invalid email to see native RHF validation prevent the save."
+msgstr "Измените email уведомлений игрока Nova и проследите за её внешней панелью сохранения. У Pixel отдельный черновик. Отправьте неверный email: нативная валидация RHF не даст сохранить форму."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/player-notifications.md
+msgid "- [How it works](/topics/rhf-models)\n"
+"- [API reference](/reference/holoForm)"
+msgstr "- [Как это работает](/topics/rhf-models)\n"
+"- [Описание API](/reference/holoForm)"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/product-catalog.md
-msgid "Choose a product and watch loading change to its card. Inspect the code for the empty and error branches too. Query projections feed the atom graph; holoMatch chooses which View to display."
-msgstr "Выберите товар: сначала появится загрузка, затем карточка. Посмотрите в коде также ветки пустого результата и ошибки. Проекции Query передают данные в граф атомов, а holoMatch выбирает View для отображения."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/examples/product-catalog.md
-msgid "- [How it works](/topics/tanstack-models)\n"
-"- [API reference](/reference/createQueryModel)"
-msgstr "- [Как это работает](/topics/tanstack-models)\n"
-"- [Описание API](/reference/createQueryModel)"
+msgid "Continue with [the example](/examples/game-catalog)."
+msgstr "Перейдите к [примеру](/examples/game-catalog)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -244,8 +312,8 @@ msgstr "Независимые поля профиля"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/profile-fields.md
-msgid "Edit the profile fields separately. Each displayed value comes from its own prism projection, so consumers do not need the entire profile object."
-msgstr "Редактируйте поля профиля по отдельности. Каждое отображаемое значение приходит из своей проекции prism, поэтому потребителям не нужен весь объект профиля."
+msgid "Edit the player profile fields separately. Each displayed value comes from its own prism projection, so consumers do not need the entire profile object."
+msgstr "Редактируйте поля профиля игрока по отдельности. Каждое отображаемое значение приходит из собственной проекции prism, поэтому потребителям не нужен весь объект профиля."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -258,18 +326,24 @@ msgstr "- [Как это работает](/topics/atoms-and-models)\n"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/proposal-discount.md
-msgid "Proposal discount"
-msgstr "Скидка в предложении"
+msgid "Continue with [the example](/examples/sale-campaign)."
+msgstr "Перейдите к [примеру](/examples/sale-campaign)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/examples/proposal-discount.md
-msgid "Request a discount of 20%, then one above 25%. The local service simulation accepts the first and rejects the second. Inspect pending state, the returned save result and reset behavior."
-msgstr "Запросите скидку 20%, затем больше 25%. Имитация сервиса примет первый запрос и отклонит второй. Посмотрите на состояние ожидания, результат сохранения и поведение reset."
+#: docs/examples/sale-campaign.md
+msgid "Seller sale campaign"
+msgstr "Распродажа продавца"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
-#: docs/examples/proposal-discount.md
+#: docs/examples/sale-campaign.md
+msgid "As a seller, set a 20% discount for Starfall, then try more than 25%. This demo campaign policy accepts the first and rejects the second. Inspect pending state, the returned save result and reset behavior."
+msgstr "В роли продавца задайте скидку 20% для Starfall, затем попробуйте больше 25%. Демополитика акции принимает первый вариант и отклоняет второй. Проверьте состояние ожидания, результат сохранения и сброс."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/sale-campaign.md
 msgid "- [How it works](/topics/tanstack-models)\n"
 "- [API reference](/reference/createMutationModel)"
 msgstr "- [Как это работает](/topics/tanstack-models)\n"
@@ -284,8 +358,8 @@ msgstr "Таблица с формулами"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Estimate a website project with a small spreadsheet: hours × rate, a 10% reserve, and a running total. Edit a number or replace a formula; dependent cells update immediately."
-msgstr "Рассчитайте стоимость сайта в небольшой таблице: часы × ставка, резерв 10% и общий итог. Измените число или формулу — зависимые ячейки пересчитаются сразу."
+msgid "Estimate a game gift bundle with a small spreadsheet: copies × price, a demo 10% tax, and a running total. Edit a number or replace a formula; dependent cells update immediately."
+msgstr "Рассчитайте бюджет подарочного набора игр в небольшой таблице: копии × цена, демонстрационный налог 10% и общий итог. Измените число или формулу — зависимые ячейки сразу обновятся."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -296,14 +370,14 @@ msgstr "Попробуйте"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Change B1 from 12 to 20: D1, the reserve, and the project total change. Select D1 to see `=B1*C1` in the formula bar. Change it to `=B2*C2`, then edit B1 again: D1 now follows row 2 instead. Enter `=D1` into D1 to see a cycle error, then restore the original formula."
-msgstr "Измените B1 с 12 на 20: изменятся D1, резерв и общий итог. Выберите D1, чтобы увидеть `=B1*C1` в строке формул. Замените её на `=B2*C2` и снова измените B1: теперь D1 зависит от строки 2. Введите `=D1` в D1, чтобы увидеть ошибку цикла, затем восстановите исходную формулу."
+msgid "Change B1 from 12 to 20: D1, the tax, and the bundle total change. Select D1 to see `=B1*C1` in the formula bar. Change it to `=B2*C2`, then edit B1 again: D1 now follows row 2 instead. Enter `=D1` into D1 to see a cycle error, then restore the original formula."
+msgstr "Измените B1 с 12 на 20: изменятся D1, налог и итог набора. Выберите D1, чтобы увидеть `=B1*C1` в строке формул. Замените формулу на `=B2*C2`, затем снова измените B1: теперь D1 зависит от строки 2. Введите `=D1` в D1, чтобы увидеть ошибку цикла, затем верните исходную формулу."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Enter moves down, Shift+Enter moves up, and Tab follows the inputs. Left/right arrows cross cells at the text boundary. Escape leaves the editor; edits are applied immediately. Reset restores the sample budget. Empty cells in rows 6–8 are a scratch area."
-msgstr "Enter перемещает вниз, Shift+Enter — вверх, Tab — к следующему полю. Стрелки влево и вправо переходят между ячейками на границе текста. Escape завершает редактирование; изменения применяются сразу. Сброс восстанавливает пример бюджета. Пустые строки 6–8 можно использовать для своих расчётов."
+msgid "Enter moves down, Shift+Enter moves up, and Tab follows the inputs. Left/right arrows cross cells at the text boundary. Escape leaves the editor; edits are applied immediately. Reset restores the sample gift budget. Empty cells in rows 6–8 are a scratch area."
+msgstr "Enter перемещает вниз, Shift+Enter — вверх, Tab — по полям. Стрелки влево/вправо переходят между ячейками на границе текста. Escape завершает редактирование; правки применяются сразу. Сброс восстанавливает пример бюджета подарков. Пустые строки 6–8 подходят для экспериментов."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -380,8 +454,8 @@ msgstr "Небольшие View и входящие props"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/view-bindings.md
-msgid "The counter separates atom values from callback props. The input demo then shows a parent-provided search term entering a model after commit."
-msgstr "В счётчике значения атомов отделены от callback-пропсов. Следующий пример показывает, как переданный родителем поисковый запрос попадает в модель после commit."
+msgid "The reward-token counter separates atom values from callback props. The input demo then shows a parent-provided search term entering a model after commit."
+msgstr "Счётчик жетонов награды разделяет значения атомов и callback-пропсы. Демо входов затем показывает, как поисковый запрос родителя попадает в модель после commit."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -394,22 +468,8 @@ msgstr "- [Как это работает](/topics/holo)\n"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/workshop-tickets.md
-msgid "Workshop tickets"
-msgstr "Билеты на мероприятие"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/examples/workshop-tickets.md
-msgid "Change the ticket quantity and member discount: ion recalculates the total. The second demo combines known boolean and numeric operations without custom mapping functions."
-msgstr "Измените количество билетов и скидку участника: ion пересчитает итог. Во втором примере готовые логические и числовые операторы заменяют собственные функции преобразования."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/examples/workshop-tickets.md
-msgid "- [How it works](/topics/atoms-and-models)\n"
-"- [API reference](/reference/ion)"
-msgstr "- [Как это работает](/topics/atoms-and-models)\n"
-"- [Описание API](/reference/ion)"
+msgid "Continue with [the example](/examples/gift-copies)."
+msgstr "Перейдите к [примеру](/examples/gift-copies)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -420,10 +480,10 @@ msgstr "Архитектура и стек"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "A profile editor has at least two kinds of data: the server's saved profile and\n"
+msgid "A player profile editor has at least two kinds of data: the server's saved profile and\n"
 "the user's unsaved draft. A request cache owns the first. A business model can\n"
 "own the second. The View lets the user edit it."
-msgstr "В редакторе профиля есть как минимум два вида данных: сохранённый на сервере профиль и ещё не сохранённый черновик. Первыми управляет кеш запросов. Вторыми может управлять бизнес-модель. View позволяет пользователю их редактировать."
+msgstr "В редакторе профиля игрока есть как минимум два вида данных: сохранённый на сервере профиль и несохранённый черновик. Первыми владеет кеш запросов. Вторыми может владеть бизнес-модель. View позволяет их редактировать."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -632,34 +692,6 @@ msgstr "Продолжите со статьи [«Атомы и модели»](
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/atoms-or-models.md
-#: docs/guide/model-composition.md
-#: docs/overview/analytics.md
-#: docs/overview/bond.md
-#: docs/overview/holo.md
-#: docs/overview/index.md
-#: docs/overview/jotai-operators.md
-#: docs/overview/lists-and-branches.md
-#: docs/overview/models-and-registry.md
-#: docs/overview/react-hook-form.md
-#: docs/overview/tanstack-query.md
-#: docs/recipes/spreadsheet.md
-msgid "Page moved"
-msgstr "Страница переехала"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/atoms-or-models.md
 #: docs/overview/jotai-operators.md
@@ -675,8 +707,8 @@ msgstr "Бизнес-логика и маленькие View"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/business-logic.md
-msgid "A sales editor calculates a proposal, saves it and reports a successful save. These are related responsibilities, but they need different owners: domain functions define the rules, atoms coordinate the workflow, React renders the result, and analytics observes completed facts."
-msgstr "Редактор рассчитывает предложение, сохраняет его и сообщает об успешном сохранении. Эти обязанности связаны, но у каждой свой владелец: доменные функции определяют правила, атомы управляют процессом, React показывает результат, а аналитика наблюдает за произошедшими фактами."
+msgid "A gift-order editor calculates the cost of game copies, saves the draft and reports a successful save. These are related responsibilities, but they need different owners: domain functions define the rules, atoms coordinate the workflow, React renders the result, and analytics observes completed facts."
+msgstr "Редактор подарочного заказа рассчитывает стоимость игровых копий, сохраняет черновик и сообщает об успешном сохранении. Задачи связаны, но требуют разных владельцев: доменные функции задают правила, атомы координируют сценарий, React отображает результат, аналитика наблюдает завершённые факты."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -711,8 +743,8 @@ msgstr "Начните с бизнес-процесса"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/business-logic.md
-msgid "Write the sequence in business terms: validate the draft, capture the submitted values, request a save, accept the response, publish that the proposal was saved. A command expresses an intention and can fail. A fact describes something that has already happened; publish it only after the relevant operation succeeds."
-msgstr "Опишите последовательность на языке бизнеса: проверить черновик, зафиксировать отправляемые значения, запросить сохранение, принять ответ, сообщить о сохранённом предложении. Команда выражает намерение и может завершиться ошибкой. Факт описывает то, что уже произошло; публикуйте его только после успешного завершения соответствующей операции."
+msgid "Write the sequence in business terms: validate the draft, capture the submitted values, request a save, accept the response, publish that the gift order was saved. A command expresses an intention and can fail. A fact describes something that has already happened; publish it only after the relevant operation succeeds."
+msgstr "Опишите последовательность в терминах задачи: проверить черновик, зафиксировать отправляемые значения, запросить сохранение, принять ответ, сообщить о сохранении подарочного заказа. Команда выражает намерение и может завершиться неудачей. Факт описывает уже произошедшее; публикуйте его только после успеха соответствующей операции."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -923,10 +955,10 @@ msgstr "Начало работы"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Connect a profile name field to Jotai. The field will receive a string and a\n"
+msgid "Connect a player profile name field to Jotai. The field will receive a string and a\n"
 "callback, just as it would from a parent component. `holo` supplies those props\n"
 "from atoms."
-msgstr "Подключим поле имени профиля к Jotai. Поле получит строку и callback, как если бы их передал родительский компонент. `holo` возьмёт эти пропсы из атомов."
+msgstr "Подключите поле имени профиля игрока к Jotai. Поле получит строку и callback, как получало бы от родителя. `holo` передаст эти пропсы из атомов."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1827,8 +1859,8 @@ msgstr "Профиль: создание и редактирование"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile-composition.md
-msgid "A user opens their profile, edits it and saves. The editor should reuse a profile already in memory and load it otherwise. A separate RHF draft can keep unsaved edits while the accepted business profile updates."
-msgstr "Пользователь открывает профиль, редактирует и сохраняет его. Редактор должен использовать профиль из памяти, а при его отсутствии — загрузить. Отдельный черновик RHF позволяет сохранить несохранённые правки, пока принятый бизнес-профиль обновляется."
+msgid "A player opens their profile, edits it and saves. The editor should reuse a profile already in memory and load it otherwise. A separate RHF draft can keep unsaved edits while the accepted business profile updates."
+msgstr "Игрок открывает профиль, редактирует его и сохраняет. Редактор должен использовать профиль из памяти, а при его отсутствии загрузить данные. Отдельный черновик RHF сохраняет несохранённые правки, пока принятый бизнес-профиль обновляется."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2041,8 +2073,8 @@ msgstr "Модель профиля: команда → факт → реакц�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "A user edits a draft and presses Save. TanStack Query runs the mutation and owns its pending and error state. After success, the command publishes `profileSaved`; a notification reacts without controlling persistence."
-msgstr "Пользователь редактирует черновик и нажимает Save. TanStack Query выполняет мутацию и хранит состояние запроса и ошибку. После успеха команда публикует `profileSaved`; уведомление реагирует на факт, не управляя сохранением."
+msgid "A player edits their profile draft and presses Save. TanStack Query runs the mutation and owns its pending and error state. After success, the command publishes `profileSaved`; a notification reacts without controlling persistence."
+msgstr "Игрок меняет черновик профиля и нажимает Save. TanStack Query выполняет мутацию и владеет состояниями ожидания и ошибки. После успеха команда публикует `profileSaved`; уведомление реагирует на факт, не управляя сохранением."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2215,8 +2247,8 @@ msgstr "Модель работает с данными сервера"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/server-data.md
-msgid "A profile editor needs an initial profile, but background refetches must not erase its work. Give the business model an input command, then connect a Query projection only while the model is empty."
-msgstr "Редактору нужен начальный профиль, но фоновая перезагрузка не должна стирать работу. Добавьте входную команду бизнес-модели и подключайте проекцию Query, только пока модель пуста."
+msgid "A player profile editor needs an initial profile, but background refetches must not erase its work. Give the business model an input command, then connect a Query projection only while the model is empty."
+msgstr "Редактору профиля игрока нужны начальные данные, но фоновые обновления не должны стирать его работу. Дайте бизнес-модели входную команду, затем подключите проекцию Query только пока модель пуста."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2275,8 +2307,8 @@ msgstr "Дождитесь начальных данных, прежде чем 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/server-data.md
-msgid "The following proposal form uses a Zod resolver and includes editorId in its model key. Two tabs can share server data while keeping independent controls."
-msgstr "Форма предложения ниже использует Zod resolver и включает editorId в ключ модели. Две вкладки могут разделять серверные данные, сохраняя независимые controls."
+msgid "The following group-gift form edits the planned copies and gift message. It uses a Zod resolver and includes editorId in its model key. Two tabs can share server data while keeping independent controls."
+msgstr "Следующая форма группового подарка редактирует планируемое число копий и сообщение к подарку. Она использует Zod resolver и включает editorId в ключ модели. Две вкладки могут разделять серверные данные, сохраняя независимые control."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2357,8 +2389,8 @@ msgstr "actionAtom"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
-msgid "Describe an operation that reads or updates atoms, such as changing a profile name."
-msgstr "Опишите операцию, которая читает или обновляет атомы, например изменение имени профиля."
+msgid "Describe an operation that reads or updates atoms, such as changing a player profile name."
+msgstr "Опишите операцию чтения или изменения атомов, например изменение имени в профиле игрока."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -2607,8 +2639,8 @@ msgstr "and"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/and.md
-msgid "Require every condition to pass. For example, enable ordering only when a delivery method is available and the terms are accepted."
-msgstr "Проверьте выполнение всех условий. Например, разрешите заказ, когда доступна доставка и приняты условия."
+msgid "Require every condition to pass. For example, enable a game purchase only when a payment method is supported and the terms are accepted."
+msgstr "Потребуйте выполнения всех условий. Например, разрешите покупку игры, только когда способ оплаты поддерживается и условия приняты."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -2861,10 +2893,10 @@ msgstr "createAnalytics"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createAnalytics.md
-msgid "Observe a profile-viewed fact and map it to an audit message. Each declared\n"
+msgid "Observe a player-profile-viewed fact and map it to an audit message. Each declared\n"
 "engine has its own mapping, so a fact can go to several engines with different\n"
 "field names, or to only one selected engine."
-msgstr "Наблюдайте факт просмотра профиля и преобразуйте его в сообщение аудита. У каждого движка свой mapping, поэтому один факт можно отправить нескольким движкам с разными именами полей или только одному выбранному."
+msgstr "Наблюдайте факт просмотра профиля игрока и преобразуйте его в сообщение аудита. У каждого объявленного движка свой маппинг: факт может уйти в несколько движков с разными именами полей или только в один выбранный."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3029,8 +3061,8 @@ msgstr "createFormModel"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createFormModel.md
-msgid "Create a separate RHF form for each model key. An editor and an external Save panel can share that form without sharing it with another contact."
-msgstr "Создайте отдельную форму RHF для каждого ключа модели. Редактор и внешняя панель сохранения могут работать с одной формой, не затрагивая другого контакта."
+msgid "Create a separate RHF form for each model key. A notification-preferences editor and an external Save panel can share that form without sharing it with another player."
+msgstr "Создавайте отдельную форму RHF для каждого ключа модели. Редактор настроек уведомлений и внешняя панель сохранения могут использовать одну форму, не разделяя её с другим игроком."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3109,8 +3141,8 @@ msgstr "createMutationModel"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createMutationModel.md
-msgid "Execute a TanStack mutation from an atom workflow and expose its result through independent atoms. The [proposal discount example](/examples/proposal-discount) shows a save that can succeed or fail."
-msgstr "Запускайте мутацию TanStack из атомного сценария и читайте результат через независимые атомы. [Пример скидки на предложение](/examples/proposal-discount) показывает успешное и неуспешное сохранение."
+msgid "Execute a TanStack mutation from an atom workflow and expose its result through independent atoms. The [seller campaign example](/examples/sale-campaign) shows a save that can succeed or fail."
+msgstr "Запустите мутацию TanStack из сценария атомов и предоставьте результат через независимые атомы. [Пример распродажи продавца](/examples/sale-campaign) показывает сохранение с успехом или ошибкой."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3121,9 +3153,9 @@ msgstr "Опциональная точка входа: `jotai-holo/query`. Тр
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createMutationModel.md
-msgid "The options factory defines the operation. Variables supply the values for each\n"
+msgid "The options factory defines a seller request to save a game sale campaign. The server validates the campaign discount against its policy. Variables supply the values for each\n"
 "call; `mutate` is the writable atom used to execute it:"
-msgstr "Фабрика опций определяет операцию. Variables передают значения конкретного вызова, а writable-атом `mutate` запускает его:"
+msgstr "Фабрика опций описывает запрос продавца на сохранение скидочной акции игры. Сервер проверяет скидку по своей политике. Переменные задают значения каждого вызова; `mutate` — writable-атом для его запуска:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3314,13 +3346,13 @@ msgstr "Опции и проекции"
 #. js-lingui-explicit-id
 #: docs/reference/createQueryModel.md
 msgid "- `state` accepts the same native atom, tuple, or record inputs as ion. All declared inputs are read when options are needed. The query factory receives their values.\n"
-"- `query` returns complete native QueryObserverOptions. Pass your `productDetailQO(params)` factory result unchanged. Keep keys, query functions, retries, and resource defaults in that factory. No Query Kit runtime is required.\n"
+"- `query` returns complete native QueryObserverOptions. Pass your `gameDetailQO(params)` factory result unchanged. Keep keys, query functions, retries, and resource defaults in that factory. No Query Kit runtime is required.\n"
 "- `prism` is an **object of independent selectors**. Unread selectors never execute. Equal selected results do not notify consumers, even if isFetching changes elsewhere in the result. A callback returning all fields is deliberately unsupported.\n"
 "- `client` is your QueryClient or an atom containing it. Otherwise initialize [queryClientAtom](/reference/queryClientAtom) in the application's store. There is no hidden client. Share it with QueryClientProvider for native useQuery interoperability, and manage its application mount/unmount there."
-msgstr "- `state` принимает нативный атом, кортеж или объект атомов, как ion. При вычислении опций читаются все объявленные входы. Фабрика Query получает их значения.\n"
-"- `query` возвращает полные нативные QueryObserverOptions. Передавайте результат фабрики `productDetailQO(params)` без изменений. Ключи, функции запросов, повторные попытки и настройки ресурса храните в фабрике. Runtime Query Kit не требуется.\n"
-"- `prism` — **объект независимых селекторов**. Непрочитанные селекторы не выполняются. Равные результаты не уведомляют потребителей, даже если в другом поле меняется isFetching. Функция, возвращающая все поля, намеренно не поддерживается.\n"
-"- `client` — ваш QueryClient или атом с ним. Иначе инициализируйте [queryClientAtom](/reference/queryClientAtom) в store приложения. Скрытого клиента нет. Используйте его же в QueryClientProvider для совместимости с нативным useQuery; там же управляйте его монтированием и размонтированием."
+msgstr "- `state` принимает нативный атом, кортеж или record, как ion. Все объявленные входы читаются при необходимости опций. Фабрика запроса получает их значения.\n"
+"- `query` возвращает полные нативные QueryObserverOptions. Передавайте результат фабрики `gameDetailQO(params)` без изменений. Ключи, функции запросов, повторы и настройки ресурса остаются в этой фабрике. Runtime Query Kit не нужен.\n"
+"- `prism` — **объект независимых селекторов**. Нечитаемые селекторы не выполняются. Равные выбранные результаты не уведомляют потребителей, даже если в другой части результата меняется isFetching. Callback, возвращающий все поля, намеренно не поддерживается.\n"
+"- `client` — ваш QueryClient или атом с ним. Иначе инициализируйте [queryClientAtom](/reference/queryClientAtom) в store приложения. Скрытого клиента нет. Используйте тот же клиент с QueryClientProvider для совместимости с нативным useQuery и управляйте там его монтированием и размонтированием."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3373,8 +3405,8 @@ msgstr "Явный notifyOnChangeProps также ограничивает ув�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/createQueryModel.md
-msgid "The [product catalog example](/examples/product-catalog) derives `$screen` in `prism` and selects a View with `holoMatch`. Initial loading uses `isPending`; background fetching keeps the ready branch visible. A successful `null` result selects the empty branch. The screen atom does not narrow a separate data atom's TypeScript type, so the data View still checks for missing data."
-msgstr "[Пример каталога товаров](/examples/product-catalog) вычисляет `$screen` в `prism` и выбирает View через `holoMatch`. Начальная загрузка использует `isPending`; фоновая загрузка оставляет готовую ветку видимой. Успешный `null` включает пустую ветку. Атом экрана не сужает TypeScript-тип отдельного атома данных, поэтому View по-прежнему проверяет их наличие."
+msgid "The [game catalog example](/examples/game-catalog) derives `$screen` in `prism` and selects a View with `holoMatch`. Initial loading uses `isPending`; background fetching keeps the ready branch visible. A successful `null` result selects the empty branch. The screen atom does not narrow a separate data atom's TypeScript type, so the data View still checks for missing data."
+msgstr "[Пример каталога игр](/examples/game-catalog) вычисляет `$screen` в `prism` и выбирает View через `holoMatch`. Начальная загрузка использует `isPending`; фоновая загрузка сохраняет ветку ready. Успешный результат `null` выбирает пустую ветку. Атом экрана не сужает TypeScript-тип отдельного атома данных, поэтому View данных всё равно проверяет их наличие."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3459,8 +3491,8 @@ msgstr "eq"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/eq.md
-msgid "Compare an atom with a value or another atom. Use `eq($deliveryMethod, 'courier')` to check whether an order uses courier delivery."
-msgstr "Сравните атом со значением или другим атомом. Например, `eq($deliveryMethod, 'courier')` проверит, выбрана ли курьерская доставка."
+msgid "Compare an atom with a value or another atom. Use `eq($paymentMethod, 'wallet')` to check whether a game order uses the wallet."
+msgstr "Сравните атом со значением или другим атомом. Используйте `eq($paymentMethod, 'wallet')`, чтобы проверить оплату игрового заказа из кошелька."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -3892,8 +3924,8 @@ msgstr "ion"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/ion.md
-msgid "Calculate one value from several atoms. For example, derive a ticket total from quantity and discount."
-msgstr "Вычисляйте одно значение по нескольким атомам. Например, итоговую стоимость билетов по количеству и скидке."
+msgid "Calculate one value from several atoms. For example, derive the total for gift copies from their quantity and discount."
+msgstr "Вычисляйте одно значение из нескольких атомов. Например, итоговую стоимость подарочных копий по количеству и скидке."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4093,24 +4125,24 @@ msgstr "modelConnection"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/modelConnection.md
-msgid "Connect a tracking feed while at least one widget owns a shipment model. Keep transport setup separate from atom construction."
-msgstr "Подключите обновления доставки, пока её модель нужна хотя бы одному виджету. Настройка транспорта отделена от создания атомов."
+msgid "Observe game-download progress while at least one widget owns a download model. Keep transport setup separate from atom construction."
+msgstr "Наблюдайте прогресс загрузки игры, пока хотя бы один виджет владеет моделью загрузки. Отделяйте настройку транспорта от создания атомов."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/modelConnection.md
-msgid "Given the shipment factory and tracking adapter from the\n"
+msgid "Given the download factory and tracking adapter from the\n"
 "[composition example](/topics/model-composition#start-with-a-pure-factory),\n"
 "connect the feed when the selected instance gets its first owner:"
-msgstr "Используя фабрику отправления и адаптер tracking из [примера композиции](/topics/model-composition#start-with-a-pure-factory), подключите поток при появлении первого владельца выбранного экземпляра:"
+msgstr "Используя фабрику загрузки и адаптер наблюдения из [примера композиции](/topics/model-composition#start-with-a-pure-factory), подключите поток при появлении первого владельца выбранного экземпляра:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/modelConnection.md
 msgid "`subscribe` returns the disposer. The last owner calls it to stop receiving\n"
-"updates. Use `$$shipment` in `holo.models`, or explicitly acquire it outside\n"
+"progress updates, not to cancel the download job. Use `$$download` in `holo.models`, or explicitly acquire it outside\n"
 "React with [acquire](/reference/modelRegistry#acquire-outside-react)."
-msgstr "`subscribe` возвращает disposer. Последний владелец вызывает его, чтобы прекратить обновления. Используйте `$$shipment` в `holo.models` или явно подключайте его вне React через [acquire](/reference/modelRegistry#acquire-outside-react)."
+msgstr "`subscribe` возвращает disposer. Последний владелец вызывает его, чтобы прекратить получение прогресса, а не отменить загрузку. Используйте `$$download` в `holo.models` или явно получите владение вне React через [acquire](/reference/modelRegistry#acquire-outside-react)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4384,8 +4416,8 @@ msgstr "or"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/or.md
-msgid "Check whether any boolean atom is true. Use it when either of several delivery methods is enough to proceed."
-msgstr "Проверьте, что хотя бы один логический атом равен true. Например, для заказа достаточно одного из доступных способов доставки."
+msgid "Check whether any boolean atom is true. Use it when either wallet or card payment is enough to proceed."
+msgstr "Проверьте, истинен ли хотя бы один логический атом. Например, когда для продолжения достаточно оплаты кошельком или картой."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4577,8 +4609,8 @@ msgstr "some"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/some.md
-msgid "Find whether any input matches a condition. Check several price atoms, or check the items of one array atom."
-msgstr "Проверьте, соответствует ли хотя бы один элемент условию. Можно передать несколько атомов с ценами или один атом с массивом товаров."
+msgid "Find whether any input matches a condition. Check several game-price atoms, or check the games in one array atom."
+msgstr "Проверьте, подходит ли хотя бы один вход под условие. Проверяйте несколько атомов цен игр или игры в одном атоме массива."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4633,8 +4665,8 @@ msgstr "sum"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/sum.md
-msgid "Add numeric atom values. For example, calculate an order total from goods and delivery charges."
-msgstr "Сложите числовые значения атомов. Например, рассчитайте сумму заказа из стоимости товаров и доставки."
+msgid "Add numeric atom values. For example, calculate a bundle total from the base game and DLC prices."
+msgstr "Сложите числовые значения атомов. Например, рассчитайте итог набора из цен базовой игры и DLC."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4701,14 +4733,14 @@ msgstr "Аналитика"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/analytics.md
-msgid "A completed search goes to Amplitude and a warehouse. Opening a product goes only to PostHog. The business model publishes facts about what happened; analytics translates each fact for its consumers. Neither the View nor the business factory imports an SDK."
-msgstr "Завершённый поиск отправляется в Amplitude и warehouse. Открытие товара — только в PostHog. Бизнес-модель публикует факты о случившемся, а аналитика переводит их для потребителей. Ни View, ни бизнес-фабрика не импортируют SDK."
+msgid "A completed game search goes to Amplitude and an analytics warehouse. Opening a game goes only to PostHog. The business model publishes facts about what happened; analytics translates each fact for its consumers. Neither the View nor the business factory imports an SDK."
+msgstr "Завершённый поиск игр отправляется в Amplitude и аналитическое хранилище. Открытие игры — только в PostHog. Бизнес-модель публикует факты о произошедшем; аналитика переводит каждый факт для его потребителей. Ни View, ни бизнес-фабрика не импортируют SDK."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/analytics.md
-msgid "[Open the catalog example](/examples/catalog-analytics). Search for a product and open its details. The console beside the UI shows which engines received each message."
-msgstr "[Откройте пример каталога](/examples/catalog-analytics). Найдите товар и откройте карточку. Консоль рядом с UI покажет, какие движки получили сообщения."
+msgid "[Open the catalog example](/examples/catalog-analytics). Search for a game and open its details. The console beside the UI shows which engines received each message."
+msgstr "[Откройте пример каталога](/examples/catalog-analytics). Найдите игру и откройте её карточку. Консоль рядом с интерфейсом покажет, какие движки получили сообщения."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4833,10 +4865,10 @@ msgstr "Атомы или модели?"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "A search filter can begin with two atoms: the search term and an “in stock”\n"
+msgid "A search filter can begin with two atoms: the search term and an “on sale”\n"
 "switch. Grouping them in a model does not change their reactivity. It gives the\n"
 "related atoms a name and, if needed, a factory that can create another set."
-msgstr "Поисковый фильтр может начаться с двух атомов: строки поиска и переключателя «В наличии». Объединение в модель не меняет их реактивность. Оно даёт связанным атомам имя и, при необходимости, фабрику для создания ещё одного набора."
+msgstr "Фильтр поиска может начинаться с двух атомов: поискового запроса и переключателя «на распродаже». Объединение в модель не меняет реактивность. Оно даёт связанным атомам имя и, при необходимости, фабрику для создания ещё одного набора."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4898,9 +4930,9 @@ msgstr "Общие значения и события: достаточно ат
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "A workspace toolbar reads the theme and publishes a help request. If model\n"
+msgid "A player hub toolbar reads the theme and publishes a help request. If model\n"
 "workflows need these inputs, the application can expose them as atoms:"
-msgstr "Панель рабочего пространства читает тему и публикует запрос помощи. Если эти входы нужны сценариям моделей, приложение может предоставить их как атомы:"
+msgstr "Панель раздела игрока читает тему и публикует запрос помощи. Если эти входы нужны сценариям моделей, приложение может предоставить их через атомы:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4978,16 +5010,16 @@ msgstr "Общие экземпляры по ID: добавьте реестр"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
-msgid "Suppose the term and stock controls sit in different parts of a catalog layout. Both know the catalog ID and need its filters. A registry lets each binding select that instance independently:"
-msgstr "Предположим, поиск и переключатель наличия находятся в разных частях каталога. Оба знают ID каталога и нуждаются в его фильтрах. Registry позволяет каждой привязке независимо выбрать этот экземпляр:"
+msgid "Suppose the search-term and sale controls sit in different parts of a catalog layout. Both know the catalog ID and need its filters. A registry lets each binding select that instance independently:"
+msgstr "Пусть строка поиска и фильтр распродажи находятся в разных частях каталога. Оба знают ID каталога и нуждаются в его фильтрах. Registry позволяет каждой привязке независимо выбрать этот экземпляр:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
 msgid "These two rendered components use different catalog IDs, so they edit different\n"
-"filters. Rendering another component with `catalogId=\"hardware\"` in the same\n"
-"store selects the existing hardware instance."
-msgstr "Два компонента в примере используют разные ID каталогов и редактируют разные фильтры. Ещё один компонент с `catalogId=\"hardware\"` в том же store выберет существующий экземпляр hardware."
+"filters. Rendering another component with `catalogId=\"featured\"` in the same\n"
+"store selects the existing featured-catalog instance."
+msgstr "Эти два компонента используют разные ID каталогов, поэтому редактируют разные фильтры. Ещё один компонент с `catalogId=\"featured\"` в том же store выберет существующий экземпляр избранного каталога."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5158,8 +5190,8 @@ msgstr "Selector, возвращающий новый объект, возвра
 #. js-lingui-explicit-id
 #: docs/topics/atoms-and-models.md
 msgid "[Try independent profile fields](/examples/profile-fields), then see\n"
-"[workshop calculations](/examples/workshop-tickets) for combining atom values."
-msgstr "[Попробуйте независимые поля профиля](/examples/profile-fields), затем [расчёт билетов](/examples/workshop-tickets), который объединяет значения атомов."
+"[gift-copy calculations](/examples/gift-copies) for combining atom values."
+msgstr "[Проверьте независимые поля профиля](/examples/profile-fields), затем перейдите к [расчёту подарочных копий](/examples/gift-copies), чтобы объединять значения атомов."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5233,8 +5265,8 @@ msgstr "Если привязка использует модели, `models` с
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "ProductTerm and ProductStock each select the filters record using `catalogId`. Their bindings map one field to a value and callback. ProductFilters composes these controls and passes only the ID; it does not read the filter values. Each field View receives ordinary props."
-msgstr "ProductTerm и ProductStock независимо выбирают объект фильтров по `catalogId`. Каждая привязка сопоставляет одно поле со значением и callback. ProductFilters собирает эти элементы и передаёт только ID, не читая значения фильтров. View каждого поля получает обычные пропсы."
+msgid "GameTerm and GameSale each select the filters record using `catalogId`. Their bindings map one field to a value and callback. GameFilters composes these controls and passes only the ID; it does not read the filter values. Each field View receives ordinary props."
+msgstr "GameTerm и GameSale выбирают record фильтров по `catalogId`. Их привязки передают одно поле как значение и callback. GameFilters собирает эти элементы и передаёт только ID, не читая значения фильтров. Каждая View поля получает обычные пропсы."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5269,10 +5301,10 @@ msgstr "Выбор экземпляра и передача меняющегос
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "Rendering `<Search term=\"jotai\" />` first commits the caller's props. `input`\n"
+msgid "Rendering `<Search term=\"starfall\" />` first commits the caller's props. `input`\n"
 "then passes `term` to `inputChanged`, which writes `$query`. The View receives\n"
 "the ordinary `term` prop as well as the atom value `query`."
-msgstr "При рендеринге `<Search term=\"jotai\" />` React сначала подтверждает входящие пропсы. Затем `input` передаёт `term` в `inputChanged`, который записывает `$query`. View получает обычный проп `term` и значение атома `query`."
+msgstr "При рендеринге `<Search term=\"starfall\" />` React сначала подтверждает входящие пропсы. Затем `input` передаёт `term` в `inputChanged`, который записывает `$query`. View получает обычный проп `term` и значение атома `query`."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5299,9 +5331,9 @@ msgstr "Оставьте UI-методы во View"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "An order-created fact may need to navigate to a receipt. The business model\n"
+msgid "A game-order-created fact may need to navigate to a receipt. The business model\n"
 "should publish the order ID; it does not need to hold a router function."
-msgstr "Факт создания заказа может потребовать перехода к квитанции. Бизнес-модель публикует ID заказа; хранить функцию роутера ей не нужно."
+msgstr "Факт создания заказа игры может потребовать перехода к квитанции. Бизнес-модель публикует ID заказа; хранить функцию роутера ей не нужно."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5432,8 +5464,8 @@ msgstr "Композиция моделей"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/model-composition.md
-msgid "A shipment badge needs live tracking updates while its page is open. The shipment's business model should also work in a test without a tracking service. Keep the atoms in a factory and add the subscription with a modifier."
-msgstr "Индикатору отправления нужны актуальные данные отслеживания, пока открыта страница. Но бизнес-модель должна работать и в тесте без tracking-сервиса. Храните атомы в фабрике, а подписку добавьте модификатором."
+msgid "A game-download badge needs progress updates while its page is open. The download model should also work in a test without a progress service. Keep the atoms in a factory and add the subscription with a modifier."
+msgstr "Индикатор загрузки игры получает прогресс, пока его страница открыта. Модель загрузки должна работать в тесте и без сервиса прогресса. Оставьте атомы в фабрике, а подписку добавьте модификатором."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5444,8 +5476,8 @@ msgstr "Начните с чистой фабрики"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/model-composition.md
-msgid "The factory creates its record synchronously. It does not open a connection. `statusReceived` accepts updates from any source, so the factory does not import a transport or analytics client."
-msgstr "Фабрика синхронно создаёт объект атомов и не открывает соединений. `statusReceived` принимает обновления из любого источника, поэтому фабрика не импортирует транспорт или клиент аналитики."
+msgid "The factory creates its record synchronously, starting at `queued`. `statusReceived` accepts `downloading` and `installed` updates from any source, so the factory does not import a transport or analytics client."
+msgstr "Фабрика синхронно создаёт record с начальным состоянием `queued`. `statusReceived` принимает обновления `downloading` и `installed` из любого источника, поэтому фабрика не импортирует транспорт или клиент аналитики."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5462,14 +5494,14 @@ msgstr "Объявите готовое определение один раз �
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/model-composition.md
-msgid "`modelRegistry` selects instances by key. Our application-specific `modelTrackingFeed` attaches tracking to the selected shipment. It does not add fields to its record."
-msgstr "`modelRegistry` выбирает экземпляры по ключу. Наш модификатор `modelTrackingFeed` подключает отслеживание к выбранному отправлению. Новых полей в объекте атомов он не создаёт."
+msgid "`modelRegistry` selects instances by key. Our application-specific `modelDownloadFeed` attaches tracking to the selected download. It does not add fields to its record."
+msgstr "`modelRegistry` выбирает экземпляры по ключу. Прикладной `modelDownloadFeed` подключает наблюдение к выбранной загрузке, не добавляя полей в её record."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/model-composition.md
-msgid "Two widgets selecting the same instance share one subscription. The first committed owner connects; the last release disconnects. `initial` seeds creation only: a new value for an existing key does not recreate the model. To change an existing instance, call an action or bind a committed prop through `holo.input`."
-msgstr "Два виджета с одним экземпляром используют общую подписку. Первый владелец после commit подключает её, а уход последнего отключает. `initial` нужен только при создании: новое значение для существующего ключа не пересоздаёт модель. Для изменения вызовите действие или привяжите подтверждённый проп через `holo.input`."
+msgid "Two widgets selecting the same instance share one progress subscription. The first committed owner connects; the last release stops observing progress. The download job belongs to the launcher service and continues independently of these View owners. `initial` seeds creation only: a new value for an existing key does not recreate the model. To change an existing instance, call an action or bind a committed prop through `holo.input`."
+msgstr "Два виджета одного экземпляра разделяют одну подписку на прогресс. Первый владелец после commit подключается; уход последнего прекращает наблюдение. Самой загрузкой владеет сервис лаунчера, и она продолжается независимо от этих View. `initial` задаёт данные только при создании: новое значение существующего ключа не пересоздаёт модель. Чтобы изменить экземпляр, вызовите действие или передайте подтверждённый проп через `holo.input`."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5510,8 +5542,8 @@ msgstr "Напишите свой модификатор"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/model-composition.md
-msgid "Here is the implementation of `modelTrackingFeed`. It receives a transport adapter, so tests can provide a fake feed."
-msgstr "Ниже реализация `modelTrackingFeed`. Она принимает транспортный адаптер, поэтому в тестах можно передать подставной поток."
+msgid "Here is the implementation of `modelDownloadFeed`. It receives a transport adapter, so tests can provide a fake feed."
+msgstr "Ниже реализация `modelDownloadFeed`. Она принимает транспортный адаптер, поэтому тесты могут передать подставной поток."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5592,14 +5624,14 @@ msgstr "Модели и реестр"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/models-and-registries.md
-msgid "A proposal's seat counter and its toolbar need one shared draft. Another proposal needs its own draft. A registry lets both widgets find the instance by proposal ID, without passing its atom record through their parents."
-msgstr "В коммерческом предложении на подписку счётчику мест и панели инструментов нужен общий черновик. Другому предложению — свой. Registry позволяет виджетам найти экземпляр по ID предложения, не передавая объект атомов через родителей."
+msgid "A group gift order needs a copy counter and a toolbar to share one draft. Another recipient group needs its own draft. A registry lets both widgets find the instance by gift order ID, without passing its atom record through their parents."
+msgstr "Счётчик копий и панель группового подарочного заказа должны использовать один черновик. Другой группе получателей нужен свой черновик. Registry позволяет обоим виджетам найти экземпляр по ID подарочного заказа, не передавая record атомов через родителей."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/models-and-registries.md
-msgid "[Open the proposal example](/examples/model-instances). Add a seat to Atlas: its counter changes, while Beacon keeps its own count."
-msgstr "[Откройте пример предложений](/examples/model-instances). Добавьте место в Atlas: его счётчик изменится, а количество Beacon останется прежним."
+msgid "[Open the gift order example](/examples/model-instances). Add a game copy to the Atlas gift draft: its counter changes, while Beacon keeps its own count."
+msgstr "[Откройте пример подарочного заказа](/examples/model-instances). Добавьте игровую копию в черновик Atlas: его счётчик изменится, а Beacon сохранит своё количество."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5610,8 +5642,8 @@ msgstr "Создайте атомы"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/models-and-registries.md
-msgid "The factory creates a fresh record of atoms on every call. It knows how a proposal works; it does not choose which proposal a component edits."
-msgstr "Каждый вызов фабрики создаёт новый объект атомов. Фабрика описывает работу предложения, но не выбирает, какое предложение редактирует компонент."
+msgid "The factory creates a fresh record of atoms on every call. It knows how a gift order works; it does not choose which gift order a component edits."
+msgstr "Каждый вызов фабрики создаёт новый record атомов. Она знает правила подарочного заказа, но не выбирает, какой заказ редактирует компонент."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5628,8 +5660,8 @@ msgstr "Выберите один черновик в двух виджетах"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/models-and-registries.md
-msgid "The counter selects by `proposalId` and reads the seat count."
-msgstr "Счётчик выбирает экземпляр по `proposalId` и читает количество мест."
+msgid "The counter selects by `giftOrderId` and reads the copy count."
+msgstr "Счётчик выбирает экземпляр по `giftOrderId` и читает число копий."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5654,16 +5686,16 @@ msgstr "Это разные операции:"
 #: docs/topics/models-and-registries.md
 msgid "| Operation                         | Result                                   |\n"
 "| --------------------------------- | ---------------------------------------- |\n"
-"| Call `createProposalModel()`      | Create fresh atoms                       |\n"
-"| Call `$$proposal({ key })`        | Describe which instance to select        |\n"
+"| Call `createGiftOrderModel()`     | Create fresh atoms                       |\n"
+"| Call `$$giftOrder({ key })`       | Describe which instance to select        |\n"
 "| Read the selection in a store     | Get that instance's atom record          |\n"
 "| Mount a holo using that selection | Own its managed connections after commit |"
 msgstr "| Операция | Результат |\n"
 "| --- | --- |\n"
-"| Вызвать `createProposalModel()` | Создать новые атомы |\n"
-"| Вызвать `$$proposal({ key })` | Описать выбор экземпляра |\n"
-"| Прочитать атом выбора в store | Получить объект атомов экземпляра |\n"
-"| Смонтировать holo с этим выбором | Владеть управляемыми связями после commit |"
+"| Вызвать `createGiftOrderModel()` | Создать новые атомы |\n"
+"| Вызвать `$$giftOrder({ key })` | Описать выбор экземпляра |\n"
+"| Прочитать выборку в store | Получить record атомов этого экземпляра |\n"
+"| Смонтировать holo с этой выборкой | Владеть управляемыми подключениями после commit |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5730,14 +5762,14 @@ msgstr "React Hook Form"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/rhf-models.md
-msgid "A contact editor and an external Save panel need the same field values, validation and submission. A second contact needs a separate form. Let a model own one native RHF control, then let both widgets select the same editing instance."
-msgstr "Редактору контакта и внешней панели сохранения нужны общие значения полей, валидация и отправка. Другому контакту нужна отдельная форма. Пусть модель владеет одним нативным RHF control, а оба виджета выбирают один экземпляр редактирования."
+msgid "A player notification-preferences editor and an external Save panel need the same field values, validation and submission. A second player needs a separate form. Let a model own one native RHF control, then let both widgets select the same editing instance."
+msgstr "Редактор настроек уведомлений игрока и внешняя панель сохранения нуждаются в одних значениях полей, валидации и отправке. Другому игроку нужна отдельная форма. Пусть модель владеет одним нативным RHF control, а оба виджета выбирают один редактируемый экземпляр."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/rhf-models.md
-msgid "[Try the contact forms](/examples/contact-forms). Enter an email for Ada: her Save panel updates, while Grace's form stays unchanged."
-msgstr "[Попробуйте формы контактов](/examples/contact-forms). Введите email Ады: её панель сохранения обновится, а форма Грейс останется прежней."
+msgid "[Try the notification forms](/examples/player-notifications). Enter an email for Nova: her Save panel updates, while Pixel's form stays unchanged."
+msgstr "[Проверьте формы уведомлений](/examples/player-notifications). Введите email для Nova: её панель сохранения обновится, а форма Pixel останется прежней."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5766,14 +5798,14 @@ msgstr "Сохраните RHF-компоненты редактора"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/rhf-models.md
-msgid "ContactView composes EmailField and ChannelField. Those fields keep native `useFormContext`, `register` and `Controller`; field errors use a scoped `useFormState`. `holoForm` supplies their shared control:"
-msgstr "ContactView собирает EmailField и ChannelField. Поля сохраняют нативные `useFormContext`, `register` и `Controller`; ошибки подписаны через `useFormState` на конкретное поле. `holoForm` предоставляет им общий control:"
+msgid "NotificationSettingsView composes EmailField and ChannelField. Those fields keep native `useFormContext`, `register` and `Controller`; field errors use a scoped `useFormState`. `holoForm` supplies their shared control:"
+msgstr "NotificationSettingsView собирает EmailField и ChannelField. Поля сохраняют нативные `useFormContext`, `register` и `Controller`; ошибки поля используют scoped `useFormState`. `holoForm` предоставляет общий control:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/rhf-models.md
-msgid "SavePanel composes three connected children: EmailPreview reads `$email`, Submit invokes `save` and observes native `isSubmitting`, and SavedMessage displays the accepted email. Each selects the same contact key:"
-msgstr "SavePanel собирает три подключённых элемента: EmailPreview читает `$email`, Submit вызывает `save` и наблюдает нативный `isSubmitting`, а SavedMessage показывает сохранённый email. Каждый выбирает один и тот же ключ контакта:"
+msgid "SavePanel composes three connected children: EmailPreview reads `$email`, Submit invokes `save` and observes native `isSubmitting`, and SavedMessage displays the accepted email. Each selects the same player-preferences key:"
+msgstr "SavePanel собирает три подключённых компонента: EmailPreview читает `$email`, Submit вызывает `save` и наблюдает нативный `isSubmitting`, а SavedMessage показывает принятый email. Все выбирают один ключ настроек игрока:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5784,8 +5816,8 @@ msgstr "Например, предпросмотр email подписывает�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/rhf-models.md
-msgid "The editor keeps its field markup and third-party RHF components. Another contact ID selects an independent form."
-msgstr "Редактор сохраняет разметку полей и сторонние RHF-компоненты. Другой ID контакта выбирает независимую форму."
+msgid "The editor keeps its field markup and third-party RHF components. Another player ID selects an independent form."
+msgstr "Редактор сохраняет разметку полей и сторонние компоненты RHF. Другой ID игрока выбирает независимую форму."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5848,14 +5880,14 @@ msgstr "TanStack Query"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/tanstack-models.md
-msgid "A profile editor needs server values to seed its business model, then a mutation to save the draft. QueryClient owns the server cache. The business model owns editing decisions. Query and mutation models let the atom graph participate in that workflow."
-msgstr "Редактору профиля нужны серверные значения для наполнения бизнес-модели и мутация для сохранения черновика. QueryClient управляет серверным кешем, бизнес-модель — правилами редактирования. Модели Query и Mutation позволяют графу атомов участвовать в этом сценарии."
+msgid "A player profile editor needs server values to seed its business model, then a mutation to save the draft. QueryClient owns the server cache. The business model owns editing decisions. Query and mutation models let the atom graph participate in that workflow."
+msgstr "Редактору профиля игрока нужны серверные данные для инициализации бизнес-модели, а затем мутация для сохранения черновика. QueryClient владеет серверным кешем. Бизнес-модель — правилами редактирования. Модели Query и Mutation позволяют графу атомов участвовать в этом сценарии."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/tanstack-models.md
-msgid "[Try the product catalog](/examples/product-catalog) or follow the complete [profile workflow](/recipes/profile-composition)."
-msgstr "[Попробуйте каталог товаров](/examples/product-catalog) или разберите полный [сценарий профиля](/recipes/profile-composition)."
+msgid "[Try the game catalog](/examples/game-catalog) or follow the complete [profile workflow](/recipes/profile-composition)."
+msgstr "[Проверьте каталог игр](/examples/game-catalog) или пройдите весь [сценарий профиля](/recipes/profile-composition)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

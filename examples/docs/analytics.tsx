@@ -5,7 +5,7 @@ import {
   $$recordedSearch as $$search,
   type Delivery,
 } from './analytics-recording.js';
-import type { Product } from '../analytics/search-model.js';
+import type { Game } from '../analytics/search-model.js';
 
 // #region analytics
 function SearchTermView({
@@ -19,7 +19,7 @@ function SearchTermView({
 
   return (
     <label>
-      {t`Search products`}
+      {t`Search games`}
       <input
         value={query}
         onChange={(event) => onTermChange(event.target.value)}
@@ -51,7 +51,7 @@ function SearchFormView({
         onSearch();
       }}
     >
-      <span className="demo-eyebrow">{t`Product catalog`}</span>
+      <span className="demo-eyebrow">{t`Game catalog`}</span>
       <SearchTerm />
       <button type="submit">{t`Search`}</button>
     </form>
@@ -63,94 +63,92 @@ const SearchForm = holo({
   view: SearchFormView,
 
   write: ({ search: $$search }) => ({ onSearch: $$search.search }),
-  static: { initialTerm: 'desk' },
+  static: { initialTerm: 'starfall' },
   input: ({ search: $$search }) => ({
     initialTerm: $$search.termChanged,
   }),
 });
 
-function ProductRowView({
-  product,
+function GameRowView({
+  game,
   position,
-  onProductOpen,
+  onGameOpen,
 }: {
-  product: Product;
+  game: Game;
   position: number;
-  onProductOpen: (fact: { productId: string; position: number }) => void;
+  onGameOpen: (fact: { gameId: string; position: number }) => void;
 }) {
   return (
     <li>
-      <button
-        onClick={() => onProductOpen({ productId: product.id, position })}
-      >
-        {product.name} · ${product.price}
+      <button onClick={() => onGameOpen({ gameId: game.id, position })}>
+        {game.name} · ${game.price}
       </button>
     </li>
   );
 }
 
-const ProductRow = holo({
+const GameRow = holo({
   models: { search: $$search },
-  view: ProductRowView,
-  write: ({ search: $$search }) => ({ onProductOpen: $$search.openProduct }),
+  view: GameRowView,
+  write: ({ search: $$search }) => ({ onGameOpen: $$search.openGame }),
 });
 
-function ProductListView({ products }: { products: readonly Product[] }) {
+function GameListView({ games }: { games: readonly Game[] }) {
   return (
-    <ul className="demo-analytics-products">
-      {products.map((product, position) => (
-        <ProductRow key={product.id} product={product} position={position} />
+    <ul className="demo-analytics-games">
+      {games.map((game, position) => (
+        <GameRow key={game.id} game={game} position={position} />
       ))}
     </ul>
   );
 }
 
-const ProductList = holo({
+const GameList = holo({
   models: { search: $$search },
-  view: ProductListView,
-  read: ({ search: $$search }) => ({ products: $$search.$products }),
+  view: GameListView,
+  read: ({ search: $$search }) => ({ games: $$search.$games }),
 });
 
-function CloseProductView({ onClose }: { onClose: () => void }) {
+function CloseGameView({ onClose }: { onClose: () => void }) {
   const { t } = useLingui();
 
   return <button onClick={onClose}>{t`Close details`}</button>;
 }
 
-const CloseProduct = holo({
+const CloseGame = holo({
   models: { search: $$search },
-  view: CloseProductView,
-  write: ({ search: $$search }) => ({ onClose: $$search.closeProduct }),
+  view: CloseGameView,
+  write: ({ search: $$search }) => ({ onClose: $$search.closeGame }),
 });
 
-function ProductDetailsView({ product }: { product: Product | null }) {
+function GameDetailsView({ game }: { game: Game | null }) {
   const { t } = useLingui();
-  if (!product) return null;
+  if (!game) return null;
 
   return (
     <article>
-      <h3>{t`Product details`}</h3>
+      <h3>{t`Game details`}</h3>
       <p>
-        {product.name} · ${product.price}
+        {game.name} · ${game.price}
       </p>
-      <CloseProduct />
+      <CloseGame />
     </article>
   );
 }
 
-const ProductDetails = holo({
+const GameDetails = holo({
   models: { search: $$search },
-  view: ProductDetailsView,
+  view: GameDetailsView,
 
-  read: ({ search: $$search }) => ({ product: $$search.$selectedProduct }),
+  read: ({ search: $$search }) => ({ game: $$search.$selectedGame }),
 });
 
-function ProductCatalog() {
+function GameCatalog() {
   return (
     <div className="demo-form demo-analytics-catalog">
       <SearchForm />
-      <ProductList />
-      <ProductDetails />
+      <GameList />
+      <GameDetails />
     </div>
   );
 }
@@ -199,7 +197,7 @@ function DeliveryListView({ deliveries }: { deliveries: readonly Delivery[] }) {
       </ol>
       {!deliveries.length && (
         <p className="demo-analytics-empty">
-          {t`Search for a product, then open it to see each engine's payload.`}
+          {t`Search for a game, then open it to see each engine's payload.`}
         </p>
       )}
     </>
@@ -234,7 +232,7 @@ function DeliveryConsole() {
 export default function AnalyticsDemo() {
   return (
     <div className="demo-analytics">
-      <ProductCatalog />
+      <GameCatalog />
       <DeliveryConsole />
     </div>
   );

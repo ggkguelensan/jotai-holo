@@ -66,11 +66,11 @@ try {
     assert.equal(await consolePane.locator('li').count(), 2);
     assert.match(await consolePane.innerText(), /amplitude/);
     assert.match(await consolePane.innerText(), /warehouse/);
-    assert.match(await consolePane.innerText(), /"items_found": 2/);
+    assert.match(await consolePane.innerText(), /"items_found": 1/);
     await catalog.locator('li button').first().click();
     await consolePane.locator('li').nth(2).waitFor();
     assert.match(await consolePane.innerText(), /posthog/);
-    assert.match(await consolePane.innerText(), /"product_id": "oak-desk"/);
+    assert.match(await consolePane.innerText(), /"game_id": "starfall"/);
     assert.equal(await catalog.locator('article').count(), 1);
     await page.evaluate(() => document.fonts.ready);
     const window = await demo.boundingBox();

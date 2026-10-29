@@ -1,18 +1,18 @@
 import { actionAtom, eventAtom, stateAtom } from 'jotai-holo/vanilla';
 
-const products = [
-  { id: 'oak-desk', name: 'Oak desk', price: 450 },
-  { id: 'desk-lamp', name: 'Desk lamp', price: 65 },
-  { id: 'task-chair', name: 'Task chair', price: 190 },
+const games = [
+  { id: 'starfall', name: 'Starfall', price: 25 },
+  { id: 'moon-harbor', name: 'Moon Harbor', price: 15 },
+  { id: 'iron-orchard', name: 'Iron Orchard', price: 35 },
 ];
-export type Product = (typeof products)[number];
+export type Game = (typeof games)[number];
 
 // #region search-model
 export function createSearchModel() {
   const $query = stateAtom('');
-  const $category = stateAtom('furniture');
-  const $products = stateAtom<readonly Product[]>([]);
-  const $selectedProduct = stateAtom<Product | null>(null);
+  const $category = stateAtom('games');
+  const $games = stateAtom<readonly Game[]>([]);
+  const $selectedGame = stateAtom<Game | null>(null);
 
   // #region search-fact
   const searchCompleted = eventAtom<{
@@ -23,8 +23,8 @@ export function createSearchModel() {
   }>();
   // #endregion search-fact
 
-  const productOpened = eventAtom<{
-    productId: string;
+  const gameOpened = eventAtom<{
+    gameId: string;
     position: number;
   }>();
 
@@ -37,10 +37,10 @@ export function createSearchModel() {
     const query = get($query).trim();
     const started = performance.now();
     // Local catalog simulation; a real application emits after API success.
-    const found = products.filter((product) =>
-      product.name.toLowerCase().includes(query.toLowerCase()),
+    const found = games.filter((game) =>
+      game.name.toLowerCase().includes(query.toLowerCase()),
     );
-    set($products, found);
+    set($games, found);
     set(searchCompleted, {
       query,
       category: get($category),
@@ -51,37 +51,37 @@ export function createSearchModel() {
 
   // #endregion search-command
 
-  const openProduct = actionAtom(
+  const openGame = actionAtom(
     (
       get,
       set,
       fact: {
-        productId: string;
+        gameId: string;
         position: number;
       },
     ) => {
-      const product = products.find((item) => item.id === fact.productId);
-      if (!product || get($selectedProduct)?.id === product.id) return;
-      set($selectedProduct, product);
-      set(productOpened, fact);
+      const game = games.find((item) => item.id === fact.gameId);
+      if (!game || get($selectedGame)?.id === game.id) return;
+      set($selectedGame, game);
+      set(gameOpened, fact);
     },
   );
 
-  const closeProduct = actionAtom((_get, set) => {
-    set($selectedProduct, null);
+  const closeGame = actionAtom((_get, set) => {
+    set($selectedGame, null);
   });
 
   return {
     $query,
     $category,
-    $products,
-    $selectedProduct,
+    $games,
+    $selectedGame,
     termChanged,
     search,
     searchCompleted,
-    productOpened,
-    openProduct,
-    closeProduct,
+    gameOpened,
+    openGame,
+    closeGame,
   };
 }
 export type SearchModel = ReturnType<typeof createSearchModel>;

@@ -1,14 +1,12 @@
-# Proposal discount
+---
+search: false
+redirect: /examples/sale-campaign
+---
 
-Request a discount of 20%, then one above 25%. The local service simulation accepts the first and rejects the second. Inspect pending state, the returned save result and reset behavior.
+# Page moved
 
-<Demo kind="mutation">
+<PageMoved>
 
-<<< @/../examples/docs/mutation.tsx#mutation
+Continue with [the example](/examples/sale-campaign).
 
-</Demo>
-
-## Continue reading
-
-- [How it works](/topics/tanstack-models)
-- [API reference](/reference/createMutationModel)
+</PageMoved>

@@ -13,7 +13,7 @@ const fixture = (initial?: Record<string, string>) => {
   };
 };
 
-test('project estimate includes independent line items and a 10% reserve', () => {
+test('gift budget includes independent game line items and a demo 10% tax', () => {
   const f = fixture();
   expect(f.read('D1')).toBe(960);
   expect(f.read('D2')).toBe(2280);

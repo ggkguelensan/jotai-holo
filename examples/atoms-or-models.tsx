@@ -56,20 +56,20 @@ const Help = holo({
 
 export const Toolbar = holo({
   view: ToolbarView,
-  static: { title: 'Workspace' },
+  static: { title: 'Player hub' },
 });
 // #endregion global-atoms
 
 // #region factory
 export function createFiltersModel() {
   const $term = atom('');
-  const $inStockOnly = atom(false);
+  const $onSaleOnly = atom(false);
 
-  return { $term, $inStockOnly };
+  return { $term, $onSaleOnly };
 }
 
 export const $$catalogFilters = createFiltersModel();
-export const $$orderFilters = createFiltersModel();
+export const $$wishlistFilters = createFiltersModel();
 // #endregion factory
 
 // #region filters-view
@@ -91,21 +91,21 @@ function TermView({
   );
 }
 
-function StockView({
-  inStockOnly,
-  onStockChange,
+function SaleView({
+  onSaleOnly,
+  onSaleChange,
 }: {
-  inStockOnly: boolean;
-  onStockChange: (checked: boolean) => void;
+  onSaleOnly: boolean;
+  onSaleChange: (checked: boolean) => void;
 }) {
   return (
     <label>
       <input
         type="checkbox"
-        checked={inStockOnly}
-        onChange={(event) => onStockChange(event.target.checked)}
+        checked={onSaleOnly}
+        onChange={(event) => onSaleChange(event.target.checked)}
       />
-      In stock only
+      On sale only
     </label>
   );
 }
@@ -118,17 +118,17 @@ const CatalogTerm = holo({
   write: { onTermChange: $$catalogFilters.$term },
 });
 
-const CatalogStock = holo({
-  view: StockView,
-  read: { inStockOnly: $$catalogFilters.$inStockOnly },
-  write: { onStockChange: $$catalogFilters.$inStockOnly },
+const CatalogSale = holo({
+  view: SaleView,
+  read: { onSaleOnly: $$catalogFilters.$onSaleOnly },
+  write: { onSaleChange: $$catalogFilters.$onSaleOnly },
 });
 
 export function CatalogFilters() {
   return (
     <section>
       <CatalogTerm />
-      <CatalogStock />
+      <CatalogSale />
     </section>
   );
 }
@@ -137,7 +137,7 @@ export function CatalogFilters() {
 // #region keyed-model
 const $$filters = pipe(createFiltersModel, modelRegistry());
 
-const ProductTerm = holo({
+const GameTerm = holo({
   models: {
     filters: (props: { catalogId: string }) =>
       $$filters({ key: ['catalog', props.catalogId] }),
@@ -147,27 +147,27 @@ const ProductTerm = holo({
   write: ({ filters }) => ({ onTermChange: filters.$term }),
 });
 
-const ProductStock = holo({
+const GameSale = holo({
   models: {
     filters: (props: { catalogId: string }) =>
       $$filters({ key: ['catalog', props.catalogId] }),
   },
-  view: StockView,
-  read: ({ filters }) => ({ inStockOnly: filters.$inStockOnly }),
-  write: ({ filters }) => ({ onStockChange: filters.$inStockOnly }),
+  view: SaleView,
+  read: ({ filters }) => ({ onSaleOnly: filters.$onSaleOnly }),
+  write: ({ filters }) => ({ onSaleChange: filters.$onSaleOnly }),
 });
 
-export function ProductFilters({ catalogId }: { catalogId: string }) {
+export function GameFilters({ catalogId }: { catalogId: string }) {
   return (
     <section>
-      <ProductTerm catalogId={catalogId} />
-      <ProductStock catalogId={catalogId} />
+      <GameTerm catalogId={catalogId} />
+      <GameSale catalogId={catalogId} />
     </section>
   );
 }
 // #endregion keyed-model
 
 // #region usage
-export const hardwareFilters = <ProductFilters catalogId="hardware" />;
-export const furnitureFilters = <ProductFilters catalogId="furniture" />;
+export const featuredFilters = <GameFilters catalogId="featured" />;
+export const gamesFilters = <GameFilters catalogId="games" />;
 // #endregion usage

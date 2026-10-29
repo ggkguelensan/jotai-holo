@@ -1,14 +1,12 @@
-# Isolated contact forms
+---
+search: false
+redirect: /examples/player-notifications
+---
 
-Edit Ada’s email and watch her external Save panel. Grace keeps a separate draft. Submit an invalid email to see native RHF validation prevent the save.
+# Page moved
 
-<Demo kind="form">
+<PageMoved>
 
-<<< @/../examples/docs/form.tsx#form
+Continue with [the example](/examples/player-notifications).
 
-</Demo>
-
-## Continue reading
-
-- [How it works](/topics/rhf-models)
-- [API reference](/reference/holoForm)
+</PageMoved>

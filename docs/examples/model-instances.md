@@ -1,6 +1,6 @@
-# Independent proposal drafts
+# Independent gift order drafts
 
-Add seats to Atlas, then to Beacon. Each proposal has its own draft; its counter and toolbar share that draft. The second demo shows loading and saving when model owners come and go.
+Add gift copies to the Atlas draft, then to Beacon. Each recipient group has its own gift-order draft; its counter and toolbar share the planned copy count. The second demo shows loading and saving when model owners come and go.
 
 <Demo kind="model">
 

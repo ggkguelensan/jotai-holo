@@ -1,6 +1,6 @@
 # createAnalytics
 
-Observe a profile-viewed fact and map it to an audit message. Each declared
+Observe a player-profile-viewed fact and map it to an audit message. Each declared
 engine has its own mapping, so a fact can go to several engines with different
 field names, or to only one selected engine.
 

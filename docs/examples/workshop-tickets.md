@@ -1,20 +1,12 @@
-# Workshop tickets
+---
+search: false
+redirect: /examples/gift-copies
+---
 
-Change the ticket quantity and member discount: ion recalculates the total. The second demo combines known boolean and numeric operations without custom mapping functions.
+# Page moved
 
-<Demo kind="ion">
+<PageMoved>
 
-<<< @/../examples/docs/ion.tsx#ion
+Continue with [the example](/examples/gift-copies).
 
-</Demo>
-
-<Demo kind="operators">
-
-<<< @/../examples/docs/operators.tsx#operators
-
-</Demo>
-
-## Continue reading
-
-- [How it works](/topics/atoms-and-models)
-- [API reference](/reference/ion)
+</PageMoved>

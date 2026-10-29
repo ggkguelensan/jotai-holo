@@ -40,7 +40,7 @@ test('lazy analytics activation adds no View render and input reaches the same s
   const h = createHarness();
   await h.render(
     <Provider store={store}>
-      <Search term="desk" />
+      <Search term="starfall" />
     </Provider>,
   );
   const before = render.mock.calls.length;
@@ -58,14 +58,14 @@ test('lazy analytics activation adds no View render and input reaches the same s
     store.set(store.get($$search()).completed, { resultCount: 4 });
     await analytics.flush(store);
   });
-  expect(send.mock.calls[0]![0]).toEqual({ term: 'desk', count: 4 });
+  expect(send.mock.calls[0]![0]).toEqual({ term: 'starfall', count: 4 });
   expect(render).toHaveBeenCalledTimes(before);
   await h.render(
     <Provider store={store}>
-      <Search term="lamp" />
+      <Search term="moon-harbor" />
     </Provider>,
   );
-  expect(h.container.textContent).toBe('lamp:lamp');
+  expect(h.container.textContent).toBe('moon-harbor:moon-harbor');
   await h.unmount();
   store.set(store.get($$search()).completed, { resultCount: 3 });
   await analytics.flush(store);
@@ -190,12 +190,12 @@ test('an eager analytics factory observes the first committed input fact without
   await h.render(
     <StrictMode>
       <Provider store={store}>
-        <Search term="desk" />
+        <Search term="starfall" />
       </Provider>
     </StrictMode>,
   );
   await analytics.flush(store);
-  expect(send.mock.calls.map(([value]) => value)).toEqual([{ term: 'desk' }]);
+  expect(send.mock.calls.map(([value]) => value)).toEqual([{ term: 'starfall' }]);
 });
 
 test('switching keys replaces ownership even when the factory returns the same record', async () => {

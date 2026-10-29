@@ -1,6 +1,6 @@
 # or
 
-Check whether any boolean atom is true. Use it when either of several delivery methods is enough to proceed.
+Check whether any boolean atom is true. Use it when either wallet or card payment is enough to proceed.
 
 ## Usage
 

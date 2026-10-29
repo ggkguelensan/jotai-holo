@@ -281,14 +281,14 @@
   border-radius: 6px;
   padding: 14px;
 }
-.vp-doc ul.demo-task-list {
+.vp-doc ul.demo-wishlist {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
   gap: 14px;
 }
-.demo-task-list code {
+.demo-wishlist code {
   margin-left: auto;
 }
 @media (hover: hover) and (pointer: fine) {
@@ -325,7 +325,7 @@
   width: 100%;
   font-size: 13px;
 }
-.demo-contact-card {
+.demo-player-card {
   display: grid;
   align-content: start;
   gap: 20px;
@@ -335,11 +335,11 @@
   border-radius: 10px;
   background: var(--vp-c-bg);
 }
-.demo-contact-card header {
+.demo-player-card header {
   display: grid;
   gap: 3px;
 }
-.demo-contact-card .demo-form {
+.demo-player-card .demo-form {
   width: 100%;
   min-width: 0;
   gap: 12px;
@@ -598,7 +598,7 @@
   }
 }
 
-/* Keep the product UI and real adapter journal in the same live window. */
+/* Keep the game UI and real adapter journal in the same live window. */
 :is(.vp-doc, .vp-doc > div) > .holo-example-wide {
   max-width: none;
 }
@@ -623,17 +623,17 @@
   display: grid;
   gap: 16px;
 }
-.vp-doc ul.demo-analytics-products {
+.vp-doc ul.demo-analytics-games {
   display: grid;
   gap: 8px;
   list-style: none;
   padding: 0 !important;
   margin: 0 !important;
 }
-.demo-analytics-products li + li {
+.demo-analytics-games li + li {
   margin: 0;
 }
-.demo-analytics-products button {
+.demo-analytics-games button {
   width: 100%;
   text-align: left;
 }

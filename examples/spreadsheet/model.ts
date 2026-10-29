@@ -5,15 +5,15 @@ import { evaluateCell, parseCell, type CellValue } from './formulas.js';
 export const columns = ['A', 'B', 'C', 'D'] as const;
 export const rowCount = 8;
 export const initialBudget: Record<string, string> = {
-  A1: 'UX',
+  A1: 'Deep Orbit',
   B1: '12',
   C1: '80',
   D1: '=B1*C1',
-  A2: 'React',
+  A2: 'Neon Tactics',
   B2: '24',
   C2: '95',
   D2: '=B2*C2',
-  A3: 'QA',
+  A3: 'Wild Circuit',
   B3: '8',
   C3: '65',
   D3: '=B3*C3',

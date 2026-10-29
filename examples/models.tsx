@@ -29,7 +29,7 @@ const CounterControls = holo({
 export function KeyedCounter({ counterId }: { counterId: string }) {
   return (
     <section>
-      <h2>Shared by model key</h2>
+      <h2>Reward tokens · {counterId}</h2>
       <CounterDisplay counterId={counterId} />
       <CounterControls counterId={counterId} />
     </section>
@@ -39,9 +39,9 @@ export function KeyedCounter({ counterId }: { counterId: string }) {
 export function ModelCounters() {
   return (
     <>
-      <KeyedCounter counterId="shared" />
-      <KeyedCounter counterId="shared" />
-      <KeyedCounter counterId="independent" />
+      <KeyedCounter counterId="Nova" />
+      <KeyedCounter counterId="Nova" />
+      <KeyedCounter counterId="Orion" />
     </>
   );
 }

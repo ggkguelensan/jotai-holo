@@ -1,6 +1,6 @@
 # some
 
-Find whether any input matches a condition. Check several price atoms, or check the items of one array atom.
+Find whether any input matches a condition. Check several game-price atoms, or check the games in one array atom.
 
 ## Usage
 

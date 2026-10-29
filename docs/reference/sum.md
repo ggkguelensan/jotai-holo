@@ -1,13 +1,13 @@
 # sum
 
-Add numeric atom values. For example, calculate an order total from goods and delivery charges.
+Add numeric atom values. For example, calculate a bundle total from the base game and DLC prices.
 
 ## Usage
 
 ```ts
 import { sum } from 'jotai-holo/vanilla';
-sum([$goods, $delivery, $tax]);
-sum({ goods: $goods, delivery: $delivery });
+sum([$gamePrice, $dlcPrice, $tax]);
+sum({ game: $gamePrice, dlc: $dlcPrice });
 sum($prices);
 ```
 

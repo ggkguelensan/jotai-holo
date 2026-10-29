@@ -1,7 +1,7 @@
 import { holo } from 'jotai-holo';
 import { modelRegistry, pipe } from 'jotai-holo/model';
 import { modelAnalytics } from 'jotai-holo/analytics';
-import { createSearchModel, type Product } from './search-model.js';
+import { createSearchModel, type Game } from './search-model.js';
 
 // #region analytics-binding
 export const $$search = pipe(
@@ -66,83 +66,81 @@ export const SearchForm = holo({
   input: ({ search: $$search }) => ({ initialTerm: $$search.termChanged }),
 });
 
-function ProductRowView({
-  product,
+function GameRowView({
+  game,
   position,
-  onProductOpen,
+  onGameOpen,
 }: {
-  product: Product;
+  game: Game;
   position: number;
-  onProductOpen: (fact: { productId: string; position: number }) => void;
+  onGameOpen: (fact: { gameId: string; position: number }) => void;
 }) {
   return (
     <li>
-      <button
-        onClick={() => onProductOpen({ productId: product.id, position })}
-      >
-        {product.name} · ${product.price}
+      <button onClick={() => onGameOpen({ gameId: game.id, position })}>
+        {game.name} · ${game.price}
       </button>
     </li>
   );
 }
 
-const ProductRow = holo({
+const GameRow = holo({
   models: { search: $$search },
-  view: ProductRowView,
-  write: ({ search: $$search }) => ({ onProductOpen: $$search.openProduct }),
+  view: GameRowView,
+  write: ({ search: $$search }) => ({ onGameOpen: $$search.openGame }),
 });
 
-function ProductListView({ products }: { products: readonly Product[] }) {
+function GameListView({ games }: { games: readonly Game[] }) {
   return (
     <ul>
-      {products.map((product, position) => (
-        <ProductRow key={product.id} product={product} position={position} />
+      {games.map((game, position) => (
+        <GameRow key={game.id} game={game} position={position} />
       ))}
     </ul>
   );
 }
 
-export const ProductList = holo({
+export const GameList = holo({
   models: { search: $$search },
-  view: ProductListView,
-  read: ({ search: $$search }) => ({ products: $$search.$products }),
+  view: GameListView,
+  read: ({ search: $$search }) => ({ games: $$search.$games }),
 });
 
-function CloseProductView({ onClose }: { onClose: () => void }) {
+function CloseGameView({ onClose }: { onClose: () => void }) {
   return <button onClick={onClose}>Close details</button>;
 }
 
-const CloseProduct = holo({
+const CloseGame = holo({
   models: { search: $$search },
-  view: CloseProductView,
-  write: ({ search: $$search }) => ({ onClose: $$search.closeProduct }),
+  view: CloseGameView,
+  write: ({ search: $$search }) => ({ onClose: $$search.closeGame }),
 });
 
-function ProductDetailsView({ product }: { product: Product | null }) {
-  if (!product) return null;
+function GameDetailsView({ game }: { game: Game | null }) {
+  if (!game) return null;
   return (
     <article>
-      <h3>{product.name}</h3>
-      <p>${product.price}</p>
-      <CloseProduct />
+      <h3>{game.name}</h3>
+      <p>${game.price}</p>
+      <CloseGame />
     </article>
   );
 }
 
-export const ProductDetails = holo({
+export const GameDetails = holo({
   models: { search: $$search },
-  view: ProductDetailsView,
-  read: ({ search: $$search }) => ({ product: $$search.$selectedProduct }),
+  view: GameDetailsView,
+  read: ({ search: $$search }) => ({ game: $$search.$selectedGame }),
 });
 
 export function AnalyticsSearch({ initialTerm }: { initialTerm: string }) {
   return (
     <section>
-      <h2>Product search and independent analytics</h2>
+      <h2>Game search and independent analytics</h2>
       <p>Local catalog; recording adapters, no external SDK or requests.</p>
       <SearchForm initialTerm={initialTerm} />
-      <ProductList />
-      <ProductDetails />
+      <GameList />
+      <GameDetails />
     </section>
   );
 }

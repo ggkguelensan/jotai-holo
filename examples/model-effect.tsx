@@ -16,7 +16,7 @@ export const $$counterRuntime = pipe(
   modelRegistry(),
   modelConnection((model, { store }) =>
     observe((get, set) => {
-      set(model.$message, `Observed count: ${get(model.$count)}`);
+      set(model.$message, `Reward tokens: ${get(model.$count)}`);
     }, store),
   ),
 );
@@ -32,7 +32,7 @@ const ObservationMessage = holo({
 });
 
 function IncrementView({ onIncrement }: { onIncrement: () => void }) {
-  return <button onClick={onIncrement}>Increment shared model</button>;
+  return <button onClick={onIncrement}>Add shared reward token</button>;
 }
 
 const Increment = holo({
@@ -44,7 +44,7 @@ const Increment = holo({
 export function ModelEffectCounter() {
   return (
     <section>
-      <h2>Shared model + observe</h2>
+      <h2>Shared reward tokens · observe</h2>
       <ObservationMessage />
       <Increment />
     </section>

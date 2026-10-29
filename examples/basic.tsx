@@ -26,8 +26,12 @@ export function CounterControlsView({
 }) {
   return (
     <div>
-      <button onClick={onDecrement}>−</button>
-      <button onClick={onIncrement}>+</button>
+      <button aria-label="Spend reward token" onClick={onDecrement}>
+        −
+      </button>
+      <button aria-label="Add reward token" onClick={onIncrement}>
+        +
+      </button>
     </div>
   );
 }
@@ -48,7 +52,7 @@ const CounterControls = holo({
 export function BasicCounter() {
   return (
     <section>
-      <h2>State + actions</h2>
+      <h2>Reward tokens</h2>
       <CounterDisplay />
       <CounterControls />
     </section>

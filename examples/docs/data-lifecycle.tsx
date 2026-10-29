@@ -15,11 +15,11 @@ const $$draft = pipe(
   createDraftModel,
 
   modelLifecycle({
-    load: () => sessionStorage.getItem('holo.docs.profile') ?? 'Ada Lovelace',
+    load: () => sessionStorage.getItem('holo.docs.player-profile.v1') ?? 'Nova',
     restore: (draft) => draft.$name,
     snapshot: (draft) => draft.$name,
     save: ({ snapshot }) => {
-      sessionStorage.setItem('holo.docs.profile', snapshot);
+      sessionStorage.setItem('holo.docs.player-profile.v1', snapshot);
     },
   }),
 
@@ -61,7 +61,7 @@ function DataLifecycleDemo() {
 
   return (
     <div className="demo-form">
-      <span className="demo-eyebrow">{t`Profile draft`}</span>
+      <span className="demo-eyebrow">{t`Player profile draft`}</span>
       <label className="demo-checkbox">
         <input
           type="checkbox"

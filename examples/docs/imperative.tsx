@@ -16,7 +16,7 @@ function createCheckoutModel() {
   const $quantity = stateAtom(1);
   const $orderNumber = stateAtom(1000);
 
-  const $total = ion($quantity, (quantity) => quantity * 125);
+  const $total = ion($quantity, (quantity) => quantity * 25);
 
   const orderCreated = eventAtom<{
     orderId: string;
@@ -125,7 +125,7 @@ function CheckoutView({
   return (
     <section className="demo-form">
       <span className="demo-eyebrow">{t`Checkout`}</span>
-      <h3>{t`Oak desk`}</h3>
+      <h3>{t`Starfall`}</h3>
       <Quantity />
       <Total />
       <Submit />

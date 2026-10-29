@@ -1,6 +1,6 @@
 # eq
 
-Compare an atom with a value or another atom. Use `eq($deliveryMethod, 'courier')` to check whether an order uses courier delivery.
+Compare an atom with a value or another atom. Use `eq($paymentMethod, 'wallet')` to check whether a game order uses the wallet.
 
 ## Usage
 

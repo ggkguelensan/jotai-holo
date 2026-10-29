@@ -9,7 +9,7 @@ const $count = stateAtom(0);
 const $double = stateAtom((get) => get($count) * 2);
 
 const increment = actionAtom((_get, set, amount: number) =>
-  set($count, (count) => count + amount),
+  set($count, (count) => Math.max(0, count + amount)),
 );
 
 function CounterTitleView({ title }: { title: ReactNode }) {
@@ -18,7 +18,7 @@ function CounterTitleView({ title }: { title: ReactNode }) {
 
 const CounterTitle = holo({
   view: CounterTitleView,
-  static: { title: <Trans id="One model, ordinary props" /> },
+  static: { title: <Trans id="Reward tokens" /> },
 });
 
 function CountView({ count }: { count: number }) {
@@ -39,7 +39,7 @@ function DoubledView({ doubled }: { doubled: number }) {
 
   return (
     <p>
-      {t`Derived × 2`}: <strong>{doubled}</strong>
+      {t`Bonus points × 2`}: <strong>{doubled}</strong>
     </p>
   );
 }

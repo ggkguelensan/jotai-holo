@@ -34,7 +34,7 @@ const Status = holo({
 function InputDemo() {
   const { t } = useLingui();
 
-  const [term, setTerm] = useState('jotai');
+  const [term, setTerm] = useState('starfall');
   const [visible, setVisible] = useState(true);
 
   return (

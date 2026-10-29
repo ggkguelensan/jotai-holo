@@ -1,28 +1,28 @@
 # Models and registry
 
-A proposal's seat counter and its toolbar need one shared draft. Another proposal needs its own draft. A registry lets both widgets find the instance by proposal ID, without passing its atom record through their parents.
+A group gift order needs a copy counter and a toolbar to share one draft. Another recipient group needs its own draft. A registry lets both widgets find the instance by gift order ID, without passing its atom record through their parents.
 
-[Open the proposal example](/examples/model-instances). Add a seat to Atlas: its counter changes, while Beacon keeps its own count.
+[Open the gift order example](/examples/model-instances). Add a game copy to the Atlas gift draft: its counter changes, while Beacon keeps its own count.
 
 ## Create the atoms {#why-use-a-registry}
 
-The factory creates a fresh record of atoms on every call. It knows how a proposal works; it does not choose which proposal a component edits.
+The factory creates a fresh record of atoms on every call. It knows how a gift order works; it does not choose which gift order a component edits.
 
-<<< @/../examples/docs/model.tsx#proposal-factory
+<<< @/../examples/docs/model.tsx#gift-order-factory
 
 Wrap the factory once, at module scope. The resulting definition can select and retain instances in a Jotai store.
 
-<<< @/../examples/docs/model.tsx#proposal-registry
+<<< @/../examples/docs/model.tsx#gift-order-registry
 
 ## Select one draft from two widgets {#what-the-registry-adds}
 
-The counter selects by `proposalId` and reads the seat count.
+The counter selects by `giftOrderId` and reads the copy count.
 
-<<< @/../examples/docs/model.tsx#proposal-seats
+<<< @/../examples/docs/model.tsx#gift-order-copies
 
 The toolbar selects through the same definition and writes to the selected model.
 
-<<< @/../examples/docs/model.tsx#proposal-toolbar
+<<< @/../examples/docs/model.tsx#gift-order-toolbar
 
 Within one store, the same key selects the same record. A newly created array with the same supported key structure still selects that record. Another key selects another record. Another Jotai store isolates the state.
 
@@ -30,8 +30,8 @@ These are different operations:
 
 | Operation                         | Result                                   |
 | --------------------------------- | ---------------------------------------- |
-| Call `createProposalModel()`      | Create fresh atoms                       |
-| Call `$$proposal({ key })`        | Describe which instance to select        |
+| Call `createGiftOrderModel()`     | Create fresh atoms                       |
+| Call `$$giftOrder({ key })`       | Describe which instance to select        |
 | Read the selection in a store     | Get that instance's atom record          |
 | Mount a holo using that selection | Own its managed connections after commit |
 

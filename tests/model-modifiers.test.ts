@@ -1,9 +1,9 @@
 import { atom, createStore, type PrimitiveAtom } from 'jotai/vanilla';
 import { expect, expectTypeOf, test, vi } from 'vitest';
 import {
-  createShipmentDefinition,
-  createShipmentSummary,
-  modelTrackingFeed,
+  createDownloadDefinition,
+  createDownloadSummary,
+  modelDownloadFeed,
 } from '../examples/model-composition.js';
 import { actionAtom } from '../src/action-atom.js';
 import { modelAnalytics } from '../src/analytics.js';
@@ -96,12 +96,12 @@ function typeChecks() {
   expectTypeOf(optional).parameters.toEqualTypeOf<[initial?: Initial]>();
 
   const $$summary = pipe(
-    createShipmentSummary,
+    createDownloadSummary,
     modelRegistry(),
-    modelTrackingFeed({ subscribe: () => () => {} }),
+    modelDownloadFeed({ subscribe: () => () => {} }),
   );
   expectTypeOf($$summary).toEqualTypeOf<
-    ModelDefinition<ReturnType<typeof createShipmentSummary>, { shipmentId: string }>
+    ModelDefinition<ReturnType<typeof createDownloadSummary>, { downloadId: string }>
   >();
   const createExtendedDraft = (initial: Initial & { locale: 'en' | 'ru' }) => ({
     ...createDraft(initial),
@@ -177,26 +177,28 @@ function typeChecks() {
 }
 void typeChecks;
 
-test('the documented tracking modifier isolates keys and stores and stops the feed', () => {
-  const receivers: ((status: 'delivered') => void)[] = [];
+test('the documented download observer isolates keys and stores and stops the feed', () => {
+  const receivers: ((status: 'downloading' | 'installed') => void)[] = [];
   const stop = vi.fn();
-  const subscribe = vi.fn((_id: string, receive: (status: 'delivered') => void) => {
+  const subscribe = vi.fn((_id: string, receive: (status: 'downloading' | 'installed') => void) => {
     receivers.push(receive);
     return stop;
   });
-  const $$shipment = createShipmentDefinition({ subscribe });
+  const $$download = createDownloadDefinition({ subscribe });
   const store = createStore();
   const other = createStore();
-  const select = { key: ['shipment', '42'], initial: { shipmentId: '42' } };
-  store.get($$shipment(select));
+  const select = { key: ['download', '42'], initial: { downloadId: '42' } };
+  store.get($$download(select));
   expect(subscribe).not.toHaveBeenCalled();
-  const first = $$shipment.acquire(store, select);
-  const second = $$shipment.acquire(store, select);
-  const isolated = $$shipment.acquire(other, select);
+  const first = $$download.acquire(store, select);
+  const second = $$download.acquire(store, select);
+  const isolated = $$download.acquire(other, select);
   expect(subscribe).toHaveBeenCalledTimes(2);
-  receivers[0]!('delivered');
-  expect(store.get(first.model.$status)).toBe('delivered');
-  expect(other.get(isolated.model.$status)).toBe('preparing');
+  receivers[0]!('downloading');
+  expect(store.get(first.model.$status)).toBe('downloading');
+  receivers[0]!('installed');
+  expect(store.get(first.model.$status)).toBe('installed');
+  expect(other.get(isolated.model.$status)).toBe('queued');
   first.release();
   expect(stop).not.toHaveBeenCalled();
   second.release();

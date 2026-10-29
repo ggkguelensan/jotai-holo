@@ -1,42 +1,42 @@
 # Model composition
 
-A shipment badge needs live tracking updates while its page is open. The shipment's business model should also work in a test without a tracking service. Keep the atoms in a factory and add the subscription with a modifier.
+A game-download badge needs progress updates while its page is open. The download model should also work in a test without a progress service. Keep the atoms in a factory and add the subscription with a modifier.
 
 ## Start with a pure factory
 
 <<< @/../examples/model-composition.ts#factory
 
-The factory creates its record synchronously. It does not open a connection. `statusReceived` accepts updates from any source, so the factory does not import a transport or analytics client.
+The factory creates its record synchronously, starting at `queued`. `statusReceived` accepts `downloading` and `installed` updates from any source, so the factory does not import a transport or analytics client.
 
 ## Compose responsibilities
 
 Declare the final definition once at module scope. `pipe` applies each modifier from left to right.
 
 ```ts
-const $$shipment = pipe(
-  createShipmentModel,
+const $$download = pipe(
+  createDownloadModel,
   modelRegistry(),
-  modelTrackingFeed(trackingFeed),
+  modelDownloadFeed(downloadFeed),
 );
 ```
 
-`modelRegistry` selects instances by key. Our application-specific `modelTrackingFeed` attaches tracking to the selected shipment. It does not add fields to its record.
+`modelRegistry` selects instances by key. Our application-specific `modelDownloadFeed` attaches tracking to the selected download. It does not add fields to its record.
 
 ```tsx
-const Shipment = holo({
+const Download = holo({
   models: {
-    shipment: (props: { shipmentId: string }) =>
-      $$shipment({
-        key: ['shipment', props.shipmentId],
-        initial: { shipmentId: props.shipmentId },
+    download: (props: { downloadId: string }) =>
+      $$download({
+        key: ['download', props.downloadId],
+        initial: { downloadId: props.downloadId },
       }),
   },
-  view: ShipmentView,
-  read: ({ shipment }) => ({ status: shipment.$status }),
+  view: DownloadView,
+  read: ({ download }) => ({ status: download.$status }),
 });
 ```
 
-Two widgets selecting the same instance share one subscription. The first committed owner connects; the last release disconnects. `initial` seeds creation only: a new value for an existing key does not recreate the model. To change an existing instance, call an action or bind a committed prop through `holo.input`.
+Two widgets selecting the same instance share one progress subscription. The first committed owner connects; the last release stops observing progress. The download job belongs to the launcher service and continues independently of these View owners. `initial` seeds creation only: a new value for an existing key does not recreate the model. To change an existing instance, call an action or bind a committed prop through `holo.input`.
 
 ## Choose a pipe
 
@@ -47,8 +47,8 @@ Use `pipe` from `jotai-holo/model`, or a compatible implementation from another 
 A connection modifier applied to an existing definition preserves its records and inherited connections. An explicit `modelRegistry()` starts a new registry identity. Declare the completed pipeline once; rebuilding it creates a new definition.
 
 ```ts
-const $$base = pipe(createShipmentModel, modelRegistry());
-const $$tracked = pipe($$base, modelTrackingFeed(trackingFeed));
+const $$base = pipe(createDownloadModel, modelRegistry());
+const $$tracked = pipe($$base, modelDownloadFeed(downloadFeed));
 const $$independent = pipe($$tracked, modelRegistry());
 ```
 
@@ -56,7 +56,7 @@ const $$independent = pipe($$tracked, modelRegistry());
 
 ## Write a custom modifier
 
-Here is the implementation of `modelTrackingFeed`. It receives a transport adapter, so tests can provide a fake feed.
+Here is the implementation of `modelDownloadFeed`. It receives a transport adapter, so tests can provide a fake feed.
 
 <<< @/../examples/model-composition.ts#modifier
 
@@ -78,9 +78,9 @@ Casting a function to `ModelDefinition` does not install ownership behavior. Bui
 
 ```ts
 const store = createStore();
-const lease = $$shipment.acquire(store, {
-  key: ['shipment', '42'],
-  initial: { shipmentId: '42' },
+const lease = $$download.acquire(store, {
+  key: ['download', '42'],
+  initial: { downloadId: '42' },
 });
 
 try {

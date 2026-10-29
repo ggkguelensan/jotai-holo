@@ -117,7 +117,7 @@ for (const file of files) {
             imported = 'CounterIncrementView';
           if (name === 'CounterView' && file === 'docs/integrations.md')
             imported = 'CounterReadView';
-          return `import ${['User', 'Proposal', 'ProposalInput'].includes(name) ? 'type ' : ''}{ ${imported}${imported === name ? '' : ` as ${name}`} } from ${JSON.stringify(module)};`;
+          return `import ${['User', 'CampaignInput'].includes(name) ? 'type ' : ''}{ ${imported}${imported === name ? '' : ` as ${name}`} } from ${JSON.stringify(module)};`;
         })
         .join('\n') + '\n';
     const filename = path.join(root, '.vercel/doc-types', `example-${count++}.tsx`);

@@ -3,56 +3,56 @@ import { actionAtom, holo, stateAtom } from 'jotai-holo';
 import { modelRegistry, pipe } from 'jotai-holo/model';
 
 // #region model
-// #region proposal-factory
-function createProposalModel() {
-  const $seats = stateAtom(5);
+// #region gift-order-factory
+function createGiftOrderModel() {
+  const $copies = stateAtom(5);
 
-  const addSeat = actionAtom((_get, set) => set($seats, (n) => n + 1));
-  return { $seats, addSeat };
+  const addCopy = actionAtom((_get, set) => set($copies, (n) => n + 1));
+  return { $copies, addCopy };
 }
 
-// #endregion proposal-factory
+// #endregion gift-order-factory
 
-// #region proposal-registry
-const $$proposal = pipe(createProposalModel, modelRegistry());
-// #endregion proposal-registry
+// #region gift-order-registry
+const $$giftOrder = pipe(createGiftOrderModel, modelRegistry());
+// #endregion gift-order-registry
 // Both bindings select the same instance without a scope provider.
 
-// #region proposal-seats
-function SeatsView({ count }: { count: number }) {
+// #region gift-order-copies
+function CopiesView({ count }: { count: number }) {
   return <output className="demo-number">{count}</output>;
 }
 
-const Seats = holo({
+const Copies = holo({
   models: {
-    model: (props: { proposalId: string }) =>
-      $$proposal({ key: ['proposal', { id: props.proposalId }] }),
+    model: (props: { giftOrderId: string }) =>
+      $$giftOrder({ key: ['giftOrder', { id: props.giftOrderId }] }),
   },
-  view: SeatsView,
-  read: ({ model: $$proposal }) => ({ count: $$proposal.$seats }),
+  view: CopiesView,
+  read: ({ model: $$giftOrder }) => ({ count: $$giftOrder.$copies }),
 });
 
-// #endregion proposal-seats
+// #endregion gift-order-copies
 
-// #region proposal-toolbar
+// #region gift-order-toolbar
 function ToolbarView({ onAdd }: { onAdd: () => void }) {
   const { t } = useLingui();
 
-  return <button onClick={onAdd}>{t`Add a seat`}</button>;
+  return <button onClick={onAdd}>{t`Add a gift copy`}</button>;
 }
 
 const Toolbar = holo({
   models: {
-    model: (props: { proposalId: string }) =>
-      $$proposal({ key: ['proposal', { id: props.proposalId }] }),
+    model: (props: { giftOrderId: string }) =>
+      $$giftOrder({ key: ['giftOrder', { id: props.giftOrderId }] }),
   },
   view: ToolbarView,
-  write: ({ model: $$proposal }) => ({ onAdd: $$proposal.addSeat }),
+  write: ({ model: $$giftOrder }) => ({ onAdd: $$giftOrder.addCopy }),
 });
 
-// #endregion proposal-toolbar
+// #endregion gift-order-toolbar
 
-function ProposalDemo() {
+function GiftOrderDemo() {
   const { t } = useLingui();
 
   return (
@@ -61,10 +61,10 @@ function ProposalDemo() {
         return (
           <section key={id}>
             <span className="demo-eyebrow">
-              {t`Proposal`} {id}
+              {t`Gift order`} {id}
             </span>
-            <Seats proposalId={id} />
-            <Toolbar proposalId={id} />
+            <Copies giftOrderId={id} />
+            <Toolbar giftOrderId={id} />
           </section>
         );
       })}
@@ -73,4 +73,4 @@ function ProposalDemo() {
 }
 // #endregion model
 
-export default ProposalDemo;
+export default GiftOrderDemo;

@@ -1,6 +1,6 @@
 # Atoms or models?
 
-A search filter can begin with two atoms: the search term and an “in stock”
+A search filter can begin with two atoms: the search term and an “on sale”
 switch. Grouping them in a model does not change their reactivity. It gives the
 related atoms a name and, if needed, a factory that can create another set.
 
@@ -27,7 +27,7 @@ The next sections show where each additional responsibility becomes useful.
 
 ## Shared values and events: just atoms {#global-state-and-events-just-atoms}
 
-A workspace toolbar reads the theme and publishes a help request. If model
+A player hub toolbar reads the theme and publishes a help request. If model
 workflows need these inputs, the application can expose them as atoms:
 
 <<< @/../examples/atoms-or-models.tsx#atom-imports
@@ -70,7 +70,7 @@ it. [Business logic and small Views](/guide/business-logic) develops that step.
 
 ## Shared instances by ID: add a registry
 
-Suppose the term and stock controls sit in different parts of a catalog layout. Both know the catalog ID and need its filters. A registry lets each binding select that instance independently:
+Suppose the search-term and sale controls sit in different parts of a catalog layout. Both know the catalog ID and need its filters. A registry lets each binding select that instance independently:
 
 <<< @/../examples/atoms-or-models.tsx#model-imports
 <<< @/../examples/atoms-or-models.tsx#keyed-model
@@ -78,8 +78,8 @@ Suppose the term and stock controls sit in different parts of a catalog layout. 
 <<< @/../examples/atoms-or-models.tsx#usage
 
 These two rendered components use different catalog IDs, so they edit different
-filters. Rendering another component with `catalogId="hardware"` in the same
-store selects the existing hardware instance.
+filters. Rendering another component with `catalogId="featured"` in the same
+store selects the existing featured-catalog instance.
 
 There are now three different things:
 
@@ -161,4 +161,4 @@ A selector that returns a new object also returns a new identity. Use native
 application needs to edit a part of a larger value.
 
 [Try independent profile fields](/examples/profile-fields), then see
-[workshop calculations](/examples/workshop-tickets) for combining atom values.
+[gift-copy calculations](/examples/gift-copies) for combining atom values.
