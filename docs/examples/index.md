@@ -8,6 +8,7 @@ Run a small application, inspect its code and follow the responsibilities across
 | [Independent profile fields](/examples/profile-fields)            | Lazy projections and small consumers             |
 | [Small Views and committed inputs](/examples/view-bindings)       | Values, callbacks and parent input               |
 | [Order confirmation](/examples/order-confirmation)                | Facts and imperative View methods                |
+| [View methods](/examples/view-methods)                            | Focus, animation and native sharing              |
 | [Independent gift order drafts](/examples/model-instances)        | Shared keys, independent instances and ownership |
 | [Game catalog](/examples/game-catalog)                            | Query projections and screen states              |
 | [Seller sale campaign](/examples/sale-campaign)                   | Async mutation, validation failure and reset     |

@@ -76,6 +76,7 @@ async function localeConfig(code: string, label: string, prefix: string) {
           [t('Independent profile fields'), 'profile-fields'],
           [t('Small Views and committed inputs'), 'view-bindings'],
           [t('Order confirmation'), 'order-confirmation'],
+          [t('View methods'), 'view-methods'],
           [t('Independent gift drafts'), 'model-instances'],
           [t('Game catalog'), 'game-catalog'],
           [t('Sale campaign'), 'sale-campaign'],

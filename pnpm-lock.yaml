@@ -32,6 +32,9 @@ importers:
       '@lingui/react':
         specifier: 6.10.1
         version: 6.10.1(@babel/core@7.29.7)(react@19.3.1)
+      '@siberiacancode/reactuse':
+        specifier: 1.0.17
+        version: 1.0.17(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@tanstack/query-core':
         specifier: 5.104.5
         version: 5.104.5
@@ -962,6 +965,17 @@ packages:
 
   '@shikijs/vscode-textmate@10.1.0':
     resolution: {integrity: sha512-cVBuhDQjBZaNMTwBquYfPydrUP+E3hE6oYGasx8h6ZrODIM7/r+gxLDXdd66oszbrggZHEntdE6j+5gYIVyMWQ==}
+
+  '@siberiacancode/reactuse@1.0.17':
+    resolution: {integrity: sha512-/fxWWYfiqK2h6dAK9IXLEMWNQXJ3TIV54mZ7vG+YkD3gmr0ZB6nFs0MJuM97SPZnxZdwD51JHjVdBq5M8GB2EQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@types/react': ^18 || ^19
+      react: ^18 || ^19
+      react-dom: ^18 || ^19
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
 
   '@sinclair/typebox@0.27.12':
     resolution: {integrity: sha512-hhyNJ+nbR6ZR7pToHvllEFun9TL0sbL+tk/ON75lo+Xas054uez98qRbsuNt7MBCyZKK4+8Yli/OAGZhmfBZ/g==}
@@ -2812,6 +2826,13 @@ snapshots:
       '@types/hast': 3.0.5
 
   '@shikijs/vscode-textmate@10.1.0': {}
+
+  '@siberiacancode/reactuse@1.0.17(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+    dependencies:
+      react: 19.3.1
+      react-dom: 19.3.1(react@19.3.1)
+    optionalDependencies:
+      '@types/react': 19.3.0
 
   '@sinclair/typebox@0.27.12': {}
 

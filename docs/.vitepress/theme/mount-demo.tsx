@@ -12,6 +12,9 @@ type DemoModule = {
 const demos: Record<string, () => Promise<DemoModule>> = {
   counter: () => import('../../../examples/docs/counter'),
   imperative: () => import('../../../examples/docs/imperative'),
+  'imperative-focus': () => import('../../../examples/docs/imperative-focus'),
+  'imperative-animation': () => import('../../../examples/docs/imperative-animation'),
+  'imperative-share': () => import('../../../examples/docs/imperative-share'),
   ion: () => import('../../../examples/docs/ion'),
   prism: () => import('../../../examples/docs/prism'),
   bond: () => import('../../../examples/docs/bond'),

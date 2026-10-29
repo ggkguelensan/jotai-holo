@@ -68,52 +68,19 @@ exist before the first commit. See [the input contract](/reference/input).
 
 ## Keep UI-specific methods in the View {#imperative-view-methods}
 
-A game-order-created fact may need to navigate to a receipt. The business model
-should publish the order ID; it does not need to hold a router function.
+A toolbar button can request focus in game search. It publishes a request; only
+the search View knows the input element and calls its DOM method.
 
-The two sides of the bridge are an event mapping in holo and a handler inside
-the View. This minimal receipt screen uses the same `HoloImperative` handle and
-`useImperativeHolo` pattern as the
-[order confirmation example](/examples/order-confirmation):
+<<< @/../examples/docs/imperative-focus.tsx#focus
 
-```tsx
-import { useState } from 'react';
-import {
-  eventAtom,
-  holo,
-  useImperativeHolo,
-  type HoloImperative,
-} from 'jotai-holo';
+Bind the toolbar button's callback to `searchFocusRequested` through `write`.
+After Search commits, each request calls `focusSearch`. Repeating the request
+focuses the input again without creating a boolean state or a reset action.
 
-type Receipt = { orderId: string; total: number };
-type ReceiptHandle = { onOrderCreated(receipt: Receipt): void };
-
-const orderCreated = eventAtom<Receipt>();
-
-function ReceiptView({
-  imperative,
-}: {
-  imperative: HoloImperative<ReceiptHandle>;
-}) {
-  const [receipt, setReceipt] = useState<Receipt | null>(null);
-
-  useImperativeHolo(imperative, {
-    onOrderCreated: setReceipt,
-  });
-
-  return <output>{receipt?.orderId ?? 'No order yet'}</output>;
-}
-
-const ReceiptScreen = holo({
-  view: ReceiptView,
-  imperative: { onOrderCreated: orderCreated },
-});
-```
-
-After `ReceiptScreen` commits, publishing `orderCreated` in its store calls
-`onOrderCreated` with the receipt. That handler updates local React state. A real
-View can instead use its router or editor hook there; the publishing model does
-not need those React functions.
+Use this bridge for focus, animation, router and hook methods. Ordinary receipt
+data belongs in `read`; it does not need an imperative handler just to copy the
+payload into React state. See [the runnable examples](/reference/useImperativeHolo)
+for animation and a Reactuse `useShare` integration.
 
 The bridge calls the latest committed handler. Updating a React dependency must
 not leave an earlier navigation function captured inside a long-lived event

@@ -196,6 +196,7 @@ msgid "| Example                                                           | Wha
 "| [Independent profile fields](/examples/profile-fields)            | Lazy projections and small consumers             |\n"
 "| [Small Views and committed inputs](/examples/view-bindings)       | Values, callbacks and parent input               |\n"
 "| [Order confirmation](/examples/order-confirmation)                | Facts and imperative View methods                |\n"
+"| [View methods](/examples/view-methods)                            | Focus, animation and native sharing              |\n"
 "| [Independent gift order drafts](/examples/model-instances)        | Shared keys, independent instances and ownership |\n"
 "| [Game catalog](/examples/game-catalog)                            | Query projections and screen states              |\n"
 "| [Seller sale campaign](/examples/sale-campaign)                   | Async mutation, validation failure and reset     |\n"
@@ -209,6 +210,7 @@ msgstr "| Пример | Что проверить |\n"
 "| [Независимые поля профиля](/examples/profile-fields) | Ленивые проекции и небольшие потребители |\n"
 "| [Маленькие View и подтверждённые входы](/examples/view-bindings) | Значения, callbacks и входы от родителя |\n"
 "| [Подтверждение заказа](/examples/order-confirmation) | Факты и императивные методы View |\n"
+"| [Методы View](/examples/view-methods) | Фокус, анимация и системный диалог отправки |\n"
 "| [Независимые черновики подарочных заказов](/examples/model-instances) | Общие ключи, независимые экземпляры и владение |\n"
 "| [Каталог игр](/examples/game-catalog) | Проекции Query и состояния экрана |\n"
 "| [Распродажа продавца](/examples/sale-campaign) | Асинхронная мутация, отказ проверки и сброс |\n"
@@ -524,6 +526,53 @@ msgid "- [How it works](/topics/holo)\n"
 "- [API reference](/reference/holo)"
 msgstr "- [Как это работает](/topics/holo)\n"
 "- [API-справочник](/reference/holo)"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-methods.md
+msgid "View methods"
+msgstr "Методы View"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-methods.md
+msgid "Focus game search, highlight the cart and share a game link. Each small View owns\n"
+"its DOM or hook method; holo connects the request event to that method."
+msgstr "Переведите фокус в поиск игр, выделите корзину и поделитесь ссылкой на игру.\n"
+"Каждая небольшая View владеет своим DOM-методом или методом хука; holo связывает\n"
+"событие запроса с этим методом."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-methods.md
+#: docs/reference/useImperativeHolo.md
+msgid "Focus a search field"
+msgstr "Перевести фокус в поле поиска"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-methods.md
+#: docs/reference/useImperativeHolo.md
+msgid "Restart a cart animation"
+msgstr "Перезапустить анимацию корзины"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-methods.md
+#: docs/reference/useImperativeHolo.md
+msgid "Call a method returned by a React hook"
+msgstr "Вызвать метод React-хука"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/view-methods.md
+msgid "Read [useImperativeHolo](/reference/useImperativeHolo) for delivery, reduced motion\n"
+"and browser activation requirements."
+msgstr "Контракт доставки, уменьшение движения и требования к пользовательской активации\n"
+"описаны в [useImperativeHolo](/reference/useImperativeHolo)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -4773,6 +4822,64 @@ msgstr "Пример имитирует успешное создание зак
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useImperativeHolo.md
+msgid "Try [focus, animation and native sharing](/examples/view-methods) in the browser."
+msgstr "Попробуйте [фокус, анимацию и системный диалог отправки](/examples/view-methods) в браузере."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "The toolbar publishes `searchFocusRequested`. Search owns its DOM ref and\n"
+"focuses the field on every request. No model stores an element or callback."
+msgstr "Панель инструментов публикует `searchFocusRequested`. Search хранит DOM ref и\n"
+"переводит фокус в поле при каждом запросе. Модель не хранит элемент или callback."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "A UI request highlights the cart. Each occurrence restarts the animation;\n"
+"repeated requests need no state reset. The View respects reduced motion and\n"
+"keeps the animation implementation out of the atom graph."
+msgstr "Запрос интерфейса выделяет корзину. Каждое срабатывание перезапускает анимацию;\n"
+"повторному запросу не нужен сброс состояния. View учитывает настройку уменьшения\n"
+"движения и оставляет реализацию анимации за пределами графа атомов."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "Reactuse's [useShare](https://reactuse.org/functions/hooks/useShare.html) stays\n"
+"inside View. The request reaches the latest committed `share.trigger`, using\n"
+"the View's current title and URL. Reactuse is an optional application dependency;\n"
+"these hooks are not bundled into holo."
+msgstr "[useShare](https://reactuse.org/functions/hooks/useShare.html) из Reactuse остаётся\n"
+"внутри View. Запрос вызывает последний подтверждённый `share.trigger` с текущими\n"
+"названием и URL из props. Reactuse — необязательная зависимость приложения;\n"
+"эти хуки не входят в бандл holo."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "The button is disabled when sharing is unavailable. Closing the native dialog\n"
+"is not an application failure: the handler ignores `AbortError`. Other failures\n"
+"reach `holo.onError` through the returned promise."
+msgstr "Если браузер не поддерживает отправку, кнопка недоступна. Закрытие системного\n"
+"диалога не считается ошибкой приложения: обработчик пропускает `AbortError`.\n"
+"Остальные ошибки передаются в `holo.onError` через возвращённый promise."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
+msgid "[Web Share requires user activation](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share#security).\n"
+"Keep the click → event → View call synchronous until `share.trigger()` is called.\n"
+"Do not launch sharing after a network response, lazy import or queued delivery;\n"
+"`useImperativeHolo` cannot restore an expired browser activation."
+msgstr "[Web Share требует пользовательской активации](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share#security).\n"
+"Сохраните синхронную цепочку клик → событие → View до вызова `share.trigger()`.\n"
+"Не запускайте отправку после ответа сервера, динамического импорта или доставки\n"
+"из очереди: `useImperativeHolo` не может восстановить истёкшую активацию браузера."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useImperativeHolo.md
 msgid "Use imperative methods for behavior that cannot be expressed as state props. Keep ordinary modal visibility in read bindings. The model publishes facts; the View implements platform behavior. See the [runtime migration guide](/runtime) for named models, committed input and ownership."
 msgstr "Используйте императивные методы для поведения, которое нельзя выразить пропсами состояния. Обычную видимость модального окна оставляйте в read. Модель публикует факты, View реализует поведение платформы. Подробнее об именованных моделях, входных пропсах и владении — в [руководстве по runtime](/runtime)."
 
@@ -5391,27 +5498,32 @@ msgstr "Оставьте UI-методы во View"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "A game-order-created fact may need to navigate to a receipt. The business model\n"
-"should publish the order ID; it does not need to hold a router function."
-msgstr "Факт создания заказа игры может потребовать перехода к квитанции. Бизнес-модель публикует ID заказа; хранить функцию роутера ей не нужно."
+msgid "A toolbar button can request focus in game search. It publishes a request; only\n"
+"the search View knows the input element and calls its DOM method."
+msgstr "Кнопка панели инструментов запрашивает фокус в поиске игр. Она публикует запрос;\n"
+"только View поиска знает элемент ввода и вызывает его DOM-метод."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "The two sides of the bridge are an event mapping in holo and a handler inside\n"
-"the View. This minimal receipt screen uses the same `HoloImperative` handle and\n"
-"`useImperativeHolo` pattern as the\n"
-"[order confirmation example](/examples/order-confirmation):"
-msgstr "У моста две стороны: привязка события в holo и обработчик внутри View. Этот минимальный экран квитанции использует тот же `HoloImperative` и `useImperativeHolo`, что и [пример подтверждения заказа](/examples/order-confirmation):"
+msgid "Bind the toolbar button's callback to `searchFocusRequested` through `write`.\n"
+"After Search commits, each request calls `focusSearch`. Repeating the request\n"
+"focuses the input again without creating a boolean state or a reset action."
+msgstr "Свяжите callback кнопки с `searchFocusRequested` через `write`.\n"
+"После commit Search каждый запрос вызывает `focusSearch`. Повторный запрос\n"
+"снова переводит фокус в поле: boolean-состояние и действие сброса не нужны."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "After `ReceiptScreen` commits, publishing `orderCreated` in its store calls\n"
-"`onOrderCreated` with the receipt. That handler updates local React state. A real\n"
-"View can instead use its router or editor hook there; the publishing model does\n"
-"not need those React functions."
-msgstr "После commit `ReceiptScreen` публикация `orderCreated` в его store вызывает `onOrderCreated` с квитанцией. Обработчик обновляет локальное React-состояние. Настоящая View может вместо этого использовать router или editor hook; публикующей модели эти React-функции не нужны."
+msgid "Use this bridge for focus, animation, router and hook methods. Ordinary receipt\n"
+"data belongs in `read`; it does not need an imperative handler just to copy the\n"
+"payload into React state. See [the runnable examples](/reference/useImperativeHolo)\n"
+"for animation and a Reactuse `useShare` integration."
+msgstr "Используйте этот мост для фокуса, анимации, методов роутера и хуков. Данные чека\n"
+"передавайте через `read`; им не нужен императивный обработчик только ради\n"
+"копирования payload в React state. В [рабочих примерах](/reference/useImperativeHolo)\n"
+"показаны анимация и интеграция с `useShare` из Reactuse."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

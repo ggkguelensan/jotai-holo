@@ -144,6 +144,11 @@ msgstr "Тапсырысты растау"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
+msgid "View methods"
+msgstr "View әдістері"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
 msgid "Independent gift drafts"
 msgstr "Тәуелсіз сыйлық нобайлары"
 
@@ -313,6 +318,7 @@ msgid "to close"
 msgstr "жабу"
 
 #: examples/docs/analytics.tsx
+#: examples/docs/imperative-focus.tsx
 msgid "Search games"
 msgstr "Ойындарды іздеу"
 
@@ -445,6 +451,26 @@ msgstr "Сыртқы сақтау панелі"
 #: examples/docs/form.tsx
 msgid "Player notifications"
 msgstr "Ойыншы хабарландырулары"
+
+#: examples/docs/imperative-animation.tsx
+msgid "Your cart · 2 games"
+msgstr "Себетіңіз · 2 ойын"
+
+#: examples/docs/imperative-animation.tsx
+msgid "Highlight cart"
+msgstr "Себетті ерекшелеу"
+
+#: examples/docs/imperative-focus.tsx
+msgid "Go to game search"
+msgstr "Ойын іздеуге өту"
+
+#: examples/docs/imperative-share.tsx
+msgid "Share game"
+msgstr "Ойынмен бөлісу"
+
+#: examples/docs/imperative-share.tsx
+msgid "Sharing is unavailable"
+msgstr "Бөлісу қолжетімсіз"
 
 #: examples/docs/imperative.tsx
 #: examples/docs/ion.tsx

@@ -144,6 +144,11 @@ msgstr "Подтверждение заказа"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
+msgid "View methods"
+msgstr "Методы View"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
 msgid "Independent gift drafts"
 msgstr "Независимые черновики подарков"
 
@@ -313,6 +318,7 @@ msgid "to close"
 msgstr "закрыть"
 
 #: examples/docs/analytics.tsx
+#: examples/docs/imperative-focus.tsx
 msgid "Search games"
 msgstr "Поиск игр"
 
@@ -445,6 +451,26 @@ msgstr "Внешняя панель сохранения"
 #: examples/docs/form.tsx
 msgid "Player notifications"
 msgstr "Уведомления игрока"
+
+#: examples/docs/imperative-animation.tsx
+msgid "Your cart · 2 games"
+msgstr "Ваша корзина · 2 игры"
+
+#: examples/docs/imperative-animation.tsx
+msgid "Highlight cart"
+msgstr "Выделить корзину"
+
+#: examples/docs/imperative-focus.tsx
+msgid "Go to game search"
+msgstr "Перейти к поиску игр"
+
+#: examples/docs/imperative-share.tsx
+msgid "Share game"
+msgstr "Поделиться игрой"
+
+#: examples/docs/imperative-share.tsx
+msgid "Sharing is unavailable"
+msgstr "Отправка недоступна"
 
 #: examples/docs/imperative.tsx
 #: examples/docs/ion.tsx
