@@ -418,6 +418,18 @@ msgstr "Тәуелсіз парақпен жұмыс істеу үшін Scratch
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "Penguins and Titanic are separate CSV sample sheets: 344 records with eight columns and 891 records with fifteen columns. Each has a header row. Visit H345 on Penguins or O892 on Titanic to inspect the last record. Empty fields remain empty; NA in Penguins remains text."
+msgstr "Penguins және Titanic — CSV деректері бар бөлек парақтар: сегіз бағандағы 344 жазба және он бес бағандағы 891 жазба. Әр парақтың тақырып жолы бар. Соңғы жазбаны көру үшін Penguins парағында H345 не Titanic парағында O892 ұяшығына өтіңіз. Бос өрістер бос қалады; Penguins ішіндегі NA мәтін күйінде сақталады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The samples are bundled locally and added to existing workbooks without replacing their sheets or active selection. Sample identity survives renaming, so reloading does not add duplicates or overwrite edits. Reset sheet restores that sample's original CSV; ordinary new sheets reset to an empty document. The CSV parser validates size and field lengths before loading the complete document into the sheet model."
+msgstr "Деректер жиындары қолданбаға кірістірілген және бар кітаптарға олардың парақтарын не белсенді таңдауын ауыстырмай қосылады. Атау өзгергенде жиынның сәйкестігі сақталады, сондықтан қайта жүктеу көшірмелер жасамайды және түзетулерді алмастырмайды. Парақты қалпына келтіру сол жиынның бастапқы CSV файлын қайтарады; кәдімгі жаңа парақтар бос құжатқа қайтарылады. CSV талдағышы толық құжатты парақ моделіне жүктемес бұрын өлшемдер мен өріс ұзындықтарын тексереді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Document data"
 msgstr "Құжат деректері"
 

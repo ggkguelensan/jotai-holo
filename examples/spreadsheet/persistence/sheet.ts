@@ -6,7 +6,7 @@ import type {
   SheetDocument,
   StorageStatus,
 } from '../models/types.js';
-import seed from '../gift-budget.json';
+import { initialDocument } from '../datasets.js';
 import { $storage, sheetKey } from './config.js';
 
 type SheetRuntime = {
@@ -108,9 +108,14 @@ export function connectSheet(
         store.set(
           sheet.load,
           (data === undefined
-            ? initial.sheetId === 'gifts'
-              ? seed
-              : { rows: 100, columns: 40, cells: {} }
+            ? initialDocument(
+                store
+                  .get(book.$sheets)
+                  .find((item) => item.id === initial.sheetId) ?? {
+                  id: initial.sheetId,
+                  title: '',
+                },
+              )
             : data) as SheetDocument,
         );
         state.initialized = true;

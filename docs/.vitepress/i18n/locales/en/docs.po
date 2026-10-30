@@ -418,6 +418,18 @@ msgstr "Switch to Scratchpad to work on an independent sheet. The + button adds 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "Penguins and Titanic are separate CSV sample sheets: 344 records with eight columns and 891 records with fifteen columns. Each has a header row. Visit H345 on Penguins or O892 on Titanic to inspect the last record. Empty fields remain empty; NA in Penguins remains text."
+msgstr "Penguins and Titanic are separate CSV sample sheets: 344 records with eight columns and 891 records with fifteen columns. Each has a header row. Visit H345 on Penguins or O892 on Titanic to inspect the last record. Empty fields remain empty; NA in Penguins remains text."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The samples are bundled locally and added to existing workbooks without replacing their sheets or active selection. Sample identity survives renaming, so reloading does not add duplicates or overwrite edits. Reset sheet restores that sample's original CSV; ordinary new sheets reset to an empty document. The CSV parser validates size and field lengths before loading the complete document into the sheet model."
+msgstr "The samples are bundled locally and added to existing workbooks without replacing their sheets or active selection. Sample identity survives renaming, so reloading does not add duplicates or overwrite edits. Reset sheet restores that sample's original CSV; ordinary new sheets reset to an empty document. The CSV parser validates size and field lengths before loading the complete document into the sheet model."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Document data"
 msgstr "Document data"
 

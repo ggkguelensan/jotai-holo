@@ -22,6 +22,10 @@ Use Go to cell to visit AA90, enter a value, then reference it from A1. Only the
 
 Switch to Scratchpad to work on an independent sheet. The + button adds a sheet; double-click its tab to rename it. Returning to a sheet restores its selection and camera. On narrow screens the window shows two columns instead of four.
 
+Penguins and Titanic are separate CSV sample sheets: 344 records with eight columns and 891 records with fifteen columns. Each has a header row. Visit H345 on Penguins or O892 on Titanic to inspect the last record. Empty fields remain empty; NA in Penguins remains text.
+
+The samples are bundled locally and added to existing workbooks without replacing their sheets or active selection. Sample identity survives renaming, so reloading does not add duplicates or overwrite edits. Reset sheet restores that sample's original CSV; ordinary new sheets reset to an empty document. The CSV parser validates size and field lengths before loading the complete document into the sheet model.
+
 ## Document data {#document-data}
 
 Generic models start empty. This JSON supplies the first gift-budget sheet; its selected, totalCell and totalRow fields are demo metadata. Reset sheet loads the sample again. Other new sheets start empty.

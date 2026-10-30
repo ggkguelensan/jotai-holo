@@ -418,6 +418,18 @@ msgstr "Wechseln Sie zu Scratchpad für ein unabhängiges Blatt. + fügt ein Bla
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "Penguins and Titanic are separate CSV sample sheets: 344 records with eight columns and 891 records with fifteen columns. Each has a header row. Visit H345 on Penguins or O892 on Titanic to inspect the last record. Empty fields remain empty; NA in Penguins remains text."
+msgstr "Penguins und Titanic sind separate CSV-Beispielblätter: 344 Datensätze mit acht Spalten und 891 Datensätze mit fünfzehn Spalten. Jedes Blatt hat eine Kopfzeile. Gehen Sie zu H345 in Penguins oder O892 in Titanic, um den letzten Datensatz zu sehen. Leere Felder bleiben leer; NA in Penguins bleibt Text."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The samples are bundled locally and added to existing workbooks without replacing their sheets or active selection. Sample identity survives renaming, so reloading does not add duplicates or overwrite edits. Reset sheet restores that sample's original CSV; ordinary new sheets reset to an empty document. The CSV parser validates size and field lengths before loading the complete document into the sheet model."
+msgstr "Die Beispieldaten werden lokal mitgeliefert und zu vorhandenen Arbeitsmappen hinzugefügt, ohne deren Blätter oder aktive Auswahl zu ersetzen. Die Identität des Datensatzes bleibt beim Umbenennen erhalten. Ein Neuladen erzeugt daher keine Duplikate und überschreibt keine Änderungen. Das Zurücksetzen stellt die ursprüngliche CSV des Datensatzes wieder her; gewöhnliche neue Blätter werden zu leeren Dokumenten. Der CSV-Parser prüft Größe und Feldlängen, bevor das vollständige Dokument in das Blattmodell geladen wird."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Document data"
 msgstr "Dokumentdaten"
 
