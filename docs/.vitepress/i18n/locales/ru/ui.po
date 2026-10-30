@@ -837,143 +837,143 @@ msgstr "Не найдено"
 msgid "Server error"
 msgstr "Ошибка сервера"
 
-#: examples/docs/spreadsheet-views.tsx
-msgid "Check the formula and its references."
-msgstr "Проверьте формулу и её ссылки."
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Formula for the selected cell"
-msgstr "Формула выбранной ячейки"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Rows"
-msgstr "Строки"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Columns"
-msgstr "Столбцы"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Fewer rows"
-msgstr "Меньше строк"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Fewer columns"
-msgstr "Меньше столбцов"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "More rows"
-msgstr "Больше строк"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "More columns"
-msgstr "Больше столбцов"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Enter a whole number from 1 to 1000."
-msgstr "Введите целое число от 1 до 1000."
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Loading sheet…"
-msgstr "Загружаем лист…"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Saving…"
-msgstr "Сохраняем…"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Could not save or load this sheet."
-msgstr "Не удалось сохранить или загрузить лист."
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Saved locally"
-msgstr "Сохранено локально"
-
-#: examples/docs/spreadsheet-views.tsx
-#: examples/docs/spreadsheet.tsx
-msgid "Retry"
-msgstr "Повторить"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Go to cell"
-msgstr "Перейти к ячейке"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Go"
-msgstr "Перейти"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Move left"
-msgstr "Перейти влево"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Move up"
-msgstr "Перейти вверх"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Move down"
-msgstr "Перейти вниз"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Move right"
-msgstr "Перейти вправо"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Choose an address inside this sheet."
-msgstr "Выберите адрес внутри листа."
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Sheet name"
-msgstr "Название листа"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Rename sheet"
-msgstr "Переименовать лист"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Gift budget"
-msgstr "Бюджет подарков"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Arrows select. Enter edits; Enter again saves. Escape cancels. Double-click a tab to rename it."
-msgstr "Стрелки выбирают ячейки. Enter начинает и завершает ввод. Escape отменяет. Двойное нажатие на вкладку меняет название."
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Could not save the sheet list. Your open sheets remain in memory."
-msgstr "Не удалось сохранить список листов. Открытые листы остаются в памяти."
-
-#: examples/docs/spreadsheet.tsx
-msgid "Row"
-msgstr "Строка"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Reset sheet"
-msgstr "Сбросить таблицу"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Bundle total"
-msgstr "Итого за набор"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Add sheet"
-msgstr "Добавить лист"
-
-#: examples/docs/spreadsheet.tsx
+#: examples/spreadsheet/ui/book.tsx
 msgid "Workbook"
 msgstr "Книга"
 
-#: examples/docs/spreadsheet.tsx
+#: examples/spreadsheet/ui/book.tsx
 msgid "Game gift bundle · budget"
 msgstr "Подарочный набор игр · бюджет"
 
-#: examples/docs/spreadsheet.tsx
+#: examples/spreadsheet/ui/book.tsx
 msgid "Could not load the workbook."
 msgstr "Не удалось загрузить книгу."
 
-#: examples/docs/spreadsheet.tsx
+#: examples/spreadsheet/ui/book.tsx
 msgid "Loading workbook…"
 msgstr "Загружаем книгу…"
 
-#: examples/docs/spreadsheet.tsx
+#: examples/spreadsheet/ui/book.tsx
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Retry"
+msgstr "Повторить"
+
+#: examples/spreadsheet/ui/book.tsx
 msgid "Sheets"
 msgstr "Листы"
+
+#: examples/spreadsheet/ui/gift-budget.tsx
+msgid "Reset sheet"
+msgstr "Сбросить таблицу"
+
+#: examples/spreadsheet/ui/gift-budget.tsx
+msgid "Bundle total"
+msgstr "Итого за набор"
+
+#: examples/spreadsheet/ui/table.tsx
+msgid "Row"
+msgstr "Строка"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Go to cell"
+msgstr "Перейти к ячейке"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Go"
+msgstr "Перейти"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move left"
+msgstr "Перейти влево"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move up"
+msgstr "Перейти вверх"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move down"
+msgstr "Перейти вниз"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move right"
+msgstr "Перейти вправо"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Choose an address inside this sheet."
+msgstr "Выберите адрес внутри листа."
+
+#: examples/spreadsheet/ui/views/cell-views.tsx
+msgid "Check the formula and its references."
+msgstr "Проверьте формулу и её ссылки."
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Rows"
+msgstr "Строки"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Columns"
+msgstr "Столбцы"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Fewer rows"
+msgstr "Меньше строк"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Fewer columns"
+msgstr "Меньше столбцов"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "More rows"
+msgstr "Больше строк"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "More columns"
+msgstr "Больше столбцов"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Enter a whole number from 1 to 1000."
+msgstr "Введите целое число от 1 до 1000."
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Loading sheet…"
+msgstr "Загружаем лист…"
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Saving…"
+msgstr "Сохраняем…"
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Could not save or load this sheet."
+msgstr "Не удалось сохранить или загрузить лист."
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Saved locally"
+msgstr "Сохранено локально"
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Arrows select. Enter edits; Enter again saves. Escape cancels. Double-click a tab to rename it."
+msgstr "Стрелки выбирают ячейки. Enter начинает и завершает ввод. Escape отменяет. Двойное нажатие на вкладку меняет название."
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Could not save the sheet list. Your open sheets remain in memory."
+msgstr "Не удалось сохранить список листов. Открытые листы остаются в памяти."
+
+#: examples/spreadsheet/ui/views/formula-views.tsx
+msgid "Formula for the selected cell"
+msgstr "Формула выбранной ячейки"
+
+#: examples/spreadsheet/ui/views/sheet-tabs-views.tsx
+msgid "Sheet name"
+msgstr "Название листа"
+
+#: examples/spreadsheet/ui/views/sheet-tabs-views.tsx
+msgid "Rename sheet"
+msgstr "Переименовать лист"
+
+#: examples/spreadsheet/ui/views/sheet-tabs-views.tsx
+msgid "Add sheet"
+msgstr "Добавить лист"
+
+#: examples/spreadsheet/ui/views/viewport-views.tsx
+msgid "Gift budget"
+msgstr "Бюджет подарков"

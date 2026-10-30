@@ -21,7 +21,11 @@ export default defineConfig({
     {
       name: 'ui',
       path: '<rootDir>/docs/.vitepress/i18n/locales/{locale}/ui',
-      include: ['<rootDir>/docs/.vitepress/config.mts', '<rootDir>/examples/docs'],
+      include: [
+        '<rootDir>/docs/.vitepress/config.mts',
+        '<rootDir>/examples/docs',
+        '<rootDir>/examples/spreadsheet/ui',
+      ],
     },
   ],
   extractors: [extractor, babelExtractor],

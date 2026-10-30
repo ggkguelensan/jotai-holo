@@ -4,7 +4,7 @@ Edit a gift budget across several sheets. Each sheet has its own data, formulas 
 
 <Demo kind="spreadsheet">
 
-<<< @/../examples/docs/spreadsheet.tsx#spreadsheet
+<<< @/../examples/spreadsheet/ui/workspace.tsx#spreadsheet
 
 </Demo>
 
@@ -24,7 +24,7 @@ Generic models start empty. This JSON supplies the first gift-budget sheet; its 
 
 The document owns cell inputs. A cell model exposes an input and a derived result; releasing that model never deletes the input. Formula evaluation reads referenced expressions through get, so changing a formula changes its dependencies. The parser never executes JavaScript.
 
-<<< @/../examples/spreadsheet/model.ts#cell-model
+<<< @/../examples/spreadsheet/models/cell-model.ts#cell-model
 
 ## Views and the camera
 
@@ -32,7 +32,7 @@ Bindings and model definitions are declared at module scope. Each Jotai store ow
 
 Each CellView has its own holo binding. Selection and draft projections notify the affected cells; unrelated cells do not need the whole sheet document. Rows and columns use holoList with fixed slot keys. The camera changes which logical addresses those slots display.
 
-<<< @/../examples/docs/spreadsheet.tsx#cell-binding
+<<< @/../examples/spreadsheet/ui/cell.ts#cell-binding
 
 The sheet registry uses `['sheet', sheetId]`; cell models use `['cell', sheetId, address]`. A separate view model uses `['view', sheetId, viewId]` for selection, editing and camera. Matching keys share state within one store. Different view IDs can show different parts of the same document.
 
@@ -40,11 +40,11 @@ The sheet registry uses `['sheet', sheetId]`; cell models use `['cell', sheetId,
 
 IndexedDB stores the sheet list and sparse sheet documents. Committed edits save after a 250 ms pause. Switching sheets commits the current draft and starts saving immediately. Wait for Saved locally before reloading to verify restoration.
 
-<<< @/../examples/docs/spreadsheet.tsx#workbook-setup
+<<< @/../examples/spreadsheet/ui/book.tsx#workbook-setup
 
 Visible components own the selected sheet. Tabs read only descriptors and statuses, so an inactive tab does not keep its sheet active. Pending or failed storage operations hold an additional lease. After a successful save and release of the final owner, the registry retains the sheet for one minute.
 
-<<< @/../examples/spreadsheet/model.ts#sheet-model
+<<< @/../examples/spreadsheet/models/sheet-model.ts#sheet-model
 
 Returning within that minute reuses the instance. Returning later creates a new instance and restores its document before enabling editing. Cell models have zero retention; their inputs remain in the sheet document. A storage error keeps unsaved data in memory and exposes Retry. This example implements storage ownership with modelConnection and acquire/release; retainTime alone does not guarantee persistence.
 
@@ -55,6 +55,23 @@ Supported syntax: numeric literals, cell references, parentheses, unary signs, +
 Errors are values: #REF! for an address outside the sheet, #CYCLE! for circular references, #DIV/0! for division by zero, #VALUE! for incompatible values, #NUM! for a non-finite result, and #FORMULA! for unsupported syntax. #LIMIT! bounds expensive calculations: a range may contain at most 2048 cells, evaluation has a 2048-step budget, and reference depth is limited to 128.
 
 The document supports up to 1000 rows and 1000 columns. This is a teaching example with JavaScript numbers, not an Excel-compatible engine. It does not implement cross-sheet formulas, collaborative editing, CSV paste or range selection. For a production spreadsheet, evaluate an established formula engine separately from the React bindings.
+
+## Source layout
+
+Start with ui/book.tsx for screen composition and workbook.ts for model connections. The models directory contains state and commands; persistence contains storage and lease handling; ui contains components and their bindings. Formula parsing and evaluation are separate modules under formulas.
+
+```text
+spreadsheet/
+├── workbook.ts
+├── models/
+├── persistence/
+├── ui/
+│   └── views/
+├── formulas/
+├── coordinates.ts
+├── storage.ts
+└── gift-budget.json
+```
 
 ## Verification
 

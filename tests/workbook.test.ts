@@ -1,7 +1,7 @@
 import { createStore } from 'jotai/vanilla';
 import { afterEach, expect, test, vi } from 'vitest';
 import * as workbook from '../examples/spreadsheet/workbook.js';
-import { createSpreadsheet } from '../examples/spreadsheet/model.js';
+import * as spreadsheet from '../examples/spreadsheet/models/index.js';
 import { addressOf, columnName, point, reveal } from '../examples/spreadsheet/coordinates.js';
 import type { DocumentStorage } from '../examples/spreadsheet/storage.js';
 
@@ -60,7 +60,7 @@ test('coordinates span multiple letters and reveal only moves at a window edge',
 });
 
 test('document data survives cell disposal and dimensions hide rather than delete values', async () => {
-  const registry = createSpreadsheet();
+  const registry = spreadsheet;
   const store = createStore();
   const sheet = registry.$$sheet.acquire(store, {
     key: ['sheet', 'one'],
@@ -86,7 +86,7 @@ test('document data survives cell disposal and dimensions hide rather than delet
 });
 
 test('editing has cancel/commit and tab wraps logical rows while camera reveals selection', () => {
-  const registry = createSpreadsheet();
+  const registry = spreadsheet;
   const store = createStore();
   const sheet = store.get(registry.selectSheet({ sheetId: 'edit' }));
   store.set(sheet.load, { rows: 20, columns: 10, cells: { D5: '7' } });
@@ -218,7 +218,7 @@ test('a fresh instance is not editable before a delayed restore and invalid opti
 });
 
 test('oversized formula ranges return a bounded error without creating their cells', () => {
-  const registry = createSpreadsheet();
+  const registry = spreadsheet;
   const store = createStore();
   const sheet = store.get(registry.selectSheet({ sheetId: 'large' }));
   store.set(sheet.load, { rows: 1000, columns: 1000, cells: { A1: '=SUM(A1:ALL1000)' } });

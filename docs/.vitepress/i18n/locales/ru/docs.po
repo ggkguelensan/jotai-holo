@@ -500,6 +500,18 @@ msgid "The document supports up to 1000 rows and 1000 columns. This is a teachin
 msgstr "Документ поддерживает до 1000 строк и 1000 столбцов. Это учебный пример с числами JavaScript, а не движок, совместимый с Excel. Межлистовых формул, совместного редактирования, вставки CSV и выделения диапазонов нет. Для рабочей таблицы отдельно оцените готовый движок формул."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Source layout"
+msgstr "Структура исходников"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Start with ui/book.tsx for screen composition and workbook.ts for model connections. The models directory contains state and commands; persistence contains storage and lease handling; ui contains components and their bindings. Formula parsing and evaluation are separate modules under formulas."
+msgstr "Начните с ui/book.tsx для композиции экрана и workbook.ts для подключений моделей. В models находятся состояние и команды, в persistence — хранение и управление lease, в ui — компоненты и привязки. Разбор и вычисление формул вынесены в отдельные модули внутри formulas."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md

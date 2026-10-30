@@ -1,6 +1,6 @@
 import { createStore } from 'jotai/vanilla';
 import { afterEach, expect, test, vi } from 'vitest';
-import { createSpreadsheet } from '../examples/spreadsheet/model.js';
+import * as spreadsheet from '../examples/spreadsheet/models/index.js';
 import giftBudget from '../examples/spreadsheet/gift-budget.json';
 
 const releases: (() => void)[] = [];
@@ -9,7 +9,7 @@ afterEach(() => {
 });
 
 const fixture = (initial?: Record<string, string>) => {
-  const registry = createSpreadsheet();
+  const registry = spreadsheet;
   const store = createStore();
   const sheetId = 'test';
   const sheetLease = registry.$$sheet.acquire(store, {
@@ -138,15 +138,12 @@ test('the formula bar writes the selected native atom and loading restores input
   expect(f.store.get(f.view.$selected)).toBe('D1');
 });
 
-test('separate stores and separate models are isolated', () => {
+test('module definitions isolate cell values in separate stores', () => {
   const f = fixture();
   const other = createStore();
   f.write('B1', '30');
   const otherCell = other.get(f.registry.selectCell({ sheetId: 'test', address: 'B1' }));
   expect(other.get(otherCell.$value)).toBe('');
-  const second = createSpreadsheet();
-  const secondCell = f.store.get(second.selectCell({ sheetId: 'test', address: 'B1' }));
-  expect(f.store.get(secondCell.$value)).toBe('');
 });
 
 test('cell keys share one record and isolate other addresses and sheet IDs', () => {
@@ -166,7 +163,7 @@ test('cell keys share one record and isolate other addresses and sheet IDs', () 
 });
 
 test('a new model is empty and cells created after loading read the document', () => {
-  const registry = createSpreadsheet();
+  const registry = spreadsheet;
   const store = createStore();
   const sheet = store.get(registry.selectSheet({ sheetId: 'empty' }));
   const view = store.get(registry.selectView({ sheetId: 'empty' }));

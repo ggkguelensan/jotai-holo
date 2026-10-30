@@ -837,143 +837,143 @@ msgstr "Табылмады"
 msgid "Server error"
 msgstr "Сервер қатесі"
 
-#: examples/docs/spreadsheet-views.tsx
-msgid "Check the formula and its references."
-msgstr "Формуланы және оның сілтемелерін тексеріңіз."
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Formula for the selected cell"
-msgstr "Таңдалған ұяшық формуласы"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Rows"
-msgstr "Жолдар"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Columns"
-msgstr "Бағандар"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Fewer rows"
-msgstr "Жолдарды азайту"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Fewer columns"
-msgstr "Бағандарды азайту"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "More rows"
-msgstr "Жолдарды көбейту"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "More columns"
-msgstr "Бағандарды көбейту"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Enter a whole number from 1 to 1000."
-msgstr "1 мен 1000 арасындағы бүтін санды енгізіңіз."
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Loading sheet…"
-msgstr "Парақ жүктелуде…"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Saving…"
-msgstr "Сақталуда…"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Could not save or load this sheet."
-msgstr "Парақты сақтау не жүктеу мүмкін болмады."
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Saved locally"
-msgstr "Жергілікті сақталды"
-
-#: examples/docs/spreadsheet-views.tsx
-#: examples/docs/spreadsheet.tsx
-msgid "Retry"
-msgstr "Қайталау"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Go to cell"
-msgstr "Ұяшыққа өту"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Go"
-msgstr "Өту"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Move left"
-msgstr "Солға өту"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Move up"
-msgstr "Жоғары өту"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Move down"
-msgstr "Төмен өту"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Move right"
-msgstr "Оңға өту"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Choose an address inside this sheet."
-msgstr "Парақ ішіндегі мекенжайды таңдаңыз."
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Sheet name"
-msgstr "Парақ атауы"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Rename sheet"
-msgstr "Парақтың атын өзгерту"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Gift budget"
-msgstr "Сыйлық бюджеті"
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Arrows select. Enter edits; Enter again saves. Escape cancels. Double-click a tab to rename it."
-msgstr "Көрсеткілер таңдайды. Enter өңдеп, қайта басқанда сақтайды. Escape болдырмайды. Қойындыны екі рет басып атын өзгертіңіз."
-
-#: examples/docs/spreadsheet-views.tsx
-msgid "Could not save the sheet list. Your open sheets remain in memory."
-msgstr "Парақтар тізімі сақталмады. Ашық парақтар жадта қалады."
-
-#: examples/docs/spreadsheet.tsx
-msgid "Row"
-msgstr "Жол"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Reset sheet"
-msgstr "Кестені қалпына келтіру"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Bundle total"
-msgstr "Жиынтықтың жалпы сомасы"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Add sheet"
-msgstr "Парақ қосу"
-
-#: examples/docs/spreadsheet.tsx
+#: examples/spreadsheet/ui/book.tsx
 msgid "Workbook"
 msgstr "Кітап"
 
-#: examples/docs/spreadsheet.tsx
+#: examples/spreadsheet/ui/book.tsx
 msgid "Game gift bundle · budget"
 msgstr "Сыйлыққа арналған ойындар жиынтығы · бюджет"
 
-#: examples/docs/spreadsheet.tsx
+#: examples/spreadsheet/ui/book.tsx
 msgid "Could not load the workbook."
 msgstr "Кітапты жүктеу мүмкін болмады."
 
-#: examples/docs/spreadsheet.tsx
+#: examples/spreadsheet/ui/book.tsx
 msgid "Loading workbook…"
 msgstr "Кітап жүктелуде…"
 
-#: examples/docs/spreadsheet.tsx
+#: examples/spreadsheet/ui/book.tsx
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Retry"
+msgstr "Қайталау"
+
+#: examples/spreadsheet/ui/book.tsx
 msgid "Sheets"
 msgstr "Парақтар"
+
+#: examples/spreadsheet/ui/gift-budget.tsx
+msgid "Reset sheet"
+msgstr "Кестені қалпына келтіру"
+
+#: examples/spreadsheet/ui/gift-budget.tsx
+msgid "Bundle total"
+msgstr "Жиынтықтың жалпы сомасы"
+
+#: examples/spreadsheet/ui/table.tsx
+msgid "Row"
+msgstr "Жол"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Go to cell"
+msgstr "Ұяшыққа өту"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Go"
+msgstr "Өту"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move left"
+msgstr "Солға өту"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move up"
+msgstr "Жоғары өту"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move down"
+msgstr "Төмен өту"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move right"
+msgstr "Оңға өту"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Choose an address inside this sheet."
+msgstr "Парақ ішіндегі мекенжайды таңдаңыз."
+
+#: examples/spreadsheet/ui/views/cell-views.tsx
+msgid "Check the formula and its references."
+msgstr "Формуланы және оның сілтемелерін тексеріңіз."
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Rows"
+msgstr "Жолдар"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Columns"
+msgstr "Бағандар"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Fewer rows"
+msgstr "Жолдарды азайту"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Fewer columns"
+msgstr "Бағандарды азайту"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "More rows"
+msgstr "Жолдарды көбейту"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "More columns"
+msgstr "Бағандарды көбейту"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Enter a whole number from 1 to 1000."
+msgstr "1 мен 1000 арасындағы бүтін санды енгізіңіз."
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Loading sheet…"
+msgstr "Парақ жүктелуде…"
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Saving…"
+msgstr "Сақталуда…"
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Could not save or load this sheet."
+msgstr "Парақты сақтау не жүктеу мүмкін болмады."
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Saved locally"
+msgstr "Жергілікті сақталды"
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Arrows select. Enter edits; Enter again saves. Escape cancels. Double-click a tab to rename it."
+msgstr "Көрсеткілер таңдайды. Enter өңдеп, қайта басқанда сақтайды. Escape болдырмайды. Қойындыны екі рет басып атын өзгертіңіз."
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Could not save the sheet list. Your open sheets remain in memory."
+msgstr "Парақтар тізімі сақталмады. Ашық парақтар жадта қалады."
+
+#: examples/spreadsheet/ui/views/formula-views.tsx
+msgid "Formula for the selected cell"
+msgstr "Таңдалған ұяшық формуласы"
+
+#: examples/spreadsheet/ui/views/sheet-tabs-views.tsx
+msgid "Sheet name"
+msgstr "Парақ атауы"
+
+#: examples/spreadsheet/ui/views/sheet-tabs-views.tsx
+msgid "Rename sheet"
+msgstr "Парақтың атын өзгерту"
+
+#: examples/spreadsheet/ui/views/sheet-tabs-views.tsx
+msgid "Add sheet"
+msgstr "Парақ қосу"
+
+#: examples/spreadsheet/ui/views/viewport-views.tsx
+msgid "Gift budget"
+msgstr "Сыйлық бюджеті"

@@ -61,6 +61,10 @@ try {
       };
       const saved = () => demo.locator('.sheet-status[data-state="saved"]').waitFor();
       await value('B1', '12');
+      assert.equal(
+        await demo.locator('.sheet-dimension label span').first().textContent(),
+        { '': 'Columns', 'ru/': 'Столбцы', 'de/': 'Spalten', 'kk/': 'Бағандар' }[locale],
+      );
       assert.equal(await demo.locator('[data-address]').count(), 32);
       await edit('B1', '20');
       assert.equal((await cell('D1').inputValue()).replace(/\D/g, ''), '1600');
