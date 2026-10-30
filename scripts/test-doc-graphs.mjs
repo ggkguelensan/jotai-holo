@@ -272,8 +272,8 @@ try {
     const expand = system.locator('.graph-example-sticky>header>a');
     await expand.focus();
     await expand.press('Enter');
-    await page.locator('.graph-map').waitFor();
-    assert.equal(await page.locator('.docs-graph-group').count(), 4);
+    await page.locator('.graph-map .docs-graph-group').nth(3).waitFor();
+    assert.equal(await page.locator('.graph-map .docs-graph-group').count(), 4);
     assert.equal(
       await page.locator('.graph-map-source>header strong').innerText(),
       '$expression · ion',
