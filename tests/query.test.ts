@@ -36,10 +36,11 @@ test('declaration is lazy, reads do not fetch, mounted projections share one obs
   expect(fetch).not.toHaveBeenCalled();
   const stopName = store.sub(query.$name, () => {});
   const stopPending = store.sub(query.$pending, () => {});
-  await tick();
+  await vi.waitFor(() => {
+    expect(store.get(query.$name)).toBe('Anna');
+    expect(store.get(query.$pending)).toBe(false);
+  });
   expect(fetch).toHaveBeenCalledTimes(1);
-  expect(store.get(query.$name)).toBe('Anna');
-  expect(store.get(query.$pending)).toBe(false);
   const observed = cache.getQueryCache().find({ queryKey: ['user'] })!;
   expect(observed.getObserversCount()).toBe(1);
   stopName();
