@@ -837,58 +837,143 @@ msgstr "Not found"
 msgid "Server error"
 msgstr "Server error"
 
-#: examples/docs/spreadsheet.tsx
+#: examples/docs/spreadsheet-views.tsx
 msgid "Check the formula and its references."
 msgstr "Check the formula and its references."
 
-#: examples/docs/spreadsheet.tsx
+#: examples/docs/spreadsheet-views.tsx
 msgid "Formula for the selected cell"
 msgstr "Formula for the selected cell"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Bundle total"
-msgstr "Bundle total"
+#: examples/docs/spreadsheet-views.tsx
+msgid "Rows"
+msgstr "Rows"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Reset sheet"
-msgstr "Reset sheet"
+#: examples/docs/spreadsheet-views.tsx
+msgid "Columns"
+msgstr "Columns"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Game gift bundle · budget"
-msgstr "Game gift bundle · budget"
+#: examples/docs/spreadsheet-views.tsx
+msgid "Fewer rows"
+msgstr "Fewer rows"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Change the copies. The bundle total follows."
-msgstr "Change the copies. The bundle total follows."
+#: examples/docs/spreadsheet-views.tsx
+msgid "Fewer columns"
+msgstr "Fewer columns"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Game"
-msgstr "Game"
+#: examples/docs/spreadsheet-views.tsx
+msgid "More rows"
+msgstr "More rows"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Copies / rate"
-msgstr "Copies / rate"
+#: examples/docs/spreadsheet-views.tsx
+msgid "More columns"
+msgstr "More columns"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Price / base, €"
-msgstr "Price / base, €"
+#: examples/docs/spreadsheet-views.tsx
+msgid "Enter a whole number from 1 to 1000."
+msgstr "Enter a whole number from 1 to 1000."
 
-#: examples/docs/spreadsheet.tsx
-msgid "Amount, €"
-msgstr "Amount, €"
+#: examples/docs/spreadsheet-views.tsx
+msgid "Loading sheet…"
+msgstr "Loading sheet…"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total."
-msgstr "Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total."
+#: examples/docs/spreadsheet-views.tsx
+msgid "Saving…"
+msgstr "Saving…"
 
+#: examples/docs/spreadsheet-views.tsx
+msgid "Could not save or load this sheet."
+msgstr "Could not save or load this sheet."
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Saved locally"
+msgstr "Saved locally"
+
+#: examples/docs/spreadsheet-views.tsx
 #: examples/docs/spreadsheet.tsx
-msgid "Select a cell to edit. Enter moves down; Tab moves across."
-msgstr "Select a cell to edit. Enter moves down; Tab moves across."
+msgid "Retry"
+msgstr "Retry"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Go to cell"
+msgstr "Go to cell"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Go"
+msgstr "Go"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Move left"
+msgstr "Move left"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Move up"
+msgstr "Move up"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Move down"
+msgstr "Move down"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Move right"
+msgstr "Move right"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Choose an address inside this sheet."
+msgstr "Choose an address inside this sheet."
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Sheet name"
+msgstr "Sheet name"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Rename sheet"
+msgstr "Rename sheet"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Gift budget"
+msgstr "Gift budget"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Arrows select. Enter edits; Enter again saves. Escape cancels. Double-click a tab to rename it."
+msgstr "Arrows select. Enter edits; Enter again saves. Escape cancels. Double-click a tab to rename it."
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Could not save the sheet list. Your open sheets remain in memory."
+msgstr "Could not save the sheet list. Your open sheets remain in memory."
 
 #: examples/docs/spreadsheet.tsx
 msgid "Row"
 msgstr "Row"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Gift budget"
-msgstr "Gift budget"
+msgid "Reset sheet"
+msgstr "Reset sheet"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Bundle total"
+msgstr "Bundle total"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Add sheet"
+msgstr "Add sheet"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Workbook"
+msgstr "Workbook"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Game gift bundle · budget"
+msgstr "Game gift bundle · budget"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Could not load the workbook."
+msgstr "Could not load the workbook."
+
+#: examples/docs/spreadsheet.tsx
+msgid "Loading workbook…"
+msgstr "Loading workbook…"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Sheets"
+msgstr "Sheets"

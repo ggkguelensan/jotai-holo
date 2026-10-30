@@ -821,3 +821,121 @@
     font-size: 16px;
   }
 }
+
+/* The sheet projects addresses into fixed slots; the document never scrolls. */
+.sheet-viewport {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+}
+.vp-doc .sheet-viewport table.sheet-table {
+  min-width: 0;
+}
+.sheet-viewport .sheet-cell {
+  height: 44px;
+}
+.sheet-cell[data-selected] {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: -2px;
+}
+.sheet-toolbar,
+.sheet-dimensions,
+.sheet-dimension,
+.sheet-camera,
+.sheet-camera form,
+.sheet-directions,
+.sheet-tabs,
+.sheet-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sheet-toolbar,
+.sheet-camera {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+.sheet-dimensions {
+  flex-wrap: wrap;
+}
+.sheet-dimension {
+  position: relative;
+}
+.sheet-dimension label,
+.sheet-camera label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.holo-example .sheet-dimension input {
+  width: 66px;
+  padding: 8px;
+}
+.holo-example .sheet-camera input {
+  width: 84px;
+  padding: 8px;
+}
+.holo-example .sheet-dimension button,
+.holo-example .sheet-directions button,
+.holo-example .sheet-add {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px;
+}
+.sheet-dimension small {
+  position: absolute;
+  top: 100%;
+  z-index: 1;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-danger-1);
+}
+.sheet-tabs {
+  flex-wrap: wrap;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--vp-c-divider);
+}
+.sheet-tabs button[aria-pressed='true'] {
+  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+.sheet-tab input {
+  max-width: 160px;
+}
+.sheet-status {
+  min-height: 44px;
+  color: var(--vp-c-text-2);
+  font-size: 12px;
+}
+@media (max-width: 639px) {
+  .sheet-dimension label {
+    font-size: 12px;
+  }
+  .sheet-toolbar {
+    align-items: flex-start;
+  }
+  .sheet-dimensions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .sheet-dimension {
+    gap: 4px;
+  }
+  .holo-example .sheet-dimension input {
+    width: 50px;
+  }
+}
+
+.sheet-tab {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.sheet-tab > button:not([aria-pressed]) {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px;
+}

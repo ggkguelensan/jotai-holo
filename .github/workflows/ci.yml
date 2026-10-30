@@ -24,6 +24,13 @@ jobs:
       - run: pnpm docs:check
       - run: pnpm docs:build
       - run: pnpm test:docs
+      - run: pnpm test:docs-spreadsheet
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: spreadsheet-chromium-node-${{ matrix.node }}
+          path: .vercel/spreadsheet-*
+          include-hidden-files: true
       - run: pnpm test:docs-annotations
       - run: pnpm test:docs-analytics
       - run: pnpm test:package
@@ -49,3 +56,29 @@ jobs:
       - run: pnpm test:react
         env:
           REACT_VERSION: ${{ matrix.react }}
+
+  spreadsheet-compat:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [firefox, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
+      - run: pnpm docs:build
+      - run: pnpm test:docs-spreadsheet
+        env:
+          SPREADSHEET_BROWSER: ${{ matrix.browser }}
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: spreadsheet-${{ matrix.browser }}
+          path: .vercel/spreadsheet-*
+          include-hidden-files: true

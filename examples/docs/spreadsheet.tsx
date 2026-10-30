@@ -1,337 +1,442 @@
 import { useLingui } from '@lingui/react/macro';
-import { useState, type KeyboardEvent } from 'react';
-import { actionAtom, holo, holoList } from 'jotai-holo';
-import { modelLifecycle, pipe } from 'jotai-holo/model';
+import { atom } from 'jotai';
+import { holo, holoList } from 'jotai-holo';
 import giftBudget from '../spreadsheet/gift-budget.json';
 import {
-  columns,
-  createSpreadsheet,
-  rowCount,
-  type SheetKey,
-} from '../spreadsheet/model.js';
-import { isCellError, type CellValue } from '../spreadsheet/formulas.js';
+  columnName,
+  addressOf,
+  type Dimensions,
+} from '../spreadsheet/coordinates.js';
+import type { ViewKey, SheetKey } from '../spreadsheet/model.js';
+import {
+  createWorkbook,
+  type Workbook,
+  type StorageStatus,
+} from '../spreadsheet/workbook.js';
+import { browserStorage } from '../spreadsheet/storage.js';
+import type { CellValue } from '../spreadsheet/formulas.js';
+import {
+  CellView,
+  FormulaView,
+  DimensionView,
+  SheetStatusView,
+  CameraView,
+  SheetTabView,
+  TableViewportView,
+  SheetHelpView,
+  BookErrorView,
+} from './spreadsheet-views.js';
 
-function move(event: KeyboardEvent<HTMLInputElement>, address: string) {
-  const input = event.currentTarget;
-  if (event.nativeEvent.isComposing) return;
-  if (event.key === 'Escape') {
-    input.blur();
-    return;
+const columnSlots = atom([0, 1, 2, 3]);
+const rowSlots = atom([0, 1, 2, 3, 4, 5, 6, 7]);
+
+export function createWorkbookBindings(workbook: Workbook) {
+  const { selectSheet, selectView, selectCell, $$workbook } = workbook;
+  const FormulaBar = holo({
+    models: { view: selectView },
+    view: FormulaView,
+    read: ({ view }) => ({
+      address: view.$selected,
+      expression: view.$formula,
+    }),
+    write: ({ view }) => ({
+      onBegin: view.begin,
+      onDraft: view.$draft,
+      onCommit: view.commit,
+      onCancel: view.cancel,
+      onMove: view.move,
+      onTab: view.tab,
+    }),
+  });
+  // #region cell-binding
+  const Cell = holo({
+    models: { cell: selectCell, view: selectView },
+    view: CellView,
+    read: ({ cell, view }) => ({
+      input: cell.$input,
+      value: cell.$value,
+      selected: atom((get) => get(view.$selected) === cell.address),
+      focusVersion: atom((get) =>
+        get(view.$selected) === cell.address ? get(view.$focus) : 0,
+      ),
+      editing: atom(
+        (get) => get(view.$selected) === cell.address && get(view.$editing),
+      ),
+      draft: atom((get) =>
+        get(view.$selected) === cell.address ? get(view.$draft) : '',
+      ),
+    }),
+    write: ({ view }) => ({
+      onSelect: view.select,
+      onDraft: view.$draft,
+      onBegin: view.begin,
+      onCommit: view.commit,
+      onCancel: view.cancel,
+      onMove: view.move,
+      onTab: view.tab,
+    }),
+  });
+  // #endregion cell-binding
+
+  function CellSlotView({
+    sheetId,
+    viewId,
+    row,
+    slot,
+    offset,
+    count,
+  }: ViewKey & { row: number; slot: number; offset: number; count: number }) {
+    return slot < count ? (
+      <td role="gridcell" aria-colindex={offset + slot + 2}>
+        <Cell
+          sheetId={sheetId}
+          viewId={viewId}
+          address={addressOf({ row, column: offset + slot })}
+        />
+      </td>
+    ) : null;
   }
-  const column = columns.indexOf(address[0] as (typeof columns)[number]);
-  const row = Number(address.slice(1));
-  let nextColumn = column;
-  let nextRow = row;
-  if (event.key === 'Enter') nextRow += event.shiftKey ? -1 : 1;
-  else if (event.key === 'ArrowDown') nextRow++;
-  else if (event.key === 'ArrowUp') nextRow--;
-  else if (event.key === 'ArrowLeft' && input.selectionStart === 0)
-    nextColumn--;
-  else if (
-    event.key === 'ArrowRight' &&
-    input.selectionStart === input.value.length
-  )
-    nextColumn++;
-  else return;
-  event.preventDefault();
-  if (
-    nextRow < 1 ||
-    nextRow > rowCount ||
-    nextColumn < 0 ||
-    nextColumn >= columns.length
-  )
-    return;
-  const target = `${columns[nextColumn]}${nextRow}`;
-  input
-    .closest('table')
-    ?.querySelector<HTMLInputElement>(`input[data-address="${target}"]`)
-    ?.focus();
-}
-
-export function CellView({
-  address,
-  input,
-  value,
-  onChange,
-  onSelect,
-}: {
-  address: string;
-  input: string;
-  value: CellValue;
-  onChange: (value: string) => void;
-  onSelect: (address: string) => void;
-}) {
-  const { t, i18n } = useLingui();
-  const [editing, setEditing] = useState(false);
-  const display =
-    typeof value === 'number'
-      ? new Intl.NumberFormat(i18n.locale, {
-          maximumFractionDigits: 2,
-        }).format(value)
-      : value;
-  const error = isCellError(value);
-
-  return (
-    <input
-      aria-label={address}
-      aria-invalid={error || undefined}
-      data-address={address}
-      data-numeric={typeof value === 'number' || undefined}
-      data-formula={input.trim().startsWith('=') || undefined}
-      className="sheet-cell"
-      autoComplete="off"
-      spellCheck={false}
-      maxLength={512}
-      title={error ? t`Check the formula and its references.` : input}
-      value={editing ? input : display}
-      onChange={(event) => onChange(event.target.value)}
-      onFocus={() => {
-        setEditing(true);
-        onSelect(address);
-      }}
-      onBlur={() => setEditing(false)}
-      onKeyDown={(event) => move(event, address)}
-    />
-  );
-}
-
-function FormulaView({
-  address,
-  expression,
-  onChange,
-}: {
-  address: string;
-  expression: string;
-  onChange: (value: string) => void;
-}) {
-  const { t } = useLingui();
-
-  return (
-    <label className="sheet-formula">
-      <span className="sheet-address">{address}</span>
-      <span className="sheet-fx" aria-hidden="true">
-        ƒx
-      </span>
-      <input
-        aria-label={t`Formula for the selected cell`}
-        value={expression}
-        maxLength={512}
-        autoComplete="off"
-        spellCheck={false}
-        onChange={(event) => onChange(event.target.value)}
-      />
-    </label>
-  );
-}
-
-function TotalView({ value }: { value: CellValue }) {
-  const { t, i18n } = useLingui();
-
-  return (
-    <div className="sheet-total">
-      <span>{t`Bundle total`}</span>
-      <output aria-live="polite">
-        {typeof value === 'number'
-          ? new Intl.NumberFormat(i18n.locale, {
-              style: 'currency',
-              currency: 'EUR',
-            }).format(value)
-          : value}
-      </output>
-    </div>
-  );
-}
-
-function ResetView({
-  onReset,
-  sheetId,
-}: SheetKey & { onReset: (sheetId: string) => void }) {
-  const { t } = useLingui();
-  return <button onClick={() => onReset(sheetId)}>{t`Reset sheet`}</button>;
-}
-
-function SheetHeadingView({ sheetId }: SheetKey) {
-  const { t } = useLingui();
-  return (
-    <header className="sheet-heading">
-      <div>
-        <span className="demo-eyebrow">{t`Game gift bundle · budget`}</span>
-        <p>{t`Change the copies. The bundle total follows.`}</p>
-      </div>
-      <Reset sheetId={sheetId} />
-    </header>
-  );
-}
-
-type Column = (typeof columns)[number];
-
-function ColumnView({ column }: { column: Column }) {
-  const { t } = useLingui();
-  const labels = {
-    A: t`Game`,
-    B: t`Copies / rate`,
-    C: t`Price / base, €`,
-    D: t`Amount, €`,
-  };
-  return (
-    <th scope="col">
-      <span>{column}</span>
-      <small>{labels[column]}</small>
-    </th>
-  );
-}
-
-function SheetHelpView() {
-  const { t } = useLingui();
-  return (
-    <>
-      <p className="sheet-help">
-        {t`Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total.`}
-      </p>
-      <p className="sheet-help">
-        {t`Select a cell to edit. Enter moves down; Tab moves across.`}
-      </p>
-    </>
-  );
-}
-
-// #region spreadsheet
-const registry = createSpreadsheet();
-const { selectCell, $rows, $columns } = registry;
-
-type SheetModel = ReturnType<typeof registry.$$sheet.acquire>['model'];
-
-const $$giftSheet = pipe(
-  registry.$$sheet,
-  modelLifecycle({
-    load: () => giftBudget,
-    restore: (sheet: SheetModel) => sheet.load,
-  }),
-);
-
-function selectSheet({ sheetId }: SheetKey) {
-  return $$giftSheet({ key: ['sheet', sheetId], initial: { sheetId } });
-}
-
-const reloadExample = actionAtom((get, set, sheetId: string) => {
-  const sheet = get(selectSheet({ sheetId }));
-  set(sheet.load, giftBudget);
-});
-
-const FormulaBar = holo({
-  models: { sheet: selectSheet },
-  view: FormulaView,
-  read: ({ sheet }) => ({
-    address: sheet.$selected,
-    expression: sheet.$formula,
-  }),
-  write: ({ sheet }) => ({ onChange: sheet.$formula }),
-});
-
-const Cell = holo({
-  models: { cell: selectCell, sheet: selectSheet },
-  view: CellView,
-  read: ({ cell }) => ({ input: cell.$input, value: cell.$value }),
-  write: ({ cell, sheet }) => ({
-    onChange: cell.$input,
-    onSelect: sheet.$selected,
-  }),
-});
-
-function CellSlotView({
-  column,
-  row,
-  sheetId,
-}: SheetKey & { column: Column; row: number }) {
-  return (
-    <td>
-      <Cell sheetId={sheetId} address={`${column}${row}`} />
-    </td>
-  );
-}
-
-const RowCells = holoList({
-  source: $columns,
-  view: CellSlotView,
-  getKey: (column) => column,
-  mapItem: (column) => ({ column }),
-});
-
-function RowView({ row, sheetId }: SheetKey & { row: number }) {
-  return (
-    <tr data-total={row === giftBudget.totalRow || undefined}>
-      <th scope="row">{row}</th>
-      <RowCells row={row} sheetId={sheetId} />
-    </tr>
-  );
-}
-
-const Rows = holoList({
-  source: $rows,
-  view: RowView,
-  getKey: (row) => row,
-  mapItem: (row) => ({ row }),
-});
-
-const ColumnHeaders = holoList({
-  source: $columns,
-  view: ColumnView,
-  getKey: (column) => column,
-  mapItem: (column) => ({ column }),
-});
-
-function TableHeadingView() {
-  const { t } = useLingui();
-  return (
-    <thead>
-      <tr>
-        <th aria-label={t`Row`} />
-        <ColumnHeaders />
+  const RowCells = holoList({
+    source: columnSlots,
+    view: CellSlotView,
+    getKey: (slot) => slot,
+    mapItem: (slot) => ({ slot }),
+  });
+  function RowView({
+    sheetId,
+    viewId,
+    slot,
+    camera,
+    size,
+    window,
+  }: ViewKey & {
+    slot: number;
+    camera: { row: number; column: number };
+    size: Dimensions;
+    window: Dimensions;
+  }) {
+    const row = camera.row + slot;
+    return slot < Math.min(size.rows, window.rows) ? (
+      <tr
+        role="row"
+        aria-rowindex={row + 2}
+        data-slot={slot}
+        data-total={
+          (sheetId === 'gifts' && row + 1 === giftBudget.totalRow) || undefined
+        }
+      >
+        <th scope="row">{row + 1}</th>
+        <RowCells
+          sheetId={sheetId}
+          viewId={viewId}
+          row={row}
+          offset={camera.column}
+          count={Math.min(size.columns, window.columns)}
+        />
       </tr>
-    </thead>
-  );
-}
-
-function TableView({ sheetId }: SheetKey) {
-  const { t } = useLingui();
-  return (
-    <div className="sheet-scroll">
-      <table className="sheet-table">
-        <caption className="sheet-sr-only">{t`Gift budget`}</caption>
-        <TableHeadingView />
+    ) : null;
+  }
+  const Row = holo({
+    models: { view: selectView },
+    view: RowView,
+    read: ({ view }) => ({
+      camera: view.$camera,
+      size: view.$size,
+      window: view.$window,
+    }),
+  });
+  const Rows = holoList({
+    source: rowSlots,
+    view: Row,
+    getKey: (slot) => slot,
+    mapItem: (slot) => ({ slot }),
+  });
+  function ColumnView({
+    slot,
+    offset,
+    count,
+  }: {
+    slot: number;
+    offset: number;
+    count: number;
+  }) {
+    return slot < count ? (
+      <th scope="col">{columnName(offset + slot)}</th>
+    ) : null;
+  }
+  const Columns = holoList({
+    source: columnSlots,
+    view: ColumnView,
+    getKey: (slot) => slot,
+    mapItem: (slot) => ({ slot }),
+  });
+  function TableHeadingView({
+    camera,
+    size,
+    window,
+  }: {
+    camera: { column: number };
+    size: Dimensions;
+    window: Dimensions;
+  }) {
+    const { t } = useLingui();
+    return (
+      <thead>
+        <tr role="row">
+          <th aria-label={t`Row`} />
+          <Columns
+            offset={camera.column}
+            count={Math.min(size.columns, window.columns)}
+          />
+        </tr>
+      </thead>
+    );
+  }
+  const TableHeading = holo({
+    models: { view: selectView },
+    view: TableHeadingView,
+    read: ({ view }) => ({
+      camera: view.$camera,
+      size: view.$size,
+      window: view.$window,
+    }),
+  });
+  function TableView({
+    sheetId,
+    viewId,
+    size,
+    onWindow,
+  }: ViewKey & { size: Dimensions; onWindow: (size: Dimensions) => void }) {
+    return (
+      <TableViewportView size={size} onWindow={onWindow}>
+        <TableHeading sheetId={sheetId} viewId={viewId} />
         <tbody>
-          <Rows sheetId={sheetId} />
+          <Rows sheetId={sheetId} viewId={viewId} />
         </tbody>
-      </table>
-    </div>
-  );
+      </TableViewportView>
+    );
+  }
+  const Table = holo({
+    models: { view: selectView },
+    view: TableView,
+    read: ({ view }) => ({ size: view.$size }),
+    write: ({ view }) => ({ onWindow: view.setWindow }),
+  });
+  const Dimension = holo({
+    models: { sheet: selectSheet },
+    view: DimensionView,
+    read: ({ sheet }) => ({ dimensions: sheet.$dimensions }),
+    write: ({ sheet }) => ({ onResize: sheet.resize }),
+  });
+  function DimensionsView({ sheetId, size }: SheetKey & { size: Dimensions }) {
+    return (
+      <div className="sheet-dimensions">
+        <Dimension sheetId={sheetId} dimension="columns" value={size.columns} />
+        <Dimension sheetId={sheetId} dimension="rows" value={size.rows} />
+      </div>
+    );
+  }
+  const SheetDimensions = holo({
+    models: { sheet: selectSheet },
+    view: DimensionsView,
+    read: ({ sheet }) => ({ size: sheet.$dimensions }),
+  });
+  const Camera = holo({
+    models: { view: selectView },
+    view: CameraView,
+    read: ({ view }) => ({ address: view.$selected }),
+    write: ({ view }) => ({ onSelect: view.select, onMove: view.move }),
+  });
+  const SheetStatus = holo({
+    view: SheetStatusView,
+    write: { onRetry: workbook.retry },
+  });
+  function ResetView({
+    sheetId,
+    onReset,
+  }: SheetKey & { onReset: (id: string) => void }) {
+    const { t } = useLingui();
+    return <button onClick={() => onReset(sheetId)}>{t`Reset sheet`}</button>;
+  }
+  const Reset = holo({ view: ResetView, write: { onReset: workbook.reset } });
+  function TotalView({ value }: { value: CellValue }) {
+    const { t, i18n } = useLingui();
+    return (
+      <div className="sheet-total">
+        <span>{t`Bundle total`}</span>
+        <output>
+          {typeof value === 'number'
+            ? new Intl.NumberFormat(i18n.locale, {
+                style: 'currency',
+                currency: 'EUR',
+              }).format(value)
+            : value}
+        </output>
+      </div>
+    );
+  }
+  const Total = holo({
+    models: {
+      cell: ({ sheetId }: SheetKey) =>
+        selectCell({ sheetId, address: giftBudget.totalCell }),
+    },
+    view: TotalView,
+    read: ({ cell }) => ({ value: cell.$value }),
+  });
+  // #region spreadsheet
+  function WorkspaceView({
+    sheetId,
+    viewId,
+    ready,
+    status,
+  }: ViewKey & { ready: boolean; status: StorageStatus }) {
+    return (
+      <section className="sheet-workspace" aria-busy={!ready}>
+        {ready && (
+          <>
+            <div className="sheet-toolbar">
+              <SheetDimensions sheetId={sheetId} />
+              <Reset sheetId={sheetId} />
+            </div>
+            <FormulaBar sheetId={sheetId} viewId={viewId} />
+            <Table sheetId={sheetId} viewId={viewId} />
+            <Camera sheetId={sheetId} viewId={viewId} />
+            {sheetId === 'gifts' && <Total sheetId={sheetId} />}
+            <SheetHelpView />
+          </>
+        )}
+        <SheetStatus sheetId={sheetId} status={status} />
+      </section>
+    );
+  }
+  // #endregion spreadsheet
+
+  const Workspace = holo({
+    models: { sheet: selectSheet, book: $$workbook },
+    view: WorkspaceView,
+    read: ({ sheet, book }) => ({
+      ready: sheet.$loaded,
+      status: atom((get) => {
+        const status = get(book.$statuses)[sheet.sheetId] ?? 'loading';
+        return status === 'saved' && get(book.$saving) ? 'saving' : status;
+      }),
+    }),
+  });
+  function TabBindingView({
+    id,
+    title,
+    activeId,
+    statuses,
+    onSwitch,
+    onRename,
+  }: {
+    id: string;
+    title: string;
+    activeId: string;
+    statuses: Record<string, StorageStatus>;
+    onSwitch: (id: string) => void;
+    onRename: (value: { id: string; title: string }) => void;
+  }) {
+    return (
+      <SheetTabView
+        id={id}
+        title={title}
+        active={activeId === id}
+        status={statuses[id]}
+        onSwitch={onSwitch}
+        onRename={onRename}
+      />
+    );
+  }
+  const Tab = holo({
+    models: { book: $$workbook },
+    view: TabBindingView,
+    read: ({ book }) => ({ activeId: book.$active, statuses: book.$statuses }),
+    write: ({ book }) => ({
+      onSwitch: book.switchSheet,
+      onRename: book.renameSheet,
+    }),
+  });
+  // A list of descriptors owns no sheet models.
+  const $tabs = atom((get) => get(get($$workbook()).$sheets));
+  const Tabs = holoList({
+    source: $tabs,
+    view: Tab,
+    getKey: (sheet) => sheet.id,
+    mapItem: (sheet) => ({ id: sheet.id, title: sheet.title }),
+  });
+  function AddView({ onAdd, ready }: { onAdd: () => void; ready: boolean }) {
+    const { t } = useLingui();
+    return (
+      <button
+        className="sheet-add"
+        disabled={!ready}
+        aria-label={t`Add sheet`}
+        onClick={onAdd}
+      >
+        +
+      </button>
+    );
+  }
+  const Add = holo({
+    models: { book: $$workbook },
+    view: AddView,
+    read: ({ book }) => ({ ready: book.$ready }),
+    write: ({ book }) => ({ onAdd: book.addSheet }),
+  });
+  function BookView({
+    activeId,
+    ready,
+    error,
+    onRetry,
+  }: {
+    activeId: string;
+    ready: boolean;
+    error: boolean;
+    onRetry: () => Promise<void>;
+  }) {
+    const { t } = useLingui();
+    return (
+      <section className="sheet-demo" aria-label={t`Workbook`}>
+        <header className="sheet-heading">
+          <span className="demo-eyebrow">{t`Game gift bundle · budget`}</span>
+        </header>
+        {ready ? (
+          <Workspace key={activeId} sheetId={activeId} />
+        ) : (
+          <p role="status">
+            {error ? t`Could not load the workbook.` : t`Loading workbook…`}
+          </p>
+        )}
+        {error && (
+          <button
+            onClick={() => {
+              void onRetry();
+            }}
+          >{t`Retry`}</button>
+        )}
+        <nav className="sheet-tabs" aria-label={t`Sheets`}>
+          <Tabs />
+          <Add />
+        </nav>
+        {ready && error && <BookErrorView />}
+      </section>
+    );
+  }
+  const Book = holo({
+    models: { book: $$workbook },
+    view: BookView,
+    read: ({ book }) => ({
+      activeId: book.$active,
+      ready: book.$ready,
+      error: book.$error,
+    }),
+    write: { onRetry: workbook.retryBook },
+  });
+  return { Book, Workspace, Cell };
 }
-
-const Total = holo({
-  models: {
-    cell: ({ sheetId }: SheetKey) =>
-      selectCell({ sheetId, address: giftBudget.totalCell }),
-  },
-  view: TotalView,
-  read: ({ cell }) => ({ value: cell.$value }),
-});
-
-const Reset = holo({
-  view: ResetView,
-  write: { onReset: reloadExample },
-});
-
-function SheetView({ sheetId = 'gift-budget' }: { sheetId?: string }) {
-  return (
-    <section className="sheet-demo">
-      <SheetHeadingView sheetId={sheetId} />
-      <FormulaBar sheetId={sheetId} />
-      <TableView sheetId={sheetId} />
-      <Total sheetId={sheetId} />
-      <SheetHelpView />
-    </section>
-  );
-}
-// #endregion spreadsheet
-
-export default SheetView;
+// #region workbook-setup
+const workbook = createWorkbook(browserStorage(), giftBudget, 'gift-budget-v1');
+const { Book } = createWorkbookBindings(workbook);
+export default Book;
+// #endregion workbook-setup

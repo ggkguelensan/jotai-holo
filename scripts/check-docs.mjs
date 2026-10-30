@@ -18,11 +18,13 @@ async function files(dir, extensions = ['.md']) {
 }
 // Public examples must exercise the native model API.
 for (const file of await files(path.resolve('examples'), ['.ts', '.tsx'])) {
-  assert.doesNotMatch(
-    await readFile(file, 'utf8'),
-    /\buse(?:Layout)?Effect\b/,
-    `React effects do not own public example resources: ${file}`,
-  );
+  // DOM focus/measurement and local UI synchronization belong in View files.
+  if (!file.endsWith('-views.tsx'))
+    assert.doesNotMatch(
+      await readFile(file, 'utf8'),
+      /\buse(?:Layout)?Effect\b/,
+      `React effects do not own public example resources: ${file}`,
+    );
   assert.doesNotMatch(
     await readFile(file, 'utf8'),
     /\bcreateModel\b/,

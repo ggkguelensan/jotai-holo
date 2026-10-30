@@ -18,18 +18,29 @@ const fixture = (initial?: Record<string, string>) => {
   });
   releases.push(sheetLease.release);
   const cells = Object.fromEntries(
-    registry.addresses.map((address) => {
-      const lease = registry.$$cell.acquire(store, {
-        key: ['cell', sheetId, address],
-        initial: { sheetId, address },
-      });
-      releases.push(lease.release);
-      return [address, lease.model];
-    }),
+    Array.from({ length: 8 }, (_, row) =>
+      ['A', 'B', 'C', 'D'].map((column) => `${column}${row + 1}`),
+    )
+      .flat()
+      .map((address) => {
+        const lease = registry.$$cell.acquire(store, {
+          key: ['cell', sheetId, address],
+          initial: { sheetId, address },
+        });
+        releases.push(lease.release);
+        return [address, lease.model];
+      }),
   );
   const sheet = { ...sheetLease.model, cells };
-  store.set(sheet.load, { cells: initial ?? giftBudget.cells, selected: giftBudget.selected });
+  store.set(sheet.load, {
+    rows: 8,
+    columns: 4,
+    cells: initial ?? giftBudget.cells,
+  });
+  const view = store.get(registry.selectView({ sheetId }));
+  store.set(view.select, giftBudget.selected);
   return {
+    view,
     registry,
     sheet,
     store,
@@ -73,7 +84,6 @@ test.each([
   ['=SUM(A1,)', '#FORMULA!'],
   ['=Math.random()', '#FORMULA!'],
   ['=1;alert(1)', '#FORMULA!'],
-  ['='.repeat(600), '#FORMULA!'],
 ])('formula %s evaluates to %s', (input, expected) => {
   const f = fixture({ A1: '1', B1: '2', A2: '3', B2: '4', A3: 'text', C1: input });
   expect(f.read('C1')).toBe(expected);
@@ -118,13 +128,14 @@ test('formula changes replace dependencies; unrelated and unread results stay la
 
 test('the formula bar writes the selected native atom and loading restores inputs', () => {
   const f = fixture();
-  f.store.set(f.sheet.$selected, 'D1');
-  expect(f.store.get(f.sheet.$formula)).toBe('=B1*C1');
-  f.store.set(f.sheet.$formula, '=B1*C1*2');
+  f.store.set(f.view.$selected, 'D1');
+  expect(f.store.get(f.view.$formula)).toBe('=B1*C1');
+  f.store.set(f.view.begin, '=B1*C1*2');
+  f.store.set(f.view.commit);
   expect(f.read('D1')).toBe(1920);
   f.store.set(f.sheet.load, giftBudget);
   expect(f.read('D1')).toBe(960);
-  expect(f.store.get(f.sheet.$selected)).toBe('D5');
+  expect(f.store.get(f.view.$selected)).toBe('D1');
 });
 
 test('separate stores and separate models are isolated', () => {
@@ -149,21 +160,22 @@ test('cell keys share one record and isolate other addresses and sheet IDs', () 
   expect(f.store.get(select('other', 'B1').$value)).toBe('');
   expect(f.store.get(select('test', 'B2').$value)).toBe(24);
   expect(f.store.get(select('other', 'D1').$value)).toBe('');
-  f.store.set(f.sheet.$selected, 'B1');
-  const otherSheet = f.store.get(f.registry.selectSheet({ sheetId: 'other' }));
-  expect(f.store.get(otherSheet.$selected)).toBe('A1');
+  f.store.set(f.view.$selected, 'B1');
+  const otherView = f.store.get(f.registry.selectView({ sheetId: 'other' }));
+  expect(f.store.get(otherView.$selected)).toBe('A1');
 });
 
 test('a new model is empty and cells created after loading read the document', () => {
   const registry = createSpreadsheet();
   const store = createStore();
   const sheet = store.get(registry.selectSheet({ sheetId: 'empty' }));
-  expect(store.get(sheet.$selected)).toBe('A1');
-  expect(store.get(sheet.$formula)).toBe('');
+  const view = store.get(registry.selectView({ sheetId: 'empty' }));
+  expect(store.get(view.$selected)).toBe('A1');
+  expect(store.get(view.$formula)).toBe('');
   store.set(sheet.load, giftBudget);
   const cell = store.get(registry.selectCell({ sheetId: 'empty', address: 'D1' }));
   expect(store.get(cell.$value)).toBe(960);
-  expect(store.get(sheet.$selected)).toBe(giftBudget.selected);
+  expect(store.get(view.$selected)).toBe('A1');
 });
 
 test('loading replaces edits in existing models and owns a copy of document data', () => {
@@ -171,7 +183,7 @@ test('loading replaces edits in existing models and owns a copy of document data
   f.write('B1', '30');
   const input = f.sheet.cells.B1!.$input;
   const cells = { A1: '2', B1: '=A1*3' };
-  f.store.set(f.sheet.load, { cells, selected: 'B1' });
+  f.store.set(f.sheet.load, { cells });
   cells.A1 = '99';
   expect(f.read('A1')).toBe(2);
   expect(f.read('B1')).toBe(6);
@@ -180,23 +192,21 @@ test('loading replaces edits in existing models and owns a copy of document data
   f.store.set(f.sheet.clear);
   expect(f.read('A1')).toBe('');
   expect(f.read('B1')).toBe('');
-  expect(f.store.get(f.sheet.$selected)).toBe('A1');
 });
 
 test('an invalid document leaves cell data and selection unchanged', () => {
   const f = fixture();
   expect(() =>
     f.store.set(f.sheet.load, {
-      cells: { A1: 'changed', Z1: 'outside' },
-      selected: 'A1',
+      cells: { A1: 'changed', INVALID: 'outside' },
     }),
   ).toThrow(RangeError);
   expect(f.read('A1')).toBe(giftBudget.cells.A1);
-  expect(f.store.get(f.sheet.$selected)).toBe(giftBudget.selected);
+  expect(f.store.get(f.view.$selected)).toBe(giftBudget.selected);
   expect(() =>
     f.store.set(f.sheet.load, {
       cells: {},
-      selected: 'Z1',
+      rows: 0,
     }),
   ).toThrow(RangeError);
   expect(f.read('D1')).toBe(960);

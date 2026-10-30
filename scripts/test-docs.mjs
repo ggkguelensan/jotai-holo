@@ -253,10 +253,11 @@ try {
 
   live = await openDemo('spreadsheet', 'spreadsheet');
   const cell = (address) => live.getByRole('textbox', { name: address, exact: true });
+  await cell('B1').dblclick();
   await cell('B1').fill('20');
   await cell('B1').press('Enter');
   assert.equal((await cell('D1').inputValue()).replace(/\D/g, ''), '1600');
-  await cell('D1').click();
+  await cell('D1').dblclick();
   await cell('D1').fill('=D1');
   await cell('D1').press('Enter');
   assert.equal(await cell('D1').inputValue(), '#CYCLE!');

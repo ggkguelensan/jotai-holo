@@ -382,26 +382,8 @@ msgstr "Формулалары бар кесте"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Estimate a game gift bundle with a small spreadsheet: copies × price, a demo 10% tax, and a running total. Edit a number or replace a formula; dependent cells update immediately."
-msgstr "Шағын кестеде сыйлыққа арналған ойындар жиынтығының құнын есептеңіз: дана × баға, мысалдағы 10% салық және жалпы сома. Санды немесе формуланы өзгертіңіз: тәуелді ұяшықтар бірден жаңарады."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/examples/spreadsheet.md
-msgid "Document data"
-msgstr "Құжат деректері"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/examples/spreadsheet.md
-msgid "The model starts empty and selects its first cell. The demo loads this JSON document after the sheet gets an owner. Cell text and formulas are stored as input strings:"
-msgstr "Модель бос күйде жасалып, бірінші ұяшықты таңдайды. Кестеге иесі қосылғанда, демо осы JSON құжатын жүктейді. Ұяшық мәтіні мен формулалар енгізу жолдары ретінде сақталады:"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/examples/spreadsheet.md
-msgid "The Reset sheet button loads the same document again. Loading replaces existing inputs without recreating cell models. A document version invalidates older edits; cells created later read the loaded data. The totalCell and totalRow fields configure only the demo View."
-msgstr "«Кестені қалпына келтіру» түймесі сол құжатты қайта жүктейді. Жүктеу ұяшық модельдерін қайта жасамай, мазмұнды ауыстырады. Құжат нұсқасы бұрынғы түзетулерді жарамсыз етеді; кейін жасалған ұяшықтар жүктелген деректерді оқиды. totalCell және totalRow өрістері тек мысалдың View-ын баптайды."
+msgid "Edit a gift budget across several sheets. Each sheet has its own data, formulas and camera. The table shows a small window of the document; moving beyond its edge changes addresses without moving the physical cells."
+msgstr "Сыйлық бюджетін бірнеше парақта өңдеңіз. Әр парақтың деректері, формулалары және камерасы бөлек. Кесте құжаттың шағын бөлігін көрсетеді: шетінен шыққанда мекенжайлар өзгереді, ал физикалық ұяшықтар орнында қалады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -412,50 +394,80 @@ msgstr "Байқап көріңіз"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Change B1 from 12 to 20: D1, the tax, and the bundle total change. Select D1 to see `=B1*C1` in the formula bar. Change it to `=B2*C2`, then edit B1 again: D1 now follows row 2 instead. Enter `=D1` into D1 to see a cycle error, then restore the original formula."
-msgstr "B1 мәнін 12-ден 20-ға өзгертіңіз: D1, салық және жиынтықтың жалпы сомасы өзгереді. Формула жолағынан `=B1*C1` мәнін көру үшін D1-ді таңдаңыз. Оны `=B2*C2` деп өзгертіп, B1-ді қайта өңдеңіз: енді D1 екінші жолға тәуелді. Цикл қатесін көру үшін D1-ге `=D1` енгізіңіз, содан кейін бастапқы формуланы қайтарыңыз."
+msgid "Double-click B1, enter 20 and press Enter: D1 and the bundle total change. Select D1 to inspect its formula. Enter or F2 starts editing; Escape cancels the draft. Arrow keys select cells outside editing. Tab commits and moves right, wrapping to the next logical row."
+msgstr "B1 ұяшығын екі рет басып, 20 енгізіп, Enter басыңыз: D1 және жалпы сома өзгереді. Формуласын көру үшін D1 таңдаңыз. Enter не F2 өңдеуді бастайды; Escape нобайды болдырмайды. Өңдеуден тыс кезде көрсеткілер ұяшықты таңдайды. Tab енгізуді сақтап, оңға, кейін келесі логикалық жолға өтеді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Enter moves down, Shift+Enter moves up, and Tab follows the inputs. Left/right arrows cross cells at the text boundary. Escape leaves the editor; edits are applied immediately. Reset restores the sample gift budget. Empty cells in rows 6–8 are a scratch area."
-msgstr "Enter төмен, Shift+Enter жоғары жылжытады, Tab келесі енгізу өрісіне өтеді. Сол/оң көрсеткілер мәтін шетінде көрші ұяшыққа өтеді. Escape өңдеуден шығарады; өзгерістер бірден қолданылады. Reset мысалдағы сыйлық бюджетін қалпына келтіреді. 6–8-жолдардағы бос ұяшықтар қосымша есептеулерге арналған."
+msgid "Use Go to cell to visit AA90, enter a value, then reference it from A1. Only the visible slots mount, but formulas can read cells outside the camera. The counters change document dimensions. Shrinking hides data; growing restores it. A reference outside the current dimensions displays #REF!."
+msgstr "«Ұяшыққа өту» арқылы AA90 ашып, мән енгізіңіз де A1 ішінен оған сілтеме жасаңыз. Тек көрінетін ұяшықтар монталады, бірақ формулалар камерадан тыс деректерді де оқиды. Есептегіштер құжат өлшемін өзгертеді. Кішірейту деректерді жасырады, үлкейту қайтарады. Ағымдағы шектен тыс сілтеме #REF! көрсетеді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Model"
-msgstr "Модель"
+msgid "Switch to Scratchpad to work on an independent sheet. The + button adds a sheet; double-click its tab to rename it. Returning to a sheet restores its selection and camera. On narrow screens the window shows two columns instead of four."
+msgstr "Тәуелсіз парақпен жұмыс істеу үшін Scratchpad ашыңыз. + парақ қосады; қойындыны екі рет басу атын өзгертуге мүмкіндік береді. Қайта ашқанда таңдау мен камера қалпына келеді. Тар экранда терезе төрт емес, екі баған көрсетеді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Each cell owns a writable input atom and a read-only result atom. Formula parsing is derived from that cell's input. Evaluation reads only referenced expression atoms through get, so dependencies change with the formula. The parser never executes JavaScript."
-msgstr "Әр ұяшықтың жазылатын енгізу атомы және тек оқылатын нәтиже атомы бар. Формуланы талдау сол ұяшықтың енгізуінен туындайды. Есептеу get арқылы тек сілтеме жасалған өрнек атомдарын оқиды, сондықтан тәуелділіктер формуламен бірге өзгереді. Парсер JavaScript орындамайды."
+msgid "Document data"
+msgstr "Құжат деректері"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Rendering and isolation"
-msgstr "Рендеринг және оқшаулау"
+msgid "Generic models start empty. This JSON supplies the first gift-budget sheet; its selected, totalCell and totalRow fields are demo metadata. Reset sheet loads the sample again. Other new sheets start empty."
+msgstr "Әмбебап модельдер бос құрылады. Бұл JSON алғашқы бюджет парағын толтырады; selected, totalCell және totalRow — демо параметрлері. «Парақты қалпына келтіру» үлгіні қайта жүктейді. Басқа жаңа парақтар бос болады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Each CellView has its own holo binding. The table shell does not subscribe to sheet values. Selecting a cell updates the formula bar; editing a cell updates that input and dependent result Views. Unrelated cells do not commit again. The formula bar uses a native writable derived atom, demonstrating that holo accepts ordinary Jotai atoms too."
-msgstr "Әр CellView үшін жеке holo байланысы бар. Кесте қабығы ұяшық мәндеріне жазылмайды. Ұяшық таңдау формула жолағын жаңартады; өңдеу енгізуді және тәуелді нәтиже View нысандарын жаңартады. Байланыссыз ұяшықтар қайта commit алмайды. Формула жолағы нативті жазылатын туынды атомды пайдаланып, holo кәдімгі Jotai атомдарын да қабылдайтынын көрсетеді."
+msgid "The document owns cell inputs. A cell model exposes an input and a derived result; releasing that model never deletes the input. Formula evaluation reads referenced expressions through get, so changing a formula changes its dependencies. The parser never executes JavaScript."
+msgstr "Ұяшықтың бастапқы мәтіні құжатқа тиесілі. Ұяшық моделі енгізу мен есептелген нәтижені береді; модельді босату енгізуді жоймайды. Есептеу сілтеме жасалған өрнектерді get арқылы оқиды, сондықтан формула өзгерсе, тәуелділіктер де өзгереді. Парсер JavaScript орындамайды."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "The cell registry uses `['cell', sheetId, address]`; the sheet registry uses `['sheet', sheetId]`. Matching keys in one store share an instance. Different sheet IDs isolate cell contents and selection. The read-only row and column atoms describe the fixed layout for holoList; they do not store cell contents."
-msgstr "Ұяшықтар реестрі `['cell', sheetId, address]`, ал кестелер реестрі `['sheet', sheetId]` кілтін қолданады. Бір store ішіндегі бірдей кілттер ортақ дананы таңдайды. Әртүрлі кесте ID-лері ұяшық мазмұны мен таңдалған мекенжайды бөледі. Жолдар мен бағандардың read-only атомдары holoList үшін бекітілген құрылымды сипаттайды; олар ұяшық мазмұнын сақтамайды."
+msgid "Views and the camera"
+msgstr "View және камера"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Each preview has its own Jotai store. Two separately created models are also independent in one store. There is no useEffect to copy inputs into totals, no whole-sheet React state, and no subscription created during module initialization."
-msgstr "Әр превьюдің жеке Jotai store нысаны бар. Бөлек жасалған екі модель бір store ішінде де тәуелсіз. Енгізуді қорытындыға көшіру үшін useEffect, бүкіл параққа ортақ React state және модуль инициализациясында жазылымдар жоқ."
+msgid "Each CellView has its own holo binding. Selection and draft projections notify the affected cells; unrelated cells do not need the whole sheet document. Rows and columns use holoList with fixed slot keys. The camera changes which logical addresses those slots display."
+msgstr "Әр CellView жеке holo арқылы байланысады. Таңдау мен нобай проекциялары тиісті ұяшықтарға хабарлайды; өзгелеріне бүкіл құжат қажет емес. Жолдар мен бағандар тұрақты слот кілттері бар holoList қолданады. Камера сол слоттар көрсететін логикалық мекенжайларды өзгертеді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The sheet registry uses `['sheet', sheetId]`; cell models use `['cell', sheetId, address]`. A separate view model uses `['view', sheetId, viewId]` for selection, editing and camera. Matching keys share state within one store. Different view IDs can show different parts of the same document."
+msgstr "Парақ registry-і `['sheet', sheetId]`, ұяшықтар `['cell', sheetId, address]` қолданады. Бөлек көрініс моделі таңдау, өңдеу және камера үшін `['view', sheetId, viewId]` қолданады. Бір store ішіндегі бірдей кілттер күйді ортақ пайдаланады. Әртүрлі viewId бір құжаттың әр бөлігін көрсете алады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Local storage and lifetime"
+msgstr "Жергілікті сақтау және өмір сүру уақыты"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "IndexedDB stores the sheet list and sparse sheet documents. Committed edits save after a 250 ms pause. Switching sheets commits the current draft and starts saving immediately. Wait for Saved locally before reloading to verify restoration."
+msgstr "IndexedDB парақтар тізімі мен сирек толтырылған құжаттарды сақтайды. Расталған түзетулер 250 мс үзілістен кейін сақталады. Парақты ауыстыру нобайды растап, сақтауды бірден бастайды. Қалпына келтіруді тексеру үшін бетті жаңартпас бұрын «Жергілікті сақталды» күйін күтіңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Visible components own the selected sheet. Tabs read only descriptors and statuses, so an inactive tab does not keep its sheet active. Pending or failed storage operations hold an additional lease. After a successful save and release of the final owner, the registry retains the sheet for one minute."
+msgstr "Көрінетін компоненттер таңдалған парақтың иелері. Қойындылар тек дескрипторлар мен күйлерді оқиды, сондықтан белсенді емес парақты ұстамайды. Аяқталмаған не сәтсіз сақтау операциясы қосымша lease ұстайды. Сақтау сәтті аяқталып, соңғы иесі босатылғаннан кейін registry парақты тағы бір минут ұстайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Returning within that minute reuses the instance. Returning later creates a new instance and restores its document before enabling editing. Cell models have zero retention; their inputs remain in the sheet document. A storage error keeps unsaved data in memory and exposes Retry. This example implements storage ownership with modelConnection and acquire/release; retainTime alone does not guarantee persistence."
+msgstr "Бір минут ішінде оралу бұрынғы дананы қолданады. Кейін жаңа дана құрылып, өңдеуге дейін құжат қалпына келеді. Ұяшық модельдерінің ұстау уақыты нөл, ал енгізулер парақ құжатында қалады. Сақтау қатесінде сақталмаған деректер жадта қалып, «Қайталау» қолжетімді болады. Мысал сақтау иелігін modelConnection және acquire/release арқылы орындайды; retainTime жалғыз өзі сақтауға кепіл емес."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -466,32 +478,34 @@ msgstr "Қолдау көрсетілетін формулалар"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Supported syntax: numeric literals, cell references A1–D8, parentheses, unary signs, +, -, \\*, /, and SUM with comma-separated arguments or rectangular ranges. SUM ignores text and empty cells; arithmetic treats an empty cell as zero and reports text as a value error. Function names and references are case-insensitive; use a decimal point in formulas."
-msgstr "Сандар, A1–D8 сілтемелері, жақшалар, унарлық таңбалар, +, -, \\*, / және үтірмен бөлінген аргументтері не тікбұрышты ауқымдары бар SUM қолданылады. SUM мәтін мен бос ұяшықтарды елемейді; арифметика бос ұяшықты нөл деп, мәтінді мән қатесі деп есептейді. Функциялар мен сілтемелер регистрге тәуелсіз; формулаларда ондық нүктені қолданыңыз."
+msgid "Supported syntax: numeric literals, cell references, parentheses, unary signs, +, -, \\*, /, and SUM with comma-separated arguments or rectangular ranges. SUM ignores text and empty cells; arithmetic treats an empty cell as zero and reports text as a value error. Function names and references are case-insensitive; use a decimal point in formulas."
+msgstr "Сандар, ұяшық сілтемелері, жақшалар, унарлық таңбалар, +, -, \\*, / және үтірлі аргументтері не тікбұрышты ауқымдары бар SUM қолданылады. SUM мәтін мен бос ұяшықтарды өткізіп жібереді; арифметика бос ұяшықты нөл, мәтінді мән қатесі деп санайды. Функция мен сілтеме регистрі маңызды емес; формулаларда ондық нүкте қолданыңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Errors are displayed as values: #REF! for an unknown address, #CYCLE! for circular references, #DIV/0! for division by zero, #VALUE! for incompatible values, #NUM! for a non-finite result, and #FORMULA! for unsupported or incomplete syntax. Fixing an input clears the resulting errors through the same derived reads."
-msgstr "Қателер мән ретінде көрсетіледі: #REF! — белгісіз мекенжай, #CYCLE! — циклдік сілтеме, #DIV/0! — нөлге бөлу, #VALUE! — үйлеспейтін мән, #NUM! — шекті емес нәтиже, #FORMULA! — қолдау көрсетілмейтін не аяқталмаған синтаксис. Енгізуді түзету сол туынды оқулар арқылы тәуелді қателерді жояды."
+msgid "Errors are values: #REF! for an address outside the sheet, #CYCLE! for circular references, #DIV/0! for division by zero, #VALUE! for incompatible values, #NUM! for a non-finite result, and #FORMULA! for unsupported syntax. #LIMIT! bounds expensive calculations: a range may contain at most 2048 cells, evaluation has a 2048-step budget, and reference depth is limited to 128."
+msgstr "Қателер мән ретінде көрсетіледі: #REF! — парақтан тыс мекенжай, #CYCLE! — цикл, #DIV/0! — нөлге бөлу, #VALUE! — үйлеспейтін мәндер, #NUM! — шекті емес нәтиже, #FORMULA! — қолдау көрсетілмейтін синтаксис. #LIMIT! ауыр есептеуді шектейді: ауқымда 2048 ұяшыққа дейін, 2048 есептеу қадамы және сілтеме тереңдігі 128."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "This is a teaching example, not an Excel-compatible engine. It uses JavaScript numbers and rounds only the display. It does not implement accounting rounding, persistence, CSV paste, range selection, or hundreds of spreadsheet functions. Each result evaluates its referenced expression tree with a local memo and cycle stack; parsed expressions are shared, calculated intermediate results are not shared across roots. This keeps cycles out of Jotai's dependency graph and is intended for small sheets."
-msgstr "Бұл оқу мысалы, Excel-мен үйлесімді қозғалтқыш емес. JavaScript сандарын пайдаланып, тек көрсетілімді дөңгелектейді. Бухгалтерлік дөңгелектеу, деректерді сақтау, CSV қою, ауқым таңдау және жүздеген функциялар іске асырылмаған. Әр нәтиже өз өрнек ағашын жергілікті memo және цикл стегі арқылы есептейді; талданған өрнектер ортақ, бірақ түбірлер арасындағы есептелген аралық нәтижелер ортақ емес. Бұл Jotai тәуелділік графында цикл болдырмайды және шағын парақтарға арналған."
+msgid "The document supports up to 1000 rows and 1000 columns. This is a teaching example with JavaScript numbers, not an Excel-compatible engine. It does not implement cross-sheet formulas, collaborative editing, CSV paste or range selection. For a production spreadsheet, evaluate an established formula engine separately from the React bindings."
+msgstr "Құжат 1000 жол мен 1000 бағанға дейін қолдайды. Бұл JavaScript сандарын қолданатын оқу мысалы, Excel-мен үйлесімді қозғалтқыш емес. Парақаралық формулалар, бірлесіп өңдеу, CSV қою және ауқым таңдау жоқ. Өндірістік кесте үшін дайын формула қозғалтқышын React байланыстарынан бөлек бағалаңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+#: docs/recipes/profile.md
+msgid "Verification"
+msgstr "Тексеру"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Related tools"
-msgstr "Қатысты құралдар"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/examples/spreadsheet.md
-msgid "[holo](/reference/holo) connects each View, [stateAtom](/reference/stateAtom) separates inputs from derived results, and [actionAtom](/reference/actionAtom) restores the sample. [Jotai atoms-in-atom](https://jotai.org/docs/guides/atoms-in-atom) explains how atom references can describe dynamic structures. For a production formula engine, evaluate an established spreadsheet engine separately from the React bindings."
-msgstr "[holo](/reference/holo) әр View нысанын байланыстырады, [stateAtom](/reference/stateAtom) енгізуді туынды нәтижелерден бөледі, [actionAtom](/reference/actionAtom) үлгіні қалпына келтіреді. [Jotai atoms-in-atom](https://jotai.org/docs/guides/atoms-in-atom) атом сілтемелері бар динамикалық құрылымдарды түсіндіреді. Production үшін формула қозғалтқышын React байланыстарынан бөлек бағалаңыз."
+msgid "Browser E2E tests exercise the built documentation in all four languages: real keyboard input, cancellation, fixed-slot camera geometry, offscreen formulas, dimension changes, sheet switching, local restoration, renaming and mobile layout. Integration tests use controlled time and storage to verify one-minute retention, delayed restoration, failed writes and overlapping revisions."
+msgstr "Браузерлік E2E тесттері жиналған құжаттаманы төрт тілде тексереді: пернетақта, болдырмау, камера геометриясы, көрінбейтін формула көздері, өлшемдер, қойындылар, қалпына келтіру, атау және мобильді көрініс. Интеграциялық тесттер уақыт пен қойманы басқарып, бір минут ұстауды, кешіктірілген қалпына келтіруді, жазу қателері мен қабаттасқан ревизияларды тексереді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2116,12 +2130,6 @@ msgstr "Өрістер қате көрсету үшін нативті required/
 #: docs/recipes/profile.md
 msgid "This workflow uses `createMutationModel` because atoms and an independent reaction participate. If only React needs the request, prefer native `useMutation`. To initialize a business profile from a server, follow the [loading and editing workflow](/recipes/profile-composition)."
 msgstr "Бұл ағынға атомдар мен тәуелсіз реакция қатысатындықтан `createMutationModel` қолданылады. Сұрау тек React-ке керек болса, нативті `useMutation` таңдаңыз. Бизнес-профильді серверден толтыру үшін [жүктеу және өңдеу ағынын](/recipes/profile-composition) қараңыз."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/recipes/profile.md
-msgid "Verification"
-msgstr "Тексеру"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

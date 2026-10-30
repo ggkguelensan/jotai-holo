@@ -19,6 +19,7 @@ const errors = new Set([
   '#VALUE!',
   '#FORMULA!',
   '#NUM!',
+  '#LIMIT!',
 ]);
 export const isCellError = (value: CellValue) =>
   typeof value === 'string' && errors.has(value);
@@ -127,6 +128,8 @@ export function evaluateCell(
   columns: readonly string[],
   rows: number,
 ): CellValue {
+  const budget = 2048;
+  let remaining = budget;
   const visiting = new Set<string>();
   const values = new Map<string, CellValue>();
   function numeric(value: CellValue) {
@@ -149,6 +152,8 @@ export function evaluateCell(
       Math.max(first, last) > rows
     )
       fail('#REF!');
+    if ((Math.abs(a - b) + 1) * (Math.abs(first - last) + 1) > budget)
+      fail('#LIMIT!');
     const result: string[] = [];
     for (let row = Math.min(first, last); row <= Math.max(first, last); row++)
       for (let col = Math.min(a, b); col <= Math.max(a, b); col++)
@@ -156,6 +161,7 @@ export function evaluateCell(
     return result;
   }
   function evaluate(node: Node): CellValue {
+    if (--remaining < 0) fail('#LIMIT!');
     switch (node.kind) {
       case 'literal':
         return node.value;
@@ -194,6 +200,7 @@ export function evaluateCell(
     }
   }
   function cell(id: string): CellValue {
+    if (visiting.size >= 128) fail('#LIMIT!');
     if (visiting.has(id)) return fail('#CYCLE!');
     if (values.has(id)) return values.get(id)!;
     visiting.add(id);

@@ -837,58 +837,143 @@ msgstr "Табылмады"
 msgid "Server error"
 msgstr "Сервер қатесі"
 
-#: examples/docs/spreadsheet.tsx
+#: examples/docs/spreadsheet-views.tsx
 msgid "Check the formula and its references."
 msgstr "Формуланы және оның сілтемелерін тексеріңіз."
 
-#: examples/docs/spreadsheet.tsx
+#: examples/docs/spreadsheet-views.tsx
 msgid "Formula for the selected cell"
 msgstr "Таңдалған ұяшық формуласы"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Bundle total"
-msgstr "Жиынтықтың жалпы сомасы"
+#: examples/docs/spreadsheet-views.tsx
+msgid "Rows"
+msgstr "Жолдар"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Reset sheet"
-msgstr "Кестені қалпына келтіру"
+#: examples/docs/spreadsheet-views.tsx
+msgid "Columns"
+msgstr "Бағандар"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Game gift bundle · budget"
-msgstr "Сыйлыққа арналған ойындар жиынтығы · бюджет"
+#: examples/docs/spreadsheet-views.tsx
+msgid "Fewer rows"
+msgstr "Жолдарды азайту"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Change the copies. The bundle total follows."
-msgstr "Дана санын өзгертіңіз. Жиынтықтың жалпы сомасы қайта есептеледі."
+#: examples/docs/spreadsheet-views.tsx
+msgid "Fewer columns"
+msgstr "Бағандарды азайту"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Game"
-msgstr "Ойын"
+#: examples/docs/spreadsheet-views.tsx
+msgid "More rows"
+msgstr "Жолдарды көбейту"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Copies / rate"
-msgstr "Дана / мөлшерлеме"
+#: examples/docs/spreadsheet-views.tsx
+msgid "More columns"
+msgstr "Бағандарды көбейту"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Price / base, €"
-msgstr "Баға / негіз, €"
+#: examples/docs/spreadsheet-views.tsx
+msgid "Enter a whole number from 1 to 1000."
+msgstr "1 мен 1000 арасындағы бүтін санды енгізіңіз."
 
-#: examples/docs/spreadsheet.tsx
-msgid "Amount, €"
-msgstr "Сома, €"
+#: examples/docs/spreadsheet-views.tsx
+msgid "Loading sheet…"
+msgstr "Парақ жүктелуде…"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total."
-msgstr "1–3-жолдар: дана × баға. 4-жол: 10% салық. 5-жол: жалпы сома."
+#: examples/docs/spreadsheet-views.tsx
+msgid "Saving…"
+msgstr "Сақталуда…"
 
+#: examples/docs/spreadsheet-views.tsx
+msgid "Could not save or load this sheet."
+msgstr "Парақты сақтау не жүктеу мүмкін болмады."
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Saved locally"
+msgstr "Жергілікті сақталды"
+
+#: examples/docs/spreadsheet-views.tsx
 #: examples/docs/spreadsheet.tsx
-msgid "Select a cell to edit. Enter moves down; Tab moves across."
-msgstr "Өңдеу үшін ұяшықты таңдаңыз. Enter — төмен, Tab — келесі өріс."
+msgid "Retry"
+msgstr "Қайталау"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Go to cell"
+msgstr "Ұяшыққа өту"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Go"
+msgstr "Өту"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Move left"
+msgstr "Солға өту"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Move up"
+msgstr "Жоғары өту"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Move down"
+msgstr "Төмен өту"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Move right"
+msgstr "Оңға өту"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Choose an address inside this sheet."
+msgstr "Парақ ішіндегі мекенжайды таңдаңыз."
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Sheet name"
+msgstr "Парақ атауы"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Rename sheet"
+msgstr "Парақтың атын өзгерту"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Gift budget"
+msgstr "Сыйлық бюджеті"
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Arrows select. Enter edits; Enter again saves. Escape cancels. Double-click a tab to rename it."
+msgstr "Көрсеткілер таңдайды. Enter өңдеп, қайта басқанда сақтайды. Escape болдырмайды. Қойындыны екі рет басып атын өзгертіңіз."
+
+#: examples/docs/spreadsheet-views.tsx
+msgid "Could not save the sheet list. Your open sheets remain in memory."
+msgstr "Парақтар тізімі сақталмады. Ашық парақтар жадта қалады."
 
 #: examples/docs/spreadsheet.tsx
 msgid "Row"
 msgstr "Жол"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Gift budget"
-msgstr "Сыйлық бюджеті"
+msgid "Reset sheet"
+msgstr "Кестені қалпына келтіру"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Bundle total"
+msgstr "Жиынтықтың жалпы сомасы"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Add sheet"
+msgstr "Парақ қосу"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Workbook"
+msgstr "Кітап"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Game gift bundle · budget"
+msgstr "Сыйлыққа арналған ойындар жиынтығы · бюджет"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Could not load the workbook."
+msgstr "Кітапты жүктеу мүмкін болмады."
+
+#: examples/docs/spreadsheet.tsx
+msgid "Loading workbook…"
+msgstr "Кітап жүктелуде…"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Sheets"
+msgstr "Парақтар"
