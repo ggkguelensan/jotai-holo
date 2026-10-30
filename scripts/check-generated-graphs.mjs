@@ -37,6 +37,19 @@ for (const item of coverage) {
     assert.ok(ids.has(edge.from));
     assert.ok(ids.has(edge.to));
   }
+  if (['reference/flatMapAtom.md', 'reference/matchAtom.md'].includes(item.page)) {
+    const named = (name) => scene.nodes.find((node) => node.label === name);
+    const reads = (from, to) =>
+      scene.edges.some(
+        (edge) =>
+          edge.from === named(from)?.id && edge.to === named(to)?.id && edge.kind === 'read',
+      );
+    assert.ok(reads('$selected', '$selectedInput'), `${item.page}: missing selection dependency`);
+    if (item.page === 'reference/matchAtom.md') {
+      for (const input of ['$editing', '$draft', '$selectedInput'])
+        assert.ok(reads(input, '$formula'), `${item.page}: missing branch/source ${input}`);
+    }
+  }
   nodes += scene.nodes.length;
   edges += scene.edges.length;
 }

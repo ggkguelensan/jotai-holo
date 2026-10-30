@@ -382,8 +382,8 @@ msgstr "Tabelle mit Formeln"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Estimate a game gift bundle with a small spreadsheet: copies × price, a demo 10% tax, and a running total. Edit a number or replace a formula; dependent cells update immediately."
-msgstr "Plane ein Spiele-Geschenkpaket mit einer kleinen Tabelle: Kopien × Preis, eine beispielhafte Steuer von 10 % und eine Gesamtsumme. Bearbeite eine Zahl oder ersetze eine Formel; abhängige Zellen aktualisieren sich sofort."
+msgid "Edit a gift budget across several sheets. Each sheet has its own data, formulas and camera. The table shows a small window of the document; moving beyond its edge changes addresses without moving the physical cells."
+msgstr "Bearbeiten Sie ein Geschenkbudget auf mehreren Blättern. Jedes Blatt hat eigene Daten, Formeln und eine Kamera. Die Tabelle zeigt einen kleinen Dokumentausschnitt: Außerhalb seines Randes wechseln die Adressen, während die physischen Zellen stehen bleiben."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -394,44 +394,134 @@ msgstr "Ausprobieren"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Change B1 from 12 to 20: D1, the tax, and the bundle total change. Select D1 to see `=B1*C1` in the formula bar. Change it to `=B2*C2`, then edit B1 again: D1 now follows row 2 instead. Enter `=D1` into D1 to see a cycle error, then restore the original formula."
-msgstr "Ändere B1 von 12 auf 20: D1, die Steuer und die Paketsumme ändern sich. Wähle D1, um `=B1*C1` in der Formelleiste zu sehen. Ändere es zu `=B2*C2` und bearbeite B1 erneut: D1 folgt jetzt Zeile 2. Gib `=D1` in D1 ein, um einen Zyklusfehler zu sehen, und stelle dann die ursprüngliche Formel wieder her."
+msgid "Double-click B1, enter 20 and press Enter: D1 and the bundle total change. Select D1 to inspect its formula. Enter or F2 starts editing; Escape cancels the draft. Arrow keys select cells outside editing. Tab commits and moves right, wrapping to the next logical row."
+msgstr "Klicken Sie doppelt auf B1, geben Sie 20 ein und drücken Sie Enter: D1 und die Summe ändern sich. Wählen Sie D1, um die Formel zu sehen. Enter oder F2 startet die Bearbeitung; Escape verwirft den Entwurf. Außerhalb der Bearbeitung wählen Pfeiltasten Zellen. Tab bestätigt und geht nach rechts, mit Umbruch zur nächsten logischen Zeile."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Enter moves down, Shift+Enter moves up, and Tab follows the inputs. Left/right arrows cross cells at the text boundary. Escape leaves the editor; edits are applied immediately. Reset restores the sample gift budget. Empty cells in rows 6–8 are a scratch area."
-msgstr "Enter geht nach unten, Umschalt+Enter nach oben und Tab folgt den Eingaben. Links-/Rechtspfeile wechseln am Textrand die Zelle. Escape verlässt den Editor; Änderungen werden sofort übernommen. Zurücksetzen stellt das Beispiel-Geschenkbudget wieder her. Leere Zellen in Zeilen 6–8 sind ein Arbeitsbereich."
+msgid "Use Go to cell to visit AA90, enter a value, then reference it from A1. Only the visible slots mount, but formulas can read cells outside the camera. The counters change document dimensions. Shrinking hides data; growing restores it. A reference outside the current dimensions displays #REF!."
+msgstr "Öffnen Sie AA90 über „Gehe zu Zelle“, geben Sie einen Wert ein und referenzieren Sie ihn aus A1. Nur sichtbare Zellen werden gemountet, Formeln lesen aber auch außerhalb der Kamera. Die Zähler ändern die Dokumentgröße. Verkleinern verbirgt Daten; Vergrößern stellt sie wieder dar. Verweise außerhalb der aktuellen Grenzen zeigen #REF!."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Model"
-msgstr "Modell"
+msgid "Switch to Scratchpad to work on an independent sheet. The + button adds a sheet; double-click its tab to rename it. Returning to a sheet restores its selection and camera. On narrow screens the window shows two columns instead of four."
+msgstr "Wechseln Sie zu Scratchpad für ein unabhängiges Blatt. + fügt ein Blatt hinzu; ein Doppelklick auf den Reiter benennt es um. Bei der Rückkehr werden Auswahl und Kamera wiederhergestellt. Auf schmalen Bildschirmen zeigt das Fenster zwei statt vier Spalten."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Each cell owns a writable input atom and a read-only result atom. Formula parsing is derived from that cell's input. Evaluation reads only referenced expression atoms through get, so dependencies change with the formula. The parser never executes JavaScript."
-msgstr "Jede Zelle besitzt ein schreibbares Eingabeatom und ein schreibgeschütztes Ergebnisatom. Das Parsen der Formel wird aus der Eingabe dieser Zelle abgeleitet. Die Auswertung liest über get nur referenzierte Ausdrucksatome; damit ändern sich die Abhängigkeiten mit der Formel. Der Parser führt kein JavaScript aus."
+msgid "Document data"
+msgstr "Dokumentdaten"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Rendering and isolation"
-msgstr "Rendering und Isolation"
+msgid "Generic models start empty. This JSON supplies the first gift-budget sheet; its selected, totalCell and totalRow fields are demo metadata. Reset sheet loads the sample again. Other new sheets start empty."
+msgstr "Generische Modelle beginnen leer. Dieses JSON befüllt das erste Geschenkbudget-Blatt; selected, totalCell und totalRow sind Demo-Metadaten. „Blatt zurücksetzen“ lädt das Beispiel erneut. Andere neue Blätter beginnen leer."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Each CellView has its own holo binding. The table shell does not subscribe to sheet values. Selecting a cell updates the formula bar; editing a cell updates that input and dependent result Views. Unrelated cells do not commit again. The formula bar uses a native writable derived atom, demonstrating that holo accepts ordinary Jotai atoms too."
-msgstr "Jede CellView hat ihre eigene holo-Bindung. Die Tabellenhülle abonniert keine Zellwerte. Die Zellauswahl aktualisiert die Formelleiste; Bearbeiten aktualisiert die Eingabe und abhängige Ergebnis-Views. Unabhängige Zellen erhalten keinen weiteren Commit. Die Formelleiste nutzt ein natives schreibbares abgeleitetes Atom und zeigt damit, dass holo auch gewöhnliche Jotai-Atome akzeptiert."
+msgid "The sheet owns each cell’s input, parsed expression and result atoms. A cell registry model exposes those atoms to a binding; releasing the model preserves their identity and cache. The parser never executes JavaScript."
+msgstr "Das Blatt besitzt die Atome für Eingabe, geparsten Ausdruck und Ergebnis jeder Zelle. Ein Registry-Modell stellt sie der Bindung bereit; beim Freigeben des Modells bleiben Identität und Cache erhalten. Der Parser führt kein JavaScript aus."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Each preview has its own Jotai store. Two separately created models are also independent in one store. There is no useEffect to copy inputs into totals, no whole-sheet React state, and no subscription created during module initialization."
-msgstr "Jede Vorschau besitzt ihren eigenen Jotai-Store. Zwei getrennt erzeugte Modelle bleiben auch im selben Store unabhängig. Es gibt weder useEffect zum Kopieren von Eingaben in Summen noch einen gemeinsamen React-State für das ganze Blatt oder Abonnements bei der Modulinitialisierung."
+msgid "Selecting a cell atom"
+msgstr "Zugriff auf ein Zellatom"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "flatMapAtom follows a stable atom inside the selected sheet. Reads follow its value; writes to the selected input pass through the sheet’s setCell command. The operator does not acquire a model owner: cell-model connections and holo.models retain that responsibility."
+msgstr "flatMapAtom folgt einem stabilen Atom im ausgewählten Blatt. Lesen liefert dessen Wert; Schreiben in die Eingabe führt über den setCell-Befehl des Blatts. Der Operator erwirbt keine Modellbesitzerschaft: Dafür bleiben Zellmodell-Verbindungen und holo.models zuständig."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The editor names its selected input once. begin reads it; commit writes the draft back to it. matchAtom chooses which value the formula bar displays and reads only that branch."
+msgstr "Der Editor benennt die ausgewählte Eingabe einmal. begin liest sie, commit schreibt den Entwurf zurück. matchAtom wählt den Wert für die Formelleiste und liest nur diesen Zweig."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Shared computations"
+msgstr "Gemeinsame Berechnungen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Each cell forms a chain: $input → $expression → $value. ion parses the input with a pure function. A result reads referenced $value atoms through get, so Jotai caches intermediate results and tracks the references used by the current formula."
+msgstr "Jede Zelle bildet eine Kette: $input → $expression → $value. ion parst die Eingabe mit einer reinen Funktion. Das Ergebnis liest referenzierte $value-Atome über get. So speichert Jotai Zwischenergebnisse im Cache und verfolgt die Referenzen der aktuellen Formel."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "If B1 contains `=A1*3` and both C1 and D1 reference B1, changing A1 computes B1 once for both consumers. Replacing C1’s formula replaces its dependencies. Unrequested results stay unevaluated. Writing the same input or dimensions does not advance the document revision or schedule a save."
+msgstr "Enthält B1 die Formel `=A1*3` und verweisen C1 und D1 auf B1, wird B1 nach einer Änderung von A1 einmal für beide Verbraucher berechnet. Eine neue Formel in C1 ersetzt dessen Abhängigkeiten. Nicht angeforderte Ergebnisse bleiben unberechnet. Unveränderte Eingaben oder Abmessungen erhöhen die Dokumentrevision nicht und planen keinen Speichervorgang."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Before values read each other, a separate pass checks references for cycles and excessive depth. This pass scans allocated inputs and their references after an edit; it reuses cached parsed expressions, but it is not limited to affected results. A cycle becomes #CYCLE! without creating a cyclic Jotai read. Repairing the formula restores calculation."
+msgstr "Bevor Ergebnisse einander lesen, prüft ein separater Durchlauf die Referenzen auf Zyklen und übermäßige Tiefe. Nach einer Änderung durchsucht er angelegte Eingaben und ihre Referenzen und verwendet gecachte Ausdrücke erneut. Er beschränkt sich nicht auf betroffene Ergebnisse. Ein Zyklus ergibt #CYCLE!, ohne einen zyklischen Jotai-Lesezugriff zu erzeugen. Eine korrigierte Formel stellt die Berechnung wieder her."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The camera controls mounted cells, not the computation graph. Visited input and computation atoms remain with the sheet until its registry instance expires. Storage saves source inputs and dimensions; results are recalculated after restoration."
+msgstr "Die Kamera steuert montierte Zellen, nicht den Berechnungsgraphen. Besuchte Eingabe- und Berechnungsatome bleiben beim Blatt, bis dessen Registry-Instanz abläuft. Der Speicher sichert Eingaben und Abmessungen; Ergebnisse werden nach dem Wiederherstellen neu berechnet."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Views and the camera"
+msgstr "Views und Kamera"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Bindings and model definitions are declared at module scope. Each Jotai store owns its instances; declaring a binding does not load documents or subscribe to storage. Storage work starts when the model acquires an owner."
+msgstr "Bindungen und Modelldefinitionen stehen auf Modulebene. Jeder Jotai-Store besitzt eigene Instanzen; eine Bindungsdeklaration lädt keine Dokumente und abonniert keinen Speicher. Die Speicherarbeit beginnt, sobald das Modell einen Besitzer erhält."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Each CellView has its own holo binding. ion projects whether that cell is selected; conditional stateAtom reads keep unselected cells independent of the draft. Rows and columns use holoList with fixed slot keys. The camera changes which logical addresses those slots display."
+msgstr "Jede CellView besitzt eine eigene holo-Bindung. ion projiziert, ob die Zelle ausgewählt ist; bedingte stateAtom-Lesezugriffe halten andere Zellen unabhängig vom Entwurf. Zeilen und Spalten verwenden holoList mit festen Slot-Schlüsseln. Die Kamera ändert die logischen Adressen dieser Slots."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The sheet registry uses `['sheet', sheetId]`; cell models use `['cell', sheetId, address]`. A separate view model uses `['view', sheetId, viewId]` for selection, editing and camera. Matching keys share state within one store. Different view IDs can show different parts of the same document."
+msgstr "Die Blatt-Registry nutzt `['sheet', sheetId]`, Zellen nutzen `['cell', sheetId, address]`. Ein separates View-Modell verwendet `['view', sheetId, viewId]` für Auswahl, Bearbeitung und Kamera. Gleiche Schlüssel teilen Zustand in einem Store. Verschiedene viewIds können verschiedene Teile desselben Dokuments zeigen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Local storage and lifetime"
+msgstr "Lokaler Speicher und Lebensdauer"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "IndexedDB stores the sheet list and sparse sheet documents. Committed edits save after a 250 ms pause. Switching sheets commits the current draft and starts saving immediately. Wait for Saved locally before reloading to verify restoration."
+msgstr "IndexedDB speichert Blattliste und dünn besetzte Dokumente. Bestätigte Änderungen werden nach 250 ms Pause gespeichert. Ein Blattwechsel bestätigt den Entwurf und startet die Speicherung sofort. Warten Sie vor dem Neuladen auf „Lokal gespeichert“, um die Wiederherstellung zu prüfen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Visible components own the selected sheet. Tabs read only descriptors and statuses, so an inactive tab does not keep its sheet active. Pending or failed storage operations hold an additional lease. After a successful save and release of the final owner, the registry retains the sheet for one minute."
+msgstr "Sichtbare Komponenten besitzen das ausgewählte Blatt. Reiter lesen nur Deskriptoren und Status und halten inaktive Blätter daher nicht aktiv. Laufende oder fehlgeschlagene Speicheroperationen halten eine zusätzliche Lease. Nach erfolgreicher Speicherung und Freigabe des letzten Besitzers behält die Registry das Blatt eine Minute."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Returning within that minute reuses the instance. Returning later creates a new instance and restores its document before enabling editing. Cell models have zero retention; their inputs remain in the sheet document. A storage error keeps unsaved data in memory and exposes Retry. This example implements storage ownership with modelConnection and acquire/release; retainTime alone does not guarantee persistence."
+msgstr "Die Rückkehr innerhalb dieser Minute nutzt dieselbe Instanz. Später entsteht eine neue; vor der Bearbeitung wird das Dokument wiederhergestellt. Zellmodelle haben keine Haltezeit, ihre Eingaben bleiben im Blattdokument. Speicherfehler bewahren ungespeicherte Daten im RAM und bieten „Erneut versuchen“. Das Beispiel implementiert Speicherbesitz mit modelConnection und acquire/release; retainTime allein garantiert keine Speicherung."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -442,32 +532,52 @@ msgstr "Unterstützte Formeln"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Supported syntax: numeric literals, cell references A1–D8, parentheses, unary signs, +, -, \\*, /, and SUM with comma-separated arguments or rectangular ranges. SUM ignores text and empty cells; arithmetic treats an empty cell as zero and reports text as a value error. Function names and references are case-insensitive; use a decimal point in formulas."
-msgstr "Unterstützt werden Zahlen, Zellreferenzen A1–D8, Klammern, unäre Vorzeichen, +, -, \\*, / sowie SUM mit durch Kommas getrennten Argumenten oder rechteckigen Bereichen. SUM ignoriert Text und leere Zellen; Arithmetik behandelt leere Zellen als null und Text als Wertfehler. Groß-/Kleinschreibung spielt bei Funktionen und Referenzen keine Rolle; Formeln verwenden einen Dezimalpunkt."
+msgid "Supported syntax: numeric literals, cell references, parentheses, unary signs, +, -, \\*, /, and SUM with comma-separated arguments or rectangular ranges. SUM ignores text and empty cells; arithmetic treats an empty cell as zero and reports text as a value error. Function names and references are case-insensitive; use a decimal point in formulas."
+msgstr "Unterstützt werden Zahlen, Zellverweise, Klammern, unäre Vorzeichen, +, -, \\*, / und SUM mit Komma-Argumenten oder rechteckigen Bereichen. SUM ignoriert Text und leere Zellen; Arithmetik wertet leere Zellen als null und Text als Wertfehler. Groß-/Kleinschreibung ist egal; verwenden Sie einen Dezimalpunkt."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Errors are displayed as values: #REF! for an unknown address, #CYCLE! for circular references, #DIV/0! for division by zero, #VALUE! for incompatible values, #NUM! for a non-finite result, and #FORMULA! for unsupported or incomplete syntax. Fixing an input clears the resulting errors through the same derived reads."
-msgstr "Fehler erscheinen als Werte: #REF! für unbekannte Adressen, #CYCLE! für Kreisbezüge, #DIV/0! bei Division durch null, #VALUE! für unpassende Werte, #NUM! für nicht endliche Ergebnisse und #FORMULA! für unvollständige oder nicht unterstützte Syntax. Korrigierte Eingaben beseitigen die abhängigen Fehler über dieselben abgeleiteten Lesezugriffe."
+msgid "Errors are values: #REF! for an address outside the sheet, #CYCLE! for circular references, #DIV/0! for division by zero, #VALUE! for incompatible values, #NUM! for a non-finite result, and #FORMULA! for unsupported syntax. #LIMIT! bounds expensive calculations: a range may contain at most 2048 cells, each formula has a 2048-step budget (including range entries), and reference depth is limited to 128."
+msgstr "Fehler erscheinen als Werte: #REF! für Adressen außerhalb des Blatts, #CYCLE! für Zyklen, #DIV/0! für Division durch null, #VALUE! für unvereinbare Werte, #NUM! für nicht endliche Ergebnisse und #FORMULA! für nicht unterstützte Syntax. #LIMIT! begrenzt aufwendige Berechnungen: höchstens 2048 Zellen pro Bereich, 2048 Auswertungsschritte pro Formel einschließlich Bereichseinträgen und Verweistiefe 128."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "This is a teaching example, not an Excel-compatible engine. It uses JavaScript numbers and rounds only the display. It does not implement accounting rounding, persistence, CSV paste, range selection, or hundreds of spreadsheet functions. Each result evaluates its referenced expression tree with a local memo and cycle stack; parsed expressions are shared, calculated intermediate results are not shared across roots. This keeps cycles out of Jotai's dependency graph and is intended for small sheets."
-msgstr "Dies ist ein Lehrbeispiel, keine Excel-kompatible Engine. Es nutzt JavaScript-Zahlen und rundet nur die Anzeige. Buchhalterische Rundung, Persistenz, CSV-Einfügen, Bereichsauswahl und Hunderte Tabellenfunktionen sind nicht implementiert. Jedes Ergebnis wertet seinen Ausdrucksbaum mit lokalem Memo und Zyklusstapel aus; geparste Ausdrücke werden geteilt, berechnete Zwischenergebnisse zwischen Wurzeln nicht. Das hält Zyklen aus Jotais Abhängigkeitsgraphen heraus und ist für kleine Tabellen gedacht."
+msgid "The document supports up to 1000 rows and 1000 columns. This is a teaching example with JavaScript numbers, not an Excel-compatible engine. It does not implement cross-sheet formulas, collaborative editing, CSV paste or range selection. For a production spreadsheet, evaluate an established formula engine separately from the React bindings."
+msgstr "Das Dokument unterstützt bis zu 1000 Zeilen und 1000 Spalten. Es ist ein Lehrbeispiel mit JavaScript-Zahlen, keine Excel-kompatible Engine. Blattübergreifende Formeln, gemeinsames Bearbeiten, CSV-Einfügen und Bereichsauswahl fehlen. Prüfen Sie für produktive Tabellen eine etablierte Formel-Engine separat von den React-Bindungen."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Related tools"
-msgstr "Verwandte Werkzeuge"
+msgid "Source layout"
+msgstr "Quellstruktur"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "[holo](/reference/holo) connects each View, [stateAtom](/reference/stateAtom) separates inputs from derived results, and [actionAtom](/reference/actionAtom) restores the sample. [Jotai atoms-in-atom](https://jotai.org/docs/guides/atoms-in-atom) explains how atom references can describe dynamic structures. For a production formula engine, evaluate an established spreadsheet engine separately from the React bindings."
-msgstr "[holo](/reference/holo) verbindet jede View, [stateAtom](/reference/stateAtom) trennt Eingaben und abgeleitete Ergebnisse, [actionAtom](/reference/actionAtom) stellt das Beispiel wieder her. [Jotai atoms-in-atom](https://jotai.org/docs/guides/atoms-in-atom) erklärt dynamische Strukturen mit Atomreferenzen. Prüfe für den Produktionseinsatz eine etablierte Formel-Engine getrennt von den React-Bindungen."
+msgid "Start with ui/book.tsx for screen composition and workbook.ts for model connections and navigation commands. Switching or adding a sheet commits the current editor before changing the active ID. The status indicator owns its subscriptions; saving does not require the workspace layout to read status. The models directory contains state and commands; persistence contains storage and lease handling; ui contains components and their bindings. Formula parsing and evaluation are separate modules under formulas."
+msgstr "Beginnen Sie mit ui/book.tsx für die Bildschirmkomposition und workbook.ts für Modellverbindungen und Navigationsbefehle. Wechseln oder Hinzufügen eines Blatts bestätigt den aktuellen Entwurf vor dem Wechsel der aktiven ID. Der Statusindikator besitzt seine Abonnements; das Workspace-Layout liest keinen Speicherstatus. models enthält Zustand und Befehle, persistence Speicher- und Lease-Verwaltung, ui Komponenten und Bindungen. Parsing und Auswertung liegen in getrennten Modulen unter formulas."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+#: docs/recipes/profile.md
+msgid "Verification"
+msgstr "Überprüfung"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Browser E2E tests exercise the built documentation in all four languages: real keyboard input, cancellation, fixed-slot camera geometry, offscreen formulas, dimension changes, sheet switching, local restoration, renaming and mobile layout. Integration tests use controlled time and storage to verify one-minute retention, delayed restoration, failed writes and overlapping revisions. Computation tests check shared intermediates, dependency replacement, cycle repair, no-op writes and cache identity after cell disposal."
+msgstr "Browser-E2E-Tests prüfen die gebaute Dokumentation in vier Sprachen: Tastatureingabe, Abbruch, Kamera-Geometrie, unsichtbare Formelquellen, Größenänderung, Blattwechsel, Wiederherstellung, Umbenennung und Mobilansicht. Integrationstests steuern Zeit und Speicher für Minutenhaltung, verzögertes Laden, Schreibfehler und überlappende Revisionen. Berechnungstests prüfen gemeinsame Zwischenergebnisse, ersetzte Abhängigkeiten, reparierte Zyklen, unveränderte Schreibvorgänge und Cache-Identität nach der Freigabe eines Zellmodells."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Run `pnpm exec vitest bench --run tests/spreadsheet.bench.ts` to measure cached reads, edits with demanded results, and topology validation separately for a chain, shared dependencies and a range. Timings depend on the machine; these benchmarks do not compare this example with a production formula engine."
+msgstr "Mit `pnpm exec vitest bench --run tests/spreadsheet.bench.ts` lassen sich Cache-Lesezugriffe, Änderungen mit angeforderten Ergebnissen und Topologieprüfung getrennt für eine Kette, gemeinsame Abhängigkeiten und einen Bereich messen. Die Zeiten hängen vom Rechner ab; diese Benchmarks vergleichen das Beispiel nicht mit einer produktiven Formel-Engine."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -2096,12 +2206,6 @@ msgstr "Dieser Ablauf verwendet `createMutationModel`, weil Atome und eine unabh
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/recipes/profile.md
-msgid "Verification"
-msgstr "Überprüfung"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/recipes/profile.md
 msgid "The tests check pending state, single-flight, draft isolation, successful facts, failure state and notification cleanup. Browser tests exercise the editor and count commits: changing one field leaves the other field unchanged, and pending updates only the button."
 msgstr "Die Tests prüfen Pending-Zustand, Single-Flight, Entwurfsisolation, Erfolgsfakten, Fehlerzustand und die Bereinigung von Benachrichtigungen. Browsertests prüfen den Editor und zählen Commits: Eine Feldänderung lässt das andere Feld unverändert, und Pending aktualisiert nur den Button."
 
@@ -2333,6 +2437,8 @@ msgstr "Beschreibe eine Operation, die Atome liest oder aktualisiert, etwa die �
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/bond.md
@@ -2343,6 +2449,7 @@ msgstr "Beschreibe eine Operation, die Atome liest oder aktualisiert, etwa die �
 #: docs/reference/createQueryModel.md
 #: docs/reference/defineModel.md
 #: docs/reference/eventAtom.md
+#: docs/reference/flatMapAtom.md
 #: docs/reference/formAtom.md
 #: docs/reference/holo.md
 #: docs/reference/holoForm.md
@@ -2350,6 +2457,7 @@ msgstr "Beschreibe eine Operation, die Atome liest oder aktualisiert, etwa die �
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
 #: docs/reference/localStorageAdapter.md
+#: docs/reference/matchAtom.md
 #: docs/reference/modelAnalytics.md
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
@@ -2401,6 +2509,8 @@ msgstr "- `actionAtom((get, set, ...args) => result)` liefert ein beschreibbares
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/bond.md
@@ -2411,6 +2521,7 @@ msgstr "- `actionAtom((get, set, ...args) => result)` liefert ein beschreibbares
 #: docs/reference/createQueryModel.md
 #: docs/reference/defineModel.md
 #: docs/reference/eventAtom.md
+#: docs/reference/flatMapAtom.md
 #: docs/reference/formAtom.md
 #: docs/reference/holo.md
 #: docs/reference/holoForm.md
@@ -2418,6 +2529,7 @@ msgstr "- `actionAtom((get, set, ...args) => result)` liefert ein beschreibbares
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
 #: docs/reference/localStorageAdapter.md
+#: docs/reference/matchAtom.md
 #: docs/reference/modelAnalytics.md
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
@@ -2463,6 +2575,8 @@ msgstr "Natives `atom(null, write)` verarbeitet bereits Befehle. Der Helfer erg�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/bond.md
@@ -2473,6 +2587,7 @@ msgstr "Natives `atom(null, write)` verarbeitet bereits Befehle. Der Helfer erg�
 #: docs/reference/createQueryModel.md
 #: docs/reference/defineModel.md
 #: docs/reference/eventAtom.md
+#: docs/reference/flatMapAtom.md
 #: docs/reference/formAtom.md
 #: docs/reference/holo.md
 #: docs/reference/holoForm.md
@@ -2480,6 +2595,7 @@ msgstr "Natives `atom(null, write)` verarbeitet bereits Befehle. Der Helfer erg�
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
 #: docs/reference/localStorageAdapter.md
+#: docs/reference/matchAtom.md
 #: docs/reference/modelAnalytics.md
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
@@ -3347,6 +3463,56 @@ msgstr "- [Effector createEvent](https://effector.dev/en/api/effector/createeven
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "flatMapAtom"
+msgstr "flatMapAtom"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "Follow an atom selected from another atom’s value. Use this for an atom inside a selected model or a target chosen by an address."
+msgstr "Folgt einem Atom, das aus dem Wert eines anderen Atoms gewählt wird. Geeignet für Atome in einem ausgewählten Modell oder für ein über eine Adresse bestimmtes Ziel."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "`flatMapAtom(atom | record | tuple, select) → Atom | WritableAtom`"
+msgstr "`flatMapAtom(atom | record | tuple, select) → Atom | WritableAtom`"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "The selector receives source values and returns an existing atom. Reading follows that atom; changing the sources replaces the target dependency. Target-only changes do not rerun the selector. All declared sources are read when selection is recomputed."
+msgstr "Die Auswahlfunktion erhält Quellwerte und gibt ein vorhandenes Atom zurück. Lesezugriffe folgen diesem Atom; geänderte Quellen ersetzen die Zielabhängigkeit. Änderungen nur am Zielwert führen die Auswahlfunktion nicht erneut aus. Bei einer Neuauswahl werden alle deklarierten Quellen gelesen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "A writable target preserves its write arguments and return value. Each write resolves the current target in the current store, even without a subscription. Read-only targets produce a read-only TypeScript interface; JavaScript writes to a read-only target throw. Mixed or incompatible target types do not gain write access."
+msgstr "Ein schreibbares Ziel behält Schreibargumente und Rückgabewert. Jeder Schreibzugriff bestimmt das aktuelle Ziel im aktuellen Store, auch ohne Abonnement. Schreibgeschützte Ziele ergeben eine schreibgeschützte TypeScript-Schnittstelle; Schreibversuche aus JavaScript werfen einen Fehler. Gemischte oder inkompatible Zieltypen erhalten keinen Schreibzugriff."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "Return stable atoms. Creating a new stateAtom inside the selector can replace state when sources change. Selection does not acquire model ownership or activate holo connections. Native Jotai subscriptions still mount selected dependencies normally. Promise values and thrown errors or Promises are forwarded without automatic awaiting."
+msgstr "Geben Sie stabile Atome zurück. Ein neues stateAtom innerhalb der Auswahlfunktion kann bei Quelländerungen den Zustand ersetzen. Die Auswahl erwirbt keine Modellbesitzerschaft und aktiviert keine holo-Verbindungen. Native Jotai-Abonnements mounten ausgewählte Abhängigkeiten wie gewohnt. Promise-Werte sowie geworfene Fehler oder Promises werden ohne automatisches Await weitergereicht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "Use [ion](/reference/ion) to project values, [matchAtom](/reference/matchAtom) for a table of branches, and stateAtom for arbitrary dynamic reads. flatMapAtom does not forward event-channel metadata; use the original event as a bond trigger."
+msgstr "Verwenden Sie [ion](/reference/ion) für Wertprojektionen, [matchAtom](/reference/matchAtom) für eine Verzweigungstabelle und stateAtom für beliebige dynamische Lesezugriffe. flatMapAtom reicht keine Ereigniskanal-Metadaten weiter; verwenden Sie das ursprüngliche Ereignis als bond-Trigger."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+#: docs/reference/matchAtom.md
+msgid "- [Jotai: composing atoms](https://jotai.org/docs/guides/composing-atoms) — native derived reads and forwarded writes."
+msgstr "- [Jotai: Atome komponieren](https://jotai.org/docs/guides/composing-atoms) — native abgeleitete Lesezugriffe und weitergereichte Schreibzugriffe."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
 #: docs/reference/formAtom.md
 msgid "formAtom"
 msgstr "formAtom"
@@ -3791,6 +3957,48 @@ msgid "- [Window.localStorage](https://developer.mozilla.org/en-US/docs/Web/API/
 "- [persist](/reference/persist) — restoration, saving and error state."
 msgstr "- [Window.localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) — Browservertrag und Ausnahmen.\n"
 "- [persist](/reference/persist) — Wiederherstellung, Speichern und Fehler."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "matchAtom"
+msgstr "matchAtom"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "Read one atom branch selected by a key. Branch atoms are created at declaration time; their values are computed only when a consumer needs them."
+msgstr "Liest einen über einen Schlüssel gewählten Atomzweig. Zweigatome entstehen bei der Deklaration; ihre Werte werden erst berechnet, wenn ein Verbraucher sie benötigt."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "Here $editing chooses between the draft and the selected cell’s saved input. The inactive branch is not read by matchAtom."
+msgstr "Hier wählt $editing zwischen Entwurf und gespeicherter Eingabe der ausgewählten Zelle. matchAtom liest den inaktiven Zweig nicht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "`matchAtom(source, cases, { fallback }?) → Atom`"
+msgstr "`matchAtom(source, cases, { fallback }?) → Atom`"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "Keys may be strings, numbers or booleans. A closed union requires all cases or an explicit fallback; an open string/number source requires fallback. Supplied branches must be present atoms. An unknown key without fallback throws at runtime. Object keys use their JavaScript string representation, so 1 and '1' identify the same case."
+msgstr "Schlüssel können Strings, Zahlen oder boolesche Werte sein. Eine geschlossene Union erfordert alle Fälle oder einen expliziten Fallback; ein offener string/number-Typ erfordert einen Fallback. Jeder angegebene Zweig muss ein Atom enthalten. Ein unbekannter Schlüssel ohne Fallback wirft zur Laufzeit einen Fehler. Objektschlüssel verwenden die JavaScript-Stringdarstellung: 1 und '1' bezeichnen denselben Fall."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "The result is always read-only and its value type is the union of branch and fallback values. Only the source and active branch are dependencies. Switching removes the old branch dependency; other consumers may still read that branch. Jotai controls caching and subscription mounting. Promise values, thrown errors and Suspense Promises keep native behavior."
+msgstr "Das Ergebnis ist immer schreibgeschützt; sein Werttyp vereinigt die Typen der Zweige und des Fallbacks. Nur Quelle und aktiver Zweig sind Abhängigkeiten. Beim Wechsel entfällt die alte Zweigabhängigkeit; andere Verbraucher können den Zweig weiterhin lesen. Jotai verwaltet Cache und Abonnement-Mounting. Promise-Werte, geworfene Fehler und Suspense-Promises behalten ihr natives Verhalten."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "Branches can contain ion computations. Creating those atoms does not call their projectors. For a calculation with conditional dependencies that do not fit a branch table, use stateAtom(get => …). For a target chosen by a function, use [flatMapAtom](/reference/flatMapAtom). [holoMatch](/reference/holoMatch) selects React Views instead of atom values."
+msgstr "Zweige können ion-Berechnungen enthalten. Das Erstellen dieser Atome ruft ihre Projektoren nicht auf. Für bedingte Abhängigkeiten außerhalb einer Zweigtabelle verwenden Sie stateAtom(get => …). Für eine Zielauswahl per Funktion verwenden Sie [flatMapAtom](/reference/flatMapAtom). [holoMatch](/reference/holoMatch) wählt React Views statt Atomwerten."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

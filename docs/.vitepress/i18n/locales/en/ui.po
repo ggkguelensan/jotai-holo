@@ -837,58 +837,143 @@ msgstr "Not found"
 msgid "Server error"
 msgstr "Server error"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Check the formula and its references."
-msgstr "Check the formula and its references."
+#: examples/spreadsheet/ui/book.tsx
+msgid "Workbook"
+msgstr "Workbook"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Formula for the selected cell"
-msgstr "Formula for the selected cell"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Bundle total"
-msgstr "Bundle total"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Reset sheet"
-msgstr "Reset sheet"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Game"
-msgstr "Game"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Copies / rate"
-msgstr "Copies / rate"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Price / base, €"
-msgstr "Price / base, €"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Amount, €"
-msgstr "Amount, €"
-
-#: examples/docs/spreadsheet.tsx
+#: examples/spreadsheet/ui/book.tsx
 msgid "Game gift bundle · budget"
 msgstr "Game gift bundle · budget"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Change the copies. The bundle total follows."
-msgstr "Change the copies. The bundle total follows."
+#: examples/spreadsheet/ui/book.tsx
+msgid "Could not load the workbook."
+msgstr "Could not load the workbook."
 
-#: examples/docs/spreadsheet.tsx
-msgid "Gift budget"
-msgstr "Gift budget"
+#: examples/spreadsheet/ui/book.tsx
+msgid "Loading workbook…"
+msgstr "Loading workbook…"
 
-#: examples/docs/spreadsheet.tsx
+#: examples/spreadsheet/ui/book.tsx
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Retry"
+msgstr "Retry"
+
+#: examples/spreadsheet/ui/book.tsx
+msgid "Sheets"
+msgstr "Sheets"
+
+#: examples/spreadsheet/ui/gift-budget.tsx
+msgid "Reset sheet"
+msgstr "Reset sheet"
+
+#: examples/spreadsheet/ui/gift-budget.tsx
+msgid "Bundle total"
+msgstr "Bundle total"
+
+#: examples/spreadsheet/ui/table.tsx
 msgid "Row"
 msgstr "Row"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total."
-msgstr "Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total."
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Go to cell"
+msgstr "Go to cell"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Select a cell to edit. Enter moves down; Tab moves across."
-msgstr "Select a cell to edit. Enter moves down; Tab moves across."
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Go"
+msgstr "Go"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move left"
+msgstr "Move left"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move up"
+msgstr "Move up"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move down"
+msgstr "Move down"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move right"
+msgstr "Move right"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Choose an address inside this sheet."
+msgstr "Choose an address inside this sheet."
+
+#: examples/spreadsheet/ui/views/cell-views.tsx
+msgid "Check the formula and its references."
+msgstr "Check the formula and its references."
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Rows"
+msgstr "Rows"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Columns"
+msgstr "Columns"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Fewer rows"
+msgstr "Fewer rows"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Fewer columns"
+msgstr "Fewer columns"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "More rows"
+msgstr "More rows"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "More columns"
+msgstr "More columns"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Enter a whole number from 1 to 1000."
+msgstr "Enter a whole number from 1 to 1000."
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Loading sheet…"
+msgstr "Loading sheet…"
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Saving…"
+msgstr "Saving…"
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Could not save or load this sheet."
+msgstr "Could not save or load this sheet."
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Saved locally"
+msgstr "Saved locally"
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Arrows select. Enter edits; Enter again saves. Escape cancels. Double-click a tab to rename it."
+msgstr "Arrows select. Enter edits; Enter again saves. Escape cancels. Double-click a tab to rename it."
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Could not save the sheet list. Your open sheets remain in memory."
+msgstr "Could not save the sheet list. Your open sheets remain in memory."
+
+#: examples/spreadsheet/ui/views/formula-views.tsx
+msgid "Formula for the selected cell"
+msgstr "Formula for the selected cell"
+
+#: examples/spreadsheet/ui/views/sheet-tabs-views.tsx
+msgid "Sheet name"
+msgstr "Sheet name"
+
+#: examples/spreadsheet/ui/views/sheet-tabs-views.tsx
+msgid "Rename sheet"
+msgstr "Rename sheet"
+
+#: examples/spreadsheet/ui/views/sheet-tabs-views.tsx
+msgid "Add sheet"
+msgstr "Add sheet"
+
+#: examples/spreadsheet/ui/views/viewport-views.tsx
+msgid "Gift budget"
+msgstr "Gift budget"

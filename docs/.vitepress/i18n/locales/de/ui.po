@@ -837,58 +837,143 @@ msgstr "Nicht gefunden"
 msgid "Server error"
 msgstr "Serverfehler"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Check the formula and its references."
-msgstr "Prüfe die Formel und ihre Referenzen."
+#: examples/spreadsheet/ui/book.tsx
+msgid "Workbook"
+msgstr "Arbeitsmappe"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Formula for the selected cell"
-msgstr "Formel der ausgewählten Zelle"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Bundle total"
-msgstr "Paketsumme"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Reset sheet"
-msgstr "Tabelle zurücksetzen"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Game"
-msgstr "Spiel"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Copies / rate"
-msgstr "Kopien / Satz"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Price / base, €"
-msgstr "Preis / Basis, €"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Amount, €"
-msgstr "Betrag, €"
-
-#: examples/docs/spreadsheet.tsx
+#: examples/spreadsheet/ui/book.tsx
 msgid "Game gift bundle · budget"
 msgstr "Spiele-Geschenkpaket · Budget"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Change the copies. The bundle total follows."
-msgstr "Ändere die Kopienanzahl. Die Paketsumme folgt."
+#: examples/spreadsheet/ui/book.tsx
+msgid "Could not load the workbook."
+msgstr "Die Arbeitsmappe konnte nicht geladen werden."
 
-#: examples/docs/spreadsheet.tsx
-msgid "Gift budget"
-msgstr "Geschenkbudget"
+#: examples/spreadsheet/ui/book.tsx
+msgid "Loading workbook…"
+msgstr "Arbeitsmappe wird geladen…"
 
-#: examples/docs/spreadsheet.tsx
+#: examples/spreadsheet/ui/book.tsx
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Retry"
+msgstr "Erneut versuchen"
+
+#: examples/spreadsheet/ui/book.tsx
+msgid "Sheets"
+msgstr "Blätter"
+
+#: examples/spreadsheet/ui/gift-budget.tsx
+msgid "Reset sheet"
+msgstr "Tabelle zurücksetzen"
+
+#: examples/spreadsheet/ui/gift-budget.tsx
+msgid "Bundle total"
+msgstr "Paketsumme"
+
+#: examples/spreadsheet/ui/table.tsx
 msgid "Row"
 msgstr "Zeile"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total."
-msgstr "Zeilen 1–3: Kopien × Preis. Zeile 4: 10 % Steuer. Zeile 5: Summe."
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Go to cell"
+msgstr "Gehe zu Zelle"
 
-#: examples/docs/spreadsheet.tsx
-msgid "Select a cell to edit. Enter moves down; Tab moves across."
-msgstr "Zelle zum Bearbeiten wählen. Enter geht nach unten, Tab weiter."
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Go"
+msgstr "Gehe zu"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move left"
+msgstr "Nach links"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move up"
+msgstr "Nach oben"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move down"
+msgstr "Nach unten"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Move right"
+msgstr "Nach rechts"
+
+#: examples/spreadsheet/ui/views/camera-views.tsx
+msgid "Choose an address inside this sheet."
+msgstr "Wählen Sie eine Adresse innerhalb des Blatts."
+
+#: examples/spreadsheet/ui/views/cell-views.tsx
+msgid "Check the formula and its references."
+msgstr "Prüfe die Formel und ihre Referenzen."
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Rows"
+msgstr "Zeilen"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Columns"
+msgstr "Spalten"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Fewer rows"
+msgstr "Weniger Zeilen"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Fewer columns"
+msgstr "Weniger Spalten"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "More rows"
+msgstr "Mehr Zeilen"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "More columns"
+msgstr "Mehr Spalten"
+
+#: examples/spreadsheet/ui/views/dimensions-views.tsx
+msgid "Enter a whole number from 1 to 1000."
+msgstr "Geben Sie eine ganze Zahl von 1 bis 1000 ein."
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Loading sheet…"
+msgstr "Blatt wird geladen…"
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Saving…"
+msgstr "Wird gespeichert…"
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Could not save or load this sheet."
+msgstr "Das Blatt konnte nicht gespeichert oder geladen werden."
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Saved locally"
+msgstr "Lokal gespeichert"
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Arrows select. Enter edits; Enter again saves. Escape cancels. Double-click a tab to rename it."
+msgstr "Pfeile wählen. Enter bearbeitet und bestätigt. Escape verwirft. Doppelklick auf einen Reiter zum Umbenennen."
+
+#: examples/spreadsheet/ui/views/feedback-views.tsx
+msgid "Could not save the sheet list. Your open sheets remain in memory."
+msgstr "Die Blattliste konnte nicht gespeichert werden. Offene Blätter bleiben im Speicher."
+
+#: examples/spreadsheet/ui/views/formula-views.tsx
+msgid "Formula for the selected cell"
+msgstr "Formel der ausgewählten Zelle"
+
+#: examples/spreadsheet/ui/views/sheet-tabs-views.tsx
+msgid "Sheet name"
+msgstr "Blattname"
+
+#: examples/spreadsheet/ui/views/sheet-tabs-views.tsx
+msgid "Rename sheet"
+msgstr "Blatt umbenennen"
+
+#: examples/spreadsheet/ui/views/sheet-tabs-views.tsx
+msgid "Add sheet"
+msgstr "Blatt hinzufügen"
+
+#: examples/spreadsheet/ui/views/viewport-views.tsx
+msgid "Gift budget"
+msgstr "Geschenkbudget"

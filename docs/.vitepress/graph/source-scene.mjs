@@ -94,6 +94,8 @@ export function buildSourceScene({ id, title = 'atoms', article, sources }) {
     'actionAtom',
     'ion',
     'prism',
+    'flatMapAtom',
+    'matchAtom',
     'formAtom',
     'atomWithStorage',
     'atomWithImmer',
@@ -442,9 +444,15 @@ export function buildSourceScene({ id, title = 'atoms', article, sources }) {
       if (callName(node) === 'set')
         addEdge(declaration.id, resolveNode(node.arguments[0]), 'write');
     });
-    if (['ion', 'prism'].includes(callName(declaration.initializer)))
+    if (['ion', 'prism', 'flatMapAtom', 'matchAtom'].includes(callName(declaration.initializer)))
       for (const input of inputNodes(declaration.initializer.arguments[0]))
         addEdge(input, declaration.id, 'read');
+    if (callName(declaration.initializer) === 'matchAtom') {
+      for (const input of inputNodes(declaration.initializer.arguments[1]))
+        addEdge(input, declaration.id, 'read');
+      const fallback = property(objectOf(declaration.initializer.arguments[2]), 'fallback');
+      addEdge(resolveNode(value(fallback)), declaration.id, 'read');
+    }
   }
   for (const file of files) {
     visit(file.ast, (node) => {
