@@ -26,6 +26,16 @@ The sheet owns each cell’s input, parsed expression and result atoms. A cell r
 
 <<< @/../examples/spreadsheet/models/cell-model.ts#cell-model
 
+## Selecting a cell atom
+
+flatMapAtom follows a stable atom inside the selected sheet. Reads follow its value; writes to the selected input pass through the sheet’s setCell command. The operator does not acquire a model owner: cell-model connections and holo.models retain that responsibility.
+
+<<< @/../examples/spreadsheet/models/view-model.ts#editor-routing
+
+The editor names its selected input once. begin reads it; commit writes the draft back to it. matchAtom chooses which value the formula bar displays and reads only that branch.
+
+<<< @/../examples/spreadsheet/models/view-model.ts#formula-routing
+
 ## Shared computations
 
 Each cell forms a chain: $input → $expression → $value. ion parses the input with a pure function. A result reads referenced $value atoms through get, so Jotai caches intermediate results and tracks the references used by the current formula.
@@ -42,7 +52,7 @@ The camera controls mounted cells, not the computation graph. Visited input and 
 
 Bindings and model definitions are declared at module scope. Each Jotai store owns its instances; declaring a binding does not load documents or subscribe to storage. Storage work starts when the model acquires an owner.
 
-Each CellView has its own holo binding. Selection and draft projections notify the affected cells; unrelated cells do not need the whole sheet document. Rows and columns use holoList with fixed slot keys. The camera changes which logical addresses those slots display.
+Each CellView has its own holo binding. ion projects whether that cell is selected; conditional stateAtom reads keep unselected cells independent of the draft. Rows and columns use holoList with fixed slot keys. The camera changes which logical addresses those slots display.
 
 <<< @/../examples/spreadsheet/ui/cell.ts#cell-binding
 
@@ -70,7 +80,7 @@ The document supports up to 1000 rows and 1000 columns. This is a teaching examp
 
 ## Source layout
 
-Start with ui/book.tsx for screen composition and workbook.ts for model connections. The models directory contains state and commands; persistence contains storage and lease handling; ui contains components and their bindings. Formula parsing and evaluation are separate modules under formulas.
+Start with ui/book.tsx for screen composition and workbook.ts for model connections and navigation commands. Switching or adding a sheet commits the current editor before changing the active ID. The status indicator owns its subscriptions; saving does not require the workspace layout to read status. The models directory contains state and commands; persistence contains storage and lease handling; ui contains components and their bindings. Formula parsing and evaluation are separate modules under formulas.
 
 ```text
 spreadsheet/

@@ -1,4 +1,4 @@
-import { atom } from 'jotai/vanilla';
+import { ion } from 'jotai-holo/vanilla';
 import type { ModelConnectionContext } from 'jotai-holo/model';
 import type { WorkbookModel } from '../models/book-model.js';
 import type { SheetViewModel } from '../models/view-model.js';
@@ -33,10 +33,7 @@ export function connectView(
     store.set(view.$selected, seed.selected);
   }
   store.set(view.adjust);
-  const snapshot = atom((get) => ({
-    selected: get(view.$selected),
-    camera: get(view.$camera),
-  }));
+  const snapshot = ion({ selected: view.$selected, camera: view.$camera });
   const save = () =>
     store.set(book.$views, (views) => ({
       ...views,

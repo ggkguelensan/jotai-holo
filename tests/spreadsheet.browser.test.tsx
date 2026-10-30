@@ -59,8 +59,7 @@ test('an edit survives unmount and another workbook restores it from storage', a
   await vi.waitFor(() => expect(h.container.querySelector('[data-address="B1"]')).not.toBeNull());
   const sheet = store.get(workbook.selectSheet({ sheetId: 'gifts' }));
   await act(async () => store.set(sheet.setCell, { address: 'B1', value: '20' }));
-  const book = store.get(workbook.$$workbook());
-  await act(async () => store.set(book.switchSheet, 'scratch'));
+  await act(async () => store.set(workbook.switchSheet, 'scratch'));
   await vi.waitFor(() =>
     expect(data.get('gift-budget-v1/sheet/gifts')).toMatchObject({ cells: { B1: '20' } }),
   );
@@ -77,7 +76,7 @@ test('an edit survives unmount and another workbook restores it from storage', a
   await vi.waitFor(() =>
     expect(secondHarness.container.querySelector('[data-sheet-id="gifts"]')).not.toBeNull(),
   );
-  await act(async () => second.set(second.get(workbook.$$workbook()).switchSheet, 'gifts'));
+  await act(async () => second.set(workbook.switchSheet, 'gifts'));
   await vi.waitFor(() =>
     expect(
       secondHarness.container.querySelector<HTMLInputElement>('[data-address="B1"]')?.value,
@@ -111,15 +110,14 @@ test('an evicted sheet shows loading rather than editable empty slots during res
     </Provider>,
   );
   await vi.waitFor(() => expect(h.container.querySelector('[data-address="D5"]')).not.toBeNull());
-  const book = store.get(workbook.$$workbook());
-  await act(async () => store.set(book.switchSheet, 'scratch'));
+  await act(async () => store.set(workbook.switchSheet, 'scratch'));
   await vi.waitFor(() =>
     expect(h.container.querySelector('.sheet-status')?.textContent).toBe('Saved locally'),
   );
   // Deterministic disposal; the integration suite verifies the real 60s timer.
   expect(workbook.$$sheet.remove(store, { key: ['sheet', 'gifts'] })).toBe(true);
   delay = true;
-  await act(async () => store.set(book.switchSheet, 'gifts'));
+  await act(async () => store.set(workbook.switchSheet, 'gifts'));
   expect(h.container.querySelectorAll('[data-address]')).toHaveLength(0);
   expect(h.container.querySelector('.sheet-status')?.textContent).toBe('Loading sheet…');
   await act(async () => finish(data.get('gift-budget-v1/sheet/gifts')));

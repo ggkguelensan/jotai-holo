@@ -1,7 +1,7 @@
-import { atom } from 'jotai/vanilla';
+import { stateAtom } from 'jotai-holo/vanilla';
 import { browserStorage, type DocumentStorage } from '../storage.js';
 
-export const $storage = atom<DocumentStorage>(browserStorage());
+export const $storage = stateAtom<DocumentStorage>(browserStorage());
 
 const workbookId = 'gift-budget-v1';
 

@@ -1,5 +1,9 @@
-import { atom } from 'jotai/vanilla';
-import { actionAtom, stateAtom } from 'jotai-holo/vanilla';
+import {
+  actionAtom,
+  stateAtom,
+  flatMapAtom,
+  matchAtom,
+} from 'jotai-holo/vanilla';
 import { modelConnection, modelRegistry, pipe } from 'jotai-holo/model';
 import {
   addressOf,
@@ -14,17 +18,31 @@ import { selectSheet } from './sheet-model.js';
 import type { ViewKey } from './types.js';
 
 export function createViewModel({ sheetId }: ViewKey) {
-  const sheet = selectSheet({ sheetId });
+  // #region editor-routing
+  const $sheet = selectSheet({ sheetId });
   const $selected = stateAtom('A1');
+  const $selectedInput = flatMapAtom(
+    { sheet: $sheet, address: $selected },
+    ({ sheet, address }) => sheet.inputAt(address),
+  );
+  // #endregion editor-routing
+
+  // #region formula-routing
+  const $editing = stateAtom(false);
+  const $draft = stateAtom('');
+  const $formula = matchAtom($editing, {
+    true: $draft,
+    false: $selectedInput,
+  });
+  // #endregion formula-routing
+
+  const $size = flatMapAtom($sheet, (sheet) => sheet.$dimensions);
   const $camera = stateAtom<Point>({ row: 0, column: 0 });
   const $window = stateAtom<Dimensions>({ rows: 8, columns: 4 });
-  const $editing = stateAtom(false);
   const $focus = stateAtom(0);
-  const $draft = stateAtom('');
-  const $size = atom((get) => get(get(sheet).$dimensions));
   const commit = actionAtom((get, set) => {
     if (!get($editing)) return;
-    set(get(sheet).setCell, { address: get($selected), value: get($draft) });
+    set($selectedInput, get($draft));
     set($editing, false);
   });
   const select = actionAtom((get, set, address: string) => {
@@ -36,7 +54,7 @@ export function createViewModel({ sheetId }: ViewKey) {
     set($camera, reveal(get($camera), p, get($window), get($size)));
   });
   const begin = actionAtom((get, set, replace?: string) => {
-    set($draft, replace ?? get(get(sheet).inputAt(get($selected))));
+    set($draft, replace ?? get($selectedInput));
     set($editing, true);
   });
   const cancel = actionAtom((_get, set) => set($editing, false));
@@ -86,9 +104,6 @@ export function createViewModel({ sheetId }: ViewKey) {
     set($window, window);
     set(adjust);
   });
-  const $formula = atom((get) =>
-    get($editing) ? get($draft) : get(get(sheet).inputAt(get($selected))),
-  );
   return {
     $selected,
     $camera,

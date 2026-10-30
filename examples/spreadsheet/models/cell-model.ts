@@ -1,21 +1,17 @@
-import { atom } from 'jotai/vanilla';
+import { flatMapAtom } from 'jotai-holo/vanilla';
 import { modelConnection, modelRegistry, pipe } from 'jotai-holo/model';
 import { $$sheet, selectSheet } from './sheet-model.js';
 import type { CellKey } from './types.js';
 
 // #region cell-model
 export function createCellModel({ sheetId, address }: CellKey) {
-  const $input = atom(
-    (get): string => get(get(selectSheet({ sheetId })).inputAt(address)),
-    (get, set, value: string) =>
-      set(get(selectSheet({ sheetId })).setCell, { address, value }),
+  const $sheet = selectSheet({ sheetId });
+  const $input = flatMapAtom($sheet, (sheet) => sheet.inputAt(address));
+  const $expression = flatMapAtom(
+    $sheet,
+    (sheet) => sheet.cellAt(address).$expression,
   );
-  const $expression = atom((get) =>
-    get(get(selectSheet({ sheetId })).cellAt(address).$expression),
-  );
-  const $value = atom((get) =>
-    get(get(selectSheet({ sheetId })).cellAt(address).$value),
-  );
+  const $value = flatMapAtom($sheet, (sheet) => sheet.cellAt(address).$value);
   return { address, $input, $expression, $value };
 }
 // #endregion cell-model

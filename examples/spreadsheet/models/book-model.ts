@@ -1,6 +1,4 @@
-import { atom } from 'jotai/vanilla';
-import { actionAtom, stateAtom } from 'jotai-holo/vanilla';
-import { selectView } from './view-model.js';
+import { actionAtom, stateAtom, ion } from 'jotai-holo/vanilla';
 import type {
   SheetDescriptor,
   ViewSnapshot,
@@ -16,18 +14,12 @@ export function createWorkbookModel() {
   const $error = stateAtom(false);
   const $saving = stateAtom(false);
   const $statuses = stateAtom<Record<string, StorageStatus>>({});
-  const $document = atom(
-    (get): BookDocument => ({
-      version: 1,
-      sheets: get($sheets),
-      activeSheetId: get($active),
-      views: get($views),
-    }),
+  const $document = ion(
+    { sheets: $sheets, activeSheetId: $active, views: $views },
+    (snapshot): BookDocument => ({ version: 1, ...snapshot }),
   );
   const switchSheet = actionAtom((get, set, id: string) => {
     if (!get($sheets).some((sheet) => sheet.id === id)) return;
-    const old = get($active);
-    if (old) set(get(selectView({ sheetId: old })).commit);
     set($active, id);
   });
   const addSheet = actionAtom((get, set) => {

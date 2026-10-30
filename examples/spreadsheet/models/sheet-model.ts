@@ -1,4 +1,4 @@
-import { atom, type WritableAtom } from 'jotai/vanilla';
+import type { WritableAtom } from 'jotai/vanilla';
 import { actionAtom, stateAtom } from 'jotai-holo/vanilla';
 import { modelRegistry, pipe } from 'jotai-holo/model';
 import { point, validateDimensions, type Dimensions } from '../coordinates.js';
@@ -22,7 +22,7 @@ export function createSheetModel(_initial: SheetKey) {
     let input = publicInputs.get(address);
     if (!input) {
       const source = graph.inputAt(address);
-      input = atom(
+      input = stateAtom(
         (get) => get(source),
         (_get, set, value: string) => set(setCell, { address, value }),
       );
@@ -34,7 +34,7 @@ export function createSheetModel(_initial: SheetKey) {
     point(address);
     return graph.cellAt(address);
   }
-  const $document = atom((get): SheetDocument => {
+  const $document = stateAtom((get): SheetDocument => {
     get($revision);
     const cells: Record<string, string> = {};
     for (const [address, input] of inputs) {

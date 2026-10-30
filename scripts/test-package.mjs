@@ -51,8 +51,8 @@ try {
     const definition = pipe(createValue, modelRegistry());
     const forms = modelRegistry()(createFormModel({initial: {name: ''}, options: initial => ({defaultValues: initial})}));
     import { createStore } from 'jotai/vanilla';
-    assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'bond', 'eventAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'prism', 'stateAtom', 'useHoloEvents']);
-    assert.deepEqual(Object.keys(vanilla).sort(), ['actionAtom', 'bond', 'eventAtom', 'ion', 'prism', 'stateAtom']);
+    assert.deepEqual(Object.keys(library).sort(), ['actionAtom', 'bond', 'eventAtom', 'flatMapAtom', 'holo', 'holoList', 'holoMatch', 'ion', 'matchAtom', 'prism', 'stateAtom', 'useHoloEvents']);
+    assert.deepEqual(Object.keys(vanilla).sort(), ['actionAtom', 'bond', 'eventAtom', 'flatMapAtom', 'ion', 'matchAtom', 'prism', 'stateAtom']);
 
     const analyticsStore = createStore();
     let tracked = 0;
@@ -85,6 +85,8 @@ try {
     store.set(increment); assert.equal(store.get(value), 2);
     assert.equal(store.get(vanilla.ion(value, n => n * 2)), 4);
     assert.equal(store.get(vanilla.prism(value, { doubled: n => n * 2 }).doubled), 4);
+    assert.equal(store.get(vanilla.flatMapAtom(value, () => value)), 2);
+    assert.equal(store.get(vanilla.matchAtom(vanilla.stateAtom(true), { true: value, false: value })), 2);
     const requested = vanilla.eventAtom();
     let delivered = 0;
     const unsubscribe = vanilla.bond({ trigger: requested, write: vanilla.actionAtom(() => { delivered++; }) }).connect(store);

@@ -1,4 +1,4 @@
-import { atom, type Atom } from 'jotai/vanilla';
+import type { Atom } from 'jotai/vanilla';
 import { ion, stateAtom } from 'jotai-holo/vanilla';
 import type { Dimensions } from '../coordinates.js';
 import { parseCell, evaluateCell, type CellValue } from '../formulas.js';
@@ -18,7 +18,7 @@ export function createCellGraph(
     if (!input) inputs.set(address, (input = stateAtom('')));
     return input;
   }
-  const $topology = atom((get) => {
+  const $topology = stateAtom((get) => {
     get($revision);
     const size = get($dimensions);
     const invalid = new Map<string, string>();
@@ -39,7 +39,7 @@ export function createCellGraph(
     const $input = inputAt(address);
     const $expression = ion($input, parseCell);
     const $error = ion($topology, (errors) => errors.get(address));
-    const $value: Atom<CellValue> = atom((get) => {
+    const $value: Atom<CellValue> = stateAtom((get) => {
       const error = get($error);
       if (error) return error;
       const size = get($dimensions);

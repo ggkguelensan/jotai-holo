@@ -11,7 +11,7 @@ const sources = sourceLinks();
 const graphDocuments = await prepareDocumentGraphs();
 
 const groups = (t: (message: string) => string) => [
-  { title: t('State'), names: ['stateAtom', 'ion', 'prism'] },
+  { title: t('State'), names: ['stateAtom', 'ion', 'prism', 'flatMapAtom', 'matchAtom'] },
   { title: t('Commands & events'), names: ['actionAtom', 'eventAtom', 'bond'] },
   { title: t('React bindings'), names: ['holo', 'useHoloEvents', 'holoList', 'holoMatch'] },
   {

@@ -38,6 +38,23 @@ export const $$view = pipe(
 export const selectView = ({ sheetId, viewId = 'main' }: ViewKey) =>
   $$view({ key: ['view', sheetId, viewId], initial: { sheetId, viewId } });
 
+// Navigation coordinates models here; the book itself only owns its metadata.
+export const switchSheet = actionAtom((get, set, id: string) => {
+  const book = get($$workbook());
+  if (!get(book.$sheets).some((sheet) => sheet.id === id)) return;
+  const current = get(book.$active);
+  if (current) set(get(selectView({ sheetId: current })).commit);
+  set(book.switchSheet, id);
+});
+
+export const addSheet = actionAtom((get, set) => {
+  const book = get($$workbook());
+  if (!get(book.$ready)) return;
+  const current = get(book.$active);
+  if (current) set(get(selectView({ sheetId: current })).commit);
+  set(book.addSheet);
+});
+
 export const retryBook = actionAtom(async (get) => {
   await retryWorkbook(get($$workbook()));
 });

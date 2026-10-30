@@ -298,3 +298,21 @@ test('unchanged input and dimensions do not schedule persistence', async () => {
   await drain();
   expect(write).not.toHaveBeenCalled();
 });
+
+test('application navigation commits the editor before switching or adding a sheet', async () => {
+  const f = await fixture();
+  const editor = f.store.get(workbook.selectView({ sheetId: 'gifts' }));
+  f.store.set(editor.select, 'B1');
+  f.store.set(editor.begin, '42');
+  f.store.set(workbook.switchSheet, 'missing');
+  expect(f.store.get(editor.$editing)).toBe(true);
+  f.store.set(workbook.switchSheet, 'scratch');
+  expect(f.store.get(f.sheet.model.inputAt('B1'))).toBe('42');
+  expect(f.store.get(editor.$editing)).toBe(false);
+  f.store.set(workbook.switchSheet, 'gifts');
+  f.store.set(editor.begin, '43');
+  f.store.set(workbook.addSheet);
+  expect(f.store.get(f.sheet.model.inputAt('B1'))).toBe('43');
+  expect(f.store.get(f.book.$active)).not.toBe('gifts');
+  expect(f.store.get(f.book.$sheets)).toHaveLength(3);
+});

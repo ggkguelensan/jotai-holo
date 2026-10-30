@@ -290,6 +290,43 @@ const Second = holo({view: SecondView, read: {value: $value}});
 assert.equal(alternatives.nodes.filter((node) => node.label === '$value').length, 2);
 assert.equal(alternatives.edges.filter((edge) => edge.kind === 'read').length, 0);
 
+const routing = buildSourceScene({
+  id: 'routing',
+  article: '/reference/matchAtom',
+  sources: {
+    routing: {
+      file: 'routing.ts',
+      text: `
+    const $mode = stateAtom('preview');
+    const $preview = stateAtom(1);
+    const $edit = stateAtom(2);
+    const $fallback = stateAtom(0);
+    const $content = matchAtom($mode, { preview: $preview, edit: $edit }, {fallback: $fallback});
+    const $selected = flatMapAtom($mode, () => $preview);
+  `,
+    },
+  },
+});
+const routingNode = (name) => routing.nodes.find((node) => node.label === name);
+for (const name of ['$mode', '$preview', '$edit', '$fallback']) {
+  assert.ok(
+    routing.edges.some(
+      (edge) =>
+        edge.from === routingNode(name).id &&
+        edge.to === routingNode('$content').id &&
+        edge.kind === 'read',
+    ),
+  );
+}
+assert.ok(
+  routing.edges.some(
+    (edge) =>
+      edge.from === routingNode('$mode').id &&
+      edge.to === routingNode('$selected').id &&
+      edge.kind === 'read',
+  ),
+);
+
 console.log(
   'Source scene extraction: scope, registry, composition, bindings, adapters, declarations and source evidence passed.',
 );

@@ -1,5 +1,7 @@
 export { stateAtom } from './state-atom.js';
 export { actionAtom } from './action-atom.js';
+export { flatMapAtom } from './flat-map-atom.js';
+export { matchAtom } from './match-atom.js';
 export { ion } from './ion.js';
 export { prism } from './prism.js';
 export { bond } from './bond.js';

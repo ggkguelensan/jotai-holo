@@ -430,6 +430,24 @@ msgstr "Парақ әр ұяшықтың енгізу, талданған өрн
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "Selecting a cell atom"
+msgstr "Ұяшық атомына қолжетімділік"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "flatMapAtom follows a stable atom inside the selected sheet. Reads follow its value; writes to the selected input pass through the sheet’s setCell command. The operator does not acquire a model owner: cell-model connections and holo.models retain that responsibility."
+msgstr "flatMapAtom таңдалған парақ ішіндегі тұрақты атомға қолжетімділік береді. Оқу оның мәнін алады; енгізуді жазу парақтың setCell командасынан өтеді. Оператор модельге иелік етпейді: бұл ұяшық моделі қосылымдары мен holo.models міндеті болып қалады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The editor names its selected input once. begin reads it; commit writes the draft back to it. matchAtom chooses which value the formula bar displays and reads only that branch."
+msgstr "Редактор таңдалған енгізуге қолжетімділікті бір рет жариялайды. begin оны оқиды, commit оған нобайды жазады. matchAtom формула жолағы көрсететін мәнді таңдап, тек сол тармақты оқиды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Shared computations"
 msgstr "Ортақ есептеулер"
 
@@ -472,8 +490,8 @@ msgstr "Байланыстар мен модель анықтамалары мо
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Each CellView has its own holo binding. Selection and draft projections notify the affected cells; unrelated cells do not need the whole sheet document. Rows and columns use holoList with fixed slot keys. The camera changes which logical addresses those slots display."
-msgstr "Әр CellView жеке holo арқылы байланысады. Таңдау мен нобай проекциялары тиісті ұяшықтарға хабарлайды; өзгелеріне бүкіл құжат қажет емес. Жолдар мен бағандар тұрақты слот кілттері бар holoList қолданады. Камера сол слоттар көрсететін логикалық мекенжайларды өзгертеді."
+msgid "Each CellView has its own holo binding. ion projects whether that cell is selected; conditional stateAtom reads keep unselected cells independent of the draft. Rows and columns use holoList with fixed slot keys. The camera changes which logical addresses those slots display."
+msgstr "Әр CellView өз holo байланысына ие. ion ұяшықтың таңдалғанын есептейді; шартты stateAtom оқулары басқа ұяшықтарды нобайдан тәуелсіз ұстайды. Жолдар мен бағандар тұрақты слот кілттері бар holoList қолданады. Камера слоттар көрсететін логикалық мекенжайларды өзгертеді."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -538,8 +556,8 @@ msgstr "Бастапқы код құрылымы"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Start with ui/book.tsx for screen composition and workbook.ts for model connections. The models directory contains state and commands; persistence contains storage and lease handling; ui contains components and their bindings. Formula parsing and evaluation are separate modules under formulas."
-msgstr "Экран композициясын ui/book.tsx, модель байланыстарын workbook.ts файлынан қараңыз. models ішінде күй мен командалар, persistence ішінде сақтау мен lease басқаруы, ui ішінде компоненттер мен байланыстар бар. Формуланы талдау мен есептеу formulas ішіндегі бөлек модульдерде."
+msgid "Start with ui/book.tsx for screen composition and workbook.ts for model connections and navigation commands. Switching or adding a sheet commits the current editor before changing the active ID. The status indicator owns its subscriptions; saving does not require the workspace layout to read status. The models directory contains state and commands; persistence contains storage and lease handling; ui contains components and their bindings. Formula parsing and evaluation are separate modules under formulas."
+msgstr "Экран композициясын ui/book.tsx файлынан, модель қосылымдары мен навигация командаларын workbook.ts файлынан бастаңыз. Парақты ауыстыру не қосу белсенді ID өзгермей тұрып ағымдағы нобайды бекітеді. Күй индикаторы өз жазылымдарына иелік етеді; жұмыс аймағының layout-ы сақтау күйін оқымайды. models ішінде күй мен командалар, persistence ішінде сақтау мен даналарды ұстау, ui ішінде компоненттер мен байланыстар бар. Формулаларды талдау мен есептеу formulas ішіндегі бөлек модульдерде орналасқан."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -2419,6 +2437,8 @@ msgstr "Атомдарды оқитын не жаңартатын операци
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/bond.md
@@ -2429,6 +2449,7 @@ msgstr "Атомдарды оқитын не жаңартатын операци
 #: docs/reference/createQueryModel.md
 #: docs/reference/defineModel.md
 #: docs/reference/eventAtom.md
+#: docs/reference/flatMapAtom.md
 #: docs/reference/formAtom.md
 #: docs/reference/holo.md
 #: docs/reference/holoForm.md
@@ -2436,6 +2457,7 @@ msgstr "Атомдарды оқитын не жаңартатын операци
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
 #: docs/reference/localStorageAdapter.md
+#: docs/reference/matchAtom.md
 #: docs/reference/modelAnalytics.md
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
@@ -2491,6 +2513,8 @@ msgstr "- `actionAtom((get, set, ...args) => result)` оқу мәні `null` б�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/bond.md
@@ -2501,6 +2525,7 @@ msgstr "- `actionAtom((get, set, ...args) => result)` оқу мәні `null` б�
 #: docs/reference/createQueryModel.md
 #: docs/reference/defineModel.md
 #: docs/reference/eventAtom.md
+#: docs/reference/flatMapAtom.md
 #: docs/reference/formAtom.md
 #: docs/reference/holo.md
 #: docs/reference/holoForm.md
@@ -2508,6 +2533,7 @@ msgstr "- `actionAtom((get, set, ...args) => result)` оқу мәні `null` б�
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
 #: docs/reference/localStorageAdapter.md
+#: docs/reference/matchAtom.md
 #: docs/reference/modelAnalytics.md
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
@@ -2553,6 +2579,8 @@ msgstr "Нативті `atom(null, write)` командаларды орында
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/bond.md
@@ -2563,6 +2591,7 @@ msgstr "Нативті `atom(null, write)` командаларды орында
 #: docs/reference/createQueryModel.md
 #: docs/reference/defineModel.md
 #: docs/reference/eventAtom.md
+#: docs/reference/flatMapAtom.md
 #: docs/reference/formAtom.md
 #: docs/reference/holo.md
 #: docs/reference/holoForm.md
@@ -2570,6 +2599,7 @@ msgstr "Нативті `atom(null, write)` командаларды орында
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
 #: docs/reference/localStorageAdapter.md
+#: docs/reference/matchAtom.md
 #: docs/reference/modelAnalytics.md
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
@@ -3437,6 +3467,56 @@ msgstr "- [Effector createEvent](https://effector.dev/en/api/effector/createeven
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "flatMapAtom"
+msgstr "flatMapAtom"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "Follow an atom selected from another atom’s value. Use this for an atom inside a selected model or a target chosen by an address."
+msgstr "Басқа атомның мәнінен таңдалған атомға қолжетімділік береді. Таңдалған модель ішіндегі атомға немесе мекенжаймен анықталған нысанаға қолайлы."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "`flatMapAtom(atom | record | tuple, select) → Atom | WritableAtom`"
+msgstr "`flatMapAtom(atom | record | tuple, select) → Atom | WritableAtom`"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "The selector receives source values and returns an existing atom. Reading follows that atom; changing the sources replaces the target dependency. Target-only changes do not rerun the selector. All declared sources are read when selection is recomputed."
+msgstr "Таңдау функциясы бастапқы мәндерді алып, бар атомды қайтарады. Оқу сол атомға өтеді; көздер өзгерсе, нысанаға тәуелділік ауысады. Тек нысана мәнінің өзгеруі таңдау функциясын қайта шақырмайды. Таңдау қайта есептелгенде барлық жарияланған көздер оқылады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "A writable target preserves its write arguments and return value. Each write resolves the current target in the current store, even without a subscription. Read-only targets produce a read-only TypeScript interface; JavaScript writes to a read-only target throw. Mixed or incompatible target types do not gain write access."
+msgstr "Жазылатын атом үшін жазу аргументтері мен нәтижесі сақталады. Әр жазу жазылымсыз да ағымдағы store ішіндегі өзекті атомды таңдайды. Тек оқылатын нысаналар TypeScript ішінде тек оқылатын интерфейс береді; JavaScript арқылы жазу қатеге әкеледі. Аралас не үйлеспейтін нысана типтері жазу құқығын алмайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "Return stable atoms. Creating a new stateAtom inside the selector can replace state when sources change. Selection does not acquire model ownership or activate holo connections. Native Jotai subscriptions still mount selected dependencies normally. Promise values and thrown errors or Promises are forwarded without automatic awaiting."
+msgstr "Тұрақты атомдарды қайтарыңыз. Таңдау функциясында жаңа stateAtom құру көздер өзгергенде күйді ауыстыруы мүмкін. Таңдау модельге иелік етпейді және holo қосылымдарын белсендірмейді. Jotai жазылымдары таңдалған тәуелділіктерді әдеттегідей монтайды. Promise мәндері, тасталған қателер мен Promise автоматты күтусіз беріледі."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "Use [ion](/reference/ion) to project values, [matchAtom](/reference/matchAtom) for a table of branches, and stateAtom for arbitrary dynamic reads. flatMapAtom does not forward event-channel metadata; use the original event as a bond trigger."
+msgstr "Мәндерді түрлендіру үшін [ion](/reference/ion), тармақтар кестесі үшін [matchAtom](/reference/matchAtom), еркін динамикалық оқу үшін stateAtom қолданыңыз. flatMapAtom оқиға арнасының метадеректерін тасымалдамайды; bond триггеріне бастапқы оқиғаны беріңіз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+#: docs/reference/matchAtom.md
+msgid "- [Jotai: composing atoms](https://jotai.org/docs/guides/composing-atoms) — native derived reads and forwarded writes."
+msgstr "- [Jotai: атомдар композициясы](https://jotai.org/docs/guides/composing-atoms) — нативті туынды оқу және жазуды бағыттау."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
 #: docs/reference/formAtom.md
 msgid "formAtom"
 msgstr "formAtom"
@@ -3881,6 +3961,48 @@ msgid "- [Window.localStorage](https://developer.mozilla.org/en-US/docs/Web/API/
 "- [persist](/reference/persist) — restoration, saving and error state."
 msgstr "- [Window.localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) — браузер шарты және ерекшеліктер.\n"
 "- [persist](/reference/persist) — қалпына келтіру, сақтау және қателер."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "matchAtom"
+msgstr "matchAtom"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "Read one atom branch selected by a key. Branch atoms are created at declaration time; their values are computed only when a consumer needs them."
+msgstr "Кілт бойынша атом тармағын оқиды. Тармақ атомдары жариялау кезінде құрылады; мәндері тұтынушыға қажет болғанда есептеледі."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "Here $editing chooses between the draft and the selected cell’s saved input. The inactive branch is not read by matchAtom."
+msgstr "Мұнда $editing нобай мен таңдалған ұяшықтың сақталған енгізуі арасында таңдайды. matchAtom белсенді емес тармақты оқымайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "`matchAtom(source, cases, { fallback }?) → Atom`"
+msgstr "`matchAtom(source, cases, { fallback }?) → Atom`"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "Keys may be strings, numbers or booleans. A closed union requires all cases or an explicit fallback; an open string/number source requires fallback. Supplied branches must be present atoms. An unknown key without fallback throws at runtime. Object keys use their JavaScript string representation, so 1 and '1' identify the same case."
+msgstr "Кілттер жол, сан немесе логикалық мән бола алады. Жабық union үшін барлық нұсқа не айқын fallback қажет; ашық string/number үшін fallback міндетті. Көрсетілген әр тармақта атом болуы керек. fallback жоқ белгісіз кілт орындалу кезінде қате тудырады. Нысан кілттері JavaScript жолдық көрінісін қолданады: 1 және '1' бір нұсқаны білдіреді."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "The result is always read-only and its value type is the union of branch and fallback values. Only the source and active branch are dependencies. Switching removes the old branch dependency; other consumers may still read that branch. Jotai controls caching and subscription mounting. Promise values, thrown errors and Suspense Promises keep native behavior."
+msgstr "Нәтиже әрқашан тек оқылады; мән типі тармақтар мен fallback типтерін біріктіреді. Тәуелділіктер — тек көз және белсенді тармақ. Ауысу бұрынғы тармаққа тәуелділікті жояды, бірақ басқа тұтынушылар оны оқи алады. Кеш пен жазылымдарды монттауды Jotai басқарады. Promise мәндері, тасталған қателер және Suspense Promise нативті мінез-құлқын сақтайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "Branches can contain ion computations. Creating those atoms does not call their projectors. For a calculation with conditional dependencies that do not fit a branch table, use stateAtom(get => …). For a target chosen by a function, use [flatMapAtom](/reference/flatMapAtom). [holoMatch](/reference/holoMatch) selects React Views instead of atom values."
+msgstr "Тармақтарда ion есептеулері болуы мүмкін. Бұл атомдарды құру проекция функцияларын шақырмайды. Тармақ кестесіне сыймайтын шартты тәуелділіктер үшін stateAtom(get => …) қолданыңыз. Нысана атомын функциямен таңдау үшін [flatMapAtom](/reference/flatMapAtom) қолданыңыз. [holoMatch](/reference/holoMatch) атом мәндерінің орнына React View таңдайды."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

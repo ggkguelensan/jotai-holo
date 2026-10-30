@@ -1,6 +1,6 @@
-import { atom } from 'jotai';
+import { flatMapAtom } from 'jotai-holo/vanilla';
 import { holo, holoList } from 'jotai-holo';
-import { $$workbook } from '../workbook.js';
+import { $$workbook, switchSheet, addSheet } from '../workbook.js';
 import type { StorageStatus } from '../models/types.js';
 import { SheetTabView, AddView } from './views/sheet-tabs-views.js';
 
@@ -36,12 +36,12 @@ const Tab = holo({
   view: TabBindingView,
   read: ({ book }) => ({ activeId: book.$active, statuses: book.$statuses }),
   write: ({ book }) => ({
-    onSwitch: book.switchSheet,
+    onSwitch: switchSheet,
     onRename: book.renameSheet,
   }),
 });
 
-const $tabs = atom((get) => get(get($$workbook()).$sheets));
+const $tabs = flatMapAtom($$workbook(), (book) => book.$sheets);
 
 export const Tabs = holoList({
   source: $tabs,
@@ -54,5 +54,5 @@ export const Add = holo({
   models: { book: $$workbook },
   view: AddView,
   read: ({ book }) => ({ ready: book.$ready }),
-  write: ({ book }) => ({ onAdd: book.addSheet }),
+  write: { onAdd: addSheet },
 });

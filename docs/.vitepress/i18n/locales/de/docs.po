@@ -430,6 +430,24 @@ msgstr "Das Blatt besitzt die Atome für Eingabe, geparsten Ausdruck und Ergebni
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "Selecting a cell atom"
+msgstr "Zugriff auf ein Zellatom"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "flatMapAtom follows a stable atom inside the selected sheet. Reads follow its value; writes to the selected input pass through the sheet’s setCell command. The operator does not acquire a model owner: cell-model connections and holo.models retain that responsibility."
+msgstr "flatMapAtom folgt einem stabilen Atom im ausgewählten Blatt. Lesen liefert dessen Wert; Schreiben in die Eingabe führt über den setCell-Befehl des Blatts. Der Operator erwirbt keine Modellbesitzerschaft: Dafür bleiben Zellmodell-Verbindungen und holo.models zuständig."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The editor names its selected input once. begin reads it; commit writes the draft back to it. matchAtom chooses which value the formula bar displays and reads only that branch."
+msgstr "Der Editor benennt die ausgewählte Eingabe einmal. begin liest sie, commit schreibt den Entwurf zurück. matchAtom wählt den Wert für die Formelleiste und liest nur diesen Zweig."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Shared computations"
 msgstr "Gemeinsame Berechnungen"
 
@@ -472,8 +490,8 @@ msgstr "Bindungen und Modelldefinitionen stehen auf Modulebene. Jeder Jotai-Stor
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Each CellView has its own holo binding. Selection and draft projections notify the affected cells; unrelated cells do not need the whole sheet document. Rows and columns use holoList with fixed slot keys. The camera changes which logical addresses those slots display."
-msgstr "Jede CellView hat eine eigene holo-Bindung. Projektionen von Auswahl und Entwurf benachrichtigen die betroffenen Zellen; andere benötigen nicht das gesamte Dokument. Zeilen und Spalten verwenden holoList mit festen Slot-Schlüsseln. Die Kamera ändert die logischen Adressen dieser Slots."
+msgid "Each CellView has its own holo binding. ion projects whether that cell is selected; conditional stateAtom reads keep unselected cells independent of the draft. Rows and columns use holoList with fixed slot keys. The camera changes which logical addresses those slots display."
+msgstr "Jede CellView besitzt eine eigene holo-Bindung. ion projiziert, ob die Zelle ausgewählt ist; bedingte stateAtom-Lesezugriffe halten andere Zellen unabhängig vom Entwurf. Zeilen und Spalten verwenden holoList mit festen Slot-Schlüsseln. Die Kamera ändert die logischen Adressen dieser Slots."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -538,8 +556,8 @@ msgstr "Quellstruktur"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Start with ui/book.tsx for screen composition and workbook.ts for model connections. The models directory contains state and commands; persistence contains storage and lease handling; ui contains components and their bindings. Formula parsing and evaluation are separate modules under formulas."
-msgstr "Beginnen Sie bei ui/book.tsx für den Bildschirmaufbau und workbook.ts für Modellverbindungen. models enthält Zustand und Befehle, persistence Speicher und Lease-Verwaltung, ui Komponenten und Bindungen. Parser und Auswertung stehen in separaten Modulen unter formulas."
+msgid "Start with ui/book.tsx for screen composition and workbook.ts for model connections and navigation commands. Switching or adding a sheet commits the current editor before changing the active ID. The status indicator owns its subscriptions; saving does not require the workspace layout to read status. The models directory contains state and commands; persistence contains storage and lease handling; ui contains components and their bindings. Formula parsing and evaluation are separate modules under formulas."
+msgstr "Beginnen Sie mit ui/book.tsx für die Bildschirmkomposition und workbook.ts für Modellverbindungen und Navigationsbefehle. Wechseln oder Hinzufügen eines Blatts bestätigt den aktuellen Entwurf vor dem Wechsel der aktiven ID. Der Statusindikator besitzt seine Abonnements; das Workspace-Layout liest keinen Speicherstatus. models enthält Zustand und Befehle, persistence Speicher- und Lease-Verwaltung, ui Komponenten und Bindungen. Parsing und Auswertung liegen in getrennten Modulen unter formulas."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -2419,6 +2437,8 @@ msgstr "Beschreibe eine Operation, die Atome liest oder aktualisiert, etwa die �
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/bond.md
@@ -2429,6 +2449,7 @@ msgstr "Beschreibe eine Operation, die Atome liest oder aktualisiert, etwa die �
 #: docs/reference/createQueryModel.md
 #: docs/reference/defineModel.md
 #: docs/reference/eventAtom.md
+#: docs/reference/flatMapAtom.md
 #: docs/reference/formAtom.md
 #: docs/reference/holo.md
 #: docs/reference/holoForm.md
@@ -2436,6 +2457,7 @@ msgstr "Beschreibe eine Operation, die Atome liest oder aktualisiert, etwa die �
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
 #: docs/reference/localStorageAdapter.md
+#: docs/reference/matchAtom.md
 #: docs/reference/modelAnalytics.md
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
@@ -2487,6 +2509,8 @@ msgstr "- `actionAtom((get, set, ...args) => result)` liefert ein beschreibbares
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/bond.md
@@ -2497,6 +2521,7 @@ msgstr "- `actionAtom((get, set, ...args) => result)` liefert ein beschreibbares
 #: docs/reference/createQueryModel.md
 #: docs/reference/defineModel.md
 #: docs/reference/eventAtom.md
+#: docs/reference/flatMapAtom.md
 #: docs/reference/formAtom.md
 #: docs/reference/holo.md
 #: docs/reference/holoForm.md
@@ -2504,6 +2529,7 @@ msgstr "- `actionAtom((get, set, ...args) => result)` liefert ein beschreibbares
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
 #: docs/reference/localStorageAdapter.md
+#: docs/reference/matchAtom.md
 #: docs/reference/modelAnalytics.md
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
@@ -2549,6 +2575,8 @@ msgstr "Natives `atom(null, write)` verarbeitet bereits Befehle. Der Helfer erg�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/actionAtom.md
 #: docs/reference/bond.md
@@ -2559,6 +2587,7 @@ msgstr "Natives `atom(null, write)` verarbeitet bereits Befehle. Der Helfer erg�
 #: docs/reference/createQueryModel.md
 #: docs/reference/defineModel.md
 #: docs/reference/eventAtom.md
+#: docs/reference/flatMapAtom.md
 #: docs/reference/formAtom.md
 #: docs/reference/holo.md
 #: docs/reference/holoForm.md
@@ -2566,6 +2595,7 @@ msgstr "Natives `atom(null, write)` verarbeitet bereits Befehle. Der Helfer erg�
 #: docs/reference/holoMatch.md
 #: docs/reference/ion.md
 #: docs/reference/localStorageAdapter.md
+#: docs/reference/matchAtom.md
 #: docs/reference/modelAnalytics.md
 #: docs/reference/modelConnection.md
 #: docs/reference/modelLifecycle.md
@@ -3433,6 +3463,56 @@ msgstr "- [Effector createEvent](https://effector.dev/en/api/effector/createeven
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "flatMapAtom"
+msgstr "flatMapAtom"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "Follow an atom selected from another atom’s value. Use this for an atom inside a selected model or a target chosen by an address."
+msgstr "Folgt einem Atom, das aus dem Wert eines anderen Atoms gewählt wird. Geeignet für Atome in einem ausgewählten Modell oder für ein über eine Adresse bestimmtes Ziel."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "`flatMapAtom(atom | record | tuple, select) → Atom | WritableAtom`"
+msgstr "`flatMapAtom(atom | record | tuple, select) → Atom | WritableAtom`"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "The selector receives source values and returns an existing atom. Reading follows that atom; changing the sources replaces the target dependency. Target-only changes do not rerun the selector. All declared sources are read when selection is recomputed."
+msgstr "Die Auswahlfunktion erhält Quellwerte und gibt ein vorhandenes Atom zurück. Lesezugriffe folgen diesem Atom; geänderte Quellen ersetzen die Zielabhängigkeit. Änderungen nur am Zielwert führen die Auswahlfunktion nicht erneut aus. Bei einer Neuauswahl werden alle deklarierten Quellen gelesen."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "A writable target preserves its write arguments and return value. Each write resolves the current target in the current store, even without a subscription. Read-only targets produce a read-only TypeScript interface; JavaScript writes to a read-only target throw. Mixed or incompatible target types do not gain write access."
+msgstr "Ein schreibbares Ziel behält Schreibargumente und Rückgabewert. Jeder Schreibzugriff bestimmt das aktuelle Ziel im aktuellen Store, auch ohne Abonnement. Schreibgeschützte Ziele ergeben eine schreibgeschützte TypeScript-Schnittstelle; Schreibversuche aus JavaScript werfen einen Fehler. Gemischte oder inkompatible Zieltypen erhalten keinen Schreibzugriff."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "Return stable atoms. Creating a new stateAtom inside the selector can replace state when sources change. Selection does not acquire model ownership or activate holo connections. Native Jotai subscriptions still mount selected dependencies normally. Promise values and thrown errors or Promises are forwarded without automatic awaiting."
+msgstr "Geben Sie stabile Atome zurück. Ein neues stateAtom innerhalb der Auswahlfunktion kann bei Quelländerungen den Zustand ersetzen. Die Auswahl erwirbt keine Modellbesitzerschaft und aktiviert keine holo-Verbindungen. Native Jotai-Abonnements mounten ausgewählte Abhängigkeiten wie gewohnt. Promise-Werte sowie geworfene Fehler oder Promises werden ohne automatisches Await weitergereicht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+msgid "Use [ion](/reference/ion) to project values, [matchAtom](/reference/matchAtom) for a table of branches, and stateAtom for arbitrary dynamic reads. flatMapAtom does not forward event-channel metadata; use the original event as a bond trigger."
+msgstr "Verwenden Sie [ion](/reference/ion) für Wertprojektionen, [matchAtom](/reference/matchAtom) für eine Verzweigungstabelle und stateAtom für beliebige dynamische Lesezugriffe. flatMapAtom reicht keine Ereigniskanal-Metadaten weiter; verwenden Sie das ursprüngliche Ereignis als bond-Trigger."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/flatMapAtom.md
+#: docs/reference/matchAtom.md
+msgid "- [Jotai: composing atoms](https://jotai.org/docs/guides/composing-atoms) — native derived reads and forwarded writes."
+msgstr "- [Jotai: Atome komponieren](https://jotai.org/docs/guides/composing-atoms) — native abgeleitete Lesezugriffe und weitergereichte Schreibzugriffe."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
 #: docs/reference/formAtom.md
 msgid "formAtom"
 msgstr "formAtom"
@@ -3877,6 +3957,48 @@ msgid "- [Window.localStorage](https://developer.mozilla.org/en-US/docs/Web/API/
 "- [persist](/reference/persist) — restoration, saving and error state."
 msgstr "- [Window.localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) — Browservertrag und Ausnahmen.\n"
 "- [persist](/reference/persist) — Wiederherstellung, Speichern und Fehler."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "matchAtom"
+msgstr "matchAtom"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "Read one atom branch selected by a key. Branch atoms are created at declaration time; their values are computed only when a consumer needs them."
+msgstr "Liest einen über einen Schlüssel gewählten Atomzweig. Zweigatome entstehen bei der Deklaration; ihre Werte werden erst berechnet, wenn ein Verbraucher sie benötigt."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "Here $editing chooses between the draft and the selected cell’s saved input. The inactive branch is not read by matchAtom."
+msgstr "Hier wählt $editing zwischen Entwurf und gespeicherter Eingabe der ausgewählten Zelle. matchAtom liest den inaktiven Zweig nicht."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "`matchAtom(source, cases, { fallback }?) → Atom`"
+msgstr "`matchAtom(source, cases, { fallback }?) → Atom`"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "Keys may be strings, numbers or booleans. A closed union requires all cases or an explicit fallback; an open string/number source requires fallback. Supplied branches must be present atoms. An unknown key without fallback throws at runtime. Object keys use their JavaScript string representation, so 1 and '1' identify the same case."
+msgstr "Schlüssel können Strings, Zahlen oder boolesche Werte sein. Eine geschlossene Union erfordert alle Fälle oder einen expliziten Fallback; ein offener string/number-Typ erfordert einen Fallback. Jeder angegebene Zweig muss ein Atom enthalten. Ein unbekannter Schlüssel ohne Fallback wirft zur Laufzeit einen Fehler. Objektschlüssel verwenden die JavaScript-Stringdarstellung: 1 und '1' bezeichnen denselben Fall."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "The result is always read-only and its value type is the union of branch and fallback values. Only the source and active branch are dependencies. Switching removes the old branch dependency; other consumers may still read that branch. Jotai controls caching and subscription mounting. Promise values, thrown errors and Suspense Promises keep native behavior."
+msgstr "Das Ergebnis ist immer schreibgeschützt; sein Werttyp vereinigt die Typen der Zweige und des Fallbacks. Nur Quelle und aktiver Zweig sind Abhängigkeiten. Beim Wechsel entfällt die alte Zweigabhängigkeit; andere Verbraucher können den Zweig weiterhin lesen. Jotai verwaltet Cache und Abonnement-Mounting. Promise-Werte, geworfene Fehler und Suspense-Promises behalten ihr natives Verhalten."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/matchAtom.md
+msgid "Branches can contain ion computations. Creating those atoms does not call their projectors. For a calculation with conditional dependencies that do not fit a branch table, use stateAtom(get => …). For a target chosen by a function, use [flatMapAtom](/reference/flatMapAtom). [holoMatch](/reference/holoMatch) selects React Views instead of atom values."
+msgstr "Zweige können ion-Berechnungen enthalten. Das Erstellen dieser Atome ruft ihre Projektoren nicht auf. Für bedingte Abhängigkeiten außerhalb einer Zweigtabelle verwenden Sie stateAtom(get => …). Für eine Zielauswahl per Funktion verwenden Sie [flatMapAtom](/reference/flatMapAtom). [holoMatch](/reference/holoMatch) wählt React Views statt Atomwerten."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

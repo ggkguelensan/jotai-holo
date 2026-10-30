@@ -2,6 +2,8 @@ export { stateAtom } from './state-atom.js';
 export { actionAtom } from './action-atom.js';
 export { holo } from './holo.js';
 export type { HoloConfig } from './holo.js';
+export { flatMapAtom } from './flat-map-atom.js';
+export { matchAtom } from './match-atom.js';
 export { ion } from './ion.js';
 export { prism } from './prism.js';
 export { holoList } from './holo-list.js';
