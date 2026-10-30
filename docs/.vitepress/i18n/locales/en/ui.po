@@ -854,6 +854,14 @@ msgid "Reset sheet"
 msgstr "Reset sheet"
 
 #: examples/docs/spreadsheet.tsx
+msgid "Game gift bundle · budget"
+msgstr "Game gift bundle · budget"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Change the copies. The bundle total follows."
+msgstr "Change the copies. The bundle total follows."
+
+#: examples/docs/spreadsheet.tsx
 msgid "Game"
 msgstr "Game"
 
@@ -870,20 +878,12 @@ msgid "Amount, €"
 msgstr "Amount, €"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Game gift bundle · budget"
-msgstr "Game gift bundle · budget"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Change the copies. The bundle total follows."
-msgstr "Change the copies. The bundle total follows."
+msgid "Row"
+msgstr "Row"
 
 #: examples/docs/spreadsheet.tsx
 msgid "Gift budget"
 msgstr "Gift budget"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Row"
-msgstr "Row"
 
 #: examples/docs/spreadsheet.tsx
 msgid "Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total."

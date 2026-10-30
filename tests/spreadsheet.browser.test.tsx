@@ -2,7 +2,7 @@ import { createStore, Provider } from 'jotai';
 import { act, useLayoutEffect, type ComponentProps } from 'react';
 import { expect, test, vi } from 'vitest';
 import { holo } from '../src/holo.js';
-import { CellView } from '../examples/docs/spreadsheet.js';
+import Spreadsheet, { CellView } from '../examples/docs/spreadsheet.js';
 import { createSpreadsheet } from '../examples/spreadsheet/model.js';
 import { createHarness } from './browser-harness.js';
 
@@ -13,6 +13,27 @@ vi.mock('@lingui/react/macro', () => ({
     i18n: { locale: 'en' },
   }),
 }));
+
+test('listed rows keep cell order and selection follows keyboard focus', async () => {
+  const h = createHarness();
+  await h.render(
+    <Provider store={createStore()}>
+      <Spreadsheet />
+    </Provider>,
+  );
+  const cells = [...h.container.querySelectorAll<HTMLInputElement>('[data-address]')];
+  expect(cells).toHaveLength(32);
+  expect(cells.slice(0, 4).map((cell) => cell.dataset.address)).toEqual(['A1', 'B1', 'C1', 'D1']);
+  const b1 = cells.find((cell) => cell.dataset.address === 'B1')!;
+  await act(async () => b1.focus());
+  expect(h.container.querySelector('.sheet-address')?.textContent).toBe('B1');
+  await act(async () => {
+    b1.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+  });
+  expect(document.activeElement?.getAttribute('data-address')).toBe('B2');
+  expect(h.container.querySelector('.sheet-address')?.textContent).toBe('B2');
+  await h.unmount();
+});
 
 test('only edited/dependent holo cells commit; the sheet shell stays untouched', async () => {
   const sheet = createSpreadsheet();

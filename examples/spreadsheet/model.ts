@@ -30,6 +30,10 @@ export function createSpreadsheet(initial = initialBudget) {
   const addresses = Array.from({ length: rowCount }, (_, row) =>
     columns.map((column) => `${column}${row + 1}`),
   ).flat();
+  const $columns = atom(() => columns);
+  const $rows = atom(() =>
+    Array.from({ length: rowCount }, (_, index) => index + 1),
+  );
   const inputs: Record<string, PrimitiveAtom<string>> = {};
   for (const id of addresses) inputs[id] = stateAtom(initial[id] ?? '');
 
@@ -70,6 +74,6 @@ export function createSpreadsheet(initial = initialBudget) {
     set($selected, 'D5');
   });
 
-  return { cells, addresses, $selected, $formula, reset };
+  return { cells, addresses, $columns, $rows, $selected, $formula, reset };
 }
 // #endregion sheet-model

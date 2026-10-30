@@ -1,6 +1,6 @@
 import { useLingui } from '@lingui/react/macro';
 import { useState, type KeyboardEvent } from 'react';
-import { holo } from 'jotai-holo';
+import { holo, holoList } from 'jotai-holo';
 import { columns, createSpreadsheet, rowCount } from '../spreadsheet/model.js';
 import { isCellError, type CellValue } from '../spreadsheet/formulas.js';
 
@@ -52,7 +52,7 @@ export function CellView({
   input: string;
   value: CellValue;
   onChange: (value: string) => void;
-  onSelect: () => void;
+  onSelect: (address: string) => void;
 }) {
   const { t, i18n } = useLingui();
   const [editing, setEditing] = useState(false);
@@ -80,7 +80,7 @@ export function CellView({
       onChange={(event) => onChange(event.target.value)}
       onFocus={() => {
         setEditing(true);
-        onSelect();
+        onSelect(address);
       }}
       onBlur={() => setEditing(false)}
       onKeyDown={(event) => move(event, address)}
@@ -135,6 +135,56 @@ function TotalView({ value }: { value: CellValue }) {
   );
 }
 
+function ResetView({ onReset }: { onReset: () => void }) {
+  const { t } = useLingui();
+  return <button onClick={onReset}>{t`Reset sheet`}</button>;
+}
+
+function SheetHeadingView() {
+  const { t } = useLingui();
+  return (
+    <header className="sheet-heading">
+      <div>
+        <span className="demo-eyebrow">{t`Game gift bundle · budget`}</span>
+        <p>{t`Change the copies. The bundle total follows.`}</p>
+      </div>
+      <Reset />
+    </header>
+  );
+}
+
+type Column = (typeof columns)[number];
+
+function ColumnView({ column }: { column: Column }) {
+  const { t } = useLingui();
+  const labels = {
+    A: t`Game`,
+    B: t`Copies / rate`,
+    C: t`Price / base, €`,
+    D: t`Amount, €`,
+  };
+  return (
+    <th scope="col">
+      <span>{column}</span>
+      <small>{labels[column]}</small>
+    </th>
+  );
+}
+
+function SheetHelpView() {
+  const { t } = useLingui();
+  return (
+    <>
+      <p className="sheet-help">
+        {t`Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total.`}
+      </p>
+      <p className="sheet-help">
+        {t`Select a cell to edit. Enter moves down; Tab moves across.`}
+      </p>
+    </>
+  );
+}
+
 // #region spreadsheet
 const $$sheet = createSpreadsheet();
 
@@ -147,104 +197,112 @@ const FormulaBar = holo({
   write: { onChange: $$sheet.$formula },
 });
 
-// Create bindings once, outside React render. Each cell subscribes separately.
+// Each binding is created once and subscribes only to its cell.
 const Cells = Object.fromEntries(
   $$sheet.addresses.map((address) => {
     const cell = $$sheet.cells[address]!;
-
     return [
       address,
       holo({
         view: CellView,
         static: { address },
         read: { input: cell.$input, value: cell.$value },
-        write: { onChange: cell.$input },
-        // Selection belongs to the sheet; typing belongs to this cell.
-        // onSelect is a plain UI callback, passed by the parent below.
+        write: {
+          onChange: cell.$input,
+          onSelect: $$sheet.$selected,
+        },
       }),
     ];
   }),
 );
 
+function CellSlotView({ column, row }: { column: Column; row: number }) {
+  const Cell = Cells[`${column}${row}`]!;
+  return (
+    <td>
+      <Cell />
+    </td>
+  );
+}
+
+const RowCells = holoList({
+  source: $$sheet.$columns,
+  view: CellSlotView,
+  getKey: (column) => column,
+  mapItem: (column) => ({ column }),
+});
+
+function RowView({ row }: { row: number }) {
+  return (
+    <tr data-total={row === 5 || undefined}>
+      <th scope="row">{row}</th>
+      <RowCells row={row} />
+    </tr>
+  );
+}
+
+const Rows = holoList({
+  source: $$sheet.$rows,
+  view: RowView,
+  getKey: (row) => row,
+  mapItem: (row) => ({ row }),
+});
+
+const ColumnHeaders = holoList({
+  source: $$sheet.$columns,
+  view: ColumnView,
+  getKey: (column) => column,
+  mapItem: (column) => ({ column }),
+});
+
+function TableHeadingView() {
+  const { t } = useLingui();
+  return (
+    <thead>
+      <tr>
+        <th aria-label={t`Row`} />
+        <ColumnHeaders />
+      </tr>
+    </thead>
+  );
+}
+
+function TableView() {
+  const { t } = useLingui();
+  return (
+    <div className="sheet-scroll">
+      <table className="sheet-table">
+        <caption className="sheet-sr-only">{t`Gift budget`}</caption>
+        <TableHeadingView />
+        <tbody>
+          <Rows />
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 const Total = holo({
   view: TotalView,
   read: { value: $$sheet.cells.D5!.$value },
 });
-// #endregion spreadsheet
 
-function ResetView({ onReset }: { onReset: () => void }) {
-  const { t } = useLingui();
-  return <button onClick={onReset}>{t`Reset sheet`}</button>;
-}
-
-// Bind native writable atoms without adding a hook wrapper.
 const Reset = holo({
   view: ResetView,
   write: { onReset: $$sheet.reset },
 });
 
-function SheetView({ onSelect }: { onSelect: (address: string) => void }) {
-  const { t } = useLingui();
-  const labels = [t`Game`, t`Copies / rate`, t`Price / base, €`, t`Amount, €`];
-
+function SheetView() {
   return (
     <section className="sheet-demo">
-      <header className="sheet-heading">
-        <div>
-          <span className="demo-eyebrow">{t`Game gift bundle · budget`}</span>
-          <p>{t`Change the copies. The bundle total follows.`}</p>
-        </div>
-        <Reset />
-      </header>
+      <SheetHeadingView />
       <FormulaBar />
-      <div className="sheet-scroll">
-        <table className="sheet-table">
-          <caption className="sheet-sr-only">{t`Gift budget`}</caption>
-          <thead>
-            <tr>
-              <th aria-label={t`Row`} />
-              {columns.map((column, index) => (
-                <th key={column} scope="col">
-                  <span>{column}</span>
-                  <small>{labels[index]}</small>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {Array.from({ length: rowCount }, (_, index) => index + 1).map(
-              (row) => (
-                <tr key={row} data-total={row === 5 || undefined}>
-                  <th scope="row">{row}</th>
-                  {columns.map((column) => {
-                    const address = `${column}${row}`;
-                    const Cell = Cells[address]!;
-                    return (
-                      <td key={address}>
-                        <Cell onSelect={() => onSelect(address)} />
-                      </td>
-                    );
-                  })}
-                </tr>
-              ),
-            )}
-          </tbody>
-        </table>
-      </div>
+      <TableView />
       <Total />
-      <p className="sheet-help">
-        {t`Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total.`}
-      </p>
-      <p className="sheet-help">
-        {t`Select a cell to edit. Enter moves down; Tab moves across.`}
-      </p>
+      <SheetHelpView />
     </section>
   );
 }
+// #endregion spreadsheet
 
-const Spreadsheet = holo({
-  view: SheetView,
-  write: { onSelect: $$sheet.$selected },
-});
-
-export default Spreadsheet;
+export default SheetView;

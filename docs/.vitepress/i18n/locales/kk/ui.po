@@ -854,6 +854,14 @@ msgid "Reset sheet"
 msgstr "Кестені қалпына келтіру"
 
 #: examples/docs/spreadsheet.tsx
+msgid "Game gift bundle · budget"
+msgstr "Сыйлыққа арналған ойындар жиынтығы · бюджет"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Change the copies. The bundle total follows."
+msgstr "Дана санын өзгертіңіз. Жиынтықтың жалпы сомасы қайта есептеледі."
+
+#: examples/docs/spreadsheet.tsx
 msgid "Game"
 msgstr "Ойын"
 
@@ -870,20 +878,12 @@ msgid "Amount, €"
 msgstr "Сома, €"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Game gift bundle · budget"
-msgstr "Сыйлыққа арналған ойындар жиынтығы · бюджет"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Change the copies. The bundle total follows."
-msgstr "Дана санын өзгертіңіз. Жиынтықтың жалпы сомасы қайта есептеледі."
+msgid "Row"
+msgstr "Жол"
 
 #: examples/docs/spreadsheet.tsx
 msgid "Gift budget"
 msgstr "Сыйлық бюджеті"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Row"
-msgstr "Жол"
 
 #: examples/docs/spreadsheet.tsx
 msgid "Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total."
