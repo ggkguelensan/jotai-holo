@@ -27,6 +27,9 @@ export const initialBudget: Record<string, string> = {
 };
 
 // #region sheet-model
+export type SheetKey = { sheetId: string };
+export type CellKey = SheetKey & { address: string };
+
 export function createSpreadsheet(initial = initialBudget) {
   const addresses = Array.from({ length: rowCount }, (_, row) =>
     columns.map((column) => `${column}${row + 1}`),
@@ -102,6 +105,3 @@ export function createSpreadsheet(initial = initialBudget) {
   };
 }
 // #endregion sheet-model
-
-export type SheetKey = { sheetId: string };
-export type CellKey = SheetKey & { address: string };
