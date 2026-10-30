@@ -878,17 +878,17 @@ msgid "Amount, €"
 msgstr "Сумма, €"
 
 #: examples/docs/spreadsheet.tsx
-msgid "Row"
-msgstr "Строка"
-
-#: examples/docs/spreadsheet.tsx
-msgid "Gift budget"
-msgstr "Бюджет подарков"
-
-#: examples/docs/spreadsheet.tsx
 msgid "Rows 1–3: copies × price. Row 4: 10% tax. Row 5: total."
 msgstr "Строки 1–3: копии × цена. Строка 4: налог 10%. Строка 5: итог."
 
 #: examples/docs/spreadsheet.tsx
 msgid "Select a cell to edit. Enter moves down; Tab moves across."
 msgstr "Выберите ячейку. Enter — вниз, Tab — к следующей."
+
+#: examples/docs/spreadsheet.tsx
+msgid "Row"
+msgstr "Строка"
+
+#: examples/docs/spreadsheet.tsx
+msgid "Gift budget"
+msgstr "Бюджет подарков"
