@@ -252,7 +252,16 @@ try {
     await page.goto(`${origin}/${locale}examples/spreadsheet`);
     assert.equal(await page.locator('.graph-example').count(), 1);
     const system = page.locator('[data-graph-scene="spreadsheet-system"]');
+    // The lazy demo and graph change the article height during hydration.
+    await page.locator('[data-demo="spreadsheet"] [data-address="D5"]').waitFor();
+    await system.locator('.docs-graph[data-settled="true"]').waitFor();
     await page.locator('#shared-computations').scrollIntoViewIfNeeded();
+    await page.waitForFunction(() => {
+      const rail = document
+        .querySelector('[data-graph-scene="spreadsheet-system"] .graph-example-sticky')
+        ?.getBoundingClientRect();
+      return rail && rail.y >= 60 && rail.y < 200;
+    });
     const rail = await system.locator('.graph-example-sticky').boundingBox();
     assert.ok(
       rail && rail.y >= 60 && rail.y < 200,
