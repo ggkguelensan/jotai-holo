@@ -148,7 +148,6 @@ async function localeConfig(code: string, label: string, prefix: string) {
           loading: t('Loading graph…'),
           unavailable: t('The graph is unavailable. The example code remains readable.'),
           hint: t('Select a node to inspect its source.'),
-          clear: t('Clear selection'),
           caller: t('External caller; its implementation is not part of this example.'),
           source: t('Source code'),
           structure: t('Connections describe dependencies, not execution order.'),

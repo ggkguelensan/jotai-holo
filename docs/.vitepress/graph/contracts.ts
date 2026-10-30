@@ -44,7 +44,6 @@ export type GraphUi = {
   loading: string;
   unavailable: string;
   hint: string;
-  clear: string;
   caller: string;
   source: string;
   structure: string;

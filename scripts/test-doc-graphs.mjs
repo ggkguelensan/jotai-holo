@@ -70,6 +70,25 @@ try {
         );
         await circle.focus();
       }
+      // Pointer hover previews no selection; a click pins it until blank space
+      // (or Escape) clears it, without needing an extra caption button.
+      const miniature = wrapper.locator('.docs-graph-mini');
+      const blank = miniature.locator('svg');
+      await blank.click({ position: { x: 2, y: 2 } });
+      await page.waitForFunction(() => !document.querySelector('.mini-selected'));
+      await circle.hover();
+      assert.equal(await miniature.locator('.mini-selected').count(), 0);
+      await circle.click();
+      await page.mouse.move(0, 0);
+      assert.equal(await circle.getAttribute('aria-pressed'), 'true');
+      assert.equal(await miniature.locator('.mini-caption button').count(), 0);
+      await blank.click({ position: { x: 2, y: 2 } });
+      assert.equal(await miniature.locator('.mini-selected').count(), 0);
+      assert.equal(await wrapper.locator('.graph-source-selected').count(), 0);
+      await circle.focus();
+      await circle.press('Enter');
+      await circle.press('Escape');
+      assert.equal(await miniature.locator('.mini-selected').count(), 0);
       await circle.press('Enter');
       const open = wrapper.locator('.graph-example-sticky>header>a');
       const url = new URL(await open.getAttribute('href'), origin);

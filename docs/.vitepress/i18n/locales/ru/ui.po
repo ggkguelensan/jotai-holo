@@ -284,11 +284,6 @@ msgstr "Выбери узел, чтобы посмотреть его исход
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Clear selection"
-msgstr "Снять выбор"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
 msgid "External caller; its implementation is not part of this example."
 msgstr "Внешний вызывающий компонент; его реализация не входит в пример."
 

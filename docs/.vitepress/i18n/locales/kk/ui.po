@@ -284,11 +284,6 @@ msgstr "Бастапқы кодын көру үшін түйінді таңда�
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Clear selection"
-msgstr "Таңдауды алып тастау"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
 msgid "External caller; its implementation is not part of this example."
 msgstr "Сыртқы шақырушы компонент; оның іске асырылуы бұл мысалға кірмейді."
 

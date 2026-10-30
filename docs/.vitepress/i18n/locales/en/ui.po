@@ -284,11 +284,6 @@ msgstr "Select a node to inspect its source."
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Clear selection"
-msgstr "Clear selection"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
 msgid "External caller; its implementation is not part of this example."
 msgstr "External caller; its implementation is not part of this example."
 
