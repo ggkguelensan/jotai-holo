@@ -20,6 +20,10 @@ splitting, labels or layout. Do not review generated locale Markdown as a separa
 source. For a full audit, inventory every canonical page and referenced example;
 report coverage and any areas not inspected.
 
+Check domain scope: introductory guides, conceptual prose and API contracts must
+use neutral terminology. Game-marketplace scenarios belong to examples and their
+source; do not add a player or game to explain a generic mechanism.
+
 For each snippet, identify its one teaching purpose. Flag code that adds work for
 readers without demonstrating that purpose:
 

@@ -614,252 +614,150 @@ msgstr "Continue with [the example](/examples/gift-copies)."
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Architecture and stack"
-msgstr "Architecture and stack"
+msgid "Organizing code with holo"
+msgstr "Organizing code with holo"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "A player profile editor has at least two kinds of data: the server's saved profile and\n"
-"the user's unsaved draft. A request cache owns the first. A business model can\n"
-"own the second. The View lets the user edit it."
-msgstr "A player profile editor has at least two kinds of data: the server's saved profile and\n"
-"the user's unsaved draft. A request cache owns the first. A business model can\n"
-"own the second. The View lets the user edit it."
+msgid "Keep data rules in atoms and models, UI behavior in Views, and the connection between them in holo bindings. This lets you change each part without collecting all the logic in a page component."
+msgstr "Keep data rules in atoms and models, UI behavior in Views, and the connection between them in holo bindings. This lets you change each part without collecting all the logic in a page component."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Keeping those responsibilities separate lets you change how a profile is loaded\n"
-"without rewriting its editing rules."
-msgstr "Keeping those responsibilities separate lets you change how a profile is loaded\n"
-"without rewriting its editing rules."
+msgid "Recommended stack"
+msgstr "Recommended stack"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Opinionated architecture"
-msgstr "Opinionated architecture"
+msgid "These guides use Jotai for reactive state, TanStack Query for server data and React Hook Form for forms. The Query and RHF integrations are optional."
+msgstr "These guides use Jotai for reactive state, TanStack Query for server data and React Hook Form for forms. The Query and RHF integrations are optional."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "These guides recommend Jotai for reactive business state, TanStack Query for\n"
-"server data, RHF for forms and holo for React bindings. This is an application\n"
-"architecture, not a requirement of React or Jotai. You can use holo with ordinary\n"
-"atoms and add integrations only when a task needs them."
-msgstr "These guides recommend Jotai for reactive business state, TanStack Query for\n"
-"server data, RHF for forms and holo for React bindings. This is an application\n"
-"architecture, not a requirement of React or Jotai. You can use holo with ordinary\n"
-"atoms and add integrations only when a task needs them."
+msgid "For the flow from parent props through a binding to View props, see the [mental model of holo](/topics/holo#mental-model)."
+msgstr "For the flow from parent props through a binding to View props, see the [mental model of holo](/topics/holo#mental-model)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Follow one edit"
-msgstr "Follow one edit"
+msgid "Separate responsibilities"
+msgstr "Separate responsibilities"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Consider an editor with a name field and a save toolbar:"
-msgstr "Consider an editor with a name field and a save toolbar:"
+msgid "| Code                                                       | Place it in             |\n"
+"| ---------------------------------------------------------- | ----------------------- |\n"
+"| Shared values, calculations and business rules             | Atoms or models         |\n"
+"| Markup, accessibility, DOM methods and UI hooks            | View                    |\n"
+"| Atom values and callbacks supplied to a View               | holo binding            |\n"
+"| Choosing model instances and connecting independent models | Application composition |\n"
+"| Request caching, retries and invalidation                  | TanStack Query          |\n"
+"| Form validation, touched and dirty state                   | React Hook Form         |\n"
+"| Translating facts into analytics messages                  | Analytics model         |"
+msgstr "| Code                                                       | Place it in             |\n"
+"| ---------------------------------------------------------- | ----------------------- |\n"
+"| Shared values, calculations and business rules             | Atoms or models         |\n"
+"| Markup, accessibility, DOM methods and UI hooks            | View                    |\n"
+"| Atom values and callbacks supplied to a View               | holo binding            |\n"
+"| Choosing model instances and connecting independent models | Application composition |\n"
+"| Request caching, retries and invalidation                  | TanStack Query          |\n"
+"| Form validation, touched and dirty state                   | React Hook Form         |\n"
+"| Translating facts into analytics messages                  | Analytics model         |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "1. A Query operation obtains the saved profile.\n"
-"2. An application connection passes it to the profile model's input command.\n"
-"3. The model holds a draft and calculates whether it can be saved.\n"
-"4. Small holo bindings supply the field and toolbar with values and callbacks.\n"
-"5. The save command starts a mutation. A successful result can update the draft\n"
-"   and publish a fact for other consumers."
-msgstr "1. A Query operation obtains the saved profile.\n"
-"2. An application connection passes it to the profile model's input command.\n"
-"3. The model holds a draft and calculates whether it can be saved.\n"
-"4. Small holo bindings supply the field and toolbar with values and callbacks.\n"
-"5. The save command starts a mutation. A successful result can update the draft\n"
-"   and publish a fact for other consumers."
+msgid "Connect each View to the values it displays. A parent component composes those connected Views; it does not need to subscribe to all their data and pass it down."
+msgstr "Connect each View to the values it displays. A parent component composes those connected Views; it does not need to subscribe to all their data and pass it down."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "The business model accepts profile data. It need not know whether that data came\n"
-"from Query, a local draft or a parent component. The application chooses and\n"
-"connects those sources."
-msgstr "The business model accepts profile data. It need not know whether that data came\n"
-"from Query, a local draft or a parent component. The application chooses and\n"
-"connects those sources."
+msgid "Choose data sources and integrations where you assemble the models. A business model can accept data through a command without importing the code that loads it. A View can receive values and callbacks without importing its business model."
+msgstr "Choose data sources and integrations where you assemble the models. A business model can accept data through a command without importing the code that loads it. A View can receive values and callbacks without importing its business model."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Put each decision in one place"
-msgstr "Put each decision in one place"
+msgid "Add models when you need them"
+msgstr "Add models when you need them"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "| Question                                       | Where it belongs             |\n"
-"| ---------------------------------------------- | ---------------------------- |\n"
-"| Is this profile change allowed?                | Business model               |\n"
-"| Which saved response is cached?                | TanStack Query's QueryClient |\n"
-"| Is this form field touched or invalid?         | RHF                          |\n"
-"| Which editor instance does this screen use?    | Application composition      |\n"
-"| Which atom supplies the field's value?         | holo binding                 |\n"
-"| How is the field labelled and rendered?        | React View                   |\n"
-"| What message does an analytics engine receive? | Analytics model              |"
-msgstr "| Question                                       | Where it belongs             |\n"
-"| ---------------------------------------------- | ---------------------------- |\n"
-"| Is this profile change allowed?                | Business model               |\n"
-"| Which saved response is cached?                | TanStack Query's QueryClient |\n"
-"| Is this form field touched or invalid?         | RHF                          |\n"
-"| Which editor instance does this screen use?    | Application composition      |\n"
-"| Which atom supplies the field's value?         | holo binding                 |\n"
-"| How is the field labelled and rendered?        | React View                   |\n"
-"| What message does an analytics engine receive? | Analytics model              |"
+msgid "Start with ordinary atoms. Group related state and commands in a model. Use a factory for independent instances, and a registry when separate consumers need to select the same instance by key."
+msgstr "Start with ordinary atoms. Group related state and commands in a model. Use a factory for independent instances, and a registry when separate consumers need to select the same instance by key."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "The assembly code may import the participants to connect them. The business\n"
-"model and View do not need to import an analytics SDK. Analytics observes facts\n"
-"that remain meaningful without any analytics consumer."
-msgstr "The assembly code may import the participants to connect them. The business\n"
-"model and View do not need to import an analytics SDK. Analytics observes facts\n"
-"that remain meaningful without any analytics consumer."
+msgid "Declare atoms, model definitions and holo bindings outside React render. A registry keeps local model instances; QueryClient already owns the server cache."
+msgstr "Declare atoms, model definitions and holo bindings outside React render. A registry keeps local model instances; QueryClient already owns the server cache."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "A successful save is one such fact. A click on Save is an interaction that might\n"
-"fail validation or fail on the server. Choose the event according to what the\n"
-"consumer needs to know, and include the data available at that moment."
-msgstr "A successful save is one such fact. A click on Save is an interaction that might\n"
-"fail validation or fail on the server. Choose the event according to what the\n"
-"consumer needs to know, and include the data available at that moment."
+msgid "Keep native tools where they fit"
+msgstr "Keep native tools where they fit"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Start with the smallest useful arrangement"
-msgstr "Start with the smallest useful arrangement"
+msgid "Use native Query hooks when only React needs a request. Use native RHF when only the form needs its state. Add their model adapters when other atoms or commands need access to those values and operations."
+msgstr "Use native Query hooks when only React needs a request. Use native RHF when only the form needs its state. Add their model adapters when other atoms or commands need access to those values and operations."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "For a single name field, use an atom and holo. Group related atoms in a record\n"
-"when several commands work on them. Make that record a factory when you need\n"
-"independent drafts."
-msgstr "For a single name field, use an atom and holo. Group related atoms in a record\n"
-"when several commands work on them. Make that record a factory when you need\n"
-"independent drafts."
+msgid "The same rule applies to context: a value used only by React can stay in its provider. Sharing a value between components does not by itself require an atom."
+msgstr "The same rule applies to context: a value used only by React can stay in its provider. Sharing a value between components does not by itself require an atom."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Add a registry when components must find the same instance by a key such as a\n"
-"profile ID. A registry retains local instances; QueryClient already owns the\n"
-"server cache. Exposing a Query result as an atom is not a reason to add another\n"
-"registry around it."
-msgstr "Add a registry when components must find the same instance by a key such as a\n"
-"profile ID. A registry retains local instances; QueryClient already owns the\n"
-"server cache. Exposing a Query result as an atom is not a reason to add another\n"
-"registry around it."
+msgid "Give connections an owner"
+msgstr "Give connections an owner"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Before adding any value to Jotai, ask who needs to react to it. A language used\n"
-"only by React components can stay in the localization provider. A request used\n"
-"only by a card can stay in a native Query hook. A form used only by its fields\n"
-"can stay in RHF. The adapters matter when the atom/model graph needs those\n"
-"values or operations."
-msgstr "Before adding any value to Jotai, ask who needs to react to it. A language used\n"
-"only by React components can stay in the localization provider. A request used\n"
-"only by a card can stay in a native Query hook. A form used only by its fields\n"
-"can stay in RHF. The adapters matter when the atom/model graph needs those\n"
-"values or operations."
+msgid "Use `holo.models` when a model has managed connections. The first committed owner activates them; the last release disconnects them. Reading one of the model's atoms directly does not acquire this work."
+msgstr "Use `holo.models` when a model has managed connections. The first committed owner activates them; the last release disconnects them. Reading one of the model's atoms directly does not acquire this work."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Distinguish retained state from active work"
-msgstr "Distinguish retained state from active work"
+msgid "A registry can retain state after the owners leave. `retainTime` keeps the instance, not its subscriptions. See [models and registries](/topics/models-and-registries) and [model composition](/topics/model-composition)."
+msgstr "A registry can retain state after the owners leave. `retainTime` keeps the instance, not its subscriptions. See [models and registries](/topics/models-and-registries) and [model composition](/topics/model-composition)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Two Views can own the same selected model. Its connections stay active until\n"
-"the last owner releases it. The registry may then retain the instance so the\n"
-"user can return to the same draft."
-msgstr "Two Views can own the same selected model. Its connections stay active until\n"
-"the last owner releases it. The registry may then retain the instance so the\n"
-"user can return to the same draft."
+msgid "Publish facts for independent consumers"
+msgstr "Publish facts for independent consumers"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Retaining a draft does not mean keeping its subscriptions running. Read\n"
-"[models and registries](/topics/models-and-registries) for ownership and\n"
-"retention, and [model composition](/topics/model-composition) for attaching work\n"
-"to a model."
-msgstr "Retaining a draft does not mean keeping its subscriptions running. Read\n"
-"[models and registries](/topics/models-and-registries) for ownership and\n"
-"retention, and [model composition](/topics/model-composition) for attaching work\n"
-"to a model."
+msgid "A command expresses an action to perform. A completed operation can publish a fact. Consumers can react without becoming dependencies of the business model."
+msgstr "A command expresses an action to perform. A completed operation can publish a fact. Consumers can react without becoming dependencies of the business model."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Optional entry points"
-msgstr "Optional entry points"
+msgid "Keep analytics outside business models and Views. Include the data that describes the occurrence in the fact; a delayed consumer must not reconstruct it from newer state. Analytics-specific names and formats belong in its mappers."
+msgstr "Keep analytics outside business models and Views. Include the data that describes the occurrence in the fact; a delayed consumer must not reconstruct it from newer state. Analytics-specific names and formats belong in its mappers."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/architecture.md
-msgid "Start with `jotai-holo` for React bindings. Model-only code can import atom\n"
-"helpers from `jotai-holo/vanilla` without importing React bindings."
-msgstr "Start with `jotai-holo` for React bindings. Model-only code can import atom\n"
-"helpers from `jotai-holo/vanilla` without importing React bindings."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/architecture.md
-msgid "Other entry points correspond to specific tasks:"
-msgstr "Other entry points correspond to specific tasks:"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/architecture.md
-msgid "| Task                                   | Import                           |\n"
-"| -------------------------------------- | -------------------------------- |\n"
-"| Compose model factories and modifiers  | `jotai-holo/model`               |\n"
-"| Use Query operations in the atom graph | `jotai-holo/query`               |\n"
-"| Expose native RHF state to models      | `jotai-holo/rhf`                 |\n"
-"| Connect analytics engines              | `jotai-holo/analytics`           |\n"
-"| Add the Amplitude adapter              | `jotai-holo/analytics/amplitude` |\n"
-"| Restore and save snapshots             | `jotai-holo/persist`             |"
-msgstr "| Task                                   | Import                           |\n"
-"| -------------------------------------- | -------------------------------- |\n"
-"| Compose model factories and modifiers  | `jotai-holo/model`               |\n"
-"| Use Query operations in the atom graph | `jotai-holo/query`               |\n"
-"| Expose native RHF state to models      | `jotai-holo/rhf`                 |\n"
-"| Connect analytics engines              | `jotai-holo/analytics`           |\n"
-"| Add the Amplitude adapter              | `jotai-holo/analytics/amplitude` |\n"
-"| Restore and save snapshots             | `jotai-holo/persist`             |"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/architecture.md
-msgid "For a concrete next step, read [atoms and models](/topics/atoms-and-models) or\n"
-"[the server-data recipes](/recipes/server-data). Supported versions and measured\n"
-"costs live in the [compatibility matrix](/compatibility) and\n"
-"[bundle measurements](/bundle-size)."
-msgstr "For a concrete next step, read [atoms and models](/topics/atoms-and-models) or\n"
-"[the server-data recipes](/recipes/server-data). Supported versions and measured\n"
-"costs live in the [compatibility matrix](/compatibility) and\n"
-"[bundle measurements](/bundle-size)."
+msgid "Continue with [atoms and models](/topics/atoms-and-models) for choosing state scope, [integrations](/guide/ecosystem) for the optional tools, or [recipes](/recipes/) for complete workflows."
+msgstr "Continue with [atoms and models](/topics/atoms-and-models) for choosing state scope, [integrations](/guide/ecosystem) for the optional tools, or [recipes](/recipes/) for complete workflows."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -1126,174 +1024,92 @@ msgstr "Getting started"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Connect a player profile name field to Jotai. The field will receive a string and a\n"
-"callback, just as it would from a parent component. `holo` supplies those props\n"
-"from atoms."
-msgstr "Connect a player profile name field to Jotai. The field will receive a string and a\n"
-"callback, just as it would from a parent component. `holo` supplies those props\n"
-"from atoms."
+msgid "Connect an input to an atom. The View receives a value and an `onChange` callback; holo connects them to Jotai."
+msgstr "Connect an input to an atom. The View receives a value and an `onChange` callback; holo connects them to Jotai."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "You do not need a model registry or a holo-specific Provider for this example."
-msgstr "You do not need a model registry or a holo-specific Provider for this example."
+msgid "Run the example"
+msgstr "Run the example"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Availability and requirements"
-msgstr "Availability and requirements"
+msgid "The package is not yet published to npm. Run the example from the repository:"
+msgstr "The package is not yet published to npm. Run the example from the repository:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "The package is not yet published to npm. To run the examples, clone the\n"
-"repository:"
-msgstr "The package is not yet published to npm. To run the examples, clone the\n"
-"repository:"
+msgid "Open the URL printed in the terminal. The name field appears under “Getting started”. See [compatibility](/compatibility) for supported versions."
+msgstr "Open the URL printed in the terminal. The name field appears under “Getting started”. See [compatibility](/compatibility) for supported versions."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Check the [tested compatibility matrix](/compatibility) for supported Node,\n"
-"React, Jotai and TypeScript versions."
-msgstr "Check the [tested compatibility matrix](/compatibility) for supported Node,\n"
-"React, Jotai and TypeScript versions."
+msgid "1. Define the View"
+msgstr "1. Define the View"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Start with an ordinary View"
-msgstr "Start with an ordinary View"
+msgid "The View renders its props and calls `onChange` when the user types. It does not need to know where the value is stored."
+msgstr "The View renders its props and calls `onChange` when the user types. It does not need to know where the value is stored."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "The name field renders the value it receives. When the user types, it calls\n"
-"`onChange`. It does not import atoms or subscribe to a store."
-msgstr "The name field renders the value it receives. When the user types, it calls\n"
-"`onChange`. It does not import atoms or subscribe to a store."
+msgid "2. Create the state"
+msgstr "2. Create the state"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "You can render this View directly in a test or story by passing a name and an\n"
-"`onChange` callback."
-msgstr "You can render this View directly in a test or story by passing a name and an\n"
-"`onChange` callback."
+msgid "Import `stateAtom` and `holo` from `jotai-holo`. Create the atom outside React render:"
+msgstr "Import `stateAtom` and `holo` from `jotai-holo`. Create the atom outside React render:"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Give the field a value"
-msgstr "Give the field a value"
+msgid "`stateAtom` uses the native Jotai atom API. An existing Jotai atom works too."
+msgstr "`stateAtom` uses the native Jotai atom API. An existing Jotai atom works too."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Create an atom outside React render. It holds the name that this field edits:"
-msgstr "Create an atom outside React render. It holds the name that this field edits:"
+msgid "3. Connect the View"
+msgstr "3. Connect the View"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Import `stateAtom` and `holo` from `jotai-holo`. `stateAtom` has the native Jotai\n"
-"`atom` API. Existing Jotai atoms work too; you do not need to replace them."
-msgstr "Import `stateAtom` and `holo` from `jotai-holo`. `stateAtom` has the native Jotai\n"
-"`atom` API. Existing Jotai atoms work too; you do not need to replace them."
+msgid "`read` passes the atom's value as `name`. `write` creates the `onChange` callback that writes to the same atom. Type in the field: the atom changes and the View shows the new value."
+msgstr "`read` passes the atom's value as `name`. `write` creates the `onChange` callback that writes to the same atom. Type in the field: the atom changes and the View shows the new value."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "Connect the props"
-msgstr "Connect the props"
+msgid "Declare `NameField` outside React render. Props not supplied by holo are passed by the parent as usual."
+msgstr "Declare `NameField` outside React render. Props not supplied by holo are passed by the parent as usual."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "The example app renders `<NameField />` under “Getting started”. Open the URL printed by `pnpm examples` and edit the `Ada` field:"
-msgstr "The example app renders `<NameField />` under “Getting started”. Open the URL printed by `pnpm examples` and edit the `Ada` field:"
+msgid "Sharing state"
+msgstr "Sharing state"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "1. `read` supplies the atom's value, initially `Ada`, as the `name` prop.\n"
-"2. `write` supplies a callback as `onChange`.\n"
-"3. Typing calls that callback, writes the new name to the atom and updates the\n"
-"   displayed value."
-msgstr "1. `read` supplies the atom's value, initially `Ada`, as the `name` prop.\n"
-"2. `write` supplies a callback as `onChange`.\n"
-"3. Typing calls that callback, writes the new name to the atom and updates the\n"
-"   displayed value."
+msgid "Two `NameField` components in the same Jotai store share the value. A Jotai `Provider` gives a subtree its own store; without it, Jotai uses the default store. holo needs no additional Provider. For SSR, use a separate store per request."
+msgstr "Two `NameField` components in the same Jotai store share the value. A Jotai `Provider` gives a subtree its own store; without it, Jotai uses the default store. holo needs no additional Provider. For SSR, use a separate store per request."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/getting-started.md
-msgid "The same writable atom appears in both sections: `read` reads its value and\n"
-"`write` writes to it. No extra command is needed for this direct update."
-msgstr "The same writable atom appears in both sections: `read` reads its value and\n"
-"`write` writes to it. No extra command is needed for this direct update."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/getting-started.md
-msgid "If a View prop is not supplied by the binding, the parent still passes it\n"
-"normally. Declare `NameField` outside React render so its component identity\n"
-"stays stable."
-msgstr "If a View prop is not supplied by the binding, the parent still passes it\n"
-"normally. Declare `NameField` outside React render so its component identity\n"
-"stays stable."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/getting-started.md
-msgid "Choose which components share the value"
-msgstr "Choose which components share the value"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/getting-started.md
-msgid "Two `NameField` components using the same Jotai store edit the same name. Jotai's\n"
-"`Provider` can give a subtree a separate store. Without one, Jotai uses its default\n"
-"store. holo needs no additional Provider."
-msgstr "Two `NameField` components using the same Jotai store edit the same name. Jotai's\n"
-"`Provider` can give a subtree a separate store. Without one, Jotai uses its default\n"
-"store. holo needs no additional Provider."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/getting-started.md
-msgid "For SSR, create a separate store per request. The atom declarations can be shared\n"
-"between requests; user-specific values must not share one server store."
-msgstr "For SSR, create a separate store per request. The atom declarations can be shared\n"
-"between requests; user-specific values must not share one server store."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/getting-started.md
-msgid "When you need another draft"
-msgstr "When you need another draft"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/getting-started.md
-msgid "This example has one atom. If two editors need independent drafts, create\n"
-"their atoms in a factory. If independently placed components need to find the\n"
-"same draft by ID, add a registry. Neither is required for a simple binding."
-msgstr "This example has one atom. If two editors need independent drafts, create\n"
-"their atoms in a factory. If independently placed components need to find the\n"
-"same draft by ID, add a registry. Neither is required for a simple binding."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/getting-started.md
-msgid "Continue with [why use holo](/guide/motivation), then\n"
-"[atoms and models](/topics/atoms-and-models). For an existing project, the\n"
-"[holo topic](/topics/holo) explains input props and external events."
-msgstr "Continue with [why use holo](/guide/motivation), then\n"
-"[atoms and models](/topics/atoms-and-models). For an existing project, the\n"
-"[holo topic](/topics/holo) explains input props and external events."
+msgid "This binding needs no model or registry. Read the [mental model of holo](/topics/holo#mental-model) for the flow from parent to View, or [atoms and models](/topics/atoms-and-models) for independent state and instances shared by ID."
+msgstr "This binding needs no model or registry. Read the [mental model of holo](/topics/holo#mental-model) for the flow from parent to View, or [atoms and models](/topics/atoms-and-models) for independent state and instances shared by ID."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -1394,184 +1210,82 @@ msgstr "Why jotai-holo"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "Jotai + holo is a fit when several parts of a React application must work with the same business state: fields edit a draft, a summary calculates a price, and a toolbar saves the result. Choose it when you want to build that logic from reusable atoms while keeping each View a small component with ordinary props."
-msgstr "Jotai + holo is a fit when several parts of a React application must work with the same business state: fields edit a draft, a summary calculates a price, and a toolbar saves the result. Choose it when you want to build that logic from reusable atoms while keeping each View a small component with ordinary props."
+msgid "Choose Jotai + holo when you want to change business rules without rewriting your React Views. Keep rules in atoms and models; connect small Views through ordinary props."
+msgstr "Choose Jotai + holo when you want to change business rules without rewriting your React Views. Keep rules in atoms and models; connect small Views through ordinary props."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "Jotai supplies dependency tracking between atoms. holo adds declarative View bindings and a way to share model instances and own their connections. This combination is the reason to choose the stack; selective subscriptions and separating logic from markup are also possible with the alternatives below."
-msgstr "Jotai supplies dependency tracking between atoms. holo adds declarative View bindings and a way to share model instances and own their connections. This combination is the reason to choose the stack; selective subscriptions and separating logic from markup are also possible with the alternatives below."
+msgid "Why Jotai?"
+msgstr "Why Jotai?"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "The goal of holo"
-msgstr "The goal of holo"
+msgid "[Jotai](https://jotai.org/docs/basics/comparison) lets you compose state and calculations from atoms. A calculation can use another calculation without depending on a React component. This makes the same business logic available across the application."
+msgstr "[Jotai](https://jotai.org/docs/basics/comparison) lets you compose state and calculations from atoms. A calculation can use another calculation without depending on a React component. This makes the same business logic available across the application."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "holo aims to let you change business logic and screen composition independently. Business rules live in atoms and models; small Views receive ordinary props. A binding declares how those two sides communicate."
-msgstr "holo aims to let you change business logic and screen composition independently. Business rules live in atoms and models; small Views receive ordinary props. A binding declares how those two sides communicate."
+msgid "What does holo add?"
+msgstr "What does holo add?"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "A View owns markup, accessibility and UI-specific hooks. An atom or model owns shared state, calculations and commands. The page composes connected children instead of collecting their data and passing it down. This keeps subscriptions near their consumers and lets you test or display a View without starting its business model."
-msgstr "A View owns markup, accessibility and UI-specific hooks. An atom or model owns shared state, calculations and commands. The page composes connected children instead of collecting their data and passing it down. This keeps subscriptions near their consumers and lets you test or display a View without starting its business model."
+msgid "holo describes the connection between a View and its atoms in one place. The View receives values and callbacks; the page composes connected components. Moving a component does not require forwarding its model's data through every parent."
+msgstr "holo describes the connection between a View and its atoms in one place. The View receives values and callbacks; the page composes connected components. Moving a component does not require forwarding its model's data through every parent."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "The model utilities serve the same goal: several Views can share one instance, while managed connections start and stop with their owners. This moves subscription setup and prop forwarding out of handwritten effects in Views. Side effects still exist; their ownership becomes explicit. You can start with plain atoms and add model machinery only when the feature needs it."
-msgstr "The model utilities serve the same goal: several Views can share one instance, while managed connections start and stop with their owners. This moves subscription setup and prop forwarding out of handwritten effects in Views. Side effects still exist; their ownership becomes explicit. You can start with plain atoms and add model machinery only when the feature needs it."
+msgid "Plain Jotai also supports this separation. holo provides conventions for bindings, model sharing and subscription cleanup, so each feature does not need to invent its own arrangement. Use it when you want the team to follow those conventions."
+msgstr "Plain Jotai also supports this separation. holo provides conventions for bindings, model sharing and subscription cleanup, so each feature does not need to invent its own arrangement. Use it when you want the team to follow those conventions."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "Why build on Jotai?"
-msgstr "Why build on Jotai?"
+msgid "Which approach fits your project?"
+msgstr "Which approach fits your project?"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "Jotai lets you build state from small pieces. A derived atom reads other atoms; Jotai tracks those dependencies. Calculations can be reused by another calculation, a command or a View without turning them into React hooks."
-msgstr "Jotai lets you build state from small pieces. A derived atom reads other atoms; Jotai tracks those dependencies. Calculations can be reused by another calculation, a command or a View without turning them into React hooks."
+msgid "| Choose                                                       | When                                                                                           |\n"
+"| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |\n"
+"| Jotai                                                        | You want atom-based state and prefer to connect components with native hooks.                  |\n"
+"| Jotai + holo                                                 | You want atom-based business logic, separate Views and common conventions for connecting them. |\n"
+"| [Effector](https://effector.dev/en/introduction/motivation/) | You prefer to build workflows around events, stores and effects.                               |\n"
+"| [Reatom](https://reatom.dev/)                                | You want atoms, async operations and forms within one reactive ecosystem.                      |\n"
+"| [React Hook Form](https://react-hook-form.com/)              | You need field state, validation and form submission.                                          |\n"
+"| [Zag.js](https://zagjs.com/overview/introduction)            | You need ready-made state machines for accessible UI widgets, with your own markup and styles. |"
+msgstr "| Choose                                                       | When                                                                                           |\n"
+"| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |\n"
+"| Jotai                                                        | You want atom-based state and prefer to connect components with native hooks.                  |\n"
+"| Jotai + holo                                                 | You want atom-based business logic, separate Views and common conventions for connecting them. |\n"
+"| [Effector](https://effector.dev/en/introduction/motivation/) | You prefer to build workflows around events, stores and effects.                               |\n"
+"| [Reatom](https://reatom.dev/)                                | You want atoms, async operations and forms within one reactive ecosystem.                      |\n"
+"| [React Hook Form](https://react-hook-form.com/)              | You need field state, validation and form submission.                                          |\n"
+"| [Zag.js](https://zagjs.com/overview/introduction)            | You need ready-made state machines for accessible UI widgets, with your own markup and styles. |"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "This suits applications where several features combine the same data differently: a draft feeds field editors, validation, a price summary and a save command. Each consumer can read its own projection. Atoms can be declared at module scope or created by a factory for an independent editor; their values belong to a Jotai store."
-msgstr "This suits applications where several features combine the same data differently: a draft feeds field editors, validation, a price summary and a save command. Each consumer can read its own projection. Atoms can be declared at module scope or created by a factory for an independent editor; their values belong to a Jotai store."
+msgid "React Hook Form and Zag.js can be used together with holo. The [RHF integration](/topics/rhf-models) is useful when other atoms and models need access to form state."
+msgstr "React Hook Form and Zag.js can be used together with holo. The [RHF integration](/topics/rhf-models) is useful when other atoms and models need access to form state."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "These properties come from [Jotai](https://jotai.org/docs/basics/comparison). holo keeps native atoms usable rather than introducing a second state engine."
-msgstr "These properties come from [Jotai](https://jotai.org/docs/basics/comparison). holo keeps native atoms usable rather than introducing a second state engine."
+msgid "The trade-off is another set of conventions for the team to learn and maintain. Start with ordinary atoms and introduce model instances when you need independent or shared state."
+msgstr "The trade-off is another set of conventions for the team to learn and maintain. Start with ordinary atoms and introduce model instances when you need independent or shared state."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/guide/motivation.md
-msgid "What does holo add to ordinary Jotai?"
-msgstr "What does holo add to ordinary Jotai?"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "With plain Jotai you can already place useAtomValue and useSetAtom in small components, write model factories and manage subscriptions. Choose holo when you want a shared way to express those decisions throughout the application:"
-msgstr "With plain Jotai you can already place useAtomValue and useSetAtom in small components, write model factories and manage subscriptions. Choose holo when you want a shared way to express those decisions throughout the application:"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "| Decision                                           | Convention supplied by holo                                                                          |\n"
-"| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |\n"
-"| Which data and commands does this View use?        | read and write bindings beside the View                                                              |\n"
-"| Which editor instance do several components share? | models selects an instance; modelRegistry shares it by key and store                                 |\n"
-"| Who starts and stops the model's connections?      | Managed model modifiers acquire work for committed owners and release it after the last owner leaves |"
-msgstr "| Decision                                           | Convention supplied by holo                                                                          |\n"
-"| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |\n"
-"| Which data and commands does this View use?        | read and write bindings beside the View                                                              |\n"
-"| Which editor instance do several components share? | models selects an instance; modelRegistry shares it by key and store                                 |\n"
-"| Who starts and stops the model's connections?      | Managed model modifiers acquire work for committed owners and release it after the last owner leaves |"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "A binding can start with ordinary global atoms. Neither a model nor a registry is required:"
-msgstr "A binding can start with ordinary global atoms. Neither a model nor a registry is required:"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "NameView receives only its own field props. A page composes NameField, an independently connected avatar and a save toolbar. The page does not collect their subscriptions. See [holo and small Views](/topics/holo)."
-msgstr "NameView receives only its own field props. A page composes NameField, an independently connected avatar and a save toolbar. The page does not collect their subscriptions. See [holo and small Views](/topics/holo)."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "holo does not make this faster than equally granular Jotai hooks. Subscription placement and the values selected still determine which Views update. Its benefit is making that structure explicit and repeatable. If your existing Jotai hooks and ownership conventions already work well, you do not need another layer."
-msgstr "holo does not make this faster than equally granular Jotai hooks. Subscription placement and the values selected still determine which Views update. Its benefit is making that structure explicit and repeatable. If your existing Jotai hooks and ownership conventions already work well, you do not need another layer."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "Why not Zustand?"
-msgstr "Why not Zustand?"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "[Zustand](https://github.com/pmndrs/zustand) is a direct choice when you prefer a state object with actions and selector-based subscriptions. It also supports standalone stores and independent instances; small subscription boundaries are not exclusive to atoms."
-msgstr "[Zustand](https://github.com/pmndrs/zustand) is a direct choice when you prefer a state object with actions and selector-based subscriptions. It also supports standalone stores and independent instances; small subscription boundaries are not exclusive to atoms."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "Prefer Jotai + holo when you want derived values to be independently reusable nodes in an atom graph, and want View bindings and keyed model ownership to follow this library's conventions. That is a choice of composition model, not a claim that Zustand cannot implement the same business scenario."
-msgstr "Prefer Jotai + holo when you want derived values to be independently reusable nodes in an atom graph, and want View bindings and keyed model ownership to follow this library's conventions. That is a choice of composition model, not a claim that Zustand cannot implement the same business scenario."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "If a store with a few actions and selectors already describes your application clearly, adopting atoms and model modifiers may add concepts without improving it."
-msgstr "If a store with a few actions and selectors already describes your application clearly, adopting atoms and model modifiers may add concepts without improving it."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "Why not Effector?"
-msgstr "Why not Effector?"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "[Effector](https://effector.dev/en/introduction/motivation/) is a direct choice when you want events, stores and effects to be the application's primary language. Its sample operator connects units; fork creates isolated scopes. [Reflect](https://reflect.effector.dev/learn/motivation) already offers declarative React bindings and inspired holo."
-msgstr "[Effector](https://effector.dev/en/introduction/motivation/) is a direct choice when you want events, stores and effects to be the application's primary language. Its sample operator connects units; fork creates isolated scopes. [Reflect](https://reflect.effector.dev/learn/motivation) already offers declarative React bindings and inspired holo."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "Choose Jotai + holo when you want to keep Jotai atoms and its ecosystem as the foundation, while adding explicit commands, facts and model composition where needed. eventAtom and bond support event-driven workflows, but bond does not reproduce Effector's scheduling or scope semantics. The [bond contract](/reference/bond) describes that boundary."
-msgstr "Choose Jotai + holo when you want to keep Jotai atoms and its ecosystem as the foundation, while adding explicit commands, facts and model composition where needed. eventAtom and bond support event-driven workflows, but bond does not reproduce Effector's scheduling or scope semantics. The [bond contract](/reference/bond) describes that boundary."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "If Effector already gives your team the event graph, testing and isolation model it wants, View separation alone is not a reason to migrate."
-msgstr "If Effector already gives your team the event graph, testing and isolation model it wants, View separation alone is not a reason to migrate."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "What does this choice commit you to?"
-msgstr "What does this choice commit you to?"
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "This stack asks the team to design small Views, choose useful atom projections and give connections an owner. A registry also introduces instance keys and retention decisions. The [architecture guide](/guide/architecture) explains those responsibilities; the [compatibility matrix](/compatibility) and [bundle report](/bundle-size) document tested support and measured costs."
-msgstr "This stack asks the team to design small Views, choose useful atom projections and give connections an owner. A registry also introduces instance keys and retention decisions. The [architecture guide](/guide/architecture) explains those responsibilities; the [compatibility matrix](/compatibility) and [bundle report](/bundle-size) document tested support and measured costs."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "You can adopt it incrementally: connect existing atoms first, introduce model factories for independent state, then add keyed sharing or managed connections when required. An ordinary model record needs no registry."
-msgstr "You can adopt it incrementally: connect existing atoms first, introduce model factories for independent state, then add keyed sharing or managed connections when required. An ordinary model record needs no registry."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "Keep native TanStack Query hooks for UI-only server data and native RHF for UI-only forms. Use their model integrations when the reactive business system needs their state or commands. holo's value is the boundary between those systems and small Views; it does not require moving every value into Jotai."
-msgstr "Keep native TanStack Query hooks for UI-only server data and native RHF for UI-only forms. Use their model integrations when the reactive business system needs their state or commands. holo's value is the boundary between those systems and small Views; it does not require moving every value into Jotai."
-
-#. Markdown. Preserve links, inline code and table/list syntax.
-#. js-lingui-explicit-id
-#: docs/guide/motivation.md
-msgid "Continue with [getting started](/guide/getting-started) for a first binding, or [atoms or models?](/guide/atoms-or-models) to choose how much structure a feature needs."
-msgstr "Continue with [getting started](/guide/getting-started) for a first binding, or [atoms or models?](/guide/atoms-or-models) to choose how much structure a feature needs."
+msgid "[Getting started](/guide/getting-started) shows the first binding. [Architecture](/guide/architecture) explains where business logic, server data and forms belong."
+msgstr "[Getting started](/guide/getting-started) shows the first binding. [Architecture](/guide/architecture) explains where business logic, server data and forms belong."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5366,20 +5080,66 @@ msgstr "[Try independent profile fields](/examples/profile-fields), then see\n"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "holo connects atom values and commands to ordinary React props. A View receives\n"
-"a value such as `name` and a callback such as `onChange`; the binding chooses\n"
-"where they come from."
-msgstr "holo connects atom values and commands to ordinary React props. A View receives\n"
-"a value such as `name` and a callback such as `onChange`; the binding chooses\n"
-"where they come from."
+msgid "Between the parent and the View"
+msgstr "Between the parent and the View"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "This article explains the directions of that connection. For choosing between\n"
-"plain atoms and model instances, read [atoms and models](/topics/atoms-and-models)."
-msgstr "This article explains the directions of that connection. For choosing between\n"
-"plain atoms and model instances, read [atoms and models](/topics/atoms-and-models)."
+msgid "holo is the binding layer between a parent React component and an inner View. The parent chooses what to compose and supplies context. The View handles rendering and interaction. holo connects that context to atoms and turns their values and writes into View props."
+msgstr "holo is the binding layer between a parent React component and an inner View. The parent chooses what to compose and supplies context. The View handles rendering and interaction. holo connects that context to atoms and turns their values and writes into View props."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/holo.md
+msgid "The parent usually passes identifiers, descriptors of the data to use, and presentation options. It can arrange connected components without reading all their business state."
+msgstr "The parent usually passes identifiers, descriptors of the data to use, and presentation options. It can arrange connected components without reading all their business state."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/holo.md
+msgid "The View owns markup, DOM methods, accessibility and local UI state. It receives ordinary props, so it can be rendered without its model. A \"pure View\" here can still use React hooks; the business model and its connections stay outside the View."
+msgstr "The View owns markup, DOM methods, accessibility and local UI state. It receives ordinary props, so it can be rendered without its model. A \"pure View\" here can still use React hooks; the business model and its connections stay outside the View."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/holo.md
+msgid "Within holo, the directions are:"
+msgstr "Within holo, the directions are:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/holo.md
+msgid "| Binding  | Direction                                             |\n"
+"| -------- | ----------------------------------------------------- |\n"
+"| `models` | Parent props select model instances.                  |\n"
+"| `input`  | Selected committed parent props are written to atoms. |\n"
+"| `read`   | Atom values become View props.                        |\n"
+"| `write`  | View callback props write to atoms when called.       |"
+msgstr "| Binding  | Direction                                             |\n"
+"| -------- | ----------------------------------------------------- |\n"
+"| `models` | Parent props select model instances.                  |\n"
+"| `input`  | Selected committed parent props are written to atoms. |\n"
+"| `read`   | Atom values become View props.                        |\n"
+"| `write`  | View callback props write to atoms when called.       |"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/holo.md
+msgid "The input to the connected component is the parent's props. The configuration field `input` has a narrower purpose: forwarding selected props into atom logic after commit. An ID used only to select a model needs no `input` binding."
+msgstr "The input to the connected component is the parent's props. The configuration field `input` has a narrower purpose: forwarding selected props into atom logic after commit. An ID used only to select a model needs no `input` binding."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/holo.md
+msgid "The output to the View is also props: values from `read`, callbacks from `write`, configured `static` props and any unbound parent props. `events` can additionally supply a handle for View event handlers. Business rules remain in atoms and models; holo describes their connection to React."
+msgstr "The output to the View is also props: values from `read`, callbacks from `write`, configured `static` props and any unbound parent props. `events` can additionally supply a handle for View event handlers. Business rules remain in atoms and models; holo describes their connection to React."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/topics/holo.md
+msgid "The following sections explain those directions. For choosing state scope, see [atoms and models](/topics/atoms-and-models)."
+msgstr "The following sections explain those directions. For choosing state scope, see [atoms and models](/topics/atoms-and-models)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5444,8 +5204,8 @@ msgstr "When a binding uses models, `models` selects their instances first. The 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "GameTerm and GameSale each select the filters record using `catalogId`. Their bindings map one field to a value and callback. GameFilters composes these controls and passes only the ID; it does not read the filter values. Each field View receives ordinary props."
-msgstr "GameTerm and GameSale each select the filters record using `catalogId`. Their bindings map one field to a value and callback. GameFilters composes these controls and passes only the ID; it does not read the filter values. Each field View receives ordinary props."
+msgid "Each field binding selects the model using the incoming `catalogId`. The parent composes the connected controls and passes the ID; each inner View receives its own value and callback."
+msgstr "Each field binding selects the model using the incoming `catalogId`. The parent composes the connected controls and passes the ID; each inner View receives its own value and callback."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5486,12 +5246,8 @@ msgstr "Selecting an instance and passing a changing value into it are different
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "Rendering `<Search term=\"starfall\" />` first commits the caller's props. `input`\n"
-"then passes `term` to `inputChanged`, which writes `$query`. The View receives\n"
-"the ordinary `term` prop as well as the atom value `query`."
-msgstr "Rendering `<Search term=\"starfall\" />` first commits the caller's props. `input`\n"
-"then passes `term` to `inputChanged`, which writes `$query`. The View receives\n"
-"the ordinary `term` prop as well as the atom value `query`."
+msgid "After the parent props commit, `input` passes `term` to `inputChanged`, which writes `$query`. The View receives the ordinary `term` prop as well as the atom value `query`."
+msgstr "After the parent props commit, `input` passes `term` to `inputChanged`, which writes `$query`. The View receives the ordinary `term` prop as well as the atom value `query`."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5522,9 +5278,9 @@ msgstr "Keep UI-specific methods in the View"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "A toolbar button can request focus in game search. It publishes a request; only\n"
+msgid "A toolbar button can request focus in a search field. It publishes a request; only\n"
 "the search View knows the input element and calls its DOM method."
-msgstr "A toolbar button can request focus in game search. It publishes a request; only\n"
+msgstr "A toolbar button can request focus in a search field. It publishes a request; only\n"
 "the search View knows the input element and calls its DOM method."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
@@ -5540,11 +5296,11 @@ msgstr "Bind the toolbar button's callback to `searchFocusRequested` through `wr
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "Use this bridge for focus, animation, router and hook methods. Ordinary receipt\n"
+msgid "Use this bridge for focus, animation, router and hook methods. Displayed\n"
 "data belongs in `read`; it does not need an imperative handler just to copy the\n"
 "payload into React state. See [the runnable examples](/reference/useHoloEvents)\n"
 "for animation and a Reactuse `useShare` integration."
-msgstr "Use this bridge for focus, animation, router and hook methods. Ordinary receipt\n"
+msgstr "Use this bridge for focus, animation, router and hook methods. Displayed\n"
 "data belongs in `read`; it does not need an imperative handler just to copy the\n"
 "payload into React state. See [the runnable examples](/reference/useHoloEvents)\n"
 "for animation and a Reactuse `useShare` integration."

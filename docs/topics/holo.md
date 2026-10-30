@@ -1,11 +1,37 @@
 # holo
 
-holo connects atom values and commands to ordinary React props. A View receives
-a value such as `name` and a callback such as `onChange`; the binding chooses
-where they come from.
+## Between the parent and the View {#mental-model}
 
-This article explains the directions of that connection. For choosing between
-plain atoms and model instances, read [atoms and models](/topics/atoms-and-models).
+holo is the binding layer between a parent React component and an inner View. The parent chooses what to compose and supplies context. The View handles rendering and interaction. holo connects that context to atoms and turns their values and writes into View props.
+
+```text
+Parent
+  │ props: IDs, descriptors
+  ▼
+holo ◄─ read/write ─► atoms
+  │ props: values, callbacks
+  ▼
+View (inner component)
+```
+
+The parent usually passes identifiers, descriptors of the data to use, and presentation options. It can arrange connected components without reading all their business state.
+
+The View owns markup, DOM methods, accessibility and local UI state. It receives ordinary props, so it can be rendered without its model. A "pure View" here can still use React hooks; the business model and its connections stay outside the View.
+
+Within holo, the directions are:
+
+| Binding  | Direction                                             |
+| -------- | ----------------------------------------------------- |
+| `models` | Parent props select model instances.                  |
+| `input`  | Selected committed parent props are written to atoms. |
+| `read`   | Atom values become View props.                        |
+| `write`  | View callback props write to atoms when called.       |
+
+The input to the connected component is the parent's props. The configuration field `input` has a narrower purpose: forwarding selected props into atom logic after commit. An ID used only to select a model needs no `input` binding.
+
+The output to the View is also props: values from `read`, callbacks from `write`, configured `static` props and any unbound parent props. `events` can additionally supply a handle for View event handlers. Business rules remain in atoms and models; holo describes their connection to React.
+
+The following sections explain those directions. For choosing state scope, see [atoms and models](/topics/atoms-and-models).
 
 ## Connect atoms directly {#atoms-without-models}
 
@@ -36,7 +62,7 @@ excerpt uses the filter factory introduced in [atoms and models](/topics/atoms-a
 
 <<< @/../examples/atoms-or-models.tsx#keyed-model
 
-GameTerm and GameSale each select the filters record using `catalogId`. Their bindings map one field to a value and callback. GameFilters composes these controls and passes only the ID; it does not read the filter values. Each field View receives ordinary props.
+Each field binding selects the model using the incoming `catalogId`. The parent composes the connected controls and passes the ID; each inner View receives its own value and callback.
 
 These callbacks choose references. They do not subscribe to atom values or
 re-run a calculation whenever a value changes. Put calculations in a derived
@@ -54,9 +80,7 @@ For example, the parent can supply a search term that the atom graph needs:
 
 <<< @/../examples/documentation.tsx#input
 
-Rendering `<Search term="starfall" />` first commits the caller's props. `input`
-then passes `term` to `inputChanged`, which writes `$query`. The View receives
-the ordinary `term` prop as well as the atom value `query`.
+After the parent props commit, `input` passes `term` to `inputChanged`, which writes `$query`. The View receives the ordinary `term` prop as well as the atom value `query`.
 
 A subsequent committed change is forwarded when the selected input differs by
 `Object.is`. An abandoned React render does not publish it. This avoids an
@@ -68,7 +92,7 @@ exist before the first commit. See [the input contract](/reference/input).
 
 ## Keep UI-specific methods in the View {#imperative-view-methods}
 
-A toolbar button can request focus in game search. It publishes a request; only
+A toolbar button can request focus in a search field. It publishes a request; only
 the search View knows the input element and calls its DOM method.
 
 <<< @/../examples/docs/imperative-focus.tsx#focus
@@ -77,7 +101,7 @@ Bind the toolbar button's callback to `searchFocusRequested` through `write`.
 After Search commits, each request calls `focusSearch`. Repeating the request
 focuses the input again without creating a boolean state or a reset action.
 
-Use this bridge for focus, animation, router and hook methods. Ordinary receipt
+Use this bridge for focus, animation, router and hook methods. Displayed
 data belongs in `read`; it does not need an imperative handler just to copy the
 payload into React state. See [the runnable examples](/reference/useHoloEvents)
 for animation and a Reactuse `useShare` integration.
