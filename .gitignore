@@ -30,3 +30,4 @@ docs/.vitepress/i18n/locales/*/*.mjs
 
 # Local Vercel state and generated deployment artifacts.
 .vercel/
+.spreadsheet-performance/

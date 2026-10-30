@@ -837,10 +837,6 @@ msgid "Workbook"
 msgstr "Workbook"
 
 #: examples/spreadsheet/ui/book.tsx
-msgid "Game gift bundle · budget"
-msgstr "Game gift bundle · budget"
-
-#: examples/spreadsheet/ui/book.tsx
 msgid "Could not load the workbook."
 msgstr "Could not load the workbook."
 

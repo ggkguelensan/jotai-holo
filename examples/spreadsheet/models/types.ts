@@ -13,7 +13,12 @@ export type SheetDocument = {
   cells: Readonly<Record<string, string>>;
 };
 
-export type SheetDescriptor = { id: string; title: string };
+export type DatasetId = 'penguins' | 'titanic';
+export type SheetDescriptor = {
+  id: string;
+  title: string;
+  dataset?: DatasetId;
+};
 
 export type ViewSnapshot = { selected: string; camera: Point };
 

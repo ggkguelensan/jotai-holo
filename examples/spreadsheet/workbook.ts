@@ -7,6 +7,7 @@ import { connectWorkbook, retryWorkbook } from './persistence/book.js';
 import { connectSheet, retrySheet } from './persistence/sheet.js';
 import { connectView } from './persistence/view.js';
 import seed from './gift-budget.json';
+import { initialDocument } from './datasets.js';
 
 export { $storage } from './persistence/config.js';
 
@@ -65,8 +66,11 @@ export const retry = actionAtom(async (get, _set, sheetId: string) => {
 
 export const reset = actionAtom((get, set, sheetId: string) => {
   const sheet = get(selectSheet({ sheetId }));
-  set(sheet.load, seed);
+  const descriptor = get(get($$workbook()).$sheets).find(
+    (item) => item.id === sheetId,
+  );
+  set(sheet.load, initialDocument(descriptor ?? { id: sheetId, title: '' }));
   const view = get(selectView({ sheetId }));
   set(view.cancel);
-  set(view.select, seed.selected ?? 'A1');
+  set(view.select, sheetId === 'gifts' ? seed.selected : 'A1');
 });

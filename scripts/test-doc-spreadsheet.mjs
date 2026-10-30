@@ -132,6 +132,34 @@ try {
       await demo.locator('[data-sheet-id="scratch"]').click();
       await value('A1', 'other sheet');
 
+      // The same complete CSV inputs as the Rust example, on independent sheets.
+      await demo.locator('[data-sheet-id="csv-penguins"]').click();
+      await value('A1', 'species');
+      await edit('C2', '55');
+      await saved();
+      await go('H345');
+      assert.equal((await cell('H345').inputValue()).replace(/\D/g, ''), '2009');
+      await demo.locator('[data-sheet-id="csv-titanic"]').click();
+      await value('A1', 'survived');
+      await go('L2');
+      await value('L2', '');
+      await go('O892');
+      await value('O892', 'True');
+      await saved();
+      await page.reload();
+      await value('O892', 'True');
+      assert.equal(await demo.locator('[data-sheet-id="csv-penguins"]').count(), 1);
+      assert.equal(await demo.locator('[data-sheet-id="csv-titanic"]').count(), 1);
+      await demo.locator('[data-sheet-id="csv-penguins"]').click();
+      await go('C2');
+      await value('C2', '55');
+      await demo.locator('.sheet-toolbar > button').click();
+      await cell('C2').waitFor();
+      await page.waitForFunction(
+        () => document.querySelector('[data-address="C2"]')?.value.replace(/\D/g, '') === '391',
+      );
+      await saved();
+
       // New sheets and their names survive a full browser reload.
       await demo.locator('.sheet-add').click();
       const rename = demo.locator('.sheet-tab > button:not([aria-pressed])');

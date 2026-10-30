@@ -2,6 +2,7 @@ import type { ModelConnectionContext } from 'jotai-holo/model';
 import type { WorkbookModel } from '../models/book-model.js';
 import type { BookDocument } from '../models/types.js';
 import { $storage, bookKey } from './config.js';
+import { appendSampleSheets } from '../datasets.js';
 
 type BookRuntime = {
   initialized: boolean;
@@ -66,7 +67,10 @@ export function connectWorkbook(
             item &&
             typeof item.id === 'string' &&
             item.id.length > 0 &&
-            typeof item.title === 'string',
+            typeof item.title === 'string' &&
+            (item.dataset === undefined ||
+              item.dataset === 'penguins' ||
+              item.dataset === 'titanic'),
         ) ||
         new Set(saved.sheets.map((item) => item.id)).size !==
           saved.sheets.length ||
@@ -75,10 +79,12 @@ export function connectWorkbook(
       throw new TypeError('Invalid workbook.');
     store.set(
       book.$sheets,
-      saved?.sheets ?? [
-        { id: 'gifts', title: 'Gift bundle' },
-        { id: 'scratch', title: 'Scratchpad' },
-      ],
+      appendSampleSheets(
+        saved?.sheets ?? [
+          { id: 'gifts', title: 'Gift bundle' },
+          { id: 'scratch', title: 'Scratchpad' },
+        ],
+      ),
     );
     store.set(
       book.$views,

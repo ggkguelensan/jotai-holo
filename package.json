@@ -96,7 +96,8 @@
     "test:docs-analytics": "node scripts/test-doc-analytics.mjs",
     "test:docs-graphs": "node scripts/test-doc-graphs.mjs",
     "test:docs-annotations": "node scripts/test-doc-annotations.mjs",
-    "test:docs-spreadsheet": "node scripts/test-doc-spreadsheet.mjs"
+    "test:docs-spreadsheet": "node scripts/test-doc-spreadsheet.mjs",
+    "spreadsheet:build": "pnpm i18n:compile && vite build --config examples/spreadsheet/performance/vite.config.mjs"
   },
   "peerDependencies": {
     "@tanstack/query-core": ">=5.104.5 <6",

@@ -1,0 +1,10 @@
+body {
+  margin: 0;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  font-family: var(--vp-font-family-base);
+}
+main.holo-example {
+  max-width: 980px;
+  margin: 24px auto;
+}

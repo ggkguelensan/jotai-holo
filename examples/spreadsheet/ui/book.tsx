@@ -20,7 +20,7 @@ function BookView({
   return (
     <section className="sheet-demo" aria-label={t`Workbook`}>
       <header className="sheet-heading">
-        <span className="demo-eyebrow">{t`Game gift bundle · budget`}</span>
+        <span className="demo-eyebrow">{t`Workbook`}</span>
       </header>
       {ready ? (
         <Workspace key={activeId} sheetId={activeId} />

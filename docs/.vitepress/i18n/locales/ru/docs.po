@@ -418,6 +418,18 @@ msgstr "Переключитесь на Scratchpad: это независимы�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "Penguins and Titanic are separate CSV sample sheets: 344 records with eight columns and 891 records with fifteen columns. Each has a header row. Visit H345 on Penguins or O892 on Titanic to inspect the last record. Empty fields remain empty; NA in Penguins remains text."
+msgstr "Penguins и Titanic — отдельные листы с CSV-данными: 344 записи в восьми столбцах и 891 запись в пятнадцати столбцах. У каждого листа есть строка заголовков. Перейдите к H345 в Penguins или O892 в Titanic, чтобы увидеть последнюю запись. Пустые поля остаются пустыми; NA в Penguins остаётся текстом."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The samples are bundled locally and added to existing workbooks without replacing their sheets or active selection. Sample identity survives renaming, so reloading does not add duplicates or overwrite edits. Reset sheet restores that sample's original CSV; ordinary new sheets reset to an empty document. The CSV parser validates size and field lengths before loading the complete document into the sheet model."
+msgstr "Наборы встроены в приложение и добавляются к существующим книгам без замены листов и активного выбора. Идентичность набора сохраняется при переименовании, поэтому перезагрузка не создаёт дубликаты и не перезаписывает правки. Сброс листа восстанавливает исходный CSV этого набора; обычные новые листы сбрасываются в пустой документ. Парсер CSV проверяет размеры и длину полей до загрузки полного документа в модель листа."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Document data"
 msgstr "Данные документа"
 
