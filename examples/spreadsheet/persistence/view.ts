@@ -40,9 +40,9 @@ export function connectView(
       [key]: store.get(snapshot),
     }));
   const stop = store.sub(snapshot, save);
+  save();
   return () => {
     store.set(view.commit);
-    save();
     stop();
   };
 }
