@@ -520,6 +520,12 @@ msgstr "IndexedDB speichert Blattliste und dünn besetzte Dokumente. Bestätigte
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "Workbook metadata uses persist to restore a document and serialize local writes. `book-codec.ts` validates the saved format; `workbook.json` supplies the initial tabs. Loading a valid saved document does not write it back. Selection and camera snapshots are captured while the editor is connected, so saving does not depend on cleanup order."
+msgstr "Die Metadaten der Arbeitsmappe werden mit persist wiederhergestellt und Änderungen nacheinander gespeichert. `book-codec.ts` prüft das gespeicherte Format; `workbook.json` enthält die anfänglichen Tabellenblätter. Ein gültiges geladenes Dokument wird nicht unverändert zurückgeschrieben. Auswahl und Kameraposition werden bei verbundenem Editor erfasst, sodass das Speichern nicht von der Cleanup-Reihenfolge abhängt."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Visible components own the selected sheet. Tabs read only descriptors and statuses, so an inactive tab does not keep its sheet active. Pending or failed storage operations hold an additional lease. After a successful save and release of the final owner, the registry retains the sheet for one minute."
 msgstr "Sichtbare Komponenten besitzen das ausgewählte Blatt. Reiter lesen nur Deskriptoren und Status und halten inaktive Blätter daher nicht aktiv. Laufende oder fehlgeschlagene Speicheroperationen halten eine zusätzliche Lease. Nach erfolgreicher Speicherung und Freigabe des letzten Besitzers behält die Registry das Blatt eine Minute."
 
