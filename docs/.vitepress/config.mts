@@ -5,8 +5,10 @@ import { loadCatalog } from './i18n/catalog.mjs';
 import { linguiMacros } from './i18n/macros.mjs';
 import { logicalCodeBlocks } from './code-blocks.mjs';
 import { sourceLinks } from './source-links.mjs';
+import { documentGraphs, prepareDocumentGraphs } from './graph/document-graphs.mjs';
 
 const sources = sourceLinks();
+const graphDocuments = await prepareDocumentGraphs();
 
 const groups = (t: (message: string) => string) => [
   { title: t('State'), names: ['stateAtom', 'ion', 'prism'] },
@@ -137,6 +139,31 @@ async function localeConfig(code: string, label: string, prefix: string) {
         linkText: t('Go to home'),
       },
       docsUi: {
+        graphAtoms: t('Atoms and models'),
+        graphAnalytics: t('Analytics'),
+        graph: {
+          title: t('Example graph'),
+          open: t('Open full map'),
+          back: t('Back to the article'),
+          loading: t('Loading graph…'),
+          unavailable: t('The graph is unavailable. The example code remains readable.'),
+          hint: t('Select a node to inspect its source.'),
+          clear: t('Clear selection'),
+          caller: t('External caller; its implementation is not part of this example.'),
+          source: t('Source code'),
+          structure: t('Connections describe dependencies, not execution order.'),
+          live: t('Adapter deliveries highlight the corresponding branch.'),
+          noReplay: t(
+            'Observation starts after the analytics factory loads; earlier facts are not replayed.',
+          ),
+          kinds: {
+            model: t('Model'),
+            react: t('React component'),
+            holo: t('holo binding'),
+            atom: t('Atom'),
+            resource: t('Managed resource'),
+          },
+        },
         liveExample: t('Live example'),
         viewCode: t('View example code'),
         fullSource: t('Complete source with imports'),
@@ -203,6 +230,7 @@ export default defineConfig({
   },
   markdown: {
     config(md) {
+      documentGraphs(md, graphDocuments.plans);
       logicalCodeBlocks(md);
       // Keep repository file links useful both on GitHub and in the static site.
       const render = md.renderer.rules.link_open;

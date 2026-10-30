@@ -30,8 +30,12 @@ The next sections show where each additional responsibility becomes useful.
 A player hub toolbar reads the theme and publishes a help request. If model
 workflows need these inputs, the application can expose them as atoms:
 
+<GraphExample scene="shared-atoms">
+
 <<< @/../examples/atoms-or-models.tsx#atom-imports
 <<< @/../examples/atoms-or-models.tsx#global-atoms
+
+</GraphExample>
 
 The writable `$theme` supplies a value through `read` and a setter through
 `write`. The `helpRequested` event supplies a callback through `write`.

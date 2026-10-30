@@ -177,6 +177,18 @@ msgstr "- [Қалай жұмыс істейді](/topics/atoms-and-models)\n"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/examples/graph.md
+msgid "Example graph"
+msgstr "Мысал графы"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/graph.md
+msgid "Select a node to inspect its source. The miniature and the full map share one scene. An interactive example appears below when that scene includes one."
+msgstr "Бастапқы кодын көру үшін түйінді таңдаңыз. Шағын граф пен толық карта бір көріністі көрсетеді. Көріністің интерактивті мысалы болса, ол төменде көрсетіледі."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
 #: docs/examples/index.md
 msgid "Examples"
 msgstr "Мысалдар"
@@ -5077,8 +5089,8 @@ msgstr "Атомдарды тікелей қосыңыз"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "The [getting started example](/guide/getting-started) uses one writable atom:"
-msgstr "[Бастау мысалы](/guide/getting-started) бір writable-атом қолданады:"
+msgid "The writable atom shown above also appears in the [getting started example](/guide/getting-started)."
+msgstr "Жоғарыда көрсетілген жазылатын атом [алғашқы қадамдар мысалында](/guide/getting-started) да қолданылады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5104,9 +5116,8 @@ msgstr "Панель екі байланысқан басқару элемент
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "Toolbar supplies its fixed title through `static` and composes the controls. It does not read their atoms. The remaining unbound View props, if any, come from the parent. Supplied `read`, `write`, `static` and `events`\n"
-"props are not public inputs to the connected component."
-msgstr "Toolbar бекітілген тақырыбын `static` арқылы беріп, басқару элементтерін біріктіреді. Ол олардың атомдарын оқымайды. Қалған байланыспаған View props-ы ата-анадан келеді. Берілген `read`, `write`, `static` және `events` props-ы байланысқан компоненттің жария кірістері емес."
+msgid "ToolbarView composes the connected controls and receives its title as an ordinary React prop. It does not need holo for a static title. Use holo when a View reads or writes atoms, selects managed models, or handles graph events."
+msgstr "ToolbarView байланыстырылған басқару элементтерін біріктіріп, тақырыпты кәдімгі React пропсы арқылы алады. Статикалық тақырып үшін holo қажет емес. View атомдарды оқығанда немесе өзгерткенде, басқарылатын модельдерді таңдағанда не граф оқиғаларын өңдегенде holo қолданыңыз."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

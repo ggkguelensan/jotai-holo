@@ -8,15 +8,19 @@ A completed game search goes to Amplitude and an analytics warehouse. Opening a 
 
 A search result is a fact after the search succeeds, not when the user clicks Search. Include values that describe that occurrence: query, category, result count and duration. A delayed consumer must not reconstruct them by reading a newer search state.
 
-<<< @/../examples/analytics/search-model.ts#search-fact
-
 The demo searches a local catalog. A server-backed model would publish after its request succeeds.
 
 ## Map each engine independently {#map-facts-to-engines}
 
 The application declares one shared `createAnalytics` provider. Feature analytics imports that provider and returns managed event declarations:
 
+<GraphExample scene="catalog-analytics">
+
+<<< @/../examples/analytics/search-model.ts#search-fact
+<<< @/../examples/analytics/search-model.ts#game-fact
 <<< @/../examples/analytics/search.analytics.ts#search-analytics
+
+</GraphExample>
 
 Only the listed engines receive an event. Warehouse names, units and buckets stay in its inline mapper: `durationMs` becomes `elapsed_seconds`, and result count becomes `items_found` plus an outcome bucket. The domain fact keeps its own vocabulary.
 

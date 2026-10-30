@@ -254,6 +254,91 @@ msgstr "Басты бетке"
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
+msgid "Example graph"
+msgstr "Мысал графы"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Open full map"
+msgstr "Толық картаны ашу"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Back to the article"
+msgstr "Мақалаға оралу"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Loading graph…"
+msgstr "Граф жүктелуде…"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "The graph is unavailable. The example code remains readable."
+msgstr "Граф қолжетімсіз. Мысал коды қолжетімді болып қалады."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Select a node to inspect its source."
+msgstr "Бастапқы кодын көру үшін түйінді таңдаңыз."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Clear selection"
+msgstr "Таңдауды алып тастау"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "External caller; its implementation is not part of this example."
+msgstr "Сыртқы шақырушы компонент; оның іске асырылуы бұл мысалға кірмейді."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Source code"
+msgstr "Бастапқы код"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Connections describe dependencies, not execution order."
+msgstr "Байланыстар орындалу ретін емес, тәуелділіктерді көрсетеді."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Adapter deliveries highlight the corresponding branch."
+msgstr "Адаптер хабарлары тиісті тармақты ерекшелейді."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Observation starts after the analytics factory loads; earlier facts are not replayed."
+msgstr "Бақылау аналитика фабрикасы жүктелгеннен кейін басталады. Бұрынғы фактілер қайталанбайды."
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Model"
+msgstr "Модель"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "React component"
+msgstr "React компоненті"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "holo binding"
+msgstr "holo байланысы"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Atom"
+msgstr "Атом"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
+msgid "Managed resource"
+msgstr "Басқарылатын ресурс"
+
+#. js-lingui-explicit-id
+#: docs/.vitepress/config.mts
 msgid "Live example"
 msgstr "Интерактивті мысал"
 

@@ -177,6 +177,18 @@ msgstr "- [How it works](/topics/atoms-and-models)\n"
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
+#: docs/examples/graph.md
+msgid "Example graph"
+msgstr "Example graph"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/graph.md
+msgid "Select a node to inspect its source. The miniature and the full map share one scene. An interactive example appears below when that scene includes one."
+msgstr "Select a node to inspect its source. The miniature and the full map share one scene. An interactive example appears below when that scene includes one."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
 #: docs/examples/index.md
 msgid "Examples"
 msgstr "Examples"
@@ -5150,8 +5162,8 @@ msgstr "Connect atoms directly"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "The [getting started example](/guide/getting-started) uses one writable atom:"
-msgstr "The [getting started example](/guide/getting-started) uses one writable atom:"
+msgid "The writable atom shown above also appears in the [getting started example](/guide/getting-started)."
+msgstr "The writable atom shown above also appears in the [getting started example](/guide/getting-started)."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -5180,10 +5192,8 @@ msgstr "A toolbar composes two connected controls. ThemeControl reads and writes
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/topics/holo.md
-msgid "Toolbar supplies its fixed title through `static` and composes the controls. It does not read their atoms. The remaining unbound View props, if any, come from the parent. Supplied `read`, `write`, `static` and `events`\n"
-"props are not public inputs to the connected component."
-msgstr "Toolbar supplies its fixed title through `static` and composes the controls. It does not read their atoms. The remaining unbound View props, if any, come from the parent. Supplied `read`, `write`, `static` and `events`\n"
-"props are not public inputs to the connected component."
+msgid "ToolbarView composes the connected controls and receives its title as an ordinary React prop. It does not need holo for a static title. Use holo when a View reads or writes atoms, selects managed models, or handles graph events."
+msgstr "ToolbarView composes the connected controls and receives its title as an ordinary React prop. It does not need holo for a static title. Use holo when a View reads or writes atoms, selects managed models, or handles graph events."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
