@@ -1,4 +1,5 @@
-import { atom, type Atom, type PrimitiveAtom } from 'jotai/vanilla';
+import { atom } from 'jotai/vanilla';
+import { modelRegistry, pipe } from 'jotai-holo/model';
 import { actionAtom, stateAtom } from 'jotai-holo/vanilla';
 import { evaluateCell, parseCell, type CellValue } from './formulas.js';
 
@@ -34,46 +35,73 @@ export function createSpreadsheet(initial = initialBudget) {
   const $rows = atom(() =>
     Array.from({ length: rowCount }, (_, index) => index + 1),
   );
-  const inputs: Record<string, PrimitiveAtom<string>> = {};
-  for (const id of addresses) inputs[id] = stateAtom(initial[id] ?? '');
 
-  const expressions: Record<string, Atom<ReturnType<typeof parseCell>>> = {};
-  for (const id of addresses)
-    expressions[id] = stateAtom((get) => parseCell(get(inputs[id]!)));
+  function createCellModel({ sheetId, address }: CellKey) {
+    const $input = stateAtom(initial[address] ?? '');
+    const $expression = stateAtom((get) => parseCell(get($input)));
+    const $value = stateAtom(
+      (get): CellValue =>
+        evaluateCell(
+          address,
+          (ref) => {
+            if (!addresses.includes(ref))
+              return { kind: 'literal', value: '#REF!' };
+            const cell = get(selectCell({ sheetId, address: ref }));
+            return get(cell.$expression);
+          },
+          columns,
+          rowCount,
+        ),
+    );
+    return { $input, $expression, $value };
+  }
 
-  const cells = Object.fromEntries(
-    addresses.map((id) => {
-      const $value = stateAtom(
-        (get): CellValue =>
-          evaluateCell(
-            id,
-            (ref) => {
-              const expression = expressions[ref];
-              return expression
-                ? get(expression)
-                : { kind: 'literal', value: '#REF!' };
-            },
-            columns,
-            rowCount,
-          ),
-      );
-      return [id, { $input: inputs[id]!, $value }];
-    }),
-  );
+  const $$cell = pipe(createCellModel, modelRegistry());
 
-  const $selected = stateAtom('D5');
+  function selectCell({ sheetId, address }: CellKey) {
+    return $$cell({
+      key: ['cell', sheetId, address],
+      initial: { sheetId, address },
+    });
+  }
 
-  // A native writable derived atom remains usable in holo.write.
-  const $formula = atom(
-    (get) => get(inputs[get($selected)]!),
-    (get, set, value: string) => set(inputs[get($selected)]!, value),
-  );
+  function createSheetModel({ sheetId }: SheetKey) {
+    const $selected = stateAtom('D5');
+    const $formula = atom(
+      (get) =>
+        get(get(selectCell({ sheetId, address: get($selected) })).$input),
+      (get, set, value: string) => {
+        const cell = get(selectCell({ sheetId, address: get($selected) }));
+        set(cell.$input, value);
+      },
+    );
+    const reset = actionAtom((get, set) => {
+      for (const address of addresses) {
+        const cell = get(selectCell({ sheetId, address }));
+        set(cell.$input, initial[address] ?? '');
+      }
+      set($selected, 'D5');
+    });
+    return { $selected, $formula, reset };
+  }
 
-  const reset = actionAtom((_get, set) => {
-    for (const id of addresses) set(inputs[id]!, initial[id] ?? '');
-    set($selected, 'D5');
-  });
+  const $$sheet = pipe(createSheetModel, modelRegistry());
 
-  return { cells, addresses, $columns, $rows, $selected, $formula, reset };
+  function selectSheet({ sheetId }: SheetKey) {
+    return $$sheet({ key: ['sheet', sheetId], initial: { sheetId } });
+  }
+
+  return {
+    $$sheet,
+    $$cell,
+    selectSheet,
+    selectCell,
+    $rows,
+    $columns,
+    addresses,
+  };
 }
 // #endregion sheet-model
+
+export type SheetKey = { sheetId: string };
+export type CellKey = SheetKey & { address: string };

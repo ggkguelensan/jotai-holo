@@ -1,11 +1,34 @@
 import { createStore } from 'jotai/vanilla';
-import { expect, test, vi } from 'vitest';
+import { afterEach, expect, test, vi } from 'vitest';
 import { createSpreadsheet } from '../examples/spreadsheet/model.js';
 
+const releases: (() => void)[] = [];
+afterEach(() => {
+  for (const release of releases.splice(0)) release();
+});
+
 const fixture = (initial?: Record<string, string>) => {
-  const sheet = createSpreadsheet(initial);
+  const registry = createSpreadsheet(initial);
   const store = createStore();
+  const sheetId = 'test';
+  const sheetLease = registry.$$sheet.acquire(store, {
+    key: ['sheet', sheetId],
+    initial: { sheetId },
+  });
+  releases.push(sheetLease.release);
+  const cells = Object.fromEntries(
+    registry.addresses.map((address) => {
+      const lease = registry.$$cell.acquire(store, {
+        key: ['cell', sheetId, address],
+        initial: { sheetId, address },
+      });
+      releases.push(lease.release);
+      return [address, lease.model];
+    }),
+  );
+  const sheet = { ...sheetLease.model, cells };
   return {
+    registry,
     sheet,
     store,
     read: (id: string) => store.get(sheet.cells[id]!.$value),
@@ -108,5 +131,22 @@ test('separate stores and separate models are isolated', () => {
   f.write('B1', '30');
   expect(other.get(f.sheet.cells.B1!.$value)).toBe(12);
   const second = createSpreadsheet();
-  expect(f.store.get(second.cells.B1!.$value)).toBe(12);
+  const secondCell = f.store.get(second.selectCell({ sheetId: 'test', address: 'B1' }));
+  expect(f.store.get(secondCell.$value)).toBe(12);
+});
+
+test('cell keys share one record and isolate other addresses and sheet IDs', () => {
+  const f = fixture();
+  const select = (sheetId: string, address: string) =>
+    f.store.get(f.registry.selectCell({ sheetId, address }));
+  expect(select('test', 'B1')).toBe(f.sheet.cells.B1);
+  expect(select('test', 'B1')).toBe(select('test', 'B1'));
+  f.write('B1', '30');
+  expect(f.store.get(select('test', 'B1').$value)).toBe(30);
+  expect(f.store.get(select('other', 'B1').$value)).toBe(12);
+  expect(f.store.get(select('test', 'B2').$value)).toBe(24);
+  expect(f.store.get(select('other', 'D1').$value)).toBe(960);
+  f.store.set(f.sheet.$selected, 'B1');
+  const otherSheet = f.store.get(f.registry.selectSheet({ sheetId: 'other' }));
+  expect(f.store.get(otherSheet.$selected)).toBe('D5');
 });

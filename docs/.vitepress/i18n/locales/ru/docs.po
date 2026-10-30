@@ -430,6 +430,12 @@ msgstr "У каждого CellView своё подключение holo. Обо�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "The cell registry uses `['cell', sheetId, address]`; the sheet registry uses `['sheet', sheetId]`. Matching keys in one store share an instance. Different sheet IDs isolate cell contents and selection. The read-only row and column atoms describe the fixed layout for holoList; they do not store cell contents."
+msgstr "Реестр ячеек использует ключ `['cell', sheetId, address]`, а реестр таблиц — `['sheet', sheetId]`. Одинаковые ключи в одном store выбирают общий экземпляр. Разные ID таблиц разделяют содержимое ячеек и выбранный адрес. Read-only атомы строк и колонок описывают фиксированную структуру для holoList и не хранят содержимое ячеек."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Each preview has its own Jotai store. Two separately created models are also independent in one store. There is no useEffect to copy inputs into totals, no whole-sheet React state, and no subscription created during module initialization."
 msgstr "У каждого превью свой Jotai store. Две отдельно созданные модели независимы и в одном store. Здесь нет useEffect для копирования ввода в итог, общего React state для всего листа и подписок при инициализации модуля."
 

@@ -1,7 +1,12 @@
 import { useLingui } from '@lingui/react/macro';
 import { useState, type KeyboardEvent } from 'react';
 import { holo, holoList } from 'jotai-holo';
-import { columns, createSpreadsheet, rowCount } from '../spreadsheet/model.js';
+import {
+  columns,
+  createSpreadsheet,
+  rowCount,
+  type SheetKey,
+} from '../spreadsheet/model.js';
 import { isCellError, type CellValue } from '../spreadsheet/formulas.js';
 
 function move(event: KeyboardEvent<HTMLInputElement>, address: string) {
@@ -140,7 +145,7 @@ function ResetView({ onReset }: { onReset: () => void }) {
   return <button onClick={onReset}>{t`Reset sheet`}</button>;
 }
 
-function SheetHeadingView() {
+function SheetHeadingView({ sheetId }: SheetKey) {
   const { t } = useLingui();
   return (
     <header className="sheet-heading">
@@ -148,7 +153,7 @@ function SheetHeadingView() {
         <span className="demo-eyebrow">{t`Game gift bundle · budget`}</span>
         <p>{t`Change the copies. The bundle total follows.`}</p>
       </div>
-      <Reset />
+      <Reset sheetId={sheetId} />
     </header>
   );
 }
@@ -186,70 +191,65 @@ function SheetHelpView() {
 }
 
 // #region spreadsheet
-const $$sheet = createSpreadsheet();
+const { selectSheet, selectCell, $rows, $columns } = createSpreadsheet();
 
 const FormulaBar = holo({
+  models: { sheet: selectSheet },
   view: FormulaView,
-  read: {
-    address: $$sheet.$selected,
-    expression: $$sheet.$formula,
-  },
-  write: { onChange: $$sheet.$formula },
+  read: ({ sheet }) => ({
+    address: sheet.$selected,
+    expression: sheet.$formula,
+  }),
+  write: ({ sheet }) => ({ onChange: sheet.$formula }),
 });
 
-// Each binding is created once and subscribes only to its cell.
-const Cells = Object.fromEntries(
-  $$sheet.addresses.map((address) => {
-    const cell = $$sheet.cells[address]!;
-    return [
-      address,
-      holo({
-        view: CellView,
-        static: { address },
-        read: { input: cell.$input, value: cell.$value },
-        write: {
-          onChange: cell.$input,
-          onSelect: $$sheet.$selected,
-        },
-      }),
-    ];
+const Cell = holo({
+  models: { cell: selectCell, sheet: selectSheet },
+  view: CellView,
+  read: ({ cell }) => ({ input: cell.$input, value: cell.$value }),
+  write: ({ cell, sheet }) => ({
+    onChange: cell.$input,
+    onSelect: sheet.$selected,
   }),
-);
+});
 
-function CellSlotView({ column, row }: { column: Column; row: number }) {
-  const Cell = Cells[`${column}${row}`]!;
+function CellSlotView({
+  column,
+  row,
+  sheetId,
+}: SheetKey & { column: Column; row: number }) {
   return (
     <td>
-      <Cell />
+      <Cell sheetId={sheetId} address={`${column}${row}`} />
     </td>
   );
 }
 
 const RowCells = holoList({
-  source: $$sheet.$columns,
+  source: $columns,
   view: CellSlotView,
   getKey: (column) => column,
   mapItem: (column) => ({ column }),
 });
 
-function RowView({ row }: { row: number }) {
+function RowView({ row, sheetId }: SheetKey & { row: number }) {
   return (
     <tr data-total={row === 5 || undefined}>
       <th scope="row">{row}</th>
-      <RowCells row={row} />
+      <RowCells row={row} sheetId={sheetId} />
     </tr>
   );
 }
 
 const Rows = holoList({
-  source: $$sheet.$rows,
+  source: $rows,
   view: RowView,
   getKey: (row) => row,
   mapItem: (row) => ({ row }),
 });
 
 const ColumnHeaders = holoList({
-  source: $$sheet.$columns,
+  source: $columns,
   view: ColumnView,
   getKey: (column) => column,
   mapItem: (column) => ({ column }),
@@ -267,7 +267,7 @@ function TableHeadingView() {
   );
 }
 
-function TableView() {
+function TableView({ sheetId }: SheetKey) {
   const { t } = useLingui();
   return (
     <div className="sheet-scroll">
@@ -275,7 +275,7 @@ function TableView() {
         <caption className="sheet-sr-only">{t`Gift budget`}</caption>
         <TableHeadingView />
         <tbody>
-          <Rows />
+          <Rows sheetId={sheetId} />
         </tbody>
       </table>
     </div>
@@ -283,22 +283,26 @@ function TableView() {
 }
 
 const Total = holo({
+  models: {
+    cell: ({ sheetId }: SheetKey) => selectCell({ sheetId, address: 'D5' }),
+  },
   view: TotalView,
-  read: { value: $$sheet.cells.D5!.$value },
+  read: ({ cell }) => ({ value: cell.$value }),
 });
 
 const Reset = holo({
+  models: { sheet: selectSheet },
   view: ResetView,
-  write: { onReset: $$sheet.reset },
+  write: ({ sheet }) => ({ onReset: sheet.reset }),
 });
 
-function SheetView() {
+function SheetView({ sheetId = 'gift-budget' }: { sheetId?: string }) {
   return (
     <section className="sheet-demo">
-      <SheetHeadingView />
-      <FormulaBar />
-      <TableView />
-      <Total />
+      <SheetHeadingView sheetId={sheetId} />
+      <FormulaBar sheetId={sheetId} />
+      <TableView sheetId={sheetId} />
+      <Total sheetId={sheetId} />
       <SheetHelpView />
     </section>
   );

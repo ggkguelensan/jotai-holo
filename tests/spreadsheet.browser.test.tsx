@@ -35,13 +35,36 @@ test('listed rows keep cell order and selection follows keyboard focus', async (
   await h.unmount();
 });
 
+test('Views share cells by sheet key and keep other sheets independent', async () => {
+  const h = createHarness();
+  await h.render(
+    <Provider store={createStore()}>
+      <Spreadsheet sheetId="first" />
+      <Spreadsheet sheetId="first" />
+      <Spreadsheet sheetId="second" />
+    </Provider>,
+  );
+  const inputs = [...h.container.querySelectorAll<HTMLInputElement>('[data-address="B1"]')];
+  await act(async () => inputs[0]!.focus());
+  await act(async () => {
+    const setValue = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!;
+    setValue.call(inputs[0], '20');
+    inputs[0]!.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  expect(inputs.map((input) => input.value)).toEqual(['20', '20', '12']);
+  expect(
+    [...h.container.querySelectorAll('.sheet-address')].map((node) => node.textContent),
+  ).toEqual(['B1', 'B1', 'D5']);
+  await h.unmount();
+});
+
 test('only edited/dependent holo cells commit; the sheet shell stays untouched', async () => {
   const sheet = createSpreadsheet();
   const store = createStore();
   const commits: Record<string, number> = {};
   const bindings = sheet.addresses.map((address) => {
-    const cell = sheet.cells[address]!;
     return holo({
+      models: { cell: () => sheet.selectCell({ sheetId: 'tracked', address }) },
       view: function TrackedCell(props: ComponentProps<typeof CellView>) {
         useLayoutEffect(() => {
           commits[address] = (commits[address] ?? 0) + 1;
@@ -49,8 +72,8 @@ test('only edited/dependent holo cells commit; the sheet shell stays untouched',
         return <CellView {...props} />;
       },
       static: { address, onSelect: () => {} },
-      read: { input: cell.$input, value: cell.$value },
-      write: { onChange: cell.$input },
+      read: ({ cell }) => ({ input: cell.$input, value: cell.$value }),
+      write: ({ cell }) => ({ onChange: cell.$input }),
     });
   });
   let shellCommits = 0;
@@ -72,19 +95,20 @@ test('only edited/dependent holo cells commit; the sheet shell stays untouched',
       <Sheet />
     </Provider>,
   );
+  const cell = (address: string) => store.get(sheet.selectCell({ sheetId: 'tracked', address }));
   const before = { ...commits };
   await act(async () => {
-    store.set(sheet.cells.B1!.$input, '20');
+    store.set(cell('B1').$input, '20');
   });
   const changed = Object.keys(commits).filter((id) => commits[id] !== before[id]);
   expect(changed.sort()).toEqual(['B1', 'C4', 'D1', 'D4', 'D5']);
   expect(shellCommits).toBe(1);
   await act(async () => {
-    store.set(sheet.cells.D1!.$input, '=B2*C2');
+    store.set(cell('D1').$input, '=B2*C2');
   });
   const after = { ...commits };
   await act(async () => {
-    store.set(sheet.cells.B1!.$input, '30');
+    store.set(cell('B1').$input, '30');
   });
   expect(commits.D1).toBe(after.D1);
   expect(commits.D5).toBe(after.D5);

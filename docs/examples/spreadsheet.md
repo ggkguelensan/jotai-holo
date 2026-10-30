@@ -24,6 +24,8 @@ Each cell owns a writable input atom and a read-only result atom. Formula parsin
 
 Each CellView has its own holo binding. The table shell does not subscribe to sheet values. Selecting a cell updates the formula bar; editing a cell updates that input and dependent result Views. Unrelated cells do not commit again. The formula bar uses a native writable derived atom, demonstrating that holo accepts ordinary Jotai atoms too.
 
+The cell registry uses `['cell', sheetId, address]`; the sheet registry uses `['sheet', sheetId]`. Matching keys in one store share an instance. Different sheet IDs isolate cell contents and selection. The read-only row and column atoms describe the fixed layout for holoList; they do not store cell contents.
+
 Each preview has its own Jotai store. Two separately created models are also independent in one store. There is no useEffect to copy inputs into totals, no whole-sheet React state, and no subscription created during module initialization.
 
 ## Formula subset
