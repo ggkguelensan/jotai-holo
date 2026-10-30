@@ -318,15 +318,16 @@
 }
 .graph-source-lines code {
   font: inherit !important;
-  white-space: pre !important;
+  white-space: pre-wrap !important;
   padding: 0 !important;
   background: none !important;
   display: block;
-  min-width: max-content;
+  overflow-wrap: anywhere;
   color: var(--vp-c-text-1) !important;
 }
 .graph-source-lines code > span {
-  display: block;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
   padding-right: 16px;
   min-height: 20px;
 }
