@@ -1,9 +1,8 @@
 import { createStore, Provider } from 'jotai';
 import { act } from 'react';
 import { expect, test, vi } from 'vitest';
-import { createWorkbookBindings } from '../examples/docs/spreadsheet.js';
-import { createWorkbook } from '../examples/spreadsheet/workbook.js';
-import giftBudget from '../examples/spreadsheet/gift-budget.json';
+import Book from '../examples/docs/spreadsheet.js';
+import * as workbook from '../examples/spreadsheet/workbook.js';
 import { createHarness } from './browser-harness.js';
 
 vi.mock('@lingui/react/macro', () => ({
@@ -12,18 +11,14 @@ vi.mock('@lingui/react/macro', () => ({
 
 test('window slots stay fixed while keyboard selection moves the camera', async () => {
   const data = new Map<string, unknown>();
-  const workbook = createWorkbook(
-    {
-      read: async (key) => data.get(key),
-      write: async (key, value) => {
-        data.set(key, structuredClone(value));
-      },
+  const storage = {
+    read: async (key: string) => data.get(key),
+    write: async (key: string, value: unknown) => {
+      data.set(key, structuredClone(value));
     },
-    giftBudget,
-    'browser',
-  );
-  const { Book } = createWorkbookBindings(workbook);
+  };
   const store = createStore();
+  store.set(workbook.$storage, storage);
   const h = createHarness();
   h.container.style.width = '800px';
   await h.render(
@@ -52,9 +47,8 @@ test('an edit survives unmount and another workbook restores it from storage', a
       data.set(key, structuredClone(value));
     },
   };
-  const workbook = createWorkbook(storage, giftBudget, 'shared');
-  const { Book } = createWorkbookBindings(workbook);
   const store = createStore();
+  store.set(workbook.$storage, storage);
   const h = createHarness();
   h.container.style.width = '800px';
   await h.render(
@@ -68,52 +62,47 @@ test('an edit survives unmount and another workbook restores it from storage', a
   const book = store.get(workbook.$$workbook());
   await act(async () => store.set(book.switchSheet, 'scratch'));
   await vi.waitFor(() =>
-    expect(data.get('shared/sheet/gifts')).toMatchObject({ cells: { B1: '20' } }),
+    expect(data.get('gift-budget-v1/sheet/gifts')).toMatchObject({ cells: { B1: '20' } }),
   );
   await h.unmount();
-  const restored = createWorkbook(storage, giftBudget, 'shared');
   const second = createStore();
-  const { Book: Restored } = createWorkbookBindings(restored);
+  second.set(workbook.$storage, storage);
   const secondHarness = createHarness();
   secondHarness.container.style.width = '800px';
   await secondHarness.render(
     <Provider store={second}>
-      <Restored />
+      <Book />
     </Provider>,
   );
   await vi.waitFor(() =>
     expect(secondHarness.container.querySelector('[data-sheet-id="gifts"]')).not.toBeNull(),
   );
-  await act(async () => second.set(second.get(restored.$$workbook()).switchSheet, 'gifts'));
+  await act(async () => second.set(second.get(workbook.$$workbook()).switchSheet, 'gifts'));
   await vi.waitFor(() =>
     expect(
       secondHarness.container.querySelector<HTMLInputElement>('[data-address="B1"]')?.value,
     ).toBe('20'),
   );
-  await h.unmount();
+  await secondHarness.unmount();
 });
 
 test('an evicted sheet shows loading rather than editable empty slots during restoration', async () => {
   const data = new Map<string, unknown>();
   let delay = false;
   let finish!: (value: unknown) => void;
-  const workbook = createWorkbook(
-    {
-      read: async (key) =>
-        delay
-          ? new Promise((resolve) => {
-              finish = resolve;
-            })
-          : structuredClone(data.get(key)),
-      write: async (key, value) => {
-        data.set(key, structuredClone(value));
-      },
+  const storage = {
+    read: async (key: string) =>
+      delay
+        ? new Promise((resolve) => {
+            finish = resolve;
+          })
+        : structuredClone(data.get(key)),
+    write: async (key: string, value: unknown) => {
+      data.set(key, structuredClone(value));
     },
-    giftBudget,
-    'loading',
-  );
-  const { Book } = createWorkbookBindings(workbook);
+  };
   const store = createStore();
+  store.set(workbook.$storage, storage);
   const h = createHarness();
   h.container.style.width = '800px';
   await h.render(
@@ -133,7 +122,7 @@ test('an evicted sheet shows loading rather than editable empty slots during res
   await act(async () => store.set(book.switchSheet, 'gifts'));
   expect(h.container.querySelectorAll('[data-address]')).toHaveLength(0);
   expect(h.container.querySelector('.sheet-status')?.textContent).toBe('Loading sheet…');
-  await act(async () => finish(data.get('loading/sheet/gifts')));
+  await act(async () => finish(data.get('gift-budget-v1/sheet/gifts')));
   await vi.waitFor(() => expect(h.container.querySelector('[data-address="D5"]')).not.toBeNull());
   await h.unmount();
 });

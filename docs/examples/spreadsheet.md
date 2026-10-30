@@ -28,6 +28,8 @@ The document owns cell inputs. A cell model exposes an input and a derived resul
 
 ## Views and the camera
 
+Bindings and model definitions are declared at module scope. Each Jotai store owns its instances; declaring a binding does not load documents or subscribe to storage. Storage work starts when the model acquires an owner.
+
 Each CellView has its own holo binding. Selection and draft projections notify the affected cells; unrelated cells do not need the whole sheet document. Rows and columns use holoList with fixed slot keys. The camera changes which logical addresses those slots display.
 
 <<< @/../examples/docs/spreadsheet.tsx#cell-binding

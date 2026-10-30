@@ -1,9 +1,8 @@
 import { createStore } from 'jotai/vanilla';
 import { afterEach, expect, test, vi } from 'vitest';
-import { createWorkbook } from '../examples/spreadsheet/workbook.js';
+import * as workbook from '../examples/spreadsheet/workbook.js';
 import { createSpreadsheet } from '../examples/spreadsheet/model.js';
 import { addressOf, columnName, point, reveal } from '../examples/spreadsheet/coordinates.js';
-import giftBudget from '../examples/spreadsheet/gift-budget.json';
 import type { DocumentStorage } from '../examples/spreadsheet/storage.js';
 
 const releases: (() => void)[] = [];
@@ -36,8 +35,8 @@ function memoryStorage() {
   };
 }
 async function fixture(storage = memoryStorage().storage) {
-  const workbook = createWorkbook(storage, giftBudget, 'test-book');
   const store = createStore();
+  store.set(workbook.$storage, storage);
   const book = workbook.$$workbook.acquire(store);
   releases.push(book.release);
   await drain();
@@ -116,7 +115,7 @@ test('saved sheet returns the same model before a minute and a new restored mode
   f.store.set(f.sheet.model.setCell, { address: 'B1', value: '20' });
   f.sheet.release();
   await drain();
-  expect(memory.values.get('test-book/sheet/gifts')).toMatchObject({ cells: { B1: '20' } });
+  expect(memory.values.get('gift-budget-v1/sheet/gifts')).toMatchObject({ cells: { B1: '20' } });
   await vi.advanceTimersByTimeAsync(59_000);
   const retained = f.workbook.$$sheet.acquire(f.store, f.options);
   expect(retained.model).toBe(f.sheet.model);
@@ -179,7 +178,7 @@ test('returning during a delayed write prevents eviction and newer edits get a l
   await drain();
   waiting.shift()!();
   await drain();
-  expect(memory.values.get('test-book/sheet/gifts')).toMatchObject({ cells: { B1: '40' } });
+  expect(memory.values.get('gift-budget-v1/sheet/gifts')).toMatchObject({ cells: { B1: '40' } });
   expect(f.store.get(f.book.$statuses).gifts).toBe('saved');
   expect(write).toHaveBeenCalledTimes(2);
 });
@@ -203,7 +202,7 @@ test('a fresh instance is not editable before a delayed restore and invalid opti
   releases.push(opened.release);
   expect(opened.model).not.toBe(f.sheet.model);
   expect(f.store.get(opened.model.$loaded)).toBe(false);
-  resolve(memory.values.get('test-book/sheet/gifts'));
+  resolve(memory.values.get('gift-budget-v1/sheet/gifts'));
   await drain();
   expect(f.store.get(opened.model.$loaded)).toBe(true);
   expect(f.store.get(opened.model.inputAt('AA90'))).toBe('7');
@@ -245,4 +244,37 @@ test('another visible owner prevents the inactive-sheet retention timer from sta
   const next = f.workbook.$$sheet.acquire(f.store, f.options);
   releases.push(next.release);
   expect(next.model).not.toBe(second.model);
+});
+
+test('module definitions isolate concurrent stores, including their storage errors and writes', async () => {
+  vi.useFakeTimers();
+  const leftStorage = memoryStorage();
+  const rightStorage = memoryStorage();
+  const left = await fixture(leftStorage.storage);
+  const right = await fixture(rightStorage.storage);
+  expect(left.workbook).toBe(right.workbook);
+  expect(left.sheet.model).not.toBe(right.sheet.model);
+  leftStorage.fail(true);
+  left.store.set(left.sheet.model.setCell, { address: 'B1', value: '22' });
+  right.store.set(right.sheet.model.setCell, { address: 'B1', value: '44' });
+  await vi.advanceTimersByTimeAsync(300);
+  await drain();
+  expect(left.store.get(left.sheet.model.inputAt('B1'))).toBe('22');
+  expect(right.store.get(right.sheet.model.inputAt('B1'))).toBe('44');
+  expect(left.store.get(left.book.$statuses).gifts).toBe('error');
+  expect(right.store.get(right.book.$statuses).gifts).toBe('saved');
+  expect(leftStorage.values.get('gift-budget-v1/sheet/gifts')).toMatchObject({
+    cells: { B1: '12' },
+  });
+  expect(rightStorage.values.get('gift-budget-v1/sheet/gifts')).toMatchObject({
+    cells: { B1: '44' },
+  });
+  leftStorage.fail(false);
+  await left.store.set(workbook.retry, 'gifts');
+  expect(leftStorage.values.get('gift-budget-v1/sheet/gifts')).toMatchObject({
+    cells: { B1: '22' },
+  });
+  expect(rightStorage.values.get('gift-budget-v1/sheet/gifts')).toMatchObject({
+    cells: { B1: '44' },
+  });
 });

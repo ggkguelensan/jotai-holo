@@ -436,6 +436,12 @@ msgstr "Views und Kamera"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "Bindings and model definitions are declared at module scope. Each Jotai store owns its instances; declaring a binding does not load documents or subscribe to storage. Storage work starts when the model acquires an owner."
+msgstr "Bindungen und Modelldefinitionen stehen auf Modulebene. Jeder Jotai-Store besitzt eigene Instanzen; eine Bindungsdeklaration lädt keine Dokumente und abonniert keinen Speicher. Die Speicherarbeit beginnt, sobald das Modell einen Besitzer erhält."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Each CellView has its own holo binding. Selection and draft projections notify the affected cells; unrelated cells do not need the whole sheet document. Rows and columns use holoList with fixed slot keys. The camera changes which logical addresses those slots display."
 msgstr "Jede CellView hat eine eigene holo-Bindung. Projektionen von Auswahl und Entwurf benachrichtigen die betroffenen Zellen; andere benötigen nicht das gesamte Dokument. Zeilen und Spalten verwenden holoList mit festen Slot-Schlüsseln. Die Kamera ändert die logischen Adressen dieser Slots."
 
