@@ -5,32 +5,16 @@ import { evaluateCell, parseCell, type CellValue } from './formulas.js';
 
 export const columns = ['A', 'B', 'C', 'D'] as const;
 export const rowCount = 8;
-export const initialBudget: Record<string, string> = {
-  A1: 'Deep Orbit',
-  B1: '12',
-  C1: '80',
-  D1: '=B1*C1',
-  A2: 'Neon Tactics',
-  B2: '24',
-  C2: '95',
-  D2: '=B2*C2',
-  A3: 'Wild Circuit',
-  B3: '8',
-  C3: '65',
-  D3: '=B3*C3',
-  A4: '10%',
-  B4: '0.1',
-  C4: '=SUM(D1:D3)',
-  D4: '=B4*C4',
-  A5: 'Σ',
-  D5: '=SUM(D1:D4)',
-};
-
 // #region sheet-model
 export type SheetKey = { sheetId: string };
 export type CellKey = SheetKey & { address: string };
 
-export function createSpreadsheet(initial = initialBudget) {
+export type SheetDocument = {
+  cells: Readonly<Record<string, string>>;
+  selected?: string;
+};
+
+export function createSpreadsheet() {
   const addresses = Array.from({ length: rowCount }, (_, row) =>
     columns.map((column) => `${column}${row + 1}`),
   ).flat();
@@ -40,7 +24,21 @@ export function createSpreadsheet(initial = initialBudget) {
   );
 
   function createCellModel({ sheetId, address }: CellKey) {
-    const $input = stateAtom(initial[address] ?? '');
+    const $edit = stateAtom<{ version: number; value: string } | null>(null);
+    const $input = stateAtom(
+      (get): string => {
+        const sheet = get(selectSheet({ sheetId }));
+        const document = get(sheet.$document);
+        const edit = get($edit);
+        return edit?.version === document.version
+          ? edit.value
+          : (document.cells[address] ?? '');
+      },
+      (get, set, value: string) => {
+        const sheet = get(selectSheet({ sheetId }));
+        set($edit, { version: get(sheet.$document).version, value });
+      },
+    );
     const $expression = stateAtom((get) => parseCell(get($input)));
     const $value = stateAtom(
       (get): CellValue =>
@@ -69,23 +67,40 @@ export function createSpreadsheet(initial = initialBudget) {
   }
 
   function createSheetModel({ sheetId }: SheetKey) {
-    const $selected = stateAtom('D5');
+    const firstAddress = addresses[0]!;
+    const $selected = stateAtom(firstAddress);
+    const $document = stateAtom<{
+      version: number;
+      cells: Readonly<Record<string, string>>;
+    }>({ version: 0, cells: {} });
     const $formula = atom(
-      (get) =>
+      (get): string =>
         get(get(selectCell({ sheetId, address: get($selected) })).$input),
       (get, set, value: string) => {
         const cell = get(selectCell({ sheetId, address: get($selected) }));
         set(cell.$input, value);
       },
     );
-    const reset = actionAtom((get, set) => {
-      for (const address of addresses) {
-        const cell = get(selectCell({ sheetId, address }));
-        set(cell.$input, initial[address] ?? '');
+    const load = actionAtom((get, set, document: SheetDocument) => {
+      const selected = document.selected ?? firstAddress;
+      if (!addresses.includes(selected))
+        throw new RangeError(`Invalid selected address: ${selected}`);
+      const cells = { ...document.cells };
+      for (const [address, input] of Object.entries(cells)) {
+        if (!addresses.includes(address))
+          throw new RangeError(`Invalid cell address: ${address}`);
+        if (typeof input !== 'string')
+          throw new TypeError(`Cell input must be a string: ${address}`);
       }
-      set($selected, 'D5');
+      // A new version replaces edits without enumerating registered cells.
+      set($document, {
+        version: get($document).version + 1,
+        cells: Object.freeze(cells),
+      });
+      set($selected, selected);
     });
-    return { $selected, $formula, reset };
+    const clear = actionAtom((_get, set) => set(load, { cells: {} }));
+    return { $document, $selected, $formula, load, clear };
   }
 
   const $$sheet = pipe(createSheetModel, modelRegistry());

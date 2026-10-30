@@ -388,6 +388,24 @@ msgstr "Шағын кестеде сыйлыққа арналған ойында
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "Document data"
+msgstr "Құжат деректері"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The model starts empty and selects its first cell. The demo loads this JSON document after the sheet gets an owner. Cell text and formulas are stored as input strings:"
+msgstr "Модель бос күйде жасалып, бірінші ұяшықты таңдайды. Кестеге иесі қосылғанда, демо осы JSON құжатын жүктейді. Ұяшық мәтіні мен формулалар енгізу жолдары ретінде сақталады:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The Reset sheet button loads the same document again. Loading replaces existing inputs without recreating cell models. A document version invalidates older edits; cells created later read the loaded data. The totalCell and totalRow fields configure only the demo View."
+msgstr "«Кестені қалпына келтіру» түймесі сол құжатты қайта жүктейді. Жүктеу ұяшық модельдерін қайта жасамай, мазмұнды ауыстырады. Құжат нұсқасы бұрынғы түзетулерді жарамсыз етеді; кейін жасалған ұяшықтар жүктелген деректерді оқиды. totalCell және totalRow өрістері тек мысалдың View-ын баптайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Try it"
 msgstr "Байқап көріңіз"
 

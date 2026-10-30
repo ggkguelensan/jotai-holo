@@ -388,6 +388,24 @@ msgstr "Рассчитайте бюджет подарочного набора 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "Document data"
+msgstr "Данные документа"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The model starts empty and selects its first cell. The demo loads this JSON document after the sheet gets an owner. Cell text and formulas are stored as input strings:"
+msgstr "Модель создаётся пустой и выбирает первую ячейку. Демо загружает этот JSON-документ, когда у таблицы появляется владелец. Текст и формулы хранятся как строки ввода:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The Reset sheet button loads the same document again. Loading replaces existing inputs without recreating cell models. A document version invalidates older edits; cells created later read the loaded data. The totalCell and totalRow fields configure only the demo View."
+msgstr "Кнопка «Сбросить таблицу» повторно загружает тот же документ. Загрузка заменяет содержимое без пересоздания моделей ячеек. Версия документа делает прежние правки неактуальными; созданные позже ячейки читают загруженные данные. Поля totalCell и totalRow настраивают только View примера."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Try it"
 msgstr "Попробуйте"
 

@@ -8,6 +8,14 @@ Estimate a game gift bundle with a small spreadsheet: copies × price, a demo 10
 
 </Demo>
 
+## Document data {#document-data}
+
+The model starts empty and selects its first cell. The demo loads this JSON document after the sheet gets an owner. Cell text and formulas are stored as input strings:
+
+<<< @/../examples/spreadsheet/gift-budget.json
+
+The Reset sheet button loads the same document again. Loading replaces existing inputs without recreating cell models. A document version invalidates older edits; cells created later read the loaded data. The totalCell and totalRow fields configure only the demo View.
+
 ## Try it
 
 Change B1 from 12 to 20: D1, the tax, and the bundle total change. Select D1 to see `=B1*C1` in the formula bar. Change it to `=B2*C2`, then edit B1 again: D1 now follows row 2 instead. Enter `=D1` into D1 to see a cycle error, then restore the original formula.

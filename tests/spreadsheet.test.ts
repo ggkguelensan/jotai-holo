@@ -1,6 +1,7 @@
 import { createStore } from 'jotai/vanilla';
 import { afterEach, expect, test, vi } from 'vitest';
 import { createSpreadsheet } from '../examples/spreadsheet/model.js';
+import giftBudget from '../examples/spreadsheet/gift-budget.json';
 
 const releases: (() => void)[] = [];
 afterEach(() => {
@@ -8,7 +9,7 @@ afterEach(() => {
 });
 
 const fixture = (initial?: Record<string, string>) => {
-  const registry = createSpreadsheet(initial);
+  const registry = createSpreadsheet();
   const store = createStore();
   const sheetId = 'test';
   const sheetLease = registry.$$sheet.acquire(store, {
@@ -27,6 +28,7 @@ const fixture = (initial?: Record<string, string>) => {
     }),
   );
   const sheet = { ...sheetLease.model, cells };
+  store.set(sheet.load, { cells: initial ?? giftBudget.cells, selected: giftBudget.selected });
   return {
     registry,
     sheet,
@@ -114,13 +116,13 @@ test('formula changes replace dependencies; unrelated and unread results stay la
   stopSecond();
 });
 
-test('the formula bar writes the selected native atom and reset restores inputs', () => {
+test('the formula bar writes the selected native atom and loading restores inputs', () => {
   const f = fixture();
   f.store.set(f.sheet.$selected, 'D1');
   expect(f.store.get(f.sheet.$formula)).toBe('=B1*C1');
   f.store.set(f.sheet.$formula, '=B1*C1*2');
   expect(f.read('D1')).toBe(1920);
-  f.store.set(f.sheet.reset);
+  f.store.set(f.sheet.load, giftBudget);
   expect(f.read('D1')).toBe(960);
   expect(f.store.get(f.sheet.$selected)).toBe('D5');
 });
@@ -129,10 +131,11 @@ test('separate stores and separate models are isolated', () => {
   const f = fixture();
   const other = createStore();
   f.write('B1', '30');
-  expect(other.get(f.sheet.cells.B1!.$value)).toBe(12);
+  const otherCell = other.get(f.registry.selectCell({ sheetId: 'test', address: 'B1' }));
+  expect(other.get(otherCell.$value)).toBe('');
   const second = createSpreadsheet();
   const secondCell = f.store.get(second.selectCell({ sheetId: 'test', address: 'B1' }));
-  expect(f.store.get(secondCell.$value)).toBe(12);
+  expect(f.store.get(secondCell.$value)).toBe('');
 });
 
 test('cell keys share one record and isolate other addresses and sheet IDs', () => {
@@ -143,10 +146,58 @@ test('cell keys share one record and isolate other addresses and sheet IDs', () 
   expect(select('test', 'B1')).toBe(select('test', 'B1'));
   f.write('B1', '30');
   expect(f.store.get(select('test', 'B1').$value)).toBe(30);
-  expect(f.store.get(select('other', 'B1').$value)).toBe(12);
+  expect(f.store.get(select('other', 'B1').$value)).toBe('');
   expect(f.store.get(select('test', 'B2').$value)).toBe(24);
-  expect(f.store.get(select('other', 'D1').$value)).toBe(960);
+  expect(f.store.get(select('other', 'D1').$value)).toBe('');
   f.store.set(f.sheet.$selected, 'B1');
   const otherSheet = f.store.get(f.registry.selectSheet({ sheetId: 'other' }));
-  expect(f.store.get(otherSheet.$selected)).toBe('D5');
+  expect(f.store.get(otherSheet.$selected)).toBe('A1');
+});
+
+test('a new model is empty and cells created after loading read the document', () => {
+  const registry = createSpreadsheet();
+  const store = createStore();
+  const sheet = store.get(registry.selectSheet({ sheetId: 'empty' }));
+  expect(store.get(sheet.$selected)).toBe('A1');
+  expect(store.get(sheet.$formula)).toBe('');
+  store.set(sheet.load, giftBudget);
+  const cell = store.get(registry.selectCell({ sheetId: 'empty', address: 'D1' }));
+  expect(store.get(cell.$value)).toBe(960);
+  expect(store.get(sheet.$selected)).toBe(giftBudget.selected);
+});
+
+test('loading replaces edits in existing models and owns a copy of document data', () => {
+  const f = fixture();
+  f.write('B1', '30');
+  const input = f.sheet.cells.B1!.$input;
+  const cells = { A1: '2', B1: '=A1*3' };
+  f.store.set(f.sheet.load, { cells, selected: 'B1' });
+  cells.A1 = '99';
+  expect(f.read('A1')).toBe(2);
+  expect(f.read('B1')).toBe(6);
+  expect(f.read('D1')).toBe('');
+  expect(f.store.get(f.registry.selectCell({ sheetId: 'test', address: 'B1' })).$input).toBe(input);
+  f.store.set(f.sheet.clear);
+  expect(f.read('A1')).toBe('');
+  expect(f.read('B1')).toBe('');
+  expect(f.store.get(f.sheet.$selected)).toBe('A1');
+});
+
+test('an invalid document leaves cell data and selection unchanged', () => {
+  const f = fixture();
+  expect(() =>
+    f.store.set(f.sheet.load, {
+      cells: { A1: 'changed', Z1: 'outside' },
+      selected: 'A1',
+    }),
+  ).toThrow(RangeError);
+  expect(f.read('A1')).toBe(giftBudget.cells.A1);
+  expect(f.store.get(f.sheet.$selected)).toBe(giftBudget.selected);
+  expect(() =>
+    f.store.set(f.sheet.load, {
+      cells: {},
+      selected: 'Z1',
+    }),
+  ).toThrow(RangeError);
+  expect(f.read('D1')).toBe(960);
 });

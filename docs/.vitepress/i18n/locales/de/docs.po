@@ -388,6 +388,24 @@ msgstr "Plane ein Spiele-Geschenkpaket mit einer kleinen Tabelle: Kopien × Prei
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "Document data"
+msgstr "Dokumentdaten"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The model starts empty and selects its first cell. The demo loads this JSON document after the sheet gets an owner. Cell text and formulas are stored as input strings:"
+msgstr "Das Modell startet leer und wählt die erste Zelle. Das Demo lädt dieses JSON-Dokument, sobald die Tabelle einen Besitzer erhält. Zelltext und Formeln werden als Eingabezeichenfolgen gespeichert:"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The Reset sheet button loads the same document again. Loading replaces existing inputs without recreating cell models. A document version invalidates older edits; cells created later read the loaded data. The totalCell and totalRow fields configure only the demo View."
+msgstr "Die Schaltfläche „Tabelle zurücksetzen“ lädt dasselbe Dokument erneut. Das Laden ersetzt Inhalte, ohne Zellmodelle neu zu erstellen. Eine Dokumentversion verwirft ältere Änderungen; später erstellte Zellen lesen die geladenen Daten. Die Felder totalCell und totalRow konfigurieren nur die Demo-View."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Try it"
 msgstr "Ausprobieren"
 

@@ -1,6 +1,8 @@
 import { useLingui } from '@lingui/react/macro';
 import { useState, type KeyboardEvent } from 'react';
-import { holo, holoList } from 'jotai-holo';
+import { actionAtom, holo, holoList } from 'jotai-holo';
+import { modelLifecycle, pipe } from 'jotai-holo/model';
+import giftBudget from '../spreadsheet/gift-budget.json';
 import {
   columns,
   createSpreadsheet,
@@ -140,9 +142,12 @@ function TotalView({ value }: { value: CellValue }) {
   );
 }
 
-function ResetView({ onReset }: { onReset: () => void }) {
+function ResetView({
+  onReset,
+  sheetId,
+}: SheetKey & { onReset: (sheetId: string) => void }) {
   const { t } = useLingui();
-  return <button onClick={onReset}>{t`Reset sheet`}</button>;
+  return <button onClick={() => onReset(sheetId)}>{t`Reset sheet`}</button>;
 }
 
 function SheetHeadingView({ sheetId }: SheetKey) {
@@ -191,7 +196,27 @@ function SheetHelpView() {
 }
 
 // #region spreadsheet
-const { selectSheet, selectCell, $rows, $columns } = createSpreadsheet();
+const registry = createSpreadsheet();
+const { selectCell, $rows, $columns } = registry;
+
+type SheetModel = ReturnType<typeof registry.$$sheet.acquire>['model'];
+
+const $$giftSheet = pipe(
+  registry.$$sheet,
+  modelLifecycle({
+    load: () => giftBudget,
+    restore: (sheet: SheetModel) => sheet.load,
+  }),
+);
+
+function selectSheet({ sheetId }: SheetKey) {
+  return $$giftSheet({ key: ['sheet', sheetId], initial: { sheetId } });
+}
+
+const reloadExample = actionAtom((get, set, sheetId: string) => {
+  const sheet = get(selectSheet({ sheetId }));
+  set(sheet.load, giftBudget);
+});
 
 const FormulaBar = holo({
   models: { sheet: selectSheet },
@@ -234,7 +259,7 @@ const RowCells = holoList({
 
 function RowView({ row, sheetId }: SheetKey & { row: number }) {
   return (
-    <tr data-total={row === 5 || undefined}>
+    <tr data-total={row === giftBudget.totalRow || undefined}>
       <th scope="row">{row}</th>
       <RowCells row={row} sheetId={sheetId} />
     </tr>
@@ -284,16 +309,16 @@ function TableView({ sheetId }: SheetKey) {
 
 const Total = holo({
   models: {
-    cell: ({ sheetId }: SheetKey) => selectCell({ sheetId, address: 'D5' }),
+    cell: ({ sheetId }: SheetKey) =>
+      selectCell({ sheetId, address: giftBudget.totalCell }),
   },
   view: TotalView,
   read: ({ cell }) => ({ value: cell.$value }),
 });
 
 const Reset = holo({
-  models: { sheet: selectSheet },
   view: ResetView,
-  write: ({ sheet }) => ({ onReset: sheet.reset }),
+  write: { onReset: reloadExample },
 });
 
 function SheetView({ sheetId = 'gift-budget' }: { sheetId?: string }) {

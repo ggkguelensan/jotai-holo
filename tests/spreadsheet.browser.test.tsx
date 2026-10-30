@@ -4,6 +4,7 @@ import { expect, test, vi } from 'vitest';
 import { holo } from '../src/holo.js';
 import Spreadsheet, { CellView } from '../examples/docs/spreadsheet.js';
 import { createSpreadsheet } from '../examples/spreadsheet/model.js';
+import giftBudget from '../examples/spreadsheet/gift-budget.json';
 import { createHarness } from './browser-harness.js';
 
 // Real Lingui macro compilation is exercised by the production docs tests.
@@ -61,6 +62,7 @@ test('Views share cells by sheet key and keep other sheets independent', async (
 test('only edited/dependent holo cells commit; the sheet shell stays untouched', async () => {
   const sheet = createSpreadsheet();
   const store = createStore();
+  store.set(store.get(sheet.selectSheet({ sheetId: 'tracked' })).load, giftBudget);
   const commits: Record<string, number> = {};
   const bindings = sheet.addresses.map((address) => {
     return holo({
