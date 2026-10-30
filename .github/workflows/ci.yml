@@ -31,6 +31,7 @@ jobs:
           name: spreadsheet-chromium-node-${{ matrix.node }}
           path: .vercel/spreadsheet-*
           include-hidden-files: true
+      - run: pnpm test:docs-graphs
       - run: pnpm test:docs-annotations
       - run: pnpm test:docs-analytics
       - run: pnpm test:package

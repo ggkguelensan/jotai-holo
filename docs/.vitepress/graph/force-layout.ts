@@ -16,6 +16,8 @@ export function stepLayout(
   height: number,
   dt = 1,
 ) {
+  // Keep larger systems inside the miniature instead of pressing them into its frame.
+  const density = Math.min(1, 10 / Math.max(1, nodes.length));
   const forces = nodes.map(() => ({ x: 0, y: 0 }));
   const byId = new Map(nodes.map((node, index) => [node.id, index]));
   for (let i = 0; i < nodes.length; i++) {
@@ -29,14 +31,14 @@ export function stepLayout(
         dy = 0.1;
       }
       const distance = Math.max(12, Math.hypot(dx, dy));
-      const push = Math.min(2.5, 2500 / (distance * distance));
+      const push = Math.min(2.5, (2500 * density * density) / (distance * distance));
       forces[i]!.x += (dx / distance) * push;
       forces[i]!.y += (dy / distance) * push;
       forces[j]!.x -= (dx / distance) * push;
       forces[j]!.y -= (dy / distance) * push;
     }
-    forces[i]!.x += (width / 2 - a.x) * 0.0014;
-    forces[i]!.y += (height / 2 - a.y) * 0.0014;
+    forces[i]!.x += (width / 2 - a.x) * (0.0014 / Math.sqrt(density));
+    forces[i]!.y += (height / 2 - a.y) * (0.0014 / Math.sqrt(density));
   }
   for (const link of links) {
     const i = byId.get(link.from),
@@ -47,7 +49,7 @@ export function stepLayout(
     const dx = b.x - a.x,
       dy = b.y - a.y;
     const distance = Math.max(1, Math.hypot(dx, dy));
-    const pull = (distance - 64) * 0.012;
+    const pull = (distance - 64 * Math.sqrt(density)) * 0.012;
     forces[i]!.x += (dx / distance) * pull;
     forces[i]!.y += (dy / distance) * pull;
     forces[j]!.x -= (dx / distance) * pull;

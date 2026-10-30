@@ -388,6 +388,12 @@ msgstr "Редактируйте бюджет подарков на нескол
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "One graph shows the workbook, sheet calculations, editor, View bindings and local storage together. Repeated cells and row wrappers are collapsed. Select a node to inspect its connections; matching displayed code is highlighted. Open the map to inspect models and source files."
+msgstr "Один граф объединяет книгу, вычисления листа, редактор, привязки View и локальное хранилище. Повторяющиеся ячейки и обёртки строк сгруппированы. Выберите узел, чтобы увидеть его связи; соответствующий показанный код подсветится. Откройте карту, чтобы рассмотреть модели и исходные файлы."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Try it"
 msgstr "Попробуйте"
 

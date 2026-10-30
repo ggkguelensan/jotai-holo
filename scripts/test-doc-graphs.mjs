@@ -247,6 +247,56 @@ try {
       false,
     );
   }
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  for (const locale of ['', 'ru/', 'de/', 'kk/']) {
+    await page.goto(`${origin}/${locale}examples/spreadsheet`);
+    assert.equal(await page.locator('.graph-example').count(), 1);
+    const system = page.locator('[data-graph-scene="spreadsheet-system"]');
+    // The lazy demo and graph change the article height during hydration.
+    await page.locator('[data-demo="spreadsheet"] [data-address="D5"]').waitFor();
+    await system.locator('.docs-graph[data-settled="true"]').waitFor();
+    await page.locator('#shared-computations').scrollIntoViewIfNeeded();
+    await page.waitForFunction(() => {
+      const rail = document
+        .querySelector('[data-graph-scene="spreadsheet-system"] .graph-example-sticky')
+        ?.getBoundingClientRect();
+      return rail && rail.y >= 60 && rail.y < 200;
+    });
+    const rail = await system.locator('.graph-example-sticky').boundingBox();
+    assert.ok(
+      rail && rail.y >= 60 && rail.y < 200,
+      'One system miniature stays alongside the article',
+    );
+    // Keyboard expansion keeps the pointer away from source-hover inspection.
+    await page.mouse.move(0, 0);
+    const expression = system.getByRole('button', { name: '$expression · ion', exact: true });
+    await expression.waitFor();
+    await expression.focus();
+    await expression.press('Enter');
+    await page.waitForFunction(() =>
+      [...document.querySelectorAll('.graph-source-selected')].some((line) =>
+        line.textContent.includes('const $expression = ion'),
+      ),
+    );
+    const expand = system.locator('.graph-example-sticky>header>a');
+    await expand.focus();
+    await expand.press('Enter');
+    await page.locator('.graph-map .docs-graph-group').nth(3).waitFor();
+    assert.equal(await page.locator('.graph-map .docs-graph-group').count(), 4);
+    assert.equal(
+      await page.locator('.graph-map-source>header strong').innerText(),
+      '$expression · ion',
+    );
+    await page.locator('.graph-back').click();
+    await page.locator('.graph-example[data-graph-scene="spreadsheet-system"]').waitFor();
+    assert.equal(await page.locator('.graph-example').count(), 1);
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.reload();
+  await page.locator('[data-graph-scene="spreadsheet-system"] .docs-graph').waitFor();
+  assert.equal(await page.locator('.graph-example').count(), 1);
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+  await page.screenshot({ path: '.vercel/spreadsheet-system-mobile.png', fullPage: true });
   await page.goto(`${origin}/examples/graph?scene=missing`);
   await page.getByText('The graph is unavailable. The example code remains readable.').waitFor();
   assert.equal(await page.locator('.docs-graph').count(), 0);

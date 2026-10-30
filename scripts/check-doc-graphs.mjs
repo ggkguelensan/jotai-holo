@@ -1,20 +1,23 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import ts from 'typescript';
+import { exampleSections } from '../docs/.vitepress/graph/document-graphs.mjs';
 
-const sourceUrl = new URL('../docs/.vitepress/graph/scenes.ts', import.meta.url);
-let source = await readFile(sourceUrl, 'utf8');
-const imports = [...source.matchAll(/import (\w+) from '([^']+)\?raw';/g)];
-for (const [statement, name, file] of imports) {
-  const text = await readFile(new URL(file, sourceUrl), 'utf8');
-  source = source.replace(statement, () => `const ${name}=${JSON.stringify(text)};`);
+async function loadSceneSource(file) {
+  const sourceUrl = new URL(file, import.meta.url);
+  let source = await readFile(sourceUrl, 'utf8');
+  for (const [statement, name, raw] of source.matchAll(/import (\w+) from '([^']+)\?raw';/g)) {
+    const text = await readFile(new URL(raw, sourceUrl), 'utf8');
+    source = source.replace(statement, () => `const ${name}=${JSON.stringify(text)};`);
+  }
+  const compiled = ts.transpileModule(source, {
+    compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
+  }).outputText;
+  return import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
 }
-const compiled = ts.transpileModule(source, {
-  compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext },
-}).outputText;
-const { scenes } = await import(
-  `data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`
-);
+const { scenes: existing } = await loadSceneSource('../docs/.vitepress/graph/scenes.ts');
+const { spreadsheetScene } = await loadSceneSource('../docs/.vitepress/graph/spreadsheet-scene.ts');
+const scenes = { ...existing, [spreadsheetScene.id]: spreadsheetScene };
 for (const [id, scene] of Object.entries(scenes)) {
   assert.equal(scene.id, id);
   const ids = new Set();
@@ -38,8 +41,36 @@ for (const [id, scene] of Object.entries(scenes)) {
     assert.equal(file.text, await readFile(new URL(`../${file.file}`, import.meta.url), 'utf8'));
   const [article, anchor] = scene.article.split('#');
   const markdown = await readFile(new URL(`../docs${article}.md`, import.meta.url), 'utf8');
-  assert.ok(markdown.includes(`<GraphExample scene="${id}">`), `${id}: missing article wrapper`);
-  assert.ok(markdown.includes(`{#${anchor}}`), `${id}: missing return anchor`);
+  assert.ok(
+    new RegExp(`<GraphExample[^>]*scene="${id}"[^>]*>`).test(markdown),
+    `${id}: missing article wrapper`,
+  );
+  assert.ok(
+    markdown.includes(`{#${anchor}}`) || markdown.includes(`id="${anchor}"`),
+    `${id}: missing return anchor`,
+  );
+}
+
+const workbookArticle = await readFile('docs/examples/spreadsheet.md', 'utf8');
+assert.equal(
+  exampleSections(workbookArticle).length,
+  0,
+  'One authored system graph replaces snippet graphs',
+);
+assert.equal([...workbookArticle.matchAll(/<GraphExample\b/g)].length, 1);
+assert.equal(spreadsheetScene.groups.filter((group) => group.registry).length, 4);
+for (const node of spreadsheetScene.nodes) {
+  if (!node.group) continue;
+  const [x, y, width, height] = spreadsheetScene.groups.find(
+    (group) => group.id === node.group,
+  ).bounds;
+  assert.ok(
+    node.position[0] >= x &&
+      node.position[0] <= x + width &&
+      node.position[1] >= y &&
+      node.position[1] <= y + height,
+    `Model placement: ${node.id}`,
+  );
 }
 
 // The solver must separate coincident starts and pull distant linked nodes together.
@@ -71,6 +102,25 @@ assert.ok(
       Number.isFinite(node.x) && node.x >= 28 && node.x <= 272 && node.y >= 28 && node.y <= 292,
   ),
 );
+
+const dense = spreadsheetScene.nodes.map((node, index, nodes) => ({
+  id: node.id,
+  x: 150 + Math.cos((index / nodes.length) * Math.PI * 2) * 87,
+  y: 160 + Math.sin((index / nodes.length) * Math.PI * 2) * 105,
+  vx: 0,
+  vy: 0,
+}));
+for (let i = 0; i < 650; i++) stepLayout(dense, spreadsheetScene.edges, 300, 320);
+assert.ok(
+  dense.filter((node) => node.x <= 29 || node.x >= 271 || node.y <= 29 || node.y >= 291).length < 5,
+  'A whole-system miniature must not settle into a rectangular boundary cage',
+);
+for (let i = 0; i < dense.length; i++)
+  for (let j = i + 1; j < dense.length; j++)
+    assert.ok(
+      Math.hypot(dense[i].x - dense[j].x, dense[i].y - dense[j].y) > 10,
+      'System graph dots must remain visually separate',
+    );
 
 console.log(
   `Graph scenes: ${Object.keys(scenes).length} scenes, source anchors, node/group IDs, edges and return links checked.`,
