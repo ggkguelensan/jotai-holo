@@ -38,7 +38,6 @@ export function Graph({
   const [positions, setPositions] = useState<Particle[]>([]);
   const [settled, setSettled] = useState(false);
   const [pinned, setPinned] = useState(false);
-  const preview = useRef<string | null>(null);
   const width = 300,
     height = 320;
   useEffect(() => {
@@ -174,10 +173,15 @@ export function Graph({
         viewBox={mode === 'map' ? '0 0 1000 650' : `0 0 ${width} ${height}`}
         role="group"
         aria-label={ui.title}
+        onClick={(event) => {
+          if ((event.target as Element).closest('.mini-node, .docs-graph-group')) return;
+          setPinned(false);
+          onSelect(null);
+        }}
         onKeyDown={(event) => {
           if (event.key === 'Escape') {
             setPinned(false);
-            onSelect(preview.current);
+            onSelect(null);
           }
         }}
       >
@@ -208,11 +212,9 @@ export function Graph({
                   aria-label={group.label}
                   aria-pressed={selected === group.id}
                   onFocus={() => {
-                    preview.current = group.id;
                     if (!pinned) onSelect(group.id);
                   }}
                   onMouseEnter={() => {
-                    preview.current = group.id;
                     if (!pinned) onSelect(group.id);
                   }}
                   onClick={() => {
@@ -322,15 +324,12 @@ export function Graph({
               aria-label={node.label}
               aria-pressed={selected === node.id}
               onFocus={() => {
-                preview.current = node.id;
                 if (!pinned) onSelect(node.id);
               }}
               onMouseEnter={() => {
-                preview.current = node.id;
-                if (!pinned) onSelect(node.id);
+                if (mode === 'map' && !pinned) onSelect(node.id);
               }}
               onMouseLeave={() => {
-                preview.current = null;
                 if (!pinned && !drag.current) onSelect(null);
               }}
               onKeyDown={(event) => {
@@ -410,16 +409,6 @@ export function Graph({
               data.groups.find((group) => group.id === selected)
             )?.label
           : ui.hint}
-        {pinned && (
-          <button
-            onClick={() => {
-              setPinned(false);
-              onSelect(null);
-            }}
-          >
-            {ui.clear}
-          </button>
-        )}
       </div>
     </div>
   );

@@ -149,18 +149,6 @@
   align-items: center;
   overflow-wrap: anywhere;
 }
-.docs-graph .mini-caption button {
-  min-height: 44px;
-  padding: 8px 12px;
-  font: 11px var(--vp-font-family-base);
-  color: var(--vp-c-text-2);
-  cursor: pointer;
-}
-.docs-graph .mini-caption button:focus-visible {
-  outline: 2px solid var(--vp-c-brand-1);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
 .graph-source-selected {
   background: var(--vp-c-brand-soft) !important;
   border-radius: 3px;

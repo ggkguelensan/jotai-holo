@@ -284,11 +284,6 @@ msgstr "Wählen Sie einen Knoten, um seinen Quellcode anzusehen."
 
 #. js-lingui-explicit-id
 #: docs/.vitepress/config.mts
-msgid "Clear selection"
-msgstr "Auswahl aufheben"
-
-#. js-lingui-explicit-id
-#: docs/.vitepress/config.mts
 msgid "External caller; its implementation is not part of this example."
 msgstr "Externer aufrufender Bestandteil; seine Implementierung gehört nicht zum Beispiel."
 
