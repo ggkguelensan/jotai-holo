@@ -233,6 +233,7 @@ export function getScene(id: string): GraphScene {
 /** Load generated source graphs only when their example becomes visible. */
 export async function loadScene(id: string): Promise<GraphScene> {
   if (scenes[id]) return scenes[id];
+  if (id === 'spreadsheet-system') return (await import('./spreadsheet-scene')).spreadsheetScene;
   const generated = import.meta.glob<{ default: GraphScene }>('./.generated/code-*.json');
   const load = generated[`./.generated/${id}.json`] ?? generated[`.generated/${id}.json`];
   if (!load) throw new Error(`Unknown graph scene: ${id}`);

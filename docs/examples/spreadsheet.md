@@ -2,6 +2,12 @@
 
 Edit a gift budget across several sheets. Each sheet has its own data, formulas and camera. The table shows a small window of the document; moving beyond its edge changes addresses without moving the physical cells.
 
+One graph shows the workbook, sheet calculations, editor, View bindings and local storage together. Repeated cells and row wrappers are collapsed. Select a node to inspect its connections; matching displayed code is highlighted. Open the map to inspect models and source files.
+
+<span id="workbook-system"></span>
+
+<GraphExample scene="spreadsheet-system" class="graph-system">
+
 <Demo kind="spreadsheet">
 
 <<< @/../examples/spreadsheet/ui/workspace.tsx#spreadsheet
@@ -100,3 +106,5 @@ spreadsheet/
 Browser E2E tests exercise the built documentation in all four languages: real keyboard input, cancellation, fixed-slot camera geometry, offscreen formulas, dimension changes, sheet switching, local restoration, renaming and mobile layout. Integration tests use controlled time and storage to verify one-minute retention, delayed restoration, failed writes and overlapping revisions. Computation tests check shared intermediates, dependency replacement, cycle repair, no-op writes and cache identity after cell disposal.
 
 Run `pnpm exec vitest bench --run tests/spreadsheet.bench.ts` to measure cached reads, edits with demanded results, and topology validation separately for a chain, shared dependencies and a range. Timings depend on the machine; these benchmarks do not compare this example with a production formula engine.
+
+</GraphExample>

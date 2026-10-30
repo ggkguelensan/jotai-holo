@@ -388,6 +388,12 @@ msgstr "Сыйлық бюджетін бірнеше парақта өңдеңі
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "One graph shows the workbook, sheet calculations, editor, View bindings and local storage together. Repeated cells and row wrappers are collapsed. Select a node to inspect its connections; matching displayed code is highlighted. Open the map to inspect models and source files."
+msgstr "Бір граф кітапты, парақ есептеулерін, редакторды, View байланыстарын және жергілікті қойманы біріктіреді. Қайталанатын ұяшықтар мен жол орамалары топтастырылған. Байланыстарын көру үшін түйінді таңдаңыз; сәйкес көрсетілген код белгіленеді. Модельдер мен бастапқы файлдарды қарау үшін картаны ашыңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Try it"
 msgstr "Байқап көріңіз"
 
