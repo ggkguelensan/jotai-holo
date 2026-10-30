@@ -1,6 +1,7 @@
-import { createStore } from 'jotai/vanilla';
+import { atom, createStore } from 'jotai/vanilla';
 import { afterEach, expect, test, vi } from 'vitest';
 import * as spreadsheet from '../examples/spreadsheet/models/index.js';
+import { createCellGraph } from '../examples/spreadsheet/models/cell-graph.js';
 import giftBudget from '../examples/spreadsheet/gift-budget.json';
 
 const releases: (() => void)[] = [];
@@ -102,8 +103,8 @@ test('self and indirect cycles propagate and recover after a reference is repair
 
 test('formula changes replace dependencies; unrelated and unread results stay lazy', () => {
   const f = fixture();
-  const unchanged = vi.spyOn(f.sheet.cells.D2!.$value, 'read');
-  const unused = vi.spyOn(f.sheet.cells.A8!.$value, 'read');
+  const unchanged = vi.spyOn(f.sheet.cellAt('D2').$value, 'read');
+  const unused = vi.spyOn(f.sheet.cellAt('A8').$value, 'read');
   const first = vi.fn();
   const second = vi.fn();
   const stopFirst = f.store.sub(f.sheet.cells.D1!.$value, first);
@@ -207,4 +208,93 @@ test('an invalid document leaves cell data and selection unchanged', () => {
     }),
   ).toThrow(RangeError);
   expect(f.read('D1')).toBe(960);
+});
+
+test('shared intermediate values compute once per change, not once per root', () => {
+  const f = fixture({ A1: '2', B1: '=A1*3', C1: '=B1+1', D1: '=B1+2' });
+  const intermediate = f.sheet.cellAt('B1');
+  const evaluate = vi.spyOn(intermediate.$value, 'read');
+  const parse = vi.spyOn(intermediate.$expression, 'read');
+  const stopC = f.store.sub(f.sheet.cells.C1!.$value, () => {});
+  const stopD = f.store.sub(f.sheet.cells.D1!.$value, () => {});
+  expect(evaluate).toHaveBeenCalledTimes(1);
+  expect(parse).toHaveBeenCalledTimes(1);
+  evaluate.mockClear();
+  parse.mockClear();
+  f.write('A1', '4');
+  expect(f.read('C1')).toBe(13);
+  expect(f.read('D1')).toBe(14);
+  expect(evaluate).toHaveBeenCalledTimes(1);
+  expect(parse).not.toHaveBeenCalled();
+  stopC();
+  stopD();
+});
+
+test('mounted values recover from new cycles without exposing a cyclic Jotai read', () => {
+  const f = fixture({ A1: '2', B1: '=A1', C1: '=B1', D1: '=C1' });
+  const changed = vi.fn();
+  const stop = f.store.sub(f.sheet.cells.D1!.$value, changed);
+  f.write('A1', '=C1');
+  expect(f.read('D1')).toBe('#CYCLE!');
+  f.write('B1', '5');
+  expect(f.read('D1')).toBe(5);
+  f.write('B1', '=A1');
+  expect(f.read('D1')).toBe('#CYCLE!');
+  f.write('A1', '7');
+  expect(f.read('D1')).toBe(7);
+  expect(changed).toHaveBeenCalledTimes(4);
+  stop();
+});
+
+test('same input and dimensions preserve revision, document and result cache', () => {
+  const f = fixture({ A1: '2', B1: '=A1*3' });
+  const document = f.store.get(f.sheet.$document);
+  const revision = f.store.get(f.sheet.$revision);
+  f.read('B1');
+  const evaluate = vi.spyOn(f.sheet.cellAt('B1').$value, 'read');
+  f.write('A1', '2');
+  f.store.set(f.sheet.resize, { rows: 8, columns: 4 });
+  expect(f.store.get(f.sheet.$revision)).toBe(revision);
+  expect(f.store.get(f.sheet.$document)).toBe(document);
+  expect(f.read('B1')).toBe(6);
+  expect(evaluate).not.toHaveBeenCalled();
+});
+
+test('depth is bounded before value reads and does not depend on document entry order', () => {
+  for (const reverse of [false, true]) {
+    const cells = Array.from(
+      { length: 130 },
+      (_, i) => [`A${i + 1}`, i === 129 ? '1' : `=A${i + 2}+1`] as const,
+    );
+    const f = fixture({});
+    f.store.set(f.sheet.load, {
+      rows: 130,
+      columns: 4,
+      cells: Object.fromEntries(reverse ? cells.reverse() : cells),
+    });
+    expect(f.read('A1')).toBe('#LIMIT!');
+    expect(f.store.get(f.sheet.cellAt('A3').$value)).toBe(128);
+    f.write('A1', '5');
+    expect(f.read('A1')).toBe(5);
+  }
+});
+
+test('late public input atoms invalidate validation before introducing a cycle', () => {
+  const f = fixture({ D1: '1' });
+  f.read('D1');
+  const a = f.sheet.inputAt('A7');
+  const b = f.sheet.inputAt('B7');
+  f.store.set(a, '=B7');
+  f.store.set(b, '=A7');
+  expect(f.store.get(f.sheet.cellAt('A7').$value)).toBe('#CYCLE!');
+  f.store.set(b, '9');
+  expect(f.store.get(f.sheet.cellAt('A7').$value)).toBe(9);
+});
+
+test('range limits are checked before allocating any referenced computation atoms', () => {
+  const store = createStore();
+  const graph = createCellGraph(atom({ rows: 1000, columns: 1000 }), atom(0));
+  store.set(graph.inputAt('A1'), '=SUM(A1:ALL1000)');
+  expect(store.get(graph.cellAt('A1').$value)).toBe('#LIMIT!');
+  expect([...graph.inputs.keys()]).toEqual(['A1']);
 });

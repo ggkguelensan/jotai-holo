@@ -1,7 +1,5 @@
 import { atom } from 'jotai/vanilla';
 import { modelConnection, modelRegistry, pipe } from 'jotai-holo/model';
-import { evaluateCell, parseCell, type CellValue } from '../formulas.js';
-import { columnName, contains, point } from '../coordinates.js';
 import { $$sheet, selectSheet } from './sheet-model.js';
 import type { CellKey } from './types.js';
 
@@ -12,28 +10,12 @@ export function createCellModel({ sheetId, address }: CellKey) {
     (get, set, value: string) =>
       set(get(selectSheet({ sheetId })).setCell, { address, value }),
   );
-  const $expression = atom((get) => parseCell(get($input)));
-  const $value = atom((get): CellValue => {
-    const sheet = get(selectSheet({ sheetId }));
-    const size = get(sheet.$dimensions);
-    if (!contains(size, point(address))) return '#REF!';
-    return evaluateCell(
-      address,
-      (ref) => {
-        try {
-          if (!contains(size, point(ref)))
-            return { kind: 'literal', value: '#REF!' };
-          return get(get(selectCell({ sheetId, address: ref })).$expression);
-        } catch (error) {
-          if (error instanceof RangeError)
-            return { kind: 'literal', value: '#REF!' };
-          throw error;
-        }
-      },
-      Array.from({ length: size.columns }, (_, i) => columnName(i)),
-      size.rows,
-    );
-  });
+  const $expression = atom((get) =>
+    get(get(selectSheet({ sheetId })).cellAt(address).$expression),
+  );
+  const $value = atom((get) =>
+    get(get(selectSheet({ sheetId })).cellAt(address).$value),
+  );
   return { address, $input, $expression, $value };
 }
 // #endregion cell-model

@@ -22,9 +22,21 @@ Generic models start empty. This JSON supplies the first gift-budget sheet; its 
 
 <<< @/../examples/spreadsheet/gift-budget.json
 
-The document owns cell inputs. A cell model exposes an input and a derived result; releasing that model never deletes the input. Formula evaluation reads referenced expressions through get, so changing a formula changes its dependencies. The parser never executes JavaScript.
+The sheet owns each cell’s input, parsed expression and result atoms. A cell registry model exposes those atoms to a binding; releasing the model preserves their identity and cache. The parser never executes JavaScript.
 
 <<< @/../examples/spreadsheet/models/cell-model.ts#cell-model
+
+## Shared computations
+
+Each cell forms a chain: $input → $expression → $value. ion parses the input with a pure function. A result reads referenced $value atoms through get, so Jotai caches intermediate results and tracks the references used by the current formula.
+
+<<< @/../examples/spreadsheet/models/cell-graph.ts#cell-computation
+
+If B1 contains `=A1*3` and both C1 and D1 reference B1, changing A1 computes B1 once for both consumers. Replacing C1’s formula replaces its dependencies. Unrequested results stay unevaluated. Writing the same input or dimensions does not advance the document revision or schedule a save.
+
+Before values read each other, a separate pass checks references for cycles and excessive depth. This pass scans allocated inputs and their references after an edit; it reuses cached parsed expressions, but it is not limited to affected results. A cycle becomes #CYCLE! without creating a cyclic Jotai read. Repairing the formula restores calculation.
+
+The camera controls mounted cells, not the computation graph. Visited input and computation atoms remain with the sheet until its registry instance expires. Storage saves source inputs and dimensions; results are recalculated after restoration.
 
 ## Views and the camera
 
@@ -52,7 +64,7 @@ Returning within that minute reuses the instance. Returning later creates a new 
 
 Supported syntax: numeric literals, cell references, parentheses, unary signs, +, -, \*, /, and SUM with comma-separated arguments or rectangular ranges. SUM ignores text and empty cells; arithmetic treats an empty cell as zero and reports text as a value error. Function names and references are case-insensitive; use a decimal point in formulas.
 
-Errors are values: #REF! for an address outside the sheet, #CYCLE! for circular references, #DIV/0! for division by zero, #VALUE! for incompatible values, #NUM! for a non-finite result, and #FORMULA! for unsupported syntax. #LIMIT! bounds expensive calculations: a range may contain at most 2048 cells, evaluation has a 2048-step budget, and reference depth is limited to 128.
+Errors are values: #REF! for an address outside the sheet, #CYCLE! for circular references, #DIV/0! for division by zero, #VALUE! for incompatible values, #NUM! for a non-finite result, and #FORMULA! for unsupported syntax. #LIMIT! bounds expensive calculations: a range may contain at most 2048 cells, each formula has a 2048-step budget (including range entries), and reference depth is limited to 128.
 
 The document supports up to 1000 rows and 1000 columns. This is a teaching example with JavaScript numbers, not an Excel-compatible engine. It does not implement cross-sheet formulas, collaborative editing, CSV paste or range selection. For a production spreadsheet, evaluate an established formula engine separately from the React bindings.
 
@@ -75,4 +87,6 @@ spreadsheet/
 
 ## Verification
 
-Browser E2E tests exercise the built documentation in all four languages: real keyboard input, cancellation, fixed-slot camera geometry, offscreen formulas, dimension changes, sheet switching, local restoration, renaming and mobile layout. Integration tests use controlled time and storage to verify one-minute retention, delayed restoration, failed writes and overlapping revisions.
+Browser E2E tests exercise the built documentation in all four languages: real keyboard input, cancellation, fixed-slot camera geometry, offscreen formulas, dimension changes, sheet switching, local restoration, renaming and mobile layout. Integration tests use controlled time and storage to verify one-minute retention, delayed restoration, failed writes and overlapping revisions. Computation tests check shared intermediates, dependency replacement, cycle repair, no-op writes and cache identity after cell disposal.
+
+Run `pnpm exec vitest bench --run tests/spreadsheet.bench.ts` to measure cached reads, edits with demanded results, and topology validation separately for a chain, shared dependencies and a range. Timings depend on the machine; these benchmarks do not compare this example with a production formula engine.

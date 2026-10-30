@@ -1,25 +1,38 @@
-import { atom } from 'jotai/vanilla';
+import { atom, type WritableAtom } from 'jotai/vanilla';
 import { actionAtom, stateAtom } from 'jotai-holo/vanilla';
 import { modelRegistry, pipe } from 'jotai-holo/model';
 import { point, validateDimensions, type Dimensions } from '../coordinates.js';
+import { createCellGraph } from './cell-graph.js';
 import type { SheetKey, SheetDocument } from './types.js';
 
 const defaultSize = { rows: 8, columns: 4 };
 
 export function createSheetModel(_initial: SheetKey) {
-  const inputs = new Map<string, ReturnType<typeof stateAtom<string>>>();
   const $dimensions = stateAtom<Dimensions>({
     rows: defaultSize.rows,
     columns: defaultSize.columns,
   });
   const $revision = stateAtom(0);
   const $loaded = stateAtom(false);
-  // These atoms belong to the document, not to visible cell models.
+  const graph = createCellGraph($dimensions, $revision);
+  const { inputs } = graph;
+  const publicInputs = new Map<string, WritableAtom<string, [string], void>>();
   function inputAt(address: string) {
     point(address);
-    let input = inputs.get(address);
-    if (!input) inputs.set(address, (input = stateAtom('')));
+    let input = publicInputs.get(address);
+    if (!input) {
+      const source = graph.inputAt(address);
+      input = atom(
+        (get) => get(source),
+        (_get, set, value: string) => set(setCell, { address, value }),
+      );
+      publicInputs.set(address, input);
+    }
     return input;
+  }
+  function cellAt(address: string) {
+    point(address);
+    return graph.cellAt(address);
   }
   const $document = atom((get): SheetDocument => {
     get($revision);
@@ -31,14 +44,18 @@ export function createSheetModel(_initial: SheetKey) {
     return { version: 1, ...get($dimensions), cells };
   });
   const setCell = actionAtom(
-    (_get, set, { address, value }: { address: string; value: string }) => {
+    (get, set, { address, value }: { address: string; value: string }) => {
+      point(address);
       if (value.length > 512) throw new RangeError('Cell input is too long.');
-      set(inputAt(address), value);
+      if (get(graph.inputAt(address)) === value) return;
+      set(graph.inputAt(address), value);
       set($revision, (n) => n + 1);
     },
   );
-  const resize = actionAtom((_get, set, size: Dimensions) => {
+  const resize = actionAtom((get, set, size: Dimensions) => {
     validateDimensions(size);
+    const current = get($dimensions);
+    if (current.rows === size.rows && current.columns === size.columns) return;
     set($dimensions, { ...size });
     set($revision, (n) => n + 1);
   });
@@ -63,7 +80,7 @@ export function createSheetModel(_initial: SheetKey) {
         throw new TypeError(`Invalid cell input: ${address}`);
     }
     for (const address of new Set([...inputs.keys(), ...Object.keys(cells)]))
-      set(inputAt(address), cells[address] ?? '');
+      set(graph.inputAt(address), cells[address] ?? '');
     set($dimensions, size);
     set($revision, (n) => n + 1);
     set($loaded, true);
@@ -74,6 +91,7 @@ export function createSheetModel(_initial: SheetKey) {
   return {
     sheetId: _initial.sheetId,
     inputAt,
+    cellAt,
     $document,
     $dimensions,
     $loaded,

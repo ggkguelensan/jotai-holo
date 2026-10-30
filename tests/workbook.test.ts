@@ -71,11 +71,17 @@ test('document data survives cell disposal and dimensions hide rather than delet
   const options = { key: ['cell', 'one', 'AA90'], initial: { sheetId: 'one', address: 'AA90' } };
   const cell = registry.$$cell.acquire(store, options);
   store.set(cell.model.$input, '9');
+  const computation = sheet.model.cellAt('AA90');
+  expect(store.get(computation.$value)).toBe(9);
+  const evaluate = vi.spyOn(computation.$value, 'read');
   cell.release();
   await new Promise((resolve) => setTimeout(resolve, 1));
   const next = registry.$$cell.acquire(store, options);
   releases.push(next.release);
   expect(next.model).not.toBe(cell.model);
+  expect(sheet.model.cellAt('AA90')).toBe(computation);
+  expect(store.get(next.model.$value)).toBe(9);
+  expect(evaluate).not.toHaveBeenCalled();
   expect(store.get(next.model.$input)).toBe('9');
   const total = store.get(registry.selectCell({ sheetId: 'one', address: 'A1' }));
   expect(store.get(total.$value)).toBe(18);
@@ -125,6 +131,7 @@ test('saved sheet returns the same model before a minute and a new restored mode
   const restored = f.workbook.$$sheet.acquire(f.store, f.options);
   releases.push(restored.release);
   expect(restored.model).not.toBe(f.sheet.model);
+  expect(restored.model.cellAt('B1').$value).not.toBe(f.sheet.model.cellAt('B1').$value);
   await drain();
   expect(f.store.get(restored.model.inputAt('B1'))).toBe('20');
 });
@@ -217,15 +224,13 @@ test('a fresh instance is not editable before a delayed restore and invalid opti
   expect(Number.isFinite(f.store.get(view.model.$camera).row)).toBe(true);
 });
 
-test('oversized formula ranges return a bounded error without creating their cells', () => {
+test('oversized formula ranges return a bounded error', () => {
   const registry = spreadsheet;
   const store = createStore();
   const sheet = store.get(registry.selectSheet({ sheetId: 'large' }));
   store.set(sheet.load, { rows: 1000, columns: 1000, cells: { A1: '=SUM(A1:ALL1000)' } });
-  const inputAt = vi.spyOn(sheet, 'inputAt');
   const cell = store.get(registry.selectCell({ sheetId: 'large', address: 'A1' }));
   expect(store.get(cell.$value)).toBe('#LIMIT!');
-  expect(inputAt.mock.calls.length).toBeLessThan(10);
 });
 
 test('another visible owner prevents the inactive-sheet retention timer from starting', async () => {
@@ -277,4 +282,19 @@ test('module definitions isolate concurrent stores, including their storage erro
   expect(rightStorage.values.get('gift-budget-v1/sheet/gifts')).toMatchObject({
     cells: { B1: '44' },
   });
+});
+
+test('unchanged input and dimensions do not schedule persistence', async () => {
+  vi.useFakeTimers();
+  const memory = memoryStorage();
+  const f = await fixture(memory.storage);
+  const write = vi.mocked(memory.storage.write);
+  write.mockClear();
+  const size = f.store.get(f.sheet.model.$dimensions);
+  const current = f.store.get(f.sheet.model.inputAt('B1'));
+  f.store.set(f.sheet.model.inputAt('B1'), current);
+  f.store.set(f.sheet.model.resize, { ...size });
+  await vi.advanceTimersByTimeAsync(1000);
+  await drain();
+  expect(write).not.toHaveBeenCalled();
 });

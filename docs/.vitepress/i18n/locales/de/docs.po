@@ -424,8 +424,38 @@ msgstr "Generische Modelle beginnen leer. Dieses JSON befüllt das erste Geschen
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "The document owns cell inputs. A cell model exposes an input and a derived result; releasing that model never deletes the input. Formula evaluation reads referenced expressions through get, so changing a formula changes its dependencies. The parser never executes JavaScript."
-msgstr "Das Dokument besitzt die Zelleingaben. Ein Zellmodell stellt Eingabe und berechnetes Ergebnis bereit; seine Freigabe löscht die Eingabe nicht. Die Auswertung liest referenzierte Ausdrücke über get, daher ändern sich Abhängigkeiten mit der Formel. Der Parser führt kein JavaScript aus."
+msgid "The sheet owns each cell’s input, parsed expression and result atoms. A cell registry model exposes those atoms to a binding; releasing the model preserves their identity and cache. The parser never executes JavaScript."
+msgstr "Das Blatt besitzt die Atome für Eingabe, geparsten Ausdruck und Ergebnis jeder Zelle. Ein Registry-Modell stellt sie der Bindung bereit; beim Freigeben des Modells bleiben Identität und Cache erhalten. Der Parser führt kein JavaScript aus."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Shared computations"
+msgstr "Gemeinsame Berechnungen"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Each cell forms a chain: $input → $expression → $value. ion parses the input with a pure function. A result reads referenced $value atoms through get, so Jotai caches intermediate results and tracks the references used by the current formula."
+msgstr "Jede Zelle bildet eine Kette: $input → $expression → $value. ion parst die Eingabe mit einer reinen Funktion. Das Ergebnis liest referenzierte $value-Atome über get. So speichert Jotai Zwischenergebnisse im Cache und verfolgt die Referenzen der aktuellen Formel."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "If B1 contains `=A1*3` and both C1 and D1 reference B1, changing A1 computes B1 once for both consumers. Replacing C1’s formula replaces its dependencies. Unrequested results stay unevaluated. Writing the same input or dimensions does not advance the document revision or schedule a save."
+msgstr "Enthält B1 die Formel `=A1*3` und verweisen C1 und D1 auf B1, wird B1 nach einer Änderung von A1 einmal für beide Verbraucher berechnet. Eine neue Formel in C1 ersetzt dessen Abhängigkeiten. Nicht angeforderte Ergebnisse bleiben unberechnet. Unveränderte Eingaben oder Abmessungen erhöhen die Dokumentrevision nicht und planen keinen Speichervorgang."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Before values read each other, a separate pass checks references for cycles and excessive depth. This pass scans allocated inputs and their references after an edit; it reuses cached parsed expressions, but it is not limited to affected results. A cycle becomes #CYCLE! without creating a cyclic Jotai read. Repairing the formula restores calculation."
+msgstr "Bevor Ergebnisse einander lesen, prüft ein separater Durchlauf die Referenzen auf Zyklen und übermäßige Tiefe. Nach einer Änderung durchsucht er angelegte Eingaben und ihre Referenzen und verwendet gecachte Ausdrücke erneut. Er beschränkt sich nicht auf betroffene Ergebnisse. Ein Zyklus ergibt #CYCLE!, ohne einen zyklischen Jotai-Lesezugriff zu erzeugen. Eine korrigierte Formel stellt die Berechnung wieder her."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "The camera controls mounted cells, not the computation graph. Visited input and computation atoms remain with the sheet until its registry instance expires. Storage saves source inputs and dimensions; results are recalculated after restoration."
+msgstr "Die Kamera steuert montierte Zellen, nicht den Berechnungsgraphen. Besuchte Eingabe- und Berechnungsatome bleiben beim Blatt, bis dessen Registry-Instanz abläuft. Der Speicher sichert Eingaben und Abmessungen; Ergebnisse werden nach dem Wiederherstellen neu berechnet."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -490,8 +520,8 @@ msgstr "Unterstützt werden Zahlen, Zellverweise, Klammern, unäre Vorzeichen, +
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Errors are values: #REF! for an address outside the sheet, #CYCLE! for circular references, #DIV/0! for division by zero, #VALUE! for incompatible values, #NUM! for a non-finite result, and #FORMULA! for unsupported syntax. #LIMIT! bounds expensive calculations: a range may contain at most 2048 cells, evaluation has a 2048-step budget, and reference depth is limited to 128."
-msgstr "Fehler erscheinen als Werte: #REF! für Adressen außerhalb des Blatts, #CYCLE! für Zyklen, #DIV/0! für Division durch null, #VALUE! für unvereinbare Werte, #NUM! für nicht endliche Ergebnisse und #FORMULA! für nicht unterstützte Syntax. #LIMIT! begrenzt aufwendige Berechnungen: höchstens 2048 Zellen pro Bereich, 2048 Auswertungsschritte und Verweistiefe 128."
+msgid "Errors are values: #REF! for an address outside the sheet, #CYCLE! for circular references, #DIV/0! for division by zero, #VALUE! for incompatible values, #NUM! for a non-finite result, and #FORMULA! for unsupported syntax. #LIMIT! bounds expensive calculations: a range may contain at most 2048 cells, each formula has a 2048-step budget (including range entries), and reference depth is limited to 128."
+msgstr "Fehler erscheinen als Werte: #REF! für Adressen außerhalb des Blatts, #CYCLE! für Zyklen, #DIV/0! für Division durch null, #VALUE! für unvereinbare Werte, #NUM! für nicht endliche Ergebnisse und #FORMULA! für nicht unterstützte Syntax. #LIMIT! begrenzt aufwendige Berechnungen: höchstens 2048 Zellen pro Bereich, 2048 Auswertungsschritte pro Formel einschließlich Bereichseinträgen und Verweistiefe 128."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
@@ -522,8 +552,14 @@ msgstr "Überprüfung"
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
-msgid "Browser E2E tests exercise the built documentation in all four languages: real keyboard input, cancellation, fixed-slot camera geometry, offscreen formulas, dimension changes, sheet switching, local restoration, renaming and mobile layout. Integration tests use controlled time and storage to verify one-minute retention, delayed restoration, failed writes and overlapping revisions."
-msgstr "Browser-E2E-Tests prüfen die gebaute Dokumentation in vier Sprachen: Tastatureingabe, Abbruch, Kamera-Geometrie, unsichtbare Formelquellen, Größenänderung, Blattwechsel, Wiederherstellung, Umbenennung und Mobilansicht. Integrationstests steuern Zeit und Speicher für Minutenhaltung, verzögertes Laden, Schreibfehler und überlappende Revisionen."
+msgid "Browser E2E tests exercise the built documentation in all four languages: real keyboard input, cancellation, fixed-slot camera geometry, offscreen formulas, dimension changes, sheet switching, local restoration, renaming and mobile layout. Integration tests use controlled time and storage to verify one-minute retention, delayed restoration, failed writes and overlapping revisions. Computation tests check shared intermediates, dependency replacement, cycle repair, no-op writes and cache identity after cell disposal."
+msgstr "Browser-E2E-Tests prüfen die gebaute Dokumentation in vier Sprachen: Tastatureingabe, Abbruch, Kamera-Geometrie, unsichtbare Formelquellen, Größenänderung, Blattwechsel, Wiederherstellung, Umbenennung und Mobilansicht. Integrationstests steuern Zeit und Speicher für Minutenhaltung, verzögertes Laden, Schreibfehler und überlappende Revisionen. Berechnungstests prüfen gemeinsame Zwischenergebnisse, ersetzte Abhängigkeiten, reparierte Zyklen, unveränderte Schreibvorgänge und Cache-Identität nach der Freigabe eines Zellmodells."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
+msgid "Run `pnpm exec vitest bench --run tests/spreadsheet.bench.ts` to measure cached reads, edits with demanded results, and topology validation separately for a chain, shared dependencies and a range. Timings depend on the machine; these benchmarks do not compare this example with a production formula engine."
+msgstr "Mit `pnpm exec vitest bench --run tests/spreadsheet.bench.ts` lassen sich Cache-Lesezugriffe, Änderungen mit angeforderten Ergebnissen und Topologieprüfung getrennt für eine Kette, gemeinsame Abhängigkeiten und einen Bereich messen. Die Zeiten hängen vom Rechner ab; diese Benchmarks vergleichen das Beispiel nicht mit einer produktiven Formel-Engine."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
