@@ -178,7 +178,7 @@ export const spreadsheetScene: GraphScene = {
       'resource',
       'IndexedDB · restore / save',
       'storage',
-      'await storage.write(sheetKey',
+      'const disk = persist({',
       580,
       335,
     ),
