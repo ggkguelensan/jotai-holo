@@ -1,4 +1,4 @@
-import type { PersistenceCodec, PersistenceStorage } from '../../../src/persist.js';
+import type { PersistenceCodec, PersistenceStorage } from '../persist.js';
 import { deferred, startOperation, type Operation } from './operation.js';
 
 export type Snapshot<Value> = Readonly<{ revision: number; value: Value }>;

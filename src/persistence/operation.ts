@@ -32,10 +32,17 @@ export function startOperation<Value>(
   if (parent?.aborted) onParentAbort();
 
   const timer = setTimeout(() => cancel(new Error('Persistence operation timed out.')), timeout);
-  const actual = Promise.resolve().then(() => {
-    controller.signal.throwIfAborted();
-    return work(controller.signal);
-  });
+  const actual = Promise.resolve()
+    .then(() => {
+      controller.signal.throwIfAborted();
+      return work(controller.signal);
+    })
+    .catch((error: unknown) => {
+      // undefined is reserved for "no error" in the public status atom.
+      throw error === undefined
+        ? new Error('Persistence operation failed without a reason.')
+        : error;
+    });
   const outcome = Promise.race([actual, cancelled.promise]).finally(() => {
     clearTimeout(timer);
     parent?.removeEventListener('abort', onParentAbort);

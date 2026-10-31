@@ -4472,8 +4472,20 @@ msgstr "read supplies snapshots; restore accepts decoded values. storage impleme
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/persist.md
-msgid "save.debounce defaults to 0; timeout defaults to 10,000 ms. Local edits take priority over late restoration. Writes are serialized and coalesced. Release stops observation and attempts the captured pending write. Await flush for an explicit save; browser shutdown does not guarantee completion."
-msgstr "save.debounce defaults to 0; timeout defaults to 10,000 ms. Local edits take priority over late restoration. Writes are serialized and coalesced. Release stops observation and attempts the captured pending write. Await flush for an explicit save; browser shutdown does not guarantee completion."
+msgid "save.debounce defaults to 0; timeout defaults to 10,000 ms. Local edits take priority over late restoration. Writes are serialized and coalesced within one persistence declaration in one store."
+msgstr "save.debounce defaults to 0; timeout defaults to 10,000 ms. Local edits take priority over late restoration. Writes are serialized and coalesced within one persistence declaration in one store."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/persist.md
+msgid "flush captures the latest observed revision when called. Its Promise resolves after that revision or a newer snapshot is saved; later edits do not extend the request. Release stops observation and attempts the captured pending write. After release, flush can await or retry captured data without subscribing again or reading new edits. Browser shutdown does not guarantee completion."
+msgstr "flush captures the latest observed revision when called. Its Promise resolves after that revision or a newer snapshot is saved; later edits do not extend the request. Release stops observation and attempts the captured pending write. After release, flush can await or retry captured data without subscribing again or reading new edits. Browser shutdown does not guarantee completion."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/persist.md
+msgid "If a write times out, flush rejects and $error records the failure. Storage cancellation is cooperative: $saving stays true until the underlying write finishes, and no newer write starts in parallel. Late completion does not confirm the timed-out snapshot. Retry with flush after the operation finishes. A storage operation that never finishes blocks further writes for this declaration."
+msgstr "If a write times out, flush rejects and $error records the failure. Storage cancellation is cooperative: $saving stays true until the underlying write finishes, and no newer write starts in parallel. Late completion does not confirm the timed-out snapshot. Retry with flush after the operation finishes. A storage operation that never finishes blocks further writes for this declaration."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

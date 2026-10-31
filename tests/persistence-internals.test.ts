@@ -1,8 +1,8 @@
 import { atom, createStore } from 'jotai/vanilla';
 import { afterEach, expect, test, vi } from 'vitest';
-import { SnapshotWriter, type WriterStatus } from './prototype/writer.js';
-import { PersistenceController, type PersistenceStatus } from './prototype/controller.js';
-import { deferred } from './prototype/operation.js';
+import { SnapshotWriter, type WriterStatus } from '../src/persistence/writer.js';
+import { PersistenceController, type PersistenceStatus } from '../src/persistence/controller.js';
+import { deferred } from '../src/persistence/operation.js';
 
 const tick = async () => {
   for (let i = 0; i < 40; i++) await Promise.resolve();

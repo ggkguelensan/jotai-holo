@@ -1,6 +1,6 @@
 import type { Atom, WritableAtom } from 'jotai/vanilla';
-import type { Store } from '../../../src/model-protocol.js';
-import type { PersistenceCodec, PersistenceStorage } from '../../../src/persist.js';
+import type { Store } from '../model-protocol.js';
+import type { PersistenceCodec, PersistenceStorage } from '../persist.js';
 import { deferred, startOperation } from './operation.js';
 import { SnapshotWriter, type WriterStatus } from './writer.js';
 
@@ -75,28 +75,31 @@ export class PersistenceController<Value, Stored> {
       },
       close: () => {
         if (this.#connection !== connection) return;
-        unsubscribe();
-        cancelDebounce();
-        this.#connection = undefined;
-        lifetime.abort();
-        restoration.resolve();
-        if (this.#restoration.kind === 'reading') this.#restoration = { kind: 'unread' };
-        this.#publish();
-        void this.#writer.flushThrough(this.#revision).catch(() => {});
+        try {
+          unsubscribe();
+        } finally {
+          cancelDebounce();
+          this.#connection = undefined;
+          lifetime.abort();
+          restoration.resolve();
+          const target = this.#revision;
+          if (this.#restoration.kind === 'reading') this.#restoration = { kind: 'unread' };
+          this.#publish();
+          void this.#writer.flushThrough(target).catch(() => {});
+        }
       },
     };
     this.#connection = connection;
 
     try {
       unsubscribe = this.store.sub(this.options.read, () => {
-        if (applyingRestore) return;
-        this.#writer.accept({
-          revision: ++this.#revision,
-          value: this.store.get(this.options.read),
-        });
+        if (applyingRestore || lifetime.signal.aborted) return;
+        const value = this.store.get(this.options.read);
+        this.#writer.accept({ revision: ++this.#revision, value });
+        if (lifetime.signal.aborted) return;
         cancelDebounce();
         timer = setTimeout(() => {
-          void this.flush().catch(() => {});
+          if (!lifetime.signal.aborted) void connection.flush(this.#revision).catch(() => {});
         }, this.options.debounce);
       });
     } catch (error) {
@@ -104,6 +107,10 @@ export class PersistenceController<Value, Stored> {
       throw error;
     }
 
+    if (lifetime.signal.aborted) {
+      unsubscribe();
+      return connection.close;
+    }
     const apply = (value: Value) => {
       applyingRestore = true;
       try {
@@ -113,7 +120,8 @@ export class PersistenceController<Value, Stored> {
       }
     };
     void this.#restoreIfEligible(lifetime.signal, apply).finally(() => restoration.resolve());
-    if (this.#writeStatus.dirty) void this.flush().catch(() => {});
+    if (!lifetime.signal.aborted && this.#writeStatus.dirty)
+      void connection.flush(this.#revision).catch(() => {});
     return connection.close;
   }
 
@@ -123,7 +131,7 @@ export class PersistenceController<Value, Stored> {
   }
 
   async #restoreIfEligible(signal: AbortSignal, apply: (value: Value) => void) {
-    if (this.#restoration.kind === 'complete' || this.#revision > 0) return;
+    if (signal.aborted || this.#restoration.kind === 'complete' || this.#revision > 0) return;
     this.#restoration = { kind: 'reading' };
     this.#publish();
     const operation = startOperation(
@@ -164,8 +172,11 @@ export class PersistenceController<Value, Stored> {
       saving: this.#writeStatus.saving,
       dirty: this.#writeStatus.dirty,
       error:
-        this.#writeStatus.error ??
-        (this.#restoration.kind === 'failed' ? this.#restoration.error : undefined),
+        this.#writeStatus.error !== undefined
+          ? this.#writeStatus.error
+          : this.#restoration.kind === 'failed'
+            ? this.#restoration.error
+            : undefined,
     });
   }
 }
