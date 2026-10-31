@@ -1,9 +1,29 @@
 # Persistence architecture
 
-Status: proposed replacement; no runtime implementation or public contract has
-been changed by this design. PR #15 removes example-level duplication but does
+Status: proposed replacement with an executable internal prototype. The library
+runtime and public contract have not been changed. PR #15 removes example-level duplication but does
 not implement this replacement. Do not merge it as evidence that persistence
 itself has been redesigned.
+
+## Read the code
+
+- [writer.ts](./prototype/writer.ts): complete `accept` / `flushThrough` writer.
+- [controller.ts](./prototype/controller.ts): real Jotai subscription, restoration,
+  debounce and disconnect, using the retained writer.
+- [operation.ts](./prototype/operation.ts): bounded outcome versus actual settlement.
+- [prototype.test.ts](./prototype.test.ts): positive behavior checks for the prototype.
+
+```sh
+pnpm exec vitest run --config design/persistence/vitest.prototype.config.ts
+pnpm exec tsc --noEmit -p design/persistence/tsconfig.json
+```
+
+The prototype is deliberately outside `src`: it lets readers judge real code
+before replacing the library implementation. It does not yet implement the
+public atom facade or integrate resource ownership. The 13 tests cover selected
+high-risk scenarios, not every acceptance case below. Prototype status callbacks
+are trusted: observer-exception handling and full option validation are not yet
+part of this code. This is code to review, not a production replacement.
 
 ## Decision
 
@@ -70,8 +90,9 @@ When implementation begins, replace them with acceptance assertions in
 | Write 1 hangs, times out, write 2 succeeds, write 1 finishes late | Storage is 1, atom is 2, `$dirty` is false | Write 2 cannot start while write 1 can still commit |
 | Edit, disconnect, await `flush` while final write is pending      | `flush` resolves immediately               | `flush` confirms its captured revision or rejects   |
 
-The tests passed as characterizations of these faults. The replacement itself
-has not been implemented or verified by these tests.
+The tests passed as characterizations of these faults. The library replacement itself
+has not been implemented or verified by these diagnostic tests; the separate
+prototype suite asserts the proposed positive behaviors.
 
 ## Public interface
 
