@@ -3,7 +3,6 @@ export interface Operation<Value> {
   readonly signal: AbortSignal;
   readonly outcome: Promise<Value>;
   readonly settled: Promise<void>;
-  cancel(reason: unknown): void;
 }
 
 export function deferred<Value>() {
@@ -45,5 +44,5 @@ export function startOperation<Value>(
     () => {},
     () => {},
   );
-  return { signal: controller.signal, outcome, settled, cancel };
+  return { signal: controller.signal, outcome, settled };
 }

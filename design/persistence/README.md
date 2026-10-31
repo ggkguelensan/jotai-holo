@@ -14,7 +14,7 @@ itself has been redesigned.
 - [prototype.test.ts](./prototype.test.ts): positive behavior checks for the prototype.
 
 ```sh
-pnpm exec vitest run --config design/persistence/vitest.prototype.config.ts
+pnpm exec vitest run --config design/persistence/vitest.config.ts
 pnpm exec tsc --noEmit -p design/persistence/tsconfig.json
 ```
 
@@ -70,29 +70,14 @@ localStorageAdapter        concrete storage adapter
 The writer has no Store, source atom, session token, restore callback, timer, or
 `isCurrent` callback. The controller cannot mutate writer state.
 
-## Evidence from the current implementation
+## Failure scenarios covered by the prototype
 
-Read `src/persist.ts`, `tests/persist.test.ts`, `src/resource.ts`,
-`src/model-managed.ts`, and the local persistence example. Two additional
-characterization tests reproduce faults through the existing public interface:
+The positive prototype tests check the required behavior directly:
 
-```sh
-pnpm exec vitest run --config design/persistence/vitest.config.ts
-```
-
-These tests intentionally assert the current defective outcomes. They document
-why the replacement is necessary; they are not regression requirements to keep.
-When implementation begins, replace them with acceptance assertions in
-`tests/persist.test.ts` and remove this diagnostic configuration.
-
-| Reproduced sequence                                               | Current result                             | Required result                                     |
-| ----------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------------- |
-| Write 1 hangs, times out, write 2 succeeds, write 1 finishes late | Storage is 1, atom is 2, `$dirty` is false | Write 2 cannot start while write 1 can still commit |
-| Edit, disconnect, await `flush` while final write is pending      | `flush` resolves immediately               | `flush` confirms its captured revision or rejects   |
-
-The tests passed as characterizations of these faults. The library replacement itself
-has not been implemented or verified by these diagnostic tests; the separate
-prototype suite asserts the proposed positive behaviors.
+| Sequence                                                     | Required result                                          |
+| ------------------------------------------------------------ | -------------------------------------------------------- |
+| Write 1 times out while storage still runs; request write 2  | Write 2 waits until the first physical operation settles |
+| Edit, disconnect, await `flush` while final write is pending | `flush` confirms its captured revision or rejects        |
 
 ## Public interface
 
@@ -237,8 +222,8 @@ failed + new request → encoding(latest snapshot)
 ```
 
 These are writer phases, not a product of ownership, restoration and queue
-states. A `blocked` phase carries the settlement promise; no non-null assertion
-should be needed to infer which promise belongs to it.
+states. The pending release operation retains the settlement promise while the phase
+is `blocked`; the state does not store another unused reference to it.
 
 ## Controller: source policy and connection lifecycle
 
@@ -341,14 +326,14 @@ A caller needing confirmation can await the retained controller's flush.
 interface Operation<Value> {
   outcome: Promise<Value>;
   settled: Promise<void>;
-  cancel(reason: unknown): void;
 }
 ```
 
 `outcome` settles on result, failure, cancellation or deadline. `settled` tracks
 when the actual operation has finished and always fulfills, after handling any
-late rejection. Cancellation is idempotent. Timers and parent-signal listeners
-are cleaned at the logical terminal outcome.
+late rejection. The connection supplies an AbortSignal for cancellation;
+the timeout uses the same internal cancellation path. Timers and parent-signal
+listeners are cleaned at the logical terminal outcome.
 
 One timeout budget covers read plus decode, and another covers encode plus
 write for each write attempt. Do not silently double the existing timeout by
@@ -478,7 +463,7 @@ never become unhandled rejections.
 
 1. Add public acceptance tests for finite cuts, detached flush, timeout ordering,
    stale restore attempts and the stop-on-error policy. Keep existing valid
-   behavioral tests; replace the two design probes with positive assertions.
+   behavioral tests and port the prototype checks into the public test suite.
 2. Implement the writer with its two-entry interface, independently of Jotai.
    Test physical fences, covered cuts, coalescing and failures through it.
 3. Implement operation deadlines exposing both logical and physical outcomes.
@@ -491,6 +476,6 @@ never become unhandled rejections.
    contract and translations, then run package, ownership, persistence, memory,
    browser and workbook scenarios.
 
-Do not merge a large internal rewrite on the strength of the current seven tests
+Do not merge a large internal rewrite on the strength of the existing tests
 alone. Completion means the target behaviors above are implemented and verified,
 not that the old file has become shorter.

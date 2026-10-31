@@ -12,8 +12,8 @@ type FlushRequest = ReturnType<typeof deferred<void>> & { target: number };
 type Phase<Value> =
   | { kind: 'idle' }
   | { kind: 'encoding'; snapshot: Snapshot<Value> }
-  | { kind: 'writing'; snapshot: Snapshot<Value> }
-  | { kind: 'blocked'; operation: Operation<void>; error: unknown };
+  | { kind: 'writing' }
+  | { kind: 'blocked'; error: unknown };
 
 export class SnapshotWriter<Value, Stored> {
   #latest: Snapshot<Value> | undefined;
@@ -69,7 +69,7 @@ export class SnapshotWriter<Value, Stored> {
     const phase = this.#phase;
     if (phase.kind !== 'encoding' || phase.snapshot !== snapshot)
       throw new Error('The encoding attempt is no longer current.');
-    this.#phase = { kind: 'writing', snapshot };
+    this.#phase = { kind: 'writing' };
     await this.options.storage.write(this.options.key, encoded, signal);
   }
 
@@ -85,9 +85,7 @@ export class SnapshotWriter<Value, Stored> {
     } catch (error) {
       const physicalWriteStillRunning = this.#phase.kind === 'writing' && operation.signal.aborted;
       this.#error = error;
-      this.#phase = physicalWriteStillRunning
-        ? { kind: 'blocked', operation, error }
-        : { kind: 'idle' };
+      this.#phase = physicalWriteStillRunning ? { kind: 'blocked', error } : { kind: 'idle' };
       this.#rejectRequests(error);
       this.#publish();
       if (physicalWriteStillRunning) void this.#releasePhysicalWrite(operation);
