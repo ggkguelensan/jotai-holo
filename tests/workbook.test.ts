@@ -161,7 +161,7 @@ test('failed persistence pins the dirty model beyond retention; retry saves and 
   expect(f.store.get(restored.model.inputAt('B1'))).toBe('99');
 });
 
-test('returning during a delayed write prevents eviction and newer edits get a later write', async () => {
+test('a timed-out write retains the sheet and explicit retry saves newer edits after it settles', async () => {
   vi.useFakeTimers();
   const memory = memoryStorage();
   const f = await fixture(memory.storage);
@@ -183,10 +183,14 @@ test('returning during a delayed write prevents eviction and newer edits get a l
   f.store.set(returned.model.setCell, { address: 'B1', value: '40' });
   waiting.shift()!();
   await drain();
+  expect(f.store.get(f.book.$statuses).gifts).toBe('error');
+  const retry = f.store.set(f.workbook.retry, 'gifts');
+  await drain();
   waiting.shift()!();
   await drain();
   expect(memory.values.get('gift-budget-v1/sheet/gifts')).toMatchObject({ cells: { B1: '40' } });
   expect(f.store.get(f.book.$statuses).gifts).toBe('saved');
+  await retry;
   expect(write).toHaveBeenCalledTimes(2);
 });
 
@@ -209,6 +213,7 @@ test('a fresh instance is not editable before a delayed restore and invalid opti
   releases.push(opened.release);
   expect(opened.model).not.toBe(f.sheet.model);
   expect(f.store.get(opened.model.$loaded)).toBe(false);
+  await drain();
   resolve(memory.values.get('gift-budget-v1/sheet/gifts'));
   await drain();
   expect(f.store.get(opened.model.$loaded)).toBe(true);
@@ -268,9 +273,7 @@ test('module definitions isolate concurrent stores, including their storage erro
   expect(right.store.get(right.sheet.model.inputAt('B1'))).toBe('44');
   expect(left.store.get(left.book.$statuses).gifts).toBe('error');
   expect(right.store.get(right.book.$statuses).gifts).toBe('saved');
-  expect(leftStorage.values.get('gift-budget-v1/sheet/gifts')).toMatchObject({
-    cells: { B1: '12' },
-  });
+  expect(leftStorage.values.has('gift-budget-v1/sheet/gifts')).toBe(false);
   expect(rightStorage.values.get('gift-budget-v1/sheet/gifts')).toMatchObject({
     cells: { B1: '44' },
   });
@@ -400,6 +403,7 @@ test('workbook writes remain ordered and retry preserves the newest metadata aft
     memory.values.set(key, structuredClone(value));
   });
   f.store.set(f.book.renameSheet, { id: 'gifts', title: 'First' });
+  expect(f.store.get(f.book.$saving)).toBe(true);
   const first = f.store.set(workbook.retryBook);
   await drain();
   f.store.set(f.book.renameSheet, { id: 'gifts', title: 'Newest' });
@@ -440,6 +444,8 @@ test('disconnect rejects late workbook restoration and same-tick remount restore
     )
     .mockResolvedValue(savedBook());
   const f = openBook({ read, write: vi.fn() });
+  await drain();
+  expect(read).toHaveBeenCalledTimes(1);
   f.lease.release();
   const next = workbook.$$workbook.acquire(f.store);
   releases.push(next.release);

@@ -40,10 +40,14 @@ export function connectWorkbook(
   }
   const { disk } = state;
   let release = disk.connect(store) ?? (() => {});
-  const $status = ion({ saving: disk.$saving, error: disk.$error });
+  const $status = ion({
+    saving: disk.$saving,
+    dirty: disk.$dirty,
+    error: disk.$error,
+  });
   const reflectStatus = () => {
     const status = store.get($status);
-    store.set(book.$saving, status.saving);
+    store.set(book.$saving, status.saving || status.dirty);
     store.set(book.$error, status.error !== undefined);
   };
   const stop = store.sub($status, reflectStatus);
