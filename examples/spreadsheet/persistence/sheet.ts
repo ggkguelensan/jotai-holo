@@ -1,4 +1,6 @@
+import { ion } from 'jotai-holo/vanilla';
 import type { ModelConnectionContext } from 'jotai-holo/model';
+import { persist, type Persistence } from 'jotai-holo/persist';
 import type { WorkbookModel } from '../models/book-model.js';
 import { $$sheet, type SheetModel } from '../models/sheet-model.js';
 import type {
@@ -9,140 +11,112 @@ import type {
 import seed from '../gift-budget.json';
 import { $storage, sheetKey } from './config.js';
 
-type SheetRuntime = {
-  initialized: boolean;
-  restoring: boolean;
-  saved: number;
-  latest: number;
-  timer?: ReturnType<typeof setTimeout>;
-  worker?: Promise<void> | undefined;
-  pin?: (() => void) | undefined;
-  flush: () => Promise<void>;
-  restore?: (() => Promise<void>) | undefined;
+type SheetPersistence = {
+  disk: Persistence<SheetDocument>;
+  retry?: (() => Promise<void>) | undefined;
+  unpin?: (() => void) | undefined;
+  stop?: (() => void) | undefined;
 };
 
-const states = new WeakMap<SheetModel, SheetRuntime>();
+const resources = new WeakMap<SheetModel, SheetPersistence>();
 
 export function connectSheet(
   sheet: SheetModel,
   { initial, store }: ModelConnectionContext<SheetKey>,
   book: WorkbookModel,
 ) {
-  const storage = store.get($storage);
-  const status = (value: StorageStatus) =>
+  let state = resources.get(sheet);
+  if (!state) {
+    const storage = store.get($storage);
+    const disk = persist({
+      read: sheet.$document,
+      restore: sheet.load,
+      key: sheetKey(initial.sheetId),
+      storage: {
+        async read(key) {
+          const saved = await storage.read(key);
+          return saved === undefined
+            ? initial.sheetId === 'gifts'
+              ? seed
+              : { rows: 100, columns: 40, cells: {} }
+            : saved;
+        },
+        write: (key, document) => storage.write(key, document),
+      },
+      codec: {
+        decode: (value) => value as SheetDocument,
+        encode: (document) => document,
+      },
+      save: { debounce: 250 },
+    });
+    state = { disk };
+    resources.set(sheet, state);
+  }
+  const { disk } = state;
+  const resource = state;
+  resource.stop?.();
+  let connected = true;
+  let acquiring = false;
+  const $status = ion({
+    restoring: disk.$restoring,
+    saving: disk.$saving,
+    dirty: disk.$dirty,
+    error: disk.$error,
+  });
+  const reflectStatus = () => {
+    const status = store.get($status);
+    // An unsaved or loading sheet must survive registry eviction.
+    if (status.restoring || status.dirty || status.error !== undefined) {
+      if (!resource.unpin && !acquiring) {
+        acquiring = true;
+        try {
+          resource.unpin = $$sheet.acquire(store, {
+            key: ['sheet', initial.sheetId],
+            initial,
+          }).release;
+        } finally {
+          acquiring = false;
+        }
+      }
+    } else {
+      const release = resource.unpin;
+      resource.unpin = undefined;
+      release?.();
+    }
+    const value: StorageStatus =
+      status.error !== undefined
+        ? 'error'
+        : status.restoring
+          ? 'loading'
+          : status.saving || status.dirty
+            ? 'saving'
+            : 'saved';
+    if (!connected && !resource.unpin) resource.stop?.();
     store.set(book.$statuses, (current) => ({
       ...current,
       [initial.sheetId]: value,
     }));
-  let runtime = states.get(sheet);
-  const pin = () => {
-    runtime!.pin ??= $$sheet.acquire(store, {
-      key: ['sheet', initial.sheetId],
-      initial,
-    }).release;
   };
-  if (!runtime) {
-    runtime = {
-      initialized: false,
-      restoring: false,
-      saved: 0,
-      latest: 0,
-      flush: async () => {},
-    };
-    const state = runtime;
-    state.flush = () => {
-      if (state.restoring) return state.worker ?? Promise.resolve();
-      if (!state.initialized) return Promise.resolve();
-      state.latest = store.get(sheet.$revision);
-      if (state.saved === state.latest) {
-        if (!state.worker) {
-          state.pin?.();
-          state.pin = undefined;
-        }
-        return Promise.resolve();
-      }
-      if (state.worker) return state.worker;
-      pin();
-      status('saving');
-      state.worker = (async () => {
-        while (state.saved !== state.latest) {
-          const revision = state.latest;
-          const document = store.get(sheet.$document);
-          await storage.write(sheetKey(initial.sheetId), document);
-          state.saved = revision;
-        }
-        status('saved');
-        state.pin?.();
-        state.pin = undefined;
-      })()
-        .catch((error) => {
-          status('error');
-          throw error;
-        })
-        .finally(() => {
-          state.worker = undefined;
-        });
-      return state.worker;
-    };
-    states.set(sheet, state);
-  }
-  const state = runtime;
-  const stop = store.sub(sheet.$revision, () => {
-    if (!state.initialized || state.restoring) return;
-    state.latest = store.get(sheet.$revision);
-    pin();
-    status('saving');
-    clearTimeout(state.timer);
-    state.timer = setTimeout(() => {
-      void state.flush().catch(() => {});
-    }, 250);
-  });
-  const restore = () => {
-    if (state.restoring) return state.worker ?? Promise.resolve();
-    state.restoring = true;
-    pin();
-    status('loading');
-    state.worker = storage
-      .read(sheetKey(initial.sheetId))
-      .then((data) => {
-        store.set(
-          sheet.load,
-          (data === undefined
-            ? initial.sheetId === 'gifts'
-              ? seed
-              : { rows: 100, columns: 40, cells: {} }
-            : data) as SheetDocument,
-        );
-        state.initialized = true;
-        state.restoring = false;
-        state.latest = store.get(sheet.$revision);
-      })
-      .catch((error) => {
-        state.restoring = false;
-        status('error');
-        throw error;
-      })
-      .finally(() => {
-        state.worker = undefined;
-      });
-    return state.worker.then(() => state.flush());
+  const stop = store.sub($status, reflectStatus);
+  resource.stop = stop;
+  let release = disk.connect(store) ?? (() => {});
+  reflectStatus();
+  const retry = async () => {
+    if (!store.get(sheet.$loaded) && !store.get(disk.$restoring)) {
+      release();
+      release = disk.connect(store) ?? (() => {});
+    }
+    await store.set(disk.flush).catch(() => {});
   };
-  state.restore = restore;
-  if (!state.initialized && !state.restoring) void restore().catch(() => {});
+  state.retry = retry;
   return () => {
-    stop();
-    clearTimeout(state.timer);
-    pin();
-    queueMicrotask(() => {
-      void state.flush().catch(() => {});
-    });
+    connected = false;
+    if (state.retry === retry) state.retry = undefined;
+    release();
+    if (!resource.unpin) stop();
   };
 }
 
 export async function retrySheet(sheet: SheetModel) {
-  const state = states.get(sheet);
-  if (state)
-    await (state.initialized ? state.flush() : state.restore?.())?.catch(
-      () => {},
-    );
+  await resources.get(sheet)?.retry?.();
 }

@@ -18,6 +18,12 @@ export function createWorkbookModel() {
     { sheets: $sheets, activeSheetId: $active, views: $views },
     (snapshot): BookDocument => ({ version: 1, ...snapshot }),
   );
+  const load = actionAtom((_get, set, document: BookDocument) => {
+    set($sheets, document.sheets);
+    set($views, document.views);
+    set($active, document.activeSheetId);
+    set($ready, true);
+  });
   const switchSheet = actionAtom((get, set, id: string) => {
     if (!get($sheets).some((sheet) => sheet.id === id)) return;
     set($active, id);
@@ -52,6 +58,7 @@ export function createWorkbookModel() {
     $saving,
     $statuses,
     $document,
+    load,
     switchSheet,
     addSheet,
     renameSheet,

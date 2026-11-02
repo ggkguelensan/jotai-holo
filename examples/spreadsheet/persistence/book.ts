@@ -1,121 +1,74 @@
+import { ion } from 'jotai-holo/vanilla';
 import type { ModelConnectionContext } from 'jotai-holo/model';
+import { persist, type Persistence } from 'jotai-holo/persist';
 import type { WorkbookModel } from '../models/book-model.js';
 import type { BookDocument } from '../models/types.js';
+import initialBook from '../workbook.json';
 import { $storage, bookKey } from './config.js';
+import { bookCodec } from './book-codec.js';
 
-type BookRuntime = {
-  initialized: boolean;
-  writing?: Promise<void> | undefined;
-  latest?: BookDocument | undefined;
+type BookPersistence = {
+  disk: Persistence<BookDocument>;
   retry?: (() => Promise<void>) | undefined;
 };
 
-const bookStates = new WeakMap<object, BookRuntime>();
+// Keep the resource, including pending writes, for the retained model.
+const resources = new WeakMap<WorkbookModel, BookPersistence>();
 
 export function connectWorkbook(
   book: WorkbookModel,
   { store }: ModelConnectionContext<undefined>,
 ) {
-  const storage = store.get($storage);
-  let runtime = bookStates.get(book);
-  if (!runtime) bookStates.set(book, (runtime = { initialized: false }));
-  const state = runtime;
-  let active = true;
-  const save = (): Promise<void> => {
-    state.latest = store.get(book.$document);
-    if (state.writing) return state.writing;
-    store.set(book.$saving, true);
-    let succeeded = false;
-    state.writing = (async () => {
-      while (state.latest) {
-        const snapshot = state.latest;
-        state.latest = undefined;
-        try {
-          await storage.write(bookKey, snapshot);
-        } catch (error) {
-          state.latest ??= snapshot;
-          throw error;
-        }
-      }
-      store.set(book.$error, false);
-      succeeded = true;
-    })()
-      .catch((error) => {
-        store.set(book.$error, true);
-        throw error;
-      })
-      .finally(() => {
-        state.writing = undefined;
-        store.set(book.$saving, false);
-        if (succeeded && state.latest) void save().catch(() => {});
-      });
-    return state.writing;
+  let state = resources.get(book);
+  if (!state) {
+    const storage = store.get($storage);
+    const disk = persist({
+      read: book.$document,
+      restore: book.load,
+      key: bookKey,
+      storage: {
+        async read(key) {
+          const saved = await storage.read(key);
+          return saved === undefined ? initialBook : saved;
+        },
+        write: (key, document) => storage.write(key, document),
+      },
+      codec: bookCodec,
+    });
+    state = { disk };
+    resources.set(book, state);
+  }
+  const { disk } = state;
+  let release = disk.connect(store) ?? (() => {});
+  const $status = ion({
+    saving: disk.$saving,
+    dirty: disk.$dirty,
+    error: disk.$error,
+  });
+  const reflectStatus = () => {
+    const status = store.get($status);
+    store.set(book.$saving, status.saving || status.dirty);
+    store.set(book.$error, status.error !== undefined);
   };
-  const load = async () => {
-    const data = await storage.read(bookKey);
-    if (!active) return;
-    const saved = data as BookDocument | undefined;
-    if (
-      saved !== undefined &&
-      (!saved ||
-        saved.version !== 1 ||
-        !Array.isArray(saved.sheets) ||
-        !saved.sheets.length ||
-        !saved.sheets.every(
-          (item) =>
-            item &&
-            typeof item.id === 'string' &&
-            item.id.length > 0 &&
-            typeof item.title === 'string',
-        ) ||
-        new Set(saved.sheets.map((item) => item.id)).size !==
-          saved.sheets.length ||
-        !saved.sheets.some((item) => item.id === saved.activeSheetId))
-    )
-      throw new TypeError('Invalid workbook.');
-    store.set(
-      book.$sheets,
-      saved?.sheets ?? [
-        { id: 'gifts', title: 'Gift bundle' },
-        { id: 'scratch', title: 'Scratchpad' },
-      ],
-    );
-    store.set(
-      book.$views,
-      saved?.views &&
-        typeof saved.views === 'object' &&
-        !Array.isArray(saved.views)
-        ? saved.views
-        : {},
-    );
-    store.set(book.$active, saved?.activeSheetId ?? 'gifts');
-    state.initialized = true;
-    store.set(book.$ready, true);
-    await save();
-  };
+  const stop = store.sub($status, reflectStatus);
+  reflectStatus();
+
   const retry = async () => {
-    try {
-      await (state.initialized ? save() : load());
-    } catch {
-      if (active) store.set(book.$error, true);
+    if (!store.get(book.$ready) && !store.get(disk.$restoring)) {
+      release();
+      release = disk.connect(store) ?? (() => {});
     }
+    // persist exposes failures through $error; the Retry button does not throw.
+    await store.set(disk.flush).catch(() => {});
   };
   state.retry = retry;
-  const stop = store.sub(book.$document, () => {
-    if (state.initialized) void save().catch(() => {});
-  });
-  if (!state.initialized) void retry();
   return () => {
-    active = false;
     stop();
-    state.retry = undefined;
-    if (state.initialized)
-      queueMicrotask(() => {
-        void save().catch(() => {});
-      });
+    if (state.retry === retry) state.retry = undefined;
+    release();
   };
 }
 
 export async function retryWorkbook(book: WorkbookModel) {
-  await bookStates.get(book)?.retry?.();
+  await resources.get(book)?.retry?.();
 }

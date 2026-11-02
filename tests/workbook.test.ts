@@ -44,7 +44,7 @@ async function fixture(storage = memoryStorage().storage) {
   const sheet = workbook.$$sheet.acquire(store, options);
   releases.push(sheet.release);
   await drain();
-  return { workbook, store, book: book.model, sheet, options };
+  return { workbook, store, book: book.model, bookLease: book, sheet, options };
 }
 
 test('coordinates span multiple letters and reveal only moves at a window edge', () => {
@@ -161,7 +161,7 @@ test('failed persistence pins the dirty model beyond retention; retry saves and 
   expect(f.store.get(restored.model.inputAt('B1'))).toBe('99');
 });
 
-test('returning during a delayed write prevents eviction and newer edits get a later write', async () => {
+test('a timed-out write retains the sheet and explicit retry saves newer edits after it settles', async () => {
   vi.useFakeTimers();
   const memory = memoryStorage();
   const f = await fixture(memory.storage);
@@ -183,10 +183,14 @@ test('returning during a delayed write prevents eviction and newer edits get a l
   f.store.set(returned.model.setCell, { address: 'B1', value: '40' });
   waiting.shift()!();
   await drain();
+  expect(f.store.get(f.book.$statuses).gifts).toBe('error');
+  const retry = f.store.set(f.workbook.retry, 'gifts');
+  await drain();
   waiting.shift()!();
   await drain();
   expect(memory.values.get('gift-budget-v1/sheet/gifts')).toMatchObject({ cells: { B1: '40' } });
   expect(f.store.get(f.book.$statuses).gifts).toBe('saved');
+  await retry;
   expect(write).toHaveBeenCalledTimes(2);
 });
 
@@ -209,6 +213,7 @@ test('a fresh instance is not editable before a delayed restore and invalid opti
   releases.push(opened.release);
   expect(opened.model).not.toBe(f.sheet.model);
   expect(f.store.get(opened.model.$loaded)).toBe(false);
+  await drain();
   resolve(memory.values.get('gift-budget-v1/sheet/gifts'));
   await drain();
   expect(f.store.get(opened.model.$loaded)).toBe(true);
@@ -268,9 +273,7 @@ test('module definitions isolate concurrent stores, including their storage erro
   expect(right.store.get(right.sheet.model.inputAt('B1'))).toBe('44');
   expect(left.store.get(left.book.$statuses).gifts).toBe('error');
   expect(right.store.get(right.book.$statuses).gifts).toBe('saved');
-  expect(leftStorage.values.get('gift-budget-v1/sheet/gifts')).toMatchObject({
-    cells: { B1: '12' },
-  });
+  expect(leftStorage.values.has('gift-budget-v1/sheet/gifts')).toBe(false);
   expect(rightStorage.values.get('gift-budget-v1/sheet/gifts')).toMatchObject({
     cells: { B1: '44' },
   });
@@ -315,4 +318,165 @@ test('application navigation commits the editor before switching or adding a she
   expect(f.store.get(f.sheet.model.inputAt('B1'))).toBe('43');
   expect(f.store.get(f.book.$active)).not.toBe('gifts');
   expect(f.store.get(f.book.$sheets)).toHaveLength(3);
+});
+
+function openBook(storage: DocumentStorage) {
+  const store = createStore();
+  store.set(workbook.$storage, storage);
+  const lease = workbook.$$workbook.acquire(store);
+  releases.push(lease.release);
+  return { store, lease, book: lease.model };
+}
+const savedBook = () => ({
+  version: 1,
+  sheets: [{ id: 'personal', title: 'My sheet' }],
+  activeSheetId: 'personal',
+  views: {},
+});
+
+test('workbook restore validates tabs, discards invalid optional views and does not rewrite clean data', async () => {
+  const memory = memoryStorage();
+  memory.values.set('gift-budget-v1/book', {
+    ...savedBook(),
+    views: {
+      'personal/main': { selected: 'B2', camera: { row: 1, column: 1 } },
+      broken: { selected: 'A1', camera: { row: -1, column: 0 } },
+    },
+  });
+  const f = openBook(memory.storage);
+  await drain();
+  expect(f.store.get(f.book.$ready)).toBe(true);
+  expect(f.store.get(f.book.$active)).toBe('personal');
+  expect(f.store.get(f.book.$views)).toEqual({
+    'personal/main': { selected: 'B2', camera: { row: 1, column: 1 } },
+  });
+  expect(memory.storage.write).not.toHaveBeenCalled();
+});
+
+test.each([
+  null,
+  { ...savedBook(), activeSheetId: 'missing' },
+  {
+    ...savedBook(),
+    sheets: [
+      { id: 'personal', title: 'A' },
+      { id: 'personal', title: 'B' },
+    ],
+  },
+])('invalid workbook data stays an error until a successful read retry: %j', async (invalid) => {
+  const read = vi.fn().mockResolvedValueOnce(invalid).mockResolvedValue(savedBook());
+  const f = openBook({ read, write: vi.fn() });
+  await drain();
+  expect(f.store.get(f.book.$ready)).toBe(false);
+  expect(f.store.get(f.book.$error)).toBe(true);
+  await f.store.set(workbook.retryBook);
+  expect(read).toHaveBeenCalledTimes(2);
+  expect(f.store.get(f.book.$ready)).toBe(true);
+  expect(f.store.get(f.book.$error)).toBe(false);
+  expect(f.store.get(f.book.$active)).toBe('personal');
+});
+
+test('a failed workbook read can retry while another store remains independent', async () => {
+  const leftRead = vi.fn().mockRejectedValueOnce(new Error('Offline')).mockResolvedValue(undefined);
+  const left = openBook({ read: leftRead, write: vi.fn() });
+  const right = openBook({ read: async () => savedBook(), write: vi.fn() });
+  await drain();
+  expect(left.book).not.toBe(right.book);
+  expect(left.store.get(left.book.$error)).toBe(true);
+  expect(right.store.get(right.book.$ready)).toBe(true);
+  await left.store.set(workbook.retryBook);
+  expect(left.store.get(left.book.$active)).toBe('gifts');
+  expect(left.store.get(left.book.$error)).toBe(false);
+  expect(right.store.get(right.book.$active)).toBe('personal');
+});
+
+test('workbook writes remain ordered and retry preserves the newest metadata after failure', async () => {
+  const memory = memoryStorage();
+  const f = openBook(memory.storage);
+  await drain();
+  let complete!: () => void;
+  const writing = new Promise<void>((resolve) => {
+    complete = resolve;
+  });
+  vi.mocked(memory.storage.write).mockImplementationOnce(async (key, value) => {
+    await writing;
+    memory.values.set(key, structuredClone(value));
+  });
+  f.store.set(f.book.renameSheet, { id: 'gifts', title: 'First' });
+  expect(f.store.get(f.book.$saving)).toBe(true);
+  const first = f.store.set(workbook.retryBook);
+  await drain();
+  f.store.set(f.book.renameSheet, { id: 'gifts', title: 'Newest' });
+  const latest = f.store.set(workbook.retryBook);
+  expect(memory.storage.write).toHaveBeenCalledTimes(1);
+  complete();
+  await Promise.all([first, latest]);
+  expect(memory.values.get('gift-budget-v1/book')).toMatchObject({
+    sheets: [
+      { id: 'gifts', title: 'Newest' },
+      { id: 'scratch', title: 'Scratchpad' },
+    ],
+  });
+  memory.fail(true);
+  f.store.set(f.book.renameSheet, { id: 'gifts', title: 'Retry me' });
+  await f.store.set(workbook.retryBook);
+  expect(f.store.get(f.book.$error)).toBe(true);
+  memory.fail(false);
+  await f.store.set(workbook.retryBook);
+  expect(f.store.get(f.book.$error)).toBe(false);
+  expect(memory.values.get('gift-budget-v1/book')).toMatchObject({
+    sheets: [
+      { id: 'gifts', title: 'Retry me' },
+      { id: 'scratch', title: 'Scratchpad' },
+    ],
+  });
+});
+
+test('disconnect rejects late workbook restoration and same-tick remount restores a fresh read', async () => {
+  let finishOld!: (value: unknown) => void;
+  const read = vi
+    .fn()
+    .mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          finishOld = resolve;
+        }),
+    )
+    .mockResolvedValue(savedBook());
+  const f = openBook({ read, write: vi.fn() });
+  await drain();
+  expect(read).toHaveBeenCalledTimes(1);
+  f.lease.release();
+  const next = workbook.$$workbook.acquire(f.store);
+  releases.push(next.release);
+  expect(next.model).toBe(f.book);
+  await drain();
+  finishOld({ ...savedBook(), sheets: [{ id: 'stale', title: 'Old' }], activeSheetId: 'stale' });
+  await drain();
+  expect(read).toHaveBeenCalledTimes(2);
+  expect(f.store.get(f.book.$active)).toBe('personal');
+  expect(f.store.get(f.book.$error)).toBe(false);
+});
+
+test('view snapshots are captured before parent cleanup; unmount still commits the cell draft', async () => {
+  const memory = memoryStorage();
+  const f = await fixture(memory.storage);
+  const view = workbook.$$view.acquire(f.store, {
+    key: ['view', 'gifts', 'main'],
+    initial: { sheetId: 'gifts', viewId: 'main' },
+  });
+  releases.push(view.release);
+  expect(f.store.get(f.book.$views)['gifts/main']).toBeDefined();
+  f.store.set(view.model.select, 'AA90');
+  f.store.set(view.model.begin, '42');
+  const snapshot = f.store.get(f.book.$views)['gifts/main'];
+  // React may release the parent book before the child editor.
+  f.bookLease.release();
+  view.release();
+  f.sheet.release();
+  await drain();
+  expect(memory.values.get('gift-budget-v1/book')).toMatchObject({
+    views: { 'gifts/main': snapshot },
+  });
+  expect(f.store.get(f.sheet.model.inputAt('AA90'))).toBe('42');
 });

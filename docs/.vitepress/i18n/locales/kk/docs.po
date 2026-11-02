@@ -520,6 +520,12 @@ msgstr "IndexedDB парақтар тізімі мен сирек толтыры
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/examples/spreadsheet.md
+msgid "Workbook metadata uses persist to restore a document and serialize local writes. `book-codec.ts` validates the saved format; `workbook.json` supplies the initial tabs. Loading a valid saved document does not write it back. Selection and camera snapshots are captured while the editor is connected, so saving does not depend on cleanup order."
+msgstr "Кітап метадеректерін persist қалпына келтіріп, жергілікті өзгерістерді ретімен жазады. `book-codec.ts` сақталған пішімді тексереді, ал `workbook.json` бастапқы парақтарды береді. Дұрыс жүктелген құжат өзгеріссіз қайта жазылмайды. Ұяшық таңдауы мен камера орны редактор қосулы кезде сақталады, сондықтан сақтау cleanup ретіне тәуелді емес."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/examples/spreadsheet.md
 msgid "Visible components own the selected sheet. Tabs read only descriptors and statuses, so an inactive tab does not keep its sheet active. Pending or failed storage operations hold an additional lease. After a successful save and release of the final owner, the registry retains the sheet for one minute."
 msgstr "Көрінетін компоненттер таңдалған парақтың иелері. Қойындылар тек дескрипторлар мен күйлерді оқиды, сондықтан белсенді емес парақты ұстамайды. Аяқталмаған не сәтсіз сақтау операциясы қосымша lease ұстайды. Сақтау сәтті аяқталып, соңғы иесі босатылғаннан кейін registry парақты тағы бір минут ұстайды."
 
@@ -4447,8 +4453,20 @@ msgstr "read snapshot береді; restore декодталған мәндер�
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/persist.md
-msgid "save.debounce defaults to 0; timeout defaults to 10,000 ms. Local edits take priority over late restoration. Writes are serialized and coalesced. Release stops observation and attempts the captured pending write. Await flush for an explicit save; browser shutdown does not guarantee completion."
-msgstr "save.debounce әдепкіде 0, timeout — 10 000 мс. Жергілікті өзгерістер кеш қалпына келтіруден басым. Жазулар кезекпен орындалып біріктіріледі. Босату бақылауды тоқтатып, соңғы snapshot-ты жазуға тырысады. Нақты сақтау үшін flush-ты күтіңіз; браузер жабылуы аяқталуға кепілдік бермейді."
+msgid "save.debounce defaults to 0; timeout defaults to 10,000 ms. Local edits take priority over late restoration. Writes are serialized and coalesced within one persistence declaration in one store."
+msgstr "save.debounce әдепкіде 0, timeout — 10 000 мс. Жергілікті өзгерістер кеш аяқталған қалпына келтіруден басым. Бір store ішіндегі бір persist декларациясының жазбалары ретімен орындалып, аралық нұсқалар біріктіріледі."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/persist.md
+msgid "flush captures the latest observed revision when called. Its Promise resolves after that revision or a newer snapshot is saved; later edits do not extend the request. Release stops observation and attempts the captured pending write. After release, flush can await or retry captured data without subscribing again or reading new edits. Browser shutdown does not guarantee completion."
+msgstr "flush шақырылғанда соңғы бақыланған ревизияны бекітеді. Оның Promise-і сол немесе одан жаңа нұсқа сақталғанда аяқталады; кейінгі өзгерістер сұрауды ұзартпайды. Иесі босатылғанда бақылау тоқтап, алынған нұсқаны сақтау басталады. Одан кейін flush қайта жазылмай-ақ және жаңа өзгерістерді оқымай-ақ сақтауды күте немесе қайталай алады. Браузер жабылғанда жазбаның аяқталуына кепілдік жоқ."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/persist.md
+msgid "If a write times out, flush rejects and $error records the failure. Storage cancellation is cooperative: $saving stays true until the underlying write finishes, and no newer write starts in parallel. Late completion does not confirm the timed-out snapshot. Retry with flush after the operation finishes. A storage operation that never finishes blocks further writes for this declaration."
+msgstr "Жазу уақыты аяқталса, flush қабылданбай, $error қатені сақтайды. Тоқтату хранилищенің қолдауына байланысты: $saving нақты жазба біткенше true болып қалады және жаңа жазба қатар басталмайды. Кеш аяқталу күту уақыты өткен нұсқаның сақталғанын растамайды. Операция біткен соң flush арқылы қайталаңыз. Операция мүлде аяқталмаса, бұл декларацияның кейінгі жазбалары бұғатталады."
 
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id

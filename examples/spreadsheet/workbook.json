@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "sheets": [
+    { "id": "gifts", "title": "Gift bundle" },
+    { "id": "scratch", "title": "Scratchpad" }
+  ],
+  "activeSheetId": "gifts",
+  "views": {}
+}

@@ -68,6 +68,8 @@ The sheet registry uses `['sheet', sheetId]`; cell models use `['cell', sheetId,
 
 IndexedDB stores the sheet list and sparse sheet documents. Committed edits save after a 250 ms pause. Switching sheets commits the current draft and starts saving immediately. Wait for Saved locally before reloading to verify restoration.
 
+Workbook metadata uses persist to restore a document and serialize local writes. `book-codec.ts` validates the saved format; `workbook.json` supplies the initial tabs. Loading a valid saved document does not write it back. Selection and camera snapshots are captured while the editor is connected, so saving does not depend on cleanup order.
+
 <<< @/../examples/spreadsheet/ui/book.tsx#workbook-setup
 
 Visible components own the selected sheet. Tabs read only descriptors and statuses, so an inactive tab does not keep its sheet active. Pending or failed storage operations hold an additional lease. After a successful save and release of the final owner, the registry retains the sheet for one minute.
