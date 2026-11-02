@@ -4689,6 +4689,46 @@ msgstr "[Фокус, анимация және жүйелік бөлісуді](
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useHoloEvents.md
+msgid "Use React directly"
+msgstr "React-ті тікелей пайдалану"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useHoloEvents.md
+msgid "A View can expose the same methods with React's `useImperativeHandle` and\n"
+"`Ref<Handle>`. It needs no import from jotai-holo. Keep the View in its own\n"
+"module and connect it in the application with `holo.events`."
+msgstr "View сол әдістерді React-тің `useImperativeHandle` және `Ref<Handle>`\n"
+"арқылы ұсына алады. Оған jotai-holo импорты қажет емес. View-ді жеке\n"
+"модульде сақтап, қолданбада `holo.events` арқылы байланыстырыңыз."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useHoloEvents.md
+msgid "The `events` prop is a regular prop carrying a ref, so this works on React 18\n"
+"and 19 without `forwardRef`. The binding reads the current handle for each\n"
+"event; replacing the handle does not reinstall subscriptions."
+msgstr "`events` — ref тасымалдайтын кәдімгі проп, сондықтан бұл тәсіл React 18\n"
+"және 19 нұсқаларында `forwardRef` қолданбай жұмыс істейді. Байланыс әр оқиға\n"
+"үшін ағымдағы handle-ды оқиды; handle ауысқанда жазылымдар қайта орнатылмайды."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useHoloEvents.md
+msgid "Omit the dependency array to refresh methods after every commit, or include\n"
+"all reactive values used by the methods. An empty array is suitable only when\n"
+"those methods capture no changing props, state or context. `useHoloEvents`\n"
+"remains a convenience for a stable method table with automatically refreshed\n"
+"committed handlers."
+msgstr "Әдістерді әр commit-тен кейін жаңарту үшін тәуелділіктер массивін бермеңіз\n"
+"немесе әдістер қолданатын барлық реактивті мәндерді көрсетіңіз. Бос массив\n"
+"әдістер өзгеретін props, state немесе context мәндерін пайдаланбағанда ғана\n"
+"жарамды. `useHoloEvents` commit-тен кейін өңдегіштері автоматты түрде\n"
+"жаңартылатын тұрақты әдістер кестесін алудың ыңғайлы тәсілі болып қалады."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useHoloEvents.md
 msgid "The toolbar publishes `searchFocusRequested`. Search owns its DOM ref and\n"
 "focuses the field on every request. No model stores an element or callback."
 msgstr "Құралдар панелі `searchFocusRequested` оқиғасын жариялайды. Search DOM ref сақтайды\n"
