@@ -5,8 +5,9 @@ useHoloEvents connects the domain fact to a short success animation.
 
 ## Focus a search field
 
-<Demo kind="imperative-focus">
+<Demo kind="imperative-focus" :files="['imperative-focus-view.tsx']">
 
+<<< @/../examples/docs/imperative-focus-view.tsx#focus-view
 <<< @/../examples/docs/imperative-focus.tsx#focus
 
 </Demo>

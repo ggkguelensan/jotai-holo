@@ -1,29 +1,9 @@
 import { useLingui } from '@lingui/react/macro';
-import { useRef } from 'react';
-import { eventAtom, holo, useHoloEvents, type HoloEvents } from 'jotai-holo';
-
 // #region focus
+import { eventAtom, holo } from 'jotai-holo';
+import { SearchView } from './imperative-focus-view.js';
+
 export const searchFocusRequested = eventAtom<void>();
-
-type SearchEvents = { focusSearch(): void };
-
-function SearchView({ events }: { events: HoloEvents<SearchEvents> }) {
-  const { t } = useLingui();
-  const input = useRef<HTMLInputElement>(null);
-
-  useHoloEvents(events, {
-    focusSearch() {
-      input.current?.focus();
-    },
-  });
-
-  return (
-    <label>
-      {t`Search games`}
-      <input ref={input} type="search" />
-    </label>
-  );
-}
 
 const Search = holo({
   view: SearchView,
@@ -42,10 +22,11 @@ const FocusButton = holo({
 });
 
 export default function FocusDemo() {
+  const { t } = useLingui();
   return (
     <div className="demo-form">
       <FocusButton />
-      <Search />
+      <Search label={t`Search games`} />
     </div>
   );
 }

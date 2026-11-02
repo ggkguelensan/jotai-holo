@@ -4690,6 +4690,46 @@ msgstr "Попробуйте [фокус, анимацию и системный
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useHoloEvents.md
+msgid "Use React directly"
+msgstr "Используйте React напрямую"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useHoloEvents.md
+msgid "A View can expose the same methods with React's `useImperativeHandle` and\n"
+"`Ref<Handle>`. It needs no import from jotai-holo. Keep the View in its own\n"
+"module and connect it in the application with `holo.events`."
+msgstr "View может предоставлять те же методы через `useImperativeHandle` и\n"
+"`Ref<Handle>` из React. Импорт из jotai-holo ему не нужен. Держите View\n"
+"в отдельном модуле, а в приложении подключайте его через `holo.events`."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useHoloEvents.md
+msgid "The `events` prop is a regular prop carrying a ref, so this works on React 18\n"
+"and 19 without `forwardRef`. The binding reads the current handle for each\n"
+"event; replacing the handle does not reinstall subscriptions."
+msgstr "Проп `events` — обычный проп со ссылкой ref, поэтому этот способ работает\n"
+"в React 18 и 19 без `forwardRef`. Привязка читает текущий handle для каждого\n"
+"события; замена handle не переустанавливает подписки."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useHoloEvents.md
+msgid "Omit the dependency array to refresh methods after every commit, or include\n"
+"all reactive values used by the methods. An empty array is suitable only when\n"
+"those methods capture no changing props, state or context. `useHoloEvents`\n"
+"remains a convenience for a stable method table with automatically refreshed\n"
+"committed handlers."
+msgstr "Опустите массив зависимостей, чтобы обновлять методы после каждого commit,\n"
+"или перечислите все реактивные значения, используемые методами. Пустой массив\n"
+"подходит только тогда, когда методы не захватывают меняющиеся props, state\n"
+"или context. `useHoloEvents` остаётся удобным способом получить стабильную\n"
+"таблицу методов с автоматическим обновлением обработчиков после commit."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useHoloEvents.md
 msgid "The toolbar publishes `searchFocusRequested`. Search owns its DOM ref and\n"
 "focuses the field on every request. No model stores an element or callback."
 msgstr "Панель инструментов публикует `searchFocusRequested`. Search хранит DOM ref и\n"

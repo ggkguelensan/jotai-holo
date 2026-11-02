@@ -6,6 +6,8 @@ import {
   Suspense,
   startTransition,
   useState,
+  useImperativeHandle,
+  type Ref,
   createContext,
   useContext,
 } from 'react';
@@ -165,54 +167,71 @@ test('events emitted during resource connection and lifecycle mount reach the re
   expect(active).toEqual(['connect', 'unmount', 'disconnect']);
 });
 
-test('events navigation follows committed router context and ignores suspended replacements', async () => {
-  const created = eventAtom<{ id: string }>();
-  const first = vi.fn<(path: string) => void>();
-  const second = vi.fn<(path: string) => void>();
-  const abandoned = vi.fn<(path: string) => void>();
-  const pending = new Promise<never>(() => {});
-  const Router = createContext<{ navigate: (path: string) => void; pending: boolean }>({
-    navigate: first,
-    pending: false,
-  });
-  function CheckoutView({ events }: { events: HoloEvents<Handle> }) {
-    const router = useContext(Router);
-    useHoloEvents(events, {
-      onCreated: ({ id }: { id: string }) => {
-        router.navigate(`/orders/${id}`);
-      },
+test.each(['helper', 'native'] as const)(
+  '%s events navigation follows committed router context and ignores suspended replacements',
+  async (implementation) => {
+    const created = eventAtom<{ id: string }>();
+    const first = vi.fn<(path: string) => void>();
+    const second = vi.fn<(path: string) => void>();
+    const abandoned = vi.fn<(path: string) => void>();
+    const pending = new Promise<never>(() => {});
+    const Router = createContext<{ navigate: (path: string) => void; pending: boolean }>({
+      navigate: first,
+      pending: false,
     });
-    if (router.pending) throw pending;
-    return null;
-  }
-  const Checkout = holo({ view: CheckoutView, events: { onCreated: created } });
-  const store = createStore();
-  const h = createHarness();
-  const tree = (navigate: (path: string) => void, pending = false) => (
-    <Provider store={store}>
-      <Router.Provider value={{ navigate, pending }}>{suspense(<Checkout />)}</Router.Provider>
-    </Provider>
-  );
-  await h.render(tree(first));
-  store.set(created, { id: 'first' });
-  expect(first).toHaveBeenCalledExactlyOnceWith('/orders/first');
+    function useRouterHandlers() {
+      const router = useContext(Router);
+      return {
+        pending: router.pending,
+        handlers: {
+          onCreated: ({ id }: { id: string }) => router.navigate(`/orders/${id}`),
+        },
+      };
+    }
+    function HelperView({ events }: { events: HoloEvents<Handle> }) {
+      const { pending: isPending, handlers } = useRouterHandlers();
+      useHoloEvents(events, handlers);
+      if (isPending) throw pending;
+      return null;
+    }
+    function NativeView({ events }: { events: Ref<Handle> }) {
+      const { pending: isPending, handlers } = useRouterHandlers();
+      useImperativeHandle(events, () => handlers);
+      if (isPending) throw pending;
+      return null;
+    }
+    const Checkout = holo({
+      view: implementation === 'native' ? NativeView : HelperView,
+      events: { onCreated: created },
+    });
+    const store = createStore();
+    const h = createHarness();
+    const tree = (navigate: (path: string) => void, pending = false) => (
+      <Provider store={store}>
+        <Router.Provider value={{ navigate, pending }}>{suspense(<Checkout />)}</Router.Provider>
+      </Provider>
+    );
+    await h.render(tree(first));
+    store.set(created, { id: 'first' });
+    expect(first).toHaveBeenCalledExactlyOnceWith('/orders/first');
 
-  // holo's own props remain unchanged; only the View's router context changes.
-  await h.render(tree(second));
-  store.set(created, { id: 'second' });
-  expect(second).toHaveBeenCalledExactlyOnceWith('/orders/second');
-  expect(first).toHaveBeenCalledTimes(1);
+    // holo's own props remain unchanged; only the View's router context changes.
+    await h.render(tree(second));
+    store.set(created, { id: 'second' });
+    expect(second).toHaveBeenCalledExactlyOnceWith('/orders/second');
+    expect(first).toHaveBeenCalledTimes(1);
 
-  await h.transition(tree(abandoned, true));
-  store.set(created, { id: 'during-transition' });
-  expect(second).toHaveBeenLastCalledWith('/orders/during-transition');
-  expect(abandoned).not.toHaveBeenCalled();
+    await h.transition(tree(abandoned, true));
+    store.set(created, { id: 'during-transition' });
+    expect(second).toHaveBeenLastCalledWith('/orders/during-transition');
+    expect(abandoned).not.toHaveBeenCalled();
 
-  await h.render(tree(second));
-  await h.unmount();
-  store.set(created, { id: 'after-unmount' });
-  expect(second).toHaveBeenCalledTimes(2);
-});
+    await h.render(tree(second));
+    await h.unmount();
+    store.set(created, { id: 'after-unmount' });
+    expect(second).toHaveBeenCalledTimes(2);
+  },
+);
 
 test('an abandoned suspended render publishes no handlers and acquires no resources', async () => {
   const created = eventAtom<{ id: string }>();

@@ -4714,6 +4714,46 @@ msgstr "Try [focus, animation and native sharing](/examples/view-methods) in the
 #. Markdown. Preserve links, inline code and table/list syntax.
 #. js-lingui-explicit-id
 #: docs/reference/useHoloEvents.md
+msgid "Use React directly"
+msgstr "Use React directly"
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useHoloEvents.md
+msgid "A View can expose the same methods with React's `useImperativeHandle` and\n"
+"`Ref<Handle>`. It needs no import from jotai-holo. Keep the View in its own\n"
+"module and connect it in the application with `holo.events`."
+msgstr "A View can expose the same methods with React's `useImperativeHandle` and\n"
+"`Ref<Handle>`. It needs no import from jotai-holo. Keep the View in its own\n"
+"module and connect it in the application with `holo.events`."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useHoloEvents.md
+msgid "The `events` prop is a regular prop carrying a ref, so this works on React 18\n"
+"and 19 without `forwardRef`. The binding reads the current handle for each\n"
+"event; replacing the handle does not reinstall subscriptions."
+msgstr "The `events` prop is a regular prop carrying a ref, so this works on React 18\n"
+"and 19 without `forwardRef`. The binding reads the current handle for each\n"
+"event; replacing the handle does not reinstall subscriptions."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useHoloEvents.md
+msgid "Omit the dependency array to refresh methods after every commit, or include\n"
+"all reactive values used by the methods. An empty array is suitable only when\n"
+"those methods capture no changing props, state or context. `useHoloEvents`\n"
+"remains a convenience for a stable method table with automatically refreshed\n"
+"committed handlers."
+msgstr "Omit the dependency array to refresh methods after every commit, or include\n"
+"all reactive values used by the methods. An empty array is suitable only when\n"
+"those methods capture no changing props, state or context. `useHoloEvents`\n"
+"remains a convenience for a stable method table with automatically refreshed\n"
+"committed handlers."
+
+#. Markdown. Preserve links, inline code and table/list syntax.
+#. js-lingui-explicit-id
+#: docs/reference/useHoloEvents.md
 msgid "The toolbar publishes `searchFocusRequested`. Search owns its DOM ref and\n"
 "focuses the field on every request. No model stores an element or callback."
 msgstr "The toolbar publishes `searchFocusRequested`. Search owns its DOM ref and\n"

@@ -14,11 +14,28 @@ The demo simulates a successful order boundary. In an application, publish order
 
 Try [focus, animation and native sharing](/examples/view-methods) in the browser.
 
+## Use React directly
+
+A View can expose the same methods with React's `useImperativeHandle` and
+`Ref<Handle>`. It needs no import from jotai-holo. Keep the View in its own
+module and connect it in the application with `holo.events`.
+
+The `events` prop is a regular prop carrying a ref, so this works on React 18
+and 19 without `forwardRef`. The binding reads the current handle for each
+event; replacing the handle does not reinstall subscriptions.
+
+Omit the dependency array to refresh methods after every commit, or include
+all reactive values used by the methods. An empty array is suitable only when
+those methods capture no changing props, state or context. `useHoloEvents`
+remains a convenience for a stable method table with automatically refreshed
+committed handlers.
+
 ## Focus a search field
 
 The toolbar publishes `searchFocusRequested`. Search owns its DOM ref and
 focuses the field on every request. No model stores an element or callback.
 
+<<< @/../examples/docs/imperative-focus-view.tsx#focus-view
 <<< @/../examples/docs/imperative-focus.tsx#focus
 
 ## Restart a cart animation

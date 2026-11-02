@@ -1,5 +1,14 @@
 import { createRoot } from 'react-dom/client';
-import { createRef, Component, StrictMode, Suspense, useState, type ReactNode } from 'react';
+import {
+  createRef,
+  Component,
+  StrictMode,
+  Suspense,
+  useState,
+  useImperativeHandle,
+  type Ref,
+  type ReactNode,
+} from 'react';
 import { Provider, atom } from 'jotai';
 import { createStore } from 'jotai/vanilla';
 import {
@@ -74,6 +83,20 @@ const OwnCounter = holo({
   view: OwnCounterView,
   read: ({ counter }) => ({ value: counter.$value, text: counter.$text }),
   write: ({ counter }) => ({ onClick: counter.increment }),
+  events: ({ counter }) => ({ onIncremented: counter.incremented }),
+});
+const nativeImperativeCalls: number[] = [];
+function NativeListenerView({ events }: { events: Ref<{ onIncremented(value: number): void }> }) {
+  useImperativeHandle(events, () => ({
+    onIncremented(value: number) {
+      nativeImperativeCalls.push(value);
+    },
+  }));
+  return null;
+}
+const NativeListener = holo({
+  models: { counter: OwnModel },
+  view: NativeListenerView,
   events: ({ counter }) => ({ onIncremented: counter.incremented }),
 });
 const FormModel = modelRegistry()(
@@ -239,6 +262,7 @@ function render(id = 'a') {
         <Counter />
         <Suspense fallback={<b id="model-loading">model loading</b>}>
           <OwnCounter />
+          <NativeListener />
         </Suspense>
         <OwnForm />
         <QueryView />
@@ -278,6 +302,7 @@ Reflect.set(window, 'compat', {
     ownActive,
     ownCreates,
     imperativeCalls,
+    nativeImperativeCalls,
     queryObservers: queryClient
       .getQueryCache()
       .findAll()

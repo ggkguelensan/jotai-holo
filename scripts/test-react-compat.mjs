@@ -129,6 +129,10 @@ assert.match(html, /model-ready/);
         assert.deepEqual((await page.evaluate(() => window.compat.snapshot())).imperativeCalls, [
           1,
         ]);
+        assert.deepEqual(
+          (await page.evaluate(() => window.compat.snapshot())).nativeImperativeCalls,
+          [1],
+        );
         await page.evaluate(() => window.compat.suspendModel());
         await page.locator('#model-loading').waitFor();
         await page.waitForTimeout(20);
